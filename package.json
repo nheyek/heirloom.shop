@@ -18,12 +18,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "ts-node server.ts"
+    "dev": "ts-node backend/server.ts"
   },
   "dependencies": {
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
-    "nodemon": "^3.1.10"
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.25"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
