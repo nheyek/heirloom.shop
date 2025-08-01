@@ -3,7 +3,7 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import mikroConfig from './mikro-orm.config';
 import { MikroORM, RequestContext } from '@mikro-orm/core';
-import { AppUser } from '../entities/AppUser';
+import { AppUser } from './entities/AppUser';
 
 const main = async () => {
 
