@@ -1,9 +1,8 @@
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { defineConfig } from '@mikro-orm/postgresql';
-import dotenv from 'dotenv';
-
-dotenv.config();
+import { AppUser } from './entities/AppUser';
+import { Product } from './entities/Product';
 
 export default defineConfig({
   dbName: process.env.DB_NAME,
@@ -11,7 +10,7 @@ export default defineConfig({
   password: process.env.DB_PASS,
   host: process.env.DB_HOST,
   port: Number(process.env.DB_PORT),
-  entitiesTs: ['./entities'],
+  entitiesTs: [Product, AppUser],
   metadataProvider: TsMorphMetadataProvider,
   discovery: { warnWhenNoEntities: false },
   extensions: [EntityGenerator]
