@@ -1,12 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
 import { LandingPage } from './LandingPage';
+import Navbar from './NavBar';
 
 const AppLayout = () => {
     
     return (
-        <Routes>
-            <Route path="/" element={<LandingPage />} />
-        </Routes>
+        <>
+            <Navbar />
+            <Routes>
+                <Route path="/" element={<LandingPage />} />
+            </Routes>
+        </>
     );
 }
 
