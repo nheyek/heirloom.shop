@@ -12,8 +12,12 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@mantine/core": "^8.2.3",
+    "@mantine/hooks": "^8.2.3",
+    "@mantine/notifications": "^8.2.3",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^7.7.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.9",

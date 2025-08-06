@@ -1,28 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
+import { Route, Routes } from 'react-router-dom';
+import { AuthCallback } from './AuthCallback';
+import AppRoutes from './AppRoutes';
 
-const App = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-
-  useEffect(() => {
-    fetch('/api/products')
-      .then(res => res.json())
-      .then(setProducts)
-      .catch(console.error);
-  }, []);
-
-  return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Products</h1>
-      <ul>
-        {products.map(p => (
-          <li key={p.id}>
-            {p.title}: {p.descriptionText}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+const App = () =>
+	<Routes>
+		<Route path="/auth/callback" element={<AuthCallback />} />
+		<Route path="/*" element={<AppRoutes />} />
+	</Routes>
 
 export { App };
