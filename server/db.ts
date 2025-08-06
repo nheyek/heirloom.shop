@@ -1,6 +1,5 @@
 import mikroConfig from './mikro-orm.config';
 import { MikroORM } from '@mikro-orm/core';
-import 'reflect-metadata';
 
 let orm: MikroORM;
 
