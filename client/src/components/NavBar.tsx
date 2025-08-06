@@ -9,7 +9,7 @@ import {
 
 export default function Navbar() {
   return (
-    <Box bg="gray.100" px={6} py={3} boxShadow="sm">
+    <Box bg="brand" px={6} py={3} boxShadow="sm">
       <Flex
         maxW="7xl"
         mx="auto"

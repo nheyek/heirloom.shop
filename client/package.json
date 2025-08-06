@@ -13,8 +13,9 @@
   "type": "commonjs",
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",
-    "@chakra-ui/react": "^3.24.1",
+    "@chakra-ui/react": "^3.24.2",
     "@chakra-ui/theme": "^3.4.6",
+    "@chakra-ui/theme-utils": "^2.0.21",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "framer-motion": "^12.23.12",
