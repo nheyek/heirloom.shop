@@ -18,7 +18,7 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Text fontWeight="bold" fontSize="xl">
-          MyApp
+          Heirloom
         </Text>
 
         {/* Search bar */}
