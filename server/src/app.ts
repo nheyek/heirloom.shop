@@ -15,13 +15,10 @@ const main = async () => {
     await initORM();
 
     app.use(express.json());
-    app.use('/api/products', productRouter);
-
     app.use(express.static(path.join(__dirname, 'public')));
-	app.get('/', (req, res) => {
-    	res.sendFile(path.join(__dirname, 'public', 'index.html'));
-    });
 
+    app.use('/api/products', productRouter);
+    
     const PORT = 8000;
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);

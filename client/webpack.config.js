@@ -1,9 +1,8 @@
-// client/webpack.config.js
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  mode: 'development', // use 'production' for production builds
+  mode: 'development',
   entry: './src/index.tsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -18,10 +17,14 @@ module.exports = {
   devServer: {
     static: path.resolve(__dirname, 'public'),
     historyApiFallback: true,
-    port: 5173,
-    proxy: {
-      '/api': 'http://localhost:3000', // proxy API requests to backend
-    },
+    port: 3000,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:8000',
+        changeOrigin: true
+      }
+    ]
   },
   module: {
     rules: [
