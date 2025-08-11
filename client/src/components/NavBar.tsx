@@ -28,7 +28,7 @@ export default function Navbar() {
         </InputGroup>
 
         {/* Sign In Button */}
-        <Button variant='outline'>Sign In</Button>
+        <Button variant='outline'>LOG IN</Button>
       </Flex>
     </Box>
   );

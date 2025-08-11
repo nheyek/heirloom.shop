@@ -6,22 +6,7 @@ import {
   defineTokens,
 } from "@chakra-ui/react"
 
-export const buttonRecipe = defineRecipe({
-  variants: {
-    variant: {
-      outline: {
-        base: {
-          borderColor: "#FFFFFF",
-          color: "#FFFFFF",
-          _hover: { color: "#FFFFFF" },
-        },
-      },
-    }
-  },
-});
-
-
-const config = defineConfig({
+export const config = defineConfig({
   theme: {
     semanticTokens: {
       colors: {
@@ -29,10 +14,23 @@ const config = defineConfig({
       },
     },
     recipes: {
-      Button: buttonRecipe
-    }
+      button: defineRecipe({
+        variants: {
+          variant: {
+            outline: {
+              borderColor: "#FFF",
+              color: "#FFF",
+              bg: "transparent",
+              _hover: {
+                bg: "#FFF",
+                color: "#000",
+              },
+            },
+          },
+        },
+      }),
+    },
   },
 })
-
 
 export default createSystem(defaultConfig, config);
