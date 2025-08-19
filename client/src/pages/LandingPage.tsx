@@ -1,15 +1,26 @@
 import { Box, SimpleGrid } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { Product } from "../models/Product";
+import { getProtectedResource } from "../utils/networking";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const LandingPage = () => {
 
     const [products, setProducts] = useState<Product[]>([]);
 
+    const { getIdTokenClaims } = useAuth0();
+
+    const loadProducts = async () => {
+        const claims = await getIdTokenClaims();
+
+        getProtectedResource('products', claims?.__raw || null)
+            .then(products => {
+                setProducts(products.data);
+            })
+    }
+
     useEffect(() => {
-        fetch('api/products').then(async res => {
-            setProducts(await res.json());
-        })
+        loadProducts();
     }, []);
 
     return <SimpleGrid columns={2} gap="40px" style={{ margin: 25 }}>
