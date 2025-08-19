@@ -6,8 +6,15 @@ import {
   Text,
   InputGroup,
 } from '@chakra-ui/react';
+import { LoginButton } from './LoginButton';
+import { useAuth0 } from '@auth0/auth0-react';
+import { SignupButton } from './SignupButton';
+import { LogoutButton } from './LogoutButton';
 
 export default function Navbar() {
+
+  const { isAuthenticated } = useAuth0();
+
   return (
     <Box bg="brand" px={6} py={3} boxShadow="sm">
       <Flex
@@ -28,7 +35,17 @@ export default function Navbar() {
         </InputGroup>
 
         {/* Sign In Button */}
-        <Button variant='outline'>LOG IN</Button>
+        {!isAuthenticated && (
+          <>
+            <SignupButton />
+            <LoginButton />
+          </>
+        )}
+        {isAuthenticated && (
+          <>
+            <LogoutButton />
+          </>
+      )}
       </Flex>
     </Box>
   );

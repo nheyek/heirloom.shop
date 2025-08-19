@@ -7,7 +7,7 @@ export const Auth0ProviderWithNavigate = (props: { children: ReactNode }) => {
 
 	const domain = process.env.AUTH0_DOMAIN;
 	const clientId = process.env.AUTH0_CLIENT_ID;
-	const redirectUri = window.location.pathname + process.env.AUTH0_CALLBACK_URL;
+	const redirectUri = process.env.AUTH0_CALLBACK_URL;
 
 	const onRedirectCallback = (appState?: AppState) => {
 		navigate(appState?.returnTo || window.location.pathname);
