@@ -8,11 +8,13 @@ export const LandingPage = () => {
 
     const [products, setProducts] = useState<Product[]>([]);
 
-    const { getIdTokenClaims } = useAuth0();
-
+    const { getIdTokenClaims, isAuthenticated } = useAuth0();
+  
     const loadProducts = async () => {
+
         const claims = await getIdTokenClaims();
 
+        isAuthenticated &&
         getProtectedResource('products', claims?.__raw || null)
             .then(products => {
                 setProducts(products.data);
@@ -21,7 +23,7 @@ export const LandingPage = () => {
 
     useEffect(() => {
         loadProducts();
-    }, []);
+    }, [isAuthenticated]);
 
     return <SimpleGrid columns={2} gap="40px" style={{ margin: 25 }}>
         {products.map(product => 

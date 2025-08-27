@@ -5,6 +5,7 @@ import { initORM } from './db';
 import productRouter from './routes/product.routes';
 import dotenv from 'dotenv';
 import path from 'path';
+import { auth } from "express-oauth2-jwt-bearer";
 
 dotenv.config();
 
