@@ -5,28 +5,27 @@ import { initORM } from './db';
 import productRouter from './routes/product.routes';
 import dotenv from 'dotenv';
 import path from 'path';
-import { auth } from "express-oauth2-jwt-bearer";
+import { auth } from 'express-oauth2-jwt-bearer';
 
 dotenv.config();
 
 const main = async () => {
+	const app = express();
 
-    const app = express();
+	await initORM();
 
-    await initORM();
+	app.use(express.json());
+	app.use(express.static(path.join(__dirname, 'static')));
 
-    app.use(express.json());
-    app.use(express.static(path.join(__dirname, 'static')));
+	app.use('/api/products', productRouter);
 
-    app.use('/api/products', productRouter);
-    
-    const PORT = 8000;
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
-    });
+	const PORT = 8000;
+	app.listen(PORT, () => {
+		console.log(`Server listening on port ${PORT}`);
+	});
 };
 
 main().catch((e) => {
-  console.error(e);
-  process.exit(1);
+	console.error(e);
+	process.exit(1);
 });

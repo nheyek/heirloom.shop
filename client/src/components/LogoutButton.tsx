@@ -1,6 +1,6 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { Button } from "@chakra-ui/react";
-import React from "react";
+import { useAuth0 } from '@auth0/auth0-react';
+import { Button } from '@chakra-ui/react';
+import React from 'react';
 
 export const LogoutButton = () => {
 	const { logout } = useAuth0();
@@ -8,10 +8,14 @@ export const LogoutButton = () => {
 	const handleLogout = async () => {
 		logout({
 			logoutParams: {
-			returnTo: window.location.origin,
+				returnTo: window.location.origin,
 			},
 		});
 	};
 
-	return <Button variant='outline' onClick={handleLogout}>LOG OUT</Button>
-}
+	return (
+		<Button variant="outline" onClick={handleLogout}>
+			LOG OUT
+		</Button>
+	);
+};
