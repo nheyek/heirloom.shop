@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
 import { getProtectedResource } from '../utils/api-utils';
 import { useAuth0 } from '@auth0/auth0-react';
+import { LoginButton } from '../components/LoginButton';
 
 export const LandingPage = () => {
 	const [products, setProducts] = useState<Product[]>([]);

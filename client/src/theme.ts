@@ -26,6 +26,19 @@ export const config = defineConfig({
 								color: '#000',
 							},
 						},
+						plain: {
+							color: '#FFF',
+							fontWeight: 600,
+						},
+					},
+				},
+			}),
+			input: defineRecipe({
+				variants: {
+					size: {
+						'2xl': {
+							fontSize: '24px',
+						},
 					},
 				},
 			}),

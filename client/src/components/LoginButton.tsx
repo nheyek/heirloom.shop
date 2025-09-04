@@ -13,8 +13,8 @@ export const LoginButton = () => {
 	};
 
 	return (
-		<Button variant="outline" onClick={handleLogin}>
-			LOG IN
+		<Button variant="plain" size="xl" onClick={handleLogin}>
+			Log In
 		</Button>
 	);
 };
