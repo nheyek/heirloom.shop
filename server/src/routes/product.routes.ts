@@ -4,7 +4,7 @@ import { authenticate } from '../middleware/auth0.middleware';
 
 const router = Router();
 
-router.get('/', authenticate, getAllProducts);
+router.get('/', getAllProducts);
 router.get('/:id', getProductById);
 
 export default router;
