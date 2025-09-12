@@ -38,7 +38,10 @@ export const LandingPage = () => {
 				<Heading size="3xl" mt={6} mb={3}>
 					All Products
 				</Heading>
-				<SimpleGrid gap="10px" columns={{ base: 2, sm: 3, md: 4, lg: 5 }}>
+				<SimpleGrid
+					gap={{ base: 2, md: 3, lg: 4, xl: 5 }}
+					columns={{ base: 2, md: 3, lg: 4, xl: 5 }}
+				>
 					{products.map((product) => (
 						<Card.Root key={product.id} flexShrink={0}>
 							<AspectRatio ratio={1 / 1}>
