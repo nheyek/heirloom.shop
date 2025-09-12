@@ -14,6 +14,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { SignupButton } from './SignupButton';
 import { LogoutButton } from './LogoutButton';
 import { Logo } from './Logo';
+import { FaSearch } from 'react-icons/fa';
 
 export default function Navbar() {
 	const { isAuthenticated } = useAuth0();
@@ -44,7 +45,7 @@ export default function Navbar() {
 					maxW="400px"
 					colSpan={{ base: 3, md: 1 }}
 				>
-					<InputGroup width="100%">
+					<InputGroup width="100%" startElement={<FaSearch />}>
 						<Input placeholder="Search..." bg="#FFF" style={{ borderRadius: 20 }} />
 					</InputGroup>
 				</GridItem>

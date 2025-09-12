@@ -17,6 +17,7 @@ import { Product } from '../models/Product';
 import { getProtectedResource, getPublicResource } from '../utils/api-utils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { LoginButton } from '../components/LoginButton';
+import { CgDetailsMore } from 'react-icons/cg';
 
 export const LandingPage = () => {
 	const [products, setProducts] = useState<Product[]>([]);
@@ -57,11 +58,12 @@ export const LandingPage = () => {
 									display="flex"
 									width="100%"
 								>
-									<Text textStyle="2xl" fontWeight="medium" letterSpacing="tight">
+									<Text textStyle="xl" fontWeight="medium" letterSpacing="tight">
 										$450
 									</Text>
 									<Button variant="solid" size="xs">
-										Explore
+										Details
+										<CgDetailsMore />
 									</Button>
 								</Box>
 							</Card.Footer>
