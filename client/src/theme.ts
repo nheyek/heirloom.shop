@@ -8,6 +8,12 @@ import {
 
 export const config = defineConfig({
 	theme: {
+		tokens: {
+			fonts: {
+				body: { value: 'Noto Sans' },
+				heading: { value: 'Noto Serif' },
+			},
+		},
 		semanticTokens: {
 			colors: {
 				brand: { value: '#121212' },
