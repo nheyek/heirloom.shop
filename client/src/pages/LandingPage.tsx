@@ -13,6 +13,7 @@ import {
 	Heading,
 	Skeleton,
 	useBreakpointValue,
+	Center,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
@@ -44,7 +45,26 @@ export const LandingPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Heading size="3xl" mt={6} mb={3}>
+				<Center>
+					<Box
+						display="inline-block"
+						py={3}
+						px={6}
+						borderRadius={5}
+						textAlign="center"
+						mt={2}
+						bg="gray.100"
+					>
+						<Heading size="2xl" mb={1}>
+							Welcome to Heirloom
+						</Heading>
+						<Text fontSize={18}>
+							A curated marketplace for professionally handcrafted products
+						</Text>
+					</Box>
+				</Center>
+
+				<Heading size="3xl" mt={4} mb={2}>
 					All Products
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>

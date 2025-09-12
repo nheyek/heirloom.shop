@@ -33,7 +33,7 @@ export default function Navbar() {
 				gap={{ base: 2, md: 6 }}
 			>
 				<GridItem area="logo" justifySelf={{ base: 'center', md: 'start' }}>
-					<Box width="150px" mt="5px" flexShrink={0}>
+					<Box width="150px" flexShrink={0} mt={1}>
 						<Logo />
 					</Box>
 				</GridItem>
