@@ -1,0 +1,26 @@
+import { Request, Response } from 'express';
+import * as userService from '../services/user.service';
+import { UserInfo } from '@common/types/UserInfo';
+
+export const getCurrentUser = async (req: Request, res: Response) => {
+	const userEmail = req.userClaims?.email;
+	if (!userEmail) {
+		return res.status(401).json({ message: 'Unauthorized: Missing email claim' });
+	}
+	let currentUser = await userService.findUserByEmail(userEmail);
+	if (!currentUser) {
+		try {
+			currentUser = await userService.createUser(userEmail);
+		} catch {
+			return res.status(500).json({ message: 'Failed to auto-create user record' });
+		}
+	}
+
+	const userInfo: UserInfo = {
+		id: currentUser.id,
+		email: currentUser.email,
+		shopId: null,
+	};
+
+	return res.json(userInfo);
+};

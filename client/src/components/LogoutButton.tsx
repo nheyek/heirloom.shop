@@ -14,8 +14,8 @@ export const LogoutButton = () => {
 	};
 
 	return (
-		<Button variant="outline" onClick={handleLogout}>
-			LOG OUT
+		<Button variant="plain" size="xl" onClick={handleLogout}>
+			Log Out
 		</Button>
 	);
 };

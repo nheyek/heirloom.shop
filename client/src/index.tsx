@@ -6,16 +6,19 @@ import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import customSystem from './theme';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
+import { UserProvider } from './providers/UserProvider';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
-    <React.StrictMode>
-        <BrowserRouter>
-            <Auth0ProviderWithNavigate>
-                <ChakraProvider value={customSystem}>
-                    <App />
-                </ChakraProvider>
-            </Auth0ProviderWithNavigate>
-        </BrowserRouter>
-    </React.StrictMode>
+	<React.StrictMode>
+		<BrowserRouter>
+			<Auth0ProviderWithNavigate>
+				<UserProvider>
+					<ChakraProvider value={customSystem}>
+						<App />
+					</ChakraProvider>
+				</UserProvider>
+			</Auth0ProviderWithNavigate>
+		</BrowserRouter>
+	</React.StrictMode>,
 );

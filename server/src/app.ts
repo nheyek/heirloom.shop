@@ -3,6 +3,7 @@ import 'dotenv/config';
 import 'reflect-metadata';
 import { initORM } from './db';
 import productRouter from './routes/product.routes';
+import currentUserRouter from './routes/me.routes';
 import dotenv from 'dotenv';
 import path from 'path';
 import { auth } from 'express-oauth2-jwt-bearer';
@@ -18,6 +19,7 @@ const main = async () => {
 	app.use(express.static(path.join(__dirname, 'static')));
 
 	app.use('/api/products', productRouter);
+	app.use('/api/me', currentUserRouter);
 
 	const PORT = 8000;
 	app.listen(PORT, () => {
