@@ -27,7 +27,7 @@ export default function Navbar() {
 					md: `"logo search login"`,
 				}}
 				templateColumns={{
-					base: '2fr 9fr 1fr',
+					base: '1fr 2fr 1fr',
 				}}
 				alignItems="center"
 				gap={{ base: 2, md: 6 }}
@@ -42,14 +42,14 @@ export default function Navbar() {
 					justifySelf="center"
 					justifyContent="center"
 					w="full"
-					maxW="400px"
+					maxW="500px"
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<InputGroup width="100%" startElement={<FaSearch />}>
 						<Input placeholder="Search..." bg="#FFF" style={{ borderRadius: 20 }} />
 					</InputGroup>
 				</GridItem>
-				<GridItem area="login" justifySelf="end" justifyContent="right">
+				<GridItem area="login" justifySelf="end">
 					{!isAuthenticated && <LoginButton />}
 					{isAuthenticated && (
 						<>

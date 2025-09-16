@@ -1,0 +1,21 @@
+-- migrate:up
+CREATE TABLE shop (
+    id SERIAL PRIMARY KEY,
+    shop_name VARCHAR(128) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE shop_user_role (
+    id SERIAL PRIMARY KEY,
+    shop_id INT NOT NULL REFERENCES shop(id) ON DELETE CASCADE,
+    user_id INT NOT NULL REFERENCES app_user(id) ON DELETE CASCADE,
+    shop_role VARCHAR(32) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- migrate:down
+
+DROP TABLE shop_user_role;
+DROP TABLE shop;

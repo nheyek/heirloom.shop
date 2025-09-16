@@ -22,6 +22,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { LoginButton } from '../components/LoginButton';
 import { CgDetailsMore } from 'react-icons/cg';
 import { motion } from 'framer-motion';
+import { Logo } from '../components/Logo';
 
 const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4, xl: 5 };
 
@@ -45,26 +46,25 @@ export const LandingPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Center>
-					<Box
-						display="inline-block"
-						py={3}
-						px={6}
-						borderRadius={5}
-						textAlign="center"
-						mt={2}
-						bg="gray.100"
-					>
-						<Heading size="2xl" mb={1}>
-							Welcome to Heirloom
+				<Box mx="auto" textAlign="center" mt={10}>
+					<Box display="flex" justifyContent="center">
+						<Heading size="2xl" pr={2} display="inline-flex" flexShrink={0}>
+							Welcome to
 						</Heading>
-						<Text fontSize={18}>
-							A curated marketplace for professionally handcrafted products
-						</Text>
+						<Box height={35} display="inline-flex" flexShrink={0}>
+							<Logo fill="#000000" />
+						</Box>
 					</Box>
-				</Center>
 
-				<Heading size="3xl" mt={4} mb={2}>
+					<Text fontSize={18} mt={2}>
+						A curated marketplace for professionally handcrafted products.
+					</Text>
+					<Button size="sm" mt={4}>
+						Learn more
+					</Button>
+				</Box>
+
+				<Heading size="3xl" mt={6} mb={2}>
 					All Products
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
