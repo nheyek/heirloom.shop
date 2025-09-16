@@ -1,6 +1,6 @@
-import { AppState, Auth0Provider } from "@auth0/auth0-react";
-import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { AppState, Auth0Provider } from '@auth0/auth0-react';
+import { ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Auth0ProviderWithNavigate = (props: { children: ReactNode }) => {
 	const navigate = useNavigate();
@@ -17,14 +17,16 @@ export const Auth0ProviderWithNavigate = (props: { children: ReactNode }) => {
 		return null;
 	}
 
-	return <Auth0Provider
-		domain={domain}
-		clientId={clientId}
-		authorizationParams={{
-			redirect_uri: redirectUri,
-		}}
-		onRedirectCallback={onRedirectCallback}
-	>
-		{props.children}
-	</Auth0Provider>
+	return (
+		<Auth0Provider
+			domain={domain}
+			clientId={clientId}
+			authorizationParams={{
+				redirect_uri: redirectUri,
+			}}
+			onRedirectCallback={onRedirectCallback}
+		>
+			{props.children}
+		</Auth0Provider>
+	);
 };

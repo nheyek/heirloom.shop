@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
-import { getProtectedResource, getPublicResource } from '../utils/api-utils';
+import { useApi } from '../utils/api-utils';
 import { useAuth0 } from '@auth0/auth0-react';
 import { LoginButton } from '../components/LoginButton';
 import { CgDetailsMore } from 'react-icons/cg';
@@ -30,6 +30,7 @@ const MotionCard = motion(Card.Root);
 
 export const LandingPage = () => {
 	const [products, setProducts] = useState<Product[]>([]);
+	const { getPublicResource } = useApi();
 
 	const loadProducts = async () => {
 		getPublicResource('products').then((products) => {
