@@ -2,6 +2,7 @@ import e from 'express';
 import { getEm } from '../db';
 import { Product } from '../entities/Product';
 import { AppUser } from '../entities/AppUser';
+import { ShopUserRole } from '../entities/ShopUserRole';
 
 export const findUserByEmail = async (email: string) => {
 	const em = getEm();
@@ -18,4 +19,10 @@ export const createUser = async (email: string): Promise<AppUser> => {
 	await em.persistAndFlush(user);
 
 	return user;
+};
+
+export const getShopIdForUser = async (userId: number) => {
+	const em = getEm();
+	const shopRole = await em.findOne(ShopUserRole, { user: { id: userId } });
+	return shopRole?.shop.id || null;
 };

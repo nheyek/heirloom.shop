@@ -26,11 +26,11 @@ export const UserProvider = (props: { children: React.ReactNode }) => {
 
 			const res = await getProtectedResource('me');
 
-			if (!res.error) {
+			if (res.error) {
 				throw new Error(`Failed to fetch user: ${res.error}`);
 			}
 
-			const data: UserInfo = await res.data.json();
+			const data: UserInfo = await res.data;
 			setUser(data);
 		} catch (err: any) {
 			setError(err.message ?? 'Unknown error');

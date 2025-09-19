@@ -4,6 +4,7 @@ import { defineConfig } from '@mikro-orm/postgresql';
 import { AppUser } from './entities/AppUser';
 import { Product } from './entities/Product';
 import * as dotenv from 'dotenv';
+import { ShopUserRole } from './entities/ShopUserRole';
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ export default defineConfig({
 	password: process.env.DB_PASS,
 	host: process.env.DB_HOST,
 	port: Number(process.env.DB_PORT),
-	entitiesTs: [Product, AppUser],
+	entitiesTs: [Product, AppUser, ShopUserRole],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
 	extensions: [EntityGenerator],

@@ -16,10 +16,12 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 		}
 	}
 
+	const shopId = await userService.getShopIdForUser(currentUser.id);
+
 	const userInfo: UserInfo = {
 		id: currentUser.id,
 		email: currentUser.email,
-		shopId: null,
+		shopId,
 	};
 
 	return res.json(userInfo);
