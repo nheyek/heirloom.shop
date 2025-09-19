@@ -30,7 +30,8 @@ export default function Navbar() {
 		<Box bg="brand" px={4} py={2} boxShadow="0 2px 4px rgba(0, 0, 0, 0.35)">
 			<Grid
 				gridTemplateAreas={{
-					base: `". logo login" ". search ."`,
+					base: `"logo . login" ". search ."`,
+					sm: `". logo login" ". search ."`,
 					md: `"logo search login"`,
 				}}
 				templateColumns={{
@@ -39,7 +40,7 @@ export default function Navbar() {
 				alignItems="center"
 				gap={{ base: 2, md: 6 }}
 			>
-				<GridItem area="logo" justifySelf={{ base: 'center', md: 'start' }}>
+				<GridItem area="logo" justifySelf={{ base: 'start', sm: 'center', md: 'start' }}>
 					<Box
 						width="150px"
 						flexShrink={0}
@@ -55,7 +56,7 @@ export default function Navbar() {
 					justifySelf="center"
 					justifyContent="center"
 					w="full"
-					maxW="500px"
+					maxW="450px"
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<InputGroup width="100%" startElement={<FaSearch />}>
@@ -63,24 +64,26 @@ export default function Navbar() {
 					</InputGroup>
 				</GridItem>
 				<GridItem area="login" justifySelf="end">
-					{user?.shopId && (
-						<IconButton
-							variant="plain"
-							style={{ color: 'white' }}
-							onClick={() => navigate('shop-manager')}
-						>
-							<FaShop />
+					<Box display="flex" alignItems="center">
+						{user?.shopId && (
+							<IconButton
+								variant="plain"
+								style={{ color: 'white' }}
+								onClick={() => navigate('shop-manager')}
+							>
+								<FaShop />
+							</IconButton>
+						)}
+						{!isAuthenticated && <LoginButton />}
+						{isAuthenticated && (
+							<>
+								<LogoutButton />
+							</>
+						)}
+						<IconButton variant="plain" style={{ color: 'white' }}>
+							<FaShoppingCart />
 						</IconButton>
-					)}
-					{!isAuthenticated && <LoginButton />}
-					{isAuthenticated && (
-						<>
-							<LogoutButton />
-						</>
-					)}
-					<IconButton variant="plain" style={{ color: 'white' }}>
-						<FaShoppingCart />
-					</IconButton>
+					</Box>
 				</GridItem>
 			</Grid>
 		</Box>
