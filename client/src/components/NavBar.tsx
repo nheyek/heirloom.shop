@@ -35,7 +35,8 @@ export default function Navbar() {
 					md: `"logo search login"`,
 				}}
 				templateColumns={{
-					base: '1fr 2fr 1fr',
+					base: '3fr 4fr 3fr',
+					md: '1fr 2fr 1fr',
 				}}
 				alignItems="center"
 				gap={{ base: 2, md: 6 }}
@@ -59,7 +60,7 @@ export default function Navbar() {
 					maxW="450px"
 					colSpan={{ base: 3, md: 1 }}
 				>
-					<InputGroup width="100%" startElement={<FaSearch />}>
+					<InputGroup width="100%" startElement={<FaSearch />} py="5px">
 						<Input placeholder="Search..." bg="#FFF" style={{ borderRadius: 20 }} />
 					</InputGroup>
 				</GridItem>
