@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import { initORM } from './db';
 import productRouter from './routes/product.routes';
 import currentUserRouter from './routes/me.routes';
+import shopRouter from './routes/shop.routes';
 import dotenv from 'dotenv';
 import path from 'path';
 import { auth } from 'express-oauth2-jwt-bearer';
@@ -20,6 +21,7 @@ const main = async () => {
 
 	app.use('/api/products', productRouter);
 	app.use('/api/me', currentUserRouter);
+	app.use('/api/shops', shopRouter);
 
 	const PORT = 8000;
 	app.listen(PORT, () => {

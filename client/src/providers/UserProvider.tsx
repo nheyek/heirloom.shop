@@ -1,6 +1,6 @@
 import { UserInfo } from '@common/types/UserInfo';
 import React, { useContext, useEffect, useState } from 'react';
-import { useApi } from '../utils/api-utils';
+import useApi from '../hooks/useApi';
 import { useAuth0 } from '@auth0/auth0-react';
 
 type UserContextType = {

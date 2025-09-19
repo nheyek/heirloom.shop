@@ -57,7 +57,7 @@ const callApi = async (config: AxiosRequestConfig) => {
 
 const apiServerUrl = process.env.REACT_APP_API_SERVER_URL;
 
-export const useApi = () => {
+const useApi = () => {
 	const { getIdTokenClaims } = useAuth0();
 
 	const getPublicResource = async (endpoint: string) => {
@@ -77,21 +77,25 @@ export const useApi = () => {
 		};
 	};
 
-	const getProtectedResource = async (endpoint: string) => {
+	const getToken = async () => {
 		const claims = await getIdTokenClaims();
 
 		if (!claims) {
 			throw new Error('No ID token claims found');
 		}
 
-		const idToken = claims.__raw;
+		return claims.__raw;
+	};
+
+	const getProtectedResource = async (endpoint: string) => {
+		const token = await getToken();
 
 		const config = {
 			url: `/api/${endpoint}`,
 			method: 'GET',
 			headers: {
 				'content-type': 'application/json',
-				Authorization: `Bearer ${idToken}`,
+				Authorization: `Bearer ${token}`,
 			},
 		};
 
@@ -103,5 +107,28 @@ export const useApi = () => {
 		};
 	};
 
-	return { getPublicResource, getProtectedResource };
+	const postResource = async (endpoint: string, payload: any) => {
+		const token = await getToken();
+
+		const config = {
+			url: `/api/${endpoint}`,
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			data: payload,
+		};
+
+		const { data, error } = await callApi(config);
+
+		return {
+			data: data || null,
+			error,
+		};
+	};
+
+	return { getPublicResource, getProtectedResource, postResource };
 };
+
+export default useApi;

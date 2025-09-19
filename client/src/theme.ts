@@ -23,15 +23,6 @@ export const config = defineConfig({
 			button: defineRecipe({
 				variants: {
 					variant: {
-						outline: {
-							borderColor: '#FFF',
-							color: '#FFF',
-							bg: 'transparent',
-							_hover: {
-								bg: '#FFF',
-								color: '#000',
-							},
-						},
 						plain: {
 							color: '#FFF',
 							fontWeight: 600,

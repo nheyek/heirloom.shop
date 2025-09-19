@@ -4,9 +4,7 @@ import { UserInfo } from '@common/types/UserInfo';
 
 export const getCurrentUser = async (req: Request, res: Response) => {
 	const userEmail = req.userClaims?.email;
-	if (!userEmail) {
-		return res.status(401).json({ message: 'Unauthorized: Missing email claim' });
-	}
+
 	let currentUser = await userService.findUserByEmail(userEmail);
 	if (!currentUser) {
 		try {

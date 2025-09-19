@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Product } from '../models/Product';
-import { useApi } from '../utils/api-utils';
+import useApi from '../hooks/useApi';
 import { useAuth0 } from '@auth0/auth0-react';
 import { LoginButton } from '../components/LoginButton';
 import { CgDetailsMore } from 'react-icons/cg';
