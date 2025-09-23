@@ -21,7 +21,7 @@ WORKDIR /app
 COPY server ./server
 COPY client ./client
 
-# Build client (React/Vite/Next/etc.)
+# Build client
 WORKDIR /app/client
 RUN npm run build
 
@@ -49,4 +49,4 @@ COPY --from=builder /app/client/dist ./dist/public
 EXPOSE 3000
 
 # Start the server (compiled JS entrypoint)
-CMD ["node", "dist/index.js"]
+CMD ["node", "dist/server/app.js"]
