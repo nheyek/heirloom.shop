@@ -17,7 +17,7 @@ const main = async () => {
 	await initORM();
 
 	app.use(express.json());
-	app.use(express.static(path.join(__dirname, 'static')));
+	app.use(express.static(path.join(__dirname, 'public')));
 
 	app.use('/api/products', productRouter);
 	app.use('/api/me', currentUserRouter);
