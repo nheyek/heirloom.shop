@@ -26,3 +26,9 @@ variable "db_size" {
   type        = string
   default     = "db-s-1vcpu-1gb"
 }
+
+variable "trusted_ips" {
+  description = "List of trusted IP addresses for database access"
+  type        = list(string)
+  default     = []
+}
