@@ -24,16 +24,16 @@ module.exports = (env, argv) => {
 		devServer: {
 			static: path.resolve(__dirname, 'public'),
 			historyApiFallback: true,
-			port: 3000,
+			port: 5000,
 			proxy: [
 				{
 					context: ['/api'],
-					target: 'http://localhost:8000',
+					target: 'http://localhost:3000',
 					changeOrigin: true,
 				},
 				{
 					context: ['/*.png'],
-					target: 'http://localhost:8000',
+					target: 'http://localhost:3000',
 					changeOrigin: true,
 				},
 			],

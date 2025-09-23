@@ -23,7 +23,7 @@ const main = async () => {
 	app.use('/api/me', currentUserRouter);
 	app.use('/api/shops', shopRouter);
 
-	const PORT = 8000;
+	const PORT = 3000;
 	app.listen(PORT, () => {
 		console.log(`Server listening on port ${PORT}`);
 	});

@@ -30,79 +30,55 @@ resource "digitalocean_database_db" "app_db" {
   name       = "heirloomdb"
 }
 
-resource "digitalocean_droplet" "web" {
-  name   = "web-${var.environment}"
-  region = var.region
-  size   = var.droplet_size
-  image  = "ubuntu-22-04-x64"
-
-  tags = [var.environment]
-
-  ssh_keys = [data.digitalocean_ssh_key.nick.id]
-
-	user_data = <<-EOF
-	#cloud-config
-	runcmd:
-		- echo "DATABASE_URL=${digitalocean_database_cluster.db.uri}" >> /etc/environment
-		- echo "APP_ENV=${var.environment}" >> /etc/environment
-	EOF
+resource "digitalocean_container_registry" "heirloom" {
+  name                   = "heirloom-shop"
+  subscription_tier_slug = "basic"
 }
 
-resource "digitalocean_firewall" "web_fw" {
-  name = "web-firewall-${var.environment}"
+resource "digitalocean_app" "web" {
+  spec {
+	name   = "heirloom-${var.environment}"
+	region = var.region
 
-  droplet_ids = [digitalocean_droplet.web.id]
+	service {
+		name                = "app-server"
+		environment_slug    = "node-js"
+		instance_size_slug  = "basic-xxs"
+		instance_count      = 1
 
-  inbound_rule {
-	protocol         = "tcp"
-	port_range       = "22"
-	source_addresses = ["0.0.0.0/0", "::/0"]
-  }
+		image {
+			registry_type = "DOCR"
+			repository    = "heirloom-shop/node-app"
+			tag           = "latest"
+		}
 
-  inbound_rule {
-	protocol         = "tcp"
-	port_range       = "80"
-	source_addresses = ["0.0.0.0/0", "::/0"]
-  }
+		env {
+			key   = "APP_ENV"
+			value = var.environment
+		}
 
-  inbound_rule {
-	protocol         = "tcp"
-	port_range       = "443"
-	source_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-	protocol              = "icmp"
-	destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-	protocol              = "tcp"
-	port_range            = "all"
-	destination_addresses = ["0.0.0.0/0", "::/0"]
-  }
-
-  outbound_rule {
-	protocol              = "udp"
-	port_range            = "all"
-	destination_addresses = ["0.0.0.0/0", "::/0"]
+		env {
+			key   = "DATABASE_URL"
+			value = "postgres://${digitalocean_database_user.app_user.name}:${digitalocean_database_user.app_user.password}@${digitalocean_database_cluster.db.host}:${digitalocean_database_cluster.db.port}/${digitalocean_database_db.app_db.name}?sslmode=require"
+			scope = "RUN_TIME"
+		}
+	}
   }
 }
 
 resource "digitalocean_database_firewall" "db_fw" {
   cluster_id = digitalocean_database_cluster.db.id
 
-  # App droplet(s) — matched by ID
   rule {
-    type  = "droplet"
-    value = digitalocean_droplet.web.id
+	type  = "tag"
+	value = "heirloom-${var.environment}"
   }
 
   dynamic "rule" {
-    for_each = var.trusted_ips
-    content {
-      type  = "ip_addr"
-      value = rule.value
-    }
+	for_each = var.trusted_ips
+	content {
+	  type  = "ip_addr"
+	  value = rule.value
+	}
   }
 }
