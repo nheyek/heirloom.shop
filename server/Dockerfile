@@ -1,18 +1,52 @@
-# Use Node.js LTS as base
-FROM node:20-alpine
+# ---------- Base image for building ----------
+FROM node:20-alpine AS builder
 
-# Set work dir
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Install deps first (better layer caching)
-COPY package*.json ./
-RUN npm ci --only=production
+# Install global tools
+RUN npm install -g typescript
 
-# Copy app code
-COPY . .
+# Copy package manifests
+COPY server/package*.json ./server/
+COPY client/package*.json ./client/
 
-# Expose app port
+# Install dependencies
+WORKDIR /app/server
+RUN npm install
+WORKDIR /app/client
+RUN npm install
+
+# Copy the full source
+WORKDIR /app
+COPY server ./server
+COPY client ./client
+
+# Build client (React/Vite/Next/etc.)
+WORKDIR /app/client
+RUN npm run build
+
+# Build server (transpile TS → JS)
+WORKDIR /app/server
+RUN npm run build
+
+# ---------- Runtime image ----------
+FROM node:20-alpine AS runtime
+
+WORKDIR /app
+
+# Only copy built artifacts and production deps
+COPY server/package*.json ./server/
+WORKDIR /app/server
+RUN npm install --omit=dev
+
+# Copy server build output
+COPY --from=builder /app/server/dist ./dist
+
+# Copy client build output into server's public folder
+COPY --from=builder /app/client/dist ./dist/public
+
+# Expose the port App Platform will set
 EXPOSE 3000
 
-# Run your app
-CMD ["npm", "run", "serve"]
+# Start the server (compiled JS entrypoint)
+CMD ["node", "dist/index.js"]
