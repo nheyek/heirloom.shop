@@ -6,6 +6,8 @@ WORKDIR /app
 # Install global tools
 RUN npm install -g typescript
 
+COPY tsconfig.base.json ./
+
 # Copy package manifests
 COPY server/package*.json ./server/
 COPY client/package*.json ./client/
