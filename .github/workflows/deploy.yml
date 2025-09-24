@@ -16,7 +16,7 @@ jobs:
                   token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
             - name: Log in to DO Container Registry
-              run: doctl registry login --access-token=${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+              run: doctl registry login
 
             - name: Build Docker image
               run: |

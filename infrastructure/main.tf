@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "digitalocean" {
-    token = var.do_token
+	token = var.do_token
 }
 
 resource "digitalocean_database_cluster" "db" {
@@ -60,9 +60,38 @@ resource "digitalocean_app" "web" {
 		}
 
 		env {
-			key   = "DATABASE_URL"
-			value = "postgres://${digitalocean_database_user.app_user.name}:${digitalocean_database_user.app_user.password}@${digitalocean_database_cluster.db.host}:${digitalocean_database_cluster.db.port}/${digitalocean_database_db.app_db.name}?sslmode=require"
-			scope = "RUN_TIME"
+			key   = "NODE_ENV"
+			value = "production"
+		}
+
+        env {
+			key   = "DB_NAME"
+			value = digitalocean_database_db.app_db.name
+            scope = "RUN_TIME"
+		}
+
+        env {
+			key   = "DB_USER"
+			value = digitalocean_database_user.app_user.name
+            scope = "RUN_TIME"
+		}
+
+        env {
+			key   = "DB_PASS"
+			value = digitalocean_database_user.app_user.password
+            scope = "RUN_TIME"
+		}
+
+        env {
+			key   = "DB_HOST"
+			value = digitalocean_database_cluster.db.host
+            scope = "RUN_TIME"
+		}
+
+        env {
+			key   = "DB_PORT"
+			value = digitalocean_database_cluster.db.port
+            scope = "RUN_TIME"
 		}
 	}
   }

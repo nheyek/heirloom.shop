@@ -5,11 +5,10 @@ import { initORM } from './db';
 import productRouter from './routes/product.routes';
 import currentUserRouter from './routes/me.routes';
 import shopRouter from './routes/shop.routes';
-import dotenv from 'dotenv';
+import dotenvFlow from 'dotenv-flow';
 import path from 'path';
-import { auth } from 'express-oauth2-jwt-bearer';
 
-dotenv.config();
+dotenvFlow.config();
 
 const main = async () => {
 	const app = express();

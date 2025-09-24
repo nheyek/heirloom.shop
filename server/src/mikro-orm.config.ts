@@ -1,12 +1,9 @@
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { defineConfig } from '@mikro-orm/postgresql';
-import { AppUser } from './entities/AppUser';
-import { Product } from './entities/Product';
-import * as dotenv from 'dotenv';
-import { ShopUserRole } from './entities/ShopUserRole';
+import dotenvFlow from 'dotenv-flow';
 
-dotenv.config();
+dotenvFlow.config();
 
 export default defineConfig({
 	dbName: process.env.DB_NAME,

@@ -39,18 +39,17 @@ FROM node:20-alpine AS runtime
 WORKDIR /app
 
 # Only copy built artifacts and production deps
-COPY server/package*.json ./server/
-WORKDIR /app/server
+COPY server/package*.json .
 RUN npm install --omit=dev
 
 # Copy server build output
 COPY --from=builder /app/server/dist ./dist
 
 # Copy client build output into server's public folder
-COPY --from=builder /app/client/dist ./dist/public
+COPY --from=builder /app/client/dist ./dist/server/public
 
 # Expose the port App Platform will set
 EXPOSE 3000
 
 # Start the server (compiled JS entrypoint)
-CMD ["node", "dist/server/app.js"]
+CMD ["node", "dist/server/src/app.js"]
