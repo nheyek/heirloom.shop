@@ -44,8 +44,8 @@ RUN npm install --omit=dev
 
 # Copy server build output
 COPY --from=builder /app/server/dist ./dist
-COPY --from=builder /app/server/.env ./dist/server/.env
-COPY --from=builder /app/server/.env.production ./dist/server/.env.production
+COPY --from=builder /app/server/.env .
+COPY --from=builder /app/server/.env.production .
 
 # Copy client build output into server's public folder
 COPY --from=builder /app/client/dist ./dist/server/src/public
