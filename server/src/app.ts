@@ -1,5 +1,4 @@
 import express from 'express';
-import 'dotenv/config';
 import 'reflect-metadata';
 import { initORM } from './db';
 import productRouter from './routes/product.routes';
