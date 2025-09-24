@@ -48,7 +48,7 @@ resource "digitalocean_app" "web" {
 
 		image {
 			registry_type = "DOCR"
-			repository    = "heirloom-shop/node-app"
+			repository    = "node-app"
 			tag           = "latest"
 		}
 
