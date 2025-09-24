@@ -6,13 +6,12 @@ dotenvFlow.config();
 
 const isDev = process.env.NODE_ENV !== 'production';
 
-export default defineConfig({
+const config = defineConfig({
 	dbName: process.env.DB_NAME,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	host: process.env.DB_HOST,
 	port: Number(process.env.DB_PORT),
-const config = defineConfig({
 	driverOptions: {
 		connection: {
 			ssl: {
@@ -26,5 +25,6 @@ const config = defineConfig({
 	discovery: { warnWhenNoEntities: false },
 	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
 });
+
 console.log(config);
 export default config;
