@@ -12,6 +12,7 @@ export default defineConfig({
 	password: process.env.DB_PASS,
 	host: process.env.DB_HOST,
 	port: Number(process.env.DB_PORT),
+const config = defineConfig({
 	driverOptions: {
 		connection: {
 			ssl: {
@@ -25,3 +26,5 @@ export default defineConfig({
 	discovery: { warnWhenNoEntities: false },
 	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
 });
+console.log(config);
+export default config;
