@@ -26,5 +26,4 @@ const config = defineConfig({
 	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
 });
 
-console.log(config);
 export default config;
