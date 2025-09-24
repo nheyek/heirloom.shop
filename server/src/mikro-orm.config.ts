@@ -5,6 +5,8 @@ import dotenvFlow from 'dotenv-flow';
 
 dotenvFlow.config();
 
+const isDev = process.env.NODE_ENV !== 'production';
+
 export default defineConfig({
 	dbName: process.env.DB_NAME,
 	user: process.env.DB_USER,
@@ -15,5 +17,5 @@ export default defineConfig({
 	entitiesTs: ['src/entities/**/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
-	extensions: [EntityGenerator],
+	extensions: [...(isDev ? [EntityGenerator] : [])],
 });
