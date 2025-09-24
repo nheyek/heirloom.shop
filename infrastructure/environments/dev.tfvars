@@ -1,4 +1,3 @@
-do_token     = "your-digitalocean-token"
 environment  = "dev"
 region       = "nyc3"
 droplet_size = "s-1vcpu-1gb"

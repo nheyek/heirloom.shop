@@ -9,7 +9,9 @@ terraform {
   required_version = ">= 1.5.0"
 }
 
-provider "digitalocean" {}
+provider "digitalocean" {
+    token = var.do_token
+}
 
 resource "digitalocean_database_cluster" "db" {
   name       = "postgres-${var.environment}"
