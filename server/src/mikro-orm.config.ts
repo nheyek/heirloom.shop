@@ -1,5 +1,4 @@
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
-import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { defineConfig } from '@mikro-orm/postgresql';
 import dotenvFlow from 'dotenv-flow';
 
@@ -17,5 +16,5 @@ export default defineConfig({
 	entitiesTs: ['src/entities/**/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
-	extensions: [...(isDev ? [EntityGenerator] : [])],
+	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
 });
