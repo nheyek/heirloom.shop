@@ -16,21 +16,35 @@ jobs:
             - name: Add runner IP to DigitalOcean trusted sources
               id: add_trusted
               run: |
-                  RESPONSE=$(curl -s -X POST \
-                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall" \
-                    -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-                    -H "Content-Type: application/json" \
-                    -d '{
+                  RUNNER_IP=${{ steps.get_ip.outputs.ip }}
+                  echo "Adding IP: $RUNNER_IP"
+
+                  RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+                  "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall" \
+                  -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+                  -H "Content-Type: application/json" \
+                  -d '{
                       "rules": [
-                        {
+                      {
                           "type": "ip_addr",
-                          "value": "'"${{ steps.get_ip.outputs.ip }}"'",
+                          "value": "'"$RUNNER_IP"'",
                           "description": "github-action-runner"
-                        }
+                      }
                       ]
-                    }')
-                  echo "response=$RESPONSE" >> $GITHUB_OUTPUT
-                  echo "rule_id=$(echo $RESPONSE | jq -r '.rules[0].uuid')" >> $GITHUB_OUTPUT
+                  }')
+
+                  BODY=$(echo "$RESPONSE" | head -n -1)
+                  STATUS=$(echo "$RESPONSE" | tail -n1)
+
+                  echo "Status: $STATUS"
+                  echo "Body: $BODY"
+
+                  if [ "$STATUS" -ne 201 ]; then
+                  echo "❌ Failed to add firewall rule"
+                  exit 1
+                  fi
+
+                  echo "rule_id=$(echo "$BODY" | jq -r '.rules[0].uuid')" >> $GITHUB_OUTPUT
 
             - name: Install dbmate
               run: |
