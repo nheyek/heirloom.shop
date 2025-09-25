@@ -17,11 +17,11 @@ jobs:
               id: add_trusted
               run: |
                   RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-                  "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall" \
+                  "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_ID }}/firewall" \
                   -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
                   -H "Content-Type: application/json" \
                   -d '{
-                      "rules": [
+                      "inbound_rules": [
                       {
                           "type": "ip_addr",
                           "value": "${{ steps.get_ip.outputs.ip }}",
@@ -58,5 +58,5 @@ jobs:
               if: always() # ensures cleanup runs even if migration fails
               run: |
                   curl -s -X DELETE \
-                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall/rules/${{ steps.add_trusted.outputs.rule_id }}" \
+                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_ID }}/firewall/rules/${{ steps.add_trusted.outputs.rule_id }}" \
                     -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
