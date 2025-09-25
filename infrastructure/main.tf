@@ -93,11 +93,6 @@ resource "digitalocean_database_user" "app_user" {
   name       = "heirloom"
 }
 
-resource "digitalocean_database_user" "github_user" {
-  cluster_id = digitalocean_database_cluster.db.id
-  name       = "github"
-}
-
 resource "digitalocean_database_db" "app_db" {
   cluster_id = digitalocean_database_cluster.db.id
   name       = "heirloomdb"
