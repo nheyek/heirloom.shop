@@ -9,39 +9,27 @@ jobs:
             - name: Checkout repo
               uses: actions/checkout@v4
 
-            - name: Get runner IP
+            - name: Install doctl via snap
+              run: sudo snap install doctl
+
+            - name: Authenticate doctl
+              run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+            - name: Get runner IPv4
               id: get_ip
-              run: echo "ip=$(curl -s https://ifconfig.me)" >> $GITHUB_OUTPUT
+              run: echo "ip=$(curl -4 -s ifconfig.me)" >> $GITHUB_OUTPUT
 
             - name: Add runner IP to DigitalOcean trusted sources
-              id: add_trusted
               run: |
-                  RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT \
-                  "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_ID }}/firewall" \
-                  -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
-                  -H "Content-Type: application/json" \
-                  -d '{
-                      "inbound_rules": [
-                      {
-                          "type": "ip_addr",
-                          "value": "${{ steps.get_ip.outputs.ip }}",
-                          "description": "github-action-runner"
-                      }
-                      ]
-                  }')
+                  echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
+                  doctl databases firewall append ${{ secrets.DEV_DATABASE_ID }} \
+                    --rule ip_addr:${{ steps.get_ip.outputs.ip }} \
+                    --rule-description "github-action-runner"
+              env:
+                  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-                  BODY=$(echo "$RESPONSE" | head -n -1)
-                  STATUS=$(echo "$RESPONSE" | tail -n1)
-
-                  echo "Status: $STATUS"
-                  echo "Body: $BODY"
-
-                  if [ "$STATUS" -ne 201 ]; then
-                  echo "❌ Failed to add firewall rule"
-                  exit 1
-                  fi
-
-                  echo "rule_id=$(echo "$BODY" | jq -r '.rules[0].uuid')" >> $GITHUB_OUTPUT
+            - name: Wait for firewall propagation
+              run: sleep 20
 
             - name: Install dbmate
               run: |
@@ -55,8 +43,10 @@ jobs:
               run: dbmate up
 
             - name: Remove runner IP from DigitalOcean trusted sources
-              if: always() # ensures cleanup runs even if migration fails
+              if: always() # always run cleanup
               run: |
-                  curl -s -X DELETE \
-                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_ID }}/firewall/rules/${{ steps.add_trusted.outputs.rule_id }}" \
-                    -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"
+                  echo "Removing ${{ steps.get_ip.outputs.ip }} from trusted sources..."
+                  doctl databases firewall remove ${{ secrets.DEV_DATABASE_ID }} \
+                    --rule ip_addr:${{ steps.get_ip.outputs.ip }}
+              env:
+                  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
