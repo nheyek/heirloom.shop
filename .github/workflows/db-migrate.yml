@@ -58,7 +58,7 @@ jobs:
 
                   if [ -n "$RULE_ID" ] && [ "$RULE_ID" != "null" ]; then
                   echo "Removing firewall rule $RULE_ID"
-                  doctl databases firewalls remove "$RULE_ID"
+                  doctl databases firewalls remove ${{ secrets.DEV_DATABASE_ID }} --uuid $RULE_ID
                   else
                   echo "⚠️ No firewall rule found for $RUNNER_IP, skipping removal."
                   fi
