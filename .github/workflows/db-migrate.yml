@@ -16,7 +16,7 @@ jobs:
             - name: Add runner IP to DigitalOcean trusted sources
               id: add_trusted
               run: |
-                  RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
+                  RESPONSE=$(curl -s -w "\n%{http_code}" -X PUT \
                   "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_ID }}/firewall" \
                   -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
                   -H "Content-Type: application/json" \
