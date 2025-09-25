@@ -1,0 +1,51 @@
+name: Deploy Database Schema
+
+on: workflow_dispatch
+
+jobs:
+    migrate:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - name: Get runner IP
+              id: get_ip
+              run: echo "ip=$(curl -s https://ifconfig.me)" >> $GITHUB_OUTPUT
+
+            - name: Add runner IP to DigitalOcean trusted sources
+              id: add_trusted
+              run: |
+                  RESPONSE=$(curl -s -X POST \
+                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall" \
+                    -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
+                    -H "Content-Type: application/json" \
+                    -d '{
+                      "rules": [
+                        {
+                          "type": "ip_addr",
+                          "value": "'"${{ steps.get_ip.outputs.ip }}"'",
+                          "description": "github-action-runner"
+                        }
+                      ]
+                    }')
+                  echo "response=$RESPONSE" >> $GITHUB_OUTPUT
+                  echo "rule_id=$(echo $RESPONSE | jq -r '.rules[0].uuid')" >> $GITHUB_OUTPUT
+
+            - name: Install dbmate
+              run: |
+                  curl -fsSL -o /usr/local/bin/dbmate \
+                    https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+                  chmod +x /usr/local/bin/dbmate
+
+            - name: Run migrations
+              env:
+                  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+              run: dbmate up
+
+            - name: Remove runner IP from DigitalOcean trusted sources
+              if: always() # ensures cleanup runs even if migration fails
+              run: |
+                  curl -s -X DELETE \
+                    "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall/rules/${{ steps.add_trusted.outputs.rule_id }}" \
+                    -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}"

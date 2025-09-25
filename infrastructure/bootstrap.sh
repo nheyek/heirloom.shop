@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-read -p "Enter environment (e.g. dev, staging, prod): " ENV
+if [ $# -lt 1 ]; then
+  echo "Usage: $0 <environment>"
+  echo "Example: $0 dev"
+  exit 1
+fi
+
+ENV=$1
 export TF_VAR_environment="$ENV"
 
 APP_NAME="heirloom"
