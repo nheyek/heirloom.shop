@@ -7,6 +7,12 @@ jobs:
     grants:
         runs-on: ubuntu-latest
         steps:
+            - name: Install doctl via snap
+              run: sudo snap install doctl
+
+            - name: Authenticate doctl
+              run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
             - name: Install PostgreSQL client
               run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
@@ -32,3 +38,24 @@ jobs:
                       GRANT ALL ON TABLES TO heirloom;
                     ALTER DEFAULT PRIVILEGES IN SCHEMA public
                       GRANT ALL ON SEQUENCES TO heirloom;
+
+            - name: Remove runner IP from DigitalOcean trusted sources
+              if: always()
+              run: |
+                  RUNNER_IP=${{ steps.get_ip.outputs.ip }}
+                  echo "Looking up rule for $RUNNER_IP..."
+
+                  # Get firewall rules in JSON
+                  RULES=$(doctl databases firewalls list ${{ secrets.DEV_DATABASE_ID }} --output json)
+
+                  echo "Current rules: $RULES"
+
+                  # Extract UUID for the rule with the matching IP
+                  RULE_ID=$(echo "$RULES" | jq -r ".[] | select(.value==\"$RUNNER_IP\") | .uuid")
+
+                  if [ -n "$RULE_ID" ] && [ "$RULE_ID" != "null" ]; then
+                  echo "Removing firewall rule $RULE_ID"
+                  doctl databases firewalls remove ${{ secrets.DEV_DATABASE_ID }} --uuid $RULE_ID
+                  else
+                  echo "⚠️ No firewall rule found for $RUNNER_IP, skipping removal."
+                  fi
