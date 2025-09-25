@@ -16,9 +16,6 @@ jobs:
             - name: Add runner IP to DigitalOcean trusted sources
               id: add_trusted
               run: |
-                  RUNNER_IP=${{ steps.get_ip.outputs.ip }}
-                  echo "Adding IP: $RUNNER_IP"
-
                   RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
                   "https://api.digitalocean.com/v2/databases/${{ secrets.DEV_DATABASE_CLUSTER_ID }}/firewall" \
                   -H "Authorization: Bearer ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}" \
@@ -27,7 +24,7 @@ jobs:
                       "rules": [
                       {
                           "type": "ip_addr",
-                          "value": "'"$RUNNER_IP"'",
+                          "value": "'"${{ steps.get_ip.outputs.ip }}"'",
                           "description": "github-action-runner"
                       }
                       ]
