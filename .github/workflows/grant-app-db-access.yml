@@ -16,6 +16,19 @@ jobs:
             - name: Install PostgreSQL client
               run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
+            - name: Get runner IPv4
+              id: get_ip
+              run: echo "ip=$(curl -4 -s ifconfig.me)" >> $GITHUB_OUTPUT
+
+            - name: Add runner IP to DigitalOcean trusted sources
+              run: |
+                  echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
+                  doctl databases firewalls append ${{ secrets.DEV_DATABASE_ID }} \
+                    --rule ip_addr:${{ steps.get_ip.outputs.ip }}
+
+              env:
+                  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
             - name: Grant heirloom user full access
               env:
                   DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
