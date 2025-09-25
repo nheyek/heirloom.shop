@@ -24,7 +24,7 @@ jobs:
                       "rules": [
                       {
                           "type": "ip_addr",
-                          "value": "'"${{ steps.get_ip.outputs.ip }}"'",
+                          "value": "${{ steps.get_ip.outputs.ip }}",
                           "description": "github-action-runner"
                       }
                       ]
