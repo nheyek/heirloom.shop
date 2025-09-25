@@ -1,4 +1,4 @@
-name: Grant Heirloom User Privileges
+name: Grant App DB Access
 
 on:
     workflow_dispatch: # run manually whenever needed
