@@ -37,7 +37,7 @@ jobs:
 
                   psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
                     -- Ensure the heirloom user can connect to the database
-                    GRANT CONNECT ON DATABASE heirloom TO heirloom;
+                    GRANT CONNECT ON DATABASE heirloomdb TO heirloom;
 
                     -- Schema privileges
                     GRANT USAGE, CREATE ON SCHEMA public TO heirloom;
