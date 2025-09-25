@@ -23,8 +23,8 @@ jobs:
               run: |
                   echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
                   doctl databases firewalls append ${{ secrets.DEV_DATABASE_CLUSTER_ID }} \
-                    --rule ip_addr:${{ steps.get_ip.outputs.ip }} \
-                    --rule-description "github-action-runner"
+                    --rule ip_addr:${{ steps.get_ip.outputs.ip }}
+
               env:
                   DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
