@@ -49,7 +49,7 @@ jobs:
                   echo "Looking up rule for $RUNNER_IP..."
 
                   # Get firewall rules in JSON
-                  RULES=$(doctl databases firewall list ${{ secrets.DEV_DATABASE_ID }} --format uuid,type,value,description --output json)
+                  RULES=$(doctl databases firewalls list ${{ secrets.DEV_DATABASE_ID }} --output json)
 
                   echo "Current rules: $RULES"
 
