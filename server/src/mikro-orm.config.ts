@@ -12,14 +12,16 @@ const config = defineConfig({
 	password: process.env.DB_PASS,
 	host: process.env.DB_HOST,
 	port: Number(process.env.DB_PORT),
-	driverOptions: {
-		connection: {
-			ssl: {
-				rejectUnauthorized: false,
-			},
-		},
-	},
-	entities: ['src/entities/**/*.js'],
+	driverOptions: isDev
+		? {}
+		: {
+				connection: {
+					ssl: {
+						rejectUnauthorized: false,
+					},
+				},
+		  },
+	entities: ['dist/server/src/entities/**/*.js'],
 	entitiesTs: ['src/entities/**/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
