@@ -10,6 +10,9 @@ jobs:
             DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
             DEV_DATABASE_ID: ${{ secrets.DEV_DATABASE_ID }}
         steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
             - id: fw
               uses: ./.github/actions/db-firewall-runner-ip-add
 
