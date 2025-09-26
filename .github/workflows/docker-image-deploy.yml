@@ -2,7 +2,10 @@ name: Build & Deploy Docker Image
 
 on:
     workflow_dispatch: {}
-    workflow_call: {}
+    workflow_call:
+        secrets:
+            DIGITALOCEAN_ACCESS_TOKEN:
+                required: true
 
 jobs:
     build:

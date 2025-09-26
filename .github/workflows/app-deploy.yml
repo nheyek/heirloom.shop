@@ -5,6 +5,7 @@ on: workflow_dispatch
 jobs:
     deploy-docker-image:
         uses: ./.github/workflows/docker-image-deploy.yml
+        secrets: inherit
 
     deploy:
         runs-on: ubuntu-latest
