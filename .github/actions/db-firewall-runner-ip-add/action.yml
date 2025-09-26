@@ -25,8 +25,6 @@ runs:
               doctl databases firewalls append $DEV_DATABASE_ID \
                 --rule ip_addr:${{ steps.get_ip.outputs.ip }}
           shell: bash
-          env:
-              DIGITALOCEAN_ACCESS_TOKEN: $DIGITALOCEAN_ACCESS_TOKEN
 
         - name: Wait for firewall propagation
           run: sleep 10
