@@ -58,12 +58,12 @@ export const LandingPage = () => {
 						<Heading size="2xl" pr="7px" flexShrink={0}>
 							Welcome to
 						</Heading>
-						<Box width={120} flexShrink={0} marginTop="2px">
+						<Box width={120} flexShrink={0} marginTop="3px">
 							<Logo fill="#000000" />
 						</Box>
 					</Box>
 
-					<Text fontSize={18} mt={4}>
+					<Text fontSize={18} mt={2}>
 						A curated marketplace for professionally handcrafted products.
 					</Text>
 					<Button size="sm" mt={4}>
