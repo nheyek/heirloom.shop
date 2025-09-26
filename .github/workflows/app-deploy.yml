@@ -15,4 +15,4 @@ jobs:
                   token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
             - name: Deploy app
-              run: doctl apps create-deployment ${{ secrets.APP_ID }}
+              run: doctl apps create-deployment ${{ secrets.DEV_APP_ID }}
