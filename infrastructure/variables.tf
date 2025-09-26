@@ -32,3 +32,9 @@ variable "trusted_ips" {
   type        = list(string)
   default     = []
 }
+
+variable "domain_prefix" {
+  description = "Domain prefix for environment, e.g. alpha, beta, staging"
+  type        = string
+  default     = ""
+}

@@ -85,6 +85,10 @@ resource "digitalocean_app" "heirloom" {
         scope = "RUN_TIME"
       }
     }
+    domain {
+      name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"
+      type = "PRIMARY"
+    }
   }
 }
 
