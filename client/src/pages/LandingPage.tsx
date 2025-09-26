@@ -48,16 +48,22 @@ export const LandingPage = () => {
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
 				<Box mx="auto" textAlign="center" mt={10}>
-					<Box mx="auto">
-						<Heading size="2xl" pr="7px" verticalAlign="top" display="inline">
+					<Box
+						mx="auto"
+						display="flex"
+						alignItems="center"
+						justifyContent="center"
+						flexWrap="nowrap"
+					>
+						<Heading size="2xl" pr="7px" flexShrink={0}>
 							Welcome to
 						</Heading>
-						<Box height={35} display="inline-block">
+						<Box height={35} flexShrink={0}>
 							<Logo fill="#000000" />
 						</Box>
 					</Box>
 
-					<Text fontSize={18}>
+					<Text fontSize={18} mt={4}>
 						A curated marketplace for professionally handcrafted products.
 					</Text>
 					<Button size="sm" mt={4}>

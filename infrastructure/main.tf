@@ -87,7 +87,7 @@ resource "digitalocean_app" "heirloom" {
     }
     domain {
       name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"
-      type = "PRIMARY"
+      type = "ALIAS"
     }
   }
 }
