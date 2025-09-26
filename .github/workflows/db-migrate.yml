@@ -26,6 +26,6 @@ jobs:
                   DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
               run: dbmate up
 
-            - uses: ./.github/actions/db-firewall-runner-ip-add
+            - uses: ./.github/actions/db-firewall-runner-ip-remove
               with:
                   ip: ${{ steps.fw.outputs.ip }}
