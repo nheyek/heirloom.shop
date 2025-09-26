@@ -1,0 +1,28 @@
+name: 'Add runner to db firewall'
+description: 'Add runner IP from DigitalOcean database cluster firewall'
+inputs:
+    ip:
+        required: true
+        description: 'Runner IP address'
+runs:
+    using: 'composite'
+    steps:
+        - name: Remove runner IP from DigitalOcean trusted sources
+          run: |
+              RUNNER_IP=${{ inputs.ip }}
+              echo "Looking up rule for $RUNNER_IP..."
+
+              # Get firewall rules in JSON
+              RULES=$(doctl databases firewalls list ${{ secrets.DEV_DATABASE_ID }} --output json)
+
+              echo "Current rules: $RULES"
+
+              # Extract UUID for the rule with the matching IP
+              RULE_ID=$(echo "$RULES" | jq -r ".[] | select(.value==\"$RUNNER_IP\") | .uuid")
+
+              if [ -n "$RULE_ID" ] && [ "$RULE_ID" != "null" ]; then
+              echo "Removing firewall rule $RULE_ID"
+              doctl databases firewalls remove ${{ secrets.DEV_DATABASE_ID }} --uuid $RULE_ID
+              else
+              echo "⚠️ No firewall rule found for $RUNNER_IP, skipping removal."
+              fi
