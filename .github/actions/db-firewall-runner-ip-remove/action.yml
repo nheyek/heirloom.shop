@@ -13,7 +13,7 @@ runs:
               echo "Looking up rule for $RUNNER_IP..."
 
               # Get firewall rules in JSON
-              RULES=$(doctl databases firewalls list ${{ secrets.DEV_DATABASE_ID }} --output json)
+              RULES=$(doctl databases firewalls list $DEV_DATABASE_ID --output json)
 
               echo "Current rules: $RULES"
 
@@ -22,7 +22,8 @@ runs:
 
               if [ -n "$RULE_ID" ] && [ "$RULE_ID" != "null" ]; then
               echo "Removing firewall rule $RULE_ID"
-              doctl databases firewalls remove ${{ secrets.DEV_DATABASE_ID }} --uuid $RULE_ID
+              doctl databases firewalls remove $DEV_DATABASE_ID --uuid $RULE_ID
               else
               echo "⚠️ No firewall rule found for $RUNNER_IP, skipping removal."
               fi
+          shell: bash

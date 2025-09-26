@@ -11,7 +11,7 @@ runs:
           shell: bash
 
         - name: Authenticate doctl
-          run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          run: doctl auth init -t $DIGITALOCEAN_ACCESS_TOKEN
           shell: bash
 
         - name: Get runner IPv4
@@ -22,11 +22,11 @@ runs:
         - name: Add runner IP to DigitalOcean trusted sources
           run: |
               echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
-              doctl databases firewalls append ${{ secrets.DEV_DATABASE_ID }} \
+              doctl databases firewalls append $DEV_DATABASE_ID \
                 --rule ip_addr:${{ steps.get_ip.outputs.ip }}
           shell: bash
           env:
-              DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+              DIGITALOCEAN_ACCESS_TOKEN: $DIGITALOCEAN_ACCESS_TOKEN
 
         - name: Wait for firewall propagation
           run: sleep 10
