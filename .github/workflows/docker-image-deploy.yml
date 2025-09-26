@@ -1,7 +1,6 @@
 name: Build & Deploy Docker Image
 
-on:
-    workflow_dispatch: {} # manual trigger
+on: workflow_dispatch
 
 jobs:
     build:
@@ -14,22 +13,6 @@ jobs:
               uses: digitalocean/action-doctl@v2
               with:
                   token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-            - name: Get runner IPv4
-              id: get_ip
-              run: echo "ip=$(curl -4 -s ifconfig.me)" >> $GITHUB_OUTPUT
-
-            - name: Add runner IP to DigitalOcean trusted sources
-              run: |
-                  echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
-                  doctl databases firewalls append ${{ secrets.DEV_DATABASE_ID }} \
-                    --rule ip_addr:${{ steps.get_ip.outputs.ip }}
-
-              env:
-                  DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
-
-            - name: Wait for firewall propagation
-              run: sleep 20
 
             - name: Log in to DO Container Registry
               run: doctl registry login
