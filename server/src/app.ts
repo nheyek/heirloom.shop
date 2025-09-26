@@ -21,7 +21,7 @@ const main = async () => {
 	app.use('/api/me', currentUserRouter);
 	app.use('/api/shops', shopRouter);
 
-	app.get('*', (req, res) => {
+	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));
 	});
 
