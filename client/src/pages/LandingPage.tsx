@@ -58,7 +58,7 @@ export const LandingPage = () => {
 						<Heading size="2xl" pr="7px" flexShrink={0}>
 							Welcome to
 						</Heading>
-						<Box height={35} flexShrink={0}>
+						<Box width={120} flexShrink={0} marginTop="2px">
 							<Logo fill="#000000" />
 						</Box>
 					</Box>
