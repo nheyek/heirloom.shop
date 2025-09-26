@@ -8,6 +8,7 @@ jobs:
         secrets: inherit
 
     deploy:
+        needs: deploy-docker-image
         runs-on: ubuntu-latest
         steps:
             - name: Install doctl
