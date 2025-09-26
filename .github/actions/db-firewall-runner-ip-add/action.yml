@@ -8,22 +8,26 @@ runs:
     steps:
         - name: Install doctl via snap
           run: sudo snap install doctl
+          shell: bash
 
         - name: Authenticate doctl
           run: doctl auth init -t ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+          shell: bash
 
         - name: Get runner IPv4
           id: get_ip
           run: echo "ip=$(curl -4 -s ifconfig.me)" >> $GITHUB_OUTPUT
+          shell: bash
 
         - name: Add runner IP to DigitalOcean trusted sources
           run: |
               echo "Adding ${{ steps.get_ip.outputs.ip }} to trusted sources..."
               doctl databases firewalls append ${{ secrets.DEV_DATABASE_ID }} \
                 --rule ip_addr:${{ steps.get_ip.outputs.ip }}
-
+          shell: bash
           env:
               DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
         - name: Wait for firewall propagation
           run: sleep 10
+          shell: bash
