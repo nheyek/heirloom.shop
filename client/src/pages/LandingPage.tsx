@@ -52,7 +52,7 @@ export const LandingPage = () => {
 						mx="auto"
 						display="flex"
 						alignItems="center"
-						justifyContent="center"
+						w="fit-content"
 						flexWrap="nowrap"
 					>
 						<Heading size="2xl" pr="7px" flexShrink={0}>
