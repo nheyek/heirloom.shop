@@ -1,3 +1,11 @@
+locals {
+  cdn_domain = (
+    var.environment == "prod"
+    ? var.cdn_custom_domain
+    : "${var.environment}.${var.cdn_custom_domain}"
+  )
+}
+
 terraform {
   required_providers {
     digitalocean = {
@@ -25,7 +33,6 @@ resource "digitalocean_database_cluster" "db" {
   region     = var.region
   node_count = 1
 }
-
 
 resource "digitalocean_app" "heirloom" {
   spec {
@@ -167,15 +174,22 @@ resource "digitalocean_spaces_bucket_cors_configuration" "cors" {
   }
 }
 
-resource "digitalocean_certificate" "cert" {
-  name    = "cdn-cert"
+resource "digitalocean_certificate" "ssl-cert" {
+  name    = "images-cdn-cert"
   type    = "lets_encrypt"
-  domains = [var.cdn_custom_domain]
+  domains = [local.cdn_domain]
 }
 
 resource "digitalocean_cdn" "images" {
   origin           = digitalocean_spaces_bucket.images.bucket_domain_name
-  custom_domain    = var.cdn_custom_domain
-  certificate_name = digitalocean_certificate.cert.name
+  custom_domain    = local.cdn_domain
+  certificate_name = digitalocean_certificate.ssl-cert.name
   ttl              = 3600
+}
+
+resource "digitalocean_record" "cdn_cname" {
+  domain = var.cdn_custom_domain
+  type   = "CNAME"
+  name   = var.environment == "prod" ? "@" : var.environment
+  value  = "${digitalocean_cdn.images.endpoint}."
 }
