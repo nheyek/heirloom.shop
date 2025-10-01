@@ -1,9 +1,3 @@
-variable "do_token" {
-  description = "DigitalOcean API token"
-  type        = string
-  sensitive   = true
-}
-
 variable "environment" {
   description = "Deployment environment (dev, staging, prod)"
   type        = string
@@ -36,5 +30,13 @@ variable "trusted_ips" {
 variable "domain_prefix" {
   description = "Domain prefix for environment, e.g. alpha, beta, staging"
   type        = string
-  default     = ""
+}
+
+variable "cors_allowed_origins" {
+  type = list(string)
+}
+
+variable "cdn_custom_domain" {
+  description = "Custom domain for CDN"
+  type        = string
 }

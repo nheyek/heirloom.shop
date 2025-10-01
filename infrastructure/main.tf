@@ -2,7 +2,7 @@ terraform {
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
-      version = "~> 2.0"
+      version = ">= 2.0"
     }
   }
 
@@ -10,7 +10,6 @@ terraform {
 }
 
 provider "digitalocean" {
-  token = var.do_token
 }
 
 resource "digitalocean_container_registry" "heirloom" {
@@ -117,4 +116,66 @@ resource "digitalocean_database_firewall" "db_app" {
       value = rule.value
     }
   }
+}
+
+resource "digitalocean_spaces_bucket" "images" {
+  name   = "heirloom-${var.environment}-images"
+  region = var.region
+  acl    = "public-read"
+
+  versioning {
+    enabled = true
+  }
+}
+
+resource "digitalocean_spaces_bucket_policy" "public_read" {
+  bucket = digitalocean_spaces_bucket.images.name
+  region = var.region
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = ["s3:GetObject"]
+        Resource = [
+          "arn:aws:s3:::${digitalocean_spaces_bucket.images.name}/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "digitalocean_spaces_bucket_cors_configuration" "cors" {
+  bucket = digitalocean_spaces_bucket.images.name
+  region = var.region
+  cors_rule {
+    allowed_methods = ["GET", "HEAD", "PUT"]
+    allowed_origins = var.cors_allowed_origins
+    allowed_headers = [
+      "*",
+      "authorization",
+      "content-type",
+      "x-amz-acl",
+      "x-amz-content-sha256",
+      "x-amz-date",
+      "x-amz-security-token"
+    ]
+    expose_headers  = ["ETag", "Location"]
+    max_age_seconds = 3000
+  }
+}
+
+resource "digitalocean_certificate" "cert" {
+  name    = "cdn-cert"
+  type    = "lets_encrypt"
+  domains = [var.cdn_custom_domain]
+}
+
+resource "digitalocean_cdn" "images" {
+  origin           = digitalocean_spaces_bucket.images.bucket_domain_name
+  custom_domain    = var.cdn_custom_domain
+  certificate_name = digitalocean_certificate.cert.name
+  ttl              = 3600
 }
