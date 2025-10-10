@@ -47,16 +47,69 @@ ALTER SEQUENCE public.app_user_id_seq OWNED BY public.app_user.id;
 
 
 --
--- Name: product; Type: TABLE; Schema: public; Owner: -
+-- Name: listing; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.product (
+CREATE TABLE public.listing (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    description_text character varying,
+    descr_rich_text text,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    category_id character varying(64),
+    subtitle character varying(256),
+    price_dollars integer DEFAULT 0 NOT NULL,
+    primary_image_uuid character varying(36),
+    shop_id integer NOT NULL
+);
+
+
+--
+-- Name: listing_category; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.listing_category (
+    id character varying(64) NOT NULL,
+    title character varying(128) NOT NULL,
+    subtitle character varying(256),
+    image_uuid character varying(36),
+    parent_id character varying(64),
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
+
+
+--
+-- Name: listing_image; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.listing_image (
+    id integer NOT NULL,
+    listing_id integer NOT NULL,
+    image_uuid character varying(36) NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: listing_image_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.listing_image_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.listing_image_id_seq OWNED BY public.listing_image.id;
 
 
 --
@@ -76,7 +129,7 @@ CREATE SEQUENCE public.product_id_seq
 -- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.product_id_seq OWNED BY public.product.id;
+ALTER SEQUENCE public.product_id_seq OWNED BY public.listing.id;
 
 
 --
@@ -94,9 +147,11 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.shop (
     id integer NOT NULL,
-    shop_name character varying(128) NOT NULL,
+    title character varying(128) NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    profile_rich_text text,
+    profile_image_uuid character varying(36)
 );
 
 
@@ -162,10 +217,17 @@ ALTER TABLE ONLY public.app_user ALTER COLUMN id SET DEFAULT nextval('public.app
 
 
 --
--- Name: product id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: listing id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.product ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+
+
+--
+-- Name: listing_image id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_image ALTER COLUMN id SET DEFAULT nextval('public.listing_image_id_seq'::regclass);
 
 
 --
@@ -191,10 +253,26 @@ ALTER TABLE ONLY public.app_user
 
 
 --
--- Name: product product_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: listing_category listing_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.product
+ALTER TABLE ONLY public.listing_category
+    ADD CONSTRAINT listing_category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing_image listing_image_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_image
+    ADD CONSTRAINT listing_image_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing product_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
     ADD CONSTRAINT product_pkey PRIMARY KEY (id);
 
 
@@ -220,6 +298,38 @@ ALTER TABLE ONLY public.shop
 
 ALTER TABLE ONLY public.shop_user_role
     ADD CONSTRAINT shop_user_role_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.listing_category(id) ON DELETE SET NULL;
+
+
+--
+-- Name: listing_category listing_category_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_category
+    ADD CONSTRAINT listing_category_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.listing_category(id) ON DELETE SET NULL;
+
+
+--
+-- Name: listing_image listing_image_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_image
+    ADD CONSTRAINT listing_image_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
+
+
+--
+-- Name: listing listing_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
 
 
 --
@@ -250,4 +360,5 @@ ALTER TABLE ONLY public.shop_user_role
 INSERT INTO public.schema_migrations (version) VALUES
     ('20250724200401'),
     ('20250805180143'),
-    ('20250913005316');
+    ('20250913005316'),
+    ('20251010152025');
