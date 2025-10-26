@@ -1,14 +1,15 @@
 import { getEm } from '../db';
-import { Product } from '../entities/Product';
+import { Listing } from '../entities/Listing';
+import { Shop } from '../entities/Shop';
 
 export const findAllProducts = async () => {
 	const em = getEm();
-	return em.find(Product, {});
+	return em.find(Listing, {});
 };
 
 export const findProductById = async (id: number) => {
 	const em = getEm();
-	return em.findOne(Product, { id });
+	return em.findOne(Listing, { id });
 };
 
 export const createProduct = async (
@@ -16,9 +17,10 @@ export const createProduct = async (
 	shopId: number,
 ) => {
 	const em = getEm();
-	const product = em.create(Product, {
+	const product = em.create(Listing, {
 		title: profileApiRequest.title,
-		descriptionText: profileApiRequest.desc,
+		descrRichText: profileApiRequest.desc,
+		shop: { id: shopId } as Shop,
 	});
 	await em.persistAndFlush(product);
 	return product.id;

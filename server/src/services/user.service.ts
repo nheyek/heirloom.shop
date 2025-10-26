@@ -1,6 +1,5 @@
 import e from 'express';
 import { getEm } from '../db';
-import { Product } from '../entities/Product';
 import { AppUser } from '../entities/AppUser';
 import { ShopUserRole } from '../entities/ShopUserRole';
 

@@ -301,6 +301,14 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
+-- Name: app_user unique_username; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_user
+    ADD CONSTRAINT unique_username UNIQUE (username);
+
+
+--
 -- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -361,4 +369,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250724200401'),
     ('20250805180143'),
     ('20250913005316'),
-    ('20251010152025');
+    ('20251010152025'),
+    ('20251023163605');

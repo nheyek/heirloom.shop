@@ -6,7 +6,7 @@ export class AppUser {
   @PrimaryKey()
   id!: number;
 
-  @Property({ length: 64 })
+  @Property({ length: 64, unique: 'unique_username' })
   username!: string;
 
   @Property({ length: 128 })

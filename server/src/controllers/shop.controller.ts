@@ -8,7 +8,7 @@ export const getShopProfile = async (req: Request, res: Response) => {
 	if (!shop) {
 		res.status(404).json({ message: 'Shop not found' });
 	}
-	res.json({ name: shop?.shopName });
+	res.json({ name: shop?.title });
 };
 
 export const addListingToShop = async (req: Request, res: Response) => {
