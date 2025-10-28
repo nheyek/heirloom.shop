@@ -32,7 +32,7 @@ export const ListingCard = (props: ListingCardData) => {
 				/>
 			</AspectRatio>
 			<Card.Body p={3}>
-				<HStack mb={3} gap={3} style={{ cursor: 'pointer' }}>
+				<HStack gap={3} mb={2} style={{ cursor: 'pointer' }}>
 					<Avatar.Root>
 						<Avatar.Image
 							src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.shopProfileImageUuid}.jpg`}
@@ -51,18 +51,10 @@ export const ListingCard = (props: ListingCardData) => {
 					{props.title}
 				</Card.Title>
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
+				<Text textStyle="xl" fontWeight="medium" mt={2}>
+					{`$${props.priceDollars.toLocaleString()}`}
+				</Text>
 			</Card.Body>
-			<Card.Footer p={3}>
-				<Box justifyContent="space-between" alignItems="center" display="flex" width="100%">
-					<Text textStyle="xl" fontWeight="medium" letterSpacing="tight">
-						{`$${props.priceDollars.toLocaleString()}`}
-					</Text>
-					<Button variant="solid" size="xs" letterSpacing="tight">
-						<MdAdd />
-						Add to cart
-					</Button>
-				</Box>
-			</Card.Footer>
 		</MotionCard>
 	);
 };
