@@ -25,7 +25,7 @@ export const ListingCard = (props: ListingCardData) => {
 			transition={{ duration: 1, ease: 'easeInOut' }}
 			overflow="hidden"
 		>
-			<AspectRatio ratio={1 / 1}>
+			<AspectRatio ratio={3 / 2}>
 				<Image
 					style={{ cursor: 'pointer' }}
 					src={`${process.env.LISTING_IMAGES_URL}/${props.primaryImageUuid}.jpg`}
