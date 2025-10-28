@@ -1,7 +1,18 @@
-import { Box, Card, Image, Text, Button, AspectRatio } from '@chakra-ui/react';
+import {
+	Box,
+	Card,
+	Image,
+	Text,
+	Button,
+	AspectRatio,
+	HStack,
+	Avatar,
+	Stack,
+} from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { MdAdd } from 'react-icons/md';
+import { IoStorefront } from 'react-icons/io5';
 
 const MotionCard = motion(Card.Root);
 
@@ -21,6 +32,21 @@ export const ListingCard = (props: ListingCardData) => {
 				/>
 			</AspectRatio>
 			<Card.Body p={3}>
+				<HStack mb={3} gap={3} style={{ cursor: 'pointer' }}>
+					<Avatar.Root>
+						<Avatar.Image
+							src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.shopProfileImageUuid}.jpg`}
+						/>
+						<Avatar.Fallback>
+							<IoStorefront />
+						</Avatar.Fallback>
+					</Avatar.Root>
+					<Stack gap="0">
+						<Text fontWeight="semibold" textStyle="sm" letterSpacing="tight">
+							{props.shopTitle}
+						</Text>
+					</Stack>
+				</HStack>
 				<Card.Title truncate style={{ cursor: 'pointer' }}>
 					{props.title}
 				</Card.Title>

@@ -5,12 +5,16 @@ DECLARE
 
     sample_shop_1_id INT := 1;
     sample_shop_1_title VARCHAR := 'Studebaker Metals';
+    sample_shop_1_profile_image_uuid VARCHAR := '231210EF-D8F8-4A33-96E0-2F8FBACD43AB';
     sample_shop_2_id INT := 2;
     sample_shop_2_title VARCHAR := 'James & James';
+    sample_shop_2_profile_image_uuid VARCHAR := 'B551B45A-8D23-4521-86D5-B1A839B877F1';
     sample_shop_3_id INT := 3;
     sample_shop_3_title VARCHAR := 'Roseland';
+    sample_shop_3_profile_image_uuid VARCHAR := '735FEC72-E5C9-499F-AE14-3265A4AA8B49';
     sample_shop_4_id INT := 4;
     sample_shop_4_title VARCHAR := 'Col. Littleton';
+    sample_shop_4_profile_image_uuid VARCHAR := '58766650-2553-48A7-A1D3-890F6274F031';
 
     sample_listing_1_id INT := 1;
     sample_listing_1_shop_id INT := sample_shop_1_id;
@@ -88,12 +92,14 @@ BEGIN
 
     INSERT INTO shop (id, title, profile_rich_text, profile_image_uuid, created_at, updated_at)
     VALUES
-        (sample_shop_1_id, sample_shop_1_title, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_2_id, sample_shop_2_title, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_3_id, sample_shop_3_title, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_4_id, sample_shop_4_title, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_shop_1_id, sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_4_id, sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         title = EXCLUDED.title,
+        profile_rich_text = EXCLUDED.profile_rich_text,
+        profile_image_uuid = EXCLUDED.profile_image_uuid,
         updated_at = CURRENT_TIMESTAMP;
     
     INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars)

@@ -6,4 +6,5 @@ export type ListingCardData = {
 	priceDollars: number;
 	primaryImageUuid: string;
 	shopTitle: string;
+	shopProfileImageUuid?: string;
 };

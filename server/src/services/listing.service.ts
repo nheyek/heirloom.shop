@@ -15,6 +15,7 @@ export const findAllListings = async (): Promise<ListingCardData[]> => {
 		priceDollars: listing.priceDollars || 0,
 		primaryImageUuid: listing.primaryImageUuid || '',
 		shopTitle: listing.shop.title,
+		shopProfileImageUuid: listing.shop.profileImageUuid,
 	}));
 };
 
