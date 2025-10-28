@@ -26,6 +26,12 @@ jobs:
                   DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
               run: dbmate up
 
+            - name: Seed data
+              env:
+                  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+              run: |
+                  bash ./db/scripts/seed_data.sh
+
             - uses: ./.github/actions/db-firewall-runner-ip-remove
               with:
                   ip: ${{ steps.fw.outputs.ip }}
