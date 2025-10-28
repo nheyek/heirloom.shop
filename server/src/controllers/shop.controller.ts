@@ -1,5 +1,5 @@
 import * as shopService from '../services/shop.service';
-import * as productService from '../services/product.service';
+import * as productService from '../services/listing.service';
 import { Request, Response } from 'express';
 import { ShopProfile } from '@common/types/ShopProfile';
 
@@ -26,7 +26,7 @@ export const addListingToShop = async (req: Request, res: Response) => {
 	}
 
 	const profileApiRequest = req.body as ShopProfile;
-	const id = productService.createProduct(profileApiRequest, shopId);
+	const id = productService.createListing(profileApiRequest, shopId);
 
 	res.status(201).json({ id });
 };

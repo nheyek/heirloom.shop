@@ -86,13 +86,14 @@ export const LandingPage = () => {
 						>
 							<AspectRatio ratio={1 / 1}>
 								<Image
-									src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-									alt="Green double couch with wooden legs"
+									src={`${process.env.LISTING_IMAGES_URL}/${product.primaryImageUuid}.jpg`}
 								/>
 							</AspectRatio>
 							<Card.Body p={3}>
-								<Card.Title>{product.title}</Card.Title>
-								<Card.Description>{product.descriptionText}</Card.Description>
+								<Card.Title truncate>{product.title}</Card.Title>
+								<Card.Description lineClamp="2">
+									{product.descrRichText}
+								</Card.Description>
 							</Card.Body>
 							<Card.Footer p={3}>
 								<Box

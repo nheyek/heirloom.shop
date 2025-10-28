@@ -1,7 +1,7 @@
 import express from 'express';
 import 'reflect-metadata';
 import { initORM } from './db';
-import productRouter from './routes/product.routes';
+import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
 import shopRouter from './routes/shop.routes';
 import dotenvFlow from 'dotenv-flow';
@@ -17,7 +17,7 @@ const main = async () => {
 	app.use(express.json());
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	app.use('/api/products', productRouter);
+	app.use('/api/products', listingRouter);
 	app.use('/api/me', currentUserRouter);
 	app.use('/api/shops', shopRouter);
 

@@ -1,5 +1,6 @@
 export type Product = {
-    id: number,
-    title: string,
-    descriptionText: string
+	id: number;
+	title: string;
+	descrRichText: string;
+	primaryImageUuid: string;
 };
