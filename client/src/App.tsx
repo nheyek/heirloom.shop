@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Product } from './models/Product';
 import { Route, Routes } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import { LandingPage } from './pages/LandingPage';

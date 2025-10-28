@@ -1,10 +1,21 @@
 import { getEm } from '../db';
 import { Listing } from '../entities/Listing';
 import { Shop } from '../entities/Shop';
+import { ListingCardData } from '@common/types/ListingCardData';
 
-export const findAllListings = async () => {
+export const findAllListings = async (): Promise<ListingCardData[]> => {
 	const em = getEm();
-	return em.find(Listing, {});
+	const listings = await em.find(Listing, {});
+
+	return listings.map((listing) => ({
+		id: listing.id,
+		title: listing.title,
+		subtitle: listing.subtitle || '',
+		categoryId: listing.category ? listing.category.id.toString() : '',
+		priceDollars: listing.priceDollars || 0,
+		primaryImageUuid: listing.primaryImageUuid || '',
+		shopTitle: listing.shop.title,
+	}));
 };
 
 export const findListingById = async (id: number) => {

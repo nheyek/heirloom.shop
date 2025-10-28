@@ -16,20 +16,18 @@ import {
 	Center,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { Product } from '../models/Product';
 import useApi from '../hooks/useApi';
-import { useAuth0 } from '@auth0/auth0-react';
-import { LoginButton } from '../components/LoginButton';
-import { CgDetailsMore } from 'react-icons/cg';
 import { motion } from 'framer-motion';
 import { Logo } from '../components/Logo';
+import { MdAdd } from 'react-icons/md';
+import { ListingCardData } from '@common/types/ListingCardData';
 
 const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4 };
 
 const MotionCard = motion(Card.Root);
 
 export const LandingPage = () => {
-	const [products, setProducts] = useState<Product[]>([]);
+	const [products, setProducts] = useState<ListingCardData[]>([]);
 	const { getPublicResource } = useApi();
 
 	const loadProducts = async () => {
@@ -71,7 +69,7 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
-				<Heading size="3xl" mt={8} mb={2}>
+				<Heading size="3xl" mt={6} mb={2}>
 					All Products
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
@@ -83,16 +81,20 @@ export const LandingPage = () => {
 							initial={{ opacity: 0 }}
 							animate={{ opacity: 1 }}
 							transition={{ duration: 1, ease: 'easeInOut' }}
+							overflow="hidden"
 						>
 							<AspectRatio ratio={1 / 1}>
 								<Image
+									style={{ cursor: 'pointer' }}
 									src={`${process.env.LISTING_IMAGES_URL}/${product.primaryImageUuid}.jpg`}
 								/>
 							</AspectRatio>
 							<Card.Body p={3}>
-								<Card.Title truncate>{product.title}</Card.Title>
+								<Card.Title truncate style={{ cursor: 'pointer' }}>
+									{product.title}
+								</Card.Title>
 								<Card.Description lineClamp="2">
-									{product.descrRichText}
+									{product.subtitle}
 								</Card.Description>
 							</Card.Body>
 							<Card.Footer p={3}>
@@ -103,11 +105,11 @@ export const LandingPage = () => {
 									width="100%"
 								>
 									<Text textStyle="xl" fontWeight="medium" letterSpacing="tight">
-										$450
+										{`$${product.priceDollars.toLocaleString()}`}
 									</Text>
-									<Button variant="solid" size="xs">
-										Details
-										<CgDetailsMore />
+									<Button variant="solid" size="xs" letterSpacing="tight">
+										<MdAdd />
+										Add to cart
 									</Button>
 								</Box>
 							</Card.Footer>
