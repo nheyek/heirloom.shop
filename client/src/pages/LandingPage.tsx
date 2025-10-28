@@ -21,13 +21,12 @@ import { motion } from 'framer-motion';
 import { Logo } from '../components/Logo';
 import { MdAdd } from 'react-icons/md';
 import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingCard } from '../components/ListingCard';
 
 const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4 };
 
-const MotionCard = motion(Card.Root);
-
 export const LandingPage = () => {
-	const [products, setProducts] = useState<ListingCardData[]>([]);
+	const [listings, setProducts] = useState<ListingCardData[]>([]);
 	const { getPublicResource } = useApi();
 
 	const loadProducts = async () => {
@@ -73,47 +72,10 @@ export const LandingPage = () => {
 					All Products
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
-					{products.length === 0 &&
+					{listings.length === 0 &&
 						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={200} />)}
-					{products.map((product) => (
-						<MotionCard
-							key={product.id}
-							initial={{ opacity: 0 }}
-							animate={{ opacity: 1 }}
-							transition={{ duration: 1, ease: 'easeInOut' }}
-							overflow="hidden"
-						>
-							<AspectRatio ratio={1 / 1}>
-								<Image
-									style={{ cursor: 'pointer' }}
-									src={`${process.env.LISTING_IMAGES_URL}/${product.primaryImageUuid}.jpg`}
-								/>
-							</AspectRatio>
-							<Card.Body p={3}>
-								<Card.Title truncate style={{ cursor: 'pointer' }}>
-									{product.title}
-								</Card.Title>
-								<Card.Description lineClamp="2">
-									{product.subtitle}
-								</Card.Description>
-							</Card.Body>
-							<Card.Footer p={3}>
-								<Box
-									justifyContent="space-between"
-									alignItems="center"
-									display="flex"
-									width="100%"
-								>
-									<Text textStyle="xl" fontWeight="medium" letterSpacing="tight">
-										{`$${product.priceDollars.toLocaleString()}`}
-									</Text>
-									<Button variant="solid" size="xs" letterSpacing="tight">
-										<MdAdd />
-										Add to cart
-									</Button>
-								</Box>
-							</Card.Footer>
-						</MotionCard>
+					{listings.map((listing) => (
+						<ListingCard key={listing.id} {...listing} />
 					))}
 				</SimpleGrid>
 			</Box>

@@ -5,7 +5,7 @@ import { ListingCardData } from '@common/types/ListingCardData';
 
 export const findAllListings = async (): Promise<ListingCardData[]> => {
 	const em = getEm();
-	const listings = await em.find(Listing, {});
+	const listings = await em.find(Listing, {}, { populate: ['shop'] });
 
 	return listings.map((listing) => ({
 		id: listing.id,
