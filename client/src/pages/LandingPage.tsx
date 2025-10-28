@@ -31,7 +31,7 @@ export const LandingPage = () => {
 	const { getPublicResource } = useApi();
 
 	const loadProducts = async () => {
-		getPublicResource('products').then((products) => {
+		getPublicResource('listings').then((products) => {
 			setProducts(products.data);
 		});
 	};

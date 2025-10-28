@@ -17,7 +17,7 @@ const main = async () => {
 	app.use(express.json());
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	app.use('/api/products', listingRouter);
+	app.use('/api/listings', listingRouter);
 	app.use('/api/me', currentUserRouter);
 	app.use('/api/shops', shopRouter);
 
