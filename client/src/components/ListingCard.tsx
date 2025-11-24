@@ -8,11 +8,13 @@ import {
 	HStack,
 	Avatar,
 	Stack,
+	Flex,
 } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { MdAdd } from 'react-icons/md';
 import { IoStorefront } from 'react-icons/io5';
+import { FaShop } from 'react-icons/fa6';
 
 const MotionCard = motion(Card.Root);
 
@@ -32,25 +34,17 @@ export const ListingCard = (props: ListingCardData) => {
 				/>
 			</AspectRatio>
 			<Card.Body p={3}>
-				<HStack gap={3} mb={2} style={{ cursor: 'pointer' }}>
-					<Avatar.Root>
-						<Avatar.Image
-							src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.shopProfileImageUuid}.jpg`}
-						/>
-						<Avatar.Fallback>
-							<IoStorefront />
-						</Avatar.Fallback>
-					</Avatar.Root>
-					<Stack gap="0">
-						<Text fontWeight="semibold" textStyle="sm" letterSpacing="tight">
-							{props.shopTitle}
-						</Text>
-					</Stack>
-				</HStack>
 				<Card.Title truncate style={{ cursor: 'pointer' }}>
 					{props.title}
 				</Card.Title>
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
+				<Flex direction={'row'} alignItems="center" mt={2} gap={2} cursor="pointer">
+					<FaShop />
+					<Text fontWeight="semibold" textStyle="sm" letterSpacing="tight">
+						{props.shopTitle}
+					</Text>
+				</Flex>
+
 				<Text textStyle="xl" fontWeight="medium" mt={2}>
 					{`$${props.priceDollars.toLocaleString()}`}
 				</Text>
