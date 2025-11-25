@@ -64,7 +64,7 @@ export const LandingPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Box mx="auto" textAlign="center" mt="30px">
+				<Box mx="auto" textAlign="center" mt="36px">
 					<Box
 						mx="auto"
 						display="flex"
@@ -88,13 +88,13 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="30px">
+				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="36px">
 					{categories.map((category) => (
 						<CategoryCard key={category.id} {...category} />
 					))}
 				</SimpleGrid>
 
-				<Heading size="3xl" mt="50px" mb={2}>
+				<Heading size="3xl" mt="48px" mb={2}>
 					Makers
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
@@ -103,7 +103,7 @@ export const LandingPage = () => {
 					))}
 				</SimpleGrid>
 
-				<Heading size="3xl" mt="50px" mb={2}>
+				<Heading size="3xl" mt="48px" mb={2}>
 					Featured
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>

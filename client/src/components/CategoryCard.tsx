@@ -21,7 +21,7 @@ export const CategoryCard = (props: CategoryCardData) => {
 				fontWeight="500"
 				style={{
 					color: '#FFF',
-					backdropFilter: 'blur(2.5px)',
+					backdropFilter: 'blur(3px)',
 				}}
 			>
 				{props.title}
