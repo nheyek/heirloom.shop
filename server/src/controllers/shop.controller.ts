@@ -2,6 +2,12 @@ import * as shopService from '../services/shop.service';
 import * as productService from '../services/listing.service';
 import { Request, Response } from 'express';
 import { ShopProfile } from '@common/types/ShopProfile';
+import { mapShopToShopCardData } from '../mappers/shop.mapper';
+
+export const getAllShops = async (req: Request, res: Response) => {
+	const shops = await shopService.findShops();
+	res.json(shops.map(mapShopToShopCardData));
+};
 
 export const getShopProfile = async (req: Request, res: Response) => {
 	const shop = await shopService.findShopById(Number(req.params.id));

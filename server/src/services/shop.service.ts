@@ -2,6 +2,11 @@ import { getEm } from '../db';
 import { Shop } from '../entities/Shop';
 import { ShopUserRole } from '../entities/ShopUserRole';
 
+export const findShops = async () => {
+	const em = getEm();
+	return em.find(Shop, {});
+};
+
 export const findShopById = async (id: number) => {
 	const em = getEm();
 	return em.findOne(Shop, { id });

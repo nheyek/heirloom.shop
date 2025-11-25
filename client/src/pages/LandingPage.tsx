@@ -25,38 +25,27 @@ import { ListingCard } from '../components/ListingCard';
 import { CategoryCard } from '../components/CategoryCard';
 import { ShopCard } from '../components/ShopCard';
 import { CategoryCardData } from '@common/types/CategoryCardData';
+import { ShopCardData } from '@common/types/ShopCardData';
 
 const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4 };
 
 export const LandingPage = () => {
-	const [categories, setCategories] = useState<CategoryCardData[]>([
-		{
-			id: 'LEATHERWORK',
-			title: 'Leatherwork',
-			imageUuid: 'EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C',
-		},
-		{
-			id: 'JEWELRY',
-			title: 'Jewelry',
-			imageUuid: 'FC6E4450-CC01-4562-AB3E-AC6939632101',
-		},
-		{
-			id: 'FURNITURE',
-			title: 'Furniture',
-			imageUuid: 'A001F100-46F9-4ECC-9A11-9CCDCA15F7F8',
-		},
-	]);
-	const [shops, setShops] = useState([
-		{
-			id: 1,
-			title: 'Studebaker Metals',
-			location: 'Pittsburgh, PA',
-			categoryIds: ['JEWELRY'],
-			profileImageUuid: '231210EF-D8F8-4A33-96E0-2F8FBACD43AB',
-		},
-	]);
+	const [categories, setCategories] = useState<CategoryCardData[]>([]);
+	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [listings, setProducts] = useState<ListingCardData[]>([]);
 	const { getPublicResource } = useApi();
+
+	const loadTopLevelCategories = async () => {
+		getPublicResource('categories/topLevel').then((categories) => {
+			setCategories(categories.data);
+		});
+	};
+
+	const loadShops = async () => {
+		getPublicResource('shops').then((shops) => {
+			setShops(shops.data);
+		});
+	};
 
 	const loadProducts = async () => {
 		getPublicResource('listings').then((products) => {
@@ -65,6 +54,8 @@ export const LandingPage = () => {
 	};
 
 	useEffect(() => {
+		loadTopLevelCategories();
+		loadShops();
 		loadProducts();
 	}, []);
 
@@ -73,7 +64,7 @@ export const LandingPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Box mx="auto" textAlign="center" mt="40px">
+				<Box mx="auto" textAlign="center" mt="30px">
 					<Box
 						mx="auto"
 						display="flex"
@@ -97,28 +88,22 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="40px">
+				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="30px">
 					{categories.map((category) => (
 						<CategoryCard key={category.id} {...category} />
 					))}
 				</SimpleGrid>
 
-				<Heading size="3xl" mt={6} mb={2}>
+				<Heading size="3xl" mt="50px" mb={2}>
 					Makers
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
 					{shops.map((cardData) => (
-						<ShopCard
-							key={cardData.id}
-							{...cardData}
-							categoryTitles={cardData.categoryIds.map(
-								(id) => categories.find((category) => category.id === id)?.title,
-							)}
-						/>
+						<ShopCard key={cardData.id} {...cardData} />
 					))}
 				</SimpleGrid>
 
-				<Heading size="3xl" mt={6} mb={2}>
+				<Heading size="3xl" mt="50px" mb={2}>
 					Featured
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>

@@ -1,7 +1,7 @@
 export type ShopCardData = {
 	id: number;
 	title: string;
-	location: string;
-	categoryIds: string[];
+	location?: string;
+	classification?: string;
 	profileImageUuid?: string;
 };

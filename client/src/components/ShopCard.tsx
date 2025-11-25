@@ -4,9 +4,7 @@ import { ShopCardData } from '@common/types/ShopCardData';
 import { FaLocationDot } from 'react-icons/fa6';
 import { MdCategory } from 'react-icons/md';
 
-type Props = ShopCardData & { categoryTitles: (string | undefined)[] };
-
-export const ShopCard = (props: Props) => {
+export const ShopCard = (props: ShopCardData) => {
 	return (
 		<Card.Root overflow="hidden">
 			<AspectRatio ratio={3 / 2}>
@@ -25,7 +23,7 @@ export const ShopCard = (props: Props) => {
 					</Box>
 					<Box>
 						<Text fontWeight="500" textStyle="sm" letterSpacing="tight">
-							{props.categoryTitles.filter((title) => title).join(', ')}
+							{props.classification}
 						</Text>
 					</Box>
 					<Box display="flex" alignItems="center">
