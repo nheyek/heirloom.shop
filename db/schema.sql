@@ -151,7 +151,9 @@ CREATE TABLE public.shop (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     profile_rich_text text,
-    profile_image_uuid character varying(36)
+    profile_image_uuid character varying(36),
+    shop_location character varying(64),
+    classification character varying(32)
 );
 
 
@@ -370,4 +372,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250805180143'),
     ('20250913005316'),
     ('20251010152025'),
-    ('20251023163605');
+    ('20251023163605'),
+    ('20251125181457');

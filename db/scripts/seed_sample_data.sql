@@ -6,15 +6,38 @@ DECLARE
     sample_shop_1_id INT := 1;
     sample_shop_1_title VARCHAR := 'Studebaker Metals';
     sample_shop_1_profile_image_uuid VARCHAR := '231210EF-D8F8-4A33-96E0-2F8FBACD43AB';
+    sample_shop_1_location VARCHAR := 'Pittsburgh, PA';
+    sample_shop_1_classification VARCHAR := 'Jewelry & Accessories';
+
     sample_shop_2_id INT := 2;
     sample_shop_2_title VARCHAR := 'James & James';
-    sample_shop_2_profile_image_uuid VARCHAR := 'B551B45A-8D23-4521-86D5-B1A839B877F1';
+    sample_shop_2_profile_image_uuid VARCHAR := '7D60F8F7-ACEC-4A2F-9E80-C5ED6F82A0DA';
+    sample_shop_2_location VARCHAR := 'Springdale, AR';
+    sample_shop_2_classification VARCHAR := 'Hardwood Furniture';
+
     sample_shop_3_id INT := 3;
     sample_shop_3_title VARCHAR := 'Roseland';
-    sample_shop_3_profile_image_uuid VARCHAR := '735FEC72-E5C9-499F-AE14-3265A4AA8B49';
+    sample_shop_3_profile_image_uuid VARCHAR := '0D35A7E4-68BD-4986-9CAC-4A343FA66269';
+    sample_shop_3_location VARCHAR := 'Hudson Valley, NY';
+    sample_shop_3_classification VARCHAR := 'Furniture & Housewares';
+
     sample_shop_4_id INT := 4;
     sample_shop_4_title VARCHAR := 'Col. Littleton';
-    sample_shop_4_profile_image_uuid VARCHAR := '58766650-2553-48A7-A1D3-890F6274F031';
+    sample_shop_4_profile_image_uuid VARCHAR := '395AD65D-8673-44D7-A2D2-5CD8A5F95BED';
+    sample_shop_4_location VARCHAR := 'Lynnville, TN';
+    sample_shop_4_classification VARCHAR := 'Traditional Leather Goods';
+
+    sample_shop_5_id INT := 5;
+    sample_shop_5_title VARCHAR := 'Michael Michaud';
+    sample_shop_5_profile_image_uuid VARCHAR := 'AAE995C6-30AE-4F23-A594-7F160A1D5A05';
+    sample_shop_5_location VARCHAR := 'New York';
+    sample_shop_5_classification VARCHAR := 'Botanical Jewelry';
+
+    sample_shop_6_id INT := 6;
+    sample_shop_6_title VARCHAR := 'Match Pewter';
+    sample_shop_6_profile_image_uuid VARCHAR := '22FAADA4-C657-408E-ABCB-7B5DE388BD9C';
+    sample_shop_6_location VARCHAR := 'Brescia, Italy';
+    sample_shop_6_classification VARCHAR := 'Italian Handmade Pewter';
 
     sample_listing_1_id INT := 1;
     sample_listing_1_shop_id INT := sample_shop_1_id;
@@ -90,16 +113,20 @@ DECLARE
 
 BEGIN
 
-    INSERT INTO shop (id, title, profile_rich_text, profile_image_uuid, created_at, updated_at)
+    INSERT INTO shop (id, title, profile_rich_text, profile_image_uuid, shop_location, classification, created_at, updated_at)
     VALUES
-        (sample_shop_1_id, sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_2_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_3_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_4_id, sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_shop_1_id, sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_4_id, sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_5_id, sample_shop_5_title, NULL, sample_shop_5_profile_image_uuid, sample_shop_5_location, sample_shop_5_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_6_id, sample_shop_6_title, NULL, sample_shop_6_profile_image_uuid, sample_shop_6_location, sample_shop_6_classification, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         title = EXCLUDED.title,
         profile_rich_text = EXCLUDED.profile_rich_text,
         profile_image_uuid = EXCLUDED.profile_image_uuid,
+        shop_location = EXCLUDED.shop_location,
+        classification = EXCLUDED.classification,
         updated_at = CURRENT_TIMESTAMP;
     
     INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars)

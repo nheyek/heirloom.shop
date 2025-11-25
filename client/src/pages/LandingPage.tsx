@@ -73,7 +73,7 @@ export const LandingPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Box mx="auto" textAlign="center" mt={10}>
+				<Box mx="auto" textAlign="center" mt="40px">
 					<Box
 						mx="auto"
 						display="flex"
@@ -89,15 +89,15 @@ export const LandingPage = () => {
 						</Box>
 					</Box>
 
-					<Text fontSize={18} mt={2}>
-						A curated marketplace for professionally handcrafted products.
+					<Text fontSize={18} mt="5px">
+						An exhibition of American and European craftsmanship.
 					</Text>
-					<Button size="sm" mt={4}>
+					<Button size="sm" mt="10px">
 						Learn more
 					</Button>
 				</Box>
 
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt={10}>
+				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="40px">
 					{categories.map((category) => (
 						<CategoryCard key={category.id} {...category} />
 					))}
@@ -119,7 +119,7 @@ export const LandingPage = () => {
 				</SimpleGrid>
 
 				<Heading size="3xl" mt={6} mb={2}>
-					Trending
+					Featured
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
 					{listings.length === 0 &&

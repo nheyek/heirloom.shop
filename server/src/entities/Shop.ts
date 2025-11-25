@@ -21,4 +21,10 @@ export class Shop {
   @Property({ length: 36, nullable: true })
   profileImageUuid?: string;
 
+  @Property({ length: 64, nullable: true })
+  shopLocation?: string;
+
+  @Property({ length: 32, nullable: true })
+  classification?: string;
+
 }
