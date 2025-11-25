@@ -22,10 +22,39 @@ import { Logo } from '../components/Logo';
 import { MdAdd } from 'react-icons/md';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingCard } from '../components/ListingCard';
+import { CategoryCard } from '../components/CategoryCard';
+import { ShopCard } from '../components/ShopCard';
+import { CategoryCardData } from '@common/types/CategoryCardData';
 
 const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4 };
 
 export const LandingPage = () => {
+	const [categories, setCategories] = useState<CategoryCardData[]>([
+		{
+			id: 'LEATHERWORK',
+			title: 'Leatherwork',
+			imageUuid: 'EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C',
+		},
+		{
+			id: 'JEWELRY',
+			title: 'Jewelry',
+			imageUuid: 'FC6E4450-CC01-4562-AB3E-AC6939632101',
+		},
+		{
+			id: 'FURNITURE',
+			title: 'Furniture',
+			imageUuid: 'A001F100-46F9-4ECC-9A11-9CCDCA15F7F8',
+		},
+	]);
+	const [shops, setShops] = useState([
+		{
+			id: 1,
+			title: 'Studebaker Metals',
+			location: 'Pittsburgh, PA',
+			categoryIds: ['JEWELRY'],
+			profileImageUuid: '231210EF-D8F8-4A33-96E0-2F8FBACD43AB',
+		},
+	]);
 	const [listings, setProducts] = useState<ListingCardData[]>([]);
 	const { getPublicResource } = useApi();
 
@@ -68,14 +97,35 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
+				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt={10}>
+					{categories.map((category) => (
+						<CategoryCard key={category.id} {...category} />
+					))}
+				</SimpleGrid>
+
 				<Heading size="3xl" mt={6} mb={2}>
-					All Products
+					Makers
+				</Heading>
+				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
+					{shops.map((cardData) => (
+						<ShopCard
+							key={cardData.id}
+							{...cardData}
+							categoryTitles={cardData.categoryIds.map(
+								(id) => categories.find((category) => category.id === id)?.title,
+							)}
+						/>
+					))}
+				</SimpleGrid>
+
+				<Heading size="3xl" mt={6} mb={2}>
+					Trending
 				</Heading>
 				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
 					{listings.length === 0 &&
 						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={200} />)}
 					{listings.map((listing) => (
-						<ListingCard key={listing.id} {...listing} />
+						<ListingCard showMaker key={listing.id} {...listing} />
 					))}
 				</SimpleGrid>
 			</Box>
