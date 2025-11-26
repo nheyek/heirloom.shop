@@ -5,6 +5,7 @@ export const CategoryCard = (props: CategoryCardData) => {
 	return (
 		<Box borderRadius={5} overflow="hidden" position="relative" cursor="pointer">
 			<Image
+				height="100%"
 				aspectRatio={3 / 2}
 				src={`https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`}
 			></Image>
