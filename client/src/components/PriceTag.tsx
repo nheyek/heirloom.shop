@@ -16,7 +16,7 @@ export function PriceTag({ value }: PriceTagProps) {
 			color="#FFFFFF"
 			width="fit-content"
 			paddingLeft="27.5px"
-			paddingRight="10px"
+			paddingRight="7.5px"
 			paddingY="2.5px"
 			style={{
 				clipPath: 'polygon(0 50%, 10px 100%, 100% 100%, 100% 0, 10px 0)',

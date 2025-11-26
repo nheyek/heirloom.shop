@@ -16,6 +16,7 @@ import { MdAdd } from 'react-icons/md';
 import { IoStorefront } from 'react-icons/io5';
 import { FaShop } from 'react-icons/fa6';
 import { PriceTag } from './PriceTag';
+import { CircleFlag } from 'react-circle-flags';
 
 const MotionCard = motion(Card.Root);
 
@@ -55,9 +56,12 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 					</Flex>
 				)}
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
-				<Box marginTop="10px">
+				<Flex justifyContent="space-between" alignItems="center" marginTop="10px">
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
-				</Box>
+					<Box width="30px">
+						<CircleFlag countryCode="us" />
+					</Box>
+				</Flex>
 			</Card.Body>
 		</MotionCard>
 	);
