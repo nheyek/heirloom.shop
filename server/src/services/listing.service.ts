@@ -1,11 +1,20 @@
+import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
 import { Listing } from '../entities/Listing';
 import { Shop } from '../entities/Shop';
 import { ListingCardData } from '@common/types/ListingCardData';
 
-export const findAllListings = async (): Promise<ListingCardData[]> => {
+export const findFeaturedListings = async (): Promise<ListingCardData[]> => {
 	const em = getEm();
-	const listings = await em.find(Listing, {}, { populate: ['shop', 'country'] });
+	const listings = await em.find(
+		Listing,
+		{},
+		{
+			populate: ['shop', 'country'],
+			orderBy: { [sql`RANDOM()`]: 'asc' },
+			limit: 8,
+		},
+	);
 
 	return listings.map((listing) => ({
 		id: listing.id,

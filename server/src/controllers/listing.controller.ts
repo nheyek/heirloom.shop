@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import * as listingService from '../services/listing.service';
 
 export const getAllListings = async (req: Request, res: Response) => {
-	const listings = await listingService.findAllListings();
+	const listings = await listingService.findFeaturedListings();
 	res.json(listings);
 };
 
