@@ -58,9 +58,11 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
 				<Flex justifyContent="space-between" alignItems="center" marginTop="10px">
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
-					<Box width="30px">
-						<CircleFlag countryCode="us" />
-					</Box>
+					{props.countryCode && (
+						<Box width="30px">
+							<CircleFlag countryCode={props.countryCode.toLowerCase()} />
+						</Box>
+					)}
 				</Flex>
 			</Card.Body>
 		</MotionCard>

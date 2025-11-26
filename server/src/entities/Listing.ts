@@ -1,4 +1,5 @@
 import { Entity, ManyToOne, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
 import { Shop } from './Shop';
 
@@ -34,5 +35,8 @@ export class Listing {
 
   @ManyToOne({ entity: () => Shop, deleteRule: 'cascade' })
   shop!: Shop;
+
+  @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
+  country?: Country;
 
 }

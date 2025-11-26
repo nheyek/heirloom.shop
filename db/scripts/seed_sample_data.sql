@@ -46,6 +46,7 @@ DECLARE
     sample_listing_1_title VARCHAR := 'Chain-Link Bracelet';
     sample_listing_1_subtitle VARCHAR := '7mm wide curb chain with hand-formed closure.';
     sample_listing_1_price_dollars INT := 200;
+    sample_listing_1_country_code CHAR(2) := 'US';
 
     sample_listing_2_id INT := 2;
     sample_listing_2_shop_id INT := sample_shop_1_id;
@@ -54,6 +55,8 @@ DECLARE
     sample_listing_2_title VARCHAR := 'Cuff Bracelet';
     sample_listing_2_subtitle VARCHAR := 'Hand-forged, classic straight body cuff bracelet.';
     sample_listing_2_price_dollars INT := 125;
+    sample_listing_2_country_code CHAR(2) := 'US';
+
 
     sample_listing_3_id INT := 3;
     sample_listing_3_shop_id INT := sample_shop_1_id;
@@ -62,6 +65,8 @@ DECLARE
     sample_listing_3_title VARCHAR := 'Band Ring';
     sample_listing_3_subtitle VARCHAR := 'Solid silver or brass band ring in a variety of widths.';
     sample_listing_3_price_dollars INT := 80;
+    sample_listing_3_country_code CHAR(2) := 'US';
+
 
     sample_listing_4_id INT := 4;
     sample_listing_4_shop_id INT := sample_shop_1_id;
@@ -70,6 +75,8 @@ DECLARE
     sample_listing_4_title VARCHAR := 'Signet Ring';
     sample_listing_4_subtitle VARCHAR := 'Classic signet ring with a distinct hand-filed texture on the sides and body of the ring, showing the marks of tool used carve and refine its shape';
     sample_listing_4_price_dollars INT := 45;
+    sample_listing_4_country_code CHAR(2) := 'US';
+
 
     sample_listing_5_id INT := 5;
     sample_listing_5_shop_id INT := sample_shop_2_id;
@@ -78,6 +85,8 @@ DECLARE
     sample_listing_5_title VARCHAR := 'Allyson Dining Table';
     sample_listing_5_subtitle VARCHAR := 'Crafted from Alder hardwood, this turned-leg table exudes timeless allure, transforming any dining space into a haven of sophistication and charm.';
     sample_listing_5_price_dollars INT := 2967;
+    sample_listing_5_country_code CHAR(2) := 'US';
+
 
     sample_listing_6_id INT := 6;
     sample_listing_6_shop_id INT := sample_shop_2_id;
@@ -86,6 +95,8 @@ DECLARE
     sample_listing_6_title VARCHAR := 'Floating Top Coffee Table';
     sample_listing_6_subtitle VARCHAR := 'A symbol of meticulous design and enduring quality, the Floating Top Coffee Table showcases a stylishly jointed solid hardwood top that epitomizes seamless beauty and resilience.';
     sample_listing_6_price_dollars INT := 2061;
+    sample_listing_6_country_code CHAR(2) := 'US';
+
 
     sample_listing_7_id INT := 7;
     sample_listing_7_shop_id INT := sample_shop_3_id;
@@ -94,6 +105,7 @@ DECLARE
     sample_listing_7_title VARCHAR := 'Stissing Cocktail Table';
     sample_listing_7_subtitle VARCHAR := 'Hand-forged in Maine, by Matt Foster and the Black Dog Ironworks team, our Martini table was designed for our tavern, Stissing House, in Pine Plains, NY.';
     sample_listing_7_price_dollars INT := 390;
+    sample_listing_7_country_code CHAR(2) := 'US';
 
     sample_listing_8_id INT := 8;
     sample_listing_8_shop_id INT := sample_shop_4_id;
@@ -102,6 +114,8 @@ DECLARE
     sample_listing_8_title VARCHAR := 'No. 1943 Navigator Briefcase';
     sample_listing_8_subtitle VARCHAR := 'Stand out with this timeless WWII-inspired full-grain American Buffalo leather briefcase. Meticulously handcrafted in America.';
     sample_listing_8_price_dollars INT := 1160;
+    sample_listing_8_country_code CHAR(2) := 'US';
+
 
     sample_listing_9_id INT := 9;
     sample_listing_9_shop_id INT := sample_shop_4_id;
@@ -110,6 +124,18 @@ DECLARE
     sample_listing_9_title VARCHAR := 'No. 2 Leather Duffel Bag';
     sample_listing_9_subtitle VARCHAR := 'The ultimate weekender/carry-on bag in easy-going, dry-milled American Buffalo.';
     sample_listing_9_price_dollars INT := 1340;
+    sample_listing_9_country_code CHAR(2) := 'US';
+
+
+    sample_listing_10_id INT := 10;
+    sample_listing_10_shop_id INT := sample_shop_6_id;
+    sample_listing_10_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_10_primary_image_uuid VARCHAR := '52EC9AC7-82EC-4BE8-ABF0-E49A5C71FB31';
+    sample_listing_10_title VARCHAR := 'Prato Candlestick, Small, Pair';
+    sample_listing_10_subtitle VARCHAR := 'This smaller version of our Prato candlestick is one of our best sellers. These versatile pewter candlesticks are a great way to add that warm glow to a special dinner for two. Or try them dotting the table in multiples to light up a special celebration.';
+    sample_listing_10_price_dollars INT := 163;
+    sample_listing_10_country_code CHAR(2) := 'IT';
+
 
 BEGIN
 
@@ -129,17 +155,18 @@ BEGIN
         classification = EXCLUDED.classification,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars)
+    INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars, country_code)
     VALUES
-        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_primary_image_uuid, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars),
-        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_primary_image_uuid, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars),
-        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_primary_image_uuid, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars),
-        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_primary_image_uuid, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars),
-        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_primary_image_uuid, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars),
-        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_primary_image_uuid, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars),
-        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_primary_image_uuid, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars),
-        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_primary_image_uuid, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars),
-        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_primary_image_uuid, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars)
+        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_primary_image_uuid, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_country_code),
+        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_primary_image_uuid, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_country_code),
+        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_primary_image_uuid, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_country_code),
+        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_primary_image_uuid, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_country_code),
+        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_primary_image_uuid, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_country_code),
+        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_primary_image_uuid, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_country_code),
+        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_primary_image_uuid, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_country_code),
+        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_primary_image_uuid, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_country_code),
+        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_primary_image_uuid, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_country_code),
+        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_primary_image_uuid, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_country_code)
     ON CONFLICT (id) DO UPDATE SET
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
@@ -148,6 +175,7 @@ BEGIN
         subtitle = EXCLUDED.subtitle,
         descr_rich_text = EXCLUDED.descr_rich_text,
         price_dollars = EXCLUDED.price_dollars,
+        country_code = EXCLUDED.country_code,
         updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;

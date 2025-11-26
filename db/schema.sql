@@ -47,6 +47,16 @@ ALTER SEQUENCE public.app_user_id_seq OWNED BY public.app_user.id;
 
 
 --
+-- Name: country; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.country (
+    code character(2) NOT NULL,
+    name character varying(128) NOT NULL
+);
+
+
+--
 -- Name: listing; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -60,7 +70,8 @@ CREATE TABLE public.listing (
     subtitle character varying(256),
     price_dollars integer DEFAULT 0 NOT NULL,
     primary_image_uuid character varying(36),
-    shop_id integer NOT NULL
+    shop_id integer NOT NULL,
+    country_code character(2)
 );
 
 
@@ -255,6 +266,14 @@ ALTER TABLE ONLY public.app_user
 
 
 --
+-- Name: country country_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.country
+    ADD CONSTRAINT country_pkey PRIMARY KEY (code);
+
+
+--
 -- Name: listing_category listing_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -327,6 +346,14 @@ ALTER TABLE ONLY public.listing_category
 
 
 --
+-- Name: listing listing_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_country_code_fkey FOREIGN KEY (country_code) REFERENCES public.country(code) ON DELETE SET NULL;
+
+
+--
 -- Name: listing_image listing_image_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -373,4 +400,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20250913005316'),
     ('20251010152025'),
     ('20251023163605'),
-    ('20251125181457');
+    ('20251125181457'),
+    ('20251126162741');

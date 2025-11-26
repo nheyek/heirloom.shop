@@ -61,6 +61,17 @@ BEGIN
         email = EXCLUDED.email,
         updated_at = CURRENT_TIMESTAMP;
 
+    INSERT INTO country (code, name)
+    VALUES
+        ('US', 'United States'),
+        ('CA', 'Canada'),
+        ('IT', 'Italy'),
+        ('FR', 'France'),
+        ('DE', 'Germany'),
+        ('GB', 'United Kingdom')
+    ON CONFLICT (code) DO UPDATE SET
+        name = EXCLUDED.name;
+
 COMMIT;
 
 END $$;

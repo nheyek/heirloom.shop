@@ -5,7 +5,7 @@ import { ListingCardData } from '@common/types/ListingCardData';
 
 export const findAllListings = async (): Promise<ListingCardData[]> => {
 	const em = getEm();
-	const listings = await em.find(Listing, {}, { populate: ['shop'] });
+	const listings = await em.find(Listing, {}, { populate: ['shop', 'country'] });
 
 	return listings.map((listing) => ({
 		id: listing.id,
@@ -13,6 +13,7 @@ export const findAllListings = async (): Promise<ListingCardData[]> => {
 		subtitle: listing.subtitle || '',
 		categoryId: listing.category ? listing.category.id.toString() : '',
 		priceDollars: listing.priceDollars || 0,
+		countryCode: listing.country?.code,
 		primaryImageUuid: listing.primaryImageUuid || '',
 		shopTitle: listing.shop.title,
 		shopProfileImageUuid: listing.shop.profileImageUuid,
