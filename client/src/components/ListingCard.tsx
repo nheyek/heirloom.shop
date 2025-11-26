@@ -15,6 +15,7 @@ import { motion } from 'framer-motion';
 import { MdAdd } from 'react-icons/md';
 import { IoStorefront } from 'react-icons/io5';
 import { FaShop } from 'react-icons/fa6';
+import { PriceTag } from './PriceTag';
 
 const MotionCard = motion(Card.Root);
 
@@ -54,9 +55,9 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 					</Flex>
 				)}
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
-				<Text textStyle="xl" fontWeight="medium" mt={2}>
-					{`$${props.priceDollars.toLocaleString()}`}
-				</Text>
+				<Box marginTop="10px">
+					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
+				</Box>
 			</Card.Body>
 		</MotionCard>
 	);
