@@ -10,19 +10,19 @@ export const CategoryCard = (props: CategoryCardData) => {
 				src={`https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`}
 			></Image>
 			<Heading
-				size="2xl"
 				position="absolute"
 				bottom="0"
 				left="0"
 				paddingLeft="15px"
-				paddingRight="20px"
-				paddingBottom="10px"
+				paddingRight="15px"
+				paddingBottom="5px"
 				paddingTop="5px"
-				borderRadius={'0 25px 25px 0'}
+				borderRadius={'0 15px 15px 0'}
+				fontSize="20px"
 				fontWeight="500"
 				style={{
 					color: '#FFF',
-					backdropFilter: 'blur(3px)',
+					backdropFilter: 'blur(2.5px)',
 				}}
 			>
 				{props.title}
