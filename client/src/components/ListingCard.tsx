@@ -29,6 +29,8 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 			transition={{ duration: 1, ease: 'easeInOut' }}
 			overflow="hidden"
 			borderRadius="5px"
+			border="none"
+			boxShadow="0 1px 3px #0000001a, 0 1px 2px #0000000f"
 		>
 			<AspectRatio ratio={3 / 2}>
 				<Image
@@ -56,14 +58,9 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 					</Flex>
 				)}
 				<Card.Description lineClamp="2">{props.subtitle}</Card.Description>
-				<Flex justifyContent="space-between" alignItems="center" marginTop="10px">
+				<Box marginTop="10px">
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
-					{props.countryCode && (
-						<Box width="30px">
-							<CircleFlag countryCode={props.countryCode.toLowerCase()} />
-						</Box>
-					)}
-				</Flex>
+				</Box>
 			</Card.Body>
 		</MotionCard>
 	);

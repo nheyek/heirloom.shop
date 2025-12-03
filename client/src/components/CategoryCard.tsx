@@ -19,13 +19,13 @@ export const CategoryCard = (props: CategoryCardData) => {
 			></Image>
 			<Heading
 				position="absolute"
-				bottom="0"
-				left="0"
-				paddingLeft="15px"
-				paddingRight="15px"
-				paddingBottom="7.5px"
-				paddingTop="5px"
-				borderRadius={'0 15px 15px 0'}
+				bottom="5px"
+				left="5px"
+				paddingLeft="10px"
+				paddingRight="10px"
+				paddingBottom="2.5px"
+				paddingTop="2.5px"
+				borderRadius="full"
 				fontSize="22px"
 				fontWeight="500"
 				style={{

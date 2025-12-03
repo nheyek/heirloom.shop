@@ -27,12 +27,13 @@ import { ShopCard } from '../components/ShopCard';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 
-const BREAKPOINT_VALUES = { base: 2, md: 3, lg: 4 };
+const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
+const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
 
 export const LandingPage = () => {
 	const [categories, setCategories] = useState<CategoryCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
-	const [listings, setProducts] = useState<ListingCardData[]>([]);
+	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const { getPublicResource } = useApi();
 
 	const loadTopLevelCategories = async () => {
@@ -49,7 +50,7 @@ export const LandingPage = () => {
 
 	const loadProducts = async () => {
 		getPublicResource('listings').then((products) => {
-			setProducts(products.data);
+			setListings(products.data);
 		});
 	};
 
@@ -59,7 +60,7 @@ export const LandingPage = () => {
 		loadProducts();
 	}, []);
 
-	const numColumns = useBreakpointValue(BREAKPOINT_VALUES) || 1;
+	const numColumns = useBreakpointValue(NUM_COLUMNS) || 1;
 
 	return (
 		<Box m={5}>
@@ -88,7 +89,7 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES} mt="36px">
+				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="36px">
 					{categories.map((category) => (
 						<CategoryCard key={category.id} {...category} />
 					))}
@@ -97,7 +98,7 @@ export const LandingPage = () => {
 				<Heading size="3xl" mt="48px" mb={2}>
 					Makers
 				</Heading>
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
+				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
 					{shops.map((cardData) => (
 						<ShopCard key={cardData.id} {...cardData} />
 					))}
@@ -106,7 +107,7 @@ export const LandingPage = () => {
 				<Heading size="3xl" mt="48px" mb={2}>
 					Featured
 				</Heading>
-				<SimpleGrid gap={BREAKPOINT_VALUES} columns={BREAKPOINT_VALUES}>
+				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
 					{listings.length === 0 &&
 						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={200} />)}
 					{listings.map((listing) => (
