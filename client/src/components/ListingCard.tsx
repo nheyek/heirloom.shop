@@ -29,8 +29,7 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 			transition={{ duration: 1, ease: 'easeInOut' }}
 			overflow="hidden"
 			borderRadius="5px"
-			border="none"
-			boxShadow="0 1px 3px #0000001a, 0 1px 2px #0000000f"
+			variant="elevated"
 		>
 			<AspectRatio ratio={3 / 2}>
 				<Image

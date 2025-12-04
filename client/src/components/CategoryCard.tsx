@@ -1,18 +1,16 @@
-import { Box, Image, Heading } from '@chakra-ui/react';
+import { Box, Image, Heading, Card } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 
 export const CategoryCard = (props: CategoryCardData) => {
 	return (
-		<Box
+		<Card.Root
+			variant="elevated"
 			borderRadius="5px"
 			overflow="hidden"
 			position="relative"
 			cursor="pointer"
 			aspectRatio={3 / 2}
 			width="100%"
-			style={{
-				boxShadow: 'rgba(0, 0, 0, 0.25) 0px 1px 3px, rgba(0, 0, 0, 0.125) 0px 1px 2px',
-			}}
 		>
 			<Image
 				height="100%"
@@ -38,6 +36,6 @@ export const CategoryCard = (props: CategoryCardData) => {
 			>
 				{props.title}
 			</Heading>
-		</Box>
+		</Card.Root>
 	);
 };

@@ -6,7 +6,7 @@ import { MdCategory } from 'react-icons/md';
 
 export const ShopCard = (props: ShopCardData) => {
 	return (
-		<Card.Root overflow="hidden">
+		<Card.Root overflow="hidden" variant="elevated">
 			<AspectRatio ratio={3 / 2}>
 				<Image
 					style={{ cursor: 'pointer' }}
@@ -35,30 +35,6 @@ export const ShopCard = (props: ShopCardData) => {
 						</Text>
 					</Box>
 				</SimpleGrid>
-				{/* <Flex
-					direction={'row'}
-					alignItems="center"
-					gap="8px"
-					cursor="pointer"
-					mt={1}
-					mb={1}
-				>
-					<MdCategory />
-
-				</Flex>
-				<Flex
-					direction={'row'}
-					alignItems="center"
-					gap="5px"
-					cursor="pointer"
-					mt={1}
-					mb={1}
-				>
-					<FaLocationDot />
-					<Text fontWeight="500" textStyle="sm" letterSpacing="tight">
-						{props.location}
-					</Text>
-				</Flex> */}
 			</Card.Body>
 		</Card.Root>
 	);

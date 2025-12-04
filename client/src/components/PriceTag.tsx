@@ -8,7 +8,7 @@ export function PriceTag({ value }: PriceTagProps) {
 	const cornerSize = '16px';
 
 	return (
-		<Box style={{ filter: 'drop-shadow(-1px 2px 2px rgba(0, 0, 0, 0.25))' }}>
+		<Box style={{ filter: 'drop-shadow(0px 1px 2px #7a7a7a)' }}>
 			<Box
 				position="relative"
 				display="flex"
@@ -32,7 +32,7 @@ export function PriceTag({ value }: PriceTagProps) {
 					height: '7px',
 					bg: '#FFFFFF',
 					borderRadius: 'full',
-					boxShadow: '#000 0 0 1.5px inset',
+					boxShadow: '#7a7a7a 0 -1px 2px inset',
 				}}
 			>
 				<Text fontSize="14px" fontWeight="semibold">
