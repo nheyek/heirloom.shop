@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Country } from './Country';
 
 @Entity()
 export class Shop {
@@ -26,5 +27,8 @@ export class Shop {
 
   @Property({ length: 32, nullable: true })
   classification?: string;
+
+  @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
+  country?: Country;
 
 }

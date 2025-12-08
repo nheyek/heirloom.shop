@@ -22,7 +22,7 @@ import { Logo } from '../components/Logo';
 import { MdAdd } from 'react-icons/md';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingCard } from '../components/ListingCard';
-import { CategoryCard } from '../components/CategoryCard';
+import { CategoryCard } from '../components/landing-page/CategoryCard';
 import { ShopCard } from '../components/ShopCard';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ShopCardData } from '@common/types/ShopCardData';

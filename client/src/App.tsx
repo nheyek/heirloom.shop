@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Navbar from './components/NavBar';
+import Navbar from './components/navbar/NavBar';
 import { LandingPage } from './pages/LandingPage';
 import { AuthCallback } from './pages/AuthCallback';
 import { ShopManager } from './pages/ShopManager';

@@ -4,7 +4,7 @@ import { ShopUserRole } from '../entities/ShopUserRole';
 
 export const findShops = async () => {
 	const em = getEm();
-	return em.find(Shop, {});
+	return em.find(Shop, {}, { populate: ['country'] });
 };
 
 export const findShopById = async (id: number) => {

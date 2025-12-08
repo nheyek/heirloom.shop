@@ -164,7 +164,8 @@ CREATE TABLE public.shop (
     profile_rich_text text,
     profile_image_uuid character varying(36),
     shop_location character varying(64),
-    classification character varying(32)
+    classification character varying(32),
+    country_code character(2)
 );
 
 
@@ -370,6 +371,14 @@ ALTER TABLE ONLY public.listing
 
 
 --
+-- Name: shop shop_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shop
+    ADD CONSTRAINT shop_country_code_fkey FOREIGN KEY (country_code) REFERENCES public.country(code) ON DELETE SET NULL;
+
+
+--
 -- Name: shop_user_role shop_user_role_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -401,4 +410,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251010152025'),
     ('20251023163605'),
     ('20251125181457'),
-    ('20251126162741');
+    ('20251126162741'),
+    ('20251208210850');

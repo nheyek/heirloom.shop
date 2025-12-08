@@ -65,10 +65,15 @@ BEGIN
     VALUES
         ('US', 'United States'),
         ('CA', 'Canada'),
+        ('UK', 'United Kingdom'),
         ('IT', 'Italy'),
         ('FR', 'France'),
         ('DE', 'Germany'),
-        ('GB', 'United Kingdom')
+        ('BE', 'Belgium'),
+        ('CZ', 'Czech Republic'),
+        ('AT', 'Austria'),
+        ('CH', 'Switzerland'),
+        ('PT', 'Portugal')
     ON CONFLICT (code) DO UPDATE SET
         name = EXCLUDED.name;
 

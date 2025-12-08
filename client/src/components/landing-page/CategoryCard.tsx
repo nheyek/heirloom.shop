@@ -1,6 +1,7 @@
-import { Box, Image, Heading, Card } from '@chakra-ui/react';
+import { Box, Image, Heading, Card, Flex } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
-
+import { GiGemNecklace } from 'react-icons/gi';
+import { BsHandbagFill } from 'react-icons/bs';
 export const CategoryCard = (props: CategoryCardData) => {
 	return (
 		<Card.Root
@@ -22,7 +23,7 @@ export const CategoryCard = (props: CategoryCardData) => {
 				position="absolute"
 				bottom="0"
 				left="0"
-				paddingLeft="15px"
+				paddingLeft="10px"
 				paddingRight="10px"
 				paddingBottom="7.5px"
 				paddingTop="2.5px"
@@ -34,7 +35,10 @@ export const CategoryCard = (props: CategoryCardData) => {
 					backdropFilter: 'blur(5px)',
 				}}
 			>
-				{props.title}
+				<Flex alignItems="center" gap="8px">
+					<GiGemNecklace />
+					<Box>{props.title}</Box>
+				</Flex>
 			</Heading>
 		</Card.Root>
 	);

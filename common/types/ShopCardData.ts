@@ -4,4 +4,5 @@ export type ShopCardData = {
 	location?: string;
 	classification?: string;
 	profileImageUuid?: string;
+	countryCode: string | null;
 };

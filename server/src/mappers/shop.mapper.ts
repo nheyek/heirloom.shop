@@ -7,4 +7,5 @@ export const mapShopToShopCardData = (shop: Shop): ShopCardData => ({
 	location: shop.shopLocation,
 	classification: shop.classification,
 	profileImageUuid: shop.profileImageUuid,
+	countryCode: shop.country?.code || null,
 });

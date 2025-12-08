@@ -10,16 +10,16 @@ import {
 	GridItem,
 	IconButton,
 } from '@chakra-ui/react';
-import { LoginButton } from './LoginButton';
 import { useAuth0 } from '@auth0/auth0-react';
-import { SignupButton } from './SignupButton';
-import { LogoutButton } from './LogoutButton';
-import { Logo } from './Logo';
+
 import { FaSearch } from 'react-icons/fa';
-import { useUserInfo } from '../providers/UserProvider';
 import { FaShop } from 'react-icons/fa6';
 import { FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { Logo } from '../Logo';
+import { LoginButton } from './LoginButton';
+import { LogoutButton } from './LogoutButton';
+import { useUserInfo } from '../../providers/UserProvider';
 
 export default function Navbar() {
 	const { isAuthenticated } = useAuth0();
