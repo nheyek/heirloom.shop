@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "node --max_old_space_size=8192 node_modules/.bin/webpack serve --config webpack.config.js",
+		"dev": "npx webpack serve --config webpack.config.js",
 		"build": "webpack --config webpack.config.js --mode production"
 	},
 	"keywords": [],

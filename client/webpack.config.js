@@ -62,5 +62,8 @@ module.exports = (env, argv) => {
 		optimization: {
 			minimize: isProd,
 		},
+		watchOptions: {
+			ignored: ['**/node_modules', '**/.git', '**/dist'],
+		},
 	};
 };
