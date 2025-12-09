@@ -165,7 +165,8 @@ CREATE TABLE public.shop (
     profile_image_uuid character varying(36),
     shop_location character varying(64),
     classification character varying(32),
-    country_code character(2)
+    country_code character(2),
+    category_icon character varying(64)
 );
 
 
@@ -411,4 +412,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251023163605'),
     ('20251125181457'),
     ('20251126162741'),
-    ('20251208210850');
+    ('20251208210850'),
+    ('20251209162737');

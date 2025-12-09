@@ -31,4 +31,7 @@ export class Shop {
   @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
   country?: Country;
 
+  @Property({ length: 64, nullable: true })
+  categoryIcon?: string;
+
 }

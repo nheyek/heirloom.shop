@@ -5,4 +5,5 @@ export type ShopCardData = {
 	classification?: string;
 	profileImageUuid?: string;
 	countryCode: string | null;
+	categoryIcon: string | null;
 };

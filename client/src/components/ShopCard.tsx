@@ -5,7 +5,8 @@ import { CircleFlag } from 'react-circle-flags';
 import { FaLocationDot } from 'react-icons/fa6';
 import { MdCategory } from 'react-icons/md';
 import { CountryFlagIcon } from './icons/CountryFlagIcon';
-import { CountryCode } from '../constants';
+import { CategoryIconCode, CountryCode } from '../constants';
+import { CategoryIcon } from './icons/CategoryIcon';
 
 export const ShopCard = (props: ShopCardData) => {
 	return (
@@ -22,7 +23,10 @@ export const ShopCard = (props: ShopCardData) => {
 				</Card.Title>
 				<SimpleGrid columns={2} gap="6px 8px" gridTemplateColumns="20px 1fr" mt="5px">
 					<Box display="flex" alignItems="center" height="25px" justifyContent="center">
-						<MdCategory size={20} />
+						<CategoryIcon
+							iconCode={props.categoryIcon as CategoryIconCode | null}
+							size={20}
+						/>
 					</Box>
 					<Box display="flex" alignItems="center">
 						<Text fontWeight="500" textStyle="sm" letterSpacing="tight">

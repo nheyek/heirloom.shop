@@ -3,6 +3,7 @@ export enum CategoryIconCode {
 	HANDBAG = 'HANDBAG',
 	VASE = 'VASE',
 	CHAIR = 'CHAIR',
+	SILVERWARE = 'SILVERWARE',
 }
 
 export enum CountryCode {
