@@ -23,8 +23,8 @@ export const CategoryCard = (props: CategoryCardData) => {
 				position="absolute"
 				bottom="0"
 				left="0"
-				paddingLeft="10px"
-				paddingRight="10px"
+				paddingLeft="15px"
+				paddingRight="12.5px"
 				paddingBottom="7.5px"
 				paddingTop="2.5px"
 				borderRadius="0 5px 0 0"
@@ -35,10 +35,7 @@ export const CategoryCard = (props: CategoryCardData) => {
 					backdropFilter: 'blur(5px)',
 				}}
 			>
-				<Flex alignItems="center" gap="8px">
-					<GiGemNecklace />
-					<Box>{props.title}</Box>
-				</Flex>
+				{props.title}
 			</Heading>
 		</Card.Root>
 	);
