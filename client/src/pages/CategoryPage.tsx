@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { CategoryCard } from '../components/landing-page/CategoryCard';
 import { ListingCard } from '../components/ListingCard';
+import { OrnamentalDivider } from '../components/OrnamentalDivider';
 import useApi from '../hooks/useApi';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
@@ -20,8 +21,6 @@ export const CategoryPage = () => {
 	const { getPublicResource } = useApi();
 
 	const loadCategoryData = async () => {
-		if (!id) return;
-
 		setIsLoading(true);
 		setError(null);
 
@@ -68,7 +67,7 @@ export const CategoryPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Box mx="auto" textAlign="center" mt="36px">
+				<Box mt="36px" mb="24px">
 					{isLoading ? (
 						<Skeleton height="60px" width="300px" mx="auto" />
 					) : (
@@ -77,21 +76,21 @@ export const CategoryPage = () => {
 				</Box>
 
 				{childCategories.length > 0 && (
-					<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="36px">
-						{isLoading &&
-							Array.from({ length: numColumns }).map((_, i) => (
-								<Skeleton key={i} height={150} />
-							))}
-						{!isLoading &&
-							childCategories.map((childCategory) => (
-								<CategoryCard key={childCategory.id} {...childCategory} />
-							))}
-					</SimpleGrid>
+					<>
+						<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="18px" mb="18px">
+							{isLoading &&
+								Array.from({ length: numColumns }).map((_, i) => (
+									<Skeleton key={i} height={150} />
+								))}
+							{!isLoading &&
+								childCategories.map((childCategory) => (
+									<CategoryCard key={childCategory.id} {...childCategory} />
+								))}
+						</SimpleGrid>
+						<OrnamentalDivider />
+					</>
 				)}
 
-				<Heading size="2xl" mt="48px" mb={2}>
-					Featured
-				</Heading>
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
 					{isLoading &&
 						Array.from({ length: numColumns * 2 }).map((_, i) => (
