@@ -1,9 +1,19 @@
 import { Heading, Image } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
+import { useNavigate } from 'react-router-dom';
 import { HeirloomCard } from '../HeirloomCard';
+
 export const CategoryCard = (props: CategoryCardData) => {
+	const navigate = useNavigate();
+
 	return (
-		<HeirloomCard position="relative" cursor="pointer" aspectRatio={3 / 2} width="100%">
+		<HeirloomCard
+			onClick={() => navigate(`/category/${props.id.toLowerCase()}`)}
+			position="relative"
+			cursor="pointer"
+			aspectRatio={3 / 2}
+			width="100%"
+		>
 			<Image
 				height="100%"
 				width="100%"

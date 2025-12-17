@@ -19,6 +19,9 @@ module.exports = (env, argv) => {
 		},
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js'],
+			alias: {
+				'@common': path.resolve(__dirname, '../common'),
+			},
 		},
 		devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
 		devServer: {
