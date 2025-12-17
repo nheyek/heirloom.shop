@@ -1,8 +1,8 @@
 import { AspectRatio, Box, Card, Flex, Image, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaShop } from 'react-icons/fa6';
+import { PriceTag } from '../misc/PriceTag';
 import { HeirloomCard } from './HeirloomCard';
-import { PriceTag } from './PriceTag';
 
 export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) => {
 	return (

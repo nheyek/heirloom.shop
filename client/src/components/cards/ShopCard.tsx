@@ -1,9 +1,9 @@
 import { AspectRatio, Box, Card, Image, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
-import { CategoryIconCode, CountryCode } from '../constants';
+import { CategoryIconCode, CountryCode } from '../../constants';
+import { CategoryIcon } from '../icons/CategoryIcon';
+import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { HeirloomCard } from './HeirloomCard';
-import { CategoryIcon } from './icons/CategoryIcon';
-import { CountryFlagIcon } from './icons/CountryFlagIcon';
 
 export const ShopCard = (props: ShopCardData) => {
 	return (

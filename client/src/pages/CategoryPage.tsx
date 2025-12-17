@@ -1,13 +1,13 @@
-import { Box, Heading, SimpleGrid, Skeleton, Text, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Heading, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CategoryGrid } from '../components/CategoryGrid';
-import { ListingCard } from '../components/ListingCard';
-import { OrnamentalDivider } from '../components/OrnamentalDivider';
-import { STANDARD_COLUMN_GAP, STANDARD_NUM_COLUMNS } from '../constants';
+import { CategoryGrid } from '../components/grids/CategoryGrid';
+import { ListingGrid } from '../components/grids/ListingGrid';
+import { OrnamentalDivider } from '../components/misc/OrnamentalDivider';
+import { STANDARD_NUM_COLUMNS } from '../constants';
 import useApi from '../hooks/useApi';
 
 export const CategoryPage = () => {
@@ -89,21 +89,7 @@ export const CategoryPage = () => {
 					</>
 				)}
 
-				<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={STANDARD_NUM_COLUMNS}>
-					{isLoading &&
-						Array.from({ length: numColumns * 2 }).map((_, i) => (
-							<Skeleton key={i} height={200} />
-						))}
-					{!isLoading && listings.length === 0 && (
-						<Text gridColumn="1 / -1" textAlign="center" py={8} color="gray.500">
-							No products found in this category
-						</Text>
-					)}
-					{!isLoading &&
-						listings.map((listing) => (
-							<ListingCard showMaker key={listing.id} {...listing} />
-						))}
-				</SimpleGrid>
+				<ListingGrid listings={listings} isLoading={isLoading} />
 			</Box>
 		</Box>
 	);

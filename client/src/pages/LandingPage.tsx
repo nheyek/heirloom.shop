@@ -11,10 +11,10 @@ import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
-import { CategoryGrid } from '../components/CategoryGrid';
-import { ListingCard } from '../components/ListingCard';
-import { Logo } from '../components/Logo';
-import { ShopCard } from '../components/ShopCard';
+import { ShopCard } from '../components/cards/ShopCard';
+import { CategoryGrid } from '../components/grids/CategoryGrid';
+import { ListingGrid } from '../components/grids/ListingGrid';
+import { Logo } from '../components/misc/Logo';
 import useApi from '../hooks/useApi';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
@@ -83,7 +83,7 @@ export const LandingPage = () => {
 					<CategoryGrid isLoading={categories.length === 0} categories={categories} />
 				</Box>
 
-				<Heading size="3xl" mt="48px" mb={2}>
+				<Heading size="3xl" mt="36px" mb={2}>
 					Makers
 				</Heading>
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
@@ -94,16 +94,10 @@ export const LandingPage = () => {
 					))}
 				</SimpleGrid>
 
-				<Heading size="3xl" mt="48px" mb={2}>
+				<Heading size="3xl" mt="36px" mb={2}>
 					Featured
 				</Heading>
-				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
-					{listings.length === 0 &&
-						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={200} />)}
-					{listings.map((listing) => (
-						<ListingCard showMaker key={listing.id} {...listing} />
-					))}
-				</SimpleGrid>
+				<ListingGrid listings={listings} isLoading={listings.length === 0} />
 			</Box>
 		</Box>
 	);

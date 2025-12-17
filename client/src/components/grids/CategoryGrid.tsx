@@ -1,7 +1,7 @@
 import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
-import { STANDARD_COLUMN_GAP, STANDARD_NUM_COLUMNS } from '../constants';
-import { CategoryCard } from './landing-page/CategoryCard';
+import { STANDARD_COLUMN_GAP, STANDARD_NUM_COLUMNS } from '../../constants';
+import { CategoryCard } from '../cards/CategoryCard';
 
 type Props = {
 	isLoading: boolean;

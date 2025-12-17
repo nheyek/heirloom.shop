@@ -1,25 +1,13 @@
-import {
-	Box,
-	Flex,
-	Input,
-	Button,
-	Text,
-	InputGroup,
-	chakra,
-	Grid,
-	GridItem,
-	IconButton,
-} from '@chakra-ui/react';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Box, Grid, GridItem, IconButton, Input, InputGroup } from '@chakra-ui/react';
 
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
-import { FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { Logo } from '../Logo';
+import { useUserInfo } from '../../providers/UserProvider';
+import { Logo } from '../misc/Logo';
 import { LoginButton } from './LoginButton';
 import { LogoutButton } from './LogoutButton';
-import { useUserInfo } from '../../providers/UserProvider';
 
 export default function Navbar() {
 	const { isAuthenticated } = useAuth0();

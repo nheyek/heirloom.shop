@@ -1,7 +1,7 @@
 import { Heading, Image } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { useNavigate } from 'react-router-dom';
-import { HeirloomCard } from '../HeirloomCard';
+import { HeirloomCard } from '../cards/HeirloomCard';
 
 export const CategoryCard = (props: CategoryCardData) => {
 	const navigate = useNavigate();
