@@ -1,5 +1,7 @@
+export const NUM_TOP_LEVEL_CATEGORIES = 4;
+
 export enum CategoryIconCode {
-	GEM_NECKLACE = 'GEM_NECKLACE',
+	NECKLACE = 'NECKLACE',
 	HANDBAG = 'HANDBAG',
 	VASE = 'VASE',
 	CHAIR = 'CHAIR',

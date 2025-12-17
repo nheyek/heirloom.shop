@@ -1,36 +1,12 @@
-import {
-	Box,
-	Card,
-	Image,
-	Text,
-	Button,
-	AspectRatio,
-	HStack,
-	Avatar,
-	Stack,
-	Flex,
-} from '@chakra-ui/react';
+import { AspectRatio, Box, Card, Flex, Image, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
-import { motion } from 'framer-motion';
-import { MdAdd } from 'react-icons/md';
-import { IoStorefront } from 'react-icons/io5';
 import { FaShop } from 'react-icons/fa6';
+import { HeirloomCard } from './HeirloomCard';
 import { PriceTag } from './PriceTag';
-import { CircleFlag } from 'react-circle-flags';
-
-const MotionCard = motion(Card.Root);
 
 export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) => {
 	return (
-		<MotionCard
-			key={props.id}
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 1, ease: 'easeInOut' }}
-			overflow="hidden"
-			borderRadius="5px"
-			variant="elevated"
-		>
+		<HeirloomCard>
 			<AspectRatio ratio={3 / 2}>
 				<Image
 					style={{ cursor: 'pointer' }}
@@ -61,6 +37,6 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
 				</Box>
 			</Card.Body>
-		</MotionCard>
+		</HeirloomCard>
 	);
 };

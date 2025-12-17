@@ -1,31 +1,22 @@
 import {
 	Box,
-	Card,
-	SimpleGrid,
-	Image,
-	Text,
 	Button,
-	AspectRatio,
-	GridItem,
-	Stack,
-	HStack,
-	Wrap,
 	Heading,
+	SimpleGrid,
 	Skeleton,
+	Text,
 	useBreakpointValue,
-	Center,
 } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import useApi from '../hooks/useApi';
-import { motion } from 'framer-motion';
-import { Logo } from '../components/Logo';
-import { MdAdd } from 'react-icons/md';
-import { ListingCardData } from '@common/types/ListingCardData';
-import { ListingCard } from '../components/ListingCard';
-import { CategoryCard } from '../components/landing-page/CategoryCard';
-import { ShopCard } from '../components/ShopCard';
 import { CategoryCardData } from '@common/types/CategoryCardData';
+import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
+import { useEffect, useState } from 'react';
+import { CategoryCard } from '../components/landing-page/CategoryCard';
+import { ListingCard } from '../components/ListingCard';
+import { Logo } from '../components/Logo';
+import { ShopCard } from '../components/ShopCard';
+import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
+import useApi from '../hooks/useApi';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
 const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
@@ -90,6 +81,10 @@ export const LandingPage = () => {
 				</Box>
 
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="36px">
+					{categories.length === 0 &&
+						Array.from({ length: NUM_TOP_LEVEL_CATEGORIES }).map(() => (
+							<Skeleton height={150} />
+						))}
 					{categories.map((category) => (
 						<CategoryCard key={category.id} {...category} />
 					))}
@@ -99,6 +94,8 @@ export const LandingPage = () => {
 					Makers
 				</Heading>
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
+					{shops.length === 0 &&
+						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={250} />)}
 					{shops.map((cardData) => (
 						<ShopCard key={cardData.id} {...cardData} />
 					))}

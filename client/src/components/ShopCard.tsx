@@ -1,16 +1,13 @@
-import { Card, Text, Flex, AspectRatio, Image, Table, SimpleGrid, Box } from '@chakra-ui/react';
-import { CategoryCardData } from '@common/types/CategoryCardData';
+import { AspectRatio, Box, Card, Image, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
-import { CircleFlag } from 'react-circle-flags';
-import { FaLocationDot } from 'react-icons/fa6';
-import { MdCategory } from 'react-icons/md';
-import { CountryFlagIcon } from './icons/CountryFlagIcon';
 import { CategoryIconCode, CountryCode } from '../constants';
+import { HeirloomCard } from './HeirloomCard';
 import { CategoryIcon } from './icons/CategoryIcon';
+import { CountryFlagIcon } from './icons/CountryFlagIcon';
 
 export const ShopCard = (props: ShopCardData) => {
 	return (
-		<Card.Root overflow="hidden" variant="elevated">
+		<HeirloomCard>
 			<AspectRatio ratio={3 / 2}>
 				<Image
 					style={{ cursor: 'pointer' }}
@@ -43,6 +40,6 @@ export const ShopCard = (props: ShopCardData) => {
 					</Box>
 				</SimpleGrid>
 			</Card.Body>
-		</Card.Root>
+		</HeirloomCard>
 	);
 };

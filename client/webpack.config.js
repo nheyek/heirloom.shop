@@ -20,7 +20,7 @@ module.exports = (env, argv) => {
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js'],
 		},
-		devtool: 'source-map',
+		devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
 		devServer: {
 			static: path.resolve(__dirname, 'public'),
 			historyApiFallback: true,

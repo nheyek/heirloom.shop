@@ -1,18 +1,9 @@
-import { Box, Image, Heading, Card, Flex } from '@chakra-ui/react';
+import { Heading, Image } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
-import { GiGemNecklace } from 'react-icons/gi';
-import { BsHandbagFill } from 'react-icons/bs';
+import { HeirloomCard } from '../HeirloomCard';
 export const CategoryCard = (props: CategoryCardData) => {
 	return (
-		<Card.Root
-			variant="elevated"
-			borderRadius="5px"
-			overflow="hidden"
-			position="relative"
-			cursor="pointer"
-			aspectRatio={3 / 2}
-			width="100%"
-		>
+		<HeirloomCard position="relative" cursor="pointer" aspectRatio={3 / 2} width="100%">
 			<Image
 				height="100%"
 				width="100%"
@@ -37,6 +28,6 @@ export const CategoryCard = (props: CategoryCardData) => {
 			>
 				{props.title}
 			</Heading>
-		</Card.Root>
+		</HeirloomCard>
 	);
 };
