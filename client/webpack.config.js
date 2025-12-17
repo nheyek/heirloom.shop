@@ -32,7 +32,7 @@ module.exports = (env, argv) => {
 					changeOrigin: true,
 				},
 				{
-					context: ['/*.png'],
+					context: ['/*.png, /*.ico'],
 					target: 'http://localhost:3000',
 					changeOrigin: true,
 				},
