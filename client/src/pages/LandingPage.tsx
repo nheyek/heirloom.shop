@@ -11,11 +11,10 @@ import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
-import { CategoryCard } from '../components/landing-page/CategoryCard';
+import { CategoryGrid } from '../components/CategoryGrid';
 import { ListingCard } from '../components/ListingCard';
 import { Logo } from '../components/Logo';
 import { ShopCard } from '../components/ShopCard';
-import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
@@ -80,15 +79,9 @@ export const LandingPage = () => {
 					</Button>
 				</Box>
 
-				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="36px">
-					{categories.length === 0 &&
-						Array.from({ length: NUM_TOP_LEVEL_CATEGORIES }).map(() => (
-							<Skeleton height={150} />
-						))}
-					{categories.map((category) => (
-						<CategoryCard key={category.id} {...category} />
-					))}
-				</SimpleGrid>
+				<Box mt="36px">
+					<CategoryGrid isLoading={categories.length === 0} categories={categories} />
+				</Box>
 
 				<Heading size="3xl" mt="48px" mb={2}>
 					Makers

@@ -4,13 +4,11 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CategoryCard } from '../components/landing-page/CategoryCard';
+import { CategoryGrid } from '../components/CategoryGrid';
 import { ListingCard } from '../components/ListingCard';
 import { OrnamentalDivider } from '../components/OrnamentalDivider';
+import { STANDARD_COLUMN_GAP, STANDARD_NUM_COLUMNS } from '../constants';
 import useApi from '../hooks/useApi';
-
-const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
-const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
 
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -52,7 +50,7 @@ export const CategoryPage = () => {
 		loadCategoryData();
 	}, [id]);
 
-	const numColumns = useBreakpointValue(NUM_COLUMNS) || 1;
+	const numColumns = useBreakpointValue(STANDARD_NUM_COLUMNS) || 1;
 
 	if (error) {
 		return (
@@ -86,21 +84,12 @@ export const CategoryPage = () => {
 
 				{childCategories.length > 0 && (
 					<>
-						<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS} mt="18px" mb="18px">
-							{isLoading &&
-								Array.from({ length: numColumns }).map((_, i) => (
-									<Skeleton key={i} height={150} />
-								))}
-							{!isLoading &&
-								childCategories.map((childCategory) => (
-									<CategoryCard key={childCategory.id} {...childCategory} />
-								))}
-						</SimpleGrid>
+						<CategoryGrid isLoading={isLoading} categories={childCategories} />
 						<OrnamentalDivider />
 					</>
 				)}
 
-				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
+				<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={STANDARD_NUM_COLUMNS}>
 					{isLoading &&
 						Array.from({ length: numColumns * 2 }).map((_, i) => (
 							<Skeleton key={i} height={200} />
