@@ -6,15 +6,19 @@ DECLARE
 
 	furniture_category_id CONSTANT VARCHAR := 'FURNITURE';
 	furniture_category_name CONSTANT VARCHAR := 'Furniture';
+    furniture_image_uuid CONSTANT VARCHAR := 'A001F100-46F9-4ECC-9A11-9CCDCA15F7F8';
 
     dining_tables_category_id CONSTANT VARCHAR := 'DINING_TABLES';
     dining_tables_category_name CONSTANT VARCHAR := 'Dining Tables';
+    dining_table_image_uuid CONSTANT VARCHAR := '47CD447C-96F4-480A-A435-E043A2B8F4A1';
 
     coffee_tables_category_id CONSTANT VARCHAR := 'COFFEE_TABLES';
     coffee_tables_category_name CONSTANT VARCHAR := 'Coffee Tables';
+    coffee_table_image_uuid CONSTANT VARCHAR := '32B6F250-B754-4544-9772-C1AC60ECB714';
 
     side_tables_category_id CONSTANT VARCHAR := 'SIDE_TABLES';
     side_tables_category_name CONSTANT VARCHAR := 'Side Tables';
+    side_table_image_uuid CONSTANT VARCHAR := 'CF670A00-4A08-4576-989C-7386E808C813';
 
     jewelry_category_id CONSTANT VARCHAR := 'JEWELRY';
     jewelry_category_name CONSTANT VARCHAR := 'Jewelry';
@@ -37,10 +41,10 @@ BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
 	VALUES
-		(furniture_category_id, furniture_category_name, NULL, 'A001F100-46F9-4ECC-9A11-9CCDCA15F7F8', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (dining_tables_category_id, dining_tables_category_name, NULL, NULL, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (coffee_tables_category_id, coffee_tables_category_name, NULL, NULL, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (side_tables_category_id, side_tables_category_name, NULL, NULL, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+		(furniture_category_id, furniture_category_name, NULL, furniture_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (dining_tables_category_id, dining_tables_category_name, NULL, dining_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (coffee_tables_category_id, coffee_tables_category_name, NULL, coffee_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (side_tables_category_id, side_tables_category_name, NULL, side_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (jewelry_category_id, jewelry_category_name, NULL, 'FC6E4450-CC01-4562-AB3E-AC6939632101', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (bracelet_category_id, bracelet_category_name, NULL, NULL, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (ring_category_id, ring_category_name, NULL, NULL, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

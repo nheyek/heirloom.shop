@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from './components/navbar/NavBar';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
@@ -13,6 +13,7 @@ const App = () => (
 			<Route path="/callback" element={<AuthCallback />} />
 			<Route path="/shop-manager" element={<ShopManager />} />
 			<Route path="/category/:id" element={<CategoryPage />} />
+			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>
 	</>
 );

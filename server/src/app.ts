@@ -1,12 +1,12 @@
+import dotenvFlow from 'dotenv-flow';
 import express from 'express';
+import path from 'path';
 import 'reflect-metadata';
 import { initORM } from './db';
+import categoryRouter from './routes/category.routes';
 import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
 import shopRouter from './routes/shop.routes';
-import categoryRouter from './routes/category.routes';
-import dotenvFlow from 'dotenv-flow';
-import path from 'path';
 
 dotenvFlow.config();
 

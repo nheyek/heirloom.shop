@@ -2,11 +2,10 @@ import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
 import { Listing } from '../entities/Listing';
 import { Shop } from '../entities/Shop';
-import { ListingCardData } from '@common/types/ListingCardData';
 
-export const findFeaturedListings = async (): Promise<ListingCardData[]> => {
+export const findFeaturedListings = async (): Promise<Listing[]> => {
 	const em = getEm();
-	const listings = await em.find(
+	return em.find(
 		Listing,
 		{},
 		{
@@ -15,18 +14,26 @@ export const findFeaturedListings = async (): Promise<ListingCardData[]> => {
 			limit: 8,
 		},
 	);
+};
 
-	return listings.map((listing) => ({
-		id: listing.id,
-		title: listing.title,
-		subtitle: listing.subtitle || '',
-		categoryId: listing.category ? listing.category.id.toString() : '',
-		priceDollars: listing.priceDollars || 0,
-		countryCode: listing.country?.code,
-		primaryImageUuid: listing.primaryImageUuid || '',
-		shopTitle: listing.shop.title,
-		shopProfileImageUuid: listing.shop.profileImageUuid,
-	}));
+export const findListingsByCategory = async (categoryId: string): Promise<Listing[]> => {
+	const em = getEm();
+
+	const queryResult = await em.getConnection().execute(
+		`
+        WITH RECURSIVE category_tree AS (
+            SELECT id FROM listing_category WHERE id = ?
+            UNION ALL
+            SELECT c.id FROM listing_category c
+            JOIN category_tree ct ON c.parent_id = ct.id
+        )
+        SELECT l.* FROM listing l
+        WHERE l.category_id IN (SELECT id FROM category_tree)
+    `,
+		[categoryId],
+	);
+
+	return queryResult.map((row: any) => em.map(Listing, row));
 };
 
 export const findListingById = async (id: number) => {
