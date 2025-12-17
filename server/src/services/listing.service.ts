@@ -3,7 +3,7 @@ import { getEm } from '../db';
 import { Listing } from '../entities/Listing';
 import { Shop } from '../entities/Shop';
 
-export const findFeaturedListings = async (): Promise<Listing[]> => {
+export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
 	return em.find(
 		Listing,
@@ -19,21 +19,28 @@ export const findFeaturedListings = async (): Promise<Listing[]> => {
 export const findListingsByCategory = async (categoryId: string): Promise<Listing[]> => {
 	const em = getEm();
 
-	const queryResult = await em.getConnection().execute(
+	const categoryIdResult = await em.getConnection().execute(
 		`
         WITH RECURSIVE category_tree AS (
-            SELECT id FROM listing_category WHERE id = ?
-            UNION ALL
-            SELECT c.id FROM listing_category c
-            JOIN category_tree ct ON c.parent_id = ct.id
+        SELECT id FROM listing_category WHERE id = ?
+        UNION ALL
+        SELECT c.id FROM listing_category c
+        JOIN category_tree ct ON c.parent_id = ct.id
         )
-        SELECT l.* FROM listing l
-        WHERE l.category_id IN (SELECT id FROM category_tree)
+        SELECT id FROM category_tree
     `,
 		[categoryId],
+		'all',
 	);
 
-	return queryResult.map((row: any) => em.map(Listing, row));
+	const categoryIds = categoryIdResult.map((row: any) => row.id);
+	return em.find(
+		Listing,
+		{
+			category: { $in: categoryIds },
+		},
+		{ populate: ['shop', 'country'] },
+	);
 };
 
 export const findListingById = async (id: number) => {
