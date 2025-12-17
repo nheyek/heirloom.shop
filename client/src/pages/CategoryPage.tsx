@@ -2,7 +2,8 @@ import { Box, Heading, SimpleGrid, Skeleton, Text, useBreakpointValue } from '@c
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { IoArrowBackCircle } from 'react-icons/io5';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryCard } from '../components/landing-page/CategoryCard';
 import { ListingCard } from '../components/ListingCard';
 import { OrnamentalDivider } from '../components/OrnamentalDivider';
@@ -19,6 +20,7 @@ export const CategoryPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const { getPublicResource } = useApi();
+	const navigate = useNavigate();
 
 	const loadCategoryData = async () => {
 		setIsLoading(true);
@@ -55,7 +57,7 @@ export const CategoryPage = () => {
 	if (error) {
 		return (
 			<Box m={5}>
-				<Box mx="auto" maxWidth="1200px" textAlign="center" mt="36px">
+				<Box mx="auto" maxWidth="1200px" textAlign="center" mt="24px">
 					<Heading size="2xl" color="red.500">
 						{error}
 					</Heading>
@@ -67,11 +69,18 @@ export const CategoryPage = () => {
 	return (
 		<Box m={5}>
 			<Box mx="auto" maxWidth="1200px">
-				<Box mt="36px" mb="24px">
+				<Box my="24px">
 					{isLoading ? (
 						<Skeleton height="60px" width="300px" mx="auto" />
 					) : (
-						<Heading size="3xl">{category?.title}</Heading>
+						<Box display="flex" alignItems="center" gap="8px">
+							<IoArrowBackCircle
+								size="28px"
+								cursor="pointer"
+								onClick={() => navigate('/')}
+							/>
+							<Heading size="3xl">{category?.title}</Heading>
+						</Box>
 					)}
 				</Box>
 
