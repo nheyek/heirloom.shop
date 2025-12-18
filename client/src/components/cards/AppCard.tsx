@@ -1,7 +1,7 @@
 import { Card } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
-export const HeirloomCard = ({ children, ...cardProps }: Card.RootProps) => {
+export const AppCard = ({ children, ...cardProps }: Card.RootProps) => {
 	return (
 		<motion.div
 			initial={{ opacity: 0 }}

@@ -1,25 +1,26 @@
-import { Heading, Image } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { useNavigate } from 'react-router-dom';
-import { HeirloomCard } from '../cards/HeirloomCard';
+import { LoadingImage } from '../misc/LoadingImage';
+import { AppCard } from './AppCard';
 
 export const CategoryCard = (props: CategoryCardData) => {
 	const navigate = useNavigate();
 
 	return (
-		<HeirloomCard
+		<AppCard
 			onClick={() => navigate(`/category/${props.id.toLowerCase()}`)}
 			position="relative"
 			cursor="pointer"
 			aspectRatio={3 / 2}
 			width="100%"
 		>
-			<Image
+			<LoadingImage
 				height="100%"
 				width="100%"
 				objectFit="cover"
 				src={`https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`}
-			></Image>
+			></LoadingImage>
 			<Heading
 				position="absolute"
 				bottom="0"
@@ -38,6 +39,6 @@ export const CategoryCard = (props: CategoryCardData) => {
 			>
 				{props.title}
 			</Heading>
-		</HeirloomCard>
+		</AppCard>
 	);
 };

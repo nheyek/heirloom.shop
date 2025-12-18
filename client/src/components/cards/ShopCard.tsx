@@ -1,15 +1,16 @@
-import { AspectRatio, Box, Card, Image, SimpleGrid, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Card, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { CategoryIconCode, CountryCode } from '../../constants';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
-import { HeirloomCard } from './HeirloomCard';
+import { LoadingImage } from '../misc/LoadingImage';
+import { AppCard } from './AppCard';
 
 export const ShopCard = (props: ShopCardData) => {
 	return (
-		<HeirloomCard>
+		<AppCard>
 			<AspectRatio ratio={3 / 2}>
-				<Image
+				<LoadingImage
 					style={{ cursor: 'pointer' }}
 					src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`}
 				/>
@@ -40,6 +41,6 @@ export const ShopCard = (props: ShopCardData) => {
 					</Box>
 				</SimpleGrid>
 			</Card.Body>
-		</HeirloomCard>
+		</AppCard>
 	);
 };

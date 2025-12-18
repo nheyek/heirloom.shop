@@ -1,14 +1,15 @@
-import { AspectRatio, Box, Card, Flex, Image, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Card, Flex, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaShop } from 'react-icons/fa6';
+import { LoadingImage } from '../misc/LoadingImage';
 import { PriceTag } from '../misc/PriceTag';
-import { HeirloomCard } from './HeirloomCard';
+import { AppCard } from './AppCard';
 
 export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) => {
 	return (
-		<HeirloomCard>
+		<AppCard>
 			<AspectRatio ratio={3 / 2}>
-				<Image
+				<LoadingImage
 					style={{ cursor: 'pointer' }}
 					src={`${process.env.LISTING_IMAGES_URL}/${props.primaryImageUuid}.jpg`}
 				/>
@@ -37,6 +38,6 @@ export const ListingCard = (props: ListingCardData & { showMaker?: boolean }) =>
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
 				</Box>
 			</Card.Body>
-		</HeirloomCard>
+		</AppCard>
 	);
 };
