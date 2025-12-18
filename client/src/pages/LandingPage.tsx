@@ -8,7 +8,6 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -18,27 +17,29 @@ import { ListingGrid } from '../components/grids/ListingGrid';
 import { Logo } from '../components/misc/Logo';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
+import { useCategoryHierarchy } from '../providers/CategoriesProvider';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
 const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
 
 export const LandingPage = () => {
-	const [categories, setCategories] = useState<CategoryCardData[]>([]);
+	const { categories, categoriesLoading } = useCategoryHierarchy();
+
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [error, setError] = useState<string | null>(null);
+
+	const isLoading = shops.length === 0 || listings.length === 0 || categoriesLoading;
 
 	const { getPublicResource } = useApi();
 
 	const loadLandingPageData = async () => {
 		try {
-			const [categoriesResponse, shopsResponse, listingsResponse] = await Promise.all([
-				getPublicResource('categories/topLevel'),
+			const [shopsResponse, listingsResponse] = await Promise.all([
 				getPublicResource('shops'),
 				getPublicResource('listings'),
 			]);
 
-			setCategories(categoriesResponse.data);
 			setShops(shopsResponse.data);
 			setListings(listingsResponse.data);
 		} catch (err) {
@@ -92,8 +93,8 @@ export const LandingPage = () => {
 
 				<Box mt="36px">
 					<CategoryGrid
-						isLoading={categories.length === 0}
-						categories={categories}
+						isLoading={isLoading}
+						categories={categories.filter((category) => !category.parentId)}
 						numItems={NUM_TOP_LEVEL_CATEGORIES}
 					/>
 				</Box>
@@ -102,7 +103,7 @@ export const LandingPage = () => {
 					Makers
 				</Heading>
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
-					{shops.length === 0 &&
+					{isLoading &&
 						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={250} />)}
 					{shops.map((cardData) => (
 						<ShopCard key={cardData.id} {...cardData} />
@@ -112,7 +113,7 @@ export const LandingPage = () => {
 				<Heading size="3xl" mt="36px" mb={2}>
 					Featured
 				</Heading>
-				<ListingGrid listings={listings} isLoading={listings.length === 0} />
+				<ListingGrid listings={listings} isLoading={isLoading} />
 			</Box>
 		</Box>
 	);

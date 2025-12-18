@@ -4,7 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
-import { CategoryHierarchyProvider } from './providers/CategoryHierarchyProvider';
+import { CategoriesProvider } from './providers/CategoriesProvider';
 import { UserProvider } from './providers/UserProvider';
 import customSystem from './theme';
 
@@ -14,11 +14,11 @@ root.render(
 		<BrowserRouter>
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
-					<CategoryHierarchyProvider>
+					<CategoriesProvider>
 						<ChakraProvider value={customSystem}>
 							<App />
 						</ChakraProvider>
-					</CategoryHierarchyProvider>
+					</CategoriesProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
 		</BrowserRouter>

@@ -3,15 +3,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
 
 type CategoryHierarchyContextType = {
-	categoryHierarchy: CategoryCardData[];
-	isLoading: boolean;
+	categories: CategoryCardData[];
+	categoriesLoading: boolean;
 	error: string | null;
 };
 
 const CategoryHierarchyContext = React.createContext<CategoryHierarchyContextType | null>(null);
 
-export const CategoryHierarchyProvider = (props: { children: React.ReactNode }) => {
-	const [categoryHierarchy, setCategoryHierarchy] = useState<CategoryCardData[]>([]);
+export const CategoriesProvider = (props: { children: React.ReactNode }) => {
+	const [categories, setCategories] = useState<CategoryCardData[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -20,7 +20,7 @@ export const CategoryHierarchyProvider = (props: { children: React.ReactNode }) 
 	const fetchCategoryHierarchy = async () => {
 		try {
 			await getPublicResource('categories').then((response) => {
-				setCategoryHierarchy(response.data);
+				setCategories(response.data);
 			});
 			setIsLoading(false);
 		} catch (error) {
@@ -35,7 +35,9 @@ export const CategoryHierarchyProvider = (props: { children: React.ReactNode }) 
 	}, []);
 
 	return (
-		<CategoryHierarchyContext.Provider value={{ categoryHierarchy, isLoading, error }}>
+		<CategoryHierarchyContext.Provider
+			value={{ categories, categoriesLoading: isLoading, error }}
+		>
 			{props.children}
 		</CategoryHierarchyContext.Provider>
 	);
