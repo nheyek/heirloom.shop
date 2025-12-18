@@ -1,4 +1,4 @@
-import { Alert, Box, Heading, Link, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { Alert, Box, Heading, Link, Skeleton } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import { OrnamentalDivider } from '../components/misc/OrnamentalDivider';
-import { STANDARD_NUM_COLUMNS } from '../constants';
 import useApi from '../hooks/useApi';
 
 export const CategoryPage = () => {
@@ -49,10 +48,8 @@ export const CategoryPage = () => {
 	};
 
 	useEffect(() => {
-		loadCategoryData();
+		setTimeout(loadCategoryData, 500);
 	}, [id]);
-
-	const numColumns = useBreakpointValue(STANDARD_NUM_COLUMNS) || 1;
 
 	if (error) {
 		return (
@@ -60,7 +57,7 @@ export const CategoryPage = () => {
 				<Alert.Root status="error">
 					<Alert.Indicator />
 					<Alert.Content>
-						<Alert.Title>Failed to load category</Alert.Title>
+						<Alert.Title>{error}</Alert.Title>
 						<Alert.Description>
 							Click{' '}
 							<Link
@@ -82,7 +79,7 @@ export const CategoryPage = () => {
 			<Box mx="auto" maxWidth="1200px">
 				<Box my="24px">
 					{isLoading ? (
-						<Skeleton height="60px" width="300px" mx="auto" />
+						<Skeleton height="50px" width="300px" />
 					) : (
 						<Box display="flex" alignItems="center" gap="8px">
 							<IoArrowBackCircle

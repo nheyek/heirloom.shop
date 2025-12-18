@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Box,
 	Button,
 	Heading,
@@ -15,6 +16,7 @@ import { ShopCard } from '../components/cards/ShopCard';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import { Logo } from '../components/misc/Logo';
+import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
@@ -24,31 +26,40 @@ export const LandingPage = () => {
 	const [categories, setCategories] = useState<CategoryCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [error, setError] = useState<string | null>(null);
+
 	const { getPublicResource } = useApi();
 
-	const loadTopLevelCategories = async () => {
-		getPublicResource('categories/topLevel').then((categories) => {
-			setCategories(categories.data);
-		});
-	};
+	const loadLandingPageData = async () => {
+		try {
+			const [categoriesResponse, shopsResponse, listingsResponse] = await Promise.all([
+				getPublicResource('categories/topLevel'),
+				getPublicResource('shops'),
+				getPublicResource('listings'),
+			]);
 
-	const loadShops = async () => {
-		getPublicResource('shops').then((shops) => {
-			setShops(shops.data);
-		});
-	};
-
-	const loadProducts = async () => {
-		getPublicResource('listings').then((products) => {
-			setListings(products.data);
-		});
+			setCategories(categoriesResponse.data);
+			setShops(shopsResponse.data);
+			setListings(listingsResponse.data);
+		} catch (err) {
+			setError('Failed to load content');
+		}
 	};
 
 	useEffect(() => {
-		loadTopLevelCategories();
-		loadShops();
-		loadProducts();
+		setTimeout(loadLandingPageData, 500);
 	}, []);
+
+	if (error) {
+		return (
+			<Box m="16px">
+				<Alert.Root status="error">
+					<Alert.Indicator />
+					<Alert.Title>{error}</Alert.Title>
+				</Alert.Root>
+			</Box>
+		);
+	}
 
 	const numColumns = useBreakpointValue(NUM_COLUMNS) || 1;
 
@@ -80,7 +91,11 @@ export const LandingPage = () => {
 				</Box>
 
 				<Box mt="36px">
-					<CategoryGrid isLoading={categories.length === 0} categories={categories} />
+					<CategoryGrid
+						isLoading={categories.length === 0}
+						categories={categories}
+						numItems={NUM_TOP_LEVEL_CATEGORIES}
+					/>
 				</Box>
 
 				<Heading size="3xl" mt="36px" mb={2}>
