@@ -35,3 +35,8 @@ export const getListingsByCategory = async (req: Request, res: Response) => {
 	const listings = await listingService.findListingsByCategory(id.toUpperCase());
 	res.json(listings.map(mapListingToListingCardData));
 };
+
+export const getCategories = async (req: Request, res: Response) => {
+	const categories = await findTopLevelCategories();
+	res.json(categories.map(mapCategoryToCategoryCardData));
+};

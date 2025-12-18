@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+	getCategories,
 	getCategoryById,
 	getChildCategories,
 	getListingsByCategory,
@@ -8,6 +9,7 @@ import {
 
 const router = Router();
 
+router.get('/', getCategories);
 router.get('/topLevel', getTopLevelCategories);
 router.get('/:id', getCategoryById);
 router.get('/:id/children', getChildCategories);

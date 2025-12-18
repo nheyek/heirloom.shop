@@ -15,7 +15,7 @@ export default function Navbar() {
 	const navigate = useNavigate();
 
 	return (
-		<Box bg="brand" px={4} py={2} boxShadow="0 2px 4px rgba(0, 0, 0, 0.35)">
+		<Box bg="brand" px={4} py={2} boxShadow="md">
 			<Grid
 				gridTemplateAreas={{
 					base: `"logo . login" ". search ."`,

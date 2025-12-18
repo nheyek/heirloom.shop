@@ -15,3 +15,8 @@ export const findChildCategories = async (parentId: string): Promise<ListingCate
 	const em = getEm();
 	return em.find(ListingCategory, { parent: { id: parentId } });
 };
+
+export const findAllCategories = async (): Promise<ListingCategory[]> => {
+	const em = getEm();
+	return em.find(ListingCategory, {});
+};

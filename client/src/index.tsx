@@ -1,12 +1,12 @@
+import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
-import customSystem from './theme';
-import { Auth0Provider } from '@auth0/auth0-react';
+import { App } from './App';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
+import { CategoryHierarchyProvider } from './providers/CategoryHierarchyProvider';
 import { UserProvider } from './providers/UserProvider';
+import customSystem from './theme';
 
 const root = createRoot(document.getElementById('root')!);
 root.render(
@@ -14,9 +14,11 @@ root.render(
 		<BrowserRouter>
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
-					<ChakraProvider value={customSystem}>
-						<App />
-					</ChakraProvider>
+					<CategoryHierarchyProvider>
+						<ChakraProvider value={customSystem}>
+							<App />
+						</ChakraProvider>
+					</CategoryHierarchyProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
 		</BrowserRouter>
