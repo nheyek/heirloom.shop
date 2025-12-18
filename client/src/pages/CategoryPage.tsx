@@ -47,7 +47,15 @@ export const CategoryPage = () => {
 		}
 	};
 
+	const clearCategoryData = () => {
+		setCategory(null);
+		setChildCategories([]);
+		setListings([]);
+	};
+
 	useEffect(() => {
+		setIsLoading(true);
+		clearCategoryData();
 		setTimeout(loadCategoryData, 500);
 	}, [id]);
 
