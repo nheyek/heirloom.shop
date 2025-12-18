@@ -24,12 +24,12 @@ export const CategoryCard = (props: CategoryCardData) => {
 				position="absolute"
 				bottom="0"
 				left="0"
-				paddingLeft="15px"
-				paddingRight="12.5px"
-				paddingBottom="7.5px"
+				paddingLeft="12.5px"
+				paddingRight="10px"
+				paddingBottom="5px"
 				paddingTop="2.5px"
 				borderRadius="0 5px 0 0"
-				fontSize="22px"
+				fontSize="20px"
 				fontWeight="500"
 				style={{
 					color: '#FFF',
