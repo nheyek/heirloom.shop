@@ -5,8 +5,14 @@ export const LoadingImage = (props: ImageProps) => {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
 	return (
-		<Skeleton loading={!isLoaded} height="100%" width="100%">
-			<Image onLoad={() => setIsLoaded(true)} {...props} />;
-		</Skeleton>
+		<>
+			{!isLoaded && <Skeleton width="100%" height="100%"></Skeleton>}
+
+			<Image
+				{...props}
+				onLoad={() => setIsLoaded(true)}
+				visibility={isLoaded ? 'visible' : 'hidden'}
+			/>
+		</>
 	);
 };
