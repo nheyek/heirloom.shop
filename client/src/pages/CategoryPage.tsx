@@ -1,4 +1,4 @@
-import { Box, Heading, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { Alert, Box, Heading, Link, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
@@ -12,11 +12,13 @@ import useApi from '../hooks/useApi';
 
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();
+
 	const [category, setCategory] = useState<CategoryCardData | null>(null);
 	const [childCategories, setChildCategories] = useState<CategoryCardData[]>([]);
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+
 	const { getPublicResource } = useApi();
 	const navigate = useNavigate();
 
@@ -54,12 +56,23 @@ export const CategoryPage = () => {
 
 	if (error) {
 		return (
-			<Box m={5}>
-				<Box mx="auto" maxWidth="1200px" textAlign="center" mt="24px">
-					<Heading size="2xl" color="red.500">
-						{error}
-					</Heading>
-				</Box>
+			<Box m="16px">
+				<Alert.Root status="error">
+					<Alert.Indicator />
+					<Alert.Content>
+						<Alert.Title>Failed to load category</Alert.Title>
+						<Alert.Description>
+							Click{' '}
+							<Link
+								onClick={() => navigate('/')}
+								style={{ textDecoration: 'underline' }}
+							>
+								here
+							</Link>{' '}
+							to return to the homepage.
+						</Alert.Description>
+					</Alert.Content>
+				</Alert.Root>
 			</Box>
 		);
 	}
