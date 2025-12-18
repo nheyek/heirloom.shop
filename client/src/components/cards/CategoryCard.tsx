@@ -23,18 +23,16 @@ export const CategoryCard = (props: CategoryCardData) => {
 			></LoadingImage>
 			<Heading
 				position="absolute"
-				bottom="0"
-				left="0"
-				paddingLeft="12.5px"
-				paddingRight="10px"
-				paddingBottom="5px"
-				paddingTop="2.5px"
-				borderRadius="0 5px 0 0"
-				fontSize="20px"
+				bottom="10px"
+				left="15px"
+				padding={0}
+				lineHeight={1}
+				fontSize="24px"
 				fontWeight="500"
+				textShadow="0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);"
 				style={{
 					color: '#FFF',
-					backdropFilter: 'blur(5px)',
+					backdropFilter: 'blur(2px)',
 				}}
 			>
 				{props.title}

@@ -22,21 +22,27 @@ DECLARE
 
     jewelry_category_id CONSTANT VARCHAR := 'JEWELRY';
     jewelry_category_name CONSTANT VARCHAR := 'Jewelry';
+    jewelry_image_uuid CONSTANT VARCHAR := 'FC6E4450-CC01-4562-AB3E-AC6939632101';
 
     bracelet_category_id CONSTANT VARCHAR := 'BRACELETS';
     bracelet_category_name CONSTANT VARCHAR := 'Bracelets';
+    bracelet_image_uuid CONSTANT VARCHAR := '083DB562-968E-4798-A495-8636E5F1199D';
 
     ring_category_id CONSTANT VARCHAR := 'RINGS';
     ring_category_name CONSTANT VARCHAR := 'Rings';
+    ring_image_uuid CONSTANT VARCHAR := 'C4739C76-36FD-402A-A37F-62F06D2A9C97';
 
     leather_goods_category_id CONSTANT VARCHAR := 'LEATHER_GOODS';
     leather_goods_category_name CONSTANT VARCHAR := 'Leatherwork';
+    leather_goods_image_uuid CONSTANT VARCHAR := 'EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C';
 
     leather_bags_category_id CONSTANT VARCHAR := 'LEATHER_BAGS';
     leather_bags_category_name CONSTANT VARCHAR := 'Leather Bags';
+    leather_bags_image_uuid CONSTANT VARCHAR := '924F5E2F-8446-4CB5-AD56-C45133BCDC20';
 
     housewares_category_id CONSTANT VARCHAR := 'HOUSEWARES';
     housewares_category_name CONSTANT VARCHAR := 'Housewares';
+    houseware_image_uuid CONSTANT VARCHAR := '4C479374-B58F-46CB-AEAD-191336294E78';
 BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
@@ -45,12 +51,12 @@ BEGIN
         (dining_tables_category_id, dining_tables_category_name, NULL, dining_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (coffee_tables_category_id, coffee_tables_category_name, NULL, coffee_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (side_tables_category_id, side_tables_category_name, NULL, side_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (jewelry_category_id, jewelry_category_name, NULL, 'FC6E4450-CC01-4562-AB3E-AC6939632101', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (bracelet_category_id, bracelet_category_name, NULL, NULL, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (ring_category_id, ring_category_name, NULL, NULL, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (leather_goods_category_id, leather_goods_category_name, NULL, 'EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (leather_bags_category_id, leather_bags_category_name, NULL, NULL, leather_goods_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (housewares_category_id, housewares_category_name, NULL, '4C479374-B58F-46CB-AEAD-191336294E78', NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (jewelry_category_id, jewelry_category_name, NULL, jewelry_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (bracelet_category_id, bracelet_category_name, NULL, bracelet_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (ring_category_id, ring_category_name, NULL, ring_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (leather_goods_category_id, leather_goods_category_name, NULL, leather_goods_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (leather_bags_category_id, leather_bags_category_name, NULL, leather_bags_image_uuid, leather_goods_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (housewares_category_id, housewares_category_name, NULL, houseware_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	ON CONFLICT (id) DO UPDATE SET
 		title = EXCLUDED.title,
 		subtitle = EXCLUDED.subtitle,
