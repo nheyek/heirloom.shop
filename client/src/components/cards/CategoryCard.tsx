@@ -28,11 +28,11 @@ export const CategoryCard = (props: CategoryCardData) => {
 				padding={0}
 				lineHeight={1}
 				fontSize="24px"
-				fontWeight="600"
+				fontWeight="700"
 				textShadow="0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.15), 0 8px 16px rgba(0, 0, 0, 0.1);"
 				style={{
 					color: '#FFF',
-					backdropFilter: 'blur(2px)',
+					backdropFilter: 'blur(3px)',
 				}}
 			>
 				{props.title}
