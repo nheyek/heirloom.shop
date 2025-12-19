@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { mapCategoryToCategoryCardData } from '../mappers/category.mapper';
 import { mapListingToListingCardData } from '../mappers/listing.mapper';
 import {
+	findAllCategories,
 	findCategoryById,
 	findChildCategories,
 	findTopLevelCategories,
@@ -37,6 +38,6 @@ export const getListingsByCategory = async (req: Request, res: Response) => {
 };
 
 export const getCategories = async (req: Request, res: Response) => {
-	const categories = await findTopLevelCategories();
+	const categories = await findAllCategories();
 	res.json(categories.map(mapCategoryToCategoryCardData));
 };

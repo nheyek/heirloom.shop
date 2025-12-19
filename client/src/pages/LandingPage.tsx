@@ -17,17 +17,16 @@ import { ListingGrid } from '../components/grids/ListingGrid';
 import { Logo } from '../components/misc/Logo';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
-import { useCategoryHierarchy } from '../providers/CategoriesProvider';
+import { useCategories } from '../providers/CategoriesProvider';
 
 const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
 const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
 
 export const LandingPage = () => {
-	const { categories, categoriesLoading } = useCategoryHierarchy();
-
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [error, setError] = useState<string | null>(null);
+	const { getChildCategories, categoriesLoading } = useCategories();
 
 	const isLoading = shops.length === 0 || listings.length === 0 || categoriesLoading;
 
@@ -94,7 +93,7 @@ export const LandingPage = () => {
 				<Box mt="36px">
 					<CategoryGrid
 						isLoading={isLoading}
-						categories={categories.filter((category) => !category.parentId)}
+						categories={getChildCategories(null)}
 						numItems={NUM_TOP_LEVEL_CATEGORIES}
 					/>
 				</Box>
