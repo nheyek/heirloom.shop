@@ -35,7 +35,14 @@ export function PriceTag({ value }: PriceTagProps) {
 					boxShadow: '#6b6b6b 0 -1px 1.5px inset',
 				}}
 			>
-				<Text fontSize="16px" fontFamily="Alegreya" fontWeight="600" height="25px">
+				<Text
+					fontSize="16px"
+					fontFamily="Alegreya"
+					fontWeight="600"
+					height="25px"
+					paddingRight="2px"
+					lineHeight="1.45"
+				>
 					{value}
 				</Text>
 			</Box>
