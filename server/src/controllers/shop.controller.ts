@@ -1,6 +1,8 @@
 import { ShopProfile } from '@common/types/ShopProfile';
 import { Request, Response } from 'express';
+import { mapListingToListingCardData } from '../mappers/listing.mapper';
 import { mapShopToShopCardData } from '../mappers/shop.mapper';
+import * as listingService from '../services/listing.service';
 import * as productService from '../services/listing.service';
 import * as shopService from '../services/shop.service';
 
@@ -16,6 +18,12 @@ export const getShop = async (req: Request, res: Response) => {
 		return res.status(404).json({ message: 'Shop not found' });
 	}
 	res.json(mapShopToShopCardData(shop));
+};
+
+export const getListingsByShop = async (req: Request, res: Response) => {
+	const shopId = Number(req.params.id);
+	const listings = await listingService.findListingsByShop(shopId);
+	return res.json(listings.map(mapListingToListingCardData));
 };
 
 export const addListingToShop = async (req: Request, res: Response) => {

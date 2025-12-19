@@ -43,6 +43,12 @@ export const findListingsByCategory = async (categoryId: string): Promise<Listin
 	);
 };
 
+export const findListingsByShop = async (shopId: number): Promise<Listing[]> => {
+	const em = getEm();
+
+	return em.find(Listing, { shop: { id: shopId } });
+};
+
 export const findListingById = async (id: number) => {
 	const em = getEm();
 	return em.findOne(Listing, { id });
