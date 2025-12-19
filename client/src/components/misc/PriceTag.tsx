@@ -16,7 +16,7 @@ export function PriceTag({ value }: PriceTagProps) {
 				bg="brand"
 				color="#FFFFFF"
 				width="fit-content"
-				paddingLeft="27.5px"
+				paddingLeft="25px"
 				paddingRight="7.5px"
 				paddingY="2.5px"
 				style={{
@@ -35,7 +35,7 @@ export function PriceTag({ value }: PriceTagProps) {
 					boxShadow: '#6b6b6b 0 -1px 1.5px inset',
 				}}
 			>
-				<Text fontSize="14px" fontWeight="semibold">
+				<Text fontSize="16px" fontFamily="Alegreya" fontWeight="600" height="25px">
 					{value}
 				</Text>
 			</Box>
