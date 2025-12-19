@@ -5,7 +5,7 @@ export const config = defineConfig({
 		tokens: {
 			fonts: {
 				body: { value: 'Telex' },
-				heading: { value: '"Alegreya"' },
+				heading: { value: 'Alegreya' },
 			},
 		},
 		semanticTokens: {

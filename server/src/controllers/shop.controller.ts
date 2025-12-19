@@ -1,20 +1,21 @@
-import * as shopService from '../services/shop.service';
-import * as productService from '../services/listing.service';
-import { Request, Response } from 'express';
 import { ShopProfile } from '@common/types/ShopProfile';
+import { Request, Response } from 'express';
 import { mapShopToShopCardData } from '../mappers/shop.mapper';
+import * as productService from '../services/listing.service';
+import * as shopService from '../services/shop.service';
 
 export const getAllShops = async (req: Request, res: Response) => {
 	const shops = await shopService.findShops();
 	res.json(shops.map(mapShopToShopCardData));
 };
 
-export const getShopProfile = async (req: Request, res: Response) => {
-	const shop = await shopService.findShopById(Number(req.params.id));
+export const getShop = async (req: Request, res: Response) => {
+	const shopId = Number(req.params.id);
+	const shop = await shopService.findShopById(shopId);
 	if (!shop) {
-		res.status(404).json({ message: 'Shop not found' });
+		return res.status(404).json({ message: 'Shop not found' });
 	}
-	res.json({ name: shop?.title });
+	res.json(mapShopToShopCardData(shop));
 };
 
 export const addListingToShop = async (req: Request, res: Response) => {

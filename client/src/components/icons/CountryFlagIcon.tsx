@@ -1,12 +1,16 @@
-import { CountryCode } from '../../constants';
+import { SVGProps } from 'react';
 import { FaLocationDot } from 'react-icons/fa6';
+import { CountryCode } from '../../constants';
 
-export const CountryFlagIcon = (props: { countryCode: CountryCode | null }) => {
+export const CountryFlagIcon = (props: {
+	countryCode: CountryCode | null;
+	svgProps?: SVGProps<SVGSVGElement>;
+}) => {
 	if (!props.countryCode) {
 		return <FaLocationDot size="20px" />;
 	}
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 512 512">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props.svgProps}>
 			<mask id="a">
 				<circle cx="256" cy="256" r="256" fill="#fff" />
 			</mask>

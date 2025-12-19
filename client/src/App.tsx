@@ -4,6 +4,7 @@ import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
 import { LandingPage } from './pages/LandingPage';
 import { ShopManager } from './pages/ShopManager';
+import { ShopPage } from './pages/ShopPage';
 
 const App = () => (
 	<>
@@ -13,6 +14,7 @@ const App = () => (
 			<Route path="/callback" element={<AuthCallback />} />
 			<Route path="/shop-manager" element={<ShopManager />} />
 			<Route path="/category/:id" element={<CategoryPage />} />
+			<Route path="/shop/:id" element={<ShopPage />} />
 			<Route path="*" element={<Navigate to="/" replace />} />
 		</Routes>
 	</>

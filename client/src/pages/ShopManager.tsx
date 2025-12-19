@@ -11,7 +11,7 @@ import {
 	Tabs,
 	Textarea,
 } from '@chakra-ui/react';
-import React, { ComponentProps, JSX, JSXElementConstructor, ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useApi from '../hooks/useApi';
 import { useUserInfo } from '../providers/UserProvider';
