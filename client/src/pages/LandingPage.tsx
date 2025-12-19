@@ -74,7 +74,7 @@ export const LandingPage = () => {
 						w="fit-content"
 						flexWrap="nowrap"
 					>
-						<Heading size="2xl" pr="7px" flexShrink={0}>
+						<Heading size="2xl" pr="5px" flexShrink={0}>
 							Welcome to
 						</Heading>
 						<Box width={120} flexShrink={0} marginTop="3px">
