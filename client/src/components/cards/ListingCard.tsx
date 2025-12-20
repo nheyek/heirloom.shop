@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Card, Flex, Heading, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Card, Flex, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaShop } from 'react-icons/fa6';
 import { LoadingImage } from '../misc/LoadingImage';
@@ -16,7 +16,7 @@ export const ListingCard = (props: ListingCardData) => {
 			</AspectRatio>
 			<Card.Body p={3}>
 				<Card.Title truncate style={{ cursor: 'pointer' }}>
-					<Heading>{props.title}</Heading>
+					{props.title}
 				</Card.Title>
 				{props.shopTitle && (
 					<Flex

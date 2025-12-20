@@ -103,7 +103,9 @@ export const LandingPage = () => {
 				</Heading>
 				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
 					{isLoading &&
-						Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={250} />)}
+						Array.from({ length: numColumns * 2 }).map((_, index) => (
+							<Skeleton key={index} height={250} />
+						))}
 					{shops.map((cardData) => (
 						<ShopCard key={cardData.id} {...cardData} />
 					))}

@@ -14,7 +14,9 @@ export const ListingGrid = (props: Props) => {
 	return (
 		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={STANDARD_NUM_COLUMNS}>
 			{props.listings.length === 0 &&
-				Array.from({ length: numColumns * 2 }).map(() => <Skeleton height={200} />)}
+				Array.from({ length: numColumns * 2 }).map((_, index) => (
+					<Skeleton key={index} height={200} />
+				))}
 			{props.listings.map((listing) => (
 				<ListingCard key={listing.id} {...listing} />
 			))}

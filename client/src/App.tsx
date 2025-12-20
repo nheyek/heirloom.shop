@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { ScrollToTop } from './components/misc/ScrollToTop';
 import Navbar from './components/navbar/NavBar';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
@@ -8,6 +9,7 @@ import { ShopPage } from './pages/ShopPage';
 
 const App = () => (
 	<>
+		<ScrollToTop />
 		<Navbar />
 		<Routes>
 			<Route path="/" element={<LandingPage />} />
