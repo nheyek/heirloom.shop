@@ -62,41 +62,44 @@ export const ShopPage = () => {
 							</AspectRatio>
 							<Box
 								position="absolute"
-								bottom="15px"
-								left="30px"
+								bottom={[2, 4, 6]}
+								left={[4, 6, 8]}
 								fontFamily="Alegreya"
 								textShadow="0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);"
 								color="#FFF"
 							>
 								<Text
-									fontSize="48px"
+									fontSize={['36px', '42px', '48px']}
 									fontWeight="700"
 									fontFamily="Alegreya"
 									lineHeight={1}
 								>
 									{shopData?.title}
 								</Text>
-								<Text fontSize="24px" fontWeight="600" lineHeight={1.25}>
+								<Text
+									fontSize={['24px', '28px', '32px']}
+									fontWeight="600"
+									lineHeight={1.25}
+								>
 									{shopData?.classification}
 								</Text>
-								<Box
-									mt="5px"
-									display="flex"
-									alignItems="center"
-									gap="5px"
-									fontWeight="600"
-								>
-									<CountryFlagIcon
-										countryCode={shopData?.countryCode as CountryCode | null}
-										svgProps={{
-											width: '25px',
-											height: '25px',
-											style: {
-												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-											},
-										}}
-									/>
-									<Text fontSize="20px">{shopData?.location}</Text>
+								<Box display="flex" alignItems="center" gap={2} fontWeight="600">
+									<Box width={[6, 7, 8]}>
+										<CountryFlagIcon
+											countryCode={
+												shopData?.countryCode as CountryCode | null
+											}
+											svgProps={{
+												style: {
+													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+												},
+											}}
+										/>
+									</Box>
+
+									<Text fontSize={['20px', '24px', '28px']}>
+										{shopData?.location}
+									</Text>
 								</Box>
 							</Box>
 						</Box>
