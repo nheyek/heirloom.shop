@@ -35,12 +35,12 @@ export const ShopPage = () => {
 	};
 
 	useEffect(() => {
-		loadShopData();
+		setTimeout(loadShopData, 500);
 	}, [id]);
 
 	return (
 		<>
-			<Box width="100%" maxWidth="1200px" overflow="hidden" mx="auto" p="16px">
+			<Box width="100%" maxWidth={1000} overflow="hidden" mx="auto" p={5}>
 				{isLoading && (
 					<AspectRatio ratio={5 / 2}>
 						<Skeleton width="100%" />
@@ -56,20 +56,20 @@ export const ShopPage = () => {
 							<AspectRatio ratio={5 / 2}>
 								<LoadingImage
 									boxShadow="md"
-									borderRadius="5px"
+									borderRadius={3}
 									src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`}
 								/>
 							</AspectRatio>
 							<Box
 								position="absolute"
-								bottom={[2, 4, 6]}
-								left={[4, 6, 8]}
+								bottom={[2, 4, 6, 8]}
+								left={[4, 6, 8, 10]}
 								fontFamily="Alegreya"
 								textShadow="0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);"
 								color="#FFF"
 							>
 								<Text
-									fontSize={['36px', '42px', '48px']}
+									fontSize={['36px', '42px', '48px', '54px']}
 									fontWeight="700"
 									fontFamily="Alegreya"
 									lineHeight={1}
@@ -77,14 +77,14 @@ export const ShopPage = () => {
 									{shopData?.title}
 								</Text>
 								<Text
-									fontSize={['24px', '28px', '32px']}
+									fontSize={['24px', '28px', '32px', '36px']}
 									fontWeight="600"
 									lineHeight={1.25}
 								>
 									{shopData?.classification}
 								</Text>
 								<Box display="flex" alignItems="center" gap={2} fontWeight="600">
-									<Box width={[6, 7, 8]}>
+									<Box width={[5, 6, 7, 8]}>
 										<CountryFlagIcon
 											countryCode={
 												shopData?.countryCode as CountryCode | null
@@ -97,7 +97,7 @@ export const ShopPage = () => {
 										/>
 									</Box>
 
-									<Text fontSize={['20px', '24px', '28px']}>
+									<Text fontSize={['16px', '20px', '24px', '28px']}>
 										{shopData?.location}
 									</Text>
 								</Box>
@@ -106,7 +106,7 @@ export const ShopPage = () => {
 					</motion.div>
 				)}
 
-				<Box marginTop="16px">
+				<Box marginTop={5}>
 					<ListingGrid listings={listings} isLoading={isLoading} />
 				</Box>
 			</Box>
