@@ -1,7 +1,7 @@
-import { Alert, Box, Breadcrumb, Heading, Link, Skeleton } from '@chakra-ui/react';
+import { Alert, Box, Breadcrumb, Link, Skeleton } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
-import { FaHouse } from 'react-icons/fa6';
+import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
@@ -74,16 +74,16 @@ export const CategoryPage = () => {
 
 	return (
 		<Box m={5}>
-			<Box mx="auto" maxWidth="1200px">
-				<Box my="24px">
-					{isLoading && <Skeleton height="50px" width="300px" />}
+			<Box mx="auto" maxWidth={1200}>
+				<Box my={7}>
+					{isLoading && <Skeleton height={35} width={300} />}
 					{!isLoading && category && (
 						<Breadcrumb.Root>
-							<Breadcrumb.List fontSize="16px">
+							<Breadcrumb.List fontSize={22} fontFamily="Alegreya">
 								<Breadcrumb.Item>
 									<Link onClick={() => navigate('/')}>
-										<FaHouse />
-										<Heading>Home</Heading>
+										<MdHome />
+										Home
 									</Link>
 								</Breadcrumb.Item>
 								<Breadcrumb.Separator />
@@ -98,9 +98,7 @@ export const CategoryPage = () => {
 													)
 												}
 											>
-												<Link>
-													<Heading>{ancestor.title}</Heading>
-												</Link>
+												<Link>{ancestor.title}</Link>
 											</Breadcrumb.Link>
 										</Breadcrumb.Item>
 										<Breadcrumb.Separator />
@@ -108,8 +106,8 @@ export const CategoryPage = () => {
 								))}
 
 								<Breadcrumb.Item>
-									<Breadcrumb.CurrentLink>
-										<Heading>{category?.title}</Heading>
+									<Breadcrumb.CurrentLink fontWeight={600}>
+										{category?.title}
 									</Breadcrumb.CurrentLink>
 								</Breadcrumb.Item>
 							</Breadcrumb.List>
