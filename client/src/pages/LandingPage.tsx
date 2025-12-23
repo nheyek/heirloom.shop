@@ -33,6 +33,7 @@ export const LandingPage = () => {
 		} else {
 			setShops(shopResponse.data);
 		}
+		setShopsLoading(false);
 	};
 
 	const loadListings = async () => {
@@ -42,19 +43,16 @@ export const LandingPage = () => {
 		} else {
 			setListings(listingsResponse.data);
 		}
-	};
-
-	const loadPageData = async () => {
-		await Promise.all([loadShopData(), loadListings()]);
-
-		setShopsLoading(false);
 		setListingsLoading(false);
 	};
 
 	useEffect(() => {
 		setShopsLoading(true);
 		setShopsError(null);
-		setTimeout(loadPageData, 500);
+		setTimeout(() => {
+			loadShopData();
+			loadListings();
+		}, 500);
 	}, []);
 
 	return (

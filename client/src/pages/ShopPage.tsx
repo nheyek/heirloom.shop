@@ -16,27 +16,47 @@ export const ShopPage = () => {
 
 	const { getPublicResource } = useApi();
 
-	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [shopData, setShopData] = useState<ShopCardData | null>(null);
+	const [shopDataLoading, setShopDataLoading] = useState<boolean>(true);
+	const [shopDataError, setShopDataError] = useState<string | null>(null);
+
 	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listingsLoading, setListingsLoading] = useState<boolean>(true);
+	const [listingsError, setListingsError] = useState<string | null>(null);
 
 	const loadShopData = async () => {
-		setIsLoading(true);
+		const response = await getPublicResource(`shops/${id}`);
+		if (response.error) {
+			setShopDataError('Failed to load maker info');
+		} else {
+			setShopData(response.data);
+		}
+		setShopDataLoading(false);
+	};
 
-		const [shopDataResponse, listingsResponse] = await Promise.all([
-			getPublicResource(`shops/${id}`),
-			getPublicResource(`shops/${id}/listings`),
-		]);
-
-		setShopData(shopDataResponse.data);
-		setListings(listingsResponse.data);
-
-		setIsLoading(false);
+	const loadListings = async () => {
+		const response = await getPublicResource(`shops/${id}/listings`);
+		if (response.error) {
+			setListingsError('Failed to load listings');
+		} else {
+			setListings(response.data);
+		}
+		setListingsLoading(false);
 	};
 
 	useEffect(() => {
-		setTimeout(loadShopData, 500);
+		setShopDataLoading(true);
+		setShopDataError(null);
+		setListingsLoading(true);
+		setListingsError(null);
+
+		setTimeout(() => {
+			loadShopData();
+			loadListings();
+		}, 500);
 	}, [id]);
+
+	const isLoading = shopDataLoading || listingsLoading;
 
 	return (
 		<>
@@ -62,7 +82,7 @@ export const ShopPage = () => {
 							</AspectRatio>
 							<Box
 								position="absolute"
-								bottom={[2, 4, 6, 8]}
+								bottom={[2, 4, 6]}
 								left={[4, 6, 8, 10]}
 								fontFamily="Alegreya"
 								textShadow="0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);"
