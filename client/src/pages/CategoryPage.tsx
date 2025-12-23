@@ -1,10 +1,11 @@
-import { Alert, Box, Breadcrumb, Link, Skeleton } from '@chakra-ui/react';
+import { Box, Breadcrumb, Link, Skeleton } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
+import { AppError } from '../components/misc/AppError';
 import { OrnamentalDivider } from '../components/misc/OrnamentalDivider';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
@@ -12,8 +13,13 @@ import { useCategories } from '../providers/CategoriesProvider';
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();
 
-	const { getCategory, getChildCategories, getAncestorCategories, categoriesLoading } =
-		useCategories();
+	const {
+		getCategory,
+		getChildCategories,
+		getAncestorCategories,
+		categoriesLoading,
+		categoriesError,
+	} = useCategories();
 
 	const category = id ? getCategory(id?.toUpperCase()) : null;
 	const childCategories = id ? getChildCategories(id) : [];
@@ -21,42 +27,39 @@ export const CategoryPage = () => {
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
-	const [error, setError] = useState<string | null>(null);
+	const [listingsError, setListingsError] = useState<string | null>(null);
 	const isLoading = listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
+
 	const navigate = useNavigate();
 
 	const loadListings = async () => {
-		setListingsLoading(true);
-		setError(null);
-
-		try {
-			const listingsResponse = await getPublicResource(`categories/${id}/listings`);
-			setListings(listingsResponse.data || []);
-		} catch (err) {
-			setError('Failed to load listings');
-		} finally {
-			setListingsLoading(false);
+		const listingsResponse = await getPublicResource(`categories/${id}/listings`);
+		if (listingsResponse.error) {
+			setListingsError('Failed to load listings');
+		} else {
+			setListings(listingsResponse.data);
 		}
-	};
 
-	useEffect(() => {});
+		setListingsLoading(false);
+	};
 
 	useEffect(() => {
 		setListingsLoading(true);
+		setListingsError(null);
 		setListings([]);
+
 		setTimeout(loadListings, 500);
 	}, [id]);
 
-	if (error) {
+	if (categoriesError) {
 		return (
-			<Box m="16px">
-				<Alert.Root status="error">
-					<Alert.Indicator />
-					<Alert.Content>
-						<Alert.Title>{error}</Alert.Title>
-						<Alert.Description>
+			<Box m={5}>
+				<AppError
+					title={'Failed to load categories'}
+					content={
+						<>
 							Click{' '}
 							<Link
 								onClick={() => navigate('/')}
@@ -65,9 +68,9 @@ export const CategoryPage = () => {
 								here
 							</Link>{' '}
 							to return to the homepage.
-						</Alert.Description>
-					</Alert.Content>
-				</Alert.Root>
+						</>
+					}
+				/>
 			</Box>
 		);
 	}
@@ -115,14 +118,15 @@ export const CategoryPage = () => {
 					)}
 				</Box>
 
-				{childCategories.length > 0 && (
-					<>
-						<CategoryGrid isLoading={isLoading} categories={childCategories} />
-						<OrnamentalDivider />
-					</>
-				)}
+				<CategoryGrid isLoading={isLoading} categories={childCategories} />
 
-				<ListingGrid listings={listings} isLoading={isLoading} />
+				{childCategories.length > 0 && <OrnamentalDivider />}
+
+				{listingsError ? (
+					<AppError title={listingsError} />
+				) : (
+					<ListingGrid listings={listings} isLoading={isLoading} />
+				)}
 			</Box>
 		</Box>
 	);

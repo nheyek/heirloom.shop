@@ -6,16 +6,16 @@ import { CategoryCard } from '../cards/CategoryCard';
 type Props = {
 	isLoading: boolean;
 	categories: CategoryCardData[];
-	numItems?: number;
+	numPlaceholders?: number;
 };
 
 export const CategoryGrid = (props: Props) => {
 	const numColumns = useBreakpointValue(STANDARD_NUM_COLUMNS) || 1;
 
 	return (
-		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={numColumns} mt="18px" mb="18px">
+		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={numColumns}>
 			{props.isLoading &&
-				Array.from({ length: props.numItems || numColumns }).map((_, i) => (
+				Array.from({ length: props.numPlaceholders || numColumns }).map((_, i) => (
 					<Skeleton key={i} height={150} />
 				))}
 			{!props.isLoading &&

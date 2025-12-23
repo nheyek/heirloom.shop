@@ -18,10 +18,12 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 	const [error, setError] = useState<string | null>(null);
 
 	const getCategory = (id: string) => categories.get(id.toUpperCase());
+
 	const getChildCategories = (id: string | null) =>
 		Array.from(categories.values()).filter(
 			(category) => (category.parentId || null) === (id?.toUpperCase() || null),
 		);
+
 	const getAncestorCategories = (id: string) => {
 		const ancestors: CategoryCardData[] = [];
 		let currentCategory = categories.get(id.toUpperCase());
@@ -40,20 +42,18 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 	const { getPublicResource } = useApi();
 
 	const loadCategories = async () => {
-		try {
-			await getPublicResource('categories').then((response: { data: CategoryCardData[] }) => {
-				setCategories(
-					new Map(
-						response.data.map((category: CategoryCardData) => [category.id, category]),
-					),
-				);
-			});
-			setIsLoading(false);
-		} catch (error) {
+		setIsLoading(true);
+
+		const response = await getPublicResource('categories');
+		if (response.error) {
 			setError('Failed to load category hierarchy');
-		} finally {
-			setIsLoading(false);
+		} else {
+			setCategories(
+				new Map(response.data.map((category: CategoryCardData) => [category.id, category])),
+			);
 		}
+
+		setIsLoading(false);
 	};
 
 	useEffect(() => {

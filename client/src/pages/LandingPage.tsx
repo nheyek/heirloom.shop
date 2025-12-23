@@ -1,121 +1,114 @@
-import {
-	Alert,
-	Box,
-	Button,
-	Heading,
-	SimpleGrid,
-	Skeleton,
-	Text,
-	useBreakpointValue,
-} from '@chakra-ui/react';
+import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
-import { ShopCard } from '../components/cards/ShopCard';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
+import { ShopGrid } from '../components/grids/ShopGrid';
+import { AppError } from '../components/misc/AppError';
 import { Logo } from '../components/misc/Logo';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
 
-const NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
-const COLUMN_GAP = { base: 3, md: 4, lg: 5 };
-
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
-	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [error, setError] = useState<string | null>(null);
-	const { getChildCategories, categoriesLoading } = useCategories();
+	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
+	const [shopsError, setShopsError] = useState<string | null>(null);
 
-	const isLoading = shops.length === 0 || listings.length === 0 || categoriesLoading;
+	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listingsLoading, setListingsLoading] = useState<boolean>(false);
+	const [listingsError, setListingsError] = useState<string | null>(null);
+
+	const { getChildCategories, categoriesLoading, categoriesError } = useCategories();
+
+	const isLoading = shopsLoading || listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
 
-	const loadLandingPageData = async () => {
-		try {
-			const [shopsResponse, listingsResponse] = await Promise.all([
-				getPublicResource('shops'),
-				getPublicResource('listings'),
-			]);
-
-			setShops(shopsResponse.data);
-			setListings(listingsResponse.data);
-		} catch (err) {
-			setError('Failed to load content');
+	const loadShopData = async () => {
+		const shopResponse = await getPublicResource('shops');
+		if (shopResponse.error) {
+			setShopsError('Failed to load makers');
+		} else {
+			setShops(shopResponse.data);
 		}
 	};
 
+	const loadListings = async () => {
+		const listingsResponse = await getPublicResource('listings');
+		if (listingsResponse.error) {
+			setListingsError('Failed to load listings');
+		} else {
+			setListings(listingsResponse.data);
+		}
+	};
+
+	const loadPageData = async () => {
+		await Promise.all([loadShopData(), loadListings()]);
+
+		setShopsLoading(false);
+		setListingsLoading(false);
+	};
+
 	useEffect(() => {
-		setTimeout(loadLandingPageData, 500);
+		setShopsLoading(true);
+		setShopsError(null);
+		setTimeout(loadPageData, 500);
 	}, []);
 
-	if (error) {
-		return (
-			<Box m="16px">
-				<Alert.Root status="error">
-					<Alert.Indicator />
-					<Alert.Title>{error}</Alert.Title>
-				</Alert.Root>
-			</Box>
-		);
-	}
-
-	const numColumns = useBreakpointValue(NUM_COLUMNS) || 1;
-
 	return (
-		<Box m={5}>
-			<Box mx="auto" maxWidth="1200px">
-				<Box mx="auto" textAlign="center" mt="36px">
-					<Box
-						mx="auto"
-						display="flex"
-						alignItems="center"
-						w="fit-content"
-						flexWrap="nowrap"
-					>
-						<Heading size="2xl" pr="5px" flexShrink={0}>
-							Welcome to
-						</Heading>
-						<Box width={120} flexShrink={0} marginTop="3px">
-							<Logo fill="#000000" />
-						</Box>
+		<>
+			<Box mx="auto" textAlign="center" mt={10} mb={5}>
+				<Box mx="auto" display="flex" alignItems="center" w="fit-content" flexWrap="nowrap">
+					<Heading size="2xl" pr="5px" flexShrink={0}>
+						Welcome to
+					</Heading>
+					<Box width={120} flexShrink={0} marginTop="3px">
+						<Logo fill="#000000" />
 					</Box>
-
-					<Text fontSize={18} mt="5px">
-						An exhibition of American and European craftsmanship.
-					</Text>
-					<Button size="sm" mt="10px">
-						Learn more
-					</Button>
 				</Box>
 
-				<Box mt="36px">
+				<Text fontSize={18} mt={1}>
+					An exhibition of American and European craftsmanship.
+				</Text>
+				<Button size="sm" mt={2}>
+					Learn more
+				</Button>
+			</Box>
+			<Stack gap={10} p={5} mx="auto" maxWidth={1200}>
+				{categoriesError ? (
+					<AppError title="Failed to load categories" />
+				) : (
 					<CategoryGrid
 						isLoading={isLoading}
 						categories={getChildCategories(null)}
-						numItems={NUM_TOP_LEVEL_CATEGORIES}
+						numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
 					/>
+				)}
+
+				<Box>
+					<Heading size="3xl" mb={2}>
+						Makers
+					</Heading>
+					{shopsError ? (
+						<AppError title="Failed to load makers" />
+					) : (
+						<ShopGrid shops={shops} isLoading={isLoading} />
+					)}
 				</Box>
 
-				<Heading size="3xl" mt="36px" mb={2}>
-					Makers
-				</Heading>
-				<SimpleGrid gap={COLUMN_GAP} columns={NUM_COLUMNS}>
-					{isLoading &&
-						Array.from({ length: numColumns * 2 }).map((_, index) => (
-							<Skeleton key={index} height={250} />
-						))}
-					{shops.map((cardData) => (
-						<ShopCard key={cardData.id} {...cardData} />
-					))}
-				</SimpleGrid>
-
-				<Heading size="3xl" mt="36px" mb={2}>
-					Featured
-				</Heading>
-				<ListingGrid listings={listings} isLoading={isLoading} />
-			</Box>
-		</Box>
+				<Box>
+					<Heading size="3xl" mb={2}>
+						Featured
+					</Heading>
+					{listingsError ? (
+						<AppError title="Failed to load featured listings" />
+					) : (
+						<ListingGrid listings={listings} isLoading={isLoading} />
+					)}
+				</Box>
+			</Stack>
+		</>
 	);
 };
