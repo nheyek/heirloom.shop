@@ -32,7 +32,6 @@ export function PriceTag({ value }: PriceTagProps) {
 					height: '7px',
 					bg: '#FFFFFF',
 					borderRadius: 'full',
-					//boxShadow: '#6b6b6b 0 -1px 1.5px inset',
 				}}
 			>
 				<Text
