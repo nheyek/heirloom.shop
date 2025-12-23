@@ -29,11 +29,11 @@ export const ShopCard = (props: ShopCardData) => {
 						iconCode={props.categoryIcon as CategoryIconCode | null}
 						size={22}
 					/>
-					<Text fontSize={16}>{props.classification}</Text>
+					<Text fontSize={15}>{props.classification}</Text>
 					<Box width={22} height={22}>
 						<CountryFlagIcon countryCode={props.countryCode as CountryCode | null} />
 					</Box>
-					<Text fontSize={16}>{props.location}</Text>
+					<Text fontSize={15}>{props.location}</Text>
 				</SimpleGrid>
 			</Card.Body>
 		</AppCard>
