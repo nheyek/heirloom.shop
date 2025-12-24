@@ -74,7 +74,7 @@ export const LandingPage = () => {
 					Learn more
 				</Button>
 			</Box>
-			<Stack gap={10} p={5} mx="auto" maxWidth={1200}>
+			<Stack gap={10} p={5} mx="auto" maxWidth={2000}>
 				{categoriesError ? (
 					<AppError title="Failed to load categories" />
 				) : (

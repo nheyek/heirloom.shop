@@ -1,7 +1,7 @@
 export const NUM_TOP_LEVEL_CATEGORIES = 4;
 
 export const STANDARD_NUM_COLUMNS = { base: 2, md: 3, lg: 4 };
-export const STANDARD_COLUMN_GAP = 3;
+export const STANDARD_COLUMN_GAP = { base: 3, lg: 4 };
 
 export enum CategoryIconCode {
 	NECKLACE = 'NECKLACE',
