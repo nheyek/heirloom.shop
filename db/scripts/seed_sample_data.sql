@@ -98,6 +98,7 @@ DECLARE
     sample_listing_5_subtitle VARCHAR := 'Crafted from Alder hardwood, this turned-leg table exudes timeless allure, transforming any dining space into a haven of sophistication and charm.';
     sample_listing_5_price_dollars INT := 2967;
     sample_listing_5_country_code CHAR(2) := 'US';
+    sample_listing_5_image_uuids text[] := '{"8D236EB4-62F3-48D8-A468-4A46DEE32003", "5561CDF1-343A-4AA7-AE24-D099BD97157E", "140D5892-CF55-4611-8BC8-FEDCFFE4614C", "DC7B2D50-361B-4573-A9C8-8AEDB7FC0C7A"}';
 
 
     sample_listing_6_id INT := 6;
@@ -168,18 +169,18 @@ BEGIN
         category_icon = EXCLUDED.category_icon,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars, country_code)
+    INSERT INTO listing (id, shop_id, category_id, primary_image_uuid, title, subtitle, price_dollars, country_code, image_uuids)
     VALUES
-        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_primary_image_uuid, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_country_code),
-        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_primary_image_uuid, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_country_code),
-        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_primary_image_uuid, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_country_code),
-        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_primary_image_uuid, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_country_code),
-        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_primary_image_uuid, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_country_code),
-        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_primary_image_uuid, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_country_code),
-        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_primary_image_uuid, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_country_code),
-        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_primary_image_uuid, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_country_code),
-        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_primary_image_uuid, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_country_code),
-        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_primary_image_uuid, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_country_code)
+        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_primary_image_uuid, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_country_code, '{}'),
+        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_primary_image_uuid, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_country_code, '{}'),
+        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_primary_image_uuid, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_country_code, '{}'),
+        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_primary_image_uuid, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_country_code, '{}'),
+        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_primary_image_uuid, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_country_code, sample_listing_5_image_uuids),
+        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_primary_image_uuid, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_country_code, '{}'),
+        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_primary_image_uuid, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_country_code, '{}'),
+        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_primary_image_uuid, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_country_code, '{}'),
+        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_primary_image_uuid, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_country_code, '{}'),
+        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_primary_image_uuid, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_country_code, '{}')
     ON CONFLICT (id) DO UPDATE SET
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
@@ -189,6 +190,7 @@ BEGIN
         descr_rich_text = EXCLUDED.descr_rich_text,
         price_dollars = EXCLUDED.price_dollars,
         country_code = EXCLUDED.country_code,
+        image_uuids = EXCLUDED.image_uuids,
         updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;

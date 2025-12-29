@@ -39,7 +39,7 @@ export class Listing {
   @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
   country?: Country;
 
-  @Property({ type: 'string[]', nullable: true })
-  imageUuids?: string[] = '{}';
+  @Property({ type: 'string[]' })
+  imageUuids: string[] & Opt = '{}';
 
 }

@@ -10,11 +10,13 @@ export const ListingCard = (props: ListingCardData) => {
 	return (
 		<AppCard>
 			<AspectRatio ratio={3 / 2}>
-				{/* <LoadingImage
-					style={{ cursor: 'pointer' }}
-					src={`${process.env.LISTING_IMAGES_URL}/${props.primaryImageUuid}.jpg`}
-				/> */}
-				{<ImageCarousel />}
+				{
+					<ImageCarousel
+						urls={props.imageUuids.map(
+							(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
+						)}
+					/>
+				}
 			</AspectRatio>
 			<Card.Body p={3} pr={2} pb={2}>
 				<Card.Title truncate style={{ cursor: 'pointer' }}>

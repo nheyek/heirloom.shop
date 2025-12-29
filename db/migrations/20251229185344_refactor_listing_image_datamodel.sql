@@ -1,7 +1,7 @@
 -- migrate:up
 
 DROP TABLE listing_image;
-ALTER TABLE listing ADD COLUMN image_uuids text[] DEFAULT '{}';
+ALTER TABLE listing ADD COLUMN image_uuids text[] NOT NULL DEFAULT '{}';
 
 -- migrate:down
 

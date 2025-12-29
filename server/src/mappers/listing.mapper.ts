@@ -1,5 +1,5 @@
-import { Listing } from '../entities/Listing';
 import { ListingCardData } from '@common/types/ListingCardData';
+import { Listing } from '../entities/Listing';
 
 export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
 	id: listing.id,
@@ -10,5 +10,5 @@ export const mapListingToListingCardData = (listing: Listing): ListingCardData =
 	countryCode: listing.country?.code,
 	primaryImageUuid: listing.primaryImageUuid || '',
 	shopTitle: listing.shop.title,
-	shopProfileImageUuid: listing.shop.profileImageUuid,
+	imageUuids: listing.imageUuids,
 });

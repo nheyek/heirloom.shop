@@ -8,4 +8,5 @@ export type ListingCardData = {
 	countryCode?: string;
 	shopTitle: string;
 	shopProfileImageUuid?: string;
+	imageUuids: string[];
 };
