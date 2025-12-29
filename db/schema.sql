@@ -71,7 +71,8 @@ CREATE TABLE public.listing (
     price_dollars integer DEFAULT 0 NOT NULL,
     primary_image_uuid character varying(36),
     shop_id integer NOT NULL,
-    country_code character(2)
+    country_code character(2),
+    image_uuids text[] DEFAULT '{}'::text[]
 );
 
 
@@ -88,39 +89,6 @@ CREATE TABLE public.listing_category (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
-
-
---
--- Name: listing_image; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.listing_image (
-    id integer NOT NULL,
-    listing_id integer NOT NULL,
-    image_uuid character varying(36) NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
-);
-
-
---
--- Name: listing_image_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.listing_image_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: listing_image_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.listing_image_id_seq OWNED BY public.listing_image.id;
 
 
 --
@@ -239,13 +207,6 @@ ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.prod
 
 
 --
--- Name: listing_image id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_image ALTER COLUMN id SET DEFAULT nextval('public.listing_image_id_seq'::regclass);
-
-
---
 -- Name: shop id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -281,14 +242,6 @@ ALTER TABLE ONLY public.country
 
 ALTER TABLE ONLY public.listing_category
     ADD CONSTRAINT listing_category_pkey PRIMARY KEY (id);
-
-
---
--- Name: listing_image listing_image_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_image
-    ADD CONSTRAINT listing_image_pkey PRIMARY KEY (id);
 
 
 --
@@ -356,14 +309,6 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: listing_image listing_image_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_image
-    ADD CONSTRAINT listing_image_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
-
-
---
 -- Name: listing listing_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -413,4 +358,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251125181457'),
     ('20251126162741'),
     ('20251208210850'),
-    ('20251209162737');
+    ('20251209162737'),
+    ('20251229185344');

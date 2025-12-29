@@ -1,6 +1,7 @@
 import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
 import { Listing } from '../entities/Listing';
+import { ListingImage } from '../entities/ListingImage';
 import { Shop } from '../entities/Shop';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
@@ -14,6 +15,11 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 			limit: 8,
 		},
 	);
+};
+
+export const findListingImages = async (id: number): Promise<ListingImage[]> => {
+	const em = getEm();
+	return em.find(ListingImage, { listing: { id } });
 };
 
 export const findListingsByCategory = async (categoryId: string): Promise<Listing[]> => {
