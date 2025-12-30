@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Skeleton, Stack, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Skeleton, Stack, Text, useBreakpoint } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -15,6 +15,8 @@ export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const { getPublicResource } = useApi();
+
+	const breakpoint = useBreakpoint();
 
 	const [shopData, setShopData] = useState<ShopCardData | null>(null);
 	const [shopDataLoading, setShopDataLoading] = useState<boolean>(true);
@@ -58,10 +60,15 @@ export const ShopPage = () => {
 
 	const isLoading = shopDataLoading || listingsLoading;
 
+	let bannerAspectRatio = 1.75;
+	breakpoint === 'md' && (bannerAspectRatio = 2.25);
+	breakpoint === 'lg' && (bannerAspectRatio = 2.75);
+	breakpoint === 'xl' && (bannerAspectRatio = 3.25);
+
 	return (
 		<Stack gap={5} p={5}>
 			{isLoading && (
-				<AspectRatio ratio={{ sm: 3 / 2, md: 2 / 1, lg: 3 / 1, xl: 4 / 1 }}>
+				<AspectRatio ratio={bannerAspectRatio}>
 					<Skeleton width="100%" />
 				</AspectRatio>
 			)}
@@ -72,9 +79,7 @@ export const ShopPage = () => {
 					transition={{ duration: 1, ease: 'easeInOut' }}
 				>
 					<Box position="relative">
-						<AspectRatio
-							ratio={{ sm: 1.75 / 1, md: 2.25 / 1, lg: 2.75 / 1, xl: 3.25 / 1 }}
-						>
+						<AspectRatio ratio={bannerAspectRatio}>
 							<LoadingImage
 								boxShadow="md"
 								borderRadius={5}
