@@ -30,9 +30,6 @@ export class Listing {
   @Property({ type: 'integer' })
   priceDollars: number & Opt = 0;
 
-  @Property({ length: 36, nullable: true })
-  primaryImageUuid?: string;
-
   @ManyToOne({ entity: () => Shop, deleteRule: 'cascade' })
   shop!: Shop;
 

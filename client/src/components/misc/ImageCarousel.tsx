@@ -9,8 +9,8 @@ type Props = {
 };
 
 export const ImageCarousel = (props: Props) => {
-	console.log(props.urls);
 	const [isHovered, setIsHovered] = useState<boolean>(false);
+	const showArrows = isHovered && props.urls.length > 1;
 	return (
 		<Carousel.Root
 			onMouseEnter={() => setIsHovered(true)}
@@ -23,7 +23,7 @@ export const ImageCarousel = (props: Props) => {
 			colorPalette="white"
 		>
 			<Carousel.Control gap="4" width="full" position="relative">
-				{isHovered && (
+				{showArrows && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton size="xs" insetStart={4}>
 							<FaArrowLeft />
@@ -34,18 +34,12 @@ export const ImageCarousel = (props: Props) => {
 				<Carousel.ItemGroup>
 					{props.urls.map((src, index) => (
 						<Carousel.Item key={index} index={index}>
-							<Image
-								src={src}
-								alt={`Product ${index + 1}`}
-								width="100%"
-								height="100%"
-								objectFit="cover"
-							/>
+							<Image src={src} width="100%" height="100%" objectFit="cover" />
 						</Carousel.Item>
 					))}
 				</Carousel.ItemGroup>
 
-				{isHovered && (
+				{showArrows && (
 					<Carousel.NextTrigger asChild>
 						<ActionButton insetEnd="4">
 							<FaArrowRight />
@@ -53,10 +47,9 @@ export const ImageCarousel = (props: Props) => {
 					</Carousel.NextTrigger>
 				)}
 
-				<Box position="absolute" bottom={5} width="full">
+				<Box position="absolute" bottom={7} width="full">
 					<Carousel.Indicators
 						opacity="0.5"
-						boxSize="1.5"
 						_current={{ bg: 'colorPalette.subtle', opacity: 1 }}
 					/>
 				</Box>
