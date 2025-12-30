@@ -71,7 +71,7 @@ CREATE TABLE public.listing (
     price_dollars integer DEFAULT 0 NOT NULL,
     shop_id integer NOT NULL,
     country_code character(2),
-    image_uuids text[] DEFAULT '{}'::text[] NOT NULL
+    image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL
 );
 
 
@@ -359,4 +359,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251208210850'),
     ('20251209162737'),
     ('20251229185344'),
-    ('20251230150327');
+    ('20251230150327'),
+    ('20251230152757');
