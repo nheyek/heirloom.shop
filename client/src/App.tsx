@@ -1,3 +1,4 @@
+import { Box } from '@chakra-ui/react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ScrollToTop } from './components/misc/ScrollToTop';
 import Navbar from './components/navbar/NavBar';
@@ -8,18 +9,20 @@ import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
 
 const App = () => (
-	<>
+	<Box>
 		<ScrollToTop />
 		<Navbar />
-		<Routes>
-			<Route path="/" element={<LandingPage />} />
-			<Route path="/callback" element={<AuthCallback />} />
-			<Route path="/shop-manager" element={<ShopManager />} />
-			<Route path="/category/:id" element={<CategoryPage />} />
-			<Route path="/shop/:id" element={<ShopPage />} />
-			<Route path="*" element={<Navigate to="/" replace />} />
-		</Routes>
-	</>
+		<Box maxWidth={1440} mx="auto">
+			<Routes>
+				<Route path="/" element={<LandingPage />} />
+				<Route path="/callback" element={<AuthCallback />} />
+				<Route path="/shop-manager" element={<ShopManager />} />
+				<Route path="/category/:id" element={<CategoryPage />} />
+				<Route path="/shop/:id" element={<ShopPage />} />
+				<Route path="*" element={<Navigate to="/" replace />} />
+			</Routes>
+		</Box>
+	</Box>
 );
 
 export { App };
