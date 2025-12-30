@@ -21,6 +21,7 @@ export const ImageCarousel = (props: Props) => {
 			gap="4"
 			position="relative"
 			colorPalette="white"
+			loop
 		>
 			<Carousel.Control gap="4" width="full" position="relative">
 				{showArrows && (
@@ -47,12 +48,14 @@ export const ImageCarousel = (props: Props) => {
 					</Carousel.NextTrigger>
 				)}
 
-				<Box position="absolute" bottom={7} width="full">
-					<Carousel.Indicators
-						opacity="0.5"
-						_current={{ bg: 'colorPalette.subtle', opacity: 1 }}
-					/>
-				</Box>
+				{props.urls.length > 1 && (
+					<Box position="absolute" bottom={7} width="full">
+						<Carousel.Indicators
+							opacity="0.5"
+							_current={{ bg: 'colorPalette.subtle', opacity: 1 }}
+						/>
+					</Box>
+				)}
 			</Carousel.Control>
 		</Carousel.Root>
 	);
