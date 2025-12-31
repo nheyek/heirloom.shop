@@ -49,7 +49,7 @@ export const ImageCarousel = (props: Props) => {
 				)}
 
 				{props.urls.length > 1 && (
-					<Box position="absolute" bottom={7} width="full">
+					<Box position="absolute" bottom={10} width="full">
 						<Carousel.Indicators
 							opacity="0.5"
 							_current={{ bg: 'colorPalette.subtle', opacity: 1 }}

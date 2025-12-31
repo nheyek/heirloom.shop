@@ -9,10 +9,10 @@ import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
 
 const App = () => (
-	<Box>
+	<>
 		<ScrollToTop />
 		<Navbar />
-		<Box maxWidth={1440} mx="auto">
+		<Box maxWidth={1600} mx="auto">
 			<Routes>
 				<Route path="/" element={<LandingPage />} />
 				<Route path="/callback" element={<AuthCallback />} />
@@ -22,7 +22,7 @@ const App = () => (
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</Box>
-	</Box>
+	</>
 );
 
 export { App };

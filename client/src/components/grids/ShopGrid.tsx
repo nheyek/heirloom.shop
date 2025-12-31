@@ -1,6 +1,6 @@
 import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
-import { STANDARD_COLUMN_GAP, STANDARD_NUM_COLUMNS } from '../../constants';
+import { STANDARD_CARD_COLUMNS, STANDARD_COLUMN_GAP } from '../../constants';
 import { ShopCard } from '../cards/ShopCard';
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 };
 
 export const ShopGrid = (props: Props) => {
-	const numColumns = useBreakpointValue(STANDARD_NUM_COLUMNS) || 1;
+	const numColumns = useBreakpointValue(STANDARD_CARD_COLUMNS) || 1;
 	return (
-		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={STANDARD_NUM_COLUMNS}>
+		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={STANDARD_CARD_COLUMNS}>
 			{props.isLoading &&
 				Array.from({ length: props.numPlaceholders || numColumns * 2 }).map((_, index) => (
 					<Skeleton key={index} height={250} />

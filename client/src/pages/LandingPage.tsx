@@ -56,7 +56,7 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<>
+		<Box px={5}>
 			<Box mx="auto" textAlign="center" mt={10} mb={5}>
 				<Box mx="auto" display="flex" alignItems="center" w="fit-content" flexWrap="nowrap">
 					<Heading size="2xl" pr="5px" flexShrink={0}>
@@ -74,7 +74,7 @@ export const LandingPage = () => {
 					Learn more
 				</Button>
 			</Box>
-			<Stack gap={10} p={5} mx="auto" maxWidth={2000}>
+			<Stack gap={10} my={5} mx="auto" maxWidth={2000}>
 				{categoriesError ? (
 					<AppError title="Failed to load categories" />
 				) : (
@@ -107,6 +107,6 @@ export const LandingPage = () => {
 					)}
 				</Box>
 			</Stack>
-		</>
+		</Box>
 	);
 };

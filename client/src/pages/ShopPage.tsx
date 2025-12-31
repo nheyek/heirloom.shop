@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Skeleton, Stack, Text, useBreakpoint } from '@chakra-ui/react';
+import { AspectRatio, Box, Skeleton, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -15,8 +15,6 @@ export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const { getPublicResource } = useApi();
-
-	const breakpoint = useBreakpoint();
 
 	const [shopData, setShopData] = useState<ShopCardData | null>(null);
 	const [shopDataLoading, setShopDataLoading] = useState<boolean>(true);
@@ -60,15 +58,12 @@ export const ShopPage = () => {
 
 	const isLoading = shopDataLoading || listingsLoading;
 
-	let bannerAspectRatio = 1.75;
-	breakpoint === 'md' && (bannerAspectRatio = 2.25);
-	breakpoint === 'lg' && (bannerAspectRatio = 2.75);
-	breakpoint === 'xl' && (bannerAspectRatio = 3.25);
+	const responsiveBannerAspectRatio = [1.75, 2.25, 2.75, 3.25];
 
 	return (
-		<Stack gap={5} p={5}>
+		<>
 			{isLoading && (
-				<AspectRatio ratio={bannerAspectRatio}>
+				<AspectRatio ratio={responsiveBannerAspectRatio}>
 					<Skeleton width="100%" />
 				</AspectRatio>
 			)}
@@ -78,11 +73,10 @@ export const ShopPage = () => {
 					animate={{ opacity: 1 }}
 					transition={{ duration: 1, ease: 'easeInOut' }}
 				>
-					<Box position="relative">
-						<AspectRatio ratio={bannerAspectRatio}>
+					<Box position="relative" boxShadow="md">
+						<AspectRatio ratio={responsiveBannerAspectRatio}>
 							<LoadingImage
-								boxShadow="md"
-								borderRadius={5}
+								mx="auto"
 								src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`}
 							/>
 						</AspectRatio>
@@ -91,7 +85,7 @@ export const ShopPage = () => {
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
 							fontFamily="Alegreya"
-							textShadow="0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);"
+							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
 							<Text
@@ -130,7 +124,9 @@ export const ShopPage = () => {
 				</motion.div>
 			)}
 
-			<ListingGrid listings={listings} isLoading={isLoading} />
-		</Stack>
+			<Box p={5}>
+				<ListingGrid listings={listings} isLoading={isLoading} />
+			</Box>
+		</>
 	);
 };
