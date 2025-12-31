@@ -76,13 +76,13 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<Stack py={5} px={STANDARD_HORIZONTAL_PAGE_PADDING} gap={5}>
+		<Stack px={STANDARD_HORIZONTAL_PAGE_PADDING} py={5} gap={5}>
 			{isLoading && <Skeleton height={35} width={300} />}
 			{!isLoading && category && (
 				<Breadcrumb.Root>
-					<Breadcrumb.List fontSize={22} fontFamily="Alegreya">
+					<Breadcrumb.List fontSize={22} fontFamily="Alegreya" flexWrap="wrap" rowGap={3}>
 						<Breadcrumb.Item>
-							<Link onClick={() => navigate('/')}>
+							<Link onClick={() => navigate('/')} whiteSpace="nowrap">
 								<MdHome />
 								Home
 							</Link>
@@ -97,7 +97,7 @@ export const CategoryPage = () => {
 											navigate(`/category/${ancestor.id.toLowerCase()}`)
 										}
 									>
-										<Link>{ancestor.title}</Link>
+										<Link whiteSpace="nowrap">{ancestor.title}</Link>
 									</Breadcrumb.Link>
 								</Breadcrumb.Item>
 								<Breadcrumb.Separator />
@@ -105,7 +105,7 @@ export const CategoryPage = () => {
 						))}
 
 						<Breadcrumb.Item>
-							<Breadcrumb.CurrentLink fontWeight={600}>
+							<Breadcrumb.CurrentLink fontWeight={600} whiteSpace="nowrap">
 								{category?.title}
 							</Breadcrumb.CurrentLink>
 						</Breadcrumb.Item>
@@ -113,7 +113,9 @@ export const CategoryPage = () => {
 				</Breadcrumb.Root>
 			)}
 
-			<CategoryGrid isLoading={isLoading} categories={childCategories} />
+			{childCategories.length > 0 && (
+				<CategoryGrid isLoading={isLoading} categories={childCategories} />
+			)}
 
 			{listingsError ? (
 				<AppError title={listingsError} />
