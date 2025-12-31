@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import { AppError } from '../components/misc/AppError';
+import { STANDARD_HORIZONTAL_PAGE_PADDING } from '../constants';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
 
@@ -75,7 +76,7 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<Stack p={5} gap={5}>
+		<Stack py={5} px={STANDARD_HORIZONTAL_PAGE_PADDING} gap={5}>
 			{isLoading && <Skeleton height={35} width={300} />}
 			{!isLoading && category && (
 				<Breadcrumb.Root>

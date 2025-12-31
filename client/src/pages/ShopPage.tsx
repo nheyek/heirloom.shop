@@ -9,7 +9,7 @@ import useApi from '../hooks/useApi';
 import { motion } from 'framer-motion';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { LoadingImage } from '../components/misc/LoadingImage';
-import { CountryCode } from '../constants';
+import { CountryCode, STANDARD_HORIZONTAL_PAGE_PADDING } from '../constants';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -124,7 +124,7 @@ export const ShopPage = () => {
 				</motion.div>
 			)}
 
-			<Box p={5}>
+			<Box py={5} px={STANDARD_HORIZONTAL_PAGE_PADDING}>
 				<ListingGrid listings={listings} isLoading={isLoading} />
 			</Box>
 		</>
