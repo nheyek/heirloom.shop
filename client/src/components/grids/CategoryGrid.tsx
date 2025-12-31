@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const CategoryGrid = (props: Props) => {
-	const cols = { base: 2, lg: 4 };
+	const cols = { base: 2, md: 4 };
 	const numColumns = useBreakpointValue(cols) || 1;
 	return (
 		<SimpleGrid gap={STANDARD_COLUMN_GAP} columns={cols}>

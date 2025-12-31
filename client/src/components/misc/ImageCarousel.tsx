@@ -23,7 +23,7 @@ export const ImageCarousel = (props: Props) => {
 			colorPalette="white"
 			loop
 		>
-			<Carousel.Control gap="4" width="full" position="relative">
+			<Carousel.Control gap="4" width="full" height="100%" position="relative">
 				{showArrows && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton size="xs" insetStart={4}>
@@ -49,7 +49,7 @@ export const ImageCarousel = (props: Props) => {
 				)}
 
 				{props.urls.length > 1 && (
-					<Box position="absolute" bottom={10} width="full">
+					<Box position="absolute" bottom={5} width="full">
 						<Carousel.Indicators
 							opacity="0.5"
 							_current={{ bg: 'colorPalette.subtle', opacity: 1 }}
