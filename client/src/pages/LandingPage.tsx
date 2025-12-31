@@ -57,22 +57,24 @@ export const LandingPage = () => {
 
 	return (
 		<Box px={5}>
-			<Box mx="auto" textAlign="center" mt={10} mb={5}>
+			<Box mx="auto" textAlign="center" my={10}>
 				<Box mx="auto" display="flex" alignItems="center" w="fit-content" flexWrap="nowrap">
-					<Heading size="2xl" pr="5px" flexShrink={0}>
+					<Heading fontSize={28} pr="5px" flexShrink={0}>
 						Welcome to
 					</Heading>
-					<Box width={120} flexShrink={0} marginTop="3px">
+					<Box width={120} flexShrink={0} mt={1}>
 						<Logo fill="#000000" />
 					</Box>
 				</Box>
 
-				<Text fontSize={18} mt={1}>
-					An exhibition of American and European craftsmanship.
-				</Text>
-				<Button size="sm" mt={2}>
-					Learn more
-				</Button>
+				<Box minW={300}>
+					<Text fontSize={20} mt={1} mb={3}>
+						<span>An exhibition of American and </span>
+						<Box display="inline-block">European craftsmanship.</Box>
+					</Text>
+				</Box>
+
+				<Button size="sm">Learn more</Button>
 			</Box>
 			<Stack gap={10} my={5} mx="auto" maxWidth={2000}>
 				{categoriesError ? (
