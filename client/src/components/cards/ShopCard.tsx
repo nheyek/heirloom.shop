@@ -21,19 +21,19 @@ export const ShopCard = (props: ShopCardData) => {
 				/>
 			</AspectRatio>
 			<Card.Body p={3}>
-				<Card.Title truncate onClick={navigateToShop}>
+				<Card.Title truncate onClick={navigateToShop} fontSize={19}>
 					<Link>{props.title}</Link>
 				</Card.Title>
-				<SimpleGrid columns={2} gap={2} gridTemplateColumns="22px 1fr" mt={1.5}>
+				<SimpleGrid columns={2} gap={2} gridTemplateColumns="22px 1fr" mt={2} fontSize={16}>
 					<CategoryIcon
 						iconCode={props.categoryIcon as CategoryIconCode | null}
 						size={22}
 					/>
-					<Text fontSize={15}>{props.classification}</Text>
+					<Text>{props.classification}</Text>
 					<Box width={22} height={22}>
 						<CountryFlagIcon countryCode={props.countryCode as CountryCode | null} />
 					</Box>
-					<Text fontSize={15}>{props.location}</Text>
+					<Text>{props.location}</Text>
 				</SimpleGrid>
 			</Card.Body>
 		</AppCard>

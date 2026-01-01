@@ -19,21 +19,21 @@ export const ListingCard = (props: ListingCardData) => {
 				}
 			</AspectRatio>
 			<Card.Body p={3} pr={2} pb={2}>
-				<Card.Title truncate style={{ cursor: 'pointer' }}>
+				<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
 					{props.title}
 				</Card.Title>
-				{props.shopTitle && <Link fontSize={16}>{props.shopTitle}</Link>}
-				<Card.Description lineClamp="2" mt={1} minHeight={45}>
+				{props.shopTitle && <Link fontSize={18}>{props.shopTitle}</Link>}
+				<Card.Description lineClamp="2" mt={1} minHeight={45} fontSize={15}>
 					{props.subtitle}
 				</Card.Description>
 				<Flex mt={2} justifyContent="space-between" alignItems="center">
 					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
 					<Box>
-						<IconButton variant="ghost" rounded="full">
+						<IconButton variant="ghost" rounded="full" size="lg">
 							<FaRegShareFromSquare />
 						</IconButton>
 
-						<IconButton variant="ghost" rounded="full">
+						<IconButton variant="ghost" rounded="full" size="lg">
 							<FaRegHeart />
 						</IconButton>
 					</Box>
