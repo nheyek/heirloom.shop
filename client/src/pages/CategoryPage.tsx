@@ -76,7 +76,7 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<Stack px={STANDARD_HORIZONTAL_PAGE_PADDING} py={5} gap={5}>
+		<Stack px={STANDARD_HORIZONTAL_PAGE_PADDING} py={7} gap={7}>
 			{isLoading && <Skeleton height={35} width={300} />}
 			{!isLoading && category && (
 				<Breadcrumb.Root>
