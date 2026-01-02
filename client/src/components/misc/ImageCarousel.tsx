@@ -61,7 +61,7 @@ export const ImageCarousel = (props: Props) => {
 	);
 };
 
-const MotionIconButton = motion(IconButton);
+const MotionIconButton = motion.create(IconButton);
 type ActionButtonProps = Omit<IconButtonProps, keyof HTMLMotionProps<'button'>> & {
 	children: ReactElement;
 };

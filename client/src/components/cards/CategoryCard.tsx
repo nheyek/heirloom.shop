@@ -27,7 +27,6 @@ export const CategoryCard = (props: CategoryCardData) => {
 				left="15px"
 				padding={0}
 				lineHeight={1}
-				truncate
 				fontSize={{ base: '26px', md: '22px', lg: '28px', xl: '36px' }}
 				fontWeight="700"
 				color="#FFF"

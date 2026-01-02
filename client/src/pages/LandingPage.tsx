@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box, Button, Heading, Stack } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -67,11 +67,9 @@ export const LandingPage = () => {
 					</Box>
 				</Box>
 
-				<Box minW={300}>
-					<Text fontSize={20} mt={1} mb={3}>
-						<span>An exhibition of American and </span>
-						<Box display="inline-block">European craftsmanship.</Box>
-					</Text>
+				<Box minW={300} fontSize={20} mt={1} mb={3}>
+					<span>An exhibition of American and </span>
+					<Box display="inline-block">European craftsmanship.</Box>
 				</Box>
 
 				<Button size="sm">Learn more</Button>

@@ -16,7 +16,7 @@ export const CategoryGrid = (props: Props) => {
 		<SimpleGrid gap={STANDARD_ELEMENT_GAP} columns={cols}>
 			{props.isLoading &&
 				Array.from({ length: props.numPlaceholders || numColumns }).map((_, i) => (
-					<Skeleton key={i} height={150} />
+					<Skeleton key={i} height={200} />
 				))}
 			{!props.isLoading &&
 				props.categories.map((category) => (

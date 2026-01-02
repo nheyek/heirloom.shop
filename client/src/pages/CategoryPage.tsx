@@ -1,6 +1,6 @@
 import { Box, Breadcrumb, Link, Skeleton, Stack } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
@@ -90,18 +90,19 @@ export const CategoryPage = () => {
 						<Breadcrumb.Separator />
 
 						{ancestorCategories.map((ancestor) => (
-							<>
+							<Fragment key={ancestor.id}>
 								<Breadcrumb.Item key={ancestor.id}>
-									<Breadcrumb.Link
+									<Link
+										whiteSpace="nowrap"
 										onClick={() =>
 											navigate(`/category/${ancestor.id.toLowerCase()}`)
 										}
 									>
-										<Link whiteSpace="nowrap">{ancestor.title}</Link>
-									</Breadcrumb.Link>
+										{ancestor.title}
+									</Link>
 								</Breadcrumb.Item>
 								<Breadcrumb.Separator />
-							</>
+							</Fragment>
 						))}
 
 						<Breadcrumb.Item>
