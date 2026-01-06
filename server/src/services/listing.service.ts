@@ -57,7 +57,7 @@ export const findListingsByShop = async (shopId: number): Promise<Listing[]> => 
 
 export const findListingById = async (id: number) => {
 	const em = getEm();
-	return em.findOne(Listing, { id });
+	return em.findOne(Listing, { id }, { populate: ['shop', 'country'] });
 };
 
 export const createListing = async (
