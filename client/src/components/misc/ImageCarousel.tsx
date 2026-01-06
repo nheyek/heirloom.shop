@@ -13,6 +13,7 @@ import { ReactElement, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Props = {
+	height?: number;
 	withThumbnailMenu?: boolean;
 	urls: string[];
 	aspectRatio?: string;
@@ -20,12 +21,11 @@ type Props = {
 
 export const ImageCarousel = (props: Props) => {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
-	const showArrows = isHovered && props.urls.length > 1;
-	const thumbnailMenuCols = useBreakpointValue({ lg: 1, xl: 2 }) || 0;
 
-	const mainImageHeight = 400;
-	const gapPx = 10;
-	const thumbNailHeight = (mainImageHeight - gapPx) / 2;
+	const showArrows = isHovered && props.urls.length > 1;
+	const thumbnailMenuCols = useBreakpointValue({ md: 1, xl: 2 }) || 0;
+	const menuGapSize = 10;
+	const thumbNailHeight = (props.height || 0) / 2 - menuGapSize / 2;
 
 	const renderCarouselControl = () => (
 		<Carousel.Control position="relative" height="100%" width="fit-content">
@@ -85,9 +85,13 @@ export const ImageCarousel = (props: Props) => {
 			loop
 		>
 			{props.withThumbnailMenu ? (
-				<Flex height={400} gap={`${gapPx}px`} justifyContent="center">
+				<Flex height={props.height} gap={`${menuGapSize}px`} justifyContent="center">
 					{renderCarouselControl()}
-					<SimpleGrid columns={thumbnailMenuCols} gap={`${gapPx}px`}>
+					<SimpleGrid
+						columns={thumbnailMenuCols}
+						gap={`${menuGapSize}px`}
+						autoRows="min-content"
+					>
 						{props.urls.slice(0, 2 * thumbnailMenuCols).map((url, index) => (
 							<Carousel.Indicator
 								key={index}

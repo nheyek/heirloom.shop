@@ -12,7 +12,7 @@ export const ListingCard = (props: ListingCardData) => {
 
 	return (
 		<AppCard>
-			<AspectRatio ratio={5 / 3}>
+			<AspectRatio ratio={3 / 2}>
 				{
 					<ImageCarousel
 						urls={props.imageUuids.map(

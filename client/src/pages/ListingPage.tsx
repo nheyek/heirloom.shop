@@ -1,9 +1,9 @@
-import { Box, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { Flex, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ImageCarousel } from '../components/misc/ImageCarousel';
+import { ImageCollage } from '../components/misc/ImageCollage';
 import useApi from '../hooks/useApi';
 
 export const ListingPage = () => {
@@ -40,23 +40,23 @@ export const ListingPage = () => {
 	}, [id]);
 
 	return (
-		<Box mx="auto" p={5}>
-			{listingDataLoading && <Skeleton width="100%" height={500} />}
+		<Flex p={5} flexDir="column" alignItems="start" width="fit-content" mx="auto">
+			{listingDataLoading && <Skeleton width="100%" height={400} />}
 			{!listingDataLoading && (
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 1, ease: 'easeInOut' }}
 				>
-					<ImageCarousel
-						withThumbnailMenu={renderCarouselWithThumbnails}
+					<ImageCollage
 						urls={listingData!.imageUuids.map(
 							(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
 						)}
-						aspectRatio="5/3"
+						aspectRatio="3/2"
 					/>
 				</motion.div>
 			)}
-		</Box>
+			{/* <Heading size="4xl">{listingData?.title}</Heading> */}
+		</Flex>
 	);
 };

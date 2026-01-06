@@ -13,7 +13,7 @@ export const ShopCard = (props: ShopCardData) => {
 
 	return (
 		<AppCard>
-			<AspectRatio ratio={5 / 3}>
+			<AspectRatio ratio={3 / 2}>
 				<LoadingImage
 					style={{ cursor: 'pointer' }}
 					src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`}
