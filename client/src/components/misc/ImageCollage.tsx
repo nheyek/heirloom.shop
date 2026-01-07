@@ -30,23 +30,10 @@ export const ImageCollage = (props: Props) => {
 					width="100%"
 					height="100%"
 				>
-					<Image
-						src={props.urls[0]}
-						objectFit="cover"
-						borderRadius={5}
-						boxShadow="md"
-						width="100%"
-						height="100%"
-					/>
+					<GridImage src={props.urls[0]} aspectRatio={props.aspectRatio} />
 				</GridItem>
 				{thumnNailImageUrls.map((url) => (
-					<Image
-						aspectRatio={props.aspectRatio}
-						src={url}
-						objectFit="cover"
-						borderRadius={5}
-						boxShadow="md"
-					/>
+					<GridImage src={url} aspectRatio={props.aspectRatio} />
 				))}
 			</Grid>
 			{imageListTruncated && (
@@ -58,3 +45,14 @@ export const ImageCollage = (props: Props) => {
 		</Box>
 	);
 };
+
+const GridImage = (props: { src: string; aspectRatio: number }) => (
+	<Image
+		{...props}
+		width="100%"
+		height="100%"
+		objectFit="cover"
+		borderRadius={5}
+		boxShadow="md"
+	/>
+);
