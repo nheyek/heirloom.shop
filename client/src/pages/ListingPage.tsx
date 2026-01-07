@@ -52,7 +52,7 @@ export const ListingPage = () => {
 						urls={listingData!.imageUuids.map(
 							(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
 						)}
-						aspectRatio="3/2"
+						aspectRatio={3 / 2}
 					/>
 				</motion.div>
 			)}
