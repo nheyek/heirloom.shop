@@ -6,7 +6,6 @@ import {
 	IconButton,
 	IconButtonProps,
 	Image,
-	Portal,
 	useCarouselContext,
 } from '@chakra-ui/react';
 
@@ -22,73 +21,64 @@ type Props = {
 
 export const LightBox = (props: Props) => {
 	return (
-		<Dialog.Root size="full" open={props.page !== null}>
-			<Portal>
-				<Dialog.Backdrop />
-				<Dialog.Positioner>
-					<Dialog.Content bg="transparent" shadow="none">
-						<Dialog.Body
-							display="flex"
-							alignItems="center"
-							justifyContent="center"
-							p={0}
+		<Dialog.Root
+			initialFocusEl={() => null}
+			size="full"
+			open={props.page !== null}
+			onInteractOutside={() => {
+				props.setPage(null);
+				console.log('interact');
+			}}
+		>
+			<Dialog.Backdrop onClick={() => console.log('clicked backdrop')} />
+			<Dialog.Positioner>
+				<Dialog.Content bg="transparent" shadow="none">
+					<Dialog.Body display="flex" alignItems="center" justifyContent="center" p={0}>
+						<Carousel.Root
+							slideCount={props.urls.length}
+							page={props.page || 0}
+							onPageChange={(e) => props.setPage(e.page)}
 						>
-							<Carousel.Root
-								slideCount={props.urls.length}
-								page={props.page || 0}
-								onPageChange={(e) => props.setPage(e.page)}
+							<ActionButton
+								onClick={() => props.setPage(null)}
+								top={5}
+								right={5}
+								size="2xs"
 							>
-								<ActionButton
-									onClick={() => props.setPage(null)}
-									top={5}
-									right={5}
-									size="xs"
-								>
-									<IoClose />
-								</ActionButton>
-								<Carousel.Control>
-									<Carousel.PrevTrigger asChild insetStart={10}>
-										<ActionButton>
-											<LuChevronLeft />
-										</ActionButton>
-									</Carousel.PrevTrigger>
+								<IoClose />
+							</ActionButton>
+							<Carousel.Control>
+								<Carousel.PrevTrigger asChild insetStart={10}>
+									<ActionButton>
+										<LuChevronLeft />
+									</ActionButton>
+								</Carousel.PrevTrigger>
 
-									<Carousel.ItemGroup
-										aspectRatio={props.aspectRatio}
-										height="80vh"
-									>
-										{props.urls.map((src, index) => (
-											<Carousel.Item
-												key={index}
-												index={index}
-												overflow="hidden"
-											>
-												<Image
-													src={src}
-													objectFit="cover"
-													aspectRatio={props.aspectRatio}
-													borderRadius={5}
-												/>
-											</Carousel.Item>
-										))}
-									</Carousel.ItemGroup>
+								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="80vh">
+									{props.urls.map((src, index) => (
+										<Carousel.Item key={index} index={index} overflow="hidden">
+											<Image
+												src={src}
+												objectFit="cover"
+												aspectRatio={props.aspectRatio}
+												borderRadius={5}
+											/>
+										</Carousel.Item>
+									))}
+								</Carousel.ItemGroup>
 
-									<Carousel.NextTrigger asChild insetEnd={10}>
-										<ActionButton>
-											<LuChevronRight />
-										</ActionButton>
-									</Carousel.NextTrigger>
-								</Carousel.Control>
+								<Carousel.NextTrigger asChild insetEnd={10}>
+									<ActionButton>
+										<LuChevronRight />
+									</ActionButton>
+								</Carousel.NextTrigger>
+							</Carousel.Control>
 
-								<CarouselThumbnails
-									urls={props.urls}
-									aspectRatio={props.aspectRatio}
-								/>
-							</Carousel.Root>
-						</Dialog.Body>
-					</Dialog.Content>
-				</Dialog.Positioner>
-			</Portal>
+							<CarouselThumbnails urls={props.urls} aspectRatio={props.aspectRatio} />
+						</Carousel.Root>
+					</Dialog.Body>
+				</Dialog.Content>
+			</Dialog.Positioner>
 		</Dialog.Root>
 	);
 };
@@ -115,5 +105,12 @@ const CarouselThumbnails = (props: { urls: string[]; aspectRatio: number }) => {
 };
 
 const ActionButton = (props: IconButtonProps) => (
-	<IconButton size="sm" variant="subtle" borderRadius="full" position="absolute" {...props} />
+	<IconButton
+		autoFocus={false}
+		size="sm"
+		variant="subtle"
+		borderRadius="full"
+		position="absolute"
+		{...props}
+	/>
 );
