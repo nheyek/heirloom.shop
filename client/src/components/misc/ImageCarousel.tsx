@@ -6,6 +6,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Props = {
 	urls: string[];
+	aspectRatio?: number;
 };
 
 export const ImageCarousel = (props: Props) => {
@@ -16,14 +17,12 @@ export const ImageCarousel = (props: Props) => {
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			slideCount={props.urls.length}
-			maxW="2xl"
 			mx="auto"
-			gap="4"
 			position="relative"
 			colorPalette="white"
 			loop
 		>
-			<Carousel.Control gap="4" width="full" height="100%" position="relative">
+			<Carousel.Control width="full" height="100%" position="relative">
 				{showArrows && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton size="xs" insetStart={4}>
@@ -35,7 +34,13 @@ export const ImageCarousel = (props: Props) => {
 				<Carousel.ItemGroup>
 					{props.urls.map((src, index) => (
 						<Carousel.Item key={index} index={index}>
-							<Image src={src} width="100%" height="100%" objectFit="cover" />
+							<Image
+								src={src}
+								width="100%"
+								height="100%"
+								objectFit="cover"
+								aspectRatio={props.aspectRatio}
+							/>
 						</Carousel.Item>
 					))}
 				</Carousel.ItemGroup>

@@ -1,17 +1,23 @@
-import { Flex, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
 import useApi from '../hooks/useApi';
+
+enum ImageComponent {
+	CAROUSEL,
+	COLLAGE,
+}
 
 export const ListingPage = () => {
 	const { id } = useParams<{ id: string }>();
 
-	const renderCarouselWithThumbnails = useBreakpointValue({
-		base: false,
-		lg: true,
+	const imageComponent = useBreakpointValue({
+		base: ImageComponent.CAROUSEL,
+		md: ImageComponent.COLLAGE,
 	});
 
 	const [listingData, setListingData] = useState<ListingCardData | null>(null);
@@ -39,8 +45,12 @@ export const ListingPage = () => {
 		}, 500);
 	}, [id]);
 
+	const imageUrls =
+		listingData?.imageUuids.map((uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`) ||
+		[];
+
 	return (
-		<Flex p={5} flexDir="column" alignItems="start" width="fit-content" mx="auto">
+		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading && <Skeleton width="100%" height={400} />}
 			{!listingDataLoading && (
 				<motion.div
@@ -48,12 +58,14 @@ export const ListingPage = () => {
 					animate={{ opacity: 1 }}
 					transition={{ duration: 1, ease: 'easeInOut' }}
 				>
-					<ImageCollage
-						urls={listingData!.imageUuids.map(
-							(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
-						)}
-						aspectRatio={3 / 2}
-					/>
+					{imageComponent === ImageComponent.COLLAGE && (
+						<Box p={5} mx="auto">
+							<ImageCollage urls={imageUrls} aspectRatio={3 / 2} />
+						</Box>
+					)}
+					{imageComponent === ImageComponent.CAROUSEL && (
+						<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+					)}
 				</motion.div>
 			)}
 			{/* <Heading size="4xl">{listingData?.title}</Heading> */}
