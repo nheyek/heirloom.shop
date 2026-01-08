@@ -1,7 +1,20 @@
-import { Box, Flex, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	ButtonProps,
+	Flex,
+	GridItem,
+	Heading,
+	SimpleGrid,
+	Skeleton,
+	Text,
+	useBreakpointValue,
+} from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { FaBookmark } from 'react-icons/fa';
+import { FaShare } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
@@ -51,7 +64,7 @@ export const ListingPage = () => {
 
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
-			{listingDataLoading && <Skeleton width="100%" height={400} />}
+			{listingDataLoading && <Skeleton width="100vw" height={500} />}
 			{!listingDataLoading && (
 				<motion.div
 					initial={{ opacity: 0 }}
@@ -68,7 +81,36 @@ export const ListingPage = () => {
 					)}
 				</motion.div>
 			)}
-			{/* <Heading size="4xl">{listingData?.title}</Heading> */}
+			<Box p={10} mx="auto" maxWidth={1200}>
+				<SimpleGrid columns={{ base: 1, md: 6 }} gap={10}>
+					<GridItem colSpan={{ base: 1, md: 4 }}>
+						<Heading fontSize={36} mb={5}>
+							{listingData?.title}
+						</Heading>
+						<Text fontSize={18}>{listingData?.subtitle}</Text>
+						<Text fontSize={16}>{listingData?.shopTitle}</Text>
+						<Text fontSize={16}>{listingData?.countryCode}</Text>
+					</GridItem>
+					<GridItem colSpan={{ base: 1, md: 2 }} display="flex">
+						<SimpleGrid columns={2} gap={3} width="100%" maxWidth={500}>
+							<ListingPageButton>
+								<FaBookmark />
+								Save
+							</ListingPageButton>
+							<ListingPageButton>
+								<FaShare />
+								Share
+							</ListingPageButton>
+						</SimpleGrid>
+					</GridItem>
+					<Box>Full description</Box>
+					<Box>Feedback</Box>
+				</SimpleGrid>
+			</Box>
 		</Flex>
 	);
 };
+
+const ListingPageButton = (props: ButtonProps) => (
+	<Button width="100%" fontSize={16} fontWeight="bold" {...props} height={10} />
+);

@@ -21,6 +21,9 @@ export const config = defineConfig({
 							color: '#FFF',
 							fontWeight: 600,
 						},
+						solid: {
+							background: 'brand',
+						},
 					},
 				},
 			}),
