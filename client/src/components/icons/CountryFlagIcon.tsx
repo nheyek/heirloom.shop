@@ -4,13 +4,20 @@ import { CountryCode } from '../../constants';
 
 export const CountryFlagIcon = (props: {
 	countryCode: CountryCode | null;
+	size?: number;
 	svgProps?: SVGProps<SVGSVGElement>;
 }) => {
 	if (!props.countryCode) {
 		return <FaLocationDot size="20px" />;
 	}
 	return (
-		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props.svgProps}>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			viewBox="0 0 512 512"
+			width={props.size}
+			height={props.size}
+			{...props.svgProps}
+		>
 			<mask id="a">
 				<circle cx="256" cy="256" r="256" fill="#fff" />
 			</mask>
