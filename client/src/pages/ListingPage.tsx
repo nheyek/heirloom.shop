@@ -17,10 +17,11 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { FaBoxOpen, FaPlusCircle } from 'react-icons/fa';
 import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/fa6';
-import { GoBookmarkFill } from 'react-icons/go';
+import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useParams } from 'react-router-dom';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
+import { IconText } from '../components/misc/IconText';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
 import { CountryCode } from '../constants';
@@ -125,7 +126,7 @@ export const ListingPage = () => {
 								</ListingPageButton>
 								<SimpleGrid columns={2} gap={2}>
 									<ListingPageButton size="lg">
-										<GoBookmarkFill />
+										<IoIosHeart />
 										Save
 									</ListingPageButton>
 									<ListingPageButton size="lg">
@@ -135,27 +136,24 @@ export const ListingPage = () => {
 								</SimpleGrid>
 							</Stack>
 
-							<Stack gap={1}>
-								<Flex alignItems="center" gap={1.5}>
-									<FaHourglassStart />
-									<Text>Estimated delivery</Text>
-									<Text fontWeight="bold">Jan 15-18</Text>
-								</Flex>
-								<Flex alignItems="center" gap={1.5}>
-									<FaLocationDot />
-									<Text>Ships from</Text>
-									<Text fontWeight="bold">New Jersey</Text>
-								</Flex>
-								<Flex alignItems="center" gap={1.5}>
-									<FaTruck />
+							<Stack gap={1.5}>
+								<IconText icon={FaHourglassStart}>
+									Estimated delivery
+									<b>Jan 15-18</b>
+								</IconText>
+								<IconText icon={FaLocationDot}>
+									Ships from
+									<b>New Jersey</b>
+								</IconText>
+								<IconText icon={FaTruck}>
 									Ships via
-									<Text fontWeight="bold">FedEx Ground</Text> for
-									<Text fontWeight="bold">$435</Text>
-								</Flex>
-								<Flex alignItems="center" gap={1.5}>
-									<FaBoxOpen />
+									<b>FedEx Ground</b>
+									for
+									<b>$435</b>
+								</IconText>
+								<IconText icon={FaBoxOpen}>
 									Returns accepted within 30 days
-								</Flex>
+								</IconText>
 							</Stack>
 						</Stack>
 					</GridItem>

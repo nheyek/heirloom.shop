@@ -30,7 +30,7 @@ export const LightBox = (props: Props) => {
 				console.log('interact');
 			}}
 		>
-			<Dialog.Backdrop onClick={() => console.log('clicked backdrop')} />
+			<Dialog.Backdrop />
 			<Dialog.Positioner>
 				<Dialog.Content bg="transparent" shadow="none">
 					<Dialog.Body display="flex" alignItems="center" justifyContent="center" p={0}>
@@ -54,7 +54,7 @@ export const LightBox = (props: Props) => {
 									</ActionButton>
 								</Carousel.PrevTrigger>
 
-								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="80vh">
+								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="90vh">
 									{props.urls.map((src, index) => (
 										<Carousel.Item key={index} index={index} overflow="hidden">
 											<Image
