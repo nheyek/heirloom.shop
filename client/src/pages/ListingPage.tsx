@@ -2,10 +2,13 @@ import {
 	Box,
 	Button,
 	ButtonProps,
+	createListCollection,
 	Flex,
 	GridItem,
 	Heading,
 	Link,
+	Portal,
+	Select,
 	SimpleGrid,
 	Skeleton,
 	Stack,
@@ -71,6 +74,14 @@ export const ListingPage = () => {
 		listingData?.imageUuids.map((uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`) ||
 		[];
 
+	const finishOptions = createListCollection({
+		items: [
+			{ label: 'Chestnut', value: 'chestnut' },
+			{ label: 'Oak', value: 'oak' },
+			{ label: 'Walnut', value: 'walnut' },
+		],
+	});
+
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading && <Skeleton width="100vw" height={500} />}
@@ -110,6 +121,35 @@ export const ListingPage = () => {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
 						<Stack gap={7} width="100%">
+							<Stack gap={2} maxW={500}>
+								<Select.Root variant="subtle" collection={finishOptions} size="lg">
+									<Select.HiddenSelect />
+									<Select.Label fontSize={16} fontWeight="bold" p={1}>
+										Finish
+									</Select.Label>
+									<Select.Control>
+										<Select.Trigger cursor="button">
+											<Select.ValueText placeholder="Select an option" />
+										</Select.Trigger>
+										<Select.IndicatorGroup>
+											<Select.Indicator />
+										</Select.IndicatorGroup>
+										<Portal>
+											<Select.Positioner>
+												<Select.Content>
+													{finishOptions.items.map((color) => (
+														<Select.Item item={color} key={color.value}>
+															{color.label}
+															<Select.ItemIndicator />
+														</Select.Item>
+													))}
+												</Select.Content>
+											</Select.Positioner>
+										</Portal>
+									</Select.Control>
+								</Select.Root>
+							</Stack>
+
 							<Stack gap={2}>
 								<ListingPageButton size="xl">
 									<FaPlusCircle />
@@ -136,7 +176,7 @@ export const ListingPage = () => {
 								</SimpleGrid>
 							</Stack>
 
-							<Stack gap={1.5}>
+							<Stack gap={1.5} pl={2}>
 								<IconText icon={FaHourglassStart}>
 									Estimated delivery
 									<b>Jan 15-18</b>
@@ -159,9 +199,6 @@ export const ListingPage = () => {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Box>[Full description]</Box>
-					</GridItem>
-					<GridItem colSpan={{ base: 1, lg: 2 }}>
-						<Box>[Feedback]</Box>
 					</GridItem>
 				</SimpleGrid>
 			</Box>

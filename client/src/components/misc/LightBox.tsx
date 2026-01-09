@@ -54,7 +54,7 @@ export const LightBox = (props: Props) => {
 									</ActionButton>
 								</Carousel.PrevTrigger>
 
-								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="90vh">
+								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="85vh">
 									{props.urls.map((src, index) => (
 										<Carousel.Item key={index} index={index} overflow="hidden">
 											<Image
@@ -105,12 +105,5 @@ const CarouselThumbnails = (props: { urls: string[]; aspectRatio: number }) => {
 };
 
 const ActionButton = (props: IconButtonProps) => (
-	<IconButton
-		autoFocus={false}
-		size="sm"
-		variant="subtle"
-		borderRadius="full"
-		position="absolute"
-		{...props}
-	/>
+	<IconButton size="sm" variant="subtle" borderRadius="full" position="absolute" {...props} />
 );
