@@ -3,7 +3,6 @@ import {
 	Button,
 	ButtonProps,
 	Flex,
-	Grid,
 	GridItem,
 	Heading,
 	Link,
@@ -16,8 +15,8 @@ import {
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
-import { FaShare } from 'react-icons/fa6';
+import { FaBoxOpen, FaPlusCircle } from 'react-icons/fa';
+import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/fa6';
 import { GoBookmarkFill } from 'react-icons/go';
 import { RxDotFilled } from 'react-icons/rx';
 import { useParams } from 'react-router-dom';
@@ -26,6 +25,7 @@ import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
 import { CountryCode } from '../constants';
 import useApi from '../hooks/useApi';
+
 enum ImageComponent {
 	CAROUSEL,
 	COLLAGE,
@@ -132,18 +132,27 @@ export const ListingPage = () => {
 								</SimpleGrid>
 							</Stack>
 
-							<Stack gap={2}>
-								<Text fontSize={20} fontWeight="bold">
-									Production & Delivery
-								</Text>
-								<Grid templateColumns="100px 1fr" fontSize={17}>
-									<Text>Lead time:</Text>
-									<Text fontWeight="bold">3-5 weeks</Text>
-									<Text>Delivery:</Text>
-									<Text fontWeight="bold">5-7 days</Text>
-									<Text>Shipping:</Text>
-									<Text fontWeight="bold">$235</Text>
-								</Grid>
+							<Stack gap={1}>
+								<Flex alignItems="center" gap={1.5}>
+									<FaHourglassStart />
+									<Text>Estimated delivery</Text>
+									<Text fontWeight="bold">Jan 15-18</Text>
+								</Flex>
+								<Flex alignItems="center" gap={1.5}>
+									<FaLocationDot />
+									<Text>Ships from</Text>
+									<Text fontWeight="bold">New Jersey</Text>
+								</Flex>
+								<Flex alignItems="center" gap={1.5}>
+									<FaTruck />
+									Ships via
+									<Text fontWeight="bold">FedEx Ground</Text> for
+									<Text fontWeight="bold">$435</Text>
+								</Flex>
+								<Flex alignItems="center" gap={1.5}>
+									<FaBoxOpen />
+									Returns accepted within 30 days
+								</Flex>
 							</Stack>
 						</Stack>
 					</GridItem>
