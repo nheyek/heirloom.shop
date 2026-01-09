@@ -26,6 +26,8 @@ import { ImageCollage } from '../components/misc/ImageCollage';
 import { CountryCode } from '../constants';
 import useApi from '../hooks/useApi';
 
+const MotionBox = motion.create(Box);
+
 enum ImageComponent {
 	CAROUSEL,
 	COLLAGE,
@@ -72,10 +74,11 @@ export const ListingPage = () => {
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading && <Skeleton width="100vw" height={500} />}
 			{!listingDataLoading && (
-				<motion.div
+				<MotionBox
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 1, ease: 'easeInOut' }}
+					mx="auto"
 				>
 					{imageComponent === ImageComponent.COLLAGE && (
 						<Box pt={5} px={5} mx="auto">
@@ -85,7 +88,7 @@ export const ListingPage = () => {
 					{imageComponent === ImageComponent.CAROUSEL && (
 						<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
 					)}
-				</motion.div>
+				</MotionBox>
 			)}
 			<Box p={{ base: 5, md: 7, lg: 9 }} pt={10} mx="auto" maxWidth={1200}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
