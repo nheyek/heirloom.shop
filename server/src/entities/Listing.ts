@@ -1,6 +1,8 @@
 import { Entity, ManyToOne, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
+import { ReturnExchangeProfile } from './ReturnExchangeProfile';
+import { ShippingProfile } from './ShippingProfile';
 import { Shop } from './Shop';
 
 @Entity()
@@ -38,5 +40,17 @@ export class Listing {
 
   @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
   imageUuids!: string[] & Opt;
+
+  @ManyToOne({ entity: () => ShippingProfile, deleteRule: 'set null', nullable: true })
+  shippingProfile?: ShippingProfile;
+
+  @ManyToOne({ entity: () => ReturnExchangeProfile, deleteRule: 'set null', nullable: true })
+  returnExchangeProfile?: ReturnExchangeProfile;
+
+  @Property({ type: 'integer' })
+  leadTimeDaysMin: number & Opt = 0;
+
+  @Property({ type: 'integer' })
+  leadTimeDaysMax: number & Opt = 0;
 
 }

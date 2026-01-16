@@ -18,7 +18,8 @@ import {
 import { ListingCardData } from '@common/types/ListingCardData';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { FaBoxOpen, FaPlusCircle } from 'react-icons/fa';
+import { BiSolidPackage } from 'react-icons/bi';
+import { FaPlusCircle } from 'react-icons/fa';
 import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/fa6';
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
@@ -82,6 +83,14 @@ export const ListingPage = () => {
 		],
 	});
 
+	const sizeOptions = createListCollection({
+		items: [
+			{ label: '72" x 48"', value: 'sm' },
+			{ label: '96" x 56"', value: 'md' },
+			{ label: '128" x 64"', value: 'lg' },
+		],
+	});
+
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading && <Skeleton width="100vw" height={500} />}
@@ -120,11 +129,11 @@ export const ListingPage = () => {
 						</Stack>
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
-						<Stack gap={7} width="100%">
-							<Stack gap={2} maxW={500}>
+						<Stack gap={6} width="100%">
+							<Stack gap={3}>
 								<Select.Root variant="subtle" collection={finishOptions} size="lg">
 									<Select.HiddenSelect />
-									<Select.Label fontSize={16} fontWeight="bold" p={1}>
+									<Select.Label fontSize={16} fontWeight="bold">
 										Finish
 									</Select.Label>
 									<Select.Control>
@@ -148,9 +157,35 @@ export const ListingPage = () => {
 										</Portal>
 									</Select.Control>
 								</Select.Root>
+								<Select.Root variant="subtle" collection={sizeOptions} size="lg">
+									<Select.HiddenSelect />
+									<Select.Label fontSize={16} fontWeight="bold">
+										Size
+									</Select.Label>
+									<Select.Control>
+										<Select.Trigger cursor="button">
+											<Select.ValueText placeholder="Select an option" />
+										</Select.Trigger>
+										<Select.IndicatorGroup>
+											<Select.Indicator />
+										</Select.IndicatorGroup>
+										<Portal>
+											<Select.Positioner>
+												<Select.Content>
+													{sizeOptions.items.map((size) => (
+														<Select.Item item={size} key={size.value}>
+															{size.label}
+															<Select.ItemIndicator />
+														</Select.Item>
+													))}
+												</Select.Content>
+											</Select.Positioner>
+										</Portal>
+									</Select.Control>
+								</Select.Root>
 							</Stack>
 
-							<Stack gap={2}>
+							<Stack gap={3}>
 								<ListingPageButton size="xl">
 									<FaPlusCircle />
 									Add to Cart
@@ -164,7 +199,7 @@ export const ListingPage = () => {
 										${listingData?.priceDollars.toLocaleString()}
 									</Text>
 								</ListingPageButton>
-								<SimpleGrid columns={2} gap={2}>
+								<SimpleGrid columns={2} gap={3}>
 									<ListingPageButton size="lg">
 										<IoIosHeart />
 										Save
@@ -186,12 +221,10 @@ export const ListingPage = () => {
 									<b>New Jersey</b>
 								</IconText>
 								<IconText icon={FaTruck}>
-									Ships via
-									<b>FedEx Ground</b>
-									for
+									Ships to continental US for
 									<b>$435</b>
 								</IconText>
-								<IconText icon={FaBoxOpen}>
+								<IconText icon={BiSolidPackage}>
 									Returns accepted within 30 days
 								</IconText>
 							</Stack>

@@ -71,7 +71,11 @@ CREATE TABLE public.listing (
     price_dollars integer DEFAULT 0 NOT NULL,
     shop_id integer NOT NULL,
     country_code character(2),
-    image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL
+    image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL,
+    shipping_profile_id integer,
+    return_exchange_profile_id integer,
+    lead_time_days_min integer DEFAULT 0 NOT NULL,
+    lead_time_days_max integer DEFAULT 0 NOT NULL
 );
 
 
@@ -111,12 +115,84 @@ ALTER SEQUENCE public.product_id_seq OWNED BY public.listing.id;
 
 
 --
+-- Name: return_exchange_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.return_exchange_profile (
+    id integer NOT NULL,
+    profile_name character varying(128) NOT NULL,
+    return_window_days integer DEFAULT 30 NOT NULL,
+    additional_details text,
+    accept_returns boolean DEFAULT false NOT NULL,
+    accept_exchanges boolean DEFAULT false NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: return_exchange_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.return_exchange_profile_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: return_exchange_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.return_exchange_profile_id_seq OWNED BY public.return_exchange_profile.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.schema_migrations (
     version character varying NOT NULL
 );
+
+
+--
+-- Name: shipping_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.shipping_profile (
+    id integer NOT NULL,
+    profile_name character varying(128) NOT NULL,
+    origin_zip numeric(5,0) NOT NULL,
+    flat_shipping_rate_us_dollars numeric(6,2),
+    shipping_days_min integer,
+    shipping_days_max integer,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: shipping_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.shipping_profile_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: shipping_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.shipping_profile_id_seq OWNED BY public.shipping_profile.id;
 
 
 --
@@ -206,6 +282,20 @@ ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.prod
 
 
 --
+-- Name: return_exchange_profile id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.return_exchange_profile ALTER COLUMN id SET DEFAULT nextval('public.return_exchange_profile_id_seq'::regclass);
+
+
+--
+-- Name: shipping_profile id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_profile ALTER COLUMN id SET DEFAULT nextval('public.shipping_profile_id_seq'::regclass);
+
+
+--
 -- Name: shop id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -252,11 +342,27 @@ ALTER TABLE ONLY public.listing
 
 
 --
+-- Name: return_exchange_profile return_exchange_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.return_exchange_profile
+    ADD CONSTRAINT return_exchange_profile_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: shipping_profile shipping_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_profile
+    ADD CONSTRAINT shipping_profile_pkey PRIMARY KEY (id);
 
 
 --
@@ -305,6 +411,22 @@ ALTER TABLE ONLY public.listing_category
 
 ALTER TABLE ONLY public.listing
     ADD CONSTRAINT listing_country_code_fkey FOREIGN KEY (country_code) REFERENCES public.country(code) ON DELETE SET NULL;
+
+
+--
+-- Name: listing listing_return_exchange_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_return_exchange_profile_id_fkey FOREIGN KEY (return_exchange_profile_id) REFERENCES public.return_exchange_profile(id) ON DELETE SET NULL;
+
+
+--
+-- Name: listing listing_shipping_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_shipping_profile_id_fkey FOREIGN KEY (shipping_profile_id) REFERENCES public.shipping_profile(id) ON DELETE SET NULL;
 
 
 --
@@ -360,4 +482,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251209162737'),
     ('20251229185344'),
     ('20251230150327'),
-    ('20251230152757');
+    ('20251230152757'),
+    ('20260109202903');
