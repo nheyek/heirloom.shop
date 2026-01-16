@@ -30,7 +30,7 @@ jobs:
               env:
                   DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
               run: |
-                  bash ./db/scripts/seed_data.sh
+                  bash ./seed_data.sh
 
             - uses: ./.github/actions/db-firewall-runner-ip-remove
               with:
