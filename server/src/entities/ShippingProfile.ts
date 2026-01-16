@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Shop } from './Shop';
 
 @Entity()
 export class ShippingProfile {
@@ -26,5 +27,11 @@ export class ShippingProfile {
 
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @ManyToOne({ entity: () => Shop, deleteRule: 'cascade', nullable: true })
+  shop?: Shop;
+
+  @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
+  standardProfileKey?: string;
 
 }

@@ -171,7 +171,9 @@ CREATE TABLE public.shipping_profile (
     shipping_days_min integer,
     shipping_days_max integer,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    shop_id integer,
+    standard_profile_key character varying(64)
 );
 
 
@@ -382,6 +384,14 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
+-- Name: shipping_profile unique_shop_standard_profile_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_profile
+    ADD CONSTRAINT unique_shop_standard_profile_key UNIQUE (standard_profile_key);
+
+
+--
 -- Name: app_user unique_username; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -438,6 +448,14 @@ ALTER TABLE ONLY public.listing
 
 
 --
+-- Name: shipping_profile shipping_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_profile
+    ADD CONSTRAINT shipping_profile_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
+
+
+--
 -- Name: shop shop_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -483,4 +501,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251229185344'),
     ('20251230150327'),
     ('20251230152757'),
-    ('20260109202903');
+    ('20260109202903'),
+    ('20260116151037');
