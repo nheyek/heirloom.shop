@@ -43,6 +43,13 @@ DECLARE
     housewares_category_id CONSTANT VARCHAR := 'HOUSEWARES';
     housewares_category_name CONSTANT VARCHAR := 'Housewares';
     houseware_image_uuid CONSTANT VARCHAR := '4C479374-B58F-46CB-AEAD-191336294E78';
+
+    ground_free_shipping_standard_profile_key CONSTANT VARCHAR := 'GROUND_FREE';
+    ground_free_shipping_standard_profile_name CONSTANT VARCHAR := 'Free Shipping (Ground)';
+    ground_free_shipping_standard_profile_rate CONSTANT NUMERIC := 0.00;
+    ground_free_shipping_standard_profile_days_min CONSTANT INT := 3;
+    ground_free_shipping_standard_profile_days_max CONSTANT INT := 7;
+
 BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
@@ -86,6 +93,16 @@ BEGIN
         ('PT', 'Portugal')
     ON CONFLICT (code) DO UPDATE SET
         name = EXCLUDED.name;
+
+    INSERT INTO shipping_profile (standard_profile_key, profile_name, flat_shipping_rate_us_dollars, shipping_days_min, shipping_days_max, created_at, updated_at)
+    VALUES
+        (ground_free_shipping_standard_profile_key, ground_free_shipping_standard_profile_name, ground_free_shipping_standard_profile_rate, ground_free_shipping_standard_profile_days_min, ground_free_shipping_standard_profile_days_max, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (standard_profile_key) DO UPDATE SET
+        profile_name = EXCLUDED.profile_name,
+        flat_shipping_rate_us_dollars = EXCLUDED.flat_shipping_rate_us_dollars,
+        shipping_days_min = EXCLUDED.shipping_days_min,
+        shipping_days_max = EXCLUDED.shipping_days_max,
+        updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;
 

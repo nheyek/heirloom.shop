@@ -10,9 +10,6 @@ export class ShippingProfile {
   @Property({ length: 128 })
   profileName!: string;
 
-  @Property({ type: 'decimal', precision: 5, scale: 0 })
-  originZip!: string;
-
   @Property({ type: 'decimal', precision: 6, scale: 2, nullable: true })
   flatShippingRateUsDollars?: string;
 
