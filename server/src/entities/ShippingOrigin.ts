@@ -1,7 +1,8 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core';
 import { Shop } from './Shop';
 
 @Entity()
+@Unique({ name: 'unique_shop_origin_zip', properties: ['shop', 'originZip'] })
 export class ShippingOrigin {
 
   @PrimaryKey()

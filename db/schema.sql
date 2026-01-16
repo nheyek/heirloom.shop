@@ -433,6 +433,14 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
+-- Name: shipping_origin unique_shop_origin_zip; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_origin
+    ADD CONSTRAINT unique_shop_origin_zip UNIQUE (shop_id, origin_zip);
+
+
+--
 -- Name: shipping_profile unique_shop_standard_profile_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -569,4 +577,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260109202903'),
     ('20260116151037'),
     ('20260116151954'),
-    ('20260116154907');
+    ('20260116154907'),
+    ('20260116161320');

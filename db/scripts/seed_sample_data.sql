@@ -3,6 +3,9 @@ DO $$
 DECLARE
     admin_user_1_username CONSTANT VARCHAR := 'nick@heyek.com';
 
+    default_shipping_origin_location_name VARCHAR := 'Warehouse';
+    ground_free_shipping_standard_profile_id VARCHAR := (SELECT id FROM shipping_profile WHERE standard_profile_key = 'GROUND_FREE');
+
     sample_shop_1_id INT := 1;
     sample_shop_1_title VARCHAR := 'Studebaker Metals';
     sample_shop_1_profile_image_uuid VARCHAR := '231210EF-D8F8-4A33-96E0-2F8FBACD43AB';
@@ -10,6 +13,7 @@ DECLARE
     sample_shop_1_classification VARCHAR := 'Jewelry & Accessories';
     sample_shop_1_country_code CHAR(2) := 'US';
     sample_shop_1_category_icon VARCHAR := 'NECKLACE';
+    sample_shop_1_origin_zip NUMERIC(5, 0) := 15201;
 
     sample_shop_2_id INT := 2;
     sample_shop_2_title VARCHAR := 'James & James';
@@ -18,6 +22,7 @@ DECLARE
     sample_shop_2_classification VARCHAR := 'Hardwood Furniture';
     sample_shop_2_country_code CHAR(2) := 'US';
     sample_shop_2_category_icon VARCHAR := 'CHAIR';
+    sample_shop_2_origin_zip NUMERIC(5, 0) := 72764;
 
     sample_shop_3_id INT := 3;
     sample_shop_3_title VARCHAR := 'Roseland';
@@ -26,6 +31,7 @@ DECLARE
     sample_shop_3_classification VARCHAR := 'Furniture & Housewares';
     sample_shop_3_country_code CHAR(2) := 'US';
     sample_shop_3_category_icon VARCHAR := 'CHAIR';
+    sample_shop_3_origin_zip NUMERIC(5, 0) := 12534;
 
     sample_shop_4_id INT := 4;
     sample_shop_4_title VARCHAR := 'Col. Littleton';
@@ -34,6 +40,7 @@ DECLARE
     sample_shop_4_classification VARCHAR := 'Traditional Leather Goods';
     sample_shop_4_country_code CHAR(2) := 'US';
     sample_shop_4_category_icon VARCHAR := 'HANDBAG';
+    sample_shop_4_origin_zip NUMERIC(5, 0) := 38472;
 
     sample_shop_5_id INT := 5;
     sample_shop_5_title VARCHAR := 'Michael Michaud';
@@ -42,6 +49,7 @@ DECLARE
     sample_shop_5_classification VARCHAR := 'Botanical Jewelry';
     sample_shop_5_country_code CHAR(2) := 'US';
     sample_shop_5_category_icon VARCHAR := 'NECKLACE';
+    sample_shop_5_origin_zip NUMERIC(5, 0) := 03051;
 
     sample_shop_6_id INT := 6;
     sample_shop_6_title VARCHAR := 'Match Pewter';
@@ -50,6 +58,7 @@ DECLARE
     sample_shop_6_classification VARCHAR := 'Italian Handmade Pewter';
     sample_shop_6_country_code CHAR(2) := 'IT';
     sample_shop_6_category_icon VARCHAR := 'SILVERWARE';
+    sample_shop_6_origin_zip NUMERIC(5, 0) := 07310;
 
     sample_listing_1_id INT := 1;
     sample_listing_1_shop_id INT := sample_shop_1_id;
@@ -69,7 +78,6 @@ DECLARE
     sample_listing_2_country_code CHAR(2) := 'US';
     sample_listing_2_image_uuids text[] := '{"E4EF3812-2D09-4A32-94CE-4DF424B213A4"}';
 
-
     sample_listing_3_id INT := 3;
     sample_listing_3_shop_id INT := sample_shop_1_id;
     sample_listing_3_category_id VARCHAR := 'RINGS';
@@ -78,7 +86,6 @@ DECLARE
     sample_listing_3_price_dollars INT := 80;
     sample_listing_3_country_code CHAR(2) := 'US';
     sample_listing_3_image_uuids text[] := '{"AD996A1E-9D17-46E8-8023-6250877CFDAC"}';
-
 
     sample_listing_4_id INT := 4;
     sample_listing_4_shop_id INT := sample_shop_1_id;
@@ -107,7 +114,6 @@ DECLARE
     sample_listing_6_country_code CHAR(2) := 'US';
     sample_listing_6_image_uuids text[] := '{"9C5A0A04-14A6-4415-B273-9317DFAB20E4"}';
 
-
     sample_listing_7_id INT := 7;
     sample_listing_7_shop_id INT := sample_shop_3_id;
     sample_listing_7_category_id VARCHAR := 'SIDE_TABLES';
@@ -126,7 +132,6 @@ DECLARE
     sample_listing_8_country_code CHAR(2) := 'US';
     sample_listing_8_image_uuids text[] := '{"EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C"}';
 
-
     sample_listing_9_id INT := 9;
     sample_listing_9_shop_id INT := sample_shop_4_id;
     sample_listing_9_category_id VARCHAR := 'LEATHER_BAGS';
@@ -135,7 +140,6 @@ DECLARE
     sample_listing_9_price_dollars INT := 1340;
     sample_listing_9_country_code CHAR(2) := 'US';
     sample_listing_9_image_uuids text[] := '{"18A7B73F-AFBE-48AE-A16D-8CC7466B1E9E"}';
-
 
     sample_listing_10_id INT := 10;
     sample_listing_10_shop_id INT := sample_shop_6_id;
@@ -166,26 +170,40 @@ BEGIN
         category_icon = EXCLUDED.category_icon,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, shop_id, category_id, title, subtitle, price_dollars, country_code, image_uuids)
+    INSERT INTO shipping_origin (id, shop_id, location_name, origin_zip, created_at, updated_at)
     VALUES
-        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_country_code, sample_listing_1_image_uuids),
-        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_country_code, sample_listing_2_image_uuids),
-        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_country_code, sample_listing_3_image_uuids),
-        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_country_code, sample_listing_4_image_uuids),
-        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_country_code, sample_listing_5_image_uuids),
-        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_country_code, sample_listing_6_image_uuids),
-        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_country_code, sample_listing_7_image_uuids),
-        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_country_code, sample_listing_8_image_uuids),
-        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_country_code, sample_listing_9_image_uuids),
-        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_country_code, sample_listing_10_image_uuids)
+        (sample_shop_1_id, sample_shop_1_id, default_shipping_origin_location_name, sample_shop_1_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, sample_shop_2_id, default_shipping_origin_location_name, sample_shop_2_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, sample_shop_3_id, default_shipping_origin_location_name, sample_shop_3_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_4_id, sample_shop_4_id, default_shipping_origin_location_name, sample_shop_4_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_5_id, sample_shop_5_id, default_shipping_origin_location_name, sample_shop_5_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_6_id, sample_shop_6_id, default_shipping_origin_location_name, sample_shop_6_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (shop_id, origin_zip) DO UPDATE SET
+        location_name = EXCLUDED.location_name,
+        updated_at = CURRENT_TIMESTAMP;
+    
+    INSERT INTO listing (id, shop_id, category_id, title, subtitle, price_dollars, shipping_origin_id, image_uuids)
+    VALUES
+        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_shop_id, sample_listing_1_image_uuids),
+        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_shop_id, sample_listing_2_image_uuids),
+        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_shop_id, sample_listing_3_image_uuids),
+        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_shop_id, sample_listing_4_image_uuids),
+        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_shop_id, sample_listing_5_image_uuids),
+        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_shop_id, sample_listing_6_image_uuids),
+        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_shop_id, sample_listing_7_image_uuids),
+        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_shop_id, sample_listing_8_image_uuids),
+        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_shop_id, sample_listing_9_image_uuids),
+        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_shop_id, sample_listing_10_image_uuids)
     ON CONFLICT (id) DO UPDATE SET
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
+
         title = EXCLUDED.title,
         subtitle = EXCLUDED.subtitle,
         descr_rich_text = EXCLUDED.descr_rich_text,
+
         price_dollars = EXCLUDED.price_dollars,
-        country_code = EXCLUDED.country_code,
+        shipping_origin_id = EXCLUDED.shipping_origin_id,
         image_uuids = EXCLUDED.image_uuids,
         updated_at = CURRENT_TIMESTAMP;
 
