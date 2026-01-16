@@ -2,6 +2,7 @@ import { Entity, ManyToOne, type Opt, PrimaryKey, Property } from '@mikro-orm/co
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
 import { ReturnExchangeProfile } from './ReturnExchangeProfile';
+import { ShippingOrigin } from './ShippingOrigin';
 import { ShippingProfile } from './ShippingProfile';
 import { Shop } from './Shop';
 
@@ -52,5 +53,8 @@ export class Listing {
 
   @Property({ type: 'integer' })
   leadTimeDaysMax: number & Opt = 0;
+
+  @ManyToOne({ entity: () => ShippingOrigin, deleteRule: 'set null', nullable: true })
+  shippingOrigin?: ShippingOrigin;
 
 }

@@ -75,7 +75,8 @@ CREATE TABLE public.listing (
     shipping_profile_id integer,
     return_exchange_profile_id integer,
     lead_time_days_min integer DEFAULT 0 NOT NULL,
-    lead_time_days_max integer DEFAULT 0 NOT NULL
+    lead_time_days_max integer DEFAULT 0 NOT NULL,
+    shipping_origin_id integer
 );
 
 
@@ -160,10 +161,10 @@ CREATE TABLE public.schema_migrations (
 
 
 --
--- Name: ship_location; Type: TABLE; Schema: public; Owner: -
+-- Name: shipping_origin; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.ship_location (
+CREATE TABLE public.shipping_origin (
     id integer NOT NULL,
     location_name character varying(128) NOT NULL,
     origin_zip numeric(5,0) NOT NULL,
@@ -190,7 +191,7 @@ CREATE SEQUENCE public.ship_location_id_seq
 -- Name: ship_location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.ship_location_id_seq OWNED BY public.ship_location.id;
+ALTER SEQUENCE public.ship_location_id_seq OWNED BY public.shipping_origin.id;
 
 
 --
@@ -324,10 +325,10 @@ ALTER TABLE ONLY public.return_exchange_profile ALTER COLUMN id SET DEFAULT next
 
 
 --
--- Name: ship_location id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: shipping_origin id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ship_location ALTER COLUMN id SET DEFAULT nextval('public.ship_location_id_seq'::regclass);
+ALTER TABLE ONLY public.shipping_origin ALTER COLUMN id SET DEFAULT nextval('public.ship_location_id_seq'::regclass);
 
 
 --
@@ -400,10 +401,10 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
--- Name: ship_location ship_location_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: shipping_origin ship_location_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ship_location
+ALTER TABLE ONLY public.shipping_origin
     ADD CONSTRAINT ship_location_pkey PRIMARY KEY (id);
 
 
@@ -480,6 +481,14 @@ ALTER TABLE ONLY public.listing
 
 
 --
+-- Name: listing listing_shipping_origin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_shipping_origin_id_fkey FOREIGN KEY (shipping_origin_id) REFERENCES public.shipping_origin(id) ON DELETE SET NULL;
+
+
+--
 -- Name: listing listing_shipping_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -496,10 +505,10 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: ship_location ship_location_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: shipping_origin ship_location_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.ship_location
+ALTER TABLE ONLY public.shipping_origin
     ADD CONSTRAINT ship_location_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
 
 
@@ -559,4 +568,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20251230152757'),
     ('20260109202903'),
     ('20260116151037'),
-    ('20260116151954');
+    ('20260116151954'),
+    ('20260116154907');
