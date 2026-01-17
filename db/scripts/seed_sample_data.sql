@@ -105,6 +105,8 @@ DECLARE
     sample_listing_5_price_dollars INT := 2967;
     sample_listing_5_country_code CHAR(2) := 'US';
     sample_listing_5_image_uuids text[] := '{"8D236EB4-62F3-48D8-A468-4A46DEE32003", "5561CDF1-343A-4AA7-AE24-D099BD97157E", "140D5892-CF55-4611-8BC8-FEDCFFE4614C", "DC7B2D50-361B-4573-A9C8-8AEDB7FC0C7A"}';
+    sample_listing_5_lead_time_days_min INT := 42;
+    sample_listing_5_lead_time_days_max INT := 56;
 
     sample_listing_6_id INT := 6;
     sample_listing_6_shop_id INT := sample_shop_2_id;
@@ -114,6 +116,8 @@ DECLARE
     sample_listing_6_price_dollars INT := 2061;
     sample_listing_6_country_code CHAR(2) := 'US';
     sample_listing_6_image_uuids text[] := '{"9C5A0A04-14A6-4415-B273-9317DFAB20E4"}';
+    sample_listing_6_lead_time_days_min INT := 28;
+    sample_listing_6_lead_time_days_max INT := 42;
 
     sample_listing_7_id INT := 7;
     sample_listing_7_shop_id INT := sample_shop_3_id;
@@ -123,6 +127,8 @@ DECLARE
     sample_listing_7_price_dollars INT := 390;
     sample_listing_7_country_code CHAR(2) := 'US';
     sample_listing_7_image_uuids text[] := '{"E2C0607B-160B-41A6-9258-E1EA6AEBC2AB"}';
+    sample_listing_7_lead_time_days_min INT := 14;
+    sample_listing_7_lead_time_days_max INT := 21;
 
     sample_listing_8_id INT := 8;
     sample_listing_8_shop_id INT := sample_shop_4_id;
@@ -183,18 +189,18 @@ BEGIN
         location_name = EXCLUDED.location_name,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, shop_id, category_id, title, subtitle, price_dollars, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids)
+    INSERT INTO listing (id, shop_id, category_id, title, subtitle, price_dollars, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids, lead_time_days_min, lead_time_days_max)
     VALUES
-        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids),
-        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids),
-        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids),
-        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids),
-        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids),
-        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids),
-        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids),
-        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids),
-        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids),
-        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids)
+        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_price_dollars, sample_listing_1_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids, 0, 0),
+        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_price_dollars, sample_listing_2_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids, 0, 0),
+        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_price_dollars, sample_listing_3_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids, 0, 0),
+        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_price_dollars, sample_listing_4_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids, 0, 0),
+        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_price_dollars, sample_listing_5_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids, sample_listing_5_lead_time_days_min, sample_listing_5_lead_time_days_max),
+        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_price_dollars, sample_listing_6_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids, sample_listing_6_lead_time_days_min, sample_listing_6_lead_time_days_max),
+        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_price_dollars, sample_listing_7_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids, sample_listing_7_lead_time_days_min, sample_listing_7_lead_time_days_max),
+        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_price_dollars, sample_listing_8_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids, 0, 0),
+        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_price_dollars, sample_listing_9_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids, 0, 0),
+        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_price_dollars, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids, 0, 0)
     ON CONFLICT (id) DO UPDATE SET
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
@@ -206,6 +212,8 @@ BEGIN
         shipping_profile_id = EXCLUDED.shipping_profile_id,
         return_exchange_profile_id = EXCLUDED.return_exchange_profile_id,
         image_uuids = EXCLUDED.image_uuids,
+        lead_time_days_min = EXCLUDED.lead_time_days_min,
+        lead_time_days_max = EXCLUDED.lead_time_days_max,
         updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;
