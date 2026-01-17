@@ -57,7 +57,19 @@ export const findListingsByShop = async (shopId: number): Promise<Listing[]> => 
 
 export const findListingById = async (id: number) => {
 	const em = getEm();
-	return em.findOne(Listing, { id }, { populate: ['shop', 'country'] });
+	return em.findOne(
+		Listing,
+		{ id },
+		{
+			populate: [
+				'shop',
+				'country',
+				'shippingProfile',
+				'returnExchangeProfile',
+				'shippingOrigin',
+			],
+		},
+	);
 };
 
 export const createListing = async (

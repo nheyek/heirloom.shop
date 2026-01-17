@@ -27,4 +27,7 @@ export class ReturnExchangeProfile {
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
+  @Property({ length: 64, nullable: true, unique: 'unique_standard_profile_key' })
+  standardProfileKey?: string;
+
 }

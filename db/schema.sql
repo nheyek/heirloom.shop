@@ -127,7 +127,8 @@ CREATE TABLE public.return_exchange_profile (
     accept_returns boolean DEFAULT false NOT NULL,
     accept_exchanges boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    standard_profile_key character varying(64)
 );
 
 
@@ -449,6 +450,14 @@ ALTER TABLE ONLY public.shipping_profile
 
 
 --
+-- Name: return_exchange_profile unique_standard_profile_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.return_exchange_profile
+    ADD CONSTRAINT unique_standard_profile_key UNIQUE (standard_profile_key);
+
+
+--
 -- Name: app_user unique_username; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -578,4 +587,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260116151037'),
     ('20260116151954'),
     ('20260116154907'),
-    ('20260116161320');
+    ('20260116161320'),
+    ('20260116185227'),
+    ('20260116185549');

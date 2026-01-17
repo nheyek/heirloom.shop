@@ -15,7 +15,8 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingPageData } from '@common/types/ListingPageData';
+import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BiSolidPackage } from 'react-icons/bi';
@@ -46,7 +47,7 @@ export const ListingPage = () => {
 		md: ImageComponent.COLLAGE,
 	});
 
-	const [listingData, setListingData] = useState<ListingCardData | null>(null);
+	const [listingData, setListingData] = useState<ListingPageData | null>(null);
 	const [listingDataLoading, setListingDataLoading] = useState<boolean>(true);
 	const [listingDataError, setListingDataError] = useState<string | null>(null);
 
@@ -90,6 +91,32 @@ export const ListingPage = () => {
 			{ label: '128" x 64"', value: 'lg' },
 		],
 	});
+
+	const daysToDelivery = listingData?.shippingDetails
+		? {
+				min: listingData.leadTimeDaysMin + listingData.shippingDetails.shipTimeDaysMin,
+				max: listingData.leadTimeDaysMax + listingData.shippingDetails.shipTimeDaysMax,
+			}
+		: null;
+
+	const returnPolicy = listingData?.returnExchangePolicy;
+	let returnPolicyText = 'No returns or exchanges';
+	if (
+		returnPolicy &&
+		(returnPolicy.exchangesAccepted || returnPolicy.returnsAccepted) &&
+		returnPolicy.returnWindowDays > 0
+	) {
+		let preface;
+		if (returnPolicy.returnsAccepted && returnPolicy.exchangesAccepted) {
+			preface = 'Returns & exchanges';
+		} else if (returnPolicy.returnsAccepted) {
+			preface = 'Returns accepted';
+		} else {
+			preface = 'Exchanges accepted';
+		}
+
+		returnPolicyText = `${preface} within ${returnPolicy.returnWindowDays} days`;
+	}
 
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
@@ -212,21 +239,30 @@ export const ListingPage = () => {
 							</Stack>
 
 							<Stack gap={1.5} pl={2}>
-								<IconText icon={FaHourglassStart}>
-									Estimated delivery
-									<b>Jan 15-18</b>
-								</IconText>
-								<IconText icon={FaLocationDot}>
-									Ships from
-									<b>New Jersey</b>
-								</IconText>
-								<IconText icon={FaTruck}>
-									Ships to continental US for
-									<b>$435</b>
-								</IconText>
-								<IconText icon={BiSolidPackage}>
-									Returns accepted within 30 days
-								</IconText>
+								{daysToDelivery && (
+									<IconText icon={FaHourglassStart}>
+										Estimated delivery
+										<b>
+											{formatDateRange(
+												daysToDelivery.min,
+												daysToDelivery.max,
+											)}
+										</b>
+									</IconText>
+								)}
+								{listingData?.originZip && (
+									<IconText icon={FaLocationDot}>
+										Ships from
+										<b>{listingData?.originZip}</b>
+									</IconText>
+								)}
+								{listingData?.shippingDetails && (
+									<IconText icon={FaTruck}>
+										Ships to continental US for
+										<b>{listingData?.shippingDetails?.shippingRate}</b>
+									</IconText>
+								)}
+								<IconText icon={BiSolidPackage}>{returnPolicyText}</IconText>
 							</Stack>
 						</Stack>
 					</GridItem>
