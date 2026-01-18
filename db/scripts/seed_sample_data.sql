@@ -157,6 +157,23 @@ DECLARE
     sample_listing_10_country_code CHAR(2) := 'IT';
     sample_listing_10_image_uuids text[] := '{"52EC9AC7-82EC-4BE8-ABF0-E49A5C71FB31"}';
 
+    sample_listing_variation_1_id INT := 1;
+    sample_listing_variation_1_listing_id INT := sample_listing_5_id;
+    sample_listing_variation_1_name VARCHAR := 'Size';
+    sample_listing_variation_1_prices_vary BOOLEAN := TRUE;
+
+    sample_variation_option_1_variation_id INT := sample_listing_variation_1_id;
+    sample_variation_option_1_name VARCHAR := '72" x 48"';
+    sample_variation_option_1_additional_price_us_dollars NUMERIC(6, 2) := 0.00;
+
+    sample_variation_option_2_variation_id INT := sample_listing_variation_1_id;
+    sample_variation_option_2_name VARCHAR := '96" x 56"';
+    sample_variation_option_2_additional_price_us_dollars NUMERIC(6, 2) := 400.00;
+
+    sample_variation_option_3_variation_id INT := sample_listing_variation_1_id;
+    sample_variation_option_3_name VARCHAR := '120" x 60"';
+    sample_variation_option_3_additional_price_us_dollars NUMERIC(6, 2) := 800.00;
+
 BEGIN
 
     INSERT INTO shop (id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, category_icon, created_at, updated_at)
@@ -214,6 +231,26 @@ BEGIN
         image_uuids = EXCLUDED.image_uuids,
         lead_time_days_min = EXCLUDED.lead_time_days_min,
         lead_time_days_max = EXCLUDED.lead_time_days_max,
+        updated_at = CURRENT_TIMESTAMP;
+    
+    INSERT INTO listing_variation (id, listing_id, variation_name, prices_vary, created_at, updated_at)
+    VALUES
+        (sample_listing_variation_1_id, sample_listing_variation_1_listing_id, sample_listing_variation_1_name, sample_listing_variation_1_prices_vary, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (id) DO UPDATE SET
+        listing_id = EXCLUDED.listing_id,
+        variation_name = EXCLUDED.variation_name,
+        prices_vary = EXCLUDED.prices_vary,
+        updated_at = CURRENT_TIMESTAMP;
+    
+    INSERT INTO listing_variation_option (listing_variation_id, option_name, additional_price_us_dollars, created_at, updated_at)
+    VALUES
+        (sample_variation_option_1_variation_id, sample_variation_option_1_name, sample_variation_option_1_additional_price_us_dollars, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),      
+        (sample_variation_option_2_variation_id, sample_variation_option_2_name, sample_variation_option_2_additional_price_us_dollars, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_variation_option_3_variation_id, sample_variation_option_3_name, sample_variation_option_3_additional_price_us_dollars, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (listing_variation_id, option_name) DO UPDATE SET
+        listing_variation_id = EXCLUDED.listing_variation_id,
+        option_name = EXCLUDED.option_name,
+        additional_price_us_dollars = EXCLUDED.additional_price_us_dollars,
         updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;
