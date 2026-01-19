@@ -21,8 +21,16 @@ const config = defineConfig({
 					},
 				},
 		  },
-	entities: ['dist/server/src/entities/generated/**/*.js'],
-	entitiesTs: ['src/entities/generated/**/*.ts'],
+	entities: [
+		'dist/server/src/entities/*.js',
+		'dist/server/src/entities/generated/*.js',
+		'!dist/server/src/entities/generated/ListingVariation.js',
+	],
+	entitiesTs: [
+		'src/entities/*.ts',
+		'src/entities/generated/*.ts',
+		'!src/entities/generated/ListingVariation.ts',
+	],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
 	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
