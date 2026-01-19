@@ -51,6 +51,10 @@ export const ListingPage = () => {
 	const [listingDataLoading, setListingDataLoading] = useState<boolean>(true);
 	const [listingDataError, setListingDataError] = useState<string | null>(null);
 
+	const [selectedVariationOptions, setSelectedVariationOptions] = useState<{
+		[variationId: number]: number;
+	}>({});
+
 	const { getPublicResource } = useApi();
 
 	const loadListingData = async () => {
@@ -72,25 +76,46 @@ export const ListingPage = () => {
 		}, 500);
 	}, [id]);
 
+	useEffect(() => {
+		if (listingData) {
+			setSelectedVariationOptions(
+				listingData.variations.reduce(
+					(acc, variation) => {
+						if (variation.options.length > 0) {
+							acc[variation.id] = variation.options[0].id;
+						}
+						return acc;
+					},
+					{} as { [variationId: number]: number },
+				),
+			);
+		}
+	}, [listingData]);
+
 	const imageUrls =
 		listingData?.imageUuids.map((uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`) ||
 		[];
 
-	const finishOptions = createListCollection({
-		items: [
-			{ label: 'Chestnut', value: 'chestnut' },
-			{ label: 'Oak', value: 'oak' },
-			{ label: 'Walnut', value: 'walnut' },
-		],
-	});
-
-	const sizeOptions = createListCollection({
-		items: [
-			{ label: '72" x 48"', value: 'sm' },
-			{ label: '96" x 56"', value: 'md' },
-			{ label: '128" x 64"', value: 'lg' },
-		],
-	});
+	const variationCollections =
+		listingData?.variations.map((variation) => ({
+			id: variation.id,
+			name: variation.name,
+			pricesVary: variation.pricesVary,
+			collection: createListCollection({
+				items: variation.options
+					.sort(
+						(optionA, optionB) =>
+							optionA.additionalPriceDollars - optionB.additionalPriceDollars,
+					)
+					.map((option) => ({
+						label:
+							variation.pricesVary && option.additionalPriceDollars > 0
+								? `${option.name} (+$${option.additionalPriceDollars})`
+								: option.name,
+						value: option.id.toString(),
+					})),
+			}),
+		})) || [];
 
 	const daysToDelivery = listingData?.shippingDetails
 		? {
@@ -157,60 +182,57 @@ export const ListingPage = () => {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
 						<Stack gap={6} width="100%">
-							<Stack gap={3}>
-								<Select.Root variant="subtle" collection={finishOptions} size="lg">
-									<Select.HiddenSelect />
-									<Select.Label fontSize={16} fontWeight="bold">
-										Finish
-									</Select.Label>
-									<Select.Control>
-										<Select.Trigger cursor="button">
-											<Select.ValueText placeholder="Select an option" />
-										</Select.Trigger>
-										<Select.IndicatorGroup>
-											<Select.Indicator />
-										</Select.IndicatorGroup>
-										<Portal>
-											<Select.Positioner>
-												<Select.Content>
-													{finishOptions.items.map((color) => (
-														<Select.Item item={color} key={color.value}>
-															{color.label}
-															<Select.ItemIndicator />
-														</Select.Item>
-													))}
-												</Select.Content>
-											</Select.Positioner>
-										</Portal>
-									</Select.Control>
-								</Select.Root>
-								<Select.Root variant="subtle" collection={sizeOptions} size="lg">
-									<Select.HiddenSelect />
-									<Select.Label fontSize={16} fontWeight="bold">
-										Size
-									</Select.Label>
-									<Select.Control>
-										<Select.Trigger cursor="button">
-											<Select.ValueText placeholder="Select an option" />
-										</Select.Trigger>
-										<Select.IndicatorGroup>
-											<Select.Indicator />
-										</Select.IndicatorGroup>
-										<Portal>
-											<Select.Positioner>
-												<Select.Content>
-													{sizeOptions.items.map((size) => (
-														<Select.Item item={size} key={size.value}>
-															{size.label}
-															<Select.ItemIndicator />
-														</Select.Item>
-													))}
-												</Select.Content>
-											</Select.Positioner>
-										</Portal>
-									</Select.Control>
-								</Select.Root>
-							</Stack>
+							{variationCollections.length > 0 && (
+								<Stack gap={3}>
+									{variationCollections.map((variation) => (
+										<Select.Root
+											key={variation.id}
+											variant="subtle"
+											collection={variation.collection}
+											size="lg"
+											value={[
+												selectedVariationOptions[variation.id]?.toString(),
+											]}
+											onValueChange={(e) => {
+												setSelectedVariationOptions({
+													...selectedVariationOptions,
+													[variation.id]: Number(e.value),
+												});
+											}}
+										>
+											<Select.HiddenSelect />
+											<Select.Label fontSize={16} fontWeight="bold">
+												{variation.name}
+											</Select.Label>
+											<Select.Control>
+												<Select.Trigger cursor="button">
+													<Select.ValueText placeholder="Select an option" />
+												</Select.Trigger>
+												<Select.IndicatorGroup>
+													<Select.Indicator />
+												</Select.IndicatorGroup>
+												<Portal>
+													<Select.Positioner>
+														<Select.Content>
+															{variation.collection.items.map(
+																(option) => (
+																	<Select.Item
+																		item={option}
+																		key={option.value}
+																	>
+																		{option.label}
+																		<Select.ItemIndicator />
+																	</Select.Item>
+																),
+															)}
+														</Select.Content>
+													</Select.Positioner>
+												</Portal>
+											</Select.Control>
+										</Select.Root>
+									))}
+								</Stack>
+							)}
 
 							<Stack gap={3}>
 								<ListingPageButton size="xl">
@@ -224,6 +246,9 @@ export const ListingPage = () => {
 										fontFamily="Alegreya"
 									>
 										${listingData?.priceDollars.toLocaleString()}
+										{listingData?.variations.some((v) => v.pricesVary)
+											? ' +'
+											: ''}
 									</Text>
 								</ListingPageButton>
 								<SimpleGrid columns={2} gap={3}>
