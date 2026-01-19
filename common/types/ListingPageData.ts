@@ -1,4 +1,5 @@
 import { ListingCardData } from './ListingCardData';
+import { ListingVariationData } from './ListingVariationData';
 
 export type ListingPageData = ListingCardData & {
 	leadTimeDaysMin: number;
@@ -14,4 +15,5 @@ export type ListingPageData = ListingCardData & {
 		exchangesAccepted: boolean;
 		returnWindowDays: number;
 	};
+	variations: ListingVariationData[];
 };

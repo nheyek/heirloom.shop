@@ -3,6 +3,7 @@ import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingImage } from '../entities/generated/ListingImage';
 import { Shop } from '../entities/generated/Shop';
+import { ListingVariation } from '../entities';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
@@ -84,4 +85,9 @@ export const createListing = async (
 	});
 	await em.persistAndFlush(listing);
 	return listing.id;
+};
+
+export const findListingVariations = async (listingId: number): Promise<ListingVariation[]> => {
+	const em = getEm();
+	return em.find(ListingVariation, { listing: { id: listingId } }, { populate: ['options'] });
 };

@@ -11,9 +11,13 @@ export const getAllListings = async (req: Request, res: Response) => {
 };
 
 export const getListingById = async (req: Request, res: Response) => {
-	const listing = await listingService.findListingById(Number(req.params.id));
+	const listingId = Number(req.params.id);
+	const [listing, variations] = await Promise.all([
+		listingService.findListingById(listingId),
+		listingService.findListingVariations(listingId),
+	]);
 	if (listing) {
-		res.json(mapListingToListingPageData(listing));
+		res.json(mapListingToListingPageData(listing, variations));
 	} else {
 		res.status(404).json({ message: 'Product not found' });
 	}

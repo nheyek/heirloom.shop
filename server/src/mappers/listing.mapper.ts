@@ -1,6 +1,8 @@
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
+import { ListingVariationData } from '@common/types/ListingVariationData';
 import { Listing } from '../entities/generated/Listing';
+import { ListingVariation } from '../entities';
 
 export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
 	id: listing.id,
@@ -13,7 +15,10 @@ export const mapListingToListingCardData = (listing: Listing): ListingCardData =
 	imageUuids: listing.imageUuids,
 });
 
-export const mapListingToListingPageData = (listing: Listing): ListingPageData => ({
+export const mapListingToListingPageData = (
+	listing: Listing,
+	variations: ListingVariation[],
+): ListingPageData => ({
 	...mapListingToListingCardData(listing),
 	leadTimeDaysMin: listing.leadTimeDaysMin,
 	leadTimeDaysMax: listing.leadTimeDaysMax,
@@ -34,4 +39,16 @@ export const mapListingToListingPageData = (listing: Listing): ListingPageData =
 				returnWindowDays: listing.returnExchangeProfile.returnWindowDays,
 		  }
 		: undefined,
+	variations: variations.map(mapVariationToVariationData),
+});
+
+export const mapVariationToVariationData = (variation: ListingVariation): ListingVariationData => ({
+	id: variation.id,
+	name: variation.variationName,
+	pricesVary: variation.pricesVary,
+	options: variation.options.getItems().map((option) => ({
+		id: option.id,
+		name: option.optionName,
+		additionalPriceDollars: Number(option.additionalPriceUsDollars),
+	})),
 });
