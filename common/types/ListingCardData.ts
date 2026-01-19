@@ -5,7 +5,7 @@ export type ListingCardData = {
 	categoryId: string;
 	priceDollars: number;
 	countryCode?: string;
+	shopId: number;
 	shopTitle: string;
-	shopProfileImageUuid?: string;
 	imageUuids: string[];
 };

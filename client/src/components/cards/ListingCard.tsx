@@ -25,7 +25,11 @@ export const ListingCard = (props: ListingCardData) => {
 				<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
 					<Link onClick={() => navigate(`/listing/${props.id}`)}>{props.title}</Link>
 				</Card.Title>
-				{props.shopTitle && <Link fontSize={18}>{props.shopTitle}</Link>}
+				{props.shopTitle && (
+					<Link fontSize={18} onClick={() => navigate(`/shop/${props.shopId}`)}>
+						{props.shopTitle}
+					</Link>
+				)}
 				<Card.Description lineClamp="2" mt={1} minHeight={45} fontSize={15}>
 					{props.subtitle}
 				</Card.Description>

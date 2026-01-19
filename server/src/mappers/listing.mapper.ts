@@ -1,8 +1,8 @@
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { ListingVariationData } from '@common/types/ListingVariationData';
-import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities';
+import { Listing } from '../entities/generated/Listing';
 
 export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
 	id: listing.id,
@@ -11,6 +11,7 @@ export const mapListingToListingCardData = (listing: Listing): ListingCardData =
 	categoryId: listing.category ? listing.category.id.toString() : '',
 	priceDollars: listing.priceDollars || 0,
 	countryCode: listing.country?.code,
+	shopId: listing.shop.id,
 	shopTitle: listing.shop.title,
 	imageUuids: listing.imageUuids,
 });

@@ -24,7 +24,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/fa6';
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { IconText } from '../components/misc/IconText';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
@@ -41,6 +41,7 @@ enum ImageComponent {
 
 export const ListingPage = () => {
 	const { id } = useParams<{ id: string }>();
+	const navigate = useNavigate();
 
 	const imageComponent = useBreakpointValue({
 		base: ImageComponent.CAROUSEL,
@@ -183,7 +184,9 @@ export const ListingPage = () => {
 							<Flex alignItems="center" gap={3} fontSize={22}>
 								<CountryFlagIcon countryCode={CountryCode.US} size={26} />
 
-								<Link>James & James</Link>
+								<Link onClick={() => navigate(`/shop/${listingData?.shopId}`)}>
+									{listingData?.shopTitle}
+								</Link>
 							</Flex>
 
 							<Text fontSize={18}>{listingData?.subtitle}</Text>
