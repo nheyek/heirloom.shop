@@ -1,6 +1,6 @@
 import { getEm } from '../db';
-import { Shop } from '../entities/Shop';
-import { ShopUserRole } from '../entities/ShopUserRole';
+import { Shop } from '../entities/generated/Shop';
+import { ShopUserRole } from '../entities/generated/ShopUserRole';
 
 export const findShops = async () => {
 	const em = getEm();

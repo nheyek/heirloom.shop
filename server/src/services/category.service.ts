@@ -1,5 +1,5 @@
 import { getEm } from '../db';
-import { ListingCategory } from '../entities/ListingCategory';
+import { ListingCategory } from '../entities/generated/ListingCategory';
 
 export const findTopLevelCategories = async (): Promise<ListingCategory[]> => {
 	const em = getEm();

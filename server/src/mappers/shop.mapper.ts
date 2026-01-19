@@ -1,4 +1,4 @@
-import { Shop } from '../entities/Shop';
+import { Shop } from '../entities/generated/Shop';
 import { ShopCardData } from '@common/types/ShopCardData';
 
 export const mapShopToShopCardData = (shop: Shop): ShopCardData => ({

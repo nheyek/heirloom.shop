@@ -1,5 +1,5 @@
 import { CategoryCardData } from '@common/types/CategoryCardData';
-import { ListingCategory } from '../entities/ListingCategory';
+import { ListingCategory } from '../entities/generated/ListingCategory';
 
 export const mapCategoryToCategoryCardData = (category: ListingCategory): CategoryCardData => ({
 	id: category.id,

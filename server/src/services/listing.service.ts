@@ -1,8 +1,8 @@
 import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
-import { Listing } from '../entities/Listing';
-import { ListingImage } from '../entities/ListingImage';
-import { Shop } from '../entities/Shop';
+import { Listing } from '../entities/generated/Listing';
+import { ListingImage } from '../entities/generated/ListingImage';
+import { Shop } from '../entities/generated/Shop';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();

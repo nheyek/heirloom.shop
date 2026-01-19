@@ -1,6 +1,6 @@
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
-import { Listing } from '../entities/Listing';
+import { Listing } from '../entities/generated/Listing';
 
 export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
 	id: listing.id,

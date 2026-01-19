@@ -1,7 +1,7 @@
 import e from 'express';
 import { getEm } from '../db';
-import { AppUser } from '../entities/AppUser';
-import { ShopUserRole } from '../entities/ShopUserRole';
+import { AppUser } from '../entities/generated/AppUser';
+import { ShopUserRole } from '../entities/generated/ShopUserRole';
 
 export const findUserByEmail = async (email: string) => {
 	const em = getEm();
