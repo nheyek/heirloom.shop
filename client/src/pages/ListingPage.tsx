@@ -92,6 +92,15 @@ export const ListingPage = () => {
 		}
 	}, [listingData]);
 
+	let totalPriceDollars = listingData?.priceDollars || 0;
+	for (const variation of listingData?.variations || []) {
+		const selectedOptionId = selectedVariationOptions[variation.id];
+		const selectedOption = variation.options.find((option) => option.id === selectedOptionId);
+		if (variation.pricesVary && selectedOption) {
+			totalPriceDollars += selectedOption.additionalPriceDollars;
+		}
+	}
+
 	const imageUrls =
 		listingData?.imageUuids.map((uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`) ||
 		[];
@@ -245,10 +254,7 @@ export const ListingPage = () => {
 										fontWeight={600}
 										fontFamily="Alegreya"
 									>
-										${listingData?.priceDollars.toLocaleString()}
-										{listingData?.variations.some((v) => v.pricesVary)
-											? ' +'
-											: ''}
+										${totalPriceDollars.toLocaleString()}
 									</Text>
 								</ListingPageButton>
 								<SimpleGrid columns={2} gap={3}>
