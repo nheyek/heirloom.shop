@@ -29,6 +29,7 @@ import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { IconText } from '../components/misc/IconText';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
+import { RichTextRenderer } from '../components/misc/RichTextRenderer';
 import { CountryCode } from '../constants';
 import useApi from '../hooks/useApi';
 
@@ -153,6 +154,10 @@ export const ListingPage = () => {
 		returnPolicyText = `${preface} within ${returnPolicy.returnWindowDays} days`;
 	}
 
+	const renderFullDescription = () => (
+		<RichTextRenderer mt={3} htmlString={listingData?.descrRichText || ''} />
+	);
+
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading && <Skeleton width="100vw" height={500} />}
@@ -181,7 +186,7 @@ export const ListingPage = () => {
 								{listingData?.title}
 							</Heading>
 
-							<Flex alignItems="center" gap={3} fontSize={22}>
+							<Flex alignItems="center" gap={3} fontSize={24}>
 								<CountryFlagIcon countryCode={CountryCode.US} size={26} />
 
 								<Link onClick={() => navigate(`/shop/${listingData?.shopId}`)}>
@@ -189,9 +194,9 @@ export const ListingPage = () => {
 								</Link>
 							</Flex>
 
-							<Text fontSize={18}>{listingData?.subtitle}</Text>
+							<Text fontSize={20}>{listingData?.subtitle}</Text>
 
-							{layout === Layout.MULTI_COLUMN && <Box>[Full description]</Box>}
+							{layout === Layout.MULTI_COLUMN && renderFullDescription()}
 						</Stack>
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
@@ -302,11 +307,7 @@ export const ListingPage = () => {
 							</Stack>
 						</Stack>
 					</GridItem>
-					{layout === Layout.SINGLE_COLUMN && (
-						<GridItem>
-							<Box>[Full description]</Box>
-						</GridItem>
-					)}
+					{layout === Layout.SINGLE_COLUMN && renderFullDescription()}
 				</SimpleGrid>
 			</Box>
 		</Flex>

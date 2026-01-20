@@ -21,6 +21,7 @@ export const mapListingToListingPageData = (
 	variations: ListingVariation[],
 ): ListingPageData => ({
 	...mapListingToListingCardData(listing),
+	descrRichText: listing.descrRichText,
 	leadTimeDaysMin: listing.leadTimeDaysMin,
 	leadTimeDaysMax: listing.leadTimeDaysMax,
 	originZip: listing.shippingOrigin?.originZip,
