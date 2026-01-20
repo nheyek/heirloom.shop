@@ -17,7 +17,7 @@ export const RichTextRenderer = (props: Props) => {
 				'& h1': {
 					fontSize: 20,
 					marginTop: 4,
-					marginBottom: 1,
+					marginBottom: 2,
 					fontWeight: 'bold',
 				},
 				'& ul, & ol': {

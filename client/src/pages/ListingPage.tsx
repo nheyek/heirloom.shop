@@ -155,7 +155,7 @@ export const ListingPage = () => {
 	}
 
 	const renderFullDescription = () => (
-		<RichTextRenderer mt={3} htmlString={listingData?.descrRichText || ''} />
+		<RichTextRenderer htmlString={listingData?.descrRichText || ''} />
 	);
 
 	return (
