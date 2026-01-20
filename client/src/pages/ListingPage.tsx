@@ -34,18 +34,18 @@ import useApi from '../hooks/useApi';
 
 const MotionBox = motion.create(Box);
 
-enum ImageComponent {
-	CAROUSEL,
-	COLLAGE,
+enum Layout {
+	SINGLE_COLUMN,
+	MULTI_COLUMN,
 }
 
 export const ListingPage = () => {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 
-	const imageComponent = useBreakpointValue({
-		base: ImageComponent.CAROUSEL,
-		md: ImageComponent.COLLAGE,
+	const layout = useBreakpointValue({
+		base: Layout.SINGLE_COLUMN,
+		md: Layout.MULTI_COLUMN,
 	});
 
 	const [listingData, setListingData] = useState<ListingPageData | null>(null);
@@ -163,12 +163,12 @@ export const ListingPage = () => {
 					transition={{ duration: 1, ease: 'easeInOut' }}
 					mx="auto"
 				>
-					{imageComponent === ImageComponent.COLLAGE && (
+					{layout === Layout.MULTI_COLUMN && (
 						<Box pt={5} px={5} mx="auto">
 							<ImageCollage urls={imageUrls} aspectRatio={3 / 2} />
 						</Box>
 					)}
-					{imageComponent === ImageComponent.CAROUSEL && (
+					{layout === Layout.SINGLE_COLUMN && (
 						<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
 					)}
 				</MotionBox>
@@ -190,6 +190,8 @@ export const ListingPage = () => {
 							</Flex>
 
 							<Text fontSize={18}>{listingData?.subtitle}</Text>
+
+							{layout === Layout.MULTI_COLUMN && <Box>[Full description]</Box>}
 						</Stack>
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
@@ -300,9 +302,11 @@ export const ListingPage = () => {
 							</Stack>
 						</Stack>
 					</GridItem>
-					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Box>[Full description]</Box>
-					</GridItem>
+					{layout === Layout.SINGLE_COLUMN && (
+						<GridItem>
+							<Box>[Full description]</Box>
+						</GridItem>
+					)}
 				</SimpleGrid>
 			</Box>
 		</Flex>
