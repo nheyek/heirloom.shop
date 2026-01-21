@@ -178,7 +178,12 @@ export const ListingPage = () => {
 	);
 
 	return (
-		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
+		<Flex
+			flexDir="column"
+			alignItems="start"
+			width={layout === Layout.MULTI_COLUMN ? 'fit-content' : '100vw'}
+			mx="auto"
+		>
 			{listingDataLoading ? (
 				<Skeleton
 					width="100vw"
@@ -198,7 +203,9 @@ export const ListingPage = () => {
 						</Box>
 					)}
 					{layout === Layout.SINGLE_COLUMN && (
-						<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+						<Box width="100%" aspectRatio={3 / 2}>
+							<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+						</Box>
 					)}
 				</MotionBox>
 			)}

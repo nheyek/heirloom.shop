@@ -1,8 +1,9 @@
 import type { IconButtonProps } from '@chakra-ui/react';
-import { Box, Carousel, IconButton, Image } from '@chakra-ui/react';
+import { Box, Carousel, IconButton } from '@chakra-ui/react';
 import { HTMLMotionProps, motion } from 'framer-motion';
 import { ReactElement, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { LoadingImage } from './LoadingImage';
 
 type Props = {
 	urls: string[];
@@ -17,12 +18,12 @@ export const ImageCarousel = (props: Props) => {
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			slideCount={props.urls.length}
-			mx="auto"
-			position="relative"
 			colorPalette="white"
 			loop
+			position="relative"
+			height="100%"
 		>
-			<Carousel.Control width="full" height="100%" position="relative">
+			<Carousel.Control height="100%" width="100%">
 				{showArrows && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton size="xs" insetStart={4}>
@@ -31,15 +32,15 @@ export const ImageCarousel = (props: Props) => {
 					</Carousel.PrevTrigger>
 				)}
 
-				<Carousel.ItemGroup>
+				<Carousel.ItemGroup height="100%" width="100%">
 					{props.urls.map((src, index) => (
 						<Carousel.Item key={index} index={index}>
-							<Image
+							<LoadingImage
 								src={src}
 								width="100%"
 								height="100%"
-								objectFit="cover"
 								aspectRatio={props.aspectRatio}
+								objectFit="cover"
 							/>
 						</Carousel.Item>
 					))}

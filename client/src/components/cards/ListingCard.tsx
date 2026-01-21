@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
+import { Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
@@ -12,15 +12,12 @@ export const ListingCard = (props: ListingCardData) => {
 
 	return (
 		<AppCard>
-			<AspectRatio ratio={3 / 2}>
-				{
-					<ImageCarousel
-						urls={props.imageUuids.map(
-							(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
-						)}
-					/>
-				}
-			</AspectRatio>
+			<ImageCarousel
+				aspectRatio={3 / 2}
+				urls={props.imageUuids.map(
+					(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
+				)}
+			/>
 			<Card.Body p={3} pr={2} pb={2}>
 				<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
 					<Link onClick={() => navigate(`/listing/${props.id}`)}>{props.title}</Link>

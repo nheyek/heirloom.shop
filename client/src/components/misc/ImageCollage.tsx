@@ -42,6 +42,7 @@ export const ImageCollage = (props: Props) => {
 					templateColumns={`repeat(${numGridCols + 1}, 1fr)`}
 					maxH={500}
 					height="100%"
+					mx="auto"
 					aspectRatio={
 						props.urls.length === 1
 							? props.aspectRatio.toString()
