@@ -29,6 +29,7 @@ export const ImageCollage = (props: Props) => {
 			objectFit="cover"
 			borderRadius={5}
 			cursor="pointer"
+			onClick={() => setLightBoxPage(index)}
 		/>
 	);
 
