@@ -6,11 +6,20 @@ export const LoadingImage = (props: ImageProps) => {
 
 	return (
 		<>
-			{!isLoaded && <Skeleton width="100%" height="100%"></Skeleton>}
+			{!isLoaded && (
+				<Skeleton
+					height="100%"
+					width="100%"
+					aspectRatio={props.aspectRatio}
+					objectFit="cover"
+				></Skeleton>
+			)}
 
 			<Image
 				{...props}
-				onLoad={() => setIsLoaded(true)}
+				onLoad={() => {
+					setIsLoaded(true);
+				}}
 				visibility={isLoaded ? 'visible' : 'hidden'}
 			/>
 		</>

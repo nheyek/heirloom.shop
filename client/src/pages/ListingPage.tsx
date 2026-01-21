@@ -180,13 +180,17 @@ export const ListingPage = () => {
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
 			{listingDataLoading ? (
-				<Skeleton width="100vw" aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }} />
+				<Skeleton
+					width="100vw"
+					maxHeight={500}
+					aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }}
+				/>
 			) : (
 				<MotionBox
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
 					transition={{ duration: 1, ease: 'easeInOut' }}
-					mx="auto"
+					width="100%"
 				>
 					{layout === Layout.MULTI_COLUMN && (
 						<Box pt={5} px={5} mx="auto">

@@ -1,7 +1,8 @@
-import { Box, Button, Grid, GridItem, Image, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Button, Grid, GridItem, useBreakpointValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaImages } from 'react-icons/fa';
 import { LightBox } from './LightBox';
+import { LoadingImage } from './LoadingImage';
 
 type Props = {
 	aspectRatio: number;
@@ -13,44 +14,69 @@ export const ImageCollage = (props: Props) => {
 	if (props.urls.length > 1) {
 		numGridCols = useBreakpointValue({ base: 2, lg: 3 }) || 2;
 	}
-	const thumnNailImageUrls = props.urls.slice(1, numGridCols * 2 - 1);
-	const imageListTruncated = props.urls.length > 1 + thumnNailImageUrls.length;
+
+	const numThumbnails = Math.min(numGridCols * 2 - 2, props.urls.length - 1);
+	const truncateImageList = props.urls.length > 1 + numThumbnails;
 
 	const [lightBoxPage, setLightBoxPage] = useState<number | null>(null);
+
+	const renderGridImage = (index: number) => (
+		<LoadingImage
+			src={props.urls[index]}
+			aspectRatio={props.aspectRatio}
+			height="100%"
+			width="100%"
+			objectFit="cover"
+			borderRadius={5}
+			cursor="pointer"
+		/>
+	);
 
 	return (
 		<>
 			<LightBox {...props} page={lightBoxPage} setPage={setLightBoxPage} />
 			<Box position="relative">
 				<Grid
-					aspectRatio={props.urls.length > 1 ? props.aspectRatio * 2 : props.aspectRatio}
 					templateRows="repeat(2, 1fr)"
 					templateColumns={`repeat(${numGridCols + 1}, 1fr)`}
 					maxH={500}
+					height="100%"
+					aspectRatio={
+						props.urls.length === 1
+							? props.aspectRatio.toString()
+							: {
+									md: props.aspectRatio * (3 / 2),
+									lg:
+										props.urls.length > 3
+											? props.aspectRatio * 2
+											: props.aspectRatio * (3 / 2),
+								}
+					}
 					gap={3}
 				>
 					<GridItem
 						rowSpan={2}
 						colSpan={2}
-						aspectRatio={props.aspectRatio}
-						width="100%"
 						height="100%"
+						width="100%"
+						aspectRatio={props.aspectRatio}
 					>
-						<GridImage
-							src={props.urls[0]}
-							aspectRatio={props.aspectRatio}
-							onClick={() => setLightBoxPage(0)}
-						/>
+						{renderGridImage(0)}
 					</GridItem>
-					{thumnNailImageUrls.map((url, index) => (
-						<GridImage
-							src={url}
+
+					{Array.from({ length: numThumbnails }, (_, i) => i + 1).map((index) => (
+						<GridItem
+							rowSpan={1}
+							colSpan={1}
+							height="100%"
+							width="100%"
 							aspectRatio={props.aspectRatio}
-							onClick={() => setLightBoxPage(index + 1)}
-						/>
+						>
+							{renderGridImage(index)}
+						</GridItem>
 					))}
 				</Grid>
-				{imageListTruncated && (
+				{truncateImageList && (
 					<Button
 						variant="subtle"
 						position="absolute"
@@ -67,14 +93,3 @@ export const ImageCollage = (props: Props) => {
 		</>
 	);
 };
-
-const GridImage = (props: { src: string; aspectRatio: number; onClick: () => void }) => (
-	<Image
-		{...props}
-		width="100%"
-		height="100%"
-		objectFit="cover"
-		borderRadius={5}
-		cursor="pointer"
-	/>
-);
