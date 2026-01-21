@@ -5,6 +5,7 @@ type Props = BoxProps & {
 };
 
 export const RichTextRenderer = (props: Props) => {
+	console.log(props.htmlString);
 	return (
 		<Box
 			{...props}

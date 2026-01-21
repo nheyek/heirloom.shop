@@ -2,7 +2,7 @@ import { ListingCardData } from './ListingCardData';
 import { ListingVariationData } from './ListingVariationData';
 
 export type ListingPageData = ListingCardData & {
-	descrRichText?: string;
+	fullDescr?: { title: string; richText: string }[];
 	leadTimeDaysMin: number;
 	leadTimeDaysMax: number;
 	originZip?: string;

@@ -15,9 +15,6 @@ export class Listing {
   @Property({ length: 128 })
   title!: string;
 
-  @Property({ type: 'text', nullable: true })
-  descrRichText?: string;
-
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
@@ -56,5 +53,8 @@ export class Listing {
 
   @ManyToOne({ entity: () => ShippingOrigin, deleteRule: 'set null', nullable: true })
   shippingOrigin?: ShippingOrigin;
+
+  @Property({ type: 'json', nullable: true })
+  fullDescr?: any;
 
 }

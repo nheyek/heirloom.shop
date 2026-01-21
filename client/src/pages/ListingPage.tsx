@@ -1,4 +1,5 @@
 import {
+	Accordion,
 	Box,
 	Button,
 	ButtonProps,
@@ -155,13 +156,32 @@ export const ListingPage = () => {
 	}
 
 	const renderFullDescription = () => (
-		<RichTextRenderer htmlString={listingData?.descrRichText || ''} />
+		<>
+			<Accordion.Root variant="plain" collapsible defaultValue={['0']} multiple size="lg">
+				{listingData?.fullDescr?.map((item, index) => (
+					<Accordion.Item key={index} value={index.toString()}>
+						<Accordion.ItemTrigger>
+							<Text fontSize={18} fontWeight="bold" flex="1">
+								{item.title}
+							</Text>
+							<Accordion.ItemIndicator />
+						</Accordion.ItemTrigger>
+						<Accordion.ItemContent>
+							<Accordion.ItemBody pt={0} pb={2}>
+								<RichTextRenderer htmlString={item.richText} />
+							</Accordion.ItemBody>
+						</Accordion.ItemContent>
+					</Accordion.Item>
+				))}
+			</Accordion.Root>
+		</>
 	);
 
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
-			{listingDataLoading && <Skeleton width="100vw" height={500} />}
-			{!listingDataLoading && (
+			{listingDataLoading ? (
+				<Skeleton width="100vw" aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }} />
+			) : (
 				<MotionBox
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
@@ -181,20 +201,23 @@ export const ListingPage = () => {
 			<Box p={{ base: 5, md: 7, lg: 9 }} pt={10} mx="auto" maxWidth={1200}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Stack gap={3}>
+						<Stack gap={2}>
 							<Heading mr={5} size="4xl">
 								{listingData?.title}
 							</Heading>
 
-							<Flex alignItems="center" gap={3} fontSize={24}>
-								<CountryFlagIcon countryCode={CountryCode.US} size={26} />
+							<Flex alignItems="center" gap={2} fontSize={22}>
+								<CountryFlagIcon
+									countryCode={listingData?.countryCode as CountryCode}
+									size={26}
+								/>
 
 								<Link onClick={() => navigate(`/shop/${listingData?.shopId}`)}>
 									{listingData?.shopTitle}
 								</Link>
 							</Flex>
 
-							<Text fontSize={20}>{listingData?.subtitle}</Text>
+							<Text fontSize={18}>{listingData?.subtitle}</Text>
 
 							{layout === Layout.MULTI_COLUMN && renderFullDescription()}
 						</Stack>

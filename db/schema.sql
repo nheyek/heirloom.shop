@@ -63,7 +63,6 @@ CREATE TABLE public.country (
 CREATE TABLE public.listing (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    descr_rich_text text,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     category_id character varying(64),
@@ -76,7 +75,8 @@ CREATE TABLE public.listing (
     return_exchange_profile_id integer,
     lead_time_days_min integer DEFAULT 0 NOT NULL,
     lead_time_days_max integer DEFAULT 0 NOT NULL,
-    shipping_origin_id integer
+    shipping_origin_id integer,
+    full_descr jsonb
 );
 
 
@@ -722,4 +722,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260116185549'),
     ('20260118193651'),
     ('20260118204227'),
-    ('20260118205636');
+    ('20260118205636'),
+    ('20260121153310');
