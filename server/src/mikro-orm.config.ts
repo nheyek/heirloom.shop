@@ -1,5 +1,5 @@
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { defineConfig } from '@mikro-orm/postgresql';
+import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import dotenvFlow from 'dotenv-flow';
 
 dotenvFlow.config();
@@ -12,6 +12,9 @@ const config = defineConfig({
 	password: process.env.DB_PASS,
 	host: process.env.DB_HOST,
 	port: Number(process.env.DB_PORT),
+	entityGenerator: {
+		bidirectionalRelations: true,
+	},
 	driverOptions: isDev
 		? {}
 		: {
@@ -21,16 +24,8 @@ const config = defineConfig({
 					},
 				},
 		  },
-	entities: [
-		'dist/server/src/entities/*.js',
-		'dist/server/src/entities/generated/*.js',
-		'!dist/server/src/entities/generated/ListingVariation.js',
-	],
-	entitiesTs: [
-		'src/entities/*.ts',
-		'src/entities/generated/*.ts',
-		'!src/entities/generated/ListingVariation.ts',
-	],
+	entities: ['dist/server/src/entities/*.js', 'dist/server/src/entities/generated/*.js'],
+	entitiesTs: ['src/entities/*.ts', 'src/entities/generated/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
 	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],

@@ -1,4 +1,5 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Listing } from './Listing';
 
 @Entity()
 export class ListingCategory {
@@ -23,5 +24,11 @@ export class ListingCategory {
 
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'category' })
+  listingCollection = new Collection<Listing>(this);
+
+  @OneToMany({ entity: () => ListingCategory, mappedBy: 'parent' })
+  listingCategoryCollection = new Collection<ListingCategory>(this);
 
 }

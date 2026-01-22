@@ -1,4 +1,5 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Listing } from './Listing';
 import { Shop } from './Shop';
 
 @Entity()
@@ -30,5 +31,8 @@ export class ShippingProfile {
 
   @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
   standardProfileKey?: string;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'shippingProfile' })
+  listingCollection = new Collection<Listing>(this);
 
 }

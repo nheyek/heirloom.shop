@@ -1,4 +1,5 @@
-import { Entity, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { Listing } from './Listing';
 
 @Entity()
 export class ReturnExchangeProfile {
@@ -29,5 +30,8 @@ export class ReturnExchangeProfile {
 
   @Property({ length: 64, nullable: true, unique: 'unique_standard_profile_key' })
   standardProfileKey?: string;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'returnExchangeProfile' })
+  listingCollection = new Collection<Listing>(this);
 
 }

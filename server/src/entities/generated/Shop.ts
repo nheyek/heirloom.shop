@@ -1,5 +1,9 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { Country } from './Country';
+import { Listing } from './Listing';
+import { ShippingOrigin } from './ShippingOrigin';
+import { ShippingProfile } from './ShippingProfile';
+import { ShopUserRole } from './ShopUserRole';
 
 @Entity()
 export class Shop {
@@ -33,5 +37,17 @@ export class Shop {
 
   @Property({ length: 64, nullable: true })
   categoryIcon?: string;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
+  listingCollection = new Collection<Listing>(this);
+
+  @OneToMany({ entity: () => ShippingOrigin, mappedBy: 'shop' })
+  shippingOriginCollection = new Collection<ShippingOrigin>(this);
+
+  @OneToMany({ entity: () => ShippingProfile, mappedBy: 'shop' })
+  shippingProfileCollection = new Collection<ShippingProfile>(this);
+
+  @OneToMany({ entity: () => ShopUserRole, mappedBy: 'shop' })
+  shopUserRoleCollection = new Collection<ShopUserRole>(this);
 
 }

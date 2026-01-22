@@ -1,8 +1,8 @@
 import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
-import { ListingVariation } from '../entities';
 import { Listing } from '../entities/generated/Listing';
 import { ListingImage } from '../entities/generated/ListingImage';
+import { ListingVariation } from '../entities/generated/ListingVariation';
 import { Shop } from '../entities/generated/Shop';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
@@ -89,5 +89,9 @@ export const createListing = async (
 
 export const findListingVariations = async (listingId: number): Promise<ListingVariation[]> => {
 	const em = getEm();
-	return em.find(ListingVariation, { listing: { id: listingId } }, { populate: ['options'] });
+	return em.find(
+		ListingVariation,
+		{ listing: { id: listingId } },
+		{ populate: ['listingVariationOptionCollection'] },
+	);
 };

@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { ShopUserRole } from './ShopUserRole';
 
 @Entity()
 export class AppUser {
@@ -17,5 +18,8 @@ export class AppUser {
 
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @OneToMany({ entity: () => ShopUserRole, mappedBy: 'user' })
+  shopUserRoleCollection = new Collection<ShopUserRole>(this);
 
 }

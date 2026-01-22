@@ -1,6 +1,7 @@
-import { Entity, ManyToOne, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
+import { ListingVariation } from './ListingVariation';
 import { ReturnExchangeProfile } from './ReturnExchangeProfile';
 import { ShippingOrigin } from './ShippingOrigin';
 import { ShippingProfile } from './ShippingProfile';
@@ -56,5 +57,8 @@ export class Listing {
 
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;
+
+  @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
+  listingVariationCollection = new Collection<ListingVariation>(this);
 
 }

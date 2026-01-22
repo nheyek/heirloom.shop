@@ -1,4 +1,5 @@
-import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import { Listing } from './Listing';
 import { Shop } from './Shop';
 
 @Entity()
@@ -22,5 +23,8 @@ export class ShippingOrigin {
 
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'shippingOrigin' })
+  listingCollection = new Collection<Listing>(this);
 
 }
