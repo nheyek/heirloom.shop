@@ -1,6 +1,15 @@
 import { createSystem, defaultConfig, defineConfig, defineRecipe } from '@chakra-ui/react';
 
 export const config = defineConfig({
+	globalCss: {
+		'*': {
+			WebkitTapHighlightColor: 'transparent',
+		},
+		'*:focus:not(:focus-visible)': {
+			outline: 'none',
+			boxShadow: 'none',
+		},
+	},
 	theme: {
 		tokens: {
 			fonts: {
