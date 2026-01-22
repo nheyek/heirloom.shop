@@ -1,4 +1,4 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 
 type PriceTagProps = {
 	value: string;
@@ -6,16 +6,13 @@ type PriceTagProps = {
 
 export function PriceTag({ value }: PriceTagProps) {
 	return (
-		<Box
+		<Flex
 			position="relative"
-			display="flex"
-			borderRadius="5px"
+			borderRadius={5}
 			bg="brand"
 			color="#FFFFFF"
-			width="fit-content"
-			paddingLeft="25px"
-			paddingRight="7.5px"
-			paddingY="2.5px"
+			padding={1}
+			paddingLeft={6}
 			style={{
 				clipPath: 'polygon(0 50%, 10px 100%, 100% 100%, 100% 0, 10px 0)',
 			}}
@@ -32,15 +29,16 @@ export function PriceTag({ value }: PriceTagProps) {
 			}}
 		>
 			<Text
-				fontSize="18px"
+				fontSize={20}
 				fontFamily="Alegreya"
-				fontWeight="600"
-				height="25px"
-				paddingRight="2px"
-				lineHeight="1.35"
+				fontWeight={600}
+				paddingLeft={0.5}
+				paddingRight={1.5}
+				paddingBottom={0.5}
+				lineHeight={1.1}
 			>
 				{value}
 			</Text>
-		</Box>
+		</Flex>
 	);
 }

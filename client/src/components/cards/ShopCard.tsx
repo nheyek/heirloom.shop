@@ -1,4 +1,4 @@
-import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Card, Link, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CountryCode } from '../../constants';
@@ -21,20 +21,24 @@ export const ShopCard = (props: ShopCardData) => {
 				}}
 			/>
 			<Card.Body p={3}>
-				<Card.Title truncate onClick={navigateToShop} fontSize={19}>
-					<Link>{props.title}</Link>
-				</Card.Title>
-				<SimpleGrid columns={2} gap={2} gridTemplateColumns="22px 1fr" mt={2} fontSize={16}>
-					<CategoryIcon
-						iconCode={props.categoryIcon as CategoryIconCode | null}
-						size={22}
-					/>
-					<Text>{props.classification}</Text>
-					<Box width={22} height={22}>
-						<CountryFlagIcon countryCode={props.countryCode as CountryCode | null} />
-					</Box>
-					<Text>{props.location}</Text>
-				</SimpleGrid>
+				<Stack gap={2}>
+					<Card.Title truncate onClick={navigateToShop} fontSize={20}>
+						<Link>{props.title}</Link>
+					</Card.Title>
+					<SimpleGrid columns={2} gapY={1} gridTemplateColumns="30px 1fr" fontSize={18}>
+						<CategoryIcon
+							iconCode={props.categoryIcon as CategoryIconCode | null}
+							size={22}
+						/>
+						<Text truncate>{props.classification}</Text>
+						<Box width={22} height={22}>
+							<CountryFlagIcon
+								countryCode={props.countryCode as CountryCode | null}
+							/>
+						</Box>
+						<Text truncate>{props.location}</Text>
+					</SimpleGrid>
+				</Stack>
 			</Card.Body>
 		</AppCard>
 	);

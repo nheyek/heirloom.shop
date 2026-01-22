@@ -1,4 +1,4 @@
-import { Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
+import { Box, Card, Flex, IconButton, Link, Stack } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
@@ -8,7 +8,7 @@ import { ImageCarousel } from '../misc/ImageCarousel';
 import { PriceTag } from '../misc/PriceTag';
 import { AppCard } from './AppCard';
 
-export const ListingCard = (props: ListingCardData) => {
+export const ListingCard = (props: ListingCardData & { clampLines: boolean }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -20,29 +20,35 @@ export const ListingCard = (props: ListingCardData) => {
 				)}
 			/>
 			<Card.Body p={3} pr={2} pb={2}>
-				<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
-					<Link onClick={() => navigate(`/listing/${props.id}`)}>{props.title}</Link>
-				</Card.Title>
-				{props.shopTitle && (
-					<Link fontSize={18} onClick={() => navigate(`/shop/${props.shopId}`)}>
-						{props.shopTitle}
-					</Link>
-				)}
-				<Card.Description lineClamp="2" mt={1} minHeight={45} fontSize={15}>
-					{props.subtitle}
-				</Card.Description>
-				<Flex mt={2} justifyContent="space-between" alignItems="center">
-					<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
-					<Box>
-						<IconButton variant="ghost" rounded="full" size="lg">
-							<FaRegShareFromSquare />
-						</IconButton>
+				<Stack gap={1}>
+					<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
+						<Link onClick={() => navigate(`/listing/${props.id}`)}>{props.title}</Link>
+					</Card.Title>
+					{props.shopTitle && (
+						<Link fontSize={18} onClick={() => navigate(`/shop/${props.shopId}`)}>
+							{props.shopTitle}
+						</Link>
+					)}
+					<Card.Description
+						lineClamp={props.clampLines ? '2' : undefined}
+						minHeight={45}
+						fontSize={15}
+					>
+						{props.subtitle}
+					</Card.Description>
+					<Flex justifyContent="space-between" alignItems="center">
+						<PriceTag value={`$${props.priceDollars.toLocaleString()}`} />
+						<Box>
+							<IconButton variant="ghost" rounded="full" size="lg">
+								<FaRegShareFromSquare />
+							</IconButton>
 
-						<IconButton variant="ghost" rounded="full" size="lg">
-							<FaRegHeart />
-						</IconButton>
-					</Box>
-				</Flex>
+							<IconButton variant="ghost" rounded="full" size="lg">
+								<FaRegHeart />
+							</IconButton>
+						</Box>
+					</Flex>
+				</Stack>
 			</Card.Body>
 		</AppCard>
 	);
