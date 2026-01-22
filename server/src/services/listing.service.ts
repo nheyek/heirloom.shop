@@ -1,9 +1,9 @@
 import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
+import { ListingVariation } from '../entities';
 import { Listing } from '../entities/generated/Listing';
 import { ListingImage } from '../entities/generated/ListingImage';
 import { Shop } from '../entities/generated/Shop';
-import { ListingVariation } from '../entities';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
@@ -80,7 +80,7 @@ export const createListing = async (
 	const em = getEm();
 	const listing = em.create(Listing, {
 		title: profileApiRequest.title,
-		descrRichText: profileApiRequest.desc,
+		fullDescr: profileApiRequest.desc,
 		shop: { id: shopId } as Shop,
 	});
 	await em.persistAndFlush(listing);
