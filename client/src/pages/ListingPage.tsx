@@ -11,6 +11,7 @@ import {
 	Portal,
 	Select,
 	SimpleGrid,
+	Skeleton,
 	Stack,
 	Text,
 	useBreakpointValue,
@@ -33,7 +34,7 @@ import { RichTextRenderer } from '../components/misc/RichTextRenderer';
 import { CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 
-const MotionBox = motion.create(Box);
+const MotionFlex = motion.create(Flex);
 
 enum Layout {
 	SINGLE_COLUMN,
@@ -48,6 +49,8 @@ export const ListingPage = () => {
 		base: Layout.SINGLE_COLUMN,
 		md: Layout.MULTI_COLUMN,
 	});
+
+	const maxWidth = 1200;
 
 	const [listingData, setListingData] = useState<ListingPageData | null>(null);
 	const [listingDataLoading, setListingDataLoading] = useState<boolean>(true);
@@ -176,14 +179,25 @@ export const ListingPage = () => {
 		</>
 	);
 
+	if (listingDataLoading) {
+		return <LoadingSkeleton maxWidth={maxWidth} layout={layout} />;
+	}
+
 	return (
-		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
+		<MotionFlex
+			flexDir="column"
+			alignItems="start"
+			width="fit-content"
+			mx="auto"
+			initial={{ opacity: 0 }}
+			animate={{ opacity: 1 }}
+			transition={{ duration: 1, ease: 'easeInOut' }}
+		>
 			{layout === Layout.MULTI_COLUMN && (
 				<Box pt={5} px={5} mx="auto">
 					<ImageCollage
 						urls={imageUrls}
-						maxHeight={500}
-						maxWidth={1200}
+						maxWidth={maxWidth}
 						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					/>
 				</Box>
@@ -191,7 +205,7 @@ export const ListingPage = () => {
 			{layout === Layout.SINGLE_COLUMN && (
 				<ImageCarousel urls={imageUrls} aspectRatio={STANDARD_IMAGE_ASPECT_RATIO} />
 			)}
-			<Box p={{ base: 5, md: 7, lg: 9 }} pt={5} mx="auto" maxWidth={1200}>
+			<Box p={{ base: 5, md: 7, lg: 9 }} pt={5} mx="auto" maxWidth={maxWidth}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={2}>
@@ -301,8 +315,8 @@ export const ListingPage = () => {
 										Estimated delivery
 										<b>
 											{formatDateRange(
-												daysToDelivery.min,
-												daysToDelivery.max,
+												daysToDelivery!.min,
+												daysToDelivery!.max,
 											)}
 										</b>
 									</IconText>
@@ -326,10 +340,91 @@ export const ListingPage = () => {
 					{layout === Layout.SINGLE_COLUMN && renderFullDescription()}
 				</SimpleGrid>
 			</Box>
-		</Flex>
+		</MotionFlex>
 	);
 };
 
 const ListingPageButton = (props: ButtonProps) => (
 	<Button width="100%" fontWeight="bold" {...props} borderRadius="full" />
 );
+
+const LoadingSkeleton = (props: { layout?: Layout; maxWidth: number }) => {
+	const renderBasicInfoSection = () => (
+		<Stack gap={4}>
+			<Skeleton width="80%" height="40px" />
+			<Skeleton width="60%" height="35px" />
+			<Stack gap={2}>
+				<Skeleton width="90%" height="20px" />
+				<Skeleton width="95%" height="20px" />
+				<Skeleton width="75%" height="20px" />
+			</Stack>
+		</Stack>
+	);
+
+	const renderButtonsAndFulfillmentSection = () => (
+		<Stack gap={6}>
+			<Skeleton height="100px" />
+			<Stack gap={3}>
+				<Skeleton width="40%" height="20px" />
+				<Skeleton width="60%" height="20px" />
+				<Skeleton width="50%" height="20px" />
+			</Stack>
+		</Stack>
+	);
+
+	const renderFullDescriptionSection = () => (
+		<Stack gap={6}>
+			<Skeleton width="100%" height="50px" />
+			<Stack gap={3}>
+				<Skeleton width="90%" height="20px" />
+				<Skeleton width="95%" height="20px" />
+				<Skeleton width="75%" height="20px" />
+			</Stack>
+			<Skeleton width="100%" height="50px" />
+			<Skeleton width="100%" height="50px" />
+		</Stack>
+	);
+
+	if (props.layout === Layout.SINGLE_COLUMN) {
+		return (
+			<Stack gap={10}>
+				<Skeleton width="100%" aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}></Skeleton>
+
+				<Stack gap={10} mx={5}>
+					{renderBasicInfoSection()}
+					{renderButtonsAndFulfillmentSection()}
+				</Stack>
+			</Stack>
+		);
+	}
+
+	return (
+		<SimpleGrid maxW={props.maxWidth} columns={2} gap={10} p={10} mx="auto">
+			<GridItem colSpan={2}>
+				<SimpleGrid columns={4} gap={3}>
+					<GridItem colSpan={2} rowSpan={2}>
+						<Skeleton
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							height="100%"
+							width="100%"
+						></Skeleton>
+					</GridItem>
+					<GridItem>
+						<Skeleton aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}></Skeleton>
+					</GridItem>
+					<GridItem>
+						<Skeleton aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}></Skeleton>
+					</GridItem>
+					<GridItem>
+						<Skeleton aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}></Skeleton>
+					</GridItem>
+					<GridItem>
+						<Skeleton aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}></Skeleton>
+					</GridItem>
+				</SimpleGrid>
+			</GridItem>
+			<GridItem>{renderBasicInfoSection()}</GridItem>
+			<GridItem>{renderButtonsAndFulfillmentSection()}</GridItem>
+		</SimpleGrid>
+	);
+};

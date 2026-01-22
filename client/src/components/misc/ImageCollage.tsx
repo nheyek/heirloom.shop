@@ -6,7 +6,6 @@ import { LightBox } from './LightBox';
 
 type Props = {
 	aspectRatio: number;
-	maxHeight: number;
 	maxWidth: number;
 	urls: string[];
 };
@@ -37,15 +36,18 @@ export const ImageCollage = (props: Props) => {
 		/>
 	);
 
+	/* Proportional maximum height with a single thumbnail column */
+	const maxHeight = props.maxWidth * (4 / 9);
+
 	return (
 		<>
 			<LightBox {...props} page={lightBoxPage} setPage={setLightBoxPage} />
 			{props.urls.length === 1 ? (
-				<Box height={props.maxHeight} aspectRatio={props.aspectRatio}>
+				<Box height={maxHeight} aspectRatio={props.aspectRatio}>
 					{renderCollageImage(0)}
 				</Box>
 			) : (
-				<Box position="relative" maxW={props.maxWidth} maxH={props.maxHeight}>
+				<Box position="relative" maxW={props.maxWidth} maxH={maxHeight}>
 					<Grid
 						templateRows="repeat(2, 1fr)"
 						templateColumns={`repeat(${numGridCols + 1}, 1fr)`}
