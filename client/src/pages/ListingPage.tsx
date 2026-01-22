@@ -11,7 +11,6 @@ import {
 	Portal,
 	Select,
 	SimpleGrid,
-	Skeleton,
 	Stack,
 	Text,
 	useBreakpointValue,
@@ -179,21 +178,19 @@ export const ListingPage = () => {
 
 	return (
 		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
-			<Skeleton
-				loading={listingDataLoading}
-				width="100vw"
-				maxHeight={500}
-				aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }}
-			>
-				{layout === Layout.MULTI_COLUMN && (
-					<Box pt={5} px={5} mx="auto">
-						<ImageCollage urls={imageUrls} aspectRatio={3 / 2} />
-					</Box>
-				)}
-				{layout === Layout.SINGLE_COLUMN && (
-					<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
-				)}
-			</Skeleton>
+			{layout === Layout.MULTI_COLUMN && (
+				<Box pt={5} px={5} mx="auto">
+					<ImageCollage
+						urls={imageUrls}
+						maxHeight={500}
+						maxWidth={1500}
+						aspectRatio={3 / 2}
+					/>
+				</Box>
+			)}
+			{layout === Layout.SINGLE_COLUMN && (
+				<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+			)}
 			<Box p={{ base: 5, md: 7, lg: 9 }} pt={10} mx="auto" maxWidth={1200}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
