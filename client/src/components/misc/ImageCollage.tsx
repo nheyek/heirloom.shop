@@ -28,6 +28,7 @@ export const ImageCollage = (props: Props) => {
 				onClick: () => setLightBoxPage(index),
 				borderRadius: 5,
 				cursor: 'button',
+				aspectRatio: props.aspectRatio,
 			}}
 			containerProps={{
 				height: '100%',

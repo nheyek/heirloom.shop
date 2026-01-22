@@ -30,7 +30,7 @@ import { IconText } from '../components/misc/IconText';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
 import { RichTextRenderer } from '../components/misc/RichTextRenderer';
-import { CountryCode } from '../constants';
+import { CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 
 const MotionBox = motion.create(Box);
@@ -184,7 +184,7 @@ export const ListingPage = () => {
 						urls={imageUrls}
 						maxHeight={500}
 						maxWidth={1200}
-						aspectRatio={3 / 2}
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					/>
 				</Box>
 			)}
