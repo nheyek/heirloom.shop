@@ -178,37 +178,22 @@ export const ListingPage = () => {
 	);
 
 	return (
-		<Flex
-			flexDir="column"
-			alignItems="start"
-			width={layout === Layout.MULTI_COLUMN ? 'fit-content' : '100vw'}
-			mx="auto"
-		>
-			{listingDataLoading ? (
-				<Skeleton
-					width="100vw"
-					maxHeight={500}
-					aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }}
-				/>
-			) : (
-				<MotionBox
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{ duration: 1, ease: 'easeInOut' }}
-					width="100%"
-				>
-					{layout === Layout.MULTI_COLUMN && (
-						<Box pt={5} px={5} mx="auto">
-							<ImageCollage urls={imageUrls} aspectRatio={3 / 2} />
-						</Box>
-					)}
-					{layout === Layout.SINGLE_COLUMN && (
-						<Box width="100%" aspectRatio={3 / 2}>
-							<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
-						</Box>
-					)}
-				</MotionBox>
-			)}
+		<Flex flexDir="column" alignItems="start" width="fit-content" mx="auto">
+			<Skeleton
+				loading={listingDataLoading}
+				width="100vw"
+				maxHeight={500}
+				aspectRatio={{ base: 3 / 2, md: 9 / 4, lg: 3 }}
+			>
+				{layout === Layout.MULTI_COLUMN && (
+					<Box pt={5} px={5} mx="auto">
+						<ImageCollage urls={imageUrls} aspectRatio={3 / 2} />
+					</Box>
+				)}
+				{layout === Layout.SINGLE_COLUMN && (
+					<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+				)}
+			</Skeleton>
 			<Box p={{ base: 5, md: 7, lg: 9 }} pt={10} mx="auto" maxWidth={1200}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>

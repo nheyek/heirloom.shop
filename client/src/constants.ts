@@ -24,3 +24,5 @@ export enum CountryCode {
 	CH = 'CH',
 	PT = 'PT',
 }
+
+export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
