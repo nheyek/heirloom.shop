@@ -183,7 +183,7 @@ export const ListingPage = () => {
 					<ImageCollage
 						urls={imageUrls}
 						maxHeight={500}
-						maxWidth={1500}
+						maxWidth={1200}
 						aspectRatio={3 / 2}
 					/>
 				</Box>

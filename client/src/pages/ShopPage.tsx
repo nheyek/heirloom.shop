@@ -8,7 +8,7 @@ import useApi from '../hooks/useApi';
 
 import { motion } from 'framer-motion';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
-import { LoadingImage } from '../components/misc/LoadingImage';
+import { AppImage } from '../components/misc/AppImage';
 import { CountryCode, STANDARD_ELEMENT_GAP } from '../constants';
 
 export const ShopPage = () => {
@@ -74,12 +74,14 @@ export const ShopPage = () => {
 					transition={{ duration: 1, ease: 'easeInOut' }}
 				>
 					<Box position="relative" boxShadow="md">
-						<AspectRatio ratio={responsiveBannerAspectRatio}>
-							<LoadingImage
-								mx="auto"
-								src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`}
+						<Box mx="auto">
+							<AppImage
+								imageProps={{
+									aspectRatio: responsiveBannerAspectRatio,
+									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`,
+								}}
 							/>
-						</AspectRatio>
+						</Box>
 						<Box
 							position="absolute"
 							bottom={[3, 5, 7]}

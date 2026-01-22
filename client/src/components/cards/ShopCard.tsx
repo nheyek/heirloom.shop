@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CountryCode } from '../../constants';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
-import { LoadingImage } from '../misc/LoadingImage';
+import { AppImage } from '../misc/AppImage';
 import { AppCard } from './AppCard';
 
 export const ShopCard = (props: ShopCardData) => {
@@ -14,10 +14,12 @@ export const ShopCard = (props: ShopCardData) => {
 	return (
 		<AppCard>
 			<AspectRatio ratio={3 / 2}>
-				<LoadingImage
-					style={{ cursor: 'pointer' }}
-					src={`${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`}
-					onClick={navigateToShop}
+				<AppImage
+					imageProps={{
+						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+						cursor: 'button',
+						onClick: navigateToShop,
+					}}
 				/>
 			</AspectRatio>
 			<Card.Body p={3}>

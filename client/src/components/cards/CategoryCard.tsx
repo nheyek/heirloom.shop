@@ -1,7 +1,7 @@
 import { Heading } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { useNavigate } from 'react-router-dom';
-import { LoadingImage } from '../misc/LoadingImage';
+import { AppImage } from '../misc/AppImage';
 import { AppCard } from './AppCard';
 
 export const CategoryCard = (props: CategoryCardData) => {
@@ -15,12 +15,11 @@ export const CategoryCard = (props: CategoryCardData) => {
 			aspectRatio={3 / 2}
 			width="100%"
 		>
-			<LoadingImage
-				height="100%"
-				width="100%"
-				objectFit="cover"
-				src={`https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`}
-			></LoadingImage>
+			<AppImage
+				imageProps={{
+					src: `https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`,
+				}}
+			></AppImage>
 			<Heading
 				position="absolute"
 				bottom="10px"
