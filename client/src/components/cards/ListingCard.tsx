@@ -3,6 +3,7 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { ImageCarousel } from '../misc/ImageCarousel';
 import { PriceTag } from '../misc/PriceTag';
 import { AppCard } from './AppCard';
@@ -13,7 +14,7 @@ export const ListingCard = (props: ListingCardData) => {
 	return (
 		<AppCard>
 			<ImageCarousel
-				aspectRatio={3 / 2}
+				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 				urls={props.imageUuids.map(
 					(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
 				)}

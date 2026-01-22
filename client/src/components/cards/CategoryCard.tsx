@@ -1,6 +1,7 @@
 import { Heading } from '@chakra-ui/react';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import { useNavigate } from 'react-router-dom';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { AppImage } from '../misc/AppImage';
 import { AppCard } from './AppCard';
 
@@ -12,7 +13,7 @@ export const CategoryCard = (props: CategoryCardData) => {
 			onClick={() => navigate(`/category/${props.id.toLowerCase()}`)}
 			position="relative"
 			cursor="pointer"
-			aspectRatio={3 / 2}
+			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 			width="100%"
 		>
 			<AppImage

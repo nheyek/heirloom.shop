@@ -189,9 +189,9 @@ export const ListingPage = () => {
 				</Box>
 			)}
 			{layout === Layout.SINGLE_COLUMN && (
-				<ImageCarousel urls={imageUrls} aspectRatio={3 / 2} />
+				<ImageCarousel urls={imageUrls} aspectRatio={STANDARD_IMAGE_ASPECT_RATIO} />
 			)}
-			<Box p={{ base: 5, md: 7, lg: 9 }} pt={10} mx="auto" maxWidth={1200}>
+			<Box p={{ base: 5, md: 7, lg: 9 }} pt={5} mx="auto" maxWidth={1200}>
 				<SimpleGrid columns={{ base: 1, md: 2, lg: 5 }} gap={10}>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={2}>

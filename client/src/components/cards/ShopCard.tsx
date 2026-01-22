@@ -1,4 +1,4 @@
-import { AspectRatio, Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
+import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CountryCode } from '../../constants';
@@ -13,15 +13,13 @@ export const ShopCard = (props: ShopCardData) => {
 
 	return (
 		<AppCard>
-			<AspectRatio ratio={3 / 2}>
-				<AppImage
-					imageProps={{
-						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
-						cursor: 'button',
-						onClick: navigateToShop,
-					}}
-				/>
-			</AspectRatio>
+			<AppImage
+				imageProps={{
+					src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+					cursor: 'button',
+					onClick: navigateToShop,
+				}}
+			/>
 			<Card.Body p={3}>
 				<Card.Title truncate onClick={navigateToShop} fontSize={19}>
 					<Link>{props.title}</Link>
