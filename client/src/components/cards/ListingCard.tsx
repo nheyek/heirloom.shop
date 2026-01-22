@@ -8,7 +8,7 @@ import { ImageCarousel } from '../misc/ImageCarousel';
 import { PriceTag } from '../misc/PriceTag';
 import { AppCard } from './AppCard';
 
-export const ListingCard = (props: ListingCardData & { clampLines: boolean }) => {
+export const ListingCard = (props: ListingCardData) => {
 	const navigate = useNavigate();
 
 	return (
@@ -29,11 +29,7 @@ export const ListingCard = (props: ListingCardData & { clampLines: boolean }) =>
 							{props.shopTitle}
 						</Link>
 					)}
-					<Card.Description
-						lineClamp={props.clampLines ? '2' : undefined}
-						minHeight={45}
-						fontSize={15}
-					>
+					<Card.Description lineClamp={2} minHeight={45} fontSize={15}>
 						{props.subtitle}
 					</Card.Description>
 					<Flex justifyContent="space-between" alignItems="center">

@@ -18,7 +18,7 @@ export const ListingGrid = (props: Props) => {
 					<Skeleton key={index} height={200} />
 				))}
 			{props.listings.map((listing) => (
-				<ListingCard key={listing.id} {...listing} clampLines={numColumns > 1} />
+				<ListingCard key={listing.id} {...listing} />
 			))}
 		</SimpleGrid>
 	);
