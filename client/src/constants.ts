@@ -5,11 +5,12 @@ export const STANDARD_ELEMENT_GAP = 5;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 
 export enum CategoryIconCode {
-	NECKLACE = 'NECKLACE',
+	RING = 'RING',
+	EARRINGS = 'EARRINGS',
 	HANDBAG = 'HANDBAG',
 	VASE = 'VASE',
 	CHAIR = 'CHAIR',
-	SILVERWARE = 'SILVERWARE',
+	CANDLESTICK = 'CANDLESTICK',
 }
 
 export enum CountryCode {

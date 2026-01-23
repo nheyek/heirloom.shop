@@ -13,7 +13,7 @@ DECLARE
     sample_shop_1_location VARCHAR := 'Pittsburgh, PA';
     sample_shop_1_classification VARCHAR := 'Jewelry & Accessories';
     sample_shop_1_country_code CHAR(2) := 'US';
-    sample_shop_1_category_icon VARCHAR := 'NECKLACE';
+    sample_shop_1_category_icon VARCHAR := 'RING';
     sample_shop_1_origin_zip NUMERIC(5, 0) := 15201;
 
     sample_shop_2_id INT := 2;
@@ -49,7 +49,7 @@ DECLARE
     sample_shop_5_location VARCHAR := 'New York';
     sample_shop_5_classification VARCHAR := 'Botanical Jewelry';
     sample_shop_5_country_code CHAR(2) := 'US';
-    sample_shop_5_category_icon VARCHAR := 'NECKLACE';
+    sample_shop_5_category_icon VARCHAR := 'EARRINGS';
     sample_shop_5_origin_zip NUMERIC(5, 0) := 03051;
 
     sample_shop_6_id INT := 6;
@@ -58,7 +58,7 @@ DECLARE
     sample_shop_6_location VARCHAR := 'Brescia, Italy';
     sample_shop_6_classification VARCHAR := 'Italian Handmade Pewter';
     sample_shop_6_country_code CHAR(2) := 'IT';
-    sample_shop_6_category_icon VARCHAR := 'SILVERWARE';
+    sample_shop_6_category_icon VARCHAR := 'CANDLESTICK';
     sample_shop_6_origin_zip NUMERIC(5, 0) := 07310;
 
     sample_listing_1_id INT := 1;
