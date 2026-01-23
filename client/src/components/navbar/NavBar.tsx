@@ -103,7 +103,7 @@ export const Navbar = () => {
 	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
 		<Flex mx={3} my={1} alignItems="center" gap={2}>
 			{icon}
-			<Text textStyle="clean" fontSize={14} fontWeight="bold">
+			<Text textStyle="clean" fontSize={13} fontWeight="bold">
 				{label}
 			</Text>
 		</Flex>
