@@ -18,6 +18,7 @@ import { FaShop } from 'react-icons/fa6';
 import { MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import useApi from '../../hooks/useApi';
 import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../misc/Logo';
 import { LoginButton } from './LoginButton';
@@ -27,8 +28,7 @@ export const Navbar = () => {
 	const { isAuthenticated } = useAuth0();
 	const { user } = useUserInfo();
 	const navigate = useNavigate();
-
-	const [searchResults, setSearchResults] = useState<string[]>([]);
+	const { getPublicResource } = useApi();
 
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResultCollection, setSearchResultCollection] =
@@ -36,33 +36,16 @@ export const Navbar = () => {
 	const [showResults, setShowResults] = useState(false);
 	const searchContainerRef = useRef<HTMLDivElement>(null);
 
-	const search = (query: string) => {
-		setSearchResultCollection({
-			categoryResults: [
-				{
-					id: 'jewelry',
-					label: 'Jewelry',
-				},
-			],
-			shopResults: [
-				{
-					id: '1',
-					label: 'Studebaker Metals',
-				},
-			],
-			listingResults: [
-				{
-					id: '3',
-					label: 'Band Ring - Studebaker Metals',
-				},
-			],
-		});
-		setSearchResults(['test search result', 'test search result 2']);
+	const search = async (query: string) => {
+		const { data } = await getPublicResource(`search?q=${encodeURIComponent(query)}`);
+		if (data) {
+			setSearchResultCollection(data);
+		}
 	};
 
 	useEffect(() => {
 		if (!searchQuery) {
-			setSearchResults([]);
+			setSearchResultCollection(null);
 			return;
 		}
 
@@ -107,7 +90,7 @@ export const Navbar = () => {
 		</Flex>
 	);
 
-	const renderSearchResults = (results: SearchResult[]) =>
+	const renderSearchResults = (results: SearchResult[], path: string) =>
 		results.map((result) => (
 			<Box
 				key={result.id}
@@ -117,8 +100,9 @@ export const Navbar = () => {
 				_hover={{ bg: 'gray.100' }}
 				onClick={() => {
 					setSearchQuery('');
-					setSearchResults([]);
+					setSearchResultCollection(null);
 					setShowResults(false);
+					navigate(`/${path}/${result.id}`);
 				}}
 			>
 				<Text fontSize={16}>{result.label}</Text>
@@ -168,7 +152,7 @@ export const Navbar = () => {
 								style={{ borderRadius: 20 }}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								onFocus={() => searchResults.length > 0 && setShowResults(true)}
+								onFocus={() => searchResultCollection && setShowResults(true)}
 							/>
 						</InputGroup>
 						{showResults && searchResultCollection && (
@@ -185,17 +169,42 @@ export const Navbar = () => {
 								zIndex="popover"
 							>
 								<Stack gap={0} mt={2} mb={1}>
+									{[
+										searchResultCollection.categoryResults,
+										searchResultCollection.listingResults,
+										searchResultCollection.shopResults,
+									].every((resultList) => resultList.length === 0) && (
+										<Text
+											fontStyle="italic"
+											p={2}
+											pl={4}
+											color="gray.500"
+											fontSize={14}
+										>
+											No results found
+										</Text>
+									)}
+
 									{searchResultCollection.categoryResults.length > 0 &&
 										renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
-									{renderSearchResults(searchResultCollection.categoryResults)}
+									{renderSearchResults(
+										searchResultCollection.categoryResults,
+										'category',
+									)}
 
-									{searchResultCollection.categoryResults.length > 0 &&
+									{searchResultCollection.shopResults.length > 0 &&
 										renderSearchResultGroupLabel(<FaShop />, 'Makers')}
-									{renderSearchResults(searchResultCollection.shopResults)}
+									{renderSearchResults(
+										searchResultCollection.shopResults,
+										'shop',
+									)}
 
-									{searchResultCollection.categoryResults.length > 0 &&
+									{searchResultCollection.listingResults.length > 0 &&
 										renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
-									{renderSearchResults(searchResultCollection.listingResults)}
+									{renderSearchResults(
+										searchResultCollection.listingResults,
+										'listing',
+									)}
 								</Stack>
 							</Box>
 						)}
