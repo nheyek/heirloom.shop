@@ -7,6 +7,7 @@ import {
 	IconButton,
 	Input,
 	InputGroup,
+	Skeleton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -30,28 +31,38 @@ export const Navbar = () => {
 	const navigate = useNavigate();
 	const { getPublicResource } = useApi();
 
+	const searchContainerRef = useRef<HTMLDivElement>(null);
+
 	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResultCollection, setSearchResultCollection] =
 		useState<SearchResultCollection | null>(null);
-	const [showResults, setShowResults] = useState(false);
-	const searchContainerRef = useRef<HTMLDivElement>(null);
+	const [searchResultsLoading, setSearchResultsLoading] = useState<boolean>(false);
+	const [showSearchPopover, setShowSearchPopover] = useState(false);
 
 	const search = async (query: string) => {
-		const { data } = await getPublicResource(`search?q=${encodeURIComponent(query)}`);
+		const { data, error } = await getPublicResource(`search?q=${encodeURIComponent(query)}`);
 		if (data) {
 			setSearchResultCollection(data);
 		}
+		if (error) {
+			setSearchResultCollection(null);
+		}
+
+		setSearchResultsLoading(false);
 	};
 
 	useEffect(() => {
-		if (!searchQuery) {
-			setSearchResultCollection(null);
+		setShowSearchPopover(false);
+		setSearchResultCollection(null);
+		if (searchQuery?.length < 3) {
 			return;
 		}
 
+		setShowSearchPopover(true);
+		setSearchResultsLoading(true);
+
 		const timer = setTimeout(() => {
 			search(searchQuery);
-			setShowResults(true);
 		}, 500);
 
 		return () => clearTimeout(timer);
@@ -63,13 +74,13 @@ export const Navbar = () => {
 				searchContainerRef.current &&
 				!searchContainerRef.current.contains(e.target as Node)
 			) {
-				setShowResults(false);
+				setShowSearchPopover(false);
 			}
 		};
 
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === 'Escape') {
-				setShowResults(false);
+				setShowSearchPopover(false);
 			}
 		};
 
@@ -101,7 +112,7 @@ export const Navbar = () => {
 				onClick={() => {
 					setSearchQuery('');
 					setSearchResultCollection(null);
-					setShowResults(false);
+					setShowSearchPopover(false);
 					navigate(`/${path}/${result.id}`);
 				}}
 			>
@@ -152,10 +163,10 @@ export const Navbar = () => {
 								style={{ borderRadius: 20 }}
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								onFocus={() => searchResultCollection && setShowResults(true)}
+								onFocus={() => searchResultCollection && setShowSearchPopover(true)}
 							/>
 						</InputGroup>
-						{showResults && searchResultCollection && (
+						{showSearchPopover && searchQuery && (
 							<Box
 								position="absolute"
 								top="100%"
@@ -168,42 +179,59 @@ export const Navbar = () => {
 								overflow="hidden"
 								zIndex="popover"
 							>
-								<Stack gap={0} mt={2} mb={1}>
-									{[
-										searchResultCollection.categoryResults,
-										searchResultCollection.listingResults,
-										searchResultCollection.shopResults,
-									].every((resultList) => resultList.length === 0) && (
-										<Text
-											fontStyle="italic"
-											p={2}
-											pl={4}
-											color="gray.500"
-											fontSize={14}
-										>
-											No results found
-										</Text>
+								<Stack gap={0} my={2}>
+									{searchResultsLoading && (
+										<Stack gap={2} px={2}>
+											<Skeleton width="55%" height={6}></Skeleton>
+											<Skeleton width="70%" height={6}></Skeleton>
+											<Skeleton width="35%" height={6}></Skeleton>
+										</Stack>
 									)}
+									{searchResultCollection && (
+										<>
+											{[
+												searchResultCollection.categoryResults,
+												searchResultCollection.listingResults,
+												searchResultCollection.shopResults,
+											].every((resultList) => resultList.length === 0) && (
+												<Text
+													fontStyle="italic"
+													p={2}
+													pl={4}
+													color="gray.500"
+													fontSize={14}
+												>
+													No results found
+												</Text>
+											)}
 
-									{searchResultCollection.categoryResults.length > 0 &&
-										renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
-									{renderSearchResults(
-										searchResultCollection.categoryResults,
-										'category',
-									)}
+											{searchResultCollection.categoryResults.length > 0 &&
+												renderSearchResultGroupLabel(
+													<MdCategory />,
+													'Categories',
+												)}
+											{renderSearchResults(
+												searchResultCollection.categoryResults,
+												'category',
+											)}
 
-									{searchResultCollection.shopResults.length > 0 &&
-										renderSearchResultGroupLabel(<FaShop />, 'Makers')}
-									{renderSearchResults(
-										searchResultCollection.shopResults,
-										'shop',
-									)}
+											{searchResultCollection.shopResults.length > 0 &&
+												renderSearchResultGroupLabel(<FaShop />, 'Makers')}
+											{renderSearchResults(
+												searchResultCollection.shopResults,
+												'shop',
+											)}
 
-									{searchResultCollection.listingResults.length > 0 &&
-										renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
-									{renderSearchResults(
-										searchResultCollection.listingResults,
-										'listing',
+											{searchResultCollection.listingResults.length > 0 &&
+												renderSearchResultGroupLabel(
+													<RiStackFill />,
+													'Listings',
+												)}
+											{renderSearchResults(
+												searchResultCollection.listingResults,
+												'listing',
+											)}
+										</>
 									)}
 								</Stack>
 							</Box>
