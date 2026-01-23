@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
+	Flex,
 	Grid,
 	GridItem,
 	IconButton,
@@ -9,27 +10,53 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { JSX, useEffect, useRef, useState } from 'react';
 
+import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
+import { MdCategory } from 'react-icons/md';
+import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../misc/Logo';
 import { LoginButton } from './LoginButton';
 import { LogoutButton } from './LogoutButton';
 
-export default function Navbar() {
+export const Navbar = () => {
 	const { isAuthenticated } = useAuth0();
 	const { user } = useUserInfo();
 	const navigate = useNavigate();
 
-	const [searchQuery, setSearchQuery] = useState('');
 	const [searchResults, setSearchResults] = useState<string[]>([]);
+
+	const [searchQuery, setSearchQuery] = useState('');
+	const [searchResultCollection, setSearchResultCollection] =
+		useState<SearchResultCollection | null>(null);
 	const [showResults, setShowResults] = useState(false);
 	const searchContainerRef = useRef<HTMLDivElement>(null);
 
 	const search = (query: string) => {
+		setSearchResultCollection({
+			categoryResults: [
+				{
+					id: 'jewelry',
+					label: 'Jewelry',
+				},
+			],
+			shopResults: [
+				{
+					id: '1',
+					label: 'Studebaker Metals',
+				},
+			],
+			listingResults: [
+				{
+					id: '3',
+					label: 'Band Ring - Studebaker Metals',
+				},
+			],
+		});
 		setSearchResults(['test search result', 'test search result 2']);
 	};
 
@@ -49,7 +76,10 @@ export default function Navbar() {
 
 	useEffect(() => {
 		const handleClickOutside = (e: MouseEvent) => {
-			if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+			if (
+				searchContainerRef.current &&
+				!searchContainerRef.current.contains(e.target as Node)
+			) {
 				setShowResults(false);
 			}
 		};
@@ -67,6 +97,33 @@ export default function Navbar() {
 			document.removeEventListener('keydown', handleKeyDown);
 		};
 	}, []);
+
+	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
+		<Flex mx={4} my={1} alignItems="center" gap={2}>
+			{icon}
+			<Text fontSize={14} fontWeight="bold">
+				{label}
+			</Text>
+		</Flex>
+	);
+
+	const renderSearchResults = (results: SearchResult[]) =>
+		results.map((result) => (
+			<Box
+				key={result.id}
+				p={2}
+				pl={10}
+				cursor="pointer"
+				_hover={{ bg: 'gray.100' }}
+				onClick={() => {
+					setSearchQuery('');
+					setSearchResults([]);
+					setShowResults(false);
+				}}
+			>
+				<Text fontSize={16}>{result.label}</Text>
+			</Box>
+		));
 
 	return (
 		<Box bg="brand" px={4} py={2} boxShadow="md">
@@ -114,7 +171,7 @@ export default function Navbar() {
 								onFocus={() => searchResults.length > 0 && setShowResults(true)}
 							/>
 						</InputGroup>
-						{showResults && searchResults.length > 0 && (
+						{showResults && searchResultCollection && (
 							<Box
 								position="absolute"
 								top="100%"
@@ -127,23 +184,18 @@ export default function Navbar() {
 								overflow="hidden"
 								zIndex="popover"
 							>
-								<Stack gap={0}>
-									{searchResults.map((result, index) => (
-										<Box
-											key={index}
-											py={3}
-											px={4}
-											cursor="pointer"
-											_hover={{ bg: 'gray.100' }}
-											onClick={() => {
-												setSearchQuery('');
-												setSearchResults([]);
-												setShowResults(false);
-											}}
-										>
-											<Text fontSize={16}>{result}</Text>
-										</Box>
-									))}
+								<Stack gap={0} mt={2} mb={1}>
+									{searchResultCollection.categoryResults.length > 0 &&
+										renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
+									{renderSearchResults(searchResultCollection.categoryResults)}
+
+									{searchResultCollection.categoryResults.length > 0 &&
+										renderSearchResultGroupLabel(<FaShop />, 'Makers')}
+									{renderSearchResults(searchResultCollection.shopResults)}
+
+									{searchResultCollection.categoryResults.length > 0 &&
+										renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
+									{renderSearchResults(searchResultCollection.listingResults)}
 								</Stack>
 							</Box>
 						)}
@@ -174,4 +226,4 @@ export default function Navbar() {
 			</Grid>
 		</Box>
 	);
-}
+};
