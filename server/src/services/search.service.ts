@@ -6,9 +6,14 @@ import { Shop } from '../entities/generated/Shop';
 
 const MAX_RESULTS_PER_TYPE = 5;
 
+const escapeLikePattern = (query: string): string => {
+	// Escape LIKE wildcards so they're treated as literal characters
+	return query.replace(/[%_\\]/g, '\\$&');
+};
+
 export const search = async (query: string): Promise<SearchResultCollection> => {
 	const em = getEm();
-	const pattern = `%${query}%`;
+	const pattern = `%${escapeLikePattern(query)}%`;
 
 	const [listings, shops, categories] = await Promise.all([
 		em.find(

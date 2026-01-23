@@ -1,6 +1,10 @@
 {
 	"extends": "../tsconfig.base.json",
 	"compilerOptions": {
+		"baseUrl": "..",
+		"paths": {
+			"@common/*": ["common/*"]
+		},
 		"target": "es2020",
 		"experimentalDecorators": true,
 		"emitDecoratorMetadata": true,

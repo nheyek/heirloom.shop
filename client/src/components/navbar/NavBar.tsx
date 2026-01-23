@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { JSX, useEffect, useRef, useState } from 'react';
 
+import { SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
@@ -37,6 +38,7 @@ export const Navbar = () => {
 	const [searchResultCollection, setSearchResultCollection] =
 		useState<SearchResultCollection | null>(null);
 	const [searchResultsLoading, setSearchResultsLoading] = useState<boolean>(false);
+	const [searchError, setSearchError] = useState<boolean>(false);
 	const [showSearchPopover, setShowSearchPopover] = useState(false);
 
 	const search = async (query: string) => {
@@ -46,6 +48,7 @@ export const Navbar = () => {
 		}
 		if (error) {
 			setSearchResultCollection(null);
+			setSearchError(true);
 		}
 
 		setSearchResultsLoading(false);
@@ -53,12 +56,14 @@ export const Navbar = () => {
 
 	useEffect(() => {
 		setShowSearchPopover(false);
+
 		setSearchResultCollection(null);
-		if (searchQuery?.length < 3) {
+		if (searchQuery?.length < SEARCH_QUERY_LIMITS.minChars) {
 			return;
 		}
 
 		setShowSearchPopover(true);
+		setSearchError(false);
 		setSearchResultsLoading(true);
 
 		const timer = setTimeout(() => {
@@ -120,6 +125,12 @@ export const Navbar = () => {
 			</Box>
 		));
 
+	const renderSearchException = (message: string) => (
+		<Text fontStyle="italic" p={2} pl={4} color="gray.500" fontSize={14}>
+			{message}
+		</Text>
+	);
+
 	return (
 		<Box bg="brand" px={4} py={2} boxShadow="md">
 			<Grid
@@ -157,6 +168,7 @@ export const Navbar = () => {
 					<Box ref={searchContainerRef} position="relative" width="100%">
 						<InputGroup width="100%" startElement={<FaSearch />} py={1}>
 							<Input
+								maxLength={SEARCH_QUERY_LIMITS.maxChars}
 								fontSize={16}
 								placeholder="Search..."
 								bg="#FFF"
@@ -187,23 +199,15 @@ export const Navbar = () => {
 											<Skeleton width="35%" height={6}></Skeleton>
 										</Stack>
 									)}
+									{searchError && renderSearchException('An error occurred')}
 									{searchResultCollection && (
 										<>
 											{[
 												searchResultCollection.categoryResults,
 												searchResultCollection.listingResults,
 												searchResultCollection.shopResults,
-											].every((resultList) => resultList.length === 0) && (
-												<Text
-													fontStyle="italic"
-													p={2}
-													pl={4}
-													color="gray.500"
-													fontSize={14}
-												>
-													No results found
-												</Text>
-											)}
+											].every((resultList) => resultList.length === 0) &&
+												renderSearchException('No results found')}
 
 											{searchResultCollection.categoryResults.length > 0 &&
 												renderSearchResultGroupLabel(
