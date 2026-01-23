@@ -11,8 +11,6 @@ export function PriceTag({ value }: PriceTagProps) {
 			borderRadius={5}
 			bg="brand"
 			color="#FFFFFF"
-			padding={1}
-			paddingLeft={6}
 			style={{
 				clipPath: 'polygon(0 50%, 10px 100%, 100% 100%, 100% 0, 10px 0)',
 			}}
@@ -28,7 +26,15 @@ export function PriceTag({ value }: PriceTagProps) {
 				borderRadius: 'full',
 			}}
 		>
-			<Text fontSize={15} fontWeight={600} paddingRight={1} lineHeight={1.35}>
+			<Text
+				fontSize={20}
+				fontWeight={600}
+				paddingLeft="24px"
+				paddingRight="8px"
+				paddingBottom="2px"
+				lineHeight={1.4}
+				fontFamily="Alegreya"
+			>
 				{value}
 			</Text>
 		</Flex>

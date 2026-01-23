@@ -288,7 +288,13 @@ export const ListingPage = () => {
 									<FaPlusCircle />
 									Add to Cart
 									<RxDotFilled />
-									<Text fontSize={22} fontWeight={600}>
+									<Text
+										height="28px"
+										fontSize="28px"
+										fontWeight={600}
+										fontFamily="Alegreya"
+									>
+										{' '}
 										${totalPriceDollars.toLocaleString()}
 									</Text>
 								</ListingPageButton>
