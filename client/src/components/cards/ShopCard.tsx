@@ -25,7 +25,13 @@ export const ShopCard = (props: ShopCardData) => {
 					<Card.Title truncate onClick={navigateToShop} fontSize={20}>
 						<Link>{props.title}</Link>
 					</Card.Title>
-					<SimpleGrid columns={2} gapY={1} gridTemplateColumns="30px 1fr" fontSize={18}>
+					<SimpleGrid
+						columns={2}
+						gapY={1}
+						gridTemplateColumns="30px 1fr"
+						fontSize={18}
+						alignItems="center"
+					>
 						<CategoryIcon
 							iconCode={props.categoryIcon as CategoryIconCode | null}
 							size={22}

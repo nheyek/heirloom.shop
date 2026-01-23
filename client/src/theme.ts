@@ -13,7 +13,7 @@ export const config = defineConfig({
 	theme: {
 		tokens: {
 			fonts: {
-				body: { value: 'Telex' },
+				body: { value: 'Bitter' },
 				heading: { value: 'Alegreya' },
 			},
 		},
