@@ -31,7 +31,7 @@ import { IconText } from '../components/misc/IconText';
 import { ImageCarousel } from '../components/misc/ImageCarousel';
 import { ImageCollage } from '../components/misc/ImageCollage';
 import { RichTextRenderer } from '../components/misc/RichTextRenderer';
-import { CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
+import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 
 const MotionFlex = motion.create(Flex);
@@ -219,7 +219,13 @@ export const ListingPage = () => {
 									size={26}
 								/>
 
-								<Link onClick={() => navigate(`/shop/${listingData?.shopId}`)}>
+								<Link
+									onClick={() =>
+										navigate(
+											`/${CLIENT_ROUTES.shopManager}/${listingData?.shopId}`,
+										)
+									}
+								>
 									{listingData?.shopTitle}
 								</Link>
 							</Flex>

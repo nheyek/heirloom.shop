@@ -20,6 +20,7 @@ import { FaShop } from 'react-icons/fa6';
 import { MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
+import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../misc/Logo';
@@ -216,14 +217,14 @@ export const Navbar = () => {
 												)}
 											{renderSearchResults(
 												searchResultCollection.categoryResults,
-												'category',
+												CLIENT_ROUTES.category,
 											)}
 
 											{searchResultCollection.shopResults.length > 0 &&
 												renderSearchResultGroupLabel(<FaShop />, 'Makers')}
 											{renderSearchResults(
 												searchResultCollection.shopResults,
-												'shop',
+												CLIENT_ROUTES.shop,
 											)}
 
 											{searchResultCollection.listingResults.length > 0 &&
@@ -233,7 +234,7 @@ export const Navbar = () => {
 												)}
 											{renderSearchResults(
 												searchResultCollection.listingResults,
-												'listing',
+												CLIENT_ROUTES.listing,
 											)}
 										</>
 									)}
@@ -248,7 +249,7 @@ export const Navbar = () => {
 							<IconButton
 								variant="plain"
 								style={{ color: 'white' }}
-								onClick={() => navigate('shop-manager')}
+								onClick={() => navigate(CLIENT_ROUTES.shopManager)}
 							>
 								<FaShop />
 							</IconButton>

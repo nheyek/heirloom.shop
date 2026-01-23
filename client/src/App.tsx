@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ScrollToTop } from './components/misc/ScrollToTop';
 import { Navbar } from './components/navbar/NavBar';
+import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
 import { LandingPage } from './pages/LandingPage';
@@ -17,10 +18,10 @@ const App = () => (
 			<Routes>
 				<Route path="/" element={<LandingPage />} />
 				<Route path="/callback" element={<AuthCallback />} />
-				<Route path="/shop-manager" element={<ShopManager />} />
-				<Route path="/category/:id" element={<CategoryPage />} />
-				<Route path="/shop/:id" element={<ShopPage />} />
-				<Route path="/listing/:id" element={<ListingPage />} />
+				<Route path={`/${CLIENT_ROUTES.shopManager}`} element={<ShopManager />} />
+				<Route path={`/${CLIENT_ROUTES.category}/:id`} element={<CategoryPage />} />
+				<Route path={`/${CLIENT_ROUTES.shop}/:id`} element={<ShopPage />} />
+				<Route path={`/${CLIENT_ROUTES.listing}/:id`} element={<ListingPage />} />
 				<Route path="*" element={<Navigate to="/" replace />} />
 			</Routes>
 		</Box>

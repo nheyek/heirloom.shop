@@ -1,7 +1,7 @@
 import { Box, Card, Link, SimpleGrid, Stack, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useNavigate } from 'react-router-dom';
-import { CategoryIconCode, CountryCode } from '../../constants';
+import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../misc/AppImage';
@@ -9,7 +9,8 @@ import { AppCard } from './AppCard';
 
 export const ShopCard = (props: ShopCardData) => {
 	const navigate = useNavigate();
-	const navigateToShop = () => navigate(`/shop/${props.id}`, { preventScrollReset: true });
+	const navigateToShop = () =>
+		navigate(`/${CLIENT_ROUTES.shop}/${props.id}`, { preventScrollReset: true });
 
 	return (
 		<AppCard>

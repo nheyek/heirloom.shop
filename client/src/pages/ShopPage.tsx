@@ -9,7 +9,7 @@ import useApi from '../hooks/useApi';
 import { motion } from 'framer-motion';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/misc/AppImage';
-import { CountryCode, STANDARD_ELEMENT_GAP } from '../constants';
+import { CountryCode, STANDARD_GRID_GAP } from '../constants';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -126,7 +126,7 @@ export const ShopPage = () => {
 				</motion.div>
 			)}
 
-			<Box py={5} px={STANDARD_ELEMENT_GAP}>
+			<Box py={5} px={STANDARD_GRID_GAP}>
 				<ListingGrid listings={listings} isLoading={isLoading} />
 			</Box>
 		</>

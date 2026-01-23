@@ -3,7 +3,7 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
+import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { ImageCarousel } from '../misc/ImageCarousel';
 import { PriceTag } from '../misc/PriceTag';
 import { AppCard } from './AppCard';
@@ -25,12 +25,15 @@ export const ListingCard = (props: ListingCardData) => {
 						truncate
 						style={{ cursor: 'pointer' }}
 						fontSize={20}
-						onClick={() => navigate(`/listing/${props.id}`)}
+						onClick={() => navigate(`/${CLIENT_ROUTES.listing}/${props.id}`)}
 					>
 						{props.title}
 					</Card.Title>
 					{props.shopTitle && (
-						<Link fontSize={18} onClick={() => navigate(`/shop/${props.shopId}`)}>
+						<Link
+							fontSize={18}
+							onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopId}`)}
+						>
 							{props.shopTitle}
 						</Link>
 					)}
