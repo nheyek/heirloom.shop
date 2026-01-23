@@ -3,6 +3,7 @@ const webpack = require('webpack');
 
 require('dotenv').config();
 
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env, argv) => {
@@ -64,6 +65,17 @@ module.exports = (env, argv) => {
 		plugins: [
 			new HtmlWebpackPlugin({
 				template: './public/index.html',
+			}),
+			new CopyWebpackPlugin({
+				patterns: [
+					{
+						from: 'public',
+						to: '',
+						globOptions: {
+							ignore: ['**/index.html'],
+						},
+					},
+				],
 			}),
 			new webpack.DefinePlugin({
 				'process.env': JSON.stringify(process.env),
