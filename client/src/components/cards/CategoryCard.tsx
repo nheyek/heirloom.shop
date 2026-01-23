@@ -25,7 +25,8 @@ export const CategoryCard = (props: CategoryCardData) => {
 				position="absolute"
 				bottom={2}
 				left={3}
-				padding={0}
+				paddingBottom={{ base: 0, lg: 2 }}
+				paddingLeft={{ base: 0.5, lg: 2 }}
 				fontSize={{ base: 24, sm: 26, lg: 30, xl: 34 }}
 				fontWeight="700"
 				color="#FFF"
