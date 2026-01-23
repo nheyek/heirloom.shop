@@ -6,6 +6,7 @@ import { initORM } from './db';
 import categoryRouter from './routes/category.routes';
 import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
+import searchRouter from './routes/search.routes';
 import shopRouter from './routes/shop.routes';
 
 dotenvFlow.config();
@@ -22,6 +23,7 @@ const main = async () => {
 	app.use('/api/me', currentUserRouter);
 	app.use('/api/shops', shopRouter);
 	app.use('/api/categories', categoryRouter);
+	app.use('/api/search', searchRouter);
 
 	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));
