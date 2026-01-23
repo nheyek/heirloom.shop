@@ -299,7 +299,7 @@ export const ListingPage = () => {
 										height="28px"
 										fontSize="28px"
 										fontWeight={600}
-										fontFamily="Alegreya"
+										textStyle="ornamental"
 									>
 										{' '}
 										${totalPriceDollars.toLocaleString()}

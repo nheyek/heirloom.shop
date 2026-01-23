@@ -89,14 +89,14 @@ export const ShopPage = () => {
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
-							fontFamily="Alegreya"
+							textStyle="ornamental"
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
 							<Text
 								fontSize={['36px', '42px', '48px', '54px']}
 								fontWeight="700"
-								fontFamily="Alegreya"
+								textStyle="ornamental"
 								lineHeight={1}
 							>
 								{shopData?.title}

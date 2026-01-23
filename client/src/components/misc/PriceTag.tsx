@@ -33,7 +33,7 @@ export function PriceTag({ value }: PriceTagProps) {
 				paddingRight="8px"
 				paddingBottom="2px"
 				lineHeight={1.4}
-				fontFamily="Alegreya"
+				textStyle="ornamental"
 			>
 				{value}
 			</Text>

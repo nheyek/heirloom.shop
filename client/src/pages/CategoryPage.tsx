@@ -83,7 +83,12 @@ export const CategoryPage = () => {
 			{isLoading && <Skeleton height={35} width={300} />}
 			{!isLoading && category && (
 				<Breadcrumb.Root>
-					<Breadcrumb.List fontSize={22} fontFamily="Alegreya" flexWrap="wrap" rowGap={3}>
+					<Breadcrumb.List
+						fontSize={22}
+						textStyle="ornamental"
+						flexWrap="wrap"
+						rowGap={3}
+					>
 						<Breadcrumb.Item>
 							<Link onClick={() => navigate('/')} whiteSpace="nowrap">
 								<MdHome />
