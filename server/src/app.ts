@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@common/constants';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
 import path from 'path';
@@ -19,11 +20,11 @@ const main = async () => {
 	app.use(express.json());
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	app.use('/api/listings', listingRouter);
-	app.use('/api/me', currentUserRouter);
-	app.use('/api/shops', shopRouter);
-	app.use('/api/categories', categoryRouter);
-	app.use('/api/search', searchRouter);
+	app.use(`/api/${API_ROUTES.listings}`, listingRouter);
+	app.use(`/api/${API_ROUTES.currentUser}`, currentUserRouter);
+	app.use(`/api/${API_ROUTES.shops.base}`, shopRouter);
+	app.use(`/api/${API_ROUTES.categories.base}`, categoryRouter);
+	app.use(`/api/${API_ROUTES.search.base}`, searchRouter);
 
 	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));

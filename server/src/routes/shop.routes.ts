@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@common/constants';
 import { Router } from 'express';
 import {
 	addListingToShop,
@@ -11,7 +12,7 @@ const router = Router();
 
 router.get('/', getAllShops);
 router.get('/:id', getShop);
-router.get('/:id/listings', getListingsByShop);
-router.post('/:id/listings', authAndSetUser, addListingToShop);
+router.get(`/:id/${API_ROUTES.shops.listings}`, getListingsByShop);
+router.post(`/:id/${API_ROUTES.shops.listings}`, authAndSetUser, addListingToShop);
 
 export default router;

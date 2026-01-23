@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@common/constants';
 import { Router } from 'express';
 import {
 	getCategories,
@@ -10,9 +11,9 @@ import {
 const router = Router();
 
 router.get('/', getCategories);
-router.get('/topLevel', getTopLevelCategories);
 router.get('/:id', getCategoryById);
-router.get('/:id/children', getChildCategories);
-router.get('/:id/listings', getListingsByCategory);
+router.get(`/:id/${API_ROUTES.categories.topLevel}`, getTopLevelCategories);
+router.get(`/:id/${API_ROUTES.categories.children}`, getChildCategories);
+router.get(`/:id/${API_ROUTES.categories.listings}`, getListingsByCategory);
 
 export default router;
