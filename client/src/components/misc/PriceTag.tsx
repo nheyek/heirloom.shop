@@ -28,15 +28,7 @@ export function PriceTag({ value }: PriceTagProps) {
 				borderRadius: 'full',
 			}}
 		>
-			<Text
-				fontSize={18}
-				fontFamily="Alegreya"
-				fontWeight={600}
-				paddingLeft={0.25}
-				paddingRight={1.5}
-				paddingBottom={0.5}
-				lineHeight={1.1}
-			>
+			<Text fontSize={15} fontWeight={600} paddingRight={1} lineHeight={1.35}>
 				{value}
 			</Text>
 		</Flex>

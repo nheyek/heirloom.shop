@@ -21,8 +21,13 @@ export const ListingCard = (props: ListingCardData) => {
 			/>
 			<Card.Body p={3} pr={2} pb={2}>
 				<Stack gap={1}>
-					<Card.Title truncate style={{ cursor: 'pointer' }} fontSize={20}>
-						<Link onClick={() => navigate(`/listing/${props.id}`)}>{props.title}</Link>
+					<Card.Title
+						truncate
+						style={{ cursor: 'pointer' }}
+						fontSize={20}
+						onClick={() => navigate(`/listing/${props.id}`)}
+					>
+						{props.title}
 					</Card.Title>
 					{props.shopTitle && (
 						<Link fontSize={18} onClick={() => navigate(`/shop/${props.shopId}`)}>

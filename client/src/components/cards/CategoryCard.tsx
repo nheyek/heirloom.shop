@@ -23,11 +23,10 @@ export const CategoryCard = (props: CategoryCardData) => {
 			></AppImage>
 			<Heading
 				position="absolute"
-				bottom="10px"
-				left="15px"
+				bottom={2}
+				left={3}
 				padding={0}
-				lineHeight={1}
-				fontSize={{ base: '26px', md: '22px', lg: '28px', xl: '36px' }}
+				fontSize={{ base: 24, sm: 26, lg: 30, xl: 34 }}
 				fontWeight="700"
 				color="#FFF"
 				textShadow="0 1px 2px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.35), 0 4px 8px rgba(0, 0, 0, 0.25), 0 8px 16px rgba(0, 0, 0, 0.15);"
