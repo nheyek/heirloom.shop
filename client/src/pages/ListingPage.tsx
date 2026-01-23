@@ -16,6 +16,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { API_ROUTES } from '@common/constants';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
@@ -63,7 +64,7 @@ export const ListingPage = () => {
 	const { getPublicResource } = useApi();
 
 	const loadListingData = async () => {
-		const response = await getPublicResource(`listings/${id}`);
+		const response = await getPublicResource(`${API_ROUTES.listings}/${id}`);
 		if (response.error) {
 			setListingDataError(response.data);
 		} else {

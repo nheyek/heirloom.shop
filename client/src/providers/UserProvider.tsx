@@ -1,7 +1,8 @@
+import { useAuth0 } from '@auth0/auth0-react';
+import { API_ROUTES } from '@common/constants';
 import { UserInfo } from '@common/types/UserInfo';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
-import { useAuth0 } from '@auth0/auth0-react';
 
 type UserContextType = {
 	user: UserInfo | null;
@@ -24,7 +25,7 @@ export const UserProvider = (props: { children: React.ReactNode }) => {
 			setLoading(true);
 			setError(null);
 
-			const res = await getProtectedResource('me');
+			const res = await getProtectedResource(API_ROUTES.currentUser);
 
 			if (res.error) {
 				throw new Error(`Failed to fetch user: ${res.error}`);

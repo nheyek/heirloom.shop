@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { JSX, useEffect, useRef, useState } from 'react';
 
-import { SEARCH_QUERY_LIMITS } from '@common/constants';
+import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
@@ -43,7 +43,9 @@ export const Navbar = () => {
 	const [showSearchPopover, setShowSearchPopover] = useState(false);
 
 	const search = async (query: string) => {
-		const { data, error } = await getPublicResource(`search?q=${encodeURIComponent(query)}`);
+		const { data, error } = await getPublicResource(
+			`${API_ROUTES.search.base}?${API_ROUTES.search.queryParam}=${encodeURIComponent(query)}`,
+		);
 		if (data) {
 			setSearchResultCollection(data);
 		}

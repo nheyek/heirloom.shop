@@ -1,3 +1,4 @@
+import { API_ROUTES } from '@common/constants';
 import { CategoryCardData } from '@common/types/CategoryCardData';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
@@ -44,7 +45,7 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 	const loadCategories = async () => {
 		setIsLoading(true);
 
-		const response = await getPublicResource('categories');
+		const response = await getPublicResource(API_ROUTES.categories.base);
 		if (response.error) {
 			setError('Failed to load category hierarchy');
 		} else {

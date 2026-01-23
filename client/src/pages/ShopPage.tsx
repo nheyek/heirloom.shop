@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import useApi from '../hooks/useApi';
 
+import { API_ROUTES } from '@common/constants';
 import { motion } from 'framer-motion';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/misc/AppImage';
@@ -25,7 +26,7 @@ export const ShopPage = () => {
 	const [listingsError, setListingsError] = useState<string | null>(null);
 
 	const loadShopData = async () => {
-		const response = await getPublicResource(`shops/${id}`);
+		const response = await getPublicResource(`${API_ROUTES.shops.base}/${id}`);
 		if (response.error) {
 			setShopDataError('Failed to load maker info');
 		} else {
@@ -35,7 +36,9 @@ export const ShopPage = () => {
 	};
 
 	const loadListings = async () => {
-		const response = await getPublicResource(`shops/${id}/listings`);
+		const response = await getPublicResource(
+			`${API_ROUTES.shops.base}/${id}/${API_ROUTES.shops.listings}`,
+		);
 		if (response.error) {
 			setListingsError('Failed to load listings');
 		} else {

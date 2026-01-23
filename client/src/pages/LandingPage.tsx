@@ -1,4 +1,5 @@
 import { Box, Button, Heading, Stack } from '@chakra-ui/react';
+import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -27,7 +28,7 @@ export const LandingPage = () => {
 	const { getPublicResource } = useApi();
 
 	const loadShopData = async () => {
-		const shopResponse = await getPublicResource('shops');
+		const shopResponse = await getPublicResource(API_ROUTES.shops.base);
 		if (shopResponse.error) {
 			setShopsError('Failed to load makers');
 		} else {
@@ -37,7 +38,7 @@ export const LandingPage = () => {
 	};
 
 	const loadListings = async () => {
-		const listingsResponse = await getPublicResource('listings');
+		const listingsResponse = await getPublicResource(API_ROUTES.listings);
 		if (listingsResponse.error) {
 			setListingsError('Failed to load listings');
 		} else {

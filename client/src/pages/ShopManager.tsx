@@ -11,6 +11,7 @@ import {
 	Tabs,
 	Textarea,
 } from '@chakra-ui/react';
+import { API_ROUTES } from '@common/constants';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useApi from '../hooks/useApi';
@@ -21,7 +22,7 @@ export const ShopManager = () => {
 	const { user } = useUserInfo();
 
 	const fetchListings = async () => {
-		const { data, error } = await getPublicResource('listings');
+		const { data, error } = await getPublicResource(API_ROUTES.listings);
 		if (error) {
 			console.error('Error fetching listings:', error);
 		} else {

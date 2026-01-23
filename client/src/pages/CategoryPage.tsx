@@ -1,4 +1,5 @@
 import { Box, Breadcrumb, Link, Skeleton, Stack } from '@chakra-ui/react';
+import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
@@ -35,7 +36,9 @@ export const CategoryPage = () => {
 	const navigate = useNavigate();
 
 	const loadListings = async () => {
-		const listingsResponse = await getPublicResource(`categories/${id}/listings`);
+		const listingsResponse = await getPublicResource(
+			`${API_ROUTES.categories.base}/${id}/${API_ROUTES.categories.listings}`,
+		);
 		if (listingsResponse.error) {
 			setListingsError('Failed to load listings');
 		} else {
