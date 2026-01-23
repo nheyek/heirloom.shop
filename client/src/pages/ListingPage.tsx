@@ -222,9 +222,7 @@ export const ListingPage = () => {
 
 								<Link
 									onClick={() =>
-										navigate(
-											`/${CLIENT_ROUTES.shopManager}/${listingData?.shopId}`,
-										)
+										navigate(`/${CLIENT_ROUTES.shop}/${listingData?.shopId}`)
 									}
 								>
 									{listingData?.shopTitle}
