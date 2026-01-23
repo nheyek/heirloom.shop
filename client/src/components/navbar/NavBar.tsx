@@ -118,7 +118,7 @@ export const Navbar = () => {
 					setSearchQuery('');
 					setSearchResultCollection(null);
 					setShowSearchPopover(false);
-					navigate(`/${path}/${result.id}`);
+					navigate(`/${path}/${result.id.toLocaleLowerCase()}`);
 				}}
 			>
 				<Text fontSize={16}>{result.label}</Text>
