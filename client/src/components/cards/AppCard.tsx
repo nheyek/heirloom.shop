@@ -8,7 +8,7 @@ export const AppCard = ({ children, ...cardProps }: Card.RootProps) => {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 1, ease: 'easeInOut' }}
 		>
-			<Card.Root overflow="hidden" borderRadius={5} variant="elevated" {...cardProps}>
+			<Card.Root borderRadius={5} variant="elevated" {...cardProps}>
 				{children}
 			</Card.Root>
 		</motion.div>

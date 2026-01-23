@@ -101,7 +101,7 @@ export const Navbar = () => {
 	}, []);
 
 	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
-		<Flex mx={4} my={1} alignItems="center" gap={2}>
+		<Flex mx={3} my={1} alignItems="center" gap={2}>
 			{icon}
 			<Text textStyle="clean" fontSize={14} fontWeight="bold">
 				{label}
@@ -114,7 +114,7 @@ export const Navbar = () => {
 			<Box
 				key={result.id}
 				p={1}
-				pl={10}
+				pl={9}
 				cursor="pointer"
 				_hover={{ bg: 'gray.100' }}
 				onClick={() => {

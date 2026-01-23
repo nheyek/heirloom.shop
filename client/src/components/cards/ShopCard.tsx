@@ -1,4 +1,4 @@
-import { Box, Card, Link, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
@@ -21,10 +21,12 @@ export const ShopCard = (props: ShopCardData) => {
 					onClick: navigateToShop,
 				}}
 			/>
-			<Card.Body p={3}>
-				<Stack gap={2}>
-					<Card.Title truncate onClick={navigateToShop} fontSize={20}>
-						<Link>{props.title}</Link>
+			<Card.Root>
+				<Card.Body p={3} overflow="hidden" gap={2}>
+					<Card.Title fontSize={20}>
+						<Link truncate display="block" onClick={navigateToShop}>
+							{props.title}
+						</Link>
 					</Card.Title>
 					<SimpleGrid
 						columns={2}
@@ -45,8 +47,8 @@ export const ShopCard = (props: ShopCardData) => {
 						</Box>
 						<Text truncate>{props.location}</Text>
 					</SimpleGrid>
-				</Stack>
-			</Card.Body>
+				</Card.Body>
+			</Card.Root>
 		</AppCard>
 	);
 };

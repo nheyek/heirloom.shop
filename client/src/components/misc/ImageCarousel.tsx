@@ -7,6 +7,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 type Props = {
 	urls: string[];
 	aspectRatio?: number;
+	onImageClick?: () => void;
 };
 
 export const ImageCarousel = (props: Props) => {
@@ -38,6 +39,7 @@ export const ImageCarousel = (props: Props) => {
 						{props.urls.map((src, index) => (
 							<Carousel.Item key={index} index={index}>
 								<Image
+									onClick={props.onImageClick}
 									aspectRatio={props.aspectRatio}
 									src={src}
 									onLoad={() => {
