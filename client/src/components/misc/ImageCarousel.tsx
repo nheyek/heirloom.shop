@@ -41,6 +41,8 @@ export const ImageCarousel = (props: Props) => {
 								<Image
 									onClick={props.onImageClick}
 									aspectRatio={props.aspectRatio}
+									width="100%"
+									height="100%"
 									src={src}
 									onLoad={() => {
 										loadedImagesCount.current += 1;
