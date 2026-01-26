@@ -8,18 +8,22 @@ import { ImageCarousel } from '../misc/ImageCarousel';
 import { PriceTag } from '../misc/PriceTag';
 import { AppCard } from './AppCard';
 
-export const ListingCard = (props: ListingCardData) => {
+export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean }) => {
 	const navigate = useNavigate();
 	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.id}`);
 
+	const getImageUrl = (uuid: string) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
+
 	return (
-		<AppCard>
+		<AppCard width={props.width}>
 			<Box cursor="pointer">
 				<ImageCarousel
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					urls={props.imageUuids.map(
-						(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
-					)}
+					urls={
+						props.multiImage
+							? props.imageUuids.map(getImageUrl)
+							: [getImageUrl(props.imageUuids[0])]
+					}
 					onImageClick={navigateToListing}
 				/>
 			</Box>

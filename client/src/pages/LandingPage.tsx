@@ -8,7 +8,7 @@ import { ListingGrid } from '../components/grids/ListingGrid';
 import { ShopGrid } from '../components/grids/ShopGrid';
 import { AppError } from '../components/misc/AppError';
 import { Logo } from '../components/misc/Logo';
-import { NUM_TOP_LEVEL_CATEGORIES, STANDARD_GRID_GAP } from '../constants';
+import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
 
@@ -57,7 +57,7 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<Box px={STANDARD_GRID_GAP}>
+		<Box p={5}>
 			<Box mx="auto" textAlign="center" my={10}>
 				<Box mx="auto" display="flex" alignItems="center" w="fit-content" flexWrap="nowrap">
 					<Heading fontSize={28} pr="5px" flexShrink={0}>

@@ -76,7 +76,6 @@ export const config = defineConfig({
 	globalCss: {
 		'*': {
 			WebkitTapHighlightColor: 'transparent',
-			textSizeAdjust: '100%',
 		},
 		'*:focus:not(:focus-visible)': {
 			outline: 'none',
