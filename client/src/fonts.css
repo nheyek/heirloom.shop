@@ -27,6 +27,13 @@
 	font-display: swap;
 }
 @font-face {
+	font-family: 'Bitter';
+	src: url('./fonts/bitter.bold.otf') format('opentype');
+	font-weight: 600;
+	font-style: bold;
+	font-display: swap;
+}
+@font-face {
 	font-family: 'Telex';
 	src: url('./fonts/telex.regular.ttf') format('opentype');
 	font-weight: 400;

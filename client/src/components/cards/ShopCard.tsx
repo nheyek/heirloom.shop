@@ -22,7 +22,7 @@ export const ShopCard = (props: ShopCardData) => {
 				}}
 			/>
 			<Card.Root>
-				<Card.Body p={3} overflow="hidden" gap={2}>
+				<Card.Body p={3} overflow="hidden" gap={1}>
 					<Card.Title fontSize={20}>
 						<Link truncate display="block" onClick={navigateToShop}>
 							{props.title}

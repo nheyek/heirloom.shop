@@ -56,6 +56,12 @@ export const LandingPage = () => {
 		}, 500);
 	}, []);
 
+	const renderLandingPageTitle = (title: string) => (
+		<Heading fontSize={33} mb={3}>
+			{title}
+		</Heading>
+	);
+
 	return (
 		<Box p={5}>
 			<Box mx="auto" textAlign="center" my={10}>
@@ -87,9 +93,7 @@ export const LandingPage = () => {
 				)}
 
 				<Box>
-					<Heading size="3xl" mb={2}>
-						Makers
-					</Heading>
+					{renderLandingPageTitle('Makers')}
 					{shopsError ? (
 						<AppError title="Failed to load makers" />
 					) : (
@@ -98,9 +102,7 @@ export const LandingPage = () => {
 				</Box>
 
 				<Box>
-					<Heading size="3xl" mb={2}>
-						Featured
-					</Heading>
+					{renderLandingPageTitle('Featured')}
 					{listingsError ? (
 						<AppError title="Failed to load featured listings" />
 					) : (

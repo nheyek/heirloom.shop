@@ -29,19 +29,22 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 			</Box>
 
 			<Card.Body p={3} pr={2} pb={2} gap={1}>
-				<Card.Title fontSize={20}>
-					<Link truncate display="block" onClick={navigateToListing}>
-						{props.title}
-					</Link>
-				</Card.Title>
-				{props.shopTitle && (
-					<Link
-						fontSize={18}
-						onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopId}`)}
-					>
-						{props.shopTitle}
-					</Link>
-				)}
+				<Box>
+					<Card.Title fontSize={20}>
+						<Link truncate display="block" onClick={navigateToListing}>
+							{props.title}
+						</Link>
+					</Card.Title>
+					{props.shopTitle && (
+						<Link
+							fontSize={18}
+							onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopId}`)}
+						>
+							{props.shopTitle}
+						</Link>
+					)}
+				</Box>
+
 				<Card.Description lineClamp={2} minHeight={45} fontSize={15}>
 					{props.subtitle}
 				</Card.Description>
