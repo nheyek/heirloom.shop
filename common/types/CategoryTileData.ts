@@ -1,4 +1,4 @@
-export type CategoryCardData = {
+export type CategoryTileData = {
 	id: string;
 	parentId?: string;
 	title: string;

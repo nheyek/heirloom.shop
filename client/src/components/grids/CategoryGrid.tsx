@@ -1,10 +1,10 @@
 import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
-import { CategoryCardData } from '@common/types/CategoryTileData';
+import { CategoryTileData } from '@common/types/CategoryTileData';
 import { CategoryTile } from '../CategoryTile';
 
 type Props = {
 	isLoading: boolean;
-	categories: CategoryCardData[];
+	categories: CategoryTileData[];
 	numPlaceholders?: number;
 };
 

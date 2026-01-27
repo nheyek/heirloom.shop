@@ -1,5 +1,5 @@
 import { Flex, Heading } from '@chakra-ui/react';
-import { CategoryCardData as CategoryTileData } from '@common/types/CategoryTileData';
+import { CategoryTileData } from '@common/types/CategoryTileData';
 import { useNavigate } from 'react-router-dom';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import { AppImage } from './misc/AppImage';

@@ -1,12 +1,12 @@
 import { API_ROUTES } from '@common/constants';
-import { CategoryCardData } from '@common/types/CategoryTileData';
+import { CategoryTileData } from '@common/types/CategoryTileData';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
 
 type CategoriesContextType = {
-	getCategory: (id: string) => CategoryCardData | undefined;
-	getChildCategories: (id: string | null) => CategoryCardData[];
-	getAncestorCategories: (id: string) => CategoryCardData[];
+	getCategory: (id: string) => CategoryTileData | undefined;
+	getChildCategories: (id: string | null) => CategoryTileData[];
+	getAncestorCategories: (id: string) => CategoryTileData[];
 	categoriesLoading: boolean;
 	categoriesError: string | null;
 };
@@ -14,7 +14,7 @@ type CategoriesContextType = {
 const CategoriesContext = React.createContext<CategoriesContextType | null>(null);
 
 export const CategoriesProvider = (props: { children: React.ReactNode }) => {
-	const [categories, setCategories] = useState<Map<string, CategoryCardData>>(new Map());
+	const [categories, setCategories] = useState<Map<string, CategoryTileData>>(new Map());
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
@@ -26,7 +26,7 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 		);
 
 	const getAncestorCategories = (id: string) => {
-		const ancestors: CategoryCardData[] = [];
+		const ancestors: CategoryTileData[] = [];
 		let currentCategory = categories.get(id.toUpperCase());
 		while (currentCategory?.parentId) {
 			const parentCategory = categories.get(currentCategory.parentId);
@@ -50,7 +50,7 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 			setError('Failed to load category hierarchy');
 		} else {
 			setCategories(
-				new Map(response.data.map((category: CategoryCardData) => [category.id, category])),
+				new Map(response.data.map((category: CategoryTileData) => [category.id, category])),
 			);
 		}
 

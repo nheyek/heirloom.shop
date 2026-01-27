@@ -1,7 +1,7 @@
-import { CategoryCardData } from '@common/types/CategoryCardData';
+import { CategoryTileData } from '@common/types/CategoryTileData';
 import { ListingCategory } from '../entities/generated/ListingCategory';
 
-export const mapCategoryToCategoryCardData = (category: ListingCategory): CategoryCardData => ({
+export const mapCategoryToCategoryTileData = (category: ListingCategory): CategoryTileData => ({
 	id: category.id,
 	parentId: category.parent?.id,
 	title: category.title,
