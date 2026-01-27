@@ -1,4 +1,4 @@
-import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { HStack, SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { STANDARD_GRID_COLUMNS, STANDARD_GRID_GAP } from '../../constants';
 import { ShopCard } from '../cards/ShopCard';
@@ -11,6 +11,17 @@ type Props = {
 
 export const ShopGrid = (props: Props) => {
 	const numColumns = useBreakpointValue(STANDARD_GRID_COLUMNS) || 1;
+
+	if (numColumns === 1) {
+		return (
+			<HStack overflowX="scroll" gap={STANDARD_GRID_GAP} p={5} m={-5} scrollbarWidth="none">
+				{props.shops.map((cardData) => (
+					<ShopCard key={cardData.id} {...cardData} width={300} />
+				))}
+			</HStack>
+		);
+	}
+
 	return (
 		<SimpleGrid gap={STANDARD_GRID_GAP} columns={STANDARD_GRID_COLUMNS}>
 			{props.isLoading &&

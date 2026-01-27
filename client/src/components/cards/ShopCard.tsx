@@ -7,13 +7,13 @@ import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../misc/AppImage';
 import { AppCard } from './AppCard';
 
-export const ShopCard = (props: ShopCardData) => {
+export const ShopCard = (props: ShopCardData & { width?: number }) => {
 	const navigate = useNavigate();
 	const navigateToShop = () =>
 		navigate(`/${CLIENT_ROUTES.shop}/${props.id}`, { preventScrollReset: true });
 
 	return (
-		<AppCard>
+		<AppCard width={props.width}>
 			<AppImage
 				imageProps={{
 					src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
