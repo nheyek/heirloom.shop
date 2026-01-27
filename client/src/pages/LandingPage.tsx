@@ -63,8 +63,16 @@ export const LandingPage = () => {
 		</Heading>
 	);
 
+	const [isReady, setIsReady] = useState(false);
+
+	useEffect(() => {
+		// Wait for next tick after initial render
+		const timer = setTimeout(() => setIsReady(true), 0);
+		return () => clearTimeout(timer);
+	}, []);
+
 	return (
-		<Stack gap={10} mt={8}>
+		<Stack gap={10} mt={8} style={{ opacity: isReady ? 1 : 0, transition: 'opacity 0.3s' }}>
 			<Flex gap={2} flexDir="column" alignItems="center">
 				<Flex flexWrap="nowrap" alignItems="center">
 					<Heading
