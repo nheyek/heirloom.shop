@@ -21,34 +21,30 @@ export const ShopCard = (props: ShopCardData & { width?: number }) => {
 					onClick: navigateToShop,
 				}}
 			/>
-			<Card.Root>
-				<Card.Body p={3} overflow="hidden" gap={1}>
-					<Card.Title fontSize={20}>
-						<Link truncate display="block" onClick={navigateToShop}>
-							{props.title}
-						</Link>
-					</Card.Title>
-					<SimpleGrid
-						columns={2}
-						gapY={1}
-						gridTemplateColumns="30px 1fr"
-						fontSize={18}
-						alignItems="center"
-					>
-						<CategoryIcon
-							iconCode={props.categoryIcon as CategoryIconCode | null}
-							size={22}
-						/>
-						<Text truncate>{props.classification}</Text>
-						<Box width={22} height={22}>
-							<CountryFlagIcon
-								countryCode={props.countryCode as CountryCode | null}
-							/>
-						</Box>
-						<Text truncate>{props.location}</Text>
-					</SimpleGrid>
-				</Card.Body>
-			</Card.Root>
+			<Card.Body p={3} gap={1}>
+				<Card.Title fontSize={20}>
+					<Link truncate display="block" onClick={navigateToShop}>
+						{props.title}
+					</Link>
+				</Card.Title>
+				<SimpleGrid
+					columns={2}
+					gapY={1}
+					gridTemplateColumns="30px 1fr"
+					fontSize={18}
+					alignItems="center"
+				>
+					<CategoryIcon
+						iconCode={props.categoryIcon as CategoryIconCode | null}
+						size={22}
+					/>
+					<Text truncate>{props.classification}</Text>
+					<Box width={22} height={22}>
+						<CountryFlagIcon countryCode={props.countryCode as CountryCode | null} />
+					</Box>
+					<Text truncate>{props.location}</Text>
+				</SimpleGrid>
+			</Card.Body>
 		</AppCard>
 	);
 };

@@ -11,7 +11,7 @@ export const AppImage = (props: Props) => {
 	const [isLoading, setIsLoading] = useState(true);
 
 	return (
-		<Skeleton loading={isLoading} {...props.containerProps}>
+		<Skeleton loading={isLoading} {...props.containerProps} borderRadius={0}>
 			<Image
 				height="100%"
 				width="100%"

@@ -20,9 +20,16 @@ export const ListingGrid = (props: Props) => {
 				m={-5}
 				scrollbarWidth="none"
 			>
-				{props.listings.map((listing) => (
-					<ListingCard key={listing.id} {...listing} width={300} />
-				))}
+				{props.isLoading && (
+					<>
+						<Skeleton width={300} height={350} />
+						<Skeleton width={300} height={350} />
+					</>
+				)}
+				{!props.isLoading &&
+					props.listings.map((listing) => (
+						<ListingCard key={listing.id} {...listing} width={300} />
+					))}
 			</HStack>
 		);
 	}
@@ -31,7 +38,7 @@ export const ListingGrid = (props: Props) => {
 		<SimpleGrid gap={STANDARD_GRID_GAP} columns={STANDARD_GRID_COLUMNS}>
 			{props.isLoading &&
 				Array.from({ length: numColumns * 2 }).map((_, index) => (
-					<Skeleton key={index} height={200} />
+					<Skeleton key={index} height={300} />
 				))}
 			{props.listings.map((listing) => (
 				<ListingCard key={listing.id} {...listing} multiImage />
