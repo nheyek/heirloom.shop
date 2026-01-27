@@ -1,4 +1,4 @@
-import { Box, Button, Heading, Stack } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
@@ -7,6 +7,7 @@ import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import { ShopGrid } from '../components/grids/ShopGrid';
 import { AppError } from '../components/misc/AppError';
+import { IntroCarousel } from '../components/misc/IntroCarousel';
 import { Logo } from '../components/misc/Logo';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
@@ -57,59 +58,53 @@ export const LandingPage = () => {
 	}, []);
 
 	const renderLandingPageTitle = (title: string) => (
-		<Heading fontSize={33} mb={3}>
+		<Heading fontSize={{ base: 32, lg: 36 }} mb={3}>
 			{title}
 		</Heading>
 	);
 
 	return (
-		<Box p={5}>
-			<Box mx="auto" textAlign="center" my={10}>
-				<Box mx="auto" display="flex" alignItems="center" w="fit-content" flexWrap="nowrap">
-					<Heading fontSize={28} pr="5px" flexShrink={0}>
+		<Stack gap={10} mt={8}>
+			<Flex gap={5} flexDir="column" alignItems="center">
+				<Flex flexWrap="nowrap" alignItems="center">
+					<Heading fontSize={36} fontWeight="normal" pr="7px" flexShrink={0}>
 						Welcome to
 					</Heading>
-					<Box width={120} flexShrink={0} mt={1}>
+					<Box width={150} flexShrink={0} ml={0.5} mt={1.5}>
 						<Logo fill="#000000" />
 					</Box>
-				</Box>
+				</Flex>
 
-				<Box minW={300} fontSize={20} mt={1} mb={3}>
-					<span>An exhibition of American and </span>
-					<Box display="inline-block">European craftsmanship.</Box>
-				</Box>
+				<IntroCarousel />
+			</Flex>
 
-				<Button size="sm">Learn more</Button>
-			</Box>
-			<Stack gap={10} my={5} mx="auto" maxWidth={2000}>
-				{categoriesError ? (
-					<AppError title="Failed to load categories" />
+			{categoriesError ? (
+				<AppError title="Failed to load categories" />
+			) : (
+				<CategoryGrid
+					isLoading={isLoading}
+					categories={getChildCategories(null)}
+					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
+				/>
+			)}
+
+			<Box px={5}>
+				{renderLandingPageTitle('Makers')}
+				{shopsError ? (
+					<AppError title="Failed to load makers" />
 				) : (
-					<CategoryGrid
-						isLoading={isLoading}
-						categories={getChildCategories(null)}
-						numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
-					/>
+					<ShopGrid shops={shops} isLoading={isLoading} />
 				)}
+			</Box>
 
-				<Box>
-					{renderLandingPageTitle('Makers')}
-					{shopsError ? (
-						<AppError title="Failed to load makers" />
-					) : (
-						<ShopGrid shops={shops} isLoading={isLoading} />
-					)}
-				</Box>
-
-				<Box>
-					{renderLandingPageTitle('Featured')}
-					{listingsError ? (
-						<AppError title="Failed to load featured listings" />
-					) : (
-						<ListingGrid listings={listings} isLoading={isLoading} />
-					)}
-				</Box>
-			</Stack>
-		</Box>
+			<Box px={5} pb={5}>
+				{renderLandingPageTitle('Featured')}
+				{listingsError ? (
+					<AppError title="Failed to load featured listings" />
+				) : (
+					<ListingGrid listings={listings} isLoading={isLoading} />
+				)}
+			</Box>
+		</Stack>
 	);
 };

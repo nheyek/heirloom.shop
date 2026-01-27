@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@common/constants';
-import { CategoryCardData } from '@common/types/CategoryCardData';
+import { CategoryCardData } from '@common/types/CategoryTileData';
 import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
 

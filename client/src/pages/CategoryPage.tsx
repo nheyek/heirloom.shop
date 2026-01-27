@@ -7,7 +7,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CategoryGrid } from '../components/grids/CategoryGrid';
 import { ListingGrid } from '../components/grids/ListingGrid';
 import { AppError } from '../components/misc/AppError';
-import { STANDARD_GRID_GAP } from '../constants';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
 
@@ -79,58 +78,60 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<Stack px={STANDARD_GRID_GAP} py={5} gap={5}>
-			{isLoading && <Skeleton height={35} width={300} />}
-			{!isLoading && category && (
-				<Breadcrumb.Root>
-					<Breadcrumb.List
-						fontSize={22}
-						textStyle="ornamental"
-						flexWrap="wrap"
-						rowGap={3}
-					>
-						<Breadcrumb.Item>
-							<Link onClick={() => navigate('/')} whiteSpace="nowrap">
-								<MdHome />
-								Home
-							</Link>
-						</Breadcrumb.Item>
-						<Breadcrumb.Separator />
+		<Stack py={5} gap={5}>
+			<Box px={5}>
+				{isLoading && <Skeleton height={35} width={300} />}
+				{!isLoading && category && (
+					<Breadcrumb.Root>
+						<Breadcrumb.List
+							fontSize={22}
+							textStyle="ornamental"
+							flexWrap="wrap"
+							rowGap={3}
+						>
+							<Breadcrumb.Item>
+								<Link onClick={() => navigate('/')} whiteSpace="nowrap">
+									<MdHome />
+									Home
+								</Link>
+							</Breadcrumb.Item>
+							<Breadcrumb.Separator />
 
-						{ancestorCategories.map((ancestor) => (
-							<Fragment key={ancestor.id}>
-								<Breadcrumb.Item key={ancestor.id}>
-									<Link
-										whiteSpace="nowrap"
-										onClick={() =>
-											navigate(`/category/${ancestor.id.toLowerCase()}`)
-										}
-									>
-										{ancestor.title}
-									</Link>
-								</Breadcrumb.Item>
-								<Breadcrumb.Separator />
-							</Fragment>
-						))}
+							{ancestorCategories.map((ancestor) => (
+								<Fragment key={ancestor.id}>
+									<Breadcrumb.Item key={ancestor.id}>
+										<Link
+											whiteSpace="nowrap"
+											onClick={() =>
+												navigate(`/category/${ancestor.id.toLowerCase()}`)
+											}
+										>
+											{ancestor.title}
+										</Link>
+									</Breadcrumb.Item>
+									<Breadcrumb.Separator />
+								</Fragment>
+							))}
 
-						<Breadcrumb.Item>
-							<Breadcrumb.CurrentLink fontWeight={600} whiteSpace="nowrap">
-								{category?.title}
-							</Breadcrumb.CurrentLink>
-						</Breadcrumb.Item>
-					</Breadcrumb.List>
-				</Breadcrumb.Root>
-			)}
+							<Breadcrumb.Item>
+								<Breadcrumb.CurrentLink fontWeight={600} whiteSpace="nowrap">
+									{category?.title}
+								</Breadcrumb.CurrentLink>
+							</Breadcrumb.Item>
+						</Breadcrumb.List>
+					</Breadcrumb.Root>
+				)}
+			</Box>
 
-			{childCategories.length > 0 && (
-				<CategoryGrid isLoading={isLoading} categories={childCategories} />
-			)}
+			<CategoryGrid isLoading={isLoading} categories={childCategories} />
 
-			{listingsError ? (
-				<AppError title={listingsError} />
-			) : (
-				<ListingGrid listings={listings} isLoading={isLoading} />
-			)}
+			<Box px={5}>
+				{listingsError ? (
+					<AppError title={listingsError} />
+				) : (
+					<ListingGrid listings={listings} isLoading={isLoading} />
+				)}
+			</Box>
 		</Stack>
 	);
 };

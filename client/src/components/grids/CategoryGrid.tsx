@@ -1,6 +1,6 @@
 import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
-import { CategoryCardData } from '@common/types/CategoryCardData';
-import { CategoryCard } from '../cards/CategoryCard';
+import { CategoryCardData } from '@common/types/CategoryTileData';
+import { CategoryTile } from '../CategoryTile';
 
 type Props = {
 	isLoading: boolean;
@@ -9,18 +9,29 @@ type Props = {
 };
 
 export const CategoryGrid = (props: Props) => {
-	const cols = { base: 2, md: 4 };
-	const numColumns = useBreakpointValue(cols) || 1;
+	if (props.isLoading) {
+		return <Skeleton width="100%" height={200} borderRadius={0} />;
+	}
+
+	if (!props.categories.length) {
+		return null;
+	}
+
+	const cols = { base: 2, md: 3, lg: 4 };
+	const maxNumColumns = useBreakpointValue(cols) || 1;
+	const widthPercent = props.isLoading
+		? 100
+		: Math.min(100, 100 * (props.categories.length / maxNumColumns));
+
 	return (
-		<SimpleGrid gap={{ base: 2, sm: 3, md: 4, lg: 5 }} columns={cols}>
-			{props.isLoading &&
-				Array.from({ length: props.numPlaceholders || numColumns }).map((_, i) => (
-					<Skeleton key={i} height={200} />
-				))}
-			{!props.isLoading &&
-				props.categories.map((category) => (
-					<CategoryCard key={category.id} {...category} />
-				))}
+		<SimpleGrid
+			columns={Math.min(props.categories.length, maxNumColumns)}
+			overflow="hidden"
+			width={`${widthPercent}%`}
+		>
+			{props.categories.map((category) => (
+				<CategoryTile key={category.id} {...category} />
+			))}
 		</SimpleGrid>
 	);
 };
