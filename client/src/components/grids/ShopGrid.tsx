@@ -14,7 +14,13 @@ export const ShopGrid = (props: Props) => {
 
 	if (numColumns === 1) {
 		return (
-			<HStack overflowX="scroll" gap={STANDARD_GRID_GAP} p={5} m={-5} scrollbarWidth="none">
+			<HStack
+				overflowX="scroll"
+				gap={STANDARD_GRID_GAP / 2}
+				p={5}
+				m={-5}
+				scrollbarWidth="none"
+			>
 				{props.shops.map((cardData) => (
 					<ShopCard key={cardData.id} {...cardData} width={300} />
 				))}

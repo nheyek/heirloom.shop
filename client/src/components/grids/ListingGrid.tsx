@@ -13,7 +13,13 @@ export const ListingGrid = (props: Props) => {
 
 	if (numColumns === 1) {
 		return (
-			<HStack overflowX="scroll" gap={STANDARD_GRID_GAP} p={5} m={-5} scrollbarWidth="none">
+			<HStack
+				overflowX="scroll"
+				gap={STANDARD_GRID_GAP / 2}
+				p={5}
+				m={-5}
+				scrollbarWidth="none"
+			>
 				{props.listings.map((listing) => (
 					<ListingCard key={listing.id} {...listing} width={300} />
 				))}
