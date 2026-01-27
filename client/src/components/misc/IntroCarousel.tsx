@@ -24,9 +24,9 @@ const introItems: IntroItem[] = [
 		Icon: FaHandshakeSimple,
 		text: (
 			<>
-				Connecting buyers and
+				Connecting buyers
 				<br />
-				makers directly
+				and makers directly
 			</>
 		),
 	},
@@ -53,7 +53,7 @@ export const IntroCarousel = () => {
 					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 5 }}>
 						<Stack alignItems="center" justifyContent="start" gap={3} py={2}>
 							<item.Icon size={32} />
-							<Text fontSize={18} textAlign="center">
+							<Text fontSize={20} textAlign="center">
 								{item.text}
 							</Text>
 						</Stack>

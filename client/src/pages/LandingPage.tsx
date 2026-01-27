@@ -65,12 +65,17 @@ export const LandingPage = () => {
 
 	return (
 		<Stack gap={10} mt={8}>
-			<Flex gap={5} flexDir="column" alignItems="center">
+			<Flex gap={2} flexDir="column" alignItems="center">
 				<Flex flexWrap="nowrap" alignItems="center">
-					<Heading fontSize={36} fontWeight="normal" pr="7px" flexShrink={0}>
+					<Heading
+						fontSize={{ base: 32, lg: 36 }}
+						fontWeight="normal"
+						pr="7px"
+						flexShrink={0}
+					>
 						Welcome to
 					</Heading>
-					<Box width={150} flexShrink={0} ml={0.5} mt={1.5}>
+					<Box width={{ base: 120, lg: 150 }} flexShrink={0} ml={0.5} mt={1.5}>
 						<Logo fill="#000000" />
 					</Box>
 				</Flex>
