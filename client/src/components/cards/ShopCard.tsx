@@ -22,7 +22,7 @@ export const ShopCard = (props: ShopCardData & { width?: number }) => {
 				}}
 			/>
 			<Card.Body p={3} gap={1}>
-				<Card.Title fontSize={20}>
+				<Card.Title fontSize={21}>
 					<Link truncate display="block" onClick={navigateToShop}>
 						{props.title}
 					</Link>
@@ -32,6 +32,7 @@ export const ShopCard = (props: ShopCardData & { width?: number }) => {
 					gapY={1}
 					gridTemplateColumns="30px 1fr"
 					fontSize={18}
+					fontWeight={500}
 					alignItems="center"
 				>
 					<CategoryIcon

@@ -30,7 +30,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 
 			<Card.Body p={3} pr={2} pb={2} gap={1}>
 				<Box>
-					<Card.Title fontSize={20}>
+					<Card.Title fontSize={21}>
 						<Link truncate display="block" onClick={navigateToListing}>
 							{props.title}
 						</Link>
@@ -38,6 +38,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 					{props.shopTitle && (
 						<Link
 							fontSize={18}
+							fontWeight={500}
 							onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopId}`)}
 						>
 							{props.shopTitle}
@@ -45,7 +46,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 					)}
 				</Box>
 
-				<Card.Description lineClamp={2} minHeight={45} fontSize={15}>
+				<Card.Description lineClamp={2} minHeight={45} fontSize={16}>
 					{props.subtitle}
 				</Card.Description>
 				<Flex justifyContent="space-between" alignItems="center">
