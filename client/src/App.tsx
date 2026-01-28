@@ -19,7 +19,7 @@ const App = () => {
 	}, []);
 
 	return (
-		<Box opacity={mounted ? 1 : 0} transition="opacity 0.5s">
+		<Box opacity={mounted ? 1 : 0} transition="opacity 0.25s">
 			<ScrollToTop />
 			<Navbar />
 			<Box maxWidth={1600} mx="auto">
