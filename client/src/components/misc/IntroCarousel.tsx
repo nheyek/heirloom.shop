@@ -1,8 +1,7 @@
 import { Box, Carousel, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
-import { FaHandshakeSimple } from 'react-icons/fa6';
-import { GiAnvil, GiGate } from 'react-icons/gi';
+import { FaPeopleArrows, FaShieldAlt, FaStar } from 'react-icons/fa';
 
 type IntroItem = {
 	Icon: IconType;
@@ -11,17 +10,17 @@ type IntroItem = {
 
 const introItems: IntroItem[] = [
 	{
-		Icon: GiAnvil,
+		Icon: FaStar,
 		text: (
 			<>
 				An exhibition of
 				<br />
-				high craftsmanship
+				world-class craftsmanship
 			</>
 		),
 	},
 	{
-		Icon: FaHandshakeSimple,
+		Icon: FaPeopleArrows,
 		text: (
 			<>
 				Connecting buyers
@@ -31,12 +30,12 @@ const introItems: IntroItem[] = [
 		),
 	},
 	{
-		Icon: GiGate,
+		Icon: FaShieldAlt,
 		text: (
 			<>
 				No ads, no gimmicks,
 				<br />
-				nothing mass-produced
+				guaranteed authenticity
 			</>
 		),
 	},
@@ -50,10 +49,10 @@ export const IntroCarousel = () => {
 		<Carousel.Root slideCount={introItems.length} slidesPerPage={slidesPerPage} loop>
 			<Carousel.ItemGroup>
 				{introItems.map((item, index) => (
-					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 5 }}>
+					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 10 }}>
 						<Stack alignItems="center" justifyContent="start" gap={3} py={2}>
 							<item.Icon size={32} />
-							<Text fontSize={20} textAlign="center">
+							<Text fontSize={22} textAlign="center" textStyle="ornamental">
 								{item.text}
 							</Text>
 						</Stack>

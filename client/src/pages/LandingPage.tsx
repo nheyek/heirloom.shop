@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Stack } from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
@@ -63,26 +63,19 @@ export const LandingPage = () => {
 		</Heading>
 	);
 
-	const [isReady, setIsReady] = useState(false);
-
-	useEffect(() => {
-		// Wait for next tick after initial render
-		const timer = setTimeout(() => setIsReady(true), 0);
-		return () => clearTimeout(timer);
-	}, []);
-
 	return (
-		<Stack gap={10} mt={8} style={{ opacity: isReady ? 1 : 0, transition: 'opacity 0.3s' }}>
-			<Flex gap={2} flexDir="column" alignItems="center">
+		<Stack gap={10} mt={8}>
+			<Flex gap={5} flexDir="column" alignItems="center">
 				<Flex flexWrap="nowrap" alignItems="center">
-					<Heading
+					<Text
+						textStyle="ornamental"
 						fontSize={{ base: 32, lg: 36 }}
 						fontWeight="normal"
 						pr="7px"
 						flexShrink={0}
 					>
 						Welcome to
-					</Heading>
+					</Text>
 					<Box width={{ base: 120, lg: 150 }} flexShrink={0} ml={0.5} mt={1.5}>
 						<Logo fill="#000000" />
 					</Box>
