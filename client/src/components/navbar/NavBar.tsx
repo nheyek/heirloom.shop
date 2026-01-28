@@ -103,7 +103,7 @@ export const Navbar = () => {
 	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
 		<Flex mx={3} my={1} alignItems="center" gap={2}>
 			{icon}
-			<Text fontSize={13} fontWeight="bold">
+			<Text fontSize={16} fontWeight="bold">
 				{label}
 			</Text>
 		</Flex>
@@ -165,7 +165,7 @@ export const Navbar = () => {
 					justifySelf="center"
 					justifyContent="center"
 					w="full"
-					maxW="450px"
+					maxW="550px"
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<Box ref={searchContainerRef} position="relative" width="100%">
