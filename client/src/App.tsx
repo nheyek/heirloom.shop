@@ -1,4 +1,5 @@
-import { Box, useBreakpointValue } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { ScrollToTop } from './components/misc/ScrollToTop';
 import { Navbar } from './components/navbar/NavBar';
@@ -11,13 +12,14 @@ import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
 
 const App = () => {
-	const breakpoint = useBreakpointValue({ base: true });
-	if (!breakpoint) {
-		return null;
-	}
+	const [mounted, setMounted] = useState(false);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	return (
-		<>
+		<Box opacity={mounted ? 1 : 0} transition="opacity 0.1s">
 			<ScrollToTop />
 			<Navbar />
 			<Box maxWidth={1600} mx="auto">
@@ -31,7 +33,7 @@ const App = () => {
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Box>
-		</>
+		</Box>
 	);
 };
 
