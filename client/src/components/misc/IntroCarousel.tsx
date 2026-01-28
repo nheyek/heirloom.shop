@@ -1,7 +1,9 @@
 import { Box, Carousel, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
-import { PiNetworkFill, PiShieldCheckeredFill, PiStarFill } from 'react-icons/pi';
+import { FaHandshakeSimple } from 'react-icons/fa6';
+import { GiAnvil } from 'react-icons/gi';
+import { PiShieldCheckeredFill } from 'react-icons/pi';
 
 type IntroItem = {
 	Icon: IconType;
@@ -10,7 +12,7 @@ type IntroItem = {
 
 const introItems: IntroItem[] = [
 	{
-		Icon: PiStarFill,
+		Icon: GiAnvil,
 		text: (
 			<>
 				An exhibition of
@@ -20,7 +22,7 @@ const introItems: IntroItem[] = [
 		),
 	},
 	{
-		Icon: PiNetworkFill,
+		Icon: FaHandshakeSimple,
 		text: (
 			<>
 				Connecting buyers

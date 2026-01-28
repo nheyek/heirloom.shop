@@ -3,7 +3,7 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
-import './fonts.css';
+
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
 import { UserProvider } from './providers/UserProvider';
