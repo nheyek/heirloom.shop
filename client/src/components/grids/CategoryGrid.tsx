@@ -1,6 +1,5 @@
-import { Box, SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
+import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/types/CategoryTileData';
-import { motion } from 'framer-motion';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { CategoryTile } from '../CategoryTile';
 
@@ -12,8 +11,6 @@ type Props = {
 	numPlaceholders?: number;
 };
 
-const MotionBox = motion.create(Box);
-
 export const CategoryGrid = (props: Props) => {
 	const maxNumColumns = useBreakpointValue({ base: 2, md: 3, lg: 4 }) || 2;
 	const numColumns = Math.min(props.categories.length, maxNumColumns);
@@ -24,7 +21,7 @@ export const CategoryGrid = (props: Props) => {
 
 	return (
 		<Skeleton
-			width="100vw"
+			width="100%"
 			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO * (maxNumColumns / numPlaceholderRows)}
 			borderRadius={0}
 			loading={props.isLoading}

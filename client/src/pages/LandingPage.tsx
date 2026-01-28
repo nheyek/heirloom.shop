@@ -49,8 +49,10 @@ export const LandingPage = () => {
 	};
 
 	useEffect(() => {
+		setListingsLoading(true);
 		setShopsLoading(true);
 		setShopsError(null);
+		setListingsError(null);
 		setTimeout(() => {
 			loadShopData();
 			loadListings();
@@ -88,7 +90,7 @@ export const LandingPage = () => {
 				<AppError title="Failed to load categories" />
 			) : (
 				<CategoryGrid
-					isLoading={isLoading}
+					isLoading={categoriesLoading}
 					categories={getChildCategories(null)}
 					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
 				/>
