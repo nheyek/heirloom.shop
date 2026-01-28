@@ -20,10 +20,9 @@ export const ListingGrid = (props: Props) => {
 						<Skeleton width={300} height={350} />
 					</>
 				)}
-				{!props.isLoading &&
-					props.listings.map((listing) => (
-						<ListingCard key={listing.id} {...listing} width={300} />
-					))}
+				{props.listings.map((listing) => (
+					<ListingCard key={listing.id} {...listing} width={300} />
+				))}
 			</HStack>
 		);
 	}

@@ -21,10 +21,9 @@ export const ShopGrid = (props: Props) => {
 						<Skeleton width={300} height={325} />
 					</>
 				)}
-				{!props.isLoading &&
-					props.shops.map((cardData) => (
-						<ShopCard key={cardData.id} {...cardData} width={300} />
-					))}
+				{props.shops.map((cardData) => (
+					<ShopCard key={cardData.id} {...cardData} width={300} />
+				))}
 			</HStack>
 		);
 	}
