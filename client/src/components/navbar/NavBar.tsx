@@ -103,7 +103,7 @@ export const Navbar = () => {
 	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
 		<Flex mx={3} my={1} alignItems="center" gap={2}>
 			{icon}
-			<Text textStyle="clean" fontSize={13} fontWeight="bold">
+			<Text fontSize={13} fontWeight="bold">
 				{label}
 			</Text>
 		</Flex>
@@ -124,14 +124,12 @@ export const Navbar = () => {
 					navigate(`/${path}/${result.id.toLocaleLowerCase()}`);
 				}}
 			>
-				<Text textStyle="clean" fontSize={16}>
-					{result.label}
-				</Text>
+				<Text fontSize={16}>{result.label}</Text>
 			</Box>
 		));
 
 	const renderSearchException = (message: string) => (
-		<Text textStyle="clean" fontStyle="italic" p={2} pl={4} color="gray.500" fontSize={16}>
+		<Text fontStyle="italic" p={2} pl={4} color="gray.500" fontSize={16}>
 			{message}
 		</Text>
 	);

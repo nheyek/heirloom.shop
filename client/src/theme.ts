@@ -3,21 +3,13 @@ import {
 	defaultConfig,
 	defineConfig,
 	defineRecipe,
-	defineSlotRecipe,
 	defineTextStyles,
 } from '@chakra-ui/react';
-import { fieldAnatomy, selectAnatomy } from '@chakra-ui/react/anatomy';
 
-const standardDisplayFont = 'Bitter';
 const ornamentalFont = 'Alegreya';
-const sansSerifFont = 'Telex';
+const standardFont = 'Bitter';
 
 export const textStyles = defineTextStyles({
-	clean: {
-		value: {
-			fontFamily: sansSerifFont,
-		},
-	},
 	ornamental: {
 		value: {
 			fontFamily: ornamentalFont,
@@ -25,25 +17,9 @@ export const textStyles = defineTextStyles({
 	},
 });
 
-const selectSlotRecipe = defineSlotRecipe({
-	slots: selectAnatomy.keys(),
-	base: {
-		trigger: { fontFamily: sansSerifFont },
-		label: { fontFamily: sansSerifFont },
-		item: { fontFamily: sansSerifFont },
-	},
-});
-
-const fieldSlotRecipe = defineSlotRecipe({
-	slots: fieldAnatomy.keys(),
-	base: {
-		label: { fontFamily: sansSerifFont },
-	},
-});
-
 const inputRecipe = defineRecipe({
 	base: {
-		fontFamily: sansSerifFont,
+		fontFamily: standardFont,
 	},
 	variants: {
 		size: {
@@ -56,7 +32,7 @@ const inputRecipe = defineRecipe({
 
 const buttonRecipe = defineRecipe({
 	base: {
-		fontFamily: sansSerifFont,
+		fontFamily: standardFont,
 		fontWeight: 'bold',
 	},
 	variants: {
@@ -85,7 +61,7 @@ export const config = defineConfig({
 	theme: {
 		tokens: {
 			fonts: {
-				body: { value: standardDisplayFont },
+				body: { value: standardFont },
 				heading: { value: ornamentalFont },
 			},
 		},
@@ -93,10 +69,6 @@ export const config = defineConfig({
 			colors: {
 				brand: { value: '#121212' },
 			},
-		},
-		slotRecipes: {
-			select: selectSlotRecipe,
-			field: fieldSlotRecipe,
 		},
 		recipes: {
 			input: inputRecipe,
