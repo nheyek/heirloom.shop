@@ -22,23 +22,18 @@ export const CategoryGrid = (props: Props) => {
 
 	const numPlaceholderRows = Math.floor(NUM_DEFAULT_PLACEHOLDERS / maxNumColumns);
 
-	return props.isLoading ? (
+	return (
 		<Skeleton
 			width="100%"
 			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO * (maxNumColumns / numPlaceholderRows)}
 			borderRadius={0}
-		/>
-	) : (
-		<MotionBox
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 1, ease: 'easeInOut' }}
+			loading={props.isLoading}
 		>
 			<SimpleGrid columns={numColumns} overflow="hidden" width={`${widthPercent}%`}>
 				{props.categories.map((category) => (
 					<CategoryTile key={category.id} {...category} />
 				))}
 			</SimpleGrid>
-		</MotionBox>
+		</Skeleton>
 	);
 };
