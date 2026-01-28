@@ -65,7 +65,7 @@ export const LandingPage = () => {
 
 	return (
 		<Stack gap={10} mt={8}>
-			<Flex gap={5} flexDir="column" alignItems="center">
+			<Flex gap={3} flexDir="column" alignItems="center">
 				<Flex flexWrap="nowrap" alignItems="center">
 					<Text
 						textStyle="ornamental"

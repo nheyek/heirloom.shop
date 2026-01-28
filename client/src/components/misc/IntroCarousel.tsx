@@ -1,7 +1,7 @@
 import { Box, Carousel, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
-import { FaPeopleArrows, FaShieldAlt, FaStar } from 'react-icons/fa';
+import { PiNetworkFill, PiShieldCheckeredFill, PiStarFill } from 'react-icons/pi';
 
 type IntroItem = {
 	Icon: IconType;
@@ -10,7 +10,7 @@ type IntroItem = {
 
 const introItems: IntroItem[] = [
 	{
-		Icon: FaStar,
+		Icon: PiStarFill,
 		text: (
 			<>
 				An exhibition of
@@ -20,7 +20,7 @@ const introItems: IntroItem[] = [
 		),
 	},
 	{
-		Icon: FaPeopleArrows,
+		Icon: PiNetworkFill,
 		text: (
 			<>
 				Connecting buyers
@@ -30,7 +30,7 @@ const introItems: IntroItem[] = [
 		),
 	},
 	{
-		Icon: FaShieldAlt,
+		Icon: PiShieldCheckeredFill,
 		text: (
 			<>
 				No ads, no gimmicks,
@@ -52,7 +52,7 @@ export const IntroCarousel = () => {
 					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 10 }}>
 						<Stack alignItems="center" justifyContent="start" gap={3} py={2}>
 							<item.Icon size={32} />
-							<Text fontSize={22} textAlign="center" textStyle="ornamental">
+							<Text fontSize={24} textAlign="center" textStyle="ornamental">
 								{item.text}
 							</Text>
 						</Stack>
