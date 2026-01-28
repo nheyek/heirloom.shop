@@ -12,11 +12,14 @@ type Props = {
 };
 
 export const CategoryGrid = (props: Props) => {
+	if (!props.isLoading && props.categories.length === 0) {
+		return null;
+	}
+
 	const maxNumColumns = useBreakpointValue({ base: 2, md: 3, lg: 4 }) || 2;
 	const numColumns = Math.min(props.categories.length, maxNumColumns);
 
 	const widthPercent = Math.min(100, 100 * (numColumns / maxNumColumns));
-
 	const numPlaceholderRows = Math.floor(NUM_DEFAULT_PLACEHOLDERS / maxNumColumns);
 
 	return (

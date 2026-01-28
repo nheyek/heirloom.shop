@@ -28,6 +28,8 @@ import { Logo } from '../misc/Logo';
 import { LoginButton } from './LoginButton';
 import { LogoutButton } from './LogoutButton';
 
+const MotionBox = motion.create(Box);
+
 export const Navbar = () => {
 	const { isAuthenticated } = useAuth0();
 	const { user } = useUserInfo();
@@ -119,10 +121,11 @@ export const Navbar = () => {
 				cursor="pointer"
 				_hover={{ bg: 'gray.100' }}
 				onClick={() => {
+					navigate(`/${path}/${result.id.toLocaleLowerCase()}`);
+
 					setSearchQuery('');
 					setSearchResultCollection(null);
 					setShowSearchPopover(false);
-					navigate(`/${path}/${result.id.toLocaleLowerCase()}`);
 				}}
 			>
 				<Text fontSize={16}>{result.label}</Text>
@@ -202,8 +205,13 @@ export const Navbar = () => {
 								onFocus={() => searchResultCollection && setShowSearchPopover(true)}
 							/>
 						</InputGroup>
+						<AnimatePresence>
 						{showSearchPopover && searchQuery && (
-							<Box
+							<MotionBox
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.15 }}
 								position="absolute"
 								top="100%"
 								left={0}
@@ -262,8 +270,9 @@ export const Navbar = () => {
 										</>
 									)}
 								</Stack>
-							</Box>
+							</MotionBox>
 						)}
+						</AnimatePresence>
 					</Box>
 				</GridItem>
 				<GridItem area="login" justifySelf="end">
