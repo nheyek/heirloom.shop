@@ -19,7 +19,7 @@ export const search = async (query: string): Promise<SearchResultCollection> => 
 		em.find(
 			Listing,
 			{ title: { $ilike: pattern } },
-			{ limit: MAX_RESULTS_PER_TYPE },
+			{ populate: ['shop'], limit: MAX_RESULTS_PER_TYPE },
 		),
 		em.find(
 			Shop,
@@ -36,7 +36,7 @@ export const search = async (query: string): Promise<SearchResultCollection> => 
 	return {
 		listingResults: listings.map((l): SearchResult => ({
 			id: String(l.id),
-			label: l.title,
+			label: `${l.title} (${l.shop.title})`,
 		})),
 		shopResults: shops.map((s): SearchResult => ({
 			id: String(s.id),
