@@ -11,13 +11,14 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 
 import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
 import { FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
-import { MdCategory } from 'react-icons/md';
+import { MdCancel, MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
@@ -169,7 +170,27 @@ export const Navbar = () => {
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<Box ref={searchContainerRef} position="relative" width="100%">
-						<InputGroup width="100%" startElement={<FaSearch />} py={1}>
+						<InputGroup
+							width="100%"
+							startElement={<FaSearch size={16} />}
+							endElement={
+								<AnimatePresence>
+									{searchQuery && (
+										<motion.div
+											initial={{ opacity: 0 }}
+											animate={{ opacity: 1 }}
+											exit={{ opacity: 0 }}
+											transition={{ duration: 0.15 }}
+											style={{ display: 'flex', cursor: 'pointer' }}
+											onClick={() => setSearchQuery('')}
+										>
+											<MdCancel size={18} />
+										</motion.div>
+									)}
+								</AnimatePresence>
+							}
+							py={1}
+						>
 							<Input
 								maxLength={SEARCH_QUERY_LIMITS.maxChars}
 								fontSize={16}
