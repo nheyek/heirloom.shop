@@ -53,7 +53,7 @@ export const IntroCarousel = () => {
 				{introItems.map((item, index) => (
 					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 10 }}>
 						<Stack alignItems="center" justifyContent="start" gap={3} py={2}>
-							<item.Icon size={32} />
+							<item.Icon size={36} />
 							<Text fontSize={24} textAlign="center" textStyle="ornamental">
 								{item.text}
 							</Text>

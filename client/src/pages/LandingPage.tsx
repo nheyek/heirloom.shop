@@ -58,7 +58,7 @@ export const LandingPage = () => {
 	}, []);
 
 	const renderLandingPageTitle = (title: string) => (
-		<Heading fontSize={{ base: 32, lg: 36 }} mb={3}>
+		<Heading fontSize={36} mb={3}>
 			{title}
 		</Heading>
 	);
