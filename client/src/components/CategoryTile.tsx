@@ -1,4 +1,4 @@
-import { Flex, Heading } from '@chakra-ui/react';
+import { Box, Flex, Heading } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/types/CategoryTileData';
 import { useNavigate } from 'react-router-dom';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
@@ -8,12 +8,12 @@ export const CategoryTile = (props: CategoryTileData) => {
 	const navigate = useNavigate();
 
 	return (
-		<Flex
+		<Box
 			onClick={() => navigate(`/category/${props.id.toLowerCase()}`)}
 			position="relative"
 			cursor="pointer"
-			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 			width="100%"
+			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 		>
 			<AppImage
 				imageProps={{
@@ -22,6 +22,7 @@ export const CategoryTile = (props: CategoryTileData) => {
 			></AppImage>
 			<Flex
 				position="absolute"
+				top={0}
 				width="100%"
 				height="100%"
 				justifyContent="center"
@@ -37,6 +38,6 @@ export const CategoryTile = (props: CategoryTileData) => {
 					{props.title}
 				</Heading>
 			</Flex>
-		</Flex>
+		</Box>
 	);
 };
