@@ -24,7 +24,7 @@ export const CategoryGrid = (props: Props) => {
 
 	return (
 		<Skeleton
-			width="100%"
+			width="100vw"
 			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO * (maxNumColumns / numPlaceholderRows)}
 			borderRadius={0}
 			loading={props.isLoading}
