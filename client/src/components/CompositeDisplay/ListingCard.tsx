@@ -4,8 +4,8 @@ import { FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { ImageCarousel } from '../misc/ImageCarousel';
-import { PriceTag } from '../misc/PriceTag';
+import { ImageCarousel } from '../ImageDisplay/ImageCarousel';
+import { PriceTag } from '../TextDisplay/PriceTagText';
 import { AppCard } from './AppCard';
 
 export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean }) => {

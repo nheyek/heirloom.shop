@@ -3,15 +3,15 @@ import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
-import { CategoryGrid } from '../components/grids/CategoryGrid';
-import { ListingGrid } from '../components/grids/ListingGrid';
-import { ShopGrid } from '../components/grids/ShopGrid';
-import { AppError } from '../components/misc/AppError';
-import { IntroCarousel } from '../components/misc/IntroCarousel';
-import { Logo } from '../components/misc/Logo';
+import { IntroCarousel } from '../components/Brand/IntroCarousel';
+import { Logo } from '../components/Brand/Logo';
+import { AppError } from '../components/Disclosure/AppError';
+import { CategoryGrid } from '../components/Layout/CategoryGrid';
+import { ListingGrid } from '../components/Layout/ListingGrid';
+import { ShopGrid } from '../components/Layout/ShopGrid';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
-import { useCategories } from '../providers/CategoriesProvider';
+import { useCategories } from '../Providers/CategoriesProvider';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);

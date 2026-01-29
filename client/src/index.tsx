@@ -4,9 +4,9 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 
-import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
-import { CategoriesProvider } from './providers/CategoriesProvider';
-import { UserProvider } from './providers/UserProvider';
+import { Auth0ProviderWithNavigate } from './Providers/AuthProviderWithNavigate';
+import { CategoriesProvider } from './Providers/CategoriesProvider';
+import { UserProvider } from './Providers/UserProvider';
 import customSystem from './theme';
 
 const root = createRoot(document.getElementById('root')!);

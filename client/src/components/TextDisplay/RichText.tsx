@@ -4,7 +4,7 @@ type Props = BoxProps & {
 	htmlString: string;
 };
 
-export const RichTextRenderer = (props: Props) => {
+export const RichText = (props: Props) => {
 	return (
 		<Box
 			{...props}

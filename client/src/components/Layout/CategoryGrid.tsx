@@ -1,7 +1,7 @@
 import { SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/types/CategoryTileData';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { CategoryTile } from '../CategoryTile';
+import { CategoryTile } from '../CompositeDisplay/CategoryTile';
 
 const NUM_DEFAULT_PLACEHOLDERS = 4;
 

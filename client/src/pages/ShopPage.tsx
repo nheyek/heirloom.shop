@@ -3,13 +3,13 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ListingGrid } from '../components/grids/ListingGrid';
+import { ListingGrid } from '../components/Layout/ListingGrid';
 import useApi from '../hooks/useApi';
 
 import { API_ROUTES } from '@common/constants';
 import { motion } from 'framer-motion';
-import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
-import { AppImage } from '../components/misc/AppImage';
+import { CountryFlagIcon } from '../components/Icons/CountryFlagIcon';
+import { AppImage } from '../components/ImageDisplay/AppImage';
 import { CountryCode, STANDARD_GRID_GAP } from '../constants';
 
 export const ShopPage = () => {

@@ -4,11 +4,11 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CategoryGrid } from '../components/grids/CategoryGrid';
-import { ListingGrid } from '../components/grids/ListingGrid';
-import { AppError } from '../components/misc/AppError';
+import { AppError } from '../components/Disclosure/AppError';
+import { CategoryGrid } from '../components/Layout/CategoryGrid';
+import { ListingGrid } from '../components/Layout/ListingGrid';
 import useApi from '../hooks/useApi';
-import { useCategories } from '../providers/CategoriesProvider';
+import { useCategories } from '../Providers/CategoriesProvider';
 
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();

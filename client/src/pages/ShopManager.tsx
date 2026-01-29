@@ -15,7 +15,7 @@ import { API_ROUTES } from '@common/constants';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useApi from '../hooks/useApi';
-import { useUserInfo } from '../providers/UserProvider';
+import { useUserInfo } from '../Providers/UserProvider';
 
 export const ShopManager = () => {
 	const { getPublicResource, postResource } = useApi();

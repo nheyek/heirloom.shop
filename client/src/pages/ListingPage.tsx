@@ -27,11 +27,11 @@ import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/f
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
-import { IconText } from '../components/misc/IconText';
-import { ImageCarousel } from '../components/misc/ImageCarousel';
-import { ImageCollage } from '../components/misc/ImageCollage';
-import { RichTextRenderer } from '../components/misc/RichTextRenderer';
+import { CountryFlagIcon } from '../components/Icons/CountryFlagIcon';
+import { ImageCarousel } from '../components/ImageDisplay/ImageCarousel';
+import { ImageCollage } from '../components/ImageDisplay/ImageCollage';
+import { IconText } from '../components/TextDisplay/IconText';
+import { RichText } from '../components/TextDisplay/RichText';
 import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 
@@ -171,7 +171,7 @@ export const ListingPage = () => {
 						</Accordion.ItemTrigger>
 						<Accordion.ItemContent>
 							<Accordion.ItemBody pt={0} pb={2}>
-								<RichTextRenderer htmlString={item.richText} />
+								<RichText htmlString={item.richText} />
 							</Accordion.ItemBody>
 						</Accordion.ItemContent>
 					</Accordion.Item>
