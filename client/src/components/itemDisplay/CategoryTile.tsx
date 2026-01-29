@@ -2,7 +2,7 @@ import { Box, Flex, Heading } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/types/CategoryTileData';
 import { useNavigate } from 'react-router-dom';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { AppImage } from '../ImageDisplay/AppImage';
+import { AppImage } from '../imageDisplay/AppImage';
 
 export const CategoryTile = (props: CategoryTileData) => {
 	const navigate = useNavigate();

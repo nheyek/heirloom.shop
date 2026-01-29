@@ -5,8 +5,8 @@ import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { useShareListing } from '../../hooks/useShareListing';
-import { ImageCarousel } from '../ImageDisplay/ImageCarousel';
-import { PriceTag } from '../TextDisplay/PriceTagText';
+import { ImageCarousel } from '../imageDisplay/ImageCarousel';
+import { PriceTag } from '../textDisplay/PriceTagText';
 
 export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean }) => {
 	const navigate = useNavigate();

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
-import { AppImage } from '../ImageDisplay/AppImage';
+import { AppImage } from '../imageDisplay/AppImage';
 
 export const ShopCard = (props: ShopCardData & { width?: number }) => {
 	const navigate = useNavigate();

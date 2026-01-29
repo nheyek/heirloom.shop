@@ -27,11 +27,11 @@ import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/f
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CountryFlagIcon } from '../Components/icons/CountryFlagIcon';
-import { ImageCarousel } from '../Components/ImageDisplay/ImageCarousel';
-import { ImageCollage } from '../Components/ImageDisplay/ImageCollage';
-import { IconText } from '../Components/TextDisplay/IconText';
-import { RichText } from '../Components/TextDisplay/RichText';
+import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
+import { ImageCarousel } from '../components/imageDisplay/ImageCarousel';
+import { ImageCollage } from '../components/imageDisplay/ImageCollage';
+import { IconText } from '../components/textDisplay/IconText';
+import { RichText } from '../components/textDisplay/RichText';
 import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
