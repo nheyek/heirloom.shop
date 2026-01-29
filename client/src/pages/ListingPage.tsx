@@ -34,6 +34,7 @@ import { IconText } from '../components/TextDisplay/IconText';
 import { RichText } from '../components/TextDisplay/RichText';
 import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
+import { useShareListing } from '../hooks/useShareListing';
 
 const MotionFlex = motion.create(Flex);
 
@@ -62,6 +63,7 @@ export const ListingPage = () => {
 	}>({});
 
 	const { getPublicResource } = useApi();
+	const shareListing = useShareListing();
 
 	const loadListingData = async () => {
 		const response = await getPublicResource(`${API_ROUTES.listings}/${id}`);
@@ -308,7 +310,10 @@ export const ListingPage = () => {
 										<IoIosHeart />
 										Save
 									</ListingPageButton>
-									<ListingPageButton size="lg">
+									<ListingPageButton
+										size="lg"
+										onClick={() => listingData && shareListing(listingData)}
+									>
 										<FaShare />
 										Share
 									</ListingPageButton>
