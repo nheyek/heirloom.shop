@@ -54,6 +54,16 @@ const buttonRecipe = defineRecipe({
 });
 
 export const config = defineConfig({
+	globalCss: {
+		'html, body': {
+			overflowX: 'hidden',
+			touchAction: 'pan-y',
+			width: '100%',
+		},
+		'*': {
+			boxSizing: 'border-box',
+		},
+	},
 	theme: {
 		tokens: {
 			fonts: {
