@@ -3,6 +3,7 @@ import {
 	defaultConfig,
 	defineConfig,
 	defineRecipe,
+	defineSlotRecipe,
 	defineTextStyles,
 } from '@chakra-ui/react';
 
@@ -48,6 +49,15 @@ const buttonRecipe = defineRecipe({
 	},
 });
 
+const cardRecipe = defineSlotRecipe({
+	slots: ['root', 'header', 'body', 'footer'],
+	base: {
+		root: {
+			overflow: 'hidden',
+		},
+	},
+});
+
 export const config = defineConfig({
 	globalCss: {
 		'html, body': {
@@ -73,6 +83,10 @@ export const config = defineConfig({
 		recipes: {
 			input: inputRecipe,
 			button: buttonRecipe,
+			card: cardRecipe,
+		},
+		slotRecipes: {
+			card: cardRecipe,
 		},
 		textStyles,
 	},

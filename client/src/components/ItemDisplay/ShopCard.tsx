@@ -5,7 +5,6 @@ import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
 import { CategoryIcon } from '../Icons/CategoryIcon';
 import { CountryFlagIcon } from '../Icons/CountryFlagIcon';
 import { AppImage } from '../ImageDisplay/AppImage';
-import { AppCard } from './AppCard';
 
 export const ShopCard = (props: ShopCardData & { width?: number }) => {
 	const navigate = useNavigate();
@@ -13,39 +12,43 @@ export const ShopCard = (props: ShopCardData & { width?: number }) => {
 		navigate(`/${CLIENT_ROUTES.shop}/${props.id}`, { preventScrollReset: true });
 
 	return (
-		<AppCard width={props.width}>
-			<AppImage
-				imageProps={{
-					src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
-					cursor: 'button',
-					onClick: navigateToShop,
-				}}
-			/>
-			<Card.Body p={3} gap={1}>
-				<Card.Title fontSize={21}>
-					<Link truncate display="block" onClick={navigateToShop}>
-						{props.title}
-					</Link>
-				</Card.Title>
-				<SimpleGrid
-					columns={2}
-					gapY={1}
-					gridTemplateColumns="30px 1fr"
-					fontSize={18}
-					fontWeight={500}
-					alignItems="center"
-				>
-					<CategoryIcon
-						iconCode={props.categoryIcon as CategoryIconCode | null}
-						size={22}
-					/>
-					<Text truncate>{props.classification}</Text>
-					<Box width={22} height={22}>
-						<CountryFlagIcon countryCode={props.countryCode as CountryCode | null} />
-					</Box>
-					<Text truncate>{props.location}</Text>
-				</SimpleGrid>
-			</Card.Body>
-		</AppCard>
+		<Box>
+			<Card.Root variant="elevated" width={props.width}>
+				<AppImage
+					imageProps={{
+						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+						cursor: 'button',
+						onClick: navigateToShop,
+					}}
+				/>
+				<Card.Body p={3} gap={1}>
+					<Card.Title fontSize={21}>
+						<Link truncate display="block" onClick={navigateToShop}>
+							{props.title}
+						</Link>
+					</Card.Title>
+					<SimpleGrid
+						columns={2}
+						gapY={1}
+						gridTemplateColumns="30px 1fr"
+						fontSize={18}
+						fontWeight={500}
+						alignItems="center"
+					>
+						<CategoryIcon
+							iconCode={props.categoryIcon as CategoryIconCode | null}
+							size={22}
+						/>
+						<Text truncate>{props.classification}</Text>
+						<Box width={22} height={22}>
+							<CountryFlagIcon
+								countryCode={props.countryCode as CountryCode | null}
+							/>
+						</Box>
+						<Text truncate>{props.location}</Text>
+					</SimpleGrid>
+				</Card.Body>
+			</Card.Root>
+		</Box>
 	);
 };
