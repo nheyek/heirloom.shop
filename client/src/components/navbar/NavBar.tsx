@@ -23,7 +23,7 @@ import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { useUserInfo } from '../../Providers/UserProvider';
+import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../Brand/Logo';
 import { LoginButton } from './LoginButton';
 import { LogoutButton } from './LogoutButton';

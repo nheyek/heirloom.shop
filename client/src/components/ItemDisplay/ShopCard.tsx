@@ -2,8 +2,8 @@ import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useNavigate } from 'react-router-dom';
 import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
-import { CategoryIcon } from '../Icons/CategoryIcon';
-import { CountryFlagIcon } from '../Icons/CountryFlagIcon';
+import { CategoryIcon } from '../icons/CategoryIcon';
+import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../ImageDisplay/AppImage';
 
 export const ShopCard = (props: ShopCardData & { width?: number }) => {

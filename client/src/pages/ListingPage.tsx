@@ -27,7 +27,7 @@ import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/f
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { CountryFlagIcon } from '../components/Icons/CountryFlagIcon';
+import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { ImageCarousel } from '../components/ImageDisplay/ImageCarousel';
 import { ImageCollage } from '../components/ImageDisplay/ImageCollage';
 import { IconText } from '../components/TextDisplay/IconText';

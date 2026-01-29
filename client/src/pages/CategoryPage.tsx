@@ -8,7 +8,7 @@ import { AppError } from '../components/Disclosure/AppError';
 import { CategoryGrid } from '../components/Layout/CategoryGrid';
 import { ListingGrid } from '../components/Layout/ListingGrid';
 import useApi from '../hooks/useApi';
-import { useCategories } from '../Providers/CategoriesProvider';
+import { useCategories } from '../providers/CategoriesProvider';
 
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();

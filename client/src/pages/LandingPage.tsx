@@ -11,7 +11,7 @@ import { ListingGrid } from '../components/Layout/ListingGrid';
 import { ShopGrid } from '../components/Layout/ShopGrid';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
-import { useCategories } from '../Providers/CategoriesProvider';
+import { useCategories } from '../providers/CategoriesProvider';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
