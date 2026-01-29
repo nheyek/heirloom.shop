@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { ScrollToTop } from './components/misc/ScrollToTop';
 import { Navbar } from './components/navbar/NavBar';
 import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
@@ -19,6 +20,7 @@ const App = () => {
 
 	return (
 		<Box opacity={mounted ? 1 : 0} transition="opacity 1s">
+			<ScrollToTop />
 			<Navbar />
 			<Box maxWidth={1600} mx="auto">
 				<Routes>

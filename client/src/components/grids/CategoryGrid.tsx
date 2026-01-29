@@ -22,14 +22,16 @@ export const CategoryGrid = (props: Props) => {
 	const widthPercent = Math.min(100, 100 * (numColumns / maxNumColumns));
 	const numPlaceholderRows = Math.floor(NUM_DEFAULT_PLACEHOLDERS / maxNumColumns);
 
+	const skeletonAspectRatio = STANDARD_IMAGE_ASPECT_RATIO * (maxNumColumns / numPlaceholderRows);
+
 	return (
 		<Skeleton
 			width="100%"
-			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO * (maxNumColumns / numPlaceholderRows)}
+			aspectRatio={props.isLoading ? skeletonAspectRatio : undefined}
 			borderRadius={0}
 			loading={props.isLoading}
 		>
-			<SimpleGrid columns={numColumns} overflow="hidden" width={`${widthPercent}%`}>
+			<SimpleGrid columns={numColumns} width={`${widthPercent}%`}>
 				{props.categories.map((category) => (
 					<CategoryTile key={category.id} {...category} />
 				))}

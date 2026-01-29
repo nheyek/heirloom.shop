@@ -34,6 +34,10 @@ const buttonRecipe = defineRecipe({
 	base: {
 		fontFamily: standardFont,
 		fontWeight: 'bold',
+		_focus: {
+			boxShadow: 'none',
+		},
+		WebkitTapHighlightColor: 'transparent',
 	},
 	variants: {
 		variant: {
@@ -49,15 +53,6 @@ const buttonRecipe = defineRecipe({
 });
 
 export const config = defineConfig({
-	globalCss: {
-		'*': {
-			WebkitTapHighlightColor: 'transparent',
-		},
-		'*:focus:not(:focus-visible)': {
-			outline: 'none',
-			boxShadow: 'none',
-		},
-	},
 	theme: {
 		tokens: {
 			fonts: {
