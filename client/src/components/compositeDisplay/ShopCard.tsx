@@ -9,7 +9,7 @@ import { AppImage } from '../imageDisplay/AppImage';
 export const ShopCard = (props: ShopCardData & { width?: number }) => {
 	const navigate = useNavigate();
 	const navigateToShop = () =>
-		navigate(`/${CLIENT_ROUTES.shop}/${props.id}`, { preventScrollReset: true });
+		navigate(`/${CLIENT_ROUTES.shop}/${props.shortId}`, { preventScrollReset: true });
 
 	return (
 		<Box>
