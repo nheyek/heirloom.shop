@@ -34,11 +34,6 @@ const buttonRecipe = defineRecipe({
 	base: {
 		fontFamily: standardFont,
 		fontWeight: 'bold',
-		_focus: {
-			boxShadow: 'none',
-			border: 'none',
-		},
-		WebkitTapHighlightColor: 'transparent',
 	},
 	variants: {
 		variant: {
@@ -56,12 +51,10 @@ const buttonRecipe = defineRecipe({
 export const config = defineConfig({
 	globalCss: {
 		'html, body': {
-			overflowX: 'hidden',
-			touchAction: 'pan-y',
-			width: '100%',
+			touchAction: 'pan-y manipulation',
 		},
 		'*': {
-			boxSizing: 'border-box',
+			outline: 'none',
 		},
 	},
 	theme: {
