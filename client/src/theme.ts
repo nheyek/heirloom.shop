@@ -51,7 +51,7 @@ const buttonRecipe = defineRecipe({
 export const config = defineConfig({
 	globalCss: {
 		'html, body': {
-			touchAction: 'none',
+			touchAction: 'pan-y',
 		},
 		'*:focus': {
 			outline: 'none',
