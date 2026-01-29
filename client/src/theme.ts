@@ -54,7 +54,8 @@ export const config = defineConfig({
 			touchAction: 'pan-y',
 		},
 		'*:focus': {
-			outline: 'none',
+			outline: 'none !important',
+			boxShadow: 'none !important',
 		},
 	},
 	theme: {
