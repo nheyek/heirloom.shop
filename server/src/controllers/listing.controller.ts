@@ -11,14 +11,11 @@ export const getAllListings = async (req: Request, res: Response) => {
 };
 
 export const getListingById = async (req: Request, res: Response) => {
-	const listingId = Number(req.params.id);
-	const [listing, variations] = await Promise.all([
-		listingService.findListingById(listingId),
-		listingService.findListingVariations(listingId),
-	]);
-	if (listing) {
-		res.json(mapListingToListingPageData(listing, variations));
-	} else {
-		res.status(404).json({ message: 'Product not found' });
+	const shortId = req.params.id;
+	const listing = await listingService.findListingByShortId(shortId);
+	if (!listing) {
+		return res.status(404).json({ message: 'Product not found' });
 	}
+	const variations = await listingService.findListingVariations(listing.id);
+	res.json(mapListingToListingPageData(listing, variations));
 };
