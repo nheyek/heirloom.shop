@@ -12,6 +12,11 @@ export const findShopById = async (id: number) => {
 	return em.findOne(Shop, { id });
 };
 
+export const findShopByShortId = async (shortId: string) => {
+	const em = getEm();
+	return em.findOne(Shop, { shortId }, { populate: ['country'] });
+};
+
 export const authorizeShopAction = async (shopId: number, userEmail: string) => {
 	const em = getEm();
 	const roleAssignment = await em.findOne(ShopUserRole, {
