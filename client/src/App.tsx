@@ -1,15 +1,15 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Navbar } from './components/NavBar/NavBar';
+import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/Util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
-import { AuthCallback } from './Pages/AuthCallback';
-import { CategoryPage } from './Pages/CategoryPage';
-import { LandingPage } from './Pages/LandingPage';
-import { ListingPage } from './Pages/ListingPage';
-import { ShopManager } from './Pages/ShopManager';
-import { ShopPage } from './Pages/ShopPage';
+import { AuthCallback } from './pages/AuthCallback';
+import { CategoryPage } from './pages/CategoryPage';
+import { LandingPage } from './pages/LandingPage';
+import { ListingPage } from './pages/ListingPage';
+import { ShopManager } from './pages/ShopManager';
+import { ShopPage } from './pages/ShopPage';
 
 const App = () => {
 	const [mounted, setMounted] = useState(false);
