@@ -1,7 +1,7 @@
 import { HStack, SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { STANDARD_GRID_COLUMNS, STANDARD_GRID_GAP } from '../../constants';
-import { ListingCard } from '../CompositeDisplay/ListingCard';
+import { ListingCard } from '../ItemDisplay/ListingCard';
 
 type Props = {
 	listings: ListingCardData[];
