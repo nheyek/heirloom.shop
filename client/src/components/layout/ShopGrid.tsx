@@ -1,7 +1,7 @@
 import { HStack, SimpleGrid, Skeleton, useBreakpointValue } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { STANDARD_GRID_COLUMNS, STANDARD_GRID_GAP } from '../../constants';
-import { ShopCard } from '../itemDisplay/ShopCard';
+import { ShopCard } from '../compositeDisplay/ShopCard';
 
 type Props = {
 	isLoading: boolean;
