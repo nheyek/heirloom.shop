@@ -38,6 +38,9 @@ export class Shop {
   @Property({ length: 64, nullable: true })
   categoryIcon?: string;
 
+  @Property({ length: 10, nullable: true, index: 'idx_shop_short_id', unique: 'shop_short_id_key' })
+  shortId?: string;
+
   @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
   listingCollection = new Collection<Listing>(this);
 

@@ -76,7 +76,8 @@ CREATE TABLE public.listing (
     lead_time_days_min integer DEFAULT 0 NOT NULL,
     lead_time_days_max integer DEFAULT 0 NOT NULL,
     shipping_origin_id integer,
-    full_descr jsonb
+    full_descr jsonb,
+    short_id character varying(10)
 );
 
 
@@ -314,7 +315,8 @@ CREATE TABLE public.shop (
     shop_location character varying(64),
     classification character varying(32),
     country_code character(2),
-    category_icon character varying(64)
+    category_icon character varying(64),
+    short_id character varying(10)
 );
 
 
@@ -460,6 +462,14 @@ ALTER TABLE ONLY public.listing_category
 
 
 --
+-- Name: listing listing_short_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_short_id_key UNIQUE (short_id);
+
+
+--
 -- Name: listing_variation_option listing_variation_option_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -524,6 +534,14 @@ ALTER TABLE ONLY public.shop
 
 
 --
+-- Name: shop shop_short_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shop
+    ADD CONSTRAINT shop_short_id_key UNIQUE (short_id);
+
+
+--
 -- Name: shop_user_role shop_user_role_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -577,6 +595,20 @@ ALTER TABLE ONLY public.return_exchange_profile
 
 ALTER TABLE ONLY public.app_user
     ADD CONSTRAINT unique_username UNIQUE (username);
+
+
+--
+-- Name: idx_listing_short_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_listing_short_id ON public.listing USING btree (short_id);
+
+
+--
+-- Name: idx_shop_short_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_shop_short_id ON public.shop USING btree (short_id);
 
 
 --
@@ -723,4 +755,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260118193651'),
     ('20260118204227'),
     ('20260118205636'),
-    ('20260121153310');
+    ('20260121153310'),
+    ('20260129201958');

@@ -1,10 +1,10 @@
 import { sql } from '@mikro-orm/core';
-import { encodeId } from '@common/hashids';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingImage } from '../entities/generated/ListingImage';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { Shop } from '../entities/generated/Shop';
+import { encodeId } from '../utils/hashids';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
@@ -102,11 +102,11 @@ export const createListing = async (
 		shop: { id: shopId } as Shop,
 	});
 	await em.persistAndFlush(listing);
-	
+
 	// Generate short_id after we have the ID
 	listing.shortId = encodeId(listing.id);
 	await em.flush();
-	
+
 	return listing.id;
 };
 
