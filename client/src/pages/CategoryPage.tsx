@@ -4,9 +4,9 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppError } from '../components/Disclosure/AppError';
-import { CategoryGrid } from '../components/Layout/CategoryGrid';
-import { ListingGrid } from '../components/Layout/ListingGrid';
+import { AppError } from '../Components/Disclosure/AppError';
+import { CategoryGrid } from '../Components/Layout/CategoryGrid';
+import { ListingGrid } from '../Components/Layout/ListingGrid';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
 

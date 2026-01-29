@@ -1,8 +1,8 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Navbar } from './components/navbar/NavBar';
-import { ScrollToTop } from './components/Util/ScrollToTop';
+import { Navbar } from './Components/navbar/NavBar';
+import { ScrollToTop } from './Components/Util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
