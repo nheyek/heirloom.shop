@@ -194,15 +194,16 @@ DECLARE
 
 BEGIN
 
-    INSERT INTO shop (id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, category_icon, created_at, updated_at)
+    INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, category_icon, created_at, updated_at)
     VALUES
-        (sample_shop_1_id, sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, sample_shop_1_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_2_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, sample_shop_2_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_3_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, sample_shop_3_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_4_id, sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, sample_shop_4_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_5_id, sample_shop_5_title, NULL, sample_shop_5_profile_image_uuid, sample_shop_5_location, sample_shop_5_classification, sample_shop_5_country_code, sample_shop_5_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_6_id, sample_shop_6_title, NULL, sample_shop_6_profile_image_uuid, sample_shop_6_location, sample_shop_6_classification, sample_shop_6_country_code, sample_shop_6_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_shop_1_id, 'gB8K', sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, sample_shop_1_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, 'jR6k', sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, sample_shop_2_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, '0XNl', sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, sample_shop_3_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_4_id, 'yDvP', sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, sample_shop_4_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_5_id, 'Qa0Z', sample_shop_5_title, NULL, sample_shop_5_profile_image_uuid, sample_shop_5_location, sample_shop_5_classification, sample_shop_5_country_code, sample_shop_5_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_6_id, '8aOn', sample_shop_6_title, NULL, sample_shop_6_profile_image_uuid, sample_shop_6_location, sample_shop_6_classification, sample_shop_6_country_code, sample_shop_6_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
+        short_id = EXCLUDED.short_id,
         title = EXCLUDED.title,
         profile_rich_text = EXCLUDED.profile_rich_text,
         profile_image_uuid = EXCLUDED.profile_image_uuid,
@@ -224,19 +225,20 @@ BEGIN
         location_name = EXCLUDED.location_name,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, shop_id, category_id, title, subtitle, full_descr, price_dollars, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids, lead_time_days_min, lead_time_days_max)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_dollars, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids, lead_time_days_min, lead_time_days_max)
     VALUES
-        (sample_listing_1_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, null, sample_listing_1_price_dollars, sample_listing_1_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids, 0, 0),
-        (sample_listing_2_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, null,sample_listing_2_price_dollars, sample_listing_2_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids, 0, 0),
-        (sample_listing_3_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, null,sample_listing_3_price_dollars, sample_listing_3_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids, 0, 0),
-        (sample_listing_4_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, null,sample_listing_4_price_dollars, sample_listing_4_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids, 0, 0),
-        (sample_listing_5_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr,sample_listing_5_price_dollars, sample_listing_5_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids, sample_listing_5_lead_time_days_min, sample_listing_5_lead_time_days_max),
-        (sample_listing_6_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, null,sample_listing_6_price_dollars, sample_listing_6_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids, sample_listing_6_lead_time_days_min, sample_listing_6_lead_time_days_max),
-        (sample_listing_7_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, null,sample_listing_7_price_dollars, sample_listing_7_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids, sample_listing_7_lead_time_days_min, sample_listing_7_lead_time_days_max),
-        (sample_listing_8_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, null,sample_listing_8_price_dollars, sample_listing_8_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids, 0, 0),
-        (sample_listing_9_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, null,sample_listing_9_price_dollars, sample_listing_9_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids, 0, 0),
-        (sample_listing_10_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null, sample_listing_10_price_dollars, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids, 0, 0)
+        (sample_listing_1_id, 'gB8K', sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, null, sample_listing_1_price_dollars, sample_listing_1_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids, 0, 0),
+        (sample_listing_2_id, 'jR6k', sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, null,sample_listing_2_price_dollars, sample_listing_2_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids, 0, 0),
+        (sample_listing_3_id, '0XNl', sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, null,sample_listing_3_price_dollars, sample_listing_3_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids, 0, 0),
+        (sample_listing_4_id, 'yDvP', sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, null,sample_listing_4_price_dollars, sample_listing_4_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids, 0, 0),
+        (sample_listing_5_id, 'Qa0Z', sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr,sample_listing_5_price_dollars, sample_listing_5_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids, sample_listing_5_lead_time_days_min, sample_listing_5_lead_time_days_max),
+        (sample_listing_6_id, '8aOn', sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, null,sample_listing_6_price_dollars, sample_listing_6_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids, sample_listing_6_lead_time_days_min, sample_listing_6_lead_time_days_max),
+        (sample_listing_7_id, 'La9m', sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, null,sample_listing_7_price_dollars, sample_listing_7_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids, sample_listing_7_lead_time_days_min, sample_listing_7_lead_time_days_max),
+        (sample_listing_8_id, 'vmb5', sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, null,sample_listing_8_price_dollars, sample_listing_8_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids, 0, 0),
+        (sample_listing_9_id, '4p1J', sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, null,sample_listing_9_price_dollars, sample_listing_9_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids, 0, 0),
+        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null, sample_listing_10_price_dollars, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids, 0, 0)
     ON CONFLICT (id) DO UPDATE SET
+        short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
         title = EXCLUDED.title,

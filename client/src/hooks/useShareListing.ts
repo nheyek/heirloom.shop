@@ -1,8 +1,8 @@
 import { CLIENT_ROUTES } from '../constants';
 
 export const useShareListing = () => {
-	return (listing: { title: string; subtitle: string; id: number }) => {
-		const url = `${window.location.origin}/${CLIENT_ROUTES.listing}/${listing.id}`;
+	return (listing: { title: string; subtitle: string; shortId: string }) => {
+		const url = `${window.location.origin}/${CLIENT_ROUTES.listing}/${listing.shortId}`;
 		if (navigator.share) {
 			navigator.share({
 				title: listing.title,

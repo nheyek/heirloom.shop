@@ -12,8 +12,8 @@ export const getAllShops = async (req: Request, res: Response) => {
 };
 
 export const getShop = async (req: Request, res: Response) => {
-	const shopId = Number(req.params.id);
-	const shop = await shopService.findShopById(shopId);
+	const shortId = req.params.id;
+	const shop = await shopService.findShopByShortId(shortId);
 	if (!shop) {
 		return res.status(404).json({ message: 'Shop not found' });
 	}
@@ -21,8 +21,12 @@ export const getShop = async (req: Request, res: Response) => {
 };
 
 export const getListingsByShop = async (req: Request, res: Response) => {
-	const shopId = Number(req.params.id);
-	const listings = await listingService.findListingsByShop(shopId);
+	const shortId = req.params.id;
+	const shop = await shopService.findShopByShortId(shortId);
+	if (!shop) {
+		return res.status(404).json({ message: 'Shop not found' });
+	}
+	const listings = await listingService.findListingsByShop(shop.id);
 	return res.json(listings.map(mapListingToListingCardData));
 };
 
@@ -31,9 +35,14 @@ export const addListingToShop = async (req: Request, res: Response) => {
 		return res.status(401).json({ message: 'Unauthorized: Missing email claim' });
 	}
 
-	const shopId = Number(req.params.id);
+	const shortId = req.params.id;
+	const shop = await shopService.findShopByShortId(shortId);
+	if (!shop) {
+		return res.status(404).json({ message: 'Shop not found' });
+	}
+
 	try {
-		shopService.authorizeShopAction(shopId, req.userClaims.email);
+		shopService.authorizeShopAction(shop.id, req.userClaims.email);
 	} catch (e) {
 		res.status(403).json({
 			message: 'Forbidden: You do not have permission to perform this action on the shop',
@@ -41,7 +50,7 @@ export const addListingToShop = async (req: Request, res: Response) => {
 	}
 
 	const profileApiRequest = req.body as ShopProfile;
-	const id = productService.createListing(profileApiRequest, shopId);
+	const id = productService.createListing(profileApiRequest, shop.id);
 
 	res.status(201).json({ id });
 };

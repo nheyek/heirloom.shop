@@ -11,7 +11,7 @@ import { PriceTag } from '../textDisplay/PriceTagText';
 export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean }) => {
 	const navigate = useNavigate();
 	const shareListing = useShareListing();
-	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.id}`);
+	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.shortId}`);
 
 	const getImageUrl = (uuid: string) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
 
@@ -41,7 +41,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 							<Link
 								fontSize={18}
 								fontWeight={500}
-								onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopId}`)}
+								onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopShortId}`)}
 							>
 								{props.shopTitle}
 							</Link>

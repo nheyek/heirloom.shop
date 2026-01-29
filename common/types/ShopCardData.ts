@@ -1,5 +1,6 @@
 export type ShopCardData = {
 	id: number;
+	shortId: string;
 	title: string;
 	location?: string;
 	classification?: string;
