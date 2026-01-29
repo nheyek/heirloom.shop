@@ -1,4 +1,5 @@
 import { sql } from '@mikro-orm/core';
+import { encodeId } from '@common/hashids';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingImage } from '../entities/generated/ListingImage';
@@ -73,6 +74,23 @@ export const findListingById = async (id: number) => {
 	);
 };
 
+export const findListingByShortId = async (shortId: string) => {
+	const em = getEm();
+	return em.findOne(
+		Listing,
+		{ shortId },
+		{
+			populate: [
+				'shop',
+				'country',
+				'shippingProfile',
+				'returnExchangeProfile',
+				'shippingOrigin',
+			],
+		},
+	);
+};
+
 export const createListing = async (
 	profileApiRequest: { title: string; desc: string },
 	shopId: number,
@@ -84,6 +102,11 @@ export const createListing = async (
 		shop: { id: shopId } as Shop,
 	});
 	await em.persistAndFlush(listing);
+	
+	// Generate short_id after we have the ID
+	listing.shortId = encodeId(listing.id);
+	await em.flush();
+	
 	return listing.id;
 };
 
