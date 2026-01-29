@@ -7,12 +7,14 @@ import { ListingVariationOption } from '../entities/generated/ListingVariationOp
 
 export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
 	id: listing.id,
+	shortId: listing.shortId || '',
 	title: listing.title,
 	subtitle: listing.subtitle || '',
 	categoryId: listing.category ? listing.category.id.toString() : '',
 	priceDollars: listing.priceDollars || 0,
 	countryCode: listing.country?.code,
 	shopId: listing.shop.id,
+	shopShortId: listing.shop.shortId || '',
 	shopTitle: listing.shop.title,
 	imageUuids: listing.imageUuids,
 });
