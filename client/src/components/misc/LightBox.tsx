@@ -27,7 +27,6 @@ export const LightBox = (props: Props) => {
 			open={props.page !== null}
 			onInteractOutside={() => {
 				props.setPage(null);
-				console.log('interact');
 			}}
 		>
 			<Dialog.Backdrop />

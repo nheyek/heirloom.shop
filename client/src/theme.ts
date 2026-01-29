@@ -36,6 +36,7 @@ const buttonRecipe = defineRecipe({
 		fontWeight: 'bold',
 		_focus: {
 			boxShadow: 'none',
+			border: 'none',
 		},
 		WebkitTapHighlightColor: 'transparent',
 	},
