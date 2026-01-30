@@ -32,7 +32,7 @@ const MotionBox = motion.create(Box);
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
-	const { user } = useUserInfo();
+	const { user, isLoading: userInfoLoading } = useUserInfo();
 	const navigate = useNavigate();
 	const { getPublicResource } = useApi();
 
@@ -281,14 +281,13 @@ export const Navbar = () => {
 				</GridItem>
 				<GridItem area="login" justifySelf="end">
 					<Box display="flex" alignItems="center" gap={2}>
-						{authIsLoading && (
-							<>
-								<Skeleton width={40} height={40} borderRadius="full" />
-								<Skeleton width={40} height={40} borderRadius="full" />
-							</>
-						)}
-						{!authIsLoading && (
-							<>
+						{!authIsLoading && !userInfoLoading && (
+							<MotionBox
+								initial={{ opacity: 0 }}
+								animate={{ opacity: 1 }}
+								exit={{ opacity: 0 }}
+								transition={{ duration: 0.25 }}
+							>
 								{user?.shopId && (
 									<IconButton
 										variant="plain"
@@ -303,7 +302,7 @@ export const Navbar = () => {
 								<IconButton variant="plain" style={{ color: 'white' }}>
 									<FaShoppingCart />
 								</IconButton>
-							</>
+							</MotionBox>
 						)}
 					</Box>
 				</GridItem>

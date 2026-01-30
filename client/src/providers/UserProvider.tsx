@@ -6,7 +6,7 @@ import useApi from '../hooks/useApi';
 
 type UserContextType = {
 	user: UserInfo | null;
-	loading: boolean;
+	isLoading: boolean;
 	error: string | null;
 	refresh: () => Promise<void>;
 };
@@ -53,7 +53,7 @@ export const UserProvider = (props: { children: React.ReactNode }) => {
 		<UserContext.Provider
 			value={{
 				user,
-				loading,
+				isLoading: loading,
 				error,
 				refresh: loadUser,
 			}}
