@@ -283,8 +283,8 @@ export const Navbar = () => {
 					<Box display="flex" alignItems="center" gap={2}>
 						{authIsLoading && (
 							<>
-								<Skeleton width="40px" height="40px" borderRadius="full" />
-								<Skeleton width="40px" height="40px" borderRadius="full" />
+								<Skeleton width={40} height={40} borderRadius="full" />
+								<Skeleton width={40} height={40} borderRadius="full" />
 							</>
 						)}
 						{!authIsLoading && (
