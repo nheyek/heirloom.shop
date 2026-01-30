@@ -8,7 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 export const SavedPage = () => {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
-	const { getProtectedResource } = useApi();
+	const { getProtectedResource, postProtectedResource } = useApi();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -32,7 +32,27 @@ export const SavedPage = () => {
 			loginWithRedirect({
 				appState: { returnTo: '/saved' }
 			});
+			return;
+		}
+
+		// Check for pending listing save from sessionStorage
+		const pendingListingShortId = sessionStorage.getItem('pendingListingSave');
+		
+		if (pendingListingShortId) {
+			// Clear it first to prevent infinite loops
+			sessionStorage.removeItem('pendingListingSave');
+			
+			// Save the listing, then load all saved listings
+			(async () => {
+				try {
+					await postProtectedResource(`listings/${pendingListingShortId}/save`, {});
+				} catch (err) {
+					console.error('Failed to save listing:', err);
+				}
+				await loadSavedListings();
+			})();
 		} else {
+			// No pending save, just load saved listings
 			loadSavedListings();
 		}
 	}, [isAuthenticated]);
