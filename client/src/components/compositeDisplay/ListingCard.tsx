@@ -5,7 +5,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { useSaveListing } from '../../hooks/useSaveListing';
+import { useFavoriteListing } from '../../hooks/useFavoriteListing';
 import { useShareListing } from '../../hooks/useShareListing';
 import { ImageCarousel } from '../imageDisplay/ImageCarousel';
 import { PriceTag } from '../textDisplay/PriceTagText';
@@ -13,13 +13,13 @@ import { PriceTag } from '../textDisplay/PriceTagText';
 export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean; initialSaved?: boolean }) => {
 	const navigate = useNavigate();
 	const shareListing = useShareListing();
-	const { toggleSave, isSaving } = useSaveListing();
+	const { toggleFavorite, isFavoriting } = useFavoriteListing();
 	const [isSaved, setIsSaved] = useState(props.initialSaved || false);
 	
 	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.shortId}`);
 
 	const handleSaveClick = async () => {
-		await toggleSave(props.shortId, isSaved);
+		await toggleFavorite(props.shortId, isSaved);
 		setIsSaved(!isSaved);
 	};
 
@@ -78,7 +78,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 								rounded="full"
 								size="lg"
 								onClick={handleSaveClick}
-								disabled={isSaving}
+								disabled={isFavoriting}
 								color={isSaved ? 'red.500' : undefined}
 							>
 								{isSaved ? <FaHeart /> : <FaRegHeart />}
