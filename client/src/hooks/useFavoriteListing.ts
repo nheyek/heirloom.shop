@@ -23,10 +23,10 @@ export const useFavoriteListing = () => {
 
 		if (currentFavoritedState) {
 			// Unfavorite
-			await deleteResource(`listings/${listingShortId}/save`);
+			await deleteResource(`listings/${listingShortId}/favorite`);
 		} else {
 			// Favorite
-			await postResource(`listings/${listingShortId}/save`, {});
+			await postResource(`listings/${listingShortId}/favorite`, {});
 		}
 
 		setIsFavoriting(false);
