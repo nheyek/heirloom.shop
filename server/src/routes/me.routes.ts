@@ -6,6 +6,6 @@ import { authAndSetUser } from '../middleware/auth0.middleware';
 const router = Router();
 
 router.get('/', authAndSetUser, getCurrentUser);
-router.get('/saved-listings', authAndSetUser, getFavoritedListings);
+router.get('/favorited-listings', authAndSetUser, getFavoritedListings);
 
 export default router;
