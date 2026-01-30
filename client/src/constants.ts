@@ -9,6 +9,7 @@ export const CLIENT_ROUTES = {
 	shop: 'shop',
 	listing: 'listing',
 	shopManager: 'shop-manager',
+	saved: 'saved',
 };
 
 export enum CategoryIconCode {
