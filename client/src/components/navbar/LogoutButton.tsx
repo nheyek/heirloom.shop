@@ -29,7 +29,7 @@ export const LogoutButton = () => {
 					<IoMdArrowDropdown />
 				</Button>
 			</Menu.Trigger>
-			<Menu.Positioner>
+			<Menu.Positioner mt={-0.5}>
 				<Flex boxShadow="md" borderRadius={5} overflow="hidden">
 					<Menu.Content boxShadow="none">
 						<Menu.Item
