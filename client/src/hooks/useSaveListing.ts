@@ -9,7 +9,10 @@ export const useSaveListing = () => {
 
 	const toggleSave = async (listingShortId: string, currentSavedState: boolean) => {
 		if (!isAuthenticated) {
-			// Redirect to login with return URL to saved page
+			// Store listing to save in sessionStorage before redirecting
+			sessionStorage.setItem('pendingListingSave', listingShortId);
+			
+			// Redirect to login, will return to /saved page
 			loginWithRedirect({
 				appState: { returnTo: '/saved' }
 			});
