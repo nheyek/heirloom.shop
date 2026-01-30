@@ -16,9 +16,10 @@ export const saveListing = async (userId: number, listingId: number): Promise<vo
 		return; // Already saved, nothing to do
 	}
 	
+	// Use em.getReference() to create entity references without loading them
 	const savedListing = em.create(UserSavedListing, {
-		user: { id: userId } as AppUser,
-		listing: { id: listingId } as Listing,
+		user: em.getReference(AppUser, userId),
+		listing: em.getReference(Listing, listingId),
 	});
 	
 	await em.persistAndFlush(savedListing);
