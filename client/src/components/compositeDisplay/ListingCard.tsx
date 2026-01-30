@@ -1,17 +1,27 @@
 import { Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
-import { FaRegHeart } from 'react-icons/fa';
+import { useState } from 'react';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
+import { useSaveListing } from '../../hooks/useSaveListing';
 import { useShareListing } from '../../hooks/useShareListing';
 import { ImageCarousel } from '../imageDisplay/ImageCarousel';
 import { PriceTag } from '../textDisplay/PriceTagText';
 
-export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean }) => {
+export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean; initialSaved?: boolean }) => {
 	const navigate = useNavigate();
 	const shareListing = useShareListing();
+	const { toggleSave, isSaving } = useSaveListing();
+	const [isSaved, setIsSaved] = useState(props.initialSaved || false);
+	
 	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.shortId}`);
+
+	const handleSaveClick = async () => {
+		await toggleSave(props.shortId, isSaved);
+		setIsSaved(!isSaved);
+	};
 
 	const getImageUrl = (uuid: string) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
 
@@ -63,8 +73,15 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 								<FaRegShareFromSquare />
 							</IconButton>
 
-							<IconButton variant="ghost" rounded="full" size="lg">
-								<FaRegHeart />
+							<IconButton
+								variant="ghost"
+								rounded="full"
+								size="lg"
+								onClick={handleSaveClick}
+								disabled={isSaving}
+								color={isSaved ? 'red.500' : undefined}
+							>
+								{isSaved ? <FaHeart /> : <FaRegHeart />}
 							</IconButton>
 						</Box>
 					</Flex>

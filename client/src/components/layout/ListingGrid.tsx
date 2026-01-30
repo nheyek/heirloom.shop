@@ -6,6 +6,7 @@ import { ListingCard } from '../compositeDisplay/ListingCard';
 type Props = {
 	listings: ListingCardData[];
 	isLoading: boolean;
+	initialSaved?: boolean;
 };
 
 export const ListingGrid = (props: Props) => {
@@ -21,7 +22,7 @@ export const ListingGrid = (props: Props) => {
 					</>
 				)}
 				{props.listings.map((listing) => (
-					<ListingCard key={listing.id} {...listing} width={300} />
+					<ListingCard key={listing.id} {...listing} width={300} initialSaved={props.initialSaved} />
 				))}
 			</HStack>
 		);
@@ -34,7 +35,7 @@ export const ListingGrid = (props: Props) => {
 					<Skeleton key={index} height={300} />
 				))}
 			{props.listings.map((listing) => (
-				<ListingCard key={listing.id} {...listing} multiImage />
+				<ListingCard key={listing.id} {...listing} multiImage initialSaved={props.initialSaved} />
 			))}
 		</SimpleGrid>
 	);
