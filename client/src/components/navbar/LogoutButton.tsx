@@ -29,27 +29,23 @@ export const LogoutButton = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<Menu.Content
-						boxShadow="md"
-						animation="fade-in"
-						animationDuration="fast"
-					>
-						<Menu.Item 
-							value="saved" 
-							onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)} 
+					<Menu.Content boxShadow="md" animation="fade-in" animationDuration="fast">
+						<Menu.Item
+							value="saved"
+							onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
 							cursor="pointer"
-							fontSize="16px"
-							py="2"
+							fontSize={16}
+							py={2}
 						>
 							<FaHeart />
 							Saved Listings
 						</Menu.Item>
-						<Menu.Item 
-							value="logout" 
-							onClick={handleLogout} 
+						<Menu.Item
+							value="logout"
+							onClick={handleLogout}
 							cursor="pointer"
-							fontSize="16px"
-							py="2"
+							fontSize={16}
+							py={2}
 						>
 							<PiSignOutBold />
 							Log out
