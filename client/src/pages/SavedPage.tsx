@@ -7,7 +7,7 @@ import { STANDARD_GRID_GAP } from '../constants';
 import useApi from '../hooks/useApi';
 
 export const SavedPage = () => {
-	const { isAuthenticated, loginWithRedirect } = useAuth0();
+	const { isAuthenticated, loginWithRedirect, isLoading: authIsLoading } = useAuth0();
 	const { getProtectedResource, postResource } = useApi();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
@@ -28,6 +28,10 @@ export const SavedPage = () => {
 	};
 
 	useEffect(() => {
+		if (authIsLoading) {
+			return;
+		}
+
 		if (!isAuthenticated) {
 			loginWithRedirect({
 				appState: { returnTo: '/saved' },
@@ -51,7 +55,7 @@ export const SavedPage = () => {
 		} else {
 			loadSavedListings();
 		}
-	}, [isAuthenticated]);
+	}, [isAuthenticated, authIsLoading]);
 
 	if (!isAuthenticated) {
 		return null;
