@@ -1,0 +1,11 @@
+-- migrate:up
+ALTER TABLE user_saved_listing RENAME TO user_favorite_listing;
+ALTER INDEX idx_user_saved_listing_user_id RENAME TO idx_user_favorite_listing_user_id;
+ALTER INDEX idx_user_saved_listing_listing_id RENAME TO idx_user_favorite_listing_listing_id;
+ALTER INDEX user_saved_listing_user_id_listing_id_key RENAME TO user_favorite_listing_user_id_listing_id_key;
+
+-- migrate:down
+ALTER TABLE user_favorite_listing RENAME TO user_saved_listing;
+ALTER INDEX idx_user_favorite_listing_user_id RENAME TO idx_user_saved_listing_user_id;
+ALTER INDEX idx_user_favorite_listing_listing_id RENAME TO idx_user_saved_listing_listing_id;
+ALTER INDEX user_favorite_listing_user_id_listing_id_key RENAME TO user_saved_listing_user_id_listing_id_key;

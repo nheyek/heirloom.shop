@@ -18,7 +18,7 @@ export const SavedPage = () => {
 		setIsLoading(true);
 		setError(null);
 
-		const response = await getProtectedResource('me/saved-listings');
+		const response = await getProtectedResource('me/favorited-listings');
 		if (response.error) {
 			setError('Failed to load saved listings');
 		} else {
@@ -39,14 +39,14 @@ export const SavedPage = () => {
 			return;
 		}
 
-		const pendingListingShortId = sessionStorage.getItem('pendingListingSave');
+		const pendingListingShortId = sessionStorage.getItem('pendingListingFavorite');
 
 		if (pendingListingShortId) {
-			sessionStorage.removeItem('pendingListingSave');
+			sessionStorage.removeItem('pendingListingFavorite');
 
 			(async () => {
 				try {
-					await postResource(`listings/${pendingListingShortId}/save`, {});
+					await postResource(`listings/${pendingListingShortId}/favorite`, {});
 				} catch (err) {
 					console.error('Failed to save listing:', err);
 				}
