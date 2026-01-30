@@ -39,10 +39,10 @@ export const SavedPage = () => {
 			return;
 		}
 
-		const pendingListingShortId = sessionStorage.getItem('pendingListingSave');
+		const pendingListingShortId = sessionStorage.getItem('pendingListingFavorite');
 
 		if (pendingListingShortId) {
-			sessionStorage.removeItem('pendingListingSave');
+			sessionStorage.removeItem('pendingListingFavorite');
 
 			(async () => {
 				try {
