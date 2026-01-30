@@ -6,7 +6,7 @@ import { ReturnExchangeProfile } from './ReturnExchangeProfile';
 import { ShippingOrigin } from './ShippingOrigin';
 import { ShippingProfile } from './ShippingProfile';
 import { Shop } from './Shop';
-import { UserSavedListing } from './UserSavedListing';
+import { UserFavoriteListing } from './UserFavoriteListing';
 
 @Entity()
 export class Listing {
@@ -65,7 +65,7 @@ export class Listing {
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);
 
-  @OneToMany({ entity: () => UserSavedListing, mappedBy: 'listing' })
-  userSavedListingCollection = new Collection<UserSavedListing>(this);
+  @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
+  userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
 
 }

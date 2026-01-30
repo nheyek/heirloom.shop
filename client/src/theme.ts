@@ -72,7 +72,9 @@ export const config = defineConfig({
 		tokens: {
 			fonts: {
 				body: { value: standardFont },
-				heading: { value: ornamentalFont },
+				heading: {
+					value: ornamentalFont,
+				},
 			},
 		},
 		semanticTokens: {

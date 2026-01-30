@@ -375,10 +375,10 @@ ALTER SEQUENCE public.shop_user_role_id_seq OWNED BY public.shop_user_role.id;
 
 
 --
--- Name: user_saved_listing; Type: TABLE; Schema: public; Owner: -
+-- Name: user_favorite_listing; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.user_saved_listing (
+CREATE TABLE public.user_favorite_listing (
     id integer NOT NULL,
     user_id integer NOT NULL,
     listing_id integer NOT NULL,
@@ -403,7 +403,7 @@ CREATE SEQUENCE public.user_saved_listing_id_seq
 -- Name: user_saved_listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.user_saved_listing_id_seq OWNED BY public.user_saved_listing.id;
+ALTER SEQUENCE public.user_saved_listing_id_seq OWNED BY public.user_favorite_listing.id;
 
 
 --
@@ -470,10 +470,10 @@ ALTER TABLE ONLY public.shop_user_role ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- Name: user_saved_listing id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: user_favorite_listing id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.user_saved_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
+ALTER TABLE ONLY public.user_favorite_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
 
 
 --
@@ -637,19 +637,19 @@ ALTER TABLE ONLY public.app_user
 
 
 --
--- Name: user_saved_listing user_saved_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: user_favorite_listing user_favorite_listing_user_id_listing_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.user_saved_listing
+ALTER TABLE ONLY public.user_favorite_listing
+    ADD CONSTRAINT user_favorite_listing_user_id_listing_id_key UNIQUE (user_id, listing_id);
+
+
+--
+-- Name: user_favorite_listing user_saved_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_listing
     ADD CONSTRAINT user_saved_listing_pkey PRIMARY KEY (id);
-
-
---
--- Name: user_saved_listing user_saved_listing_user_id_listing_id_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_saved_listing
-    ADD CONSTRAINT user_saved_listing_user_id_listing_id_key UNIQUE (user_id, listing_id);
 
 
 --
@@ -667,17 +667,17 @@ CREATE INDEX idx_shop_short_id ON public.shop USING btree (short_id);
 
 
 --
--- Name: idx_user_saved_listing_listing_id; Type: INDEX; Schema: public; Owner: -
+-- Name: idx_user_favorite_listing_listing_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_user_saved_listing_listing_id ON public.user_saved_listing USING btree (listing_id);
+CREATE INDEX idx_user_favorite_listing_listing_id ON public.user_favorite_listing USING btree (listing_id);
 
 
 --
--- Name: idx_user_saved_listing_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: idx_user_favorite_listing_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX idx_user_saved_listing_user_id ON public.user_saved_listing USING btree (user_id);
+CREATE INDEX idx_user_favorite_listing_user_id ON public.user_favorite_listing USING btree (user_id);
 
 
 --
@@ -793,18 +793,18 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
--- Name: user_saved_listing user_saved_listing_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_favorite_listing user_saved_listing_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.user_saved_listing
+ALTER TABLE ONLY public.user_favorite_listing
     ADD CONSTRAINT user_saved_listing_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
 
 
 --
--- Name: user_saved_listing user_saved_listing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: user_favorite_listing user_saved_listing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.user_saved_listing
+ALTER TABLE ONLY public.user_favorite_listing
     ADD CONSTRAINT user_saved_listing_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
 
 
@@ -842,4 +842,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260118205636'),
     ('20260121153310'),
     ('20260129201958'),
-    ('20260130141013');
+    ('20260130141013'),
+    ('20260130151814');

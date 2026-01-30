@@ -59,12 +59,6 @@ export const LandingPage = () => {
 		}, 500);
 	}, []);
 
-	const renderLandingPageTitle = (title: string) => (
-		<Heading fontSize={36} mb={3}>
-			{title}
-		</Heading>
-	);
-
 	return (
 		<Stack gap={10} mt={8}>
 			<Flex gap={3} flexDir="column" alignItems="center">
@@ -96,8 +90,8 @@ export const LandingPage = () => {
 				/>
 			)}
 
-			<Box px={5}>
-				{renderLandingPageTitle('Makers')}
+			<Box px={5} gap={3}>
+				<Heading fontSize={36}>Makers</Heading>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
 				) : (
@@ -105,8 +99,9 @@ export const LandingPage = () => {
 				)}
 			</Box>
 
-			<Box px={5} pb={5}>
-				{renderLandingPageTitle('Featured')}
+			<Box px={5} pb={5} gap={3}>
+				<Heading fontSize={36}>Featured Listings</Heading>
+
 				{listingsError ? (
 					<AppError title="Failed to load featured listings" />
 				) : (

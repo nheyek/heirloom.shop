@@ -1,9 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Heading, Text } from '@chakra-ui/react';
+import { Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { ListingGrid } from '../components/layout/ListingGrid';
-import { STANDARD_GRID_GAP } from '../constants';
 import useApi from '../hooks/useApi';
 
 export const SavedPage = () => {
@@ -18,13 +17,15 @@ export const SavedPage = () => {
 		setIsLoading(true);
 		setError(null);
 
-		const response = await getProtectedResource('me/favorited-listings');
-		if (response.error) {
-			setError('Failed to load saved listings');
-		} else {
-			setListings(response.data);
-		}
-		setIsLoading(false);
+		setTimeout(async () => {
+			const response = await getProtectedResource('me/favorited-listings');
+			if (response.error) {
+				setError('Failed to load saved listings');
+			} else {
+				setListings(response.data);
+			}
+			setIsLoading(false);
+		}, 500);
 	};
 
 	useEffect(() => {
@@ -62,25 +63,21 @@ export const SavedPage = () => {
 	}
 
 	return (
-		<Box py={8} px={STANDARD_GRID_GAP}>
-			<Box mb={6}>
-				<Heading size="2xl" mb={2}>
-					Saved Listings
-				</Heading>
-				{!isLoading && listings.length === 0 && !error && (
-					<Text fontSize="lg" color="gray.600">
-						You haven't saved any listings yet. Click the heart icon on any listing to
-						save it.
-					</Text>
-				)}
-				{error && (
-					<Text fontSize="lg" color="red.500">
-						{error}
-					</Text>
-				)}
-			</Box>
+		<Stack p={8} gap={4}>
+			<Heading fontSize={32}>Saved Listings</Heading>
+			{!isLoading && listings.length === 0 && !error && (
+				<Text fontSize={18}>
+					You haven't saved any listings yet. Click the heart icon on any listing to save
+					it.
+				</Text>
+			)}
+			{error && (
+				<Text fontSize={18} color="red.500">
+					{error}
+				</Text>
+			)}
 
 			<ListingGrid listings={listings} isLoading={isLoading} initialSaved={true} />
-		</Box>
+		</Stack>
 	);
 };
