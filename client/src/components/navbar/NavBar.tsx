@@ -31,7 +31,7 @@ import { LogoutButton } from './LogoutButton';
 const MotionBox = motion.create(Box);
 
 export const Navbar = () => {
-	const { isAuthenticated } = useAuth0();
+	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 	const { user } = useUserInfo();
 	const navigate = useNavigate();
 	const { getPublicResource } = useApi();
@@ -280,25 +280,31 @@ export const Navbar = () => {
 					</Box>
 				</GridItem>
 				<GridItem area="login" justifySelf="end">
-					<Box display="flex" alignItems="center">
-						{user?.shopId && (
-							<IconButton
-								variant="plain"
-								style={{ color: 'white' }}
-								onClick={() => navigate(CLIENT_ROUTES.shopManager)}
-							>
-								<FaShop />
-							</IconButton>
-						)}
-						{!isAuthenticated && <LoginButton />}
-						{isAuthenticated && (
+					<Box display="flex" alignItems="center" gap={2}>
+						{authIsLoading && (
 							<>
-								<LogoutButton />
+								<Skeleton width={40} height={40} borderRadius="full" />
+								<Skeleton width={40} height={40} borderRadius="full" />
 							</>
 						)}
-						<IconButton variant="plain" style={{ color: 'white' }}>
-							<FaShoppingCart />
-						</IconButton>
+						{!authIsLoading && (
+							<>
+								{user?.shopId && (
+									<IconButton
+										variant="plain"
+										style={{ color: 'white' }}
+										onClick={() => navigate(CLIENT_ROUTES.shopManager)}
+									>
+										<FaShop />
+									</IconButton>
+								)}
+								{!isAuthenticated && <LoginButton />}
+								{isAuthenticated && <LogoutButton />}
+								<IconButton variant="plain" style={{ color: 'white' }}>
+									<FaShoppingCart />
+								</IconButton>
+							</>
+						)}
 					</Box>
 				</GridItem>
 			</Grid>
