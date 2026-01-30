@@ -27,6 +27,7 @@ import { FaHourglassStart, FaLocationDot, FaShare, FaTruck } from 'react-icons/f
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
+import { AppError } from '../components/disclosure/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { ImageCarousel } from '../components/imageDisplay/ImageCarousel';
 import { ImageCollage } from '../components/imageDisplay/ImageCollage';
@@ -68,7 +69,7 @@ export const ListingPage = () => {
 	const loadListingData = async () => {
 		const response = await getPublicResource(`${API_ROUTES.listings}/${id}`);
 		if (response.error) {
-			setListingDataError(response.data);
+			setListingDataError(response.error.message);
 		} else {
 			setListingData(response.data);
 		}
@@ -182,6 +183,14 @@ export const ListingPage = () => {
 		</>
 	);
 
+	if (listingDataError) {
+		return (
+			<Box p={5}>
+				<AppError title="Failed to load listing" content={listingDataError} />
+			</Box>
+		);
+	}
+
 	if (listingDataLoading) {
 		return <LoadingSkeleton maxWidth={maxWidth} layout={layout} />;
 	}
@@ -224,7 +233,9 @@ export const ListingPage = () => {
 
 								<Link
 									onClick={() =>
-										navigate(`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`)
+										navigate(
+											`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
+										)
 									}
 								>
 									{listingData?.shopTitle}
