@@ -17,8 +17,8 @@ export const saveListing = async (userId: number, listingId: number): Promise<vo
 	}
 	
 	const savedListing = em.create(UserSavedListing, {
-		user: { id: userId } as AppUser,
-		listing: { id: listingId } as Listing,
+		user: em.getReference(AppUser, userId),
+		listing: em.getReference(Listing, listingId),
 	});
 	
 	await em.persistAndFlush(savedListing);
