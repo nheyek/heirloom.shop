@@ -121,7 +121,7 @@ export const Navbar = () => {
 				cursor="pointer"
 				_hover={{ bg: 'gray.100' }}
 				onClick={() => {
-					navigate(`/${path}/${result.id.toLocaleLowerCase()}`);
+					navigate(`/${path}/${result.id}`);
 
 					setSearchQuery('');
 					setSearchResultCollection(null);
