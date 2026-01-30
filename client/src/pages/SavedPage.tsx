@@ -18,7 +18,7 @@ export const SavedPage = () => {
 		setIsLoading(true);
 		setError(null);
 
-		const response = await getProtectedResource('me/saved-listings');
+		const response = await getProtectedResource('me/favorited-listings');
 		if (response.error) {
 			setError('Failed to load saved listings');
 		} else {
@@ -46,7 +46,7 @@ export const SavedPage = () => {
 
 			(async () => {
 				try {
-					await postResource(`listings/${pendingListingShortId}/save`, {});
+					await postResource(`listings/${pendingListingShortId}/favorite`, {});
 				} catch (err) {
 					console.error('Failed to save listing:', err);
 				}
