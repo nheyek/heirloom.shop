@@ -8,6 +8,7 @@ import useApi from '../hooks/useApi';
 
 import { API_ROUTES } from '@common/constants';
 import { motion } from 'framer-motion';
+import { AppError } from '../components/disclosure/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/imageDisplay/AppImage';
 import { CountryCode, STANDARD_GRID_GAP } from '../constants';
@@ -28,7 +29,7 @@ export const ShopPage = () => {
 	const loadShopData = async () => {
 		const response = await getPublicResource(`${API_ROUTES.shops.base}/${id}`);
 		if (response.error) {
-			setShopDataError('Failed to load maker info');
+			setShopDataError(response.error.message);
 		} else {
 			setShopData(response.data);
 		}
@@ -40,7 +41,7 @@ export const ShopPage = () => {
 			`${API_ROUTES.shops.base}/${id}/${API_ROUTES.shops.listings}`,
 		);
 		if (response.error) {
-			setListingsError('Failed to load listings');
+			setListingsError(response.error.message);
 		} else {
 			setListings(response.data);
 		}
@@ -62,6 +63,14 @@ export const ShopPage = () => {
 	const isLoading = shopDataLoading || listingsLoading;
 
 	const responsiveBannerAspectRatio = [1.75, 2.25, 2.75, 3.25];
+
+	if (shopDataError) {
+		return (
+			<Box p={5}>
+				<AppError title="Failed to shop data" content={shopDataError} />
+			</Box>
+		);
+	}
 
 	return (
 		<>
@@ -129,9 +138,15 @@ export const ShopPage = () => {
 				</motion.div>
 			)}
 
-			<Box py={5} px={STANDARD_GRID_GAP}>
-				<ListingGrid listings={listings} isLoading={isLoading} />
-			</Box>
+			{listingsError ? (
+				<Box p={5}>
+					<AppError title="Failed to load listings" content={listingsError} />
+				</Box>
+			) : (
+				<Box py={5} px={STANDARD_GRID_GAP}>
+					<ListingGrid listings={listings} isLoading={isLoading} />
+				</Box>
+			)}
 		</>
 	);
 };
