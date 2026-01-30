@@ -128,7 +128,26 @@ const useApi = () => {
 		};
 	};
 
-	return { getPublicResource, getProtectedResource, postResource };
+	const deleteResource = async (endpoint: string) => {
+		const token = await getToken();
+
+		const config = {
+			url: `/api/${endpoint}`,
+			method: 'DELETE',
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		};
+
+		const { data, error } = await callApi(config);
+
+		return {
+			data: data || null,
+			error,
+		};
+	};
+
+	return { getPublicResource, getProtectedResource, postResource, deleteResource };
 };
 
 export default useApi;

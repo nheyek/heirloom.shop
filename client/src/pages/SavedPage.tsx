@@ -1,14 +1,14 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Heading, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { ListingGrid } from '../components/layout/ListingGrid';
-import useApi from '../hooks/useApi';
 import { STANDARD_GRID_GAP } from '../constants';
-import { useAuth0 } from '@auth0/auth0-react';
+import useApi from '../hooks/useApi';
 
 export const SavedPage = () => {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
-	const { getProtectedResource, postProtectedResource } = useApi();
+	const { getProtectedResource, postResource } = useApi();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -17,7 +17,7 @@ export const SavedPage = () => {
 	const loadSavedListings = async () => {
 		setIsLoading(true);
 		setError(null);
-		
+
 		const response = await getProtectedResource('me/saved-listings');
 		if (response.error) {
 			setError('Failed to load saved listings');
@@ -30,29 +30,25 @@ export const SavedPage = () => {
 	useEffect(() => {
 		if (!isAuthenticated) {
 			loginWithRedirect({
-				appState: { returnTo: '/saved' }
+				appState: { returnTo: '/saved' },
 			});
 			return;
 		}
 
-		// Check for pending listing save from sessionStorage
 		const pendingListingShortId = sessionStorage.getItem('pendingListingSave');
-		
+
 		if (pendingListingShortId) {
-			// Clear it first to prevent infinite loops
 			sessionStorage.removeItem('pendingListingSave');
-			
-			// Save the listing, then load all saved listings
+
 			(async () => {
 				try {
-					await postProtectedResource(`listings/${pendingListingShortId}/save`, {});
+					await postResource(`listings/${pendingListingShortId}/save`, {});
 				} catch (err) {
 					console.error('Failed to save listing:', err);
 				}
 				await loadSavedListings();
 			})();
 		} else {
-			// No pending save, just load saved listings
 			loadSavedListings();
 		}
 	}, [isAuthenticated]);
@@ -69,7 +65,8 @@ export const SavedPage = () => {
 				</Heading>
 				{!isLoading && listings.length === 0 && !error && (
 					<Text fontSize="lg" color="gray.600">
-						You haven't saved any listings yet. Click the heart icon on any listing to save it.
+						You haven't saved any listings yet. Click the heart icon on any listing to
+						save it.
 					</Text>
 				)}
 				{error && (

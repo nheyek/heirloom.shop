@@ -4,31 +4,31 @@ import useApi from './useApi';
 
 export const useSaveListing = () => {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
-	const { postProtectedResource, deleteProtectedResource } = useApi();
+	const { postResource, deleteResource } = useApi();
 	const [isSaving, setIsSaving] = useState(false);
 
 	const toggleSave = async (listingShortId: string, currentSavedState: boolean) => {
 		if (!isAuthenticated) {
 			// Store listing to save in sessionStorage before redirecting
 			sessionStorage.setItem('pendingListingSave', listingShortId);
-			
+
 			// Redirect to login, will return to /saved page
 			loginWithRedirect({
-				appState: { returnTo: '/saved' }
+				appState: { returnTo: '/saved' },
 			});
 			return;
 		}
 
 		setIsSaving(true);
-		
+
 		if (currentSavedState) {
 			// Unsave
-			await deleteProtectedResource(`listings/${listingShortId}/save`);
+			await deleteResource(`listings/${listingShortId}/save`);
 		} else {
 			// Save
-			await postProtectedResource(`listings/${listingShortId}/save`, {});
+			await postResource(`listings/${listingShortId}/save`, {});
 		}
-		
+
 		setIsSaving(false);
 	};
 

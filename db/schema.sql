@@ -375,6 +375,38 @@ ALTER SEQUENCE public.shop_user_role_id_seq OWNED BY public.shop_user_role.id;
 
 
 --
+-- Name: user_saved_listing; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_saved_listing (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    listing_id integer NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: user_saved_listing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_saved_listing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_saved_listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_saved_listing_id_seq OWNED BY public.user_saved_listing.id;
+
+
+--
 -- Name: app_user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -435,6 +467,13 @@ ALTER TABLE ONLY public.shop ALTER COLUMN id SET DEFAULT nextval('public.shop_id
 --
 
 ALTER TABLE ONLY public.shop_user_role ALTER COLUMN id SET DEFAULT nextval('public.shop_user_role_id_seq'::regclass);
+
+
+--
+-- Name: user_saved_listing id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_saved_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
 
 
 --
@@ -598,6 +637,22 @@ ALTER TABLE ONLY public.app_user
 
 
 --
+-- Name: user_saved_listing user_saved_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_saved_listing
+    ADD CONSTRAINT user_saved_listing_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_saved_listing user_saved_listing_user_id_listing_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_saved_listing
+    ADD CONSTRAINT user_saved_listing_user_id_listing_id_key UNIQUE (user_id, listing_id);
+
+
+--
 -- Name: idx_listing_short_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -609,6 +664,20 @@ CREATE INDEX idx_listing_short_id ON public.listing USING btree (short_id);
 --
 
 CREATE INDEX idx_shop_short_id ON public.shop USING btree (short_id);
+
+
+--
+-- Name: idx_user_saved_listing_listing_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_user_saved_listing_listing_id ON public.user_saved_listing USING btree (listing_id);
+
+
+--
+-- Name: idx_user_saved_listing_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_user_saved_listing_user_id ON public.user_saved_listing USING btree (user_id);
 
 
 --
@@ -724,6 +793,22 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
+-- Name: user_saved_listing user_saved_listing_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_saved_listing
+    ADD CONSTRAINT user_saved_listing_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_saved_listing user_saved_listing_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_saved_listing
+    ADD CONSTRAINT user_saved_listing_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -756,4 +841,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260118204227'),
     ('20260118205636'),
     ('20260121153310'),
-    ('20260129201958');
+    ('20260129201958'),
+    ('20260130141013');

@@ -1,5 +1,6 @@
 import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { ShopUserRole } from './ShopUserRole';
+import { UserSavedListing } from './UserSavedListing';
 
 @Entity()
 export class AppUser {
@@ -21,5 +22,8 @@ export class AppUser {
 
   @OneToMany({ entity: () => ShopUserRole, mappedBy: 'user' })
   shopUserRoleCollection = new Collection<ShopUserRole>(this);
+
+  @OneToMany({ entity: () => UserSavedListing, mappedBy: 'user' })
+  userSavedListingCollection = new Collection<UserSavedListing>(this);
 
 }
