@@ -5,7 +5,6 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
-import { AnimatedDropdown } from './AnimatedDropdown';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
@@ -28,30 +27,28 @@ export const NavbarMenu = () => {
 				</Button>
 			</Menu.Trigger>
 			<Menu.Positioner>
-				<AnimatedDropdown isOpen={true} position="relative">
-					<Menu.Content boxShadow="none">
-						<Menu.Item
-							value="saved"
-							onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
-							cursor="pointer"
-							fontSize={16}
-							py={2}
-						>
-							<FaHeart />
-							Saved Listings
-						</Menu.Item>
-						<Menu.Item
-							value="logout"
-							onClick={handleLogout}
-							cursor="pointer"
-							fontSize={16}
-							py={2}
-						>
-							<PiSignOutBold />
-							Log out
-						</Menu.Item>
-					</Menu.Content>
-				</AnimatedDropdown>
+				<Menu.Content boxShadow="md" borderRadius="md">
+					<Menu.Item
+						value="saved"
+						onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
+						cursor="pointer"
+						fontSize={16}
+						py={2}
+					>
+						<FaHeart />
+						Saved Listings
+					</Menu.Item>
+					<Menu.Item
+						value="logout"
+						onClick={handleLogout}
+						cursor="pointer"
+						fontSize={16}
+						py={2}
+					>
+						<PiSignOutBold />
+						Log out
+					</Menu.Item>
+				</Menu.Content>
 			</Menu.Positioner>
 		</Menu.Root>
 	);
