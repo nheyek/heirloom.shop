@@ -1,4 +1,4 @@
-import { Box, Flex, Input, InputGroup, Skeleton, Stack, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, Input, InputGroup, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
@@ -13,6 +13,17 @@ import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
 
 const MotionBox = motion.create(Box);
+const Animate = (
+	props: Omit<BoxProps, 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag'>,
+) => (
+	<MotionBox
+		{...props}
+		initial={{ opacity: 0 }}
+		animate={{ opacity: 1 }}
+		exit={{ opacity: 0 }}
+		transition={{ duration: 0.15 }}
+	/>
+);
 
 export const NavbarSearch = () => {
 	const navigate = useNavigate();
@@ -128,16 +139,12 @@ export const NavbarSearch = () => {
 				endElement={
 					<AnimatePresence>
 						{searchQuery && (
-							<motion.div
-								initial={{ opacity: 0 }}
-								animate={{ opacity: 1 }}
-								exit={{ opacity: 0 }}
-								transition={{ duration: 0.15 }}
+							<Animate
 								style={{ display: 'flex', cursor: 'pointer' }}
 								onClick={() => setSearchQuery('')}
 							>
 								<MdCancel size={18} />
-							</motion.div>
+							</Animate>
 						)}
 					</AnimatePresence>
 				}
@@ -156,16 +163,10 @@ export const NavbarSearch = () => {
 			</InputGroup>
 			<AnimatePresence>
 				{showSearchPopover && searchQuery && (
-					<MotionBox
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: 0.25 }}
+					<Animate
 						position="absolute"
-						top="100%"
-						left={0}
-						right={0}
-						mt={1}
+						width="100%"
+						mt={1.5}
 						bg="#FFF"
 						borderRadius="md"
 						boxShadow="md"
@@ -213,7 +214,7 @@ export const NavbarSearch = () => {
 								</>
 							)}
 						</Stack>
-					</MotionBox>
+					</Animate>
 				)}
 			</AnimatePresence>
 		</Box>
