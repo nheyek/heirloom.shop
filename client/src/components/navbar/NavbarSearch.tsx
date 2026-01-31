@@ -18,8 +18,7 @@ import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
-
-const MotionBox = motion.create(Box);
+import { AnimatedDropdown } from './AnimatedDropdown';
 
 export const NavbarSearch = () => {
 	const navigate = useNavigate();
@@ -161,68 +160,49 @@ export const NavbarSearch = () => {
 					onFocus={() => searchResultCollection && setShowSearchPopover(true)}
 				/>
 			</InputGroup>
-			<AnimatePresence>
-				{showSearchPopover && searchQuery && (
-					<MotionBox
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: 0.15 }}
-						position="absolute"
-						top="100%"
-						left={0}
-						right={0}
-						mt={1}
-						bg="#FFF"
-						borderRadius="md"
-						boxShadow="md"
-						overflow="hidden"
-						zIndex="popover"
-					>
-						<Stack gap={0} my={2}>
-							{searchResultsLoading && (
-								<Stack gap={2} px={2}>
-									<Skeleton width="55%" height={6}></Skeleton>
-									<Skeleton width="70%" height={6}></Skeleton>
-									<Skeleton width="35%" height={6}></Skeleton>
-								</Stack>
-							)}
-							{searchError && renderSearchException('An error occurred')}
-							{searchResultCollection && (
-								<>
-									{[
-										searchResultCollection.categoryResults,
-										searchResultCollection.listingResults,
-										searchResultCollection.shopResults,
-									].every((resultList) => resultList.length === 0) &&
-										renderSearchException('No results found')}
-
-									{searchResultCollection.categoryResults.length > 0 &&
-										renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
-									{renderSearchResults(
-										searchResultCollection.categoryResults,
-										CLIENT_ROUTES.category,
-									)}
-
-									{searchResultCollection.shopResults.length > 0 &&
-										renderSearchResultGroupLabel(<FaShop />, 'Makers')}
-									{renderSearchResults(
-										searchResultCollection.shopResults,
-										CLIENT_ROUTES.shop,
-									)}
-
-									{searchResultCollection.listingResults.length > 0 &&
-										renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
-									{renderSearchResults(
-										searchResultCollection.listingResults,
-										CLIENT_ROUTES.listing,
-									)}
-								</>
-							)}
+			<AnimatedDropdown isOpen={showSearchPopover && !!searchQuery}>
+				<Stack gap={0} my={2}>
+					{searchResultsLoading && (
+						<Stack gap={2} px={2}>
+							<Skeleton width="55%" height={6}></Skeleton>
+							<Skeleton width="70%" height={6}></Skeleton>
+							<Skeleton width="35%" height={6}></Skeleton>
 						</Stack>
-					</MotionBox>
-				)}
-			</AnimatePresence>
+					)}
+					{searchError && renderSearchException('An error occurred')}
+					{searchResultCollection && (
+						<>
+							{[
+								searchResultCollection.categoryResults,
+								searchResultCollection.listingResults,
+								searchResultCollection.shopResults,
+							].every((resultList) => resultList.length === 0) &&
+								renderSearchException('No results found')}
+
+							{searchResultCollection.categoryResults.length > 0 &&
+								renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
+							{renderSearchResults(
+								searchResultCollection.categoryResults,
+								CLIENT_ROUTES.category,
+							)}
+
+							{searchResultCollection.shopResults.length > 0 &&
+								renderSearchResultGroupLabel(<FaShop />, 'Makers')}
+							{renderSearchResults(
+								searchResultCollection.shopResults,
+								CLIENT_ROUTES.shop,
+							)}
+
+							{searchResultCollection.listingResults.length > 0 &&
+								renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
+							{renderSearchResults(
+								searchResultCollection.listingResults,
+								CLIENT_ROUTES.listing,
+							)}
+						</>
+					)}
+				</Stack>
+			</AnimatedDropdown>
 		</Box>
 	);
 };
