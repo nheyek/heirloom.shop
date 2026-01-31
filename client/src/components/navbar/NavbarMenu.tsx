@@ -1,15 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, Flex, Menu } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Button, Menu } from '@chakra-ui/react';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
+import { AnimatedDropdown } from './AnimatedDropdown';
 
-const MotionBox = motion.create(Box);
-
-export const LogoutButton = () => {
+export const NavbarMenu = () => {
 	const { logout } = useAuth0();
 	const navigate = useNavigate();
 
@@ -29,8 +27,8 @@ export const LogoutButton = () => {
 					<IoMdArrowDropdown />
 				</Button>
 			</Menu.Trigger>
-			<Menu.Positioner mt={-0.5}>
-				<Flex boxShadow="md" borderRadius={5} overflow="hidden">
+			<Menu.Positioner>
+				<AnimatedDropdown isOpen={true} position="relative">
 					<Menu.Content boxShadow="none">
 						<Menu.Item
 							value="saved"
@@ -40,7 +38,7 @@ export const LogoutButton = () => {
 							py={2}
 						>
 							<FaHeart />
-							Favorites
+							Saved Listings
 						</Menu.Item>
 						<Menu.Item
 							value="logout"
@@ -53,7 +51,7 @@ export const LogoutButton = () => {
 							Log out
 						</Menu.Item>
 					</Menu.Content>
-				</Flex>
+				</AnimatedDropdown>
 			</Menu.Positioner>
 		</Menu.Root>
 	);
