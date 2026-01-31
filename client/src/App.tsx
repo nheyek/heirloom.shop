@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { Footer } from './components/footer/Footer';
 import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
@@ -35,6 +36,7 @@ const App = () => {
 					<Route path="*" element={<Navigate to="/" replace />} />
 				</Routes>
 			</Box>
+			<Footer />
 		</Box>
 	);
 };
