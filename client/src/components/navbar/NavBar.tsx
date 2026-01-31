@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Grid, GridItem, IconButton, Skeleton } from '@chakra-ui/react';
+import { Box, Grid, GridItem, IconButton } from '@chakra-ui/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +10,8 @@ import { Logo } from '../brand/Logo';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
 import { NavbarSearch } from './NavbarSearch';
+
+const MotionBox = motion.create(Box);
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
@@ -53,30 +56,34 @@ export const Navbar = () => {
 				</GridItem>
 				<GridItem area="login" justifySelf="end">
 					<Box display="flex" alignItems="center" gap={2}>
-						{authIsLoading && (
-							<>
-								<Skeleton width={40} height={40} borderRadius="full" />
-								<Skeleton width={40} height={40} borderRadius="full" />
-							</>
-						)}
-						{!authIsLoading && (
-							<>
-								{user?.shopId && (
-									<IconButton
-										variant="plain"
-										style={{ color: 'white' }}
-										onClick={() => navigate(CLIENT_ROUTES.shopManager)}
-									>
-										<FaShop />
+						<AnimatePresence>
+							{!authIsLoading && (
+								<MotionBox
+									initial={{ opacity: 0 }}
+									animate={{ opacity: 1 }}
+									exit={{ opacity: 0 }}
+									transition={{ duration: 0.15 }}
+									display="flex"
+									alignItems="center"
+									gap={2}
+								>
+									{user?.shopId && (
+										<IconButton
+											variant="plain"
+											style={{ color: 'white' }}
+											onClick={() => navigate(CLIENT_ROUTES.shopManager)}
+										>
+											<FaShop />
+										</IconButton>
+									)}
+									{!isAuthenticated && <LoginButton />}
+									{isAuthenticated && <NavbarMenu />}
+									<IconButton variant="plain" style={{ color: 'white' }}>
+										<FaShoppingCart />
 									</IconButton>
-								)}
-								{!isAuthenticated && <LoginButton />}
-								{isAuthenticated && <NavbarMenu />}
-								<IconButton variant="plain" style={{ color: 'white' }}>
-									<FaShoppingCart />
-								</IconButton>
-							</>
-						)}
+								</MotionBox>
+							)}
+						</AnimatePresence>
 					</Box>
 				</GridItem>
 			</Grid>
