@@ -62,6 +62,7 @@ export const config = defineConfig({
 	globalCss: {
 		'html, body': {
 			touchAction: 'pan-y',
+			height: '100vh',
 		},
 		'*:focus': {
 			outline: 'none !important',

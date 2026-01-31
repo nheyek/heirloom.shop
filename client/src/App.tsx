@@ -21,10 +21,16 @@ const App = () => {
 	}, []);
 
 	return (
-		<Box opacity={mounted ? 1 : 0} transition="opacity 1s">
+		<Box
+			display="flex"
+			flexDirection="column"
+			minHeight="100dvh"
+			opacity={mounted ? 1 : 0}
+			transition="opacity 1s"
+		>
 			<ScrollToTop />
 			<Navbar />
-			<Box maxWidth={1600} mx="auto">
+			<Box flex="1" maxWidth={1600} mx="auto" width="100%">
 				<Routes>
 					<Route path="/" element={<LandingPage />} />
 					<Route path="/callback" element={<AuthCallback />} />

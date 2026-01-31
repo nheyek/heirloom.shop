@@ -1,21 +1,14 @@
-import {
-	Box,
-	Flex,
-	Input,
-	InputGroup,
-	Skeleton,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Input, InputGroup, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
-import { FaSearch, FaShop } from 'react-icons/fa';
+import { FaSearch } from 'react-icons/fa';
 import { MdCancel, MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
 
 import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
+import { FaShop } from 'react-icons/fa6';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { AnimatedDropdown } from './AnimatedDropdown';
