@@ -26,7 +26,7 @@ const App = () => {
 			flexDirection="column"
 			minHeight="100dvh"
 			opacity={mounted ? 1 : 0}
-			transition="opacity 1s"
+			transition="opacity 0.5s"
 		>
 			<ScrollToTop />
 			<Navbar />
