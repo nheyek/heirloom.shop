@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Menu } from '@chakra-ui/react';
+import { Button, Flex, Menu, MenuItemProps } from '@chakra-ui/react';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
@@ -21,35 +21,31 @@ export const NavbarMenu = () => {
 	return (
 		<Menu.Root>
 			<Menu.Trigger asChild focusRing="none">
-				<Button variant="plain" size="lg" pl="10px" pr="0" gap="2px">
+				<Button variant="plain" size="lg" pl="10px" pr="0">
 					<FaUserCircle />
 					<IoMdArrowDropdown />
 				</Button>
 			</Menu.Trigger>
 			<Menu.Positioner>
-				<Menu.Content boxShadow="md" borderRadius="md">
-					<Menu.Item
-						value="saved"
-						onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
-						cursor="pointer"
-						fontSize={16}
-						py={2}
-					>
-						<FaHeart />
-						Saved Listings
-					</Menu.Item>
-					<Menu.Item
-						value="logout"
-						onClick={handleLogout}
-						cursor="pointer"
-						fontSize={16}
-						py={2}
-					>
-						<PiSignOutBold />
-						Log out
-					</Menu.Item>
-				</Menu.Content>
+				<Flex boxShadow="md" borderRadius={5} overflow="hidden">
+					<Menu.Content gapY={2} boxShadow="none">
+						<MenuItem value="saved" onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}>
+							<FaHeart />
+							Favorites
+						</MenuItem>
+						<MenuItem value="logout" onClick={handleLogout}>
+							<PiSignOutBold />
+							Log out
+						</MenuItem>
+					</Menu.Content>
+				</Flex>
 			</Menu.Positioner>
 		</Menu.Root>
 	);
 };
+
+const MenuItem = (props: MenuItemProps) => (
+	<Menu.Item fontSize={16} cursor="pointer" py={2} {...props}>
+		{props.children}
+	</Menu.Item>
+);
