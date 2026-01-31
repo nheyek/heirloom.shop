@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Flex, Menu, MenuItemProps } from '@chakra-ui/react';
+import { Button, Flex, Menu, MenuItemProps, Portal } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -29,28 +29,33 @@ export const NavbarMenu = () => {
 					<IoMdArrowDropdown />
 				</Button>
 			</Menu.Trigger>
-			<Menu.Positioner>
-				<MotionFlex
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					exit={{ opacity: 0 }}
-					transition={{ duration: 0.15 }}
-					boxShadow="md"
-					borderRadius={5}
-					overflow="hidden"
-				>
-					<Menu.Content gapY={2} boxShadow="none" animation="none">
-						<MenuItem value="saved" onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}>
-							<FaHeart />
-							Favorites
-						</MenuItem>
-						<MenuItem value="logout" onClick={handleLogout}>
-							<PiSignOutBold />
-							Log out
-						</MenuItem>
-					</Menu.Content>
-				</MotionFlex>
-			</Menu.Positioner>
+			<Portal>
+				<Menu.Positioner>
+					<MotionFlex
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.15 }}
+						boxShadow="md"
+						borderRadius={5}
+						overflow="hidden"
+					>
+						<Menu.Content gapY={2} boxShadow="none" animation="none">
+							<MenuItem
+								value="saved"
+								onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
+							>
+								<FaHeart />
+								Favorites
+							</MenuItem>
+							<MenuItem value="logout" onClick={handleLogout}>
+								<PiSignOutBold />
+								Log out
+							</MenuItem>
+						</Menu.Content>
+					</MotionFlex>
+				</Menu.Positioner>
+			</Portal>
 		</Menu.Root>
 	);
 };
