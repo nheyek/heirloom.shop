@@ -90,16 +90,16 @@ export const LandingPage = () => {
 				/>
 			)}
 
-			<Box px={5} gap={3}>
+			<Stack px={5} gap={4}>
 				<Heading fontSize={36}>Makers</Heading>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
 				) : (
 					<ShopGrid shops={shops} isLoading={isLoading} />
 				)}
-			</Box>
+			</Stack>
 
-			<Box px={5} pb={5} gap={3}>
+			<Stack px={5} pb={5} gap={4}>
 				<Heading fontSize={36}>Featured Listings</Heading>
 
 				{listingsError ? (
@@ -107,7 +107,7 @@ export const LandingPage = () => {
 				) : (
 					<ListingGrid listings={listings} isLoading={isLoading} />
 				)}
-			</Box>
+			</Stack>
 		</Stack>
 	);
 };
