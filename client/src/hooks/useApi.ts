@@ -1,8 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-const apiServerUrl = process.env.REACT_APP_API_SERVER_URL;
-
 const useApi = () => {
 	const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
