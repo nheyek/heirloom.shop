@@ -1,3 +1,4 @@
+import { CartListingData } from '@common/types/CartListingData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { ListingVariationData } from '@common/types/ListingVariationData';
@@ -58,4 +59,12 @@ export const mapVariationToVariationData = (variation: ListingVariation): Listin
 			name: option.optionName,
 			additionalPriceDollars: Number(option.additionalPriceUsDollars),
 		})),
+});
+
+export const mapListingToCartListingData = (
+	listing: Listing,
+	variations: ListingVariation[],
+): CartListingData => ({
+	...mapListingToListingCardData(listing),
+	variations: variations.map(mapVariationToVariationData),
 });
