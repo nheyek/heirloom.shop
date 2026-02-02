@@ -4,6 +4,7 @@ import express from 'express';
 import path from 'path';
 import 'reflect-metadata';
 import { initORM } from './db';
+import cartRouter from './routes/cart.routes';
 import categoryRouter from './routes/category.routes';
 import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
@@ -25,6 +26,7 @@ const main = async () => {
 	app.use(`/api/${API_ROUTES.shops.base}`, shopRouter);
 	app.use(`/api/${API_ROUTES.categories.base}`, categoryRouter);
 	app.use(`/api/${API_ROUTES.search.base}`, searchRouter);
+	app.use('/api/cart', cartRouter);
 
 	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));
