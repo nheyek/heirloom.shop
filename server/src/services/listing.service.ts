@@ -57,24 +57,7 @@ export const findListingsByShop = async (shopId: number): Promise<Listing[]> => 
 	return em.find(Listing, { shop: { id: shopId } });
 };
 
-export const findListingById = async (id: number) => {
-	const em = getEm();
-	return em.findOne(
-		Listing,
-		{ id },
-		{
-			populate: [
-				'shop',
-				'country',
-				'shippingProfile',
-				'returnExchangeProfile',
-				'shippingOrigin',
-			],
-		},
-	);
-};
-
-export const findListingByShortId = async (shortId: string) => {
+export const findFullListingDataByShortId = async (shortId: string) => {
 	const em = getEm();
 	return em.findOne(
 		Listing,
@@ -126,19 +109,4 @@ export const findListingsByShortIds = async (shortIds: string[]): Promise<Listin
 		{ shortId: { $in: shortIds } },
 		{ populate: ['shop', 'country', 'category'] },
 	);
-};
-
-export const findListingsWithVariationsByShortIds = async (
-	shortIds: string[],
-): Promise<Map<string, { listing: Listing; variations: ListingVariation[] }>> => {
-	const listings = await findListingsByShortIds(shortIds);
-
-	const result = new Map<string, { listing: Listing; variations: ListingVariation[] }>();
-
-	for (const listing of listings) {
-		const variations = await findListingVariations(listing.id);
-		result.set(listing.shortId, { listing, variations });
-	}
-
-	return result;
 };

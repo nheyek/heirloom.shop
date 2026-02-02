@@ -22,33 +22,47 @@ interface CartContextType {
 	cart: CartItem[];
 	removedItems: RemovedCartItem[];
 	isRefreshing: boolean;
-	addToCart: (listingId: string, selectedOptions: { [variationId: number]: number }, listingData: CartListingData) => void;
+	addToCart: (
+		listingId: string,
+		selectedOptions: { [variationId: number]: number },
+		listingData: CartListingData,
+	) => void;
 	removeFromCart: (listingId: string, selectedOptions: { [variationId: number]: number }) => void;
-	updateQuantity: (listingId: string, selectedOptions: { [variationId: number]: number }, quantity: number) => void;
+	updateQuantity: (
+		listingId: string,
+		selectedOptions: { [variationId: number]: number },
+		quantity: number,
+	) => void;
 	clearCart: () => void;
 	clearRemovedItems: () => void;
-	getCartItemKey: (listingId: string, selectedOptions: { [variationId: number]: number }) => string;
+	getCartItemKey: (
+		listingId: string,
+		selectedOptions: { [variationId: number]: number },
+	) => string;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const getCartItemKey = (listingId: string, selectedOptions: { [variationId: number]: number }): string => {
+const getCartItemKey = (
+	listingId: string,
+	selectedOptions: { [variationId: number]: number },
+): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort((a, b) => Number(a) - Number(b))
-		.map(varId => `${varId}:${selectedOptions[Number(varId)]}`)
+		.map((varId) => `${varId}:${selectedOptions[Number(varId)]}`)
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };
 
 const validateSelectedOptions = (
 	selectedOptions: { [variationId: number]: number },
-	variations: CartListingData['variations']
+	variations: CartListingData['variations'],
 ): boolean => {
 	for (const [variationId, optionId] of Object.entries(selectedOptions)) {
-		const variation = variations.find(v => v.id === Number(variationId));
+		const variation = variations.find((v) => v.id === Number(variationId));
 		if (!variation) return false;
 
-		const option = variation.options.find(o => o.id === optionId);
+		const option = variation.options.find((o) => o.id === optionId);
 		if (!option) return false;
 	}
 	return true;
@@ -56,7 +70,7 @@ const validateSelectedOptions = (
 
 const buildFreshListingsMap = (data: CartListingData[]): Map<string, CartListingData> => {
 	const map = new Map<string, CartListingData>();
-	data.forEach(listing => {
+	data.forEach((listing) => {
 		map.set(listing.shortId, listing);
 	});
 	return map;
@@ -64,7 +78,7 @@ const buildFreshListingsMap = (data: CartListingData[]): Map<string, CartListing
 
 const validateCartItem = (
 	item: CartItem,
-	freshListingsMap: Map<string, CartListingData>
+	freshListingsMap: Map<string, CartListingData>,
 ): { valid: boolean; updatedItem?: CartItem; removedItem?: RemovedCartItem } => {
 	const freshListing = freshListingsMap.get(item.listingId);
 
@@ -114,9 +128,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			setIsRefreshing(true);
 
 			try {
-				const listingIds = [...new Set(cart.map(item => item.listingId))];
+				const listingIds = [...new Set(cart.map((item) => item.listingId))];
 				const { data, error } = await getPublicResource(
-					`${API_ROUTES.cart.listings}?ids=${listingIds.join(',')}`
+					`${API_ROUTES.cart.listings}?ids=${listingIds.join(',')}`,
 				);
 
 				if (error || !data) {
@@ -128,9 +142,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				const validatedCart: CartItem[] = [];
 				const removed: RemovedCartItem[] = [];
 
-				cart.forEach(item => {
+				cart.forEach((item) => {
 					const result = validateCartItem(item, freshListingsMap);
-					
+
 					if (result.valid && result.updatedItem) {
 						validatedCart.push(result.updatedItem);
 					} else if (result.removedItem) {
@@ -148,22 +162,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		};
 
 		refreshCart();
-	}, []); // Only run on mount
+	}, []);
 
 	const addToCart = (
 		listingId: string,
 		selectedOptions: { [variationId: number]: number },
-		listingData: CartListingData
+		listingData: CartListingData,
 	) => {
-		setCart(prev => {
+		setCart((prev) => {
 			const key = getCartItemKey(listingId, selectedOptions);
-			const existing = prev.find(item => getCartItemKey(item.listingId, item.selectedOptions) === key);
+			const existing = prev.find(
+				(item) => getCartItemKey(item.listingId, item.selectedOptions) === key,
+			);
 
 			if (existing) {
-				return prev.map(item =>
+				return prev.map((item) =>
 					getCartItemKey(item.listingId, item.selectedOptions) === key
 						? { ...item, quantity: item.quantity + 1 }
-						: item
+						: item,
 				);
 			}
 
@@ -180,15 +196,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		});
 	};
 
-	const removeFromCart = (listingId: string, selectedOptions: { [variationId: number]: number }) => {
+	const removeFromCart = (
+		listingId: string,
+		selectedOptions: { [variationId: number]: number },
+	) => {
 		const key = getCartItemKey(listingId, selectedOptions);
-		setCart(prev => prev.filter(item => getCartItemKey(item.listingId, item.selectedOptions) !== key));
+		setCart((prev) =>
+			prev.filter((item) => getCartItemKey(item.listingId, item.selectedOptions) !== key),
+		);
 	};
 
 	const updateQuantity = (
 		listingId: string,
 		selectedOptions: { [variationId: number]: number },
-		quantity: number
+		quantity: number,
 	) => {
 		if (quantity <= 0) {
 			removeFromCart(listingId, selectedOptions);
@@ -196,12 +217,12 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		}
 
 		const key = getCartItemKey(listingId, selectedOptions);
-		setCart(prev =>
-			prev.map(item =>
+		setCart((prev) =>
+			prev.map((item) =>
 				getCartItemKey(item.listingId, item.selectedOptions) === key
 					? { ...item, quantity }
-					: item
-			)
+					: item,
+			),
 		);
 	};
 

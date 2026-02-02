@@ -12,7 +12,7 @@ export const getAllListings = async (req: Request, res: Response) => {
 
 export const getListingById = async (req: Request, res: Response) => {
 	const shortId = req.params.id;
-	const listing = await listingService.findListingByShortId(shortId);
+	const listing = await listingService.findFullListingDataByShortId(shortId);
 	if (!listing) {
 		return res.status(404).json({ message: 'Product not found' });
 	}

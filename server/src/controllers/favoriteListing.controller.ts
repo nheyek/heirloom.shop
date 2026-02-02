@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { mapListingToListingCardData } from '../mappers/listing.mapper';
-import * as listingService from '../services/listing.service';
 import * as favoriteListingService from '../services/favoriteListing.service';
+import * as listingService from '../services/listing.service';
 import * as userService from '../services/user.service';
 
 export const favoriteListingByShortId = async (req: Request, res: Response) => {
@@ -10,7 +10,7 @@ export const favoriteListingByShortId = async (req: Request, res: Response) => {
 	}
 
 	const shortId = req.params.id;
-	const listing = await listingService.findListingByShortId(shortId);
+	const listing = await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
 		return res.status(404).json({ message: 'Listing not found' });
@@ -31,7 +31,7 @@ export const unfavoriteListingByShortId = async (req: Request, res: Response) =>
 	}
 
 	const shortId = req.params.id;
-	const listing = await listingService.findListingByShortId(shortId);
+	const listing = await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
 		return res.status(404).json({ message: 'Listing not found' });
