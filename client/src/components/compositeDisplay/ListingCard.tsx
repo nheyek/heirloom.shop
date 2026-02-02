@@ -3,20 +3,21 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { useFavoriteListing } from '../../hooks/useFavoriteListing';
 import { useShareListing } from '../../hooks/useShareListing';
 import { ImageCarousel } from '../imageDisplay/ImageCarousel';
 import { PriceTag } from '../textDisplay/PriceTagText';
 
-export const ListingCard = (props: ListingCardData & { width?: number; multiImage?: boolean; initialSaved?: boolean }) => {
-	const navigate = useNavigate();
+export const ListingCard = (
+	props: ListingCardData & { width?: number; multiImage?: boolean; initialSaved?: boolean },
+) => {
 	const shareListing = useShareListing();
 	const { toggleFavorite, isFavoriting } = useFavoriteListing();
 	const [isSaved, setIsSaved] = useState(props.initialSaved || false);
-	
-	const navigateToListing = () => navigate(`/${CLIENT_ROUTES.listing}/${props.shortId}`);
+
+	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
 	const handleSaveClick = async () => {
 		await toggleFavorite(props.shortId, isSaved);
@@ -28,7 +29,7 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 	return (
 		<Box>
 			<Card.Root variant="elevated" width={props.width}>
-				<Box cursor="pointer">
+				<RouterLink to={listingUrl}>
 					<ImageCarousel
 						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						urls={
@@ -36,24 +37,21 @@ export const ListingCard = (props: ListingCardData & { width?: number; multiImag
 								? props.imageUuids.map(getImageUrl)
 								: [getImageUrl(props.imageUuids[0])]
 						}
-						onImageClick={navigateToListing}
 					/>
-				</Box>
+				</RouterLink>
 
 				<Card.Body p={3} pr={2} pb={2} gap={1}>
 					<Box>
 						<Card.Title fontSize={21}>
-							<Link truncate display="block" onClick={navigateToListing}>
-								{props.title}
+							<Link truncate display="block" asChild>
+								<RouterLink to={listingUrl}>{props.title}</RouterLink>
 							</Link>
 						</Card.Title>
 						{props.shopTitle && (
-							<Link
-								fontSize={18}
-								fontWeight={500}
-								onClick={() => navigate(`/${CLIENT_ROUTES.shop}/${props.shopShortId}`)}
-							>
-								{props.shopTitle}
+							<Link fontSize={18} fontWeight={500} asChild>
+								<RouterLink to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}>
+									{props.shopTitle}
+								</RouterLink>
 							</Link>
 						)}
 					</Box>

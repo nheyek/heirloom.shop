@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
+import { AppError } from '../components/disclosure/AppError';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import useApi from '../hooks/useApi';
 
@@ -63,19 +64,15 @@ export const SavedPage = () => {
 	}
 
 	return (
-		<Stack p={8} gap={4}>
-			<Heading fontSize={32}>Saved Listings</Heading>
+		<Stack p={5} gap={4}>
+			<Heading fontSize={32}>Favorite Listings</Heading>
 			{!isLoading && listings.length === 0 && !error && (
 				<Text fontSize={18}>
-					You haven't saved any listings yet. Click the heart icon on any listing to save
-					it.
+					You haven't favorited any listings yet. Click the heart icon on any listing to
+					save it.
 				</Text>
 			)}
-			{error && (
-				<Text fontSize={18} color="red.500">
-					{error}
-				</Text>
-			)}
+			{error && <AppError title={error} />}
 
 			<ListingGrid listings={listings} isLoading={isLoading} initialSaved={true} />
 		</Stack>

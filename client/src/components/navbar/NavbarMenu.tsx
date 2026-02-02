@@ -4,14 +4,13 @@ import { motion } from 'framer-motion';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 
 const MotionFlex = motion.create(Flex);
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
-	const navigate = useNavigate();
 
 	const handleLogout = async () => {
 		logout({
@@ -41,13 +40,13 @@ export const NavbarMenu = () => {
 						overflow="hidden"
 					>
 						<Menu.Content gapY={2} boxShadow="none" animation="none">
-							<MenuItem
-								value="saved"
-								onClick={() => navigate(`/${CLIENT_ROUTES.saved}`)}
-							>
-								<FaHeart />
-								Favorites
-							</MenuItem>
+							<Link to={`/${CLIENT_ROUTES.saved}`}>
+								<MenuItem value="saved">
+									<FaHeart />
+									Favorites
+								</MenuItem>
+							</Link>
+
 							<MenuItem value="logout" onClick={handleLogout}>
 								<PiSignOutBold />
 								Log out

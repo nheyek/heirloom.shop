@@ -1,30 +1,30 @@
 import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { CategoryIconCode, CLIENT_ROUTES, CountryCode } from '../../constants';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../imageDisplay/AppImage';
 
 export const ShopCard = (props: ShopCardData & { width?: number }) => {
-	const navigate = useNavigate();
-	const navigateToShop = () =>
-		navigate(`/${CLIENT_ROUTES.shop}/${props.shortId}`, { preventScrollReset: true });
+	const shopUrl = `/${CLIENT_ROUTES.shop}/${props.shortId}`;
 
 	return (
 		<Box>
 			<Card.Root variant="elevated" width={props.width}>
-				<AppImage
-					imageProps={{
-						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
-						cursor: 'button',
-						onClick: navigateToShop,
-					}}
-				/>
+				<RouterLink to={shopUrl}>
+					<AppImage
+						imageProps={{
+							src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+							cursor: 'button',
+						}}
+					/>
+				</RouterLink>
+
 				<Card.Body p={3} gap={1}>
 					<Card.Title fontSize={21}>
-						<Link truncate display="block" onClick={navigateToShop}>
-							{props.title}
+						<Link asChild truncate display="block">
+							<RouterLink to={shopUrl}>{props.title}</RouterLink>
 						</Link>
 					</Card.Title>
 					<SimpleGrid

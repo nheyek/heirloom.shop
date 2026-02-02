@@ -4,7 +4,7 @@ import { JSX, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdCancel, MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
 import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
@@ -107,22 +107,21 @@ export const NavbarSearch = () => {
 
 	const renderSearchResults = (results: SearchResult[], path: string) =>
 		results.map((result) => (
-			<Box
-				key={result.id}
-				p={1}
-				pl={9}
-				cursor="pointer"
-				_hover={{ bg: 'gray.100' }}
-				onClick={() => {
-					navigate(`/${path}/${result.id}`);
-
-					setSearchQuery('');
-					setSearchResultCollection(null);
-					setShowSearchPopover(false);
-				}}
-			>
-				<Text fontSize={16}>{result.label}</Text>
-			</Box>
+			<Link to={`/${path}/${result.id}`} key={result.id}>
+				<Box
+					p={1}
+					pl={9}
+					cursor="pointer"
+					_hover={{ bg: 'gray.100' }}
+					onClick={() => {
+						setSearchQuery('');
+						setSearchResultCollection(null);
+						setShowSearchPopover(false);
+					}}
+				>
+					<Text fontSize={16}>{result.label}</Text>
+				</Box>
+			</Link>
 		));
 
 	const renderSearchException = (message: string) => (
