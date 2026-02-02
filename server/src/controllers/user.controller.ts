@@ -1,6 +1,6 @@
+import { UserInfo } from '@common/types/UserInfo';
 import { Request, Response } from 'express';
 import * as userService from '../services/user.service';
-import { UserInfo } from '@common/types/UserInfo';
 
 export const getCurrentUser = async (req: Request, res: Response) => {
 	const userEmail = req.userClaims?.email;

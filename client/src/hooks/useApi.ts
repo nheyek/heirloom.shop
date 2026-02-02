@@ -1,12 +1,21 @@
-import { useAuth0 } from '@auth0/auth0-react';
+import { GetTokenSilentlyOptions, useAuth0 } from '@auth0/auth0-react';
 import axios, { AxiosRequestConfig } from 'axios';
-
-const apiServerUrl = process.env.REACT_APP_API_SERVER_URL;
 
 const useApi = () => {
 	const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
-	const callApi = async (config: AxiosRequestConfig, retryCount = 0): Promise<{ data: any; error: any }> => {
+	const getToken = async (options?: GetTokenSilentlyOptions | undefined) =>
+		await getAccessTokenSilently({
+			authorizationParams: {
+				audience: process.env.AUTH0_AUDIENCE,
+			},
+			...options,
+		});
+
+	const callApi = async (
+		config: AxiosRequestConfig,
+		retryCount = 0,
+	): Promise<{ data: any; error: any }> => {
 		try {
 			const response = await axios(config);
 			const { data } = response;
@@ -24,7 +33,7 @@ const useApi = () => {
 				if (response?.status === 401 && retryCount === 0) {
 					try {
 						// Attempt to refresh the token silently
-						const newToken = await getAccessTokenSilently({
+						const newToken = await getToken({
 							cacheMode: 'off', // Force refresh
 						});
 
@@ -112,11 +121,6 @@ const useApi = () => {
 		};
 	};
 
-	const getToken = async () => {
-		const token = await getAccessTokenSilently();
-		return token;
-	};
-
 	const getProtectedResource = async (endpoint: string) => {
 		const token = await getToken();
 
@@ -159,7 +163,7 @@ const useApi = () => {
 	};
 
 	const deleteResource = async (endpoint: string) => {
-		const token = await getToken();
+		const token = getToken();
 
 		const config = {
 			url: `/api/${endpoint}`,
