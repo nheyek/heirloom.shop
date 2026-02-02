@@ -26,15 +26,16 @@ const useApi = () => {
 
 	const handleTokenRefresh = async (
 		config: AxiosRequestConfig,
-		callApi: (config: AxiosRequestConfig, retryCount: number) => Promise<{ data: any; error: any }>,
+		callApi: (
+			config: AxiosRequestConfig,
+			retryCount: number,
+		) => Promise<{ data: any; error: any }>,
 	): Promise<{ data: any; error: any }> => {
 		try {
-			// Attempt to refresh the token silently
 			const newToken = await getAccessTokenSilently({
-				cacheMode: 'off', // Force refresh
+				cacheMode: 'off',
 			});
 
-			// Retry the request with the new token
 			const retryConfig = {
 				...config,
 				headers: {
@@ -43,10 +44,8 @@ const useApi = () => {
 				},
 			};
 
-			// Retry with retryCount = 1 to prevent infinite loops
 			return await callApi(retryConfig, 1);
 		} catch (refreshError) {
-			// Token refresh failed - redirect to login with return URL
 			const currentPath = window.location.pathname + window.location.search;
 			await loginWithRedirect({
 				appState: { returnTo: currentPath },
@@ -61,7 +60,10 @@ const useApi = () => {
 		}
 	};
 
-	const callApi = async (config: AxiosRequestConfig, retryCount = 0): Promise<{ data: any; error: any }> => {
+	const callApi = async (
+		config: AxiosRequestConfig,
+		retryCount = 0,
+	): Promise<{ data: any; error: any }> => {
 		try {
 			const response = await axios(config);
 			return {
@@ -69,16 +71,13 @@ const useApi = () => {
 				error: null,
 			};
 		} catch (error: unknown) {
-			// Handle axios errors
 			if (axios.isAxiosError(error)) {
 				const axiosError = error as AxiosError;
 
-				// Handle 401 - attempt token refresh on first try
 				if (axiosError.response?.status === 401 && retryCount === 0) {
 					return await handleTokenRefresh(config, callApi);
 				}
 
-				// Handle other errors
 				return {
 					data: null,
 					error: {
@@ -87,7 +86,6 @@ const useApi = () => {
 				};
 			}
 
-			// Handle non-axios errors
 			let message = 'unknown error';
 			if (error instanceof Error) {
 				message = error.message;
