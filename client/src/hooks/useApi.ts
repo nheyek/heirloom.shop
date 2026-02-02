@@ -1,92 +1,93 @@
-import { GetTokenSilentlyOptions, useAuth0 } from '@auth0/auth0-react';
-import axios, { AxiosRequestConfig } from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+
+const apiServerUrl = process.env.REACT_APP_API_SERVER_URL;
 
 const useApi = () => {
 	const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
-	const getToken = async (options?: GetTokenSilentlyOptions | undefined) =>
-		await getAccessTokenSilently({
-			authorizationParams: {
-				audience: process.env.AUTH0_AUDIENCE,
-			},
-			...options,
-		});
+	const extractErrorMessage = (error: AxiosError): string => {
+		const { response } = error;
 
-	const callApi = async (
+		if (response?.data && typeof response.data === 'object' && 'message' in response.data) {
+			return response.data.message as string;
+		}
+
+		if (error.message) {
+			return error.message;
+		}
+
+		if (response?.statusText) {
+			return response.statusText;
+		}
+
+		return 'http request failed';
+	};
+
+	const handleTokenRefresh = async (
 		config: AxiosRequestConfig,
-		retryCount = 0,
+		callApi: (config: AxiosRequestConfig, retryCount: number) => Promise<{ data: any; error: any }>,
 	): Promise<{ data: any; error: any }> => {
 		try {
-			const response = await axios(config);
-			const { data } = response;
+			// Attempt to refresh the token silently
+			const newToken = await getAccessTokenSilently({
+				cacheMode: 'off', // Force refresh
+			});
+
+			// Retry the request with the new token
+			const retryConfig = {
+				...config,
+				headers: {
+					...config.headers,
+					Authorization: `Bearer ${newToken}`,
+				},
+			};
+
+			// Retry with retryCount = 1 to prevent infinite loops
+			return await callApi(retryConfig, 1);
+		} catch (refreshError) {
+			// Token refresh failed - redirect to login with return URL
+			const currentPath = window.location.pathname + window.location.search;
+			await loginWithRedirect({
+				appState: { returnTo: currentPath },
+			});
 
 			return {
-				data,
+				data: null,
+				error: {
+					message: 'Authentication required. Redirecting to login...',
+				},
+			};
+		}
+	};
+
+	const callApi = async (config: AxiosRequestConfig, retryCount = 0): Promise<{ data: any; error: any }> => {
+		try {
+			const response = await axios(config);
+			return {
+				data: response.data,
 				error: null,
 			};
 		} catch (error: unknown) {
+			// Handle axios errors
 			if (axios.isAxiosError(error)) {
-				const axiosError = error;
-				const { response } = axiosError;
+				const axiosError = error as AxiosError;
 
-				// Handle 401 - attempt token refresh
-				if (response?.status === 401 && retryCount === 0) {
-					try {
-						// Attempt to refresh the token silently
-						const newToken = await getToken({
-							cacheMode: 'off', // Force refresh
-						});
-
-						// Retry the request with the new token
-						const retryConfig = {
-							...config,
-							headers: {
-								...config.headers,
-								Authorization: `Bearer ${newToken}`,
-							},
-						};
-
-						// Recursive call with retryCount = 1 to prevent infinite loops
-						return await callApi(retryConfig, 1);
-					} catch (refreshError) {
-						// Token refresh failed - redirect to login with return URL
-						const currentPath = window.location.pathname + window.location.search;
-						await loginWithRedirect({
-							appState: { returnTo: currentPath },
-						});
-
-						return {
-							data: null,
-							error: {
-								message: 'Authentication required. Redirecting to login...',
-							},
-						};
-					}
+				// Handle 401 - attempt token refresh on first try
+				if (axiosError.response?.status === 401 && retryCount === 0) {
+					return await handleTokenRefresh(config, callApi);
 				}
 
 				// Handle other errors
-				let message = 'http request failed';
-
-				if (response && response.statusText) {
-					message = response.statusText;
-				}
-
-				if (axiosError.message) {
-					message = axiosError.message;
-				}
-
-				if (response && response.data && response.data.message) {
-					message = response.data.message;
-				}
-
 				return {
 					data: null,
 					error: {
-						message,
+						message: extractErrorMessage(axiosError),
 					},
 				};
 			}
 
+			// Handle non-axios errors
 			let message = 'unknown error';
 			if (error instanceof Error) {
 				message = error.message;
@@ -97,9 +98,7 @@ const useApi = () => {
 
 			return {
 				data: null,
-				error: {
-					message,
-				},
+				error: { message },
 			};
 		}
 	};
@@ -119,6 +118,11 @@ const useApi = () => {
 			data: data || null,
 			error,
 		};
+	};
+
+	const getToken = async () => {
+		const token = await getAccessTokenSilently();
+		return token;
 	};
 
 	const getProtectedResource = async (endpoint: string) => {
@@ -163,7 +167,7 @@ const useApi = () => {
 	};
 
 	const deleteResource = async (endpoint: string) => {
-		const token = getToken();
+		const token = await getToken();
 
 		const config = {
 			url: `/api/${endpoint}`,
