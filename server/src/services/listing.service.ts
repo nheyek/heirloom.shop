@@ -118,3 +118,27 @@ export const findListingVariations = async (listingId: number): Promise<ListingV
 		{ populate: ['listingVariationOptionCollection'] },
 	);
 };
+
+export const findListingsByShortIds = async (shortIds: string[]): Promise<Listing[]> => {
+	const em = getEm();
+	return em.find(
+		Listing,
+		{ shortId: { $in: shortIds } },
+		{ populate: ['shop', 'country', 'category'] },
+	);
+};
+
+export const findListingsWithVariationsByShortIds = async (
+	shortIds: string[],
+): Promise<Map<string, { listing: Listing; variations: ListingVariation[] }>> => {
+	const listings = await findListingsByShortIds(shortIds);
+
+	const result = new Map<string, { listing: Listing; variations: ListingVariation[] }>();
+
+	for (const listing of listings) {
+		const variations = await findListingVariations(listing.id);
+		result.set(listing.shortId, { listing, variations });
+	}
+
+	return result;
+};
