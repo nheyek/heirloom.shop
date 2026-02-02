@@ -18,7 +18,7 @@ export const ImageCarousel = (props: Props) => {
 	const showArrows = isHovered && props.urls.length > 1;
 
 	return (
-		<Skeleton loading={!allImagesLoaded}>
+		<Skeleton loading={!allImagesLoaded} aspectRatio={props.aspectRatio}>
 			<Carousel.Root
 				onMouseEnter={() => setIsHovered(true)}
 				onMouseLeave={() => setIsHovered(false)}
