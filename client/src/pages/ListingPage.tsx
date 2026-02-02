@@ -36,6 +36,7 @@ import { RichText } from '../components/textDisplay/RichText';
 import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../constants';
 import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
+import { useCart } from '../providers/CartProvider';
 
 const MotionFlex = motion.create(Flex);
 
@@ -65,6 +66,29 @@ export const ListingPage = () => {
 
 	const { getPublicResource } = useApi();
 	const shareListing = useShareListing();
+	const { addToCart } = useCart();
+
+	const handleAddToCart = () => {
+		if (!listingData) return;
+		
+		// Convert ListingPageData to CartListingData format
+		const cartListingData = {
+			id: listingData.id,
+			shortId: listingData.shortId,
+			title: listingData.title,
+			subtitle: listingData.subtitle,
+			categoryId: listingData.categoryId,
+			priceDollars: listingData.priceDollars,
+			countryCode: listingData.countryCode,
+			shopId: listingData.shopId,
+			shopShortId: listingData.shopShortId,
+			shopTitle: listingData.shopTitle,
+			imageUuids: listingData.imageUuids,
+			variations: listingData.variations,
+		};
+
+		addToCart(listingData.shortId, selectedVariationOptions, cartListingData);
+	};
 
 	const loadListingData = async () => {
 		const response = await getPublicResource(`${API_ROUTES.listings}/${id}`);
@@ -302,7 +326,7 @@ export const ListingPage = () => {
 							)}
 
 							<Stack gap={3}>
-								<ListingPageButton size="xl">
+								<ListingPageButton size="xl" onClick={handleAddToCart}>
 									<FaPlusCircle />
 									Add to Cart
 									<RxDotFilled />
