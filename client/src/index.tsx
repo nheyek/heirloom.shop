@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
+import { CartProvider } from './providers/CartProvider';
 import { CategoriesProvider } from './providers/CategoriesProvider';
 import { UserProvider } from './providers/UserProvider';
 import customSystem from './theme';
@@ -16,9 +17,11 @@ root.render(
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
 					<CategoriesProvider>
-						<ChakraProvider value={customSystem}>
-							<App />
-						</ChakraProvider>
+						<CartProvider>
+							<ChakraProvider value={customSystem}>
+								<App />
+							</ChakraProvider>
+						</CartProvider>
 					</CategoriesProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
