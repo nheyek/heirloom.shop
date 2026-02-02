@@ -21,10 +21,13 @@ export const getCartListings = async (req: Request, res: Response) => {
 
 	const cartListings: CartListingData[] = [];
 	const listings = await listingService.findListingsByShortIds(shortIds);
-	listings.forEach(async (listing) => {
-		const variations = await listingService.findListingVariations(listing.id);
-		cartListings.push(mapListingToCartListingData(listing, variations));
-	});
+
+	await Promise.all(
+		listings.map(async (listing) => {
+			const variations = await listingService.findListingVariations(listing.id);
+			cartListings.push(mapListingToCartListingData(listing, variations));
+		}),
+	);
 
 	res.json(cartListings);
 };

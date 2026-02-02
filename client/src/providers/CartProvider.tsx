@@ -20,6 +20,7 @@ export interface RemovedCartItem {
 
 interface CartContextType {
 	cart: CartItem[];
+	cartCount: number;
 	removedItems: RemovedCartItem[];
 	isRefreshing: boolean;
 	addToCart: (
@@ -117,6 +118,7 @@ const validateCartItem = (
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const [cart, setCart] = usePersistedState<CartItem[]>('shopping-cart', []);
+	const cartCount = cart.map((listing) => listing.quantity).reduce((sum, num) => sum + num);
 	const [removedItems, setRemovedItems] = useState<RemovedCartItem[]>([]);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const { getPublicResource } = useApi();
@@ -238,6 +240,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		<CartContext.Provider
 			value={{
 				cart,
+				cartCount,
 				removedItems,
 				isRefreshing,
 				addToCart,

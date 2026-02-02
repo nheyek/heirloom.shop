@@ -48,7 +48,7 @@ export const ListingCard = (
 							</Link>
 						</Card.Title>
 						{props.shopTitle && (
-							<Link fontSize={18} fontWeight={500} asChild>
+							<Link fontSize={18} fontWeight={500} asChild cursor="button">
 								<RouterLink to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}>
 									{props.shopTitle}
 								</RouterLink>

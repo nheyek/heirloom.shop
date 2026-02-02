@@ -5,12 +5,12 @@ type StorageType = 'localStorage' | 'sessionStorage';
 /**
  * A hook that persists state to localStorage or sessionStorage.
  * Automatically loads the value on mount and saves on every update.
- * 
+ *
  * @param key - The storage key to use
  * @param initialValue - The initial value if nothing is in storage
  * @param storageType - 'localStorage' (default) or 'sessionStorage'
  * @returns A stateful value and setter function, just like useState
- * 
+ *
  * @example
  * const [cart, setCart] = usePersistedState('shopping-cart', [], 'localStorage');
  */

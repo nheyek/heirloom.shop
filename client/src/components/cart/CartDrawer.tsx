@@ -1,9 +1,20 @@
-import { Badge, Box, Button, Drawer, Flex, Heading, IconButton, Image, Stack, Text } from '@chakra-ui/react';
+import {
+	Badge,
+	Box,
+	Button,
+	Drawer,
+	Flex,
+	Heading,
+	IconButton,
+	Image,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { FaTrash } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
-import { useCart } from '../../providers/CartProvider';
+import { CartItem, useCart } from '../../providers/CartProvider';
 
 interface CartDrawerProps {
 	open: boolean;
@@ -14,12 +25,12 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 	const { cart, removeFromCart, updateQuantity } = useCart();
 	const navigate = useNavigate();
 
-	const calculateItemTotal = (item: typeof cart[0]): number => {
+	const calculateItemTotal = (item: CartItem): number => {
 		let total = item.listingData.priceDollars;
-		
+
 		Object.entries(item.selectedOptions).forEach(([varId, optId]) => {
-			const variation = item.listingData.variations.find(v => v.id === Number(varId));
-			const option = variation?.options.find(o => o.id === optId);
+			const variation = item.listingData.variations.find((v) => v.id === Number(varId));
+			const option = variation?.options.find((o) => o.id === optId);
 			if (option && variation?.pricesVary) {
 				total += option.additionalPriceDollars;
 			}
@@ -31,14 +42,19 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 	const cartTotal = cart.reduce((sum, item) => sum + calculateItemTotal(item), 0);
 
 	return (
-		<Drawer.Root open={open} onOpenChange={(e) => !e.open && onClose()} placement="end" size="md">
+		<Drawer.Root
+			open={open}
+			onOpenChange={(e) => !e.open && onClose()}
+			placement="end"
+			size="md"
+		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
 				<Drawer.Content>
 					<Drawer.Header>
-						<Drawer.Title>Shopping Cart ({cart.length})</Drawer.Title>
+						<Drawer.Title fontSize={22}>Shopping Cart</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
-							<IconButton variant="ghost" size="sm">
+							<IconButton size="md" variant="ghost" borderRadius="full">
 								<MdClose />
 							</IconButton>
 						</Drawer.CloseTrigger>
@@ -82,7 +98,9 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 													borderRadius="md"
 													cursor="pointer"
 													onClick={() => {
-														navigate(`/${CLIENT_ROUTES.listing}/${item.listingId}`);
+														navigate(
+															`/${CLIENT_ROUTES.listing}/${item.listingId}`,
+														);
 														onClose();
 													}}
 												/>
@@ -91,7 +109,9 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 														fontWeight="bold"
 														cursor="pointer"
 														onClick={() => {
-															navigate(`/${CLIENT_ROUTES.listing}/${item.listingId}`);
+															navigate(
+																`/${CLIENT_ROUTES.listing}/${item.listingId}`,
+															);
 															onClose();
 														}}
 														_hover={{ textDecoration: 'underline' }}
@@ -103,19 +123,33 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 														{item.listingData.shopTitle}
 													</Text>
 
-													{Object.keys(item.selectedOptions).length > 0 && (
+													{Object.keys(item.selectedOptions).length >
+														0 && (
 														<Flex gap={2} flexWrap="wrap">
-															{Object.entries(item.selectedOptions).map(([varId, optId]) => {
-																const variation = item.listingData.variations.find(
-																	v => v.id === Number(varId)
-																);
-																const option = variation?.options.find(o => o.id === optId);
+															{Object.entries(
+																item.selectedOptions,
+															).map(([varId, optId]) => {
+																const variation =
+																	item.listingData.variations.find(
+																		(v) =>
+																			v.id === Number(varId),
+																	);
+																const option =
+																	variation?.options.find(
+																		(o) => o.id === optId,
+																	);
 
-																if (!variation || !option) return null;
+																if (!variation || !option)
+																	return null;
 
 																return (
-																	<Badge key={varId} size="sm" colorPalette="gray">
-																		{variation.name}: {option.name}
+																	<Badge
+																		key={varId}
+																		size="sm"
+																		colorPalette="gray"
+																	>
+																		{variation.name}:{' '}
+																		{option.name}
 																	</Badge>
 																);
 															})}
@@ -131,7 +165,7 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 																	updateQuantity(
 																		item.listingId,
 																		item.selectedOptions,
-																		item.quantity - 1
+																		item.quantity - 1,
 																	)
 																}
 															>
@@ -145,7 +179,7 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 																	updateQuantity(
 																		item.listingId,
 																		item.selectedOptions,
-																		item.quantity + 1
+																		item.quantity + 1,
 																	)
 																}
 															>
@@ -154,7 +188,10 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 														</Flex>
 
 														<Text fontWeight="bold" ml="auto">
-															${calculateItemTotal(item).toLocaleString()}
+															$
+															{calculateItemTotal(
+																item,
+															).toLocaleString()}
 														</Text>
 
 														<IconButton
@@ -164,7 +201,7 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 															onClick={() =>
 																removeFromCart(
 																	item.listingId,
-																	item.selectedOptions
+																	item.selectedOptions,
 																)
 															}
 														>

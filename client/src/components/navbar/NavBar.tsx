@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Badge, Box, Grid, GridItem, IconButton } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -19,11 +19,9 @@ const MotionBox = motion.create(Box);
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 	const { user } = useUserInfo();
-	const { cart } = useCart();
+	const { cartCount } = useCart();
 	const navigate = useNavigate();
 	const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
-
-	const cartItemCount = cart.length;
 
 	return (
 		<Box bg="brand" px={4} py={2} boxShadow="md">
@@ -86,36 +84,39 @@ export const Navbar = () => {
 									{!isAuthenticated && <LoginButton />}
 									{isAuthenticated && <NavbarMenu />}
 									<Box position="relative">
-										<IconButton 
-											variant="plain" 
+										<IconButton
+											variant="plain"
 											style={{ color: 'white' }}
 											onClick={() => setCartDrawerOpen(true)}
 										>
 											<FaShoppingCart />
 										</IconButton>
-										{cartItemCount > 0 && (
-											<Badge
+										{cartCount > 0 && (
+											<Flex
+												background="#FFF"
+												border="2px solid #000"
 												position="absolute"
-												top="-4px"
-												right="-4px"
-												colorPalette="red"
+												top={-1}
+												right={-1}
 												borderRadius="full"
-												minW="20px"
-												h="20px"
-												display="flex"
+												fontSize={12}
+												w={'22px'}
+												h={'22px'}
 												alignItems="center"
 												justifyContent="center"
-												fontSize="xs"
 												fontWeight="bold"
 											>
-												{cartItemCount}
-											</Badge>
+												{cartCount}
+											</Flex>
 										)}
 									</Box>
 								</MotionBox>
 							)}
 						</AnimatePresence>
-						<CartDrawer open={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
+						<CartDrawer
+							open={cartDrawerOpen}
+							onClose={() => setCartDrawerOpen(false)}
+						/>
 					</Box>
 				</GridItem>
 			</Grid>
