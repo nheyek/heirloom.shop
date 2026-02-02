@@ -19,12 +19,10 @@ export const usePersistedState = <T>(
 	initialValue: T,
 	storageType: StorageType = 'localStorage',
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
-	// Get the storage object
-	const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
-
 	// Initialize state with value from storage or initial value
 	const [state, setState] = useState<T>(() => {
 		try {
+			const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
 			const item = storage.getItem(key);
 			if (item) {
 				return JSON.parse(item) as T;
@@ -38,11 +36,12 @@ export const usePersistedState = <T>(
 	// Save to storage whenever state changes
 	useEffect(() => {
 		try {
+			const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
 			storage.setItem(key, JSON.stringify(state));
 		} catch (error) {
 			console.error(`Error saving ${key} to ${storageType}:`, error);
 		}
-	}, [key, state, storage, storageType]);
+	}, [key, state, storageType]);
 
 	return [state, setState];
 };
