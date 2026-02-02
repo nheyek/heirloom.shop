@@ -133,8 +133,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					`${API_ROUTES.cart.listings}?ids=${listingIds.join(',')}`,
 				);
 
+				// If API call fails, keep existing cart
 				if (error || !data) {
 					console.error('Error refreshing cart:', error);
+					return;
+				}
+
+				// If API returns empty array, it means the endpoint returned no listings
+				// This shouldn't happen if listings exist, so likely an API issue
+				// Keep existing cart instead of clearing it
+				if (!Array.isArray(data) || data.length === 0) {
+					console.warn('Cart refresh returned no listings, keeping existing cart');
 					return;
 				}
 
