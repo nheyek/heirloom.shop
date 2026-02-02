@@ -1,12 +1,15 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Grid, GridItem, IconButton } from '@chakra-ui/react';
+import { Badge, Box, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
+import { useCart } from '../../providers/CartProvider';
 import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../brand/Logo';
+import { CartDrawer } from '../cart/CartDrawer';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
 import { NavbarSearch } from './NavbarSearch';
@@ -16,7 +19,11 @@ const MotionBox = motion.create(Box);
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 	const { user } = useUserInfo();
+	const { cart } = useCart();
 	const navigate = useNavigate();
+	const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
+
+	const cartItemCount = cart.length;
 
 	return (
 		<Box bg="brand" px={4} py={2} boxShadow="md">
@@ -78,12 +85,37 @@ export const Navbar = () => {
 									)}
 									{!isAuthenticated && <LoginButton />}
 									{isAuthenticated && <NavbarMenu />}
-									<IconButton variant="plain" style={{ color: 'white' }}>
-										<FaShoppingCart />
-									</IconButton>
+									<Box position="relative">
+										<IconButton 
+											variant="plain" 
+											style={{ color: 'white' }}
+											onClick={() => setCartDrawerOpen(true)}
+										>
+											<FaShoppingCart />
+										</IconButton>
+										{cartItemCount > 0 && (
+											<Badge
+												position="absolute"
+												top="-4px"
+												right="-4px"
+												colorPalette="red"
+												borderRadius="full"
+												minW="20px"
+												h="20px"
+												display="flex"
+												alignItems="center"
+												justifyContent="center"
+												fontSize="xs"
+												fontWeight="bold"
+											>
+												{cartItemCount}
+											</Badge>
+										)}
+									</Box>
 								</MotionBox>
 							)}
 						</AnimatePresence>
+						<CartDrawer open={cartDrawerOpen} onClose={() => setCartDrawerOpen(false)} />
 					</Box>
 				</GridItem>
 			</Grid>
