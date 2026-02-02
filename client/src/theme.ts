@@ -35,6 +35,7 @@ const buttonRecipe = defineRecipe({
 	base: {
 		fontFamily: standardFont,
 		fontWeight: 'bold',
+		borderRadius: 'full',
 	},
 	variants: {
 		variant: {
