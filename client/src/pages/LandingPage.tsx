@@ -90,7 +90,7 @@ export const LandingPage = () => {
 				/>
 			)}
 
-			<Stack px={5} gap={4}>
+			<Stack px={5} gap={3}>
 				<Heading fontSize={36}>Makers</Heading>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
@@ -99,7 +99,7 @@ export const LandingPage = () => {
 				)}
 			</Stack>
 
-			<Stack px={5} pb={5} gap={4}>
+			<Stack px={5} pb={5} gap={3}>
 				<Heading fontSize={36}>Featured Listings</Heading>
 
 				{listingsError ? (

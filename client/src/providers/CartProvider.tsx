@@ -22,7 +22,10 @@ interface CartContextType {
 	cart: CartItem[];
 	cartCount: number;
 	removedItems: RemovedCartItem[];
+	isOpen: boolean;
 	isRefreshing: boolean;
+	openCart: () => void;
+	closeCart: () => void;
 	addToCart: (
 		listingId: string,
 		selectedOptions: { [variationId: number]: number },
@@ -120,6 +123,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const [cart, setCart] = usePersistedState<CartItem[]>('shopping-cart', []);
 	const cartCount = cart.map((listing) => listing.quantity).reduce((sum, num) => sum + num, 0);
 	const [removedItems, setRemovedItems] = useState<RemovedCartItem[]>([]);
+	const [isOpen, setIsOpen] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const { getPublicResource } = useApi();
 
@@ -242,7 +246,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				cart,
 				cartCount,
 				removedItems,
+				isOpen,
 				isRefreshing,
+				openCart: () => setIsOpen(true),
+				closeCart: () => setIsOpen(false),
 				addToCart,
 				removeFromCart,
 				updateQuantity,

@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Flex, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -19,9 +18,8 @@ const MotionBox = motion.create(Box);
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 	const { user } = useUserInfo();
-	const { cartCount } = useCart();
+	const { cartCount, isOpen: cartIsOpen, openCart, closeCart } = useCart();
 	const navigate = useNavigate();
-	const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
 
 	return (
 		<Box bg="brand" px={4} py={2} boxShadow="md">
@@ -87,7 +85,7 @@ export const Navbar = () => {
 										<IconButton
 											variant="plain"
 											style={{ color: 'white' }}
-											onClick={() => setCartDrawerOpen(true)}
+											onClick={openCart}
 										>
 											<FaShoppingCart />
 										</IconButton>
@@ -113,10 +111,7 @@ export const Navbar = () => {
 								</MotionBox>
 							)}
 						</AnimatePresence>
-						<CartDrawer
-							open={cartDrawerOpen}
-							onClose={() => setCartDrawerOpen(false)}
-						/>
+						<CartDrawer isOpen={cartIsOpen} onClose={closeCart} />
 					</Box>
 				</GridItem>
 			</Grid>

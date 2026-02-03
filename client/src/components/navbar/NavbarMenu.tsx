@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Button, Flex, Menu, MenuItemProps, Portal } from '@chakra-ui/react';
+import { Button, Flex, Menu, MenuItemProps, Portal, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -43,13 +43,13 @@ export const NavbarMenu = () => {
 							<Link to={`/${CLIENT_ROUTES.saved}`}>
 								<MenuItem value="saved">
 									<FaHeart />
-									Favorites
+									<Text pl={1}>Favorites</Text>
 								</MenuItem>
 							</Link>
 
 							<MenuItem value="logout" onClick={handleLogout}>
 								<PiSignOutBold />
-								Log out
+								<Text pl={1}>Log out</Text>
 							</MenuItem>
 						</Menu.Content>
 					</MotionFlex>

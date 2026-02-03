@@ -37,6 +37,7 @@ import { CLIENT_ROUTES, CountryCode, STANDARD_IMAGE_ASPECT_RATIO } from '../cons
 import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
 import { useCart } from '../providers/CartProvider';
+import { getListingDataForCart } from '../utils/typeUtils';
 
 const MotionFlex = motion.create(Flex);
 
@@ -66,28 +67,17 @@ export const ListingPage = () => {
 
 	const { getPublicResource } = useApi();
 	const shareListing = useShareListing();
-	const { addToCart } = useCart();
+	const { addToCart, openCart } = useCart();
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
 
-		// Convert ListingPageData to CartListingData format
-		const cartListingData = {
-			id: listingData.id,
-			shortId: listingData.shortId,
-			title: listingData.title,
-			subtitle: listingData.subtitle,
-			categoryId: listingData.categoryId,
-			priceDollars: listingData.priceDollars,
-			countryCode: listingData.countryCode,
-			shopId: listingData.shopId,
-			shopShortId: listingData.shopShortId,
-			shopTitle: listingData.shopTitle,
-			imageUuids: listingData.imageUuids,
-			variations: listingData.variations,
-		};
-
-		addToCart(listingData.shortId, selectedVariationOptions, cartListingData);
+		addToCart(
+			listingData.shortId,
+			selectedVariationOptions,
+			getListingDataForCart(listingData),
+		);
+		openCart();
 	};
 
 	const loadListingData = async () => {
@@ -415,19 +405,6 @@ const LoadingSkeleton = (props: { layout?: Layout; maxWidth: number }) => {
 				<Skeleton width="60%" height="20px" />
 				<Skeleton width="50%" height="20px" />
 			</Stack>
-		</Stack>
-	);
-
-	const renderFullDescriptionSection = () => (
-		<Stack gap={6}>
-			<Skeleton width="100%" height="50px" />
-			<Stack gap={3}>
-				<Skeleton width="90%" height="20px" />
-				<Skeleton width="95%" height="20px" />
-				<Skeleton width="75%" height="20px" />
-			</Stack>
-			<Skeleton width="100%" height="50px" />
-			<Skeleton width="100%" height="50px" />
 		</Stack>
 	);
 

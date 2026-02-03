@@ -50,15 +50,13 @@ export const CartItemCard = ({
 					/>
 				</RouterLink>
 				<IconButton
+					size="xs"
+					variant="subtle"
 					position="absolute"
 					top={3}
 					right={3}
 					onClick={onRemove}
 					cursor="button"
-					p={0}
-					background="white"
-					color="black"
-					size="xs"
 				>
 					<FaTrashAlt />
 				</IconButton>
@@ -87,13 +85,21 @@ export const CartItemCard = ({
 
 				<Flex gap={2} alignItems="center">
 					<Flex alignItems="center" gap={2} flex="1">
-						<IconButton size="2xs" onClick={() => onUpdateQuantity(item.quantity - 1)}>
+						<IconButton
+							size="2xs"
+							variant="outline"
+							onClick={() => onUpdateQuantity(item.quantity - 1)}
+						>
 							<TiMinus />
 						</IconButton>
-						<Text textAlign="center" minWidth={5} fontSize={16} fontWeight={600}>
+						<Text textAlign="center" minWidth={5} fontSize={16} fontWeight={700}>
 							{item.quantity}
 						</Text>
-						<IconButton size="2xs" onClick={() => onUpdateQuantity(item.quantity + 1)}>
+						<IconButton
+							size="2xs"
+							variant="outline"
+							onClick={() => onUpdateQuantity(item.quantity + 1)}
+						>
 							<TiPlus />
 						</IconButton>
 					</Flex>
