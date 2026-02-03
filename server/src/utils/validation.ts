@@ -9,10 +9,16 @@ export const validateStringLength = (
 	fieldName: string = 'Value',
 ): LengthValidationResult => {
 	if (value.length < min) {
-		return { valid: false, message: `${fieldName} must be at least ${min} characters` };
+		return {
+			valid: false,
+			message: `${fieldName} must be at least ${min} characters`,
+		};
 	}
 	if (value.length > max) {
-		return { valid: false, message: `${fieldName} must be at most ${max} characters` };
+		return {
+			valid: false,
+			message: `${fieldName} must be at most ${max} characters`,
+		};
 	}
 	return { valid: true };
 };

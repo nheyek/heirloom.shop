@@ -1,7 +1,9 @@
 import { CartListingData } from '@common/types/CartListingData';
 import { ListingPageData } from '@common/types/ListingPageData';
 
-export const getListingDataForCart = (listing: ListingPageData): CartListingData => ({
+export const getListingDataForCart = (
+	listing: ListingPageData,
+): CartListingData => ({
 	id: listing.id,
 	shortId: listing.shortId,
 	title: listing.title,

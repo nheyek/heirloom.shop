@@ -7,11 +7,18 @@ import { ListingGrid } from '../components/layout/ListingGrid';
 import useApi from '../hooks/useApi';
 
 export const SavedPage = () => {
-	const { isAuthenticated, loginWithRedirect, isLoading: authIsLoading } = useAuth0();
+	const {
+		isAuthenticated,
+		loginWithRedirect,
+		isLoading: authIsLoading,
+	} = useAuth0();
 	const { getProtectedResource, postResource } = useApi();
 
-	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [listings, setListings] = useState<
+		ListingCardData[]
+	>([]);
+	const [isLoading, setIsLoading] =
+		useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const loadSavedListings = async () => {
@@ -19,7 +26,9 @@ export const SavedPage = () => {
 		setError(null);
 
 		setTimeout(async () => {
-			const response = await getProtectedResource('me/favorited-listings');
+			const response = await getProtectedResource(
+				'me/favorited-listings',
+			);
 			if (response.error) {
 				setError('Failed to load saved listings');
 			} else {
@@ -41,16 +50,27 @@ export const SavedPage = () => {
 			return;
 		}
 
-		const pendingListingShortId = sessionStorage.getItem('pendingListingFavorite');
+		const pendingListingShortId =
+			sessionStorage.getItem(
+				'pendingListingFavorite',
+			);
 
 		if (pendingListingShortId) {
-			sessionStorage.removeItem('pendingListingFavorite');
+			sessionStorage.removeItem(
+				'pendingListingFavorite',
+			);
 
 			(async () => {
 				try {
-					await postResource(`listings/${pendingListingShortId}/favorite`, {});
+					await postResource(
+						`listings/${pendingListingShortId}/favorite`,
+						{},
+					);
 				} catch (err) {
-					console.error('Failed to save listing:', err);
+					console.error(
+						'Failed to save listing:',
+						err,
+					);
 				}
 				await loadSavedListings();
 			})();
@@ -64,17 +84,29 @@ export const SavedPage = () => {
 	}
 
 	return (
-		<Stack p={5} gap={4}>
-			<Heading fontSize={32}>Favorite Listings</Heading>
-			{!isLoading && listings.length === 0 && !error && (
-				<Text fontSize={18}>
-					You haven't favorited any listings yet. Click the heart icon on any listing to
-					save it.
-				</Text>
-			)}
+		<Stack
+			p={5}
+			gap={4}
+		>
+			<Heading fontSize={32}>
+				Favorite Listings
+			</Heading>
+			{!isLoading &&
+				listings.length === 0 &&
+				!error && (
+					<Text fontSize={18}>
+						You haven't favorited any listings
+						yet. Click the heart icon on any
+						listing to save it.
+					</Text>
+				)}
 			{error && <AppError title={error} />}
 
-			<ListingGrid listings={listings} isLoading={isLoading} initialSaved={true} />
+			<ListingGrid
+				listings={listings}
+				isLoading={isLoading}
+				initialSaved={true}
+			/>
 		</Stack>
 	);
 };

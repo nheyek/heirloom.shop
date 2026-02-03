@@ -6,7 +6,9 @@ import { ListingVariation } from '../entities/generated/ListingVariation';
 import { Shop } from '../entities/generated/Shop';
 import { encodeId } from '../utils/hashids';
 
-export const findListingsComplete = async (): Promise<Listing[]> => {
+export const findListingsComplete = async (): Promise<
+	Listing[]
+> => {
 	const em = getEm();
 	return em.find(
 		Listing,
@@ -19,16 +21,22 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 	);
 };
 
-export const findListingImages = async (id: number): Promise<ListingImage[]> => {
+export const findListingImages = async (
+	id: number,
+): Promise<ListingImage[]> => {
 	const em = getEm();
 	return em.find(ListingImage, { listing: { id } });
 };
 
-export const findListingsByCategory = async (categoryId: string): Promise<Listing[]> => {
+export const findListingsByCategory = async (
+	categoryId: string,
+): Promise<Listing[]> => {
 	const em = getEm();
 
-	const categoryIdResult = await em.getConnection().execute(
-		`
+	const categoryIdResult = await em
+		.getConnection()
+		.execute(
+			`
         WITH RECURSIVE category_tree AS (
         SELECT id FROM listing_category WHERE id = ?
         UNION ALL
@@ -37,11 +45,13 @@ export const findListingsByCategory = async (categoryId: string): Promise<Listin
         )
         SELECT id FROM category_tree
     `,
-		[categoryId],
-		'all',
-	);
+			[categoryId],
+			'all',
+		);
 
-	const categoryIds = categoryIdResult.map((row: any) => row.id);
+	const categoryIds = categoryIdResult.map(
+		(row: any) => row.id,
+	);
 	return em.find(
 		Listing,
 		{
@@ -51,13 +61,17 @@ export const findListingsByCategory = async (categoryId: string): Promise<Listin
 	);
 };
 
-export const findListingsByShop = async (shopId: number): Promise<Listing[]> => {
+export const findListingsByShop = async (
+	shopId: number,
+): Promise<Listing[]> => {
 	const em = getEm();
 
 	return em.find(Listing, { shop: { id: shopId } });
 };
 
-export const findFullListingDataByShortId = async (shortId: string) => {
+export const findFullListingDataByShortId = async (
+	shortId: string,
+) => {
 	const em = getEm();
 	return em.findOne(
 		Listing,
@@ -93,7 +107,9 @@ export const createListing = async (
 	return listing.id;
 };
 
-export const findListingVariations = async (listingId: number): Promise<ListingVariation[]> => {
+export const findListingVariations = async (
+	listingId: number,
+): Promise<ListingVariation[]> => {
 	const em = getEm();
 	return em.find(
 		ListingVariation,
@@ -102,7 +118,9 @@ export const findListingVariations = async (listingId: number): Promise<ListingV
 	);
 };
 
-export const findListingsByShortIds = async (shortIds: string[]): Promise<Listing[]> => {
+export const findListingsByShortIds = async (
+	shortIds: string[],
+): Promise<Listing[]> => {
 	const em = getEm();
 	return em.find(
 		Listing,

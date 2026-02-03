@@ -1,4 +1,10 @@
-import { Box, Button, Grid, GridItem, useBreakpointValue } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Grid,
+	GridItem,
+	useBreakpointValue,
+} from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaImages } from 'react-icons/fa';
 import { AppImage } from './AppImage';
@@ -11,14 +17,21 @@ type Props = {
 };
 
 export const ImageCollage = (props: Props) => {
-	let numGridCols = useBreakpointValue({ base: 2, lg: 3 }) || 2;
+	let numGridCols =
+		useBreakpointValue({ base: 2, lg: 3 }) || 2;
 
 	const numThumbnailTiles = numGridCols * 2 - 2;
 	const numSecondaryImages = props.urls.length - 1;
-	const numThumbnails = Math.min(numThumbnailTiles, numSecondaryImages);
-	const truncateImageList = numThumbnailTiles < numSecondaryImages;
+	const numThumbnails = Math.min(
+		numThumbnailTiles,
+		numSecondaryImages,
+	);
+	const truncateImageList =
+		numThumbnailTiles < numSecondaryImages;
 
-	const [lightBoxPage, setLightBoxPage] = useState<number | null>(null);
+	const [lightBoxPage, setLightBoxPage] = useState<
+		number | null
+	>(null);
 
 	const renderCollageImage = (index: number) => (
 		<AppImage
@@ -41,25 +54,45 @@ export const ImageCollage = (props: Props) => {
 
 	return (
 		<>
-			<LightBox {...props} page={lightBoxPage} setPage={setLightBoxPage} />
+			<LightBox
+				{...props}
+				page={lightBoxPage}
+				setPage={setLightBoxPage}
+			/>
 			{props.urls.length === 1 ? (
-				<Box height={maxHeight} aspectRatio={props.aspectRatio}>
+				<Box
+					height={maxHeight}
+					aspectRatio={props.aspectRatio}
+				>
 					{renderCollageImage(0)}
 				</Box>
 			) : (
-				<Box position="relative" maxW={props.maxWidth} maxH={maxHeight}>
+				<Box
+					position="relative"
+					maxW={props.maxWidth}
+					maxH={maxHeight}
+				>
 					<Grid
 						templateRows="repeat(2, 1fr)"
 						templateColumns={`repeat(${numGridCols + 1}, 1fr)`}
 						mx="auto"
 						gap={3}
 					>
-						<GridItem rowSpan={2} colSpan={2}>
+						<GridItem
+							rowSpan={2}
+							colSpan={2}
+						>
 							{renderCollageImage(0)}
 						</GridItem>
 
-						{Array.from({ length: numThumbnails }, (_, i) => i + 1).map((index) => (
-							<GridItem rowSpan={1} colSpan={1}>
+						{Array.from(
+							{ length: numThumbnails },
+							(_, i) => i + 1,
+						).map((index) => (
+							<GridItem
+								rowSpan={1}
+								colSpan={1}
+							>
 								{renderCollageImage(index)}
 							</GridItem>
 						))}
@@ -71,7 +104,9 @@ export const ImageCollage = (props: Props) => {
 							right={3}
 							bottom={3}
 							fontWeight="bold"
-							onClick={() => setLightBoxPage(0)}
+							onClick={() =>
+								setLightBoxPage(0)
+							}
 						>
 							<FaImages />
 							{props.urls.length} images

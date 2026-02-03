@@ -1,11 +1,13 @@
-import { Entity, PrimaryKey, PrimaryKeyProp } from '@mikro-orm/core';
+import {
+	Entity,
+	PrimaryKey,
+	PrimaryKeyProp,
+} from '@mikro-orm/core';
 
 @Entity()
 export class SchemaMigrations {
+	[PrimaryKeyProp]?: 'version';
 
-  [PrimaryKeyProp]?: 'version';
-
-  @PrimaryKey({ length: -1 })
-  version!: string;
-
+	@PrimaryKey({ length: -1 })
+	version!: string;
 }

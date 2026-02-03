@@ -8,7 +8,9 @@ export const findUserByEmail = async (email: string) => {
 	return em.findOne(AppUser, { email });
 };
 
-export const createUser = async (email: string): Promise<AppUser> => {
+export const createUser = async (
+	email: string,
+): Promise<AppUser> => {
 	const em = getEm();
 	const user = em.create(AppUser, {
 		username: email,
@@ -22,6 +24,8 @@ export const createUser = async (email: string): Promise<AppUser> => {
 
 export const getShopIdForUser = async (userId: number) => {
 	const em = getEm();
-	const shopRole = await em.findOne(ShopUserRole, { user: { id: userId } });
+	const shopRole = await em.findOne(ShopUserRole, {
+		user: { id: userId },
+	});
 	return shopRole?.shop.id || null;
 };

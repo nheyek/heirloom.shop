@@ -3,11 +3,18 @@ import { Request, Response } from 'express';
 import { mapListingToCartListingData } from '../mappers/listing.mapper';
 import * as listingService from '../services/listing.service';
 
-export const getCartListings = async (req: Request, res: Response) => {
+export const getCartListings = async (
+	req: Request,
+	res: Response,
+) => {
 	const idsParam = req.query.ids;
 
 	if (!idsParam || typeof idsParam !== 'string') {
-		return res.status(400).json({ message: 'ids query parameter is required' });
+		return res
+			.status(400)
+			.json({
+				message: 'ids query parameter is required',
+			});
 	}
 
 	const shortIds = idsParam
@@ -20,12 +27,23 @@ export const getCartListings = async (req: Request, res: Response) => {
 	}
 
 	const cartListings: CartListingData[] = [];
-	const listings = await listingService.findListingsByShortIds(shortIds);
+	const listings =
+		await listingService.findListingsByShortIds(
+			shortIds,
+		);
 
 	await Promise.all(
 		listings.map(async (listing) => {
-			const variations = await listingService.findListingVariations(listing.id);
-			cartListings.push(mapListingToCartListingData(listing, variations));
+			const variations =
+				await listingService.findListingVariations(
+					listing.id,
+				);
+			cartListings.push(
+				mapListingToCartListingData(
+					listing,
+					variations,
+				),
+			);
 		}),
 	);
 

@@ -1,35 +1,58 @@
 import { API_ROUTES } from '@common/constants';
 import { CategoryTileData } from '@common/types/CategoryTileData';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import useApi from '../hooks/useApi';
 
 type CategoriesContextType = {
-	getCategory: (id: string) => CategoryTileData | undefined;
-	getChildCategories: (id: string | null) => CategoryTileData[];
-	getAncestorCategories: (id: string) => CategoryTileData[];
+	getCategory: (
+		id: string,
+	) => CategoryTileData | undefined;
+	getChildCategories: (
+		id: string | null,
+	) => CategoryTileData[];
+	getAncestorCategories: (
+		id: string,
+	) => CategoryTileData[];
 	categoriesLoading: boolean;
 	categoriesError: string | null;
 };
 
-const CategoriesContext = React.createContext<CategoriesContextType | null>(null);
+const CategoriesContext =
+	React.createContext<CategoriesContextType | null>(null);
 
-export const CategoriesProvider = (props: { children: React.ReactNode }) => {
-	const [categories, setCategories] = useState<Map<string, CategoryTileData>>(new Map());
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+export const CategoriesProvider = (props: {
+	children: React.ReactNode;
+}) => {
+	const [categories, setCategories] = useState<
+		Map<string, CategoryTileData>
+	>(new Map());
+	const [isLoading, setIsLoading] =
+		useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
-	const getCategory = (id: string) => categories.get(id.toUpperCase());
+	const getCategory = (id: string) =>
+		categories.get(id.toUpperCase());
 
 	const getChildCategories = (id: string | null) =>
 		Array.from(categories.values()).filter(
-			(category) => (category.parentId || null) === (id?.toUpperCase() || null),
+			(category) =>
+				(category.parentId || null) ===
+				(id?.toUpperCase() || null),
 		);
 
 	const getAncestorCategories = (id: string) => {
 		const ancestors: CategoryTileData[] = [];
-		let currentCategory = categories.get(id.toUpperCase());
+		let currentCategory = categories.get(
+			id.toUpperCase(),
+		);
 		while (currentCategory?.parentId) {
-			const parentCategory = categories.get(currentCategory.parentId);
+			const parentCategory = categories.get(
+				currentCategory.parentId,
+			);
 			if (parentCategory) {
 				ancestors.push(parentCategory);
 				currentCategory = parentCategory;
@@ -45,12 +68,21 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 	const loadCategories = async () => {
 		setIsLoading(true);
 
-		const response = await getPublicResource(API_ROUTES.categories.base);
+		const response = await getPublicResource(
+			API_ROUTES.categories.base,
+		);
 		if (response.error) {
 			setError('Failed to load category hierarchy');
 		} else {
 			setCategories(
-				new Map(response.data.map((category: CategoryTileData) => [category.id, category])),
+				new Map(
+					response.data.map(
+						(category: CategoryTileData) => [
+							category.id,
+							category,
+						],
+					),
+				),
 			);
 		}
 
@@ -79,7 +111,9 @@ export const CategoriesProvider = (props: { children: React.ReactNode }) => {
 export const useCategories = () => {
 	const ctx = useContext(CategoriesContext);
 	if (!ctx) {
-		throw new Error('useCategoryHierarchy must be used within a CategoryHierarchyProvider');
+		throw new Error(
+			'useCategoryHierarchy must be used within a CategoryHierarchyProvider',
+		);
 	}
 	return ctx;
 };

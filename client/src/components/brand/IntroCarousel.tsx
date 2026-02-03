@@ -1,4 +1,10 @@
-import { Box, Carousel, Stack, Text, useBreakpointValue } from '@chakra-ui/react';
+import {
+	Box,
+	Carousel,
+	Stack,
+	Text,
+	useBreakpointValue,
+} from '@chakra-ui/react';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
 import { FaHandshakeSimple } from 'react-icons/fa6';
@@ -44,17 +50,35 @@ const introItems: IntroItem[] = [
 ];
 
 export const IntroCarousel = () => {
-	const slidesPerPage = useBreakpointValue({ base: 1, lg: 3 }) || 1;
+	const slidesPerPage =
+		useBreakpointValue({ base: 1, lg: 3 }) || 1;
 	const showControls = slidesPerPage < introItems.length;
 
 	return (
-		<Carousel.Root slideCount={introItems.length} slidesPerPage={slidesPerPage} loop>
+		<Carousel.Root
+			slideCount={introItems.length}
+			slidesPerPage={slidesPerPage}
+			loop
+		>
 			<Carousel.ItemGroup>
 				{introItems.map((item, index) => (
-					<Carousel.Item key={index} index={index} mx={{ base: 0, lg: 10 }}>
-						<Stack alignItems="center" justifyContent="start" gap={3} py={2}>
+					<Carousel.Item
+						key={index}
+						index={index}
+						mx={{ base: 0, lg: 10 }}
+					>
+						<Stack
+							alignItems="center"
+							justifyContent="start"
+							gap={3}
+							py={2}
+						>
 							<item.Icon size={36} />
-							<Text fontSize={24} textAlign="center" textStyle="ornamental">
+							<Text
+								fontSize={24}
+								textAlign="center"
+								textStyle="ornamental"
+							>
 								{item.text}
 							</Text>
 						</Stack>

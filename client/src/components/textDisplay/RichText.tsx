@@ -29,7 +29,9 @@ export const RichText = (props: Props) => {
 					marginBottom: '0.5rem',
 				},
 			}}
-			dangerouslySetInnerHTML={{ __html: props.htmlString }}
+			dangerouslySetInnerHTML={{
+				__html: props.htmlString,
+			}}
 		/>
 	);
 };

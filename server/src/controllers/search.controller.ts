@@ -4,10 +4,15 @@ import * as searchService from '../services/search.service';
 import { sanitizeInputString } from '../utils/sanitize';
 import { validateStringLength } from '../utils/validation';
 
-export const search = async (req: Request, res: Response) => {
+export const search = async (
+	req: Request,
+	res: Response,
+) => {
 	const rawQuery = req.query.q;
 	if (typeof rawQuery !== 'string') {
-		res.status(400).json({ message: 'Query parameter "q" is required' });
+		res.status(400).json({
+			message: 'Query parameter "q" is required',
+		});
 		return;
 	}
 
@@ -19,7 +24,9 @@ export const search = async (req: Request, res: Response) => {
 		'Query',
 	);
 	if (!lengthCheck.valid) {
-		res.status(400).json({ message: lengthCheck.message });
+		res.status(400).json({
+			message: lengthCheck.message,
+		});
 		return;
 	}
 

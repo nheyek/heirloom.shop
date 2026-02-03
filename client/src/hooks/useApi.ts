@@ -1,13 +1,23 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import axios, {
+	AxiosError,
+	AxiosRequestConfig,
+} from 'axios';
 
 const useApi = () => {
-	const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
+	const { getAccessTokenSilently, loginWithRedirect } =
+		useAuth0();
 
-	const extractErrorMessage = (error: AxiosError): string => {
+	const extractErrorMessage = (
+		error: AxiosError,
+	): string => {
 		const { response } = error;
 
-		if (response?.data && typeof response.data === 'object' && 'message' in response.data) {
+		if (
+			response?.data &&
+			typeof response.data === 'object' &&
+			'message' in response.data
+		) {
 			return response.data.message as string;
 		}
 
@@ -44,7 +54,9 @@ const useApi = () => {
 
 			return await callApi(retryConfig, 1);
 		} catch (refreshError) {
-			const currentPath = window.location.pathname + window.location.search;
+			const currentPath =
+				window.location.pathname +
+				window.location.search;
 			await loginWithRedirect({
 				appState: { returnTo: currentPath },
 			});
@@ -52,7 +64,8 @@ const useApi = () => {
 			return {
 				data: null,
 				error: {
-					message: 'Authentication required. Redirecting to login...',
+					message:
+						'Authentication required. Redirecting to login...',
 				},
 			};
 		}
@@ -72,14 +85,21 @@ const useApi = () => {
 			if (axios.isAxiosError(error)) {
 				const axiosError = error as AxiosError;
 
-				if (axiosError.response?.status === 401 && retryCount === 0) {
-					return await handleTokenRefresh(config, callApi);
+				if (
+					axiosError.response?.status === 401 &&
+					retryCount === 0
+				) {
+					return await handleTokenRefresh(
+						config,
+						callApi,
+					);
 				}
 
 				return {
 					data: null,
 					error: {
-						message: extractErrorMessage(axiosError),
+						message:
+							extractErrorMessage(axiosError),
 					},
 				};
 			}
@@ -121,7 +141,9 @@ const useApi = () => {
 		return token;
 	};
 
-	const getProtectedResource = async (endpoint: string) => {
+	const getProtectedResource = async (
+		endpoint: string,
+	) => {
 		const token = await getToken();
 
 		const config = {
@@ -141,7 +163,10 @@ const useApi = () => {
 		};
 	};
 
-	const postResource = async (endpoint: string, payload: any) => {
+	const postResource = async (
+		endpoint: string,
+		payload: any,
+	) => {
 		const token = await getToken();
 
 		const config = {
@@ -181,7 +206,12 @@ const useApi = () => {
 		};
 	};
 
-	return { getPublicResource, getProtectedResource, postResource, deleteResource };
+	return {
+		getPublicResource,
+		getProtectedResource,
+		postResource,
+		deleteResource,
+	};
 };
 
 export default useApi;

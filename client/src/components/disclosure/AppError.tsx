@@ -11,7 +11,9 @@ export const AppError = (props: Props) => (
 		<Alert.Indicator />
 		<Alert.Content>
 			<Alert.Title>{props.title}</Alert.Title>
-			<Alert.Description>{props.content}</Alert.Description>
+			<Alert.Description>
+				{props.content}
+			</Alert.Description>
 		</Alert.Content>
 	</Alert.Root>
 );

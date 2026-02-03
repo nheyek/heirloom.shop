@@ -22,14 +22,22 @@ const main = async () => {
 	app.use(express.static(path.join(__dirname, 'public')));
 
 	app.use(`/api/${API_ROUTES.listings}`, listingRouter);
-	app.use(`/api/${API_ROUTES.currentUser}`, currentUserRouter);
+	app.use(
+		`/api/${API_ROUTES.currentUser}`,
+		currentUserRouter,
+	);
 	app.use(`/api/${API_ROUTES.shops.base}`, shopRouter);
-	app.use(`/api/${API_ROUTES.categories.base}`, categoryRouter);
+	app.use(
+		`/api/${API_ROUTES.categories.base}`,
+		categoryRouter,
+	);
 	app.use(`/api/${API_ROUTES.search.base}`, searchRouter);
 	app.use('/api/cart', cartRouter);
 
 	app.use((req, res, next) => {
-		res.sendFile(path.join(__dirname, 'public/index.html'));
+		res.sendFile(
+			path.join(__dirname, 'public/index.html'),
+		);
 	});
 
 	const PORT = process.env.PORT || 3000;

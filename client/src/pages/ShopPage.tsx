@@ -1,4 +1,9 @@
-import { AspectRatio, Box, Skeleton, Text } from '@chakra-ui/react';
+import {
+	AspectRatio,
+	Box,
+	Skeleton,
+	Text,
+} from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -11,23 +16,37 @@ import { motion } from 'framer-motion';
 import { AppError } from '../components/disclosure/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/imageDisplay/AppImage';
-import { CountryCode, STANDARD_GRID_GAP } from '../constants';
+import {
+	CountryCode,
+	STANDARD_GRID_GAP,
+} from '../constants';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const { getPublicResource } = useApi();
 
-	const [shopData, setShopData] = useState<ShopCardData | null>(null);
-	const [shopDataLoading, setShopDataLoading] = useState<boolean>(true);
-	const [shopDataError, setShopDataError] = useState<string | null>(null);
+	const [shopData, setShopData] =
+		useState<ShopCardData | null>(null);
+	const [shopDataLoading, setShopDataLoading] =
+		useState<boolean>(true);
+	const [shopDataError, setShopDataError] = useState<
+		string | null
+	>(null);
 
-	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [listingsLoading, setListingsLoading] = useState<boolean>(true);
-	const [listingsError, setListingsError] = useState<string | null>(null);
+	const [listings, setListings] = useState<
+		ListingCardData[]
+	>([]);
+	const [listingsLoading, setListingsLoading] =
+		useState<boolean>(true);
+	const [listingsError, setListingsError] = useState<
+		string | null
+	>(null);
 
 	const loadShopData = async () => {
-		const response = await getPublicResource(`${API_ROUTES.shops.base}/${id}`);
+		const response = await getPublicResource(
+			`${API_ROUTES.shops.base}/${id}`,
+		);
 		if (response.error) {
 			setShopDataError(response.error.message);
 		} else {
@@ -62,12 +81,17 @@ export const ShopPage = () => {
 
 	const isLoading = shopDataLoading || listingsLoading;
 
-	const responsiveBannerAspectRatio = [1.75, 2.25, 2.75, 3.25];
+	const responsiveBannerAspectRatio = [
+		1.75, 2.25, 2.75, 3.25,
+	];
 
 	if (shopDataError) {
 		return (
 			<Box p={5}>
-				<AppError title="Failed to shop data" content={shopDataError} />
+				<AppError
+					title="Failed to shop data"
+					content={shopDataError}
+				/>
 			</Box>
 		);
 	}
@@ -75,7 +99,9 @@ export const ShopPage = () => {
 	return (
 		<>
 			{isLoading && (
-				<AspectRatio ratio={responsiveBannerAspectRatio}>
+				<AspectRatio
+					ratio={responsiveBannerAspectRatio}
+				>
 					<Skeleton width="100%" />
 				</AspectRatio>
 			)}
@@ -83,13 +109,20 @@ export const ShopPage = () => {
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}
-					transition={{ duration: 1, ease: 'easeInOut' }}
+					transition={{
+						duration: 1,
+						ease: 'easeInOut',
+					}}
 				>
-					<Box position="relative" boxShadow="md">
+					<Box
+						position="relative"
+						boxShadow="md"
+					>
 						<Box mx="auto">
 							<AppImage
 								imageProps={{
-									aspectRatio: responsiveBannerAspectRatio,
+									aspectRatio:
+										responsiveBannerAspectRatio,
 									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`,
 								}}
 							/>
@@ -103,7 +136,12 @@ export const ShopPage = () => {
 							color="#FFF"
 						>
 							<Text
-								fontSize={['36px', '42px', '48px', '54px']}
+								fontSize={[
+									'36px',
+									'42px',
+									'48px',
+									'54px',
+								]}
 								fontWeight="700"
 								textStyle="ornamental"
 								lineHeight={1}
@@ -111,16 +149,28 @@ export const ShopPage = () => {
 								{shopData?.title}
 							</Text>
 							<Text
-								fontSize={['24px', '28px', '32px', '36px']}
+								fontSize={[
+									'24px',
+									'28px',
+									'32px',
+									'36px',
+								]}
 								fontWeight="600"
 								lineHeight={1.5}
 							>
 								{shopData?.classification}
 							</Text>
-							<Box display="flex" alignItems="center" gap={2} fontWeight="600">
+							<Box
+								display="flex"
+								alignItems="center"
+								gap={2}
+								fontWeight="600"
+							>
 								<Box width={[5, 6, 7, 8]}>
 									<CountryFlagIcon
-										countryCode={shopData?.countryCode as CountryCode | null}
+										countryCode={
+											shopData?.countryCode as CountryCode | null
+										}
 										svgProps={{
 											style: {
 												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
@@ -129,7 +179,14 @@ export const ShopPage = () => {
 									/>
 								</Box>
 
-								<Text fontSize={['16px', '20px', '24px', '28px']}>
+								<Text
+									fontSize={[
+										'16px',
+										'20px',
+										'24px',
+										'28px',
+									]}
+								>
 									{shopData?.location}
 								</Text>
 							</Box>
@@ -140,11 +197,20 @@ export const ShopPage = () => {
 
 			{listingsError ? (
 				<Box p={5}>
-					<AppError title="Failed to load listings" content={listingsError} />
+					<AppError
+						title="Failed to load listings"
+						content={listingsError}
+					/>
 				</Box>
 			) : (
-				<Box py={5} px={STANDARD_GRID_GAP}>
-					<ListingGrid listings={listings} isLoading={isLoading} />
+				<Box
+					py={5}
+					px={STANDARD_GRID_GAP}
+				>
+					<ListingGrid
+						listings={listings}
+						isLoading={isLoading}
+					/>
 				</Box>
 			)}
 		</>

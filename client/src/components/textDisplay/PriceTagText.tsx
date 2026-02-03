@@ -12,7 +12,8 @@ export function PriceTag({ value }: PriceTagProps) {
 			bg="brand"
 			color="#FFFFFF"
 			style={{
-				clipPath: 'polygon(0 50%, 10px 100%, 100% 100%, 100% 0, 10px 0)',
+				clipPath:
+					'polygon(0 50%, 10px 100%, 100% 100%, 100% 0, 10px 0)',
 			}}
 			_after={{
 				content: '""',

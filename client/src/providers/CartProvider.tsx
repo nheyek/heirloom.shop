@@ -1,5 +1,11 @@
 import { CartListingData } from '@common/types/CartListingData';
-import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
+import {
+	createContext,
+	ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import { API_ROUTES } from '../../../common/constants';
 import useApi from '../hooks/useApi';
 import { usePersistedState } from '../hooks/usePersistedState';
@@ -31,7 +37,10 @@ interface CartContextType {
 		selectedOptions: { [variationId: number]: number },
 		listingData: CartListingData,
 	) => void;
-	removeFromCart: (listingId: string, selectedOptions: { [variationId: number]: number }) => void;
+	removeFromCart: (
+		listingId: string,
+		selectedOptions: { [variationId: number]: number },
+	) => void;
 	updateQuantity: (
 		listingId: string,
 		selectedOptions: { [variationId: number]: number },
@@ -45,7 +54,9 @@ interface CartContextType {
 	) => string;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+const CartContext = createContext<
+	CartContextType | undefined
+>(undefined);
 
 const getCartItemKey = (
 	listingId: string,
@@ -53,7 +64,10 @@ const getCartItemKey = (
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort((a, b) => Number(a) - Number(b))
-		.map((varId) => `${varId}:${selectedOptions[Number(varId)]}`)
+		.map(
+			(varId) =>
+				`${varId}:${selectedOptions[Number(varId)]}`,
+		)
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };
@@ -62,17 +76,25 @@ const validateSelectedOptions = (
 	selectedOptions: { [variationId: number]: number },
 	variations: CartListingData['variations'],
 ): boolean => {
-	for (const [variationId, optionId] of Object.entries(selectedOptions)) {
-		const variation = variations.find((v) => v.id === Number(variationId));
+	for (const [variationId, optionId] of Object.entries(
+		selectedOptions,
+	)) {
+		const variation = variations.find(
+			(v) => v.id === Number(variationId),
+		);
 		if (!variation) return false;
 
-		const option = variation.options.find((o) => o.id === optionId);
+		const option = variation.options.find(
+			(o) => o.id === optionId,
+		);
 		if (!option) return false;
 	}
 	return true;
 };
 
-const buildFreshListingsMap = (data: CartListingData[]): Map<string, CartListingData> => {
+const buildFreshListingsMap = (
+	data: CartListingData[],
+): Map<string, CartListingData> => {
 	const map = new Map<string, CartListingData>();
 	data.forEach((listing) => {
 		map.set(listing.shortId, listing);
@@ -83,8 +105,14 @@ const buildFreshListingsMap = (data: CartListingData[]): Map<string, CartListing
 const validateCartItem = (
 	item: CartItem,
 	freshListingsMap: Map<string, CartListingData>,
-): { valid: boolean; updatedItem?: CartItem; removedItem?: RemovedCartItem } => {
-	const freshListing = freshListingsMap.get(item.listingId);
+): {
+	valid: boolean;
+	updatedItem?: CartItem;
+	removedItem?: RemovedCartItem;
+} => {
+	const freshListing = freshListingsMap.get(
+		item.listingId,
+	);
 
 	if (!freshListing) {
 		return {
@@ -97,7 +125,10 @@ const validateCartItem = (
 		};
 	}
 
-	const optionsValid = validateSelectedOptions(item.selectedOptions, freshListing.variations);
+	const optionsValid = validateSelectedOptions(
+		item.selectedOptions,
+		freshListing.variations,
+	);
 
 	if (!optionsValid) {
 		return {
@@ -119,10 +150,21 @@ const validateCartItem = (
 	};
 };
 
-export const CartProvider = ({ children }: { children: ReactNode }) => {
-	const [cart, setCart] = usePersistedState<CartItem[]>('shopping-cart', []);
-	const cartCount = cart.map((listing) => listing.quantity).reduce((sum, num) => sum + num, 0);
-	const [removedItems, setRemovedItems] = useState<RemovedCartItem[]>([]);
+export const CartProvider = ({
+	children,
+}: {
+	children: ReactNode;
+}) => {
+	const [cart, setCart] = usePersistedState<CartItem[]>(
+		'shopping-cart',
+		[],
+	);
+	const cartCount = cart
+		.map((listing) => listing.quantity)
+		.reduce((sum, num) => sum + num, 0);
+	const [removedItems, setRemovedItems] = useState<
+		RemovedCartItem[]
+	>([]);
 	const [isOpen, setIsOpen] = useState(false);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const { getPublicResource } = useApi();
@@ -134,25 +176,42 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			setIsRefreshing(true);
 
 			try {
-				const listingIds = [...new Set(cart.map((item) => item.listingId))];
-				const { data, error } = await getPublicResource(
-					`${API_ROUTES.cart.listings}?ids=${listingIds.join(',')}`,
-				);
+				const listingIds = [
+					...new Set(
+						cart.map((item) => item.listingId),
+					),
+				];
+				const { data, error } =
+					await getPublicResource(
+						`${API_ROUTES.cart.listings}?ids=${listingIds.join(',')}`,
+					);
 
 				if (error || !data) {
-					console.error('Error refreshing cart:', error);
+					console.error(
+						'Error refreshing cart:',
+						error,
+					);
 					return;
 				}
 
-				const freshListingsMap = buildFreshListingsMap(data);
+				const freshListingsMap =
+					buildFreshListingsMap(data);
 				const validatedCart: CartItem[] = [];
 				const removed: RemovedCartItem[] = [];
 
 				cart.forEach((item) => {
-					const result = validateCartItem(item, freshListingsMap);
+					const result = validateCartItem(
+						item,
+						freshListingsMap,
+					);
 
-					if (result.valid && result.updatedItem) {
-						validatedCart.push(result.updatedItem);
+					if (
+						result.valid &&
+						result.updatedItem
+					) {
+						validatedCart.push(
+							result.updatedItem,
+						);
 					} else if (result.removedItem) {
 						removed.push(result.removedItem);
 					}
@@ -161,7 +220,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				setCart(validatedCart);
 				setRemovedItems(removed);
 			} catch (error) {
-				console.error('Error refreshing cart:', error);
+				console.error(
+					'Error refreshing cart:',
+					error,
+				);
 			} finally {
 				setIsRefreshing(false);
 			}
@@ -176,15 +238,28 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		listingData: CartListingData,
 	) => {
 		setCart((prev) => {
-			const key = getCartItemKey(listingId, selectedOptions);
+			const key = getCartItemKey(
+				listingId,
+				selectedOptions,
+			);
 			const existing = prev.find(
-				(item) => getCartItemKey(item.listingId, item.selectedOptions) === key,
+				(item) =>
+					getCartItemKey(
+						item.listingId,
+						item.selectedOptions,
+					) === key,
 			);
 
 			if (existing) {
 				return prev.map((item) =>
-					getCartItemKey(item.listingId, item.selectedOptions) === key
-						? { ...item, quantity: item.quantity + 1 }
+					getCartItemKey(
+						item.listingId,
+						item.selectedOptions,
+					) === key
+						? {
+								...item,
+								quantity: item.quantity + 1,
+							}
 						: item,
 				);
 			}
@@ -206,9 +281,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		listingId: string,
 		selectedOptions: { [variationId: number]: number },
 	) => {
-		const key = getCartItemKey(listingId, selectedOptions);
+		const key = getCartItemKey(
+			listingId,
+			selectedOptions,
+		);
 		setCart((prev) =>
-			prev.filter((item) => getCartItemKey(item.listingId, item.selectedOptions) !== key),
+			prev.filter(
+				(item) =>
+					getCartItemKey(
+						item.listingId,
+						item.selectedOptions,
+					) !== key,
+			),
 		);
 	};
 
@@ -222,10 +306,16 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			return;
 		}
 
-		const key = getCartItemKey(listingId, selectedOptions);
+		const key = getCartItemKey(
+			listingId,
+			selectedOptions,
+		);
 		setCart((prev) =>
 			prev.map((item) =>
-				getCartItemKey(item.listingId, item.selectedOptions) === key
+				getCartItemKey(
+					item.listingId,
+					item.selectedOptions,
+				) === key
 					? { ...item, quantity }
 					: item,
 			),
@@ -266,7 +356,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
 	const context = useContext(CartContext);
 	if (!context) {
-		throw new Error('useCart must be used within CartProvider');
+		throw new Error(
+			'useCart must be used within CartProvider',
+		);
 	}
 	return context;
 };

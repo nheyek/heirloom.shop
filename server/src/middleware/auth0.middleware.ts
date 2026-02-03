@@ -6,7 +6,11 @@ const authenticate = auth({
 	audience: process.env.AUTH0_AUDIENCE,
 });
 
-export const authAndSetUser = (req: Request, res: Response, next: NextFunction) => {
+export const authAndSetUser = (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
 	authenticate(req, res, (err) => {
 		if (err) return next(err);
 

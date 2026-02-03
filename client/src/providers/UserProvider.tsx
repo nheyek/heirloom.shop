@@ -1,7 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { API_ROUTES } from '@common/constants';
 import { UserInfo } from '@common/types/UserInfo';
-import React, { useContext, useEffect, useState } from 'react';
+import React, {
+	useContext,
+	useEffect,
+	useState,
+} from 'react';
 import useApi from '../hooks/useApi';
 
 type UserContextType = {
@@ -11,9 +15,13 @@ type UserContextType = {
 	refresh: () => Promise<void>;
 };
 
-const UserContext = React.createContext<UserContextType | undefined>(undefined);
+const UserContext = React.createContext<
+	UserContextType | undefined
+>(undefined);
 
-export const UserProvider = (props: { children: React.ReactNode }) => {
+export const UserProvider = (props: {
+	children: React.ReactNode;
+}) => {
 	const [user, setUser] = useState<UserInfo | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -25,10 +33,14 @@ export const UserProvider = (props: { children: React.ReactNode }) => {
 			setLoading(true);
 			setError(null);
 
-			const res = await getProtectedResource(API_ROUTES.currentUser);
+			const res = await getProtectedResource(
+				API_ROUTES.currentUser,
+			);
 
 			if (res.error) {
-				throw new Error(`Failed to fetch user: ${res.error}`);
+				throw new Error(
+					`Failed to fetch user: ${res.error}`,
+				);
 			}
 
 			const data: UserInfo = await res.data;
@@ -66,7 +78,9 @@ export const UserProvider = (props: { children: React.ReactNode }) => {
 export const useUserInfo = () => {
 	const ctx = useContext(UserContext);
 	if (!ctx) {
-		throw new Error('useUserInfo must be used within a UserProvider');
+		throw new Error(
+			'useUserInfo must be used within a UserProvider',
+		);
 	}
 	return ctx;
 };

@@ -4,13 +4,13 @@ import { MikroORM } from '@mikro-orm/core';
 let orm: MikroORM;
 
 export const initORM = async () => {
-  orm = await MikroORM.init(mikroConfig);
-  return orm;
+	orm = await MikroORM.init(mikroConfig);
+	return orm;
 };
 
 export const getORM = () => {
-  if (!orm) throw new Error('ORM not initialized');
-  return orm;
+	if (!orm) throw new Error('ORM not initialized');
+	return orm;
 };
 
 export const getEm = () => getORM().em.fork(); // use request-scoped EM

@@ -6,12 +6,16 @@ import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
 
-export const mapListingToListingCardData = (listing: Listing): ListingCardData => ({
+export const mapListingToListingCardData = (
+	listing: Listing,
+): ListingCardData => ({
 	id: listing.id,
 	shortId: listing.shortId || '',
 	title: listing.title,
 	subtitle: listing.subtitle || '',
-	categoryId: listing.category ? listing.category.id.toString() : '',
+	categoryId: listing.category
+		? listing.category.id.toString()
+		: '',
 	priceDollars: listing.priceDollars || 0,
 	countryCode: listing.country?.code,
 	shopId: listing.shop.id,
@@ -31,24 +35,39 @@ export const mapListingToListingPageData = (
 	originZip: listing.shippingOrigin?.originZip,
 	shippingDetails: listing.shippingProfile
 		? {
-				shipTimeDaysMin: listing.shippingProfile.shippingDaysMin || 0,
-				shipTimeDaysMax: listing.shippingProfile.shippingDaysMax || 0,
-				shippingRate: Number(listing.shippingProfile.flatShippingRateUsDollars)
+				shipTimeDaysMin:
+					listing.shippingProfile
+						.shippingDaysMin || 0,
+				shipTimeDaysMax:
+					listing.shippingProfile
+						.shippingDaysMax || 0,
+				shippingRate: Number(
+					listing.shippingProfile
+						.flatShippingRateUsDollars,
+				)
 					? `$${listing.shippingProfile.flatShippingRateUsDollars}`
 					: 'FREE',
-		  }
+			}
 		: undefined,
 	returnExchangePolicy: listing.returnExchangeProfile
 		? {
-				returnsAccepted: listing.returnExchangeProfile.acceptReturns,
-				exchangesAccepted: listing.returnExchangeProfile.acceptExchanges,
-				returnWindowDays: listing.returnExchangeProfile.returnWindowDays,
-		  }
+				returnsAccepted:
+					listing.returnExchangeProfile
+						.acceptReturns,
+				exchangesAccepted:
+					listing.returnExchangeProfile
+						.acceptExchanges,
+				returnWindowDays:
+					listing.returnExchangeProfile
+						.returnWindowDays,
+			}
 		: undefined,
 	variations: variations.map(mapVariationToVariationData),
 });
 
-export const mapVariationToVariationData = (variation: ListingVariation): ListingVariationData => ({
+export const mapVariationToVariationData = (
+	variation: ListingVariation,
+): ListingVariationData => ({
 	id: variation.id,
 	name: variation.variationName,
 	pricesVary: variation.pricesVary,
@@ -57,7 +76,9 @@ export const mapVariationToVariationData = (variation: ListingVariation): Listin
 		.map((option: ListingVariationOption) => ({
 			id: option.id,
 			name: option.optionName,
-			additionalPriceDollars: Number(option.additionalPriceUsDollars),
+			additionalPriceDollars: Number(
+				option.additionalPriceUsDollars,
+			),
 		})),
 });
 

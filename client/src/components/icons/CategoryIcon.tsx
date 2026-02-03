@@ -1,7 +1,12 @@
 import { IconType } from 'react-icons';
 import { BsHandbagFill } from 'react-icons/bs';
 import { FaChair } from 'react-icons/fa';
-import { GiCandleHolder, GiDropEarrings, GiPorcelainVase, GiRing } from 'react-icons/gi';
+import {
+	GiCandleHolder,
+	GiDropEarrings,
+	GiPorcelainVase,
+	GiRing,
+} from 'react-icons/gi';
 import { MdCategory } from 'react-icons/md';
 import { CategoryIconCode } from '../../constants';
 
@@ -20,6 +25,7 @@ type Props = {
 };
 
 export const CategoryIcon = ({ iconCode, size }: Props) => {
-	const Icon = (iconCode && iconMap[iconCode]) || MdCategory;
+	const Icon =
+		(iconCode && iconMap[iconCode]) || MdCategory;
 	return <Icon size={size} />;
 };

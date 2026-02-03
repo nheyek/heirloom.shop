@@ -12,12 +12,21 @@ export const findShopById = async (id: number) => {
 	return em.findOne(Shop, { id });
 };
 
-export const findShopByShortId = async (shortId: string) => {
+export const findShopByShortId = async (
+	shortId: string,
+) => {
 	const em = getEm();
-	return em.findOne(Shop, { shortId }, { populate: ['country'] });
+	return em.findOne(
+		Shop,
+		{ shortId },
+		{ populate: ['country'] },
+	);
 };
 
-export const authorizeShopAction = async (shopId: number, userEmail: string) => {
+export const authorizeShopAction = async (
+	shopId: number,
+	userEmail: string,
+) => {
 	const em = getEm();
 	const roleAssignment = await em.findOne(ShopUserRole, {
 		shop: { id: shopId },
@@ -25,6 +34,8 @@ export const authorizeShopAction = async (shopId: number, userEmail: string) => 
 	});
 
 	if (!roleAssignment) {
-		throw new Error('No role assignment found for user with this shop');
+		throw new Error(
+			'No role assignment found for user with this shop',
+		);
 	}
 };

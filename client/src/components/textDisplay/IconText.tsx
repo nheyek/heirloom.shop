@@ -7,7 +7,10 @@ type Props = {
 };
 
 export const IconText = (props: Props) => (
-	<Flex alignItems="center" gap={2}>
+	<Flex
+		alignItems="center"
+		gap={2}
+	>
 		{<props.icon />}
 
 		<Flex gap={1.5}>{props.children}</Flex>

@@ -28,8 +28,17 @@ export const CategoryTile = (props: CategoryTileData) => {
 					alignItems="end"
 				>
 					<Heading
-						fontSize={{ base: 28, sm: 32, lg: 36, xl: 42 }}
-						paddingBottom={{ base: 3, md: 4, lg: 5 }}
+						fontSize={{
+							base: 28,
+							sm: 32,
+							lg: 36,
+							xl: 42,
+						}}
+						paddingBottom={{
+							base: 3,
+							md: 4,
+							lg: 5,
+						}}
 						fontWeight="600"
 						color="#FFF"
 						textShadow="0 1px 2px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 8px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2);"

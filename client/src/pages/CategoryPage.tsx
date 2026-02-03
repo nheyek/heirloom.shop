@@ -1,4 +1,10 @@
-import { Box, Breadcrumb, Link, Skeleton, Stack } from '@chakra-ui/react';
+import {
+	Box,
+	Breadcrumb,
+	Link,
+	Skeleton,
+	Stack,
+} from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
@@ -21,13 +27,24 @@ export const CategoryPage = () => {
 		categoriesError,
 	} = useCategories();
 
-	const category = id ? getCategory(id?.toUpperCase()) : null;
-	const childCategories = id ? getChildCategories(id) : [];
-	const ancestorCategories = id ? getAncestorCategories(id) : [];
+	const category = id
+		? getCategory(id?.toUpperCase())
+		: null;
+	const childCategories = id
+		? getChildCategories(id)
+		: [];
+	const ancestorCategories = id
+		? getAncestorCategories(id)
+		: [];
 
-	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [listingsLoading, setListingsLoading] = useState(true);
-	const [listingsError, setListingsError] = useState<string | null>(null);
+	const [listings, setListings] = useState<
+		ListingCardData[]
+	>([]);
+	const [listingsLoading, setListingsLoading] =
+		useState(true);
+	const [listingsError, setListingsError] = useState<
+		string | null
+	>(null);
 	const isLoading = listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
@@ -64,8 +81,13 @@ export const CategoryPage = () => {
 						<>
 							Click{' '}
 							<Link
-								onClick={() => navigate('/')}
-								style={{ textDecoration: 'underline' }}
+								onClick={() =>
+									navigate('/')
+								}
+								style={{
+									textDecoration:
+										'underline',
+								}}
 							>
 								here
 							</Link>{' '}
@@ -78,9 +100,17 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<Stack py={5} gap={5}>
+		<Stack
+			py={5}
+			gap={5}
+		>
 			<Box px={5}>
-				{isLoading && <Skeleton height={35} width={300} />}
+				{isLoading && (
+					<Skeleton
+						height={35}
+						width={300}
+					/>
+				)}
 				{!isLoading && category && (
 					<Breadcrumb.Root>
 						<Breadcrumb.List
@@ -90,31 +120,51 @@ export const CategoryPage = () => {
 							rowGap={3}
 						>
 							<Breadcrumb.Item>
-								<Link onClick={() => navigate('/')} whiteSpace="nowrap">
+								<Link
+									onClick={() =>
+										navigate('/')
+									}
+									whiteSpace="nowrap"
+								>
 									<MdHome />
 									Home
 								</Link>
 							</Breadcrumb.Item>
 							<Breadcrumb.Separator />
 
-							{ancestorCategories.map((ancestor) => (
-								<Fragment key={ancestor.id}>
-									<Breadcrumb.Item key={ancestor.id}>
-										<Link
-											whiteSpace="nowrap"
-											onClick={() =>
-												navigate(`/category/${ancestor.id.toLowerCase()}`)
+							{ancestorCategories.map(
+								(ancestor) => (
+									<Fragment
+										key={ancestor.id}
+									>
+										<Breadcrumb.Item
+											key={
+												ancestor.id
 											}
 										>
-											{ancestor.title}
-										</Link>
-									</Breadcrumb.Item>
-									<Breadcrumb.Separator />
-								</Fragment>
-							))}
+											<Link
+												whiteSpace="nowrap"
+												onClick={() =>
+													navigate(
+														`/category/${ancestor.id.toLowerCase()}`,
+													)
+												}
+											>
+												{
+													ancestor.title
+												}
+											</Link>
+										</Breadcrumb.Item>
+										<Breadcrumb.Separator />
+									</Fragment>
+								),
+							)}
 
 							<Breadcrumb.Item>
-								<Breadcrumb.CurrentLink fontWeight={600} whiteSpace="nowrap">
+								<Breadcrumb.CurrentLink
+									fontWeight={600}
+									whiteSpace="nowrap"
+								>
 									{category?.title}
 								</Breadcrumb.CurrentLink>
 							</Breadcrumb.Item>
@@ -123,13 +173,19 @@ export const CategoryPage = () => {
 				)}
 			</Box>
 
-			<CategoryGrid isLoading={isLoading} categories={childCategories} />
+			<CategoryGrid
+				isLoading={isLoading}
+				categories={childCategories}
+			/>
 
 			<Box px={5}>
 				{listingsError ? (
 					<AppError title={listingsError} />
 				) : (
-					<ListingGrid listings={listings} isLoading={isLoading} />
+					<ListingGrid
+						listings={listings}
+						isLoading={isLoading}
+					/>
 				)}
 			</Box>
 		</Stack>

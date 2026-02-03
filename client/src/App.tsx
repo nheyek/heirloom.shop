@@ -30,16 +30,50 @@ const App = () => {
 		>
 			<ScrollToTop />
 			<Navbar />
-			<Box flex="1" maxWidth={1600} mx="auto" width="100%">
+			<Box
+				flex="1"
+				maxWidth={1600}
+				mx="auto"
+				width="100%"
+			>
 				<Routes>
-					<Route path="/" element={<LandingPage />} />
-					<Route path="/callback" element={<AuthCallback />} />
-					<Route path={`/${CLIENT_ROUTES.shopManager}`} element={<ShopManager />} />
-					<Route path={`/${CLIENT_ROUTES.saved}`} element={<SavedPage />} />
-					<Route path={`/${CLIENT_ROUTES.category}/:id`} element={<CategoryPage />} />
-					<Route path={`/${CLIENT_ROUTES.shop}/:id`} element={<ShopPage />} />
-					<Route path={`/${CLIENT_ROUTES.listing}/:id`} element={<ListingPage />} />
-					<Route path="*" element={<Navigate to="/" replace />} />
+					<Route
+						path="/"
+						element={<LandingPage />}
+					/>
+					<Route
+						path="/callback"
+						element={<AuthCallback />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.shopManager}`}
+						element={<ShopManager />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.saved}`}
+						element={<SavedPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.category}/:id`}
+						element={<CategoryPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.shop}/:id`}
+						element={<ShopPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.listing}/:id`}
+						element={<ListingPage />}
+					/>
+					<Route
+						path="*"
+						element={
+							<Navigate
+								to="/"
+								replace
+							/>
+						}
+					/>
 				</Routes>
 			</Box>
 			<Footer />

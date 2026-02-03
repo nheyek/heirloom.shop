@@ -22,13 +22,19 @@ export const usePersistedState = <T>(
 	// Initialize state with value from storage or initial value
 	const [state, setState] = useState<T>(() => {
 		try {
-			const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+			const storage =
+				storageType === 'localStorage'
+					? localStorage
+					: sessionStorage;
 			const item = storage.getItem(key);
 			if (item) {
 				return JSON.parse(item) as T;
 			}
 		} catch (error) {
-			console.error(`Error loading ${key} from ${storageType}:`, error);
+			console.error(
+				`Error loading ${key} from ${storageType}:`,
+				error,
+			);
 		}
 		return initialValue;
 	});
@@ -36,10 +42,16 @@ export const usePersistedState = <T>(
 	// Save to storage whenever state changes
 	useEffect(() => {
 		try {
-			const storage = storageType === 'localStorage' ? localStorage : sessionStorage;
+			const storage =
+				storageType === 'localStorage'
+					? localStorage
+					: sessionStorage;
 			storage.setItem(key, JSON.stringify(state));
 		} catch (error) {
-			console.error(`Error saving ${key} to ${storageType}:`, error);
+			console.error(
+				`Error saving ${key} to ${storageType}:`,
+				error,
+			);
 		}
 	}, [key, state, storageType]);
 

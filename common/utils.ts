@@ -1,4 +1,7 @@
-export const formatDateRange = (minOffset: number, maxOffset: number) => {
+export const formatDateRange = (
+	minOffset: number,
+	maxOffset: number,
+) => {
 	const today = new Date();
 
 	const date1 = new Date(today);
@@ -7,7 +10,9 @@ export const formatDateRange = (minOffset: number, maxOffset: number) => {
 	const date2 = new Date(today);
 	date2.setDate(today.getDate() + maxOffset);
 
-	const monthFormat = new Intl.DateTimeFormat('en-US', { month: 'short' });
+	const monthFormat = new Intl.DateTimeFormat('en-US', {
+		month: 'short',
+	});
 
 	const month1 = monthFormat.format(date1);
 	const day1 = date1.getDate();

@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { getAllListings, getListingById } from '../controllers/listing.controller';
+import {
+	getAllListings,
+	getListingById,
+} from '../controllers/listing.controller';
 import {
 	favoriteListingByShortId,
 	unfavoriteListingByShortId,
@@ -10,7 +13,15 @@ const router = Router();
 
 router.get('/', getAllListings);
 router.get('/:id', getListingById);
-router.post('/:id/favorite', authAndSetUser, favoriteListingByShortId);
-router.delete('/:id/favorite', authAndSetUser, unfavoriteListingByShortId);
+router.post(
+	'/:id/favorite',
+	authAndSetUser,
+	favoriteListingByShortId,
+);
+router.delete(
+	'/:id/favorite',
+	authAndSetUser,
+	unfavoriteListingByShortId,
+);
 
 export default router;

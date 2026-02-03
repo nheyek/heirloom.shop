@@ -1,4 +1,7 @@
-import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
+import {
+	SearchResult,
+	SearchResultCollection,
+} from '@common/types/SearchResultCollection';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingCategory } from '../entities/generated/ListingCategory';
@@ -11,19 +14,34 @@ const escapeLikePattern = (query: string): string => {
 	return query.replace(/[%_\\]/g, '\\$&');
 };
 
-export const search = async (query: string): Promise<SearchResultCollection> => {
+export const search = async (
+	query: string,
+): Promise<SearchResultCollection> => {
 	const em = getEm();
 	const pattern = `%${escapeLikePattern(query)}%`;
 
-	const [listings, shops, categories] = await Promise.all([
-		em.find(
-			Listing,
-			{ title: { $ilike: pattern } },
-			{ populate: ['shop'], limit: MAX_RESULTS_PER_TYPE },
-		),
-		em.find(Shop, { title: { $ilike: pattern } }, { limit: MAX_RESULTS_PER_TYPE }),
-		em.find(ListingCategory, { title: { $ilike: pattern } }, { limit: MAX_RESULTS_PER_TYPE }),
-	]);
+	const [listings, shops, categories] = await Promise.all(
+		[
+			em.find(
+				Listing,
+				{ title: { $ilike: pattern } },
+				{
+					populate: ['shop'],
+					limit: MAX_RESULTS_PER_TYPE,
+				},
+			),
+			em.find(
+				Shop,
+				{ title: { $ilike: pattern } },
+				{ limit: MAX_RESULTS_PER_TYPE },
+			),
+			em.find(
+				ListingCategory,
+				{ title: { $ilike: pattern } },
+				{ limit: MAX_RESULTS_PER_TYPE },
+			),
+		],
+	);
 
 	return {
 		listingResults: listings.map(

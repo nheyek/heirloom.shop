@@ -18,7 +18,9 @@ root.render(
 				<UserProvider>
 					<CategoriesProvider>
 						<CartProvider>
-							<ChakraProvider value={customSystem}>
+							<ChakraProvider
+								value={customSystem}
+							>
 								<App />
 							</ChakraProvider>
 						</CartProvider>

@@ -19,8 +19,7 @@ export const Footer = () => {
 					textStyle="sans"
 				>
 					<Text>
-						©{new Date().getFullYear()}{' '}
-						Heirloom
+						©{new Date().getFullYear()} Heirloom
 					</Text>
 					<RxDotFilled />
 					<Text>support@heirloom.shop</Text>

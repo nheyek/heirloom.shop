@@ -1,4 +1,10 @@
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Flex,
+	Heading,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
@@ -15,21 +21,38 @@ import { useCategories } from '../providers/CategoriesProvider';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
-	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
-	const [shopsError, setShopsError] = useState<string | null>(null);
+	const [shopsLoading, setShopsLoading] =
+		useState<boolean>(false);
+	const [shopsError, setShopsError] = useState<
+		string | null
+	>(null);
 
-	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [listingsLoading, setListingsLoading] = useState<boolean>(false);
-	const [listingsError, setListingsError] = useState<string | null>(null);
+	const [listings, setListings] = useState<
+		ListingCardData[]
+	>([]);
+	const [listingsLoading, setListingsLoading] =
+		useState<boolean>(false);
+	const [listingsError, setListingsError] = useState<
+		string | null
+	>(null);
 
-	const { getChildCategories, categoriesLoading, categoriesError } = useCategories();
+	const {
+		getChildCategories,
+		categoriesLoading,
+		categoriesError,
+	} = useCategories();
 
-	const isLoading = shopsLoading || listingsLoading || categoriesLoading;
+	const isLoading =
+		shopsLoading ||
+		listingsLoading ||
+		categoriesLoading;
 
 	const { getPublicResource } = useApi();
 
 	const loadShopData = async () => {
-		const shopResponse = await getPublicResource(API_ROUTES.shops.base);
+		const shopResponse = await getPublicResource(
+			API_ROUTES.shops.base,
+		);
 		if (shopResponse.error) {
 			setShopsError('Failed to load makers');
 		} else {
@@ -39,7 +62,9 @@ export const LandingPage = () => {
 	};
 
 	const loadListings = async () => {
-		const listingsResponse = await getPublicResource(API_ROUTES.listings);
+		const listingsResponse = await getPublicResource(
+			API_ROUTES.listings,
+		);
 		if (listingsResponse.error) {
 			setListingsError('Failed to load listings');
 		} else {
@@ -60,9 +85,19 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<Stack gap={10} mt={8}>
-			<Flex gap={3} flexDir="column" alignItems="center">
-				<Flex flexWrap="nowrap" alignItems="center">
+		<Stack
+			gap={10}
+			mt={8}
+		>
+			<Flex
+				gap={3}
+				flexDir="column"
+				alignItems="center"
+			>
+				<Flex
+					flexWrap="nowrap"
+					alignItems="center"
+				>
 					<Text
 						textStyle="ornamental"
 						fontSize={{ base: 32, lg: 36 }}
@@ -72,7 +107,12 @@ export const LandingPage = () => {
 					>
 						Welcome to
 					</Text>
-					<Box width={{ base: 120, lg: 150 }} flexShrink={0} ml={0.5} mt={1.5}>
+					<Box
+						width={{ base: 120, lg: 150 }}
+						flexShrink={0}
+						ml={0.5}
+						mt={1.5}
+					>
 						<Logo fill="#000000" />
 					</Box>
 				</Flex>
@@ -86,26 +126,43 @@ export const LandingPage = () => {
 				<CategoryGrid
 					isLoading={categoriesLoading}
 					categories={getChildCategories(null)}
-					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
+					numPlaceholders={
+						NUM_TOP_LEVEL_CATEGORIES
+					}
 				/>
 			)}
 
-			<Stack px={5} gap={3}>
+			<Stack
+				px={5}
+				gap={3}
+			>
 				<Heading fontSize={36}>Makers</Heading>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
 				) : (
-					<ShopGrid shops={shops} isLoading={isLoading} />
+					<ShopGrid
+						shops={shops}
+						isLoading={isLoading}
+					/>
 				)}
 			</Stack>
 
-			<Stack px={5} pb={5} gap={3}>
-				<Heading fontSize={36}>Featured Listings</Heading>
+			<Stack
+				px={5}
+				pb={5}
+				gap={3}
+			>
+				<Heading fontSize={36}>
+					Featured Listings
+				</Heading>
 
 				{listingsError ? (
 					<AppError title="Failed to load featured listings" />
 				) : (
-					<ListingGrid listings={listings} isLoading={isLoading} />
+					<ListingGrid
+						listings={listings}
+						isLoading={isLoading}
+					/>
 				)}
 			</Stack>
 		</Stack>

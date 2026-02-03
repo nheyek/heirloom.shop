@@ -23,12 +23,25 @@ const config = defineConfig({
 						rejectUnauthorized: false,
 					},
 				},
-		  },
-	entities: ['dist/server/src/entities/*.js', 'dist/server/src/entities/generated/*.js'],
-	entitiesTs: ['src/entities/*.ts', 'src/entities/generated/*.ts'],
+			},
+	entities: [
+		'dist/server/src/entities/*.js',
+		'dist/server/src/entities/generated/*.js',
+	],
+	entitiesTs: [
+		'src/entities/*.ts',
+		'src/entities/generated/*.ts',
+	],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
-	extensions: [...(isDev ? [require('@mikro-orm/entity-generator').EntityGenerator] : [])],
+	extensions: [
+		...(isDev
+			? [
+					require('@mikro-orm/entity-generator')
+						.EntityGenerator,
+				]
+			: []),
+	],
 });
 
 export default config;

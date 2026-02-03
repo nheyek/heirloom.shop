@@ -10,7 +10,10 @@ import {
 } from '@chakra-ui/react';
 
 import { IoClose } from 'react-icons/io5';
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import {
+	LuChevronLeft,
+	LuChevronRight,
+} from 'react-icons/lu';
 
 type Props = {
 	urls: string[];
@@ -31,15 +34,27 @@ export const LightBox = (props: Props) => {
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
-				<Dialog.Content bg="transparent" shadow="none">
-					<Dialog.Body display="flex" alignItems="center" justifyContent="center" p={0}>
+				<Dialog.Content
+					bg="transparent"
+					shadow="none"
+				>
+					<Dialog.Body
+						display="flex"
+						alignItems="center"
+						justifyContent="center"
+						p={0}
+					>
 						<Carousel.Root
 							slideCount={props.urls.length}
 							page={props.page || 0}
-							onPageChange={(e) => props.setPage(e.page)}
+							onPageChange={(e) =>
+								props.setPage(e.page)
+							}
 						>
 							<ActionButton
-								onClick={() => props.setPage(null)}
+								onClick={() =>
+									props.setPage(null)
+								}
 								top={5}
 								right={5}
 								size="2xs"
@@ -47,33 +62,63 @@ export const LightBox = (props: Props) => {
 								<IoClose />
 							</ActionButton>
 							<Carousel.Control>
-								<Carousel.PrevTrigger asChild insetStart={10}>
+								<Carousel.PrevTrigger
+									asChild
+									insetStart={10}
+								>
 									<ActionButton>
 										<LuChevronLeft />
 									</ActionButton>
 								</Carousel.PrevTrigger>
 
-								<Carousel.ItemGroup aspectRatio={props.aspectRatio} maxH="85vh">
-									{props.urls.map((src, index) => (
-										<Carousel.Item key={index} index={index} overflow="hidden">
-											<Image
-												src={src}
-												objectFit="cover"
-												aspectRatio={props.aspectRatio}
-												borderRadius={5}
-											/>
-										</Carousel.Item>
-									))}
+								<Carousel.ItemGroup
+									aspectRatio={
+										props.aspectRatio
+									}
+									maxH="85vh"
+								>
+									{props.urls.map(
+										(src, index) => (
+											<Carousel.Item
+												key={index}
+												index={
+													index
+												}
+												overflow="hidden"
+											>
+												<Image
+													src={
+														src
+													}
+													objectFit="cover"
+													aspectRatio={
+														props.aspectRatio
+													}
+													borderRadius={
+														5
+													}
+												/>
+											</Carousel.Item>
+										),
+									)}
 								</Carousel.ItemGroup>
 
-								<Carousel.NextTrigger asChild insetEnd={10}>
+								<Carousel.NextTrigger
+									asChild
+									insetEnd={10}
+								>
 									<ActionButton>
 										<LuChevronRight />
 									</ActionButton>
 								</Carousel.NextTrigger>
 							</Carousel.Control>
 
-							<CarouselThumbnails urls={props.urls} aspectRatio={props.aspectRatio} />
+							<CarouselThumbnails
+								urls={props.urls}
+								aspectRatio={
+									props.aspectRatio
+								}
+							/>
 						</Carousel.Root>
 					</Dialog.Body>
 				</Dialog.Content>
@@ -82,12 +127,18 @@ export const LightBox = (props: Props) => {
 	);
 };
 
-const CarouselThumbnails = (props: { urls: string[]; aspectRatio: number }) => {
+const CarouselThumbnails = (props: {
+	urls: string[];
+	aspectRatio: number;
+}) => {
 	const carousel = useCarouselContext();
 
 	return (
 		<HStack justify="center">
-			<Carousel.ProgressText mr={5} fontWeight="bold" />
+			<Carousel.ProgressText
+				mr={5}
+				fontWeight="bold"
+			/>
 			{props.urls.map((src, index) => (
 				<AspectRatio
 					key={index}
@@ -96,7 +147,13 @@ const CarouselThumbnails = (props: { urls: string[]; aspectRatio: number }) => {
 					cursor="button"
 					onClick={() => carousel.scrollTo(index)}
 				>
-					<Image src={src} w="100%" h="100%" objectFit="cover" borderRadius={5} />
+					<Image
+						src={src}
+						w="100%"
+						h="100%"
+						objectFit="cover"
+						borderRadius={5}
+					/>
 				</AspectRatio>
 			))}
 		</HStack>
@@ -104,5 +161,11 @@ const CarouselThumbnails = (props: { urls: string[]; aspectRatio: number }) => {
 };
 
 const ActionButton = (props: IconButtonProps) => (
-	<IconButton size="sm" variant="subtle" borderRadius="full" position="absolute" {...props} />
+	<IconButton
+		size="sm"
+		variant="subtle"
+		borderRadius="full"
+		position="absolute"
+		{...props}
+	/>
 );

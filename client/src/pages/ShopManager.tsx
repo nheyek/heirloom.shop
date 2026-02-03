@@ -22,9 +22,14 @@ export const ShopManager = () => {
 	const { user } = useUserInfo();
 
 	const fetchListings = async () => {
-		const { data, error } = await getPublicResource(API_ROUTES.listings);
+		const { data, error } = await getPublicResource(
+			API_ROUTES.listings,
+		);
 		if (error) {
-			console.error('Error fetching listings:', error);
+			console.error(
+				'Error fetching listings:',
+				error,
+			);
 		} else {
 			console.log('Fetched listings:', data);
 		}
@@ -36,7 +41,10 @@ export const ShopManager = () => {
 			desc: 'This is a test listing',
 		};
 
-		const { data, error } = await postResource(`shops/${user?.shopId}/listings`, listingData);
+		const { data, error } = await postResource(
+			`shops/${user?.shopId}/listings`,
+			listingData,
+		);
 		if (error) {
 			console.error('Error creating listing:', error);
 		} else {
@@ -47,27 +55,53 @@ export const ShopManager = () => {
 	useEffect(() => {}, []);
 
 	return (
-		<Box mt={10} mx="auto" maxWidth={1200}>
+		<Box
+			mt={10}
+			mx="auto"
+			maxWidth={1200}
+		>
 			<Box mx={10}>
 				<Heading size="3xl">Shop Manager</Heading>
-				<Tabs.Root orientation="vertical" defaultValue="profile" mt={10} size="lg">
+				<Tabs.Root
+					orientation="vertical"
+					defaultValue="profile"
+					mt={10}
+					size="lg"
+				>
 					<Tabs.List>
-						<Tabs.Trigger value="profile">Profile</Tabs.Trigger>
-						<Tabs.Trigger value="listings">Listings</Tabs.Trigger>
-						<Tabs.Trigger value="orders">Orders</Tabs.Trigger>
-						<Tabs.Trigger value="messages">Messages</Tabs.Trigger>{' '}
+						<Tabs.Trigger value="profile">
+							Profile
+						</Tabs.Trigger>
+						<Tabs.Trigger value="listings">
+							Listings
+						</Tabs.Trigger>
+						<Tabs.Trigger value="orders">
+							Orders
+						</Tabs.Trigger>
+						<Tabs.Trigger value="messages">
+							Messages
+						</Tabs.Trigger>{' '}
 					</Tabs.List>
 					<Tabs.Indicator />
 					<Tabs.Content value="profile">
-						<Fieldset.Root size="lg" maxW="md" ml={5}>
+						<Fieldset.Root
+							size="lg"
+							maxW="md"
+							ml={5}
+						>
 							<Fieldset.Content>
 								<Field.Root>
-									<Field.Label>Shop Name</Field.Label>
+									<Field.Label>
+										Shop Name
+									</Field.Label>
 									<Input name="name" />
 								</Field.Root>
 							</Fieldset.Content>
 
-							<Button type="submit" alignSelf="flex-start">
+							<Button
+								type="submit"
+								alignSelf="flex-start"
+							>
 								Save
 							</Button>
 						</Fieldset.Root>
@@ -85,18 +119,24 @@ export const ShopManager = () => {
 								<Dialog.Positioner>
 									<Dialog.Content>
 										<Dialog.Header>
-											<Dialog.Title>New Listing</Dialog.Title>
+											<Dialog.Title>
+												New Listing
+											</Dialog.Title>
 										</Dialog.Header>
 										<Dialog.Body>
 											<Fieldset.Root size="md">
 												<Fieldset.Content>
 													<Field.Root>
-														<Field.Label>Product Title</Field.Label>
+														<Field.Label>
+															Product
+															Title
+														</Field.Label>
 														<Input name="productTitle" />
 													</Field.Root>
 													<Field.Root>
 														<Field.Label>
-															Product Description
+															Product
+															Description
 														</Field.Label>
 														<Textarea name="productDesc" />
 													</Field.Root>
@@ -104,12 +144,24 @@ export const ShopManager = () => {
 											</Fieldset.Root>
 										</Dialog.Body>
 										<Dialog.Footer>
-											<Dialog.ActionTrigger asChild>
-												<Button variant="outline">Cancel</Button>
+											<Dialog.ActionTrigger
+												asChild
+											>
+												<Button variant="outline">
+													Cancel
+												</Button>
 											</Dialog.ActionTrigger>
-											<Button onClick={submitNewListing}>Save</Button>
+											<Button
+												onClick={
+													submitNewListing
+												}
+											>
+												Save
+											</Button>
 										</Dialog.Footer>
-										<Dialog.CloseTrigger asChild>
+										<Dialog.CloseTrigger
+											asChild
+										>
 											<CloseButton size="sm" />
 										</Dialog.CloseTrigger>
 									</Dialog.Content>
@@ -117,8 +169,12 @@ export const ShopManager = () => {
 							</Portal>
 						</Dialog.Root>
 					</Tabs.Content>
-					<Tabs.Content value="orders">Orders</Tabs.Content>
-					<Tabs.Content value="messages">Messages</Tabs.Content>
+					<Tabs.Content value="orders">
+						Orders
+					</Tabs.Content>
+					<Tabs.Content value="messages">
+						Messages
+					</Tabs.Content>
 				</Tabs.Root>
 			</Box>
 		</Box>
