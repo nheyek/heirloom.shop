@@ -3,10 +3,25 @@ import { RxDotFilled } from 'react-icons/rx';
 
 export const Footer = () => {
 	return (
-		<Box width="100%" height={75} background="brand" color="#FFF" mt={10}>
+		<Box
+			width="100%"
+			height={75}
+			background="brand"
+			color="#FFF"
+			mt={10}
+		>
 			<Center height="100%">
-				<Flex gap={1} fontSize={16} fontWeight={500} alignItems="center">
-					<Text>©{new Date().getFullYear()} Heirloom</Text>
+				<Flex
+					gap={1}
+					fontSize={16}
+					fontWeight={700}
+					alignItems="center"
+					textStyle="sans"
+				>
+					<Text>
+						©{new Date().getFullYear()}{' '}
+						Heirloom
+					</Text>
 					<RxDotFilled />
 					<Text>support@heirloom.shop</Text>
 				</Flex>
