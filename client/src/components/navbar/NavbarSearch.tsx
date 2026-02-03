@@ -1,4 +1,13 @@
-import { Box, BoxProps, Flex, Input, InputGroup, Skeleton, Stack, Text } from '@chakra-ui/react';
+import {
+	Box,
+	BoxProps,
+	Flex,
+	Input,
+	InputGroup,
+	Skeleton,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
@@ -6,15 +15,27 @@ import { MdCancel, MdCategory } from 'react-icons/md';
 import { RiStackFill } from 'react-icons/ri';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
-import { SearchResult, SearchResultCollection } from '@common/types/SearchResultCollection';
+import {
+	API_ROUTES,
+	SEARCH_QUERY_LIMITS,
+} from '@common/constants';
+import {
+	SearchResult,
+	SearchResultCollection,
+} from '@common/types/SearchResultCollection';
 import { FaShop } from 'react-icons/fa6';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
 
 const MotionBox = motion.create(Box);
 const Animate = (
-	props: Omit<BoxProps, 'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag'>,
+	props: Omit<
+		BoxProps,
+		| 'onAnimationStart'
+		| 'onDragStart'
+		| 'onDragEnd'
+		| 'onDrag'
+	>,
 ) => (
 	<MotionBox
 		{...props}
@@ -32,11 +53,16 @@ export const NavbarSearch = () => {
 	const searchContainerRef = useRef<HTMLDivElement>(null);
 
 	const [searchQuery, setSearchQuery] = useState('');
-	const [searchResultCollection, setSearchResultCollection] =
-		useState<SearchResultCollection | null>(null);
-	const [searchResultsLoading, setSearchResultsLoading] = useState<boolean>(false);
-	const [searchError, setSearchError] = useState<boolean>(false);
-	const [showSearchPopover, setShowSearchPopover] = useState(false);
+	const [
+		searchResultCollection,
+		setSearchResultCollection,
+	] = useState<SearchResultCollection | null>(null);
+	const [searchResultsLoading, setSearchResultsLoading] =
+		useState<boolean>(false);
+	const [searchError, setSearchError] =
+		useState<boolean>(false);
+	const [showSearchPopover, setShowSearchPopover] =
+		useState(false);
 
 	const search = async (query: string) => {
 		const { data, error } = await getPublicResource(
@@ -57,7 +83,10 @@ export const NavbarSearch = () => {
 		setShowSearchPopover(false);
 
 		setSearchResultCollection(null);
-		if (searchQuery?.length < SEARCH_QUERY_LIMITS.minChars) {
+		if (
+			searchQuery?.length <
+			SEARCH_QUERY_LIMITS.minChars
+		) {
 			return;
 		}
 
@@ -76,7 +105,9 @@ export const NavbarSearch = () => {
 		const handleClickOutside = (e: MouseEvent) => {
 			if (
 				searchContainerRef.current &&
-				!searchContainerRef.current.contains(e.target as Node)
+				!searchContainerRef.current.contains(
+					e.target as Node,
+				)
 			) {
 				setShowSearchPopover(false);
 			}
@@ -88,26 +119,53 @@ export const NavbarSearch = () => {
 			}
 		};
 
-		document.addEventListener('mousedown', handleClickOutside);
+		document.addEventListener(
+			'mousedown',
+			handleClickOutside,
+		);
 		document.addEventListener('keydown', handleKeyDown);
 		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-			document.removeEventListener('keydown', handleKeyDown);
+			document.removeEventListener(
+				'mousedown',
+				handleClickOutside,
+			);
+			document.removeEventListener(
+				'keydown',
+				handleKeyDown,
+			);
 		};
 	}, []);
 
-	const renderSearchResultGroupLabel = (icon: JSX.Element, label: string) => (
-		<Flex mx={3} my={1} alignItems="center" gap={2}>
+	const renderSearchResultGroupLabel = (
+		icon: JSX.Element,
+		label: string,
+	) => (
+		<Flex
+			mx={3}
+			my={1}
+			alignItems="center"
+			gap={2}
+		>
 			{icon}
-			<Text fontSize={16} fontWeight="bold">
+			<Text
+				fontSize={16}
+				fontWeight="bold"
+				textStyle="sans"
+			>
 				{label}
 			</Text>
 		</Flex>
 	);
 
-	const renderSearchResults = (results: SearchResult[], path: string) =>
+	const renderSearchResults = (
+		results: SearchResult[],
+		path: string,
+	) =>
 		results.map((result) => (
-			<Link to={`/${path}/${result.id}`} key={result.id}>
+			<Link
+				to={`/${path}/${result.id}`}
+				key={result.id}
+			>
 				<Box
 					p={1}
 					pl={9}
@@ -119,19 +177,35 @@ export const NavbarSearch = () => {
 						setShowSearchPopover(false);
 					}}
 				>
-					<Text fontSize={16}>{result.label}</Text>
+					<Text
+						fontSize={16}
+						textStyle="sans"
+					>
+						{result.label}
+					</Text>
 				</Box>
 			</Link>
 		));
 
 	const renderSearchException = (message: string) => (
-		<Text fontStyle="italic" p={2} pl={4} color="gray.500" fontSize={16}>
+		<Text
+			textStyle="sans"
+			fontStyle="italic"
+			p={2}
+			pl={4}
+			color="gray.500"
+			fontSize={16}
+		>
 			{message}
 		</Text>
 	);
 
 	return (
-		<Box ref={searchContainerRef} position="relative" width="100%">
+		<Box
+			ref={searchContainerRef}
+			position="relative"
+			width="100%"
+		>
 			<InputGroup
 				width="100%"
 				startElement={<FaSearch size={16} />}
@@ -139,8 +213,13 @@ export const NavbarSearch = () => {
 					<AnimatePresence>
 						{searchQuery && (
 							<Animate
-								style={{ display: 'flex', cursor: 'pointer' }}
-								onClick={() => setSearchQuery('')}
+								style={{
+									display: 'flex',
+									cursor: 'pointer',
+								}}
+								onClick={() =>
+									setSearchQuery('')
+								}
 							>
 								<MdCancel size={18} />
 							</Animate>
@@ -151,13 +230,19 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
+					textStyle="sans"
 					fontSize={16}
 					placeholder="Search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}
 					value={searchQuery}
-					onChange={(e) => setSearchQuery(e.target.value)}
-					onFocus={() => searchResultCollection && setShowSearchPopover(true)}
+					onChange={(e) =>
+						setSearchQuery(e.target.value)
+					}
+					onFocus={() =>
+						searchResultCollection &&
+						setShowSearchPopover(true)
+					}
 				/>
 			</InputGroup>
 			<AnimatePresence>
@@ -172,40 +257,79 @@ export const NavbarSearch = () => {
 						overflow="hidden"
 						zIndex="popover"
 					>
-						<Stack gap={0} my={2}>
+						<Stack
+							gap={0}
+							my={2}
+						>
 							{searchResultsLoading && (
-								<Stack gap={2} px={2}>
-									<Skeleton width="55%" height={6}></Skeleton>
-									<Skeleton width="70%" height={6}></Skeleton>
-									<Skeleton width="35%" height={6}></Skeleton>
+								<Stack
+									gap={2}
+									px={2}
+								>
+									<Skeleton
+										width="55%"
+										height={6}
+									></Skeleton>
+									<Skeleton
+										width="70%"
+										height={6}
+									></Skeleton>
+									<Skeleton
+										width="35%"
+										height={6}
+									></Skeleton>
 								</Stack>
 							)}
-							{searchError && renderSearchException('An error occurred')}
+							{searchError &&
+								renderSearchException(
+									'An error occurred',
+								)}
 							{searchResultCollection && (
 								<>
 									{[
 										searchResultCollection.categoryResults,
 										searchResultCollection.listingResults,
 										searchResultCollection.shopResults,
-									].every((resultList) => resultList.length === 0) &&
-										renderSearchException('No results found')}
+									].every(
+										(resultList) =>
+											resultList.length ===
+											0,
+									) &&
+										renderSearchException(
+											'No results found',
+										)}
 
-									{searchResultCollection.categoryResults.length > 0 &&
-										renderSearchResultGroupLabel(<MdCategory />, 'Categories')}
+									{searchResultCollection
+										.categoryResults
+										.length > 0 &&
+										renderSearchResultGroupLabel(
+											<MdCategory />,
+											'Categories',
+										)}
 									{renderSearchResults(
 										searchResultCollection.categoryResults,
 										CLIENT_ROUTES.category,
 									)}
 
-									{searchResultCollection.shopResults.length > 0 &&
-										renderSearchResultGroupLabel(<FaShop />, 'Makers')}
+									{searchResultCollection
+										.shopResults
+										.length > 0 &&
+										renderSearchResultGroupLabel(
+											<FaShop />,
+											'Makers',
+										)}
 									{renderSearchResults(
 										searchResultCollection.shopResults,
 										CLIENT_ROUTES.shop,
 									)}
 
-									{searchResultCollection.listingResults.length > 0 &&
-										renderSearchResultGroupLabel(<RiStackFill />, 'Listings')}
+									{searchResultCollection
+										.listingResults
+										.length > 0 &&
+										renderSearchResultGroupLabel(
+											<RiStackFill />,
+											'Listings',
+										)}
 									{renderSearchResults(
 										searchResultCollection.listingResults,
 										CLIENT_ROUTES.listing,

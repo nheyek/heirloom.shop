@@ -2,9 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Flex, Grid, GridItem, IconButton } from '@chakra-ui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { FaShoppingCart } from 'react-icons/fa';
-import { FaShop } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
-import { CLIENT_ROUTES } from '../../constants';
 import { useCart } from '../../providers/CartProvider';
 import { useUserInfo } from '../../providers/UserProvider';
 import { Logo } from '../brand/Logo';
@@ -29,10 +27,7 @@ export const Navbar = () => {
 					sm: `". logo login" ". search ."`,
 					md: `"logo search login"`,
 				}}
-				templateColumns={{
-					base: '150px 1fr 150px',
-					md: '150px 2fr 150px',
-				}}
+				templateColumns="150px 1fr 150px"
 				alignItems="center"
 				gap={{ base: 2, md: 6 }}
 			>
@@ -70,23 +65,10 @@ export const Navbar = () => {
 									alignItems="center"
 									gap={2}
 								>
-									{user?.shopId && (
-										<IconButton
-											variant="plain"
-											style={{ color: 'white' }}
-											onClick={() => navigate(CLIENT_ROUTES.shopManager)}
-										>
-											<FaShop />
-										</IconButton>
-									)}
 									{!isAuthenticated && <LoginButton />}
 									{isAuthenticated && <NavbarMenu />}
 									<Box position="relative">
-										<IconButton
-											variant="plain"
-											style={{ color: 'white' }}
-											onClick={openCart}
-										>
+										<IconButton variant="plain" color="#FFF" onClick={openCart}>
 											<FaShoppingCart />
 										</IconButton>
 										{cartCount > 0 && (

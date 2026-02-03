@@ -381,7 +381,7 @@ export const ListingPage = () => {
 };
 
 const ListingPageButton = (props: ButtonProps) => (
-	<Button width="100%" fontWeight="bold" {...props} borderRadius="full" />
+	<Button width="100%" fontSize={18} fontWeight={600} {...props} borderRadius="full" />
 );
 
 const LoadingSkeleton = (props: { layout?: Layout; maxWidth: number }) => {

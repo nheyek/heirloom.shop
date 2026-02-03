@@ -23,7 +23,7 @@ export const NavbarMenu = () => {
 	return (
 		<Menu.Root>
 			<Menu.Trigger asChild focusRing="none">
-				<Button variant="plain" size="lg" pl="10px" pr="0">
+				<Button variant="plain" color="#FFF" size="lg" px={0}>
 					<FaUserCircle />
 					<IoMdArrowDropdown />
 				</Button>

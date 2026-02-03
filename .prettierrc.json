@@ -1,12 +1,12 @@
 {
-    "printWidth": 100,
-    "useTabs": true,
-    "tabWidth": 4,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "semi": true,
-    "bracketSpacing": true,
-    "arrowParens": "always",
-    "endOfLine": "lf",
-    "singleAttributePerLine": true
+	"printWidth": 60,
+	"useTabs": true,
+	"tabWidth": 4,
+	"singleQuote": true,
+	"trailingComma": "all",
+	"semi": true,
+	"bracketSpacing": true,
+	"arrowParens": "always",
+	"endOfLine": "lf",
+	"singleAttributePerLine": true
 }

@@ -13,7 +13,13 @@ export const LoginButton = () => {
 	};
 
 	return (
-		<Button variant="plain" size="xl" onClick={handleLogin}>
+		<Button
+			size="xl"
+			variant="plain"
+			color="#FFF"
+			fontWeight={700}
+			onClick={handleLogin}
+		>
 			Log In
 		</Button>
 	);

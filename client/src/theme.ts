@@ -45,10 +45,6 @@ const buttonRecipe = defineRecipe({
 	},
 	variants: {
 		variant: {
-			plain: {
-				color: '#FFF',
-				fontWeight: 600,
-			},
 			solid: {
 				background: 'brand',
 			},
