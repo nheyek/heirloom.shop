@@ -1,5 +1,6 @@
-import { Badge, Box, Button, Card, Flex, IconButton, Link, Stack, Text } from '@chakra-ui/react';
-import { FaTrash } from 'react-icons/fa';
+import { Box, Card, Flex, IconButton, Link, Stack, Text } from '@chakra-ui/react';
+import { FaTrashAlt } from 'react-icons/fa';
+import { TiMinus, TiPlus } from 'react-icons/ti';
 import { Link as RouterLink } from 'react-router-dom';
 import { CLIENT_ROUTES, STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { CartItem } from '../../providers/CartProvider';
@@ -13,7 +14,12 @@ interface CartItemCardProps {
 	onRemove: () => void;
 }
 
-export const CartItemCard = ({ item, onNavigate, onUpdateQuantity, onRemove }: CartItemCardProps) => {
+export const CartItemCard = ({
+	item,
+	onNavigate,
+	onUpdateQuantity,
+	onRemove,
+}: CartItemCardProps) => {
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${item.listingId}`;
 	const getImageUrl = (uuid: string) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
 
@@ -36,16 +42,31 @@ export const CartItemCard = ({ item, onNavigate, onUpdateQuantity, onRemove }: C
 
 	return (
 		<Card.Root variant="elevated">
-			<RouterLink to={listingUrl} onClick={onNavigate}>
-				<ImageCarousel
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					urls={[getImageUrl(item.listingData.imageUuids[0])]}
-				/>
-			</RouterLink>
+			<Box position="relative">
+				<RouterLink to={listingUrl} onClick={onNavigate}>
+					<ImageCarousel
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+						urls={[getImageUrl(item.listingData.imageUuids[0])]}
+					/>
+				</RouterLink>
+				<IconButton
+					position="absolute"
+					top={3}
+					right={3}
+					onClick={onRemove}
+					cursor="button"
+					p={0}
+					background="white"
+					color="black"
+					size="xs"
+				>
+					<FaTrashAlt />
+				</IconButton>
+			</Box>
 
-			<Card.Body p={3} pr={2} pb={2} gap={1}>
-				<Box>
-					<Card.Title fontSize={21}>
+			<Card.Body p={3} gap={3}>
+				<Stack gap={1}>
+					<Card.Title fontSize={20}>
 						<Link truncate display="block" asChild>
 							<RouterLink to={listingUrl} onClick={onNavigate}>
 								{item.listingData.title}
@@ -62,70 +83,22 @@ export const CartItemCard = ({ item, onNavigate, onUpdateQuantity, onRemove }: C
 							</RouterLink>
 						</Link>
 					)}
-				</Box>
+				</Stack>
 
-				{Object.keys(item.selectedOptions).length > 0 && (
-					<Flex gap={1.5} flexWrap="wrap" minHeight={45}>
-						{Object.entries(item.selectedOptions).map(([varId, optId]) => {
-							const variation = item.listingData.variations.find(
-								(v) => v.id === Number(varId)
-							);
-							const option = variation?.options.find((o) => o.id === optId);
-
-							if (!variation || !option) return null;
-
-							return (
-								<Badge key={varId} size="sm" colorPalette="gray">
-									{variation.name}: {option.name}
-								</Badge>
-							);
-						})}
-					</Flex>
-				)}
-
-				<Stack gap={2}>
-					<Flex justifyContent="space-between" alignItems="center">
-						<PriceTag value={`$${itemTotal.toLocaleString()}`} />
-						<Text fontSize="sm" color="gray.600">
-							${itemPrice.toLocaleString()} × {item.quantity}
+				<Flex gap={2} alignItems="center">
+					<Flex alignItems="center" gap={2} flex="1">
+						<IconButton size="2xs" onClick={() => onUpdateQuantity(item.quantity - 1)}>
+							<TiMinus />
+						</IconButton>
+						<Text textAlign="center" minWidth={5} fontSize={16} fontWeight={600}>
+							{item.quantity}
 						</Text>
-					</Flex>
-
-					<Flex gap={2}>
-						<Flex alignItems="center" gap={2} flex="1">
-							<Button
-								size="sm"
-								variant="outline"
-								onClick={() => onUpdateQuantity(item.quantity - 1)}
-								width="32px"
-								px={0}
-							>
-								-
-							</Button>
-							<Text textAlign="center" minWidth="24px" fontWeight="bold">
-								{item.quantity}
-							</Text>
-							<Button
-								size="sm"
-								variant="outline"
-								onClick={() => onUpdateQuantity(item.quantity + 1)}
-								width="32px"
-								px={0}
-							>
-								+
-							</Button>
-						</Flex>
-
-						<IconButton
-							size="sm"
-							variant="ghost"
-							colorPalette="red"
-							onClick={onRemove}
-						>
-							<FaTrash />
+						<IconButton size="2xs" onClick={() => onUpdateQuantity(item.quantity + 1)}>
+							<TiPlus />
 						</IconButton>
 					</Flex>
-				</Stack>
+					<PriceTag value={`$${itemPrice.toLocaleString()}`} />
+				</Flex>
 			</Card.Body>
 		</Card.Root>
 	);

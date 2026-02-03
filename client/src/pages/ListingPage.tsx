@@ -70,7 +70,7 @@ export const ListingPage = () => {
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
-		
+
 		// Convert ListingPageData to CartListingData format
 		const cartListingData = {
 			id: listingData.id,
@@ -331,8 +331,8 @@ export const ListingPage = () => {
 									Add to Cart
 									<RxDotFilled />
 									<Text
-										height="28px"
-										fontSize="28px"
+										height={7}
+										fontSize={28}
 										fontWeight={600}
 										textStyle="ornamental"
 									>

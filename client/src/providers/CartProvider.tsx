@@ -118,7 +118,7 @@ const validateCartItem = (
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const [cart, setCart] = usePersistedState<CartItem[]>('shopping-cart', []);
-	const cartCount = cart.map((listing) => listing.quantity).reduce((sum, num) => sum + num);
+	const cartCount = cart.map((listing) => listing.quantity).reduce((sum, num) => sum + num, 0);
 	const [removedItems, setRemovedItems] = useState<RemovedCartItem[]>([]);
 	const [isRefreshing, setIsRefreshing] = useState(false);
 	const { getPublicResource } = useApi();

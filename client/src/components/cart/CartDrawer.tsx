@@ -1,5 +1,7 @@
-import { Button, Drawer, Flex, Heading, IconButton, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { Button, Drawer, Flex, IconButton, SimpleGrid, Stack, Text } from '@chakra-ui/react';
+import { FaCreditCard } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
+import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../providers/CartProvider';
 import { CartItemCard } from './CartItemCard';
@@ -13,7 +15,7 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 	const { cart, removeFromCart, updateQuantity } = useCart();
 	const navigate = useNavigate();
 
-	const calculateItemTotal = (item: typeof cart[0]): number => {
+	const calculateItemTotal = (item: (typeof cart)[0]): number => {
 		let total = item.listingData.priceDollars;
 
 		Object.entries(item.selectedOptions).forEach(([varId, optId]) => {
@@ -34,12 +36,17 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 	};
 
 	return (
-		<Drawer.Root open={open} onOpenChange={(e) => !e.open && onClose()} placement="end" size="lg">
+		<Drawer.Root
+			open={open}
+			onOpenChange={(e) => !e.open && onClose()}
+			placement="end"
+			size="lg"
+		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
 				<Drawer.Content>
 					<Drawer.Header>
-						<Drawer.Title fontSize={22}>Shopping Cart</Drawer.Title>
+						<Drawer.Title fontSize={24}>Shopping Cart</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton size="md" variant="ghost">
 								<MdClose />
@@ -72,7 +79,7 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 											updateQuantity(
 												item.listingId,
 												item.selectedOptions,
-												quantity
+												quantity,
 											)
 										}
 										onRemove={() =>
@@ -87,12 +94,19 @@ export const CartDrawer = ({ open, onClose }: CartDrawerProps) => {
 					{cart.length > 0 && (
 						<Drawer.Footer>
 							<Stack gap={3} width="100%">
-								<Flex justifyContent="space-between" alignItems="center">
-									<Heading size="lg">Total</Heading>
-									<Heading size="lg">${cartTotal.toLocaleString()}</Heading>
-								</Flex>
-								<Button size="xl" width="100%" colorPalette="brand">
-									Proceed to Checkout
+								<Button
+									size="xl"
+									textStyle="ornamental"
+									fontSize={20}
+									fontWeight={500}
+								>
+									<FaCreditCard />
+									Proceed to checkout
+									<RxDotFilled />
+									<Text height={7} fontSize={28} fontWeight={600}>
+										{' '}
+										${cartTotal.toLocaleString()}
+									</Text>
 								</Button>
 							</Stack>
 						</Drawer.Footer>

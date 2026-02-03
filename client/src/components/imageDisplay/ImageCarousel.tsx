@@ -86,7 +86,6 @@ const ActionButton = (props: ActionButtonProps) => (
 		{...props}
 		size="2xs"
 		variant="surface"
-		borderRadius="full"
 		position="absolute"
 		zIndex="1"
 		initial={{ opacity: 0 }}
