@@ -128,13 +128,15 @@ export const CartItemCard = ({
 				</Stack>
 
 				<Flex
-					gap={2}
-					alignItems="center"
+					alignItems="end"
+					justifyContent="space-between"
 				>
+					<PriceTag
+						value={`$${itemPrice.toLocaleString()}`}
+					/>
 					<Flex
 						alignItems="center"
 						gap={2}
-						flex="1"
 					>
 						<IconButton
 							size="2xs"
@@ -167,9 +169,6 @@ export const CartItemCard = ({
 							<TiPlus />
 						</IconButton>
 					</Flex>
-					<PriceTag
-						value={`$${itemPrice.toLocaleString()}`}
-					/>
 				</Flex>
 			</Card.Body>
 		</Card.Root>

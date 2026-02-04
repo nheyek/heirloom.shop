@@ -47,7 +47,7 @@ export const CartDrawer = ({
 			open={open}
 			onOpenChange={(e) => !e.open && onClose()}
 			placement="end"
-			size="lg"
+			size={cart.length <= 1 ? 'sm' : 'lg'}
 		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
