@@ -33,14 +33,12 @@ import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppError } from '../components/disclosure/AppError';
-import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { ImageCarousel } from '../components/imageDisplay/ImageCarousel';
 import { ImageCollage } from '../components/imageDisplay/ImageCollage';
 import { IconText } from '../components/textDisplay/IconText';
 import { RichText } from '../components/textDisplay/RichText';
 import {
 	CLIENT_ROUTES,
-	CountryCode,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../constants';
 import useApi from '../hooks/useApi';
@@ -320,43 +318,43 @@ export const ListingPage = () => {
 					gap={10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Stack gap={2}>
-							<Heading
-								mr={5}
-								size="4xl"
-							>
-								{listingData?.title}
-							</Heading>
+						<Stack gap={3}>
+							<Stack gap={1.5}>
+								<Stack gap={0}>
+									<Heading
+										mr={5}
+										size="4xl"
+									>
+										{listingData?.title}
+									</Heading>
 
-							<Flex
-								alignItems="center"
-								gap={2}
-								fontSize={22}
-							>
-								<CountryFlagIcon
+									{/* <CountryFlagIcon
 									countryCode={
 										listingData?.countryCode as CountryCode
 									}
 									size={26}
-								/>
+								/> */}
 
-								<Link
-									onClick={() =>
-										navigate(
-											`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
-										)
-									}
+									<Link
+										fontSize={24}
+										onClick={() =>
+											navigate(
+												`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
+											)
+										}
+									>
+										{
+											listingData?.shopTitle
+										}
+									</Link>
+								</Stack>
+								<Text
+									fontSize={18}
+									fontWeight={500}
 								>
-									{listingData?.shopTitle}
-								</Link>
-							</Flex>
-
-							<Text
-								fontSize={18}
-								fontWeight={500}
-							>
-								{listingData?.subtitle}
-							</Text>
+									{listingData?.subtitle}
+								</Text>
+							</Stack>
 
 							{layout ===
 								Layout.MULTI_COLUMN &&
@@ -494,6 +492,7 @@ export const ListingPage = () => {
 							<Stack
 								gap={1.5}
 								pl={2}
+								fontWeight={500}
 							>
 								{daysToDelivery && (
 									<IconText
