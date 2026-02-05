@@ -148,9 +148,8 @@ export const NavbarSearch = () => {
 		>
 			{icon}
 			<Text
-				fontSize={16}
+				fontSize={18}
 				fontWeight="bold"
-				textStyle="sans"
 			>
 				{label}
 			</Text>
@@ -179,7 +178,7 @@ export const NavbarSearch = () => {
 				>
 					<Text
 						fontSize={16}
-						textStyle="sans"
+						fontWeight={500}
 					>
 						{result.label}
 					</Text>
@@ -189,12 +188,11 @@ export const NavbarSearch = () => {
 
 	const renderSearchException = (message: string) => (
 		<Text
-			textStyle="sans"
 			fontStyle="italic"
 			p={2}
 			pl={4}
 			color="gray.500"
-			fontSize={16}
+			fontSize={18}
 		>
 			{message}
 		</Text>
@@ -221,7 +219,7 @@ export const NavbarSearch = () => {
 									setSearchQuery('')
 								}
 							>
-								<MdCancel size={18} />
+								<MdCancel size={16} />
 							</Animate>
 						)}
 					</AnimatePresence>
@@ -230,9 +228,9 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					textStyle="sans"
-					fontSize={16}
-					placeholder="Search..."
+					fontSize={18}
+					fontWeight={500}
+					placeholder="search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}
 					value={searchQuery}

@@ -14,12 +14,11 @@ export const Footer = () => {
 				<Flex
 					gap={1}
 					fontSize={16}
-					fontWeight={700}
 					alignItems="center"
-					textStyle="sans"
 				>
 					<Text>
-						©{new Date().getFullYear()} Heirloom
+						©{new Date().getFullYear()}{' '}
+						Heirloom
 					</Text>
 					<RxDotFilled />
 					<Text>support@heirloom.shop</Text>

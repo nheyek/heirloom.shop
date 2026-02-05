@@ -92,7 +92,7 @@ export const CartItemCard = ({
 			</Box>
 
 			<Card.Body
-				p={3}
+				p={4}
 				gap={3}
 			>
 				<Stack gap={1}>

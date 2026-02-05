@@ -88,6 +88,7 @@ export const NavbarMenu = () => {
 const MenuItem = (props: MenuItemProps) => (
 	<Menu.Item
 		fontSize={16}
+		fontWeight={500}
 		cursor="pointer"
 		py={2}
 		{...props}

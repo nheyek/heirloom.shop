@@ -10,7 +10,7 @@ import {
 const brandColor = '#121212';
 const ornamentalFont = 'Alegreya';
 const standardFont = 'Bitter';
-const sansSerifFont = 'Nunito';
+const sansSerifFont = 'Alegreya Sans SC';
 
 export const textStyles = defineTextStyles({
 	ornamental: {
@@ -27,7 +27,7 @@ export const textStyles = defineTextStyles({
 
 const inputRecipe = defineRecipe({
 	base: {
-		fontFamily: standardFont,
+		fontFamily: sansSerifFont,
 	},
 	variants: {
 		size: {
@@ -57,7 +57,7 @@ const buttonRecipe = defineRecipe({
 });
 
 const cardRecipe = defineSlotRecipe({
-	slots: ['root', 'header', 'body', 'footer'],
+	slots: ['root'],
 	base: {
 		root: {
 			overflow: 'hidden',
@@ -66,9 +66,29 @@ const cardRecipe = defineSlotRecipe({
 });
 
 const menuRecipe = defineSlotRecipe({
-	slots: ['root', 'content', 'item'],
+	slots: ['item'],
 	base: {
 		item: {
+			fontFamily: sansSerifFont,
+		},
+	},
+});
+
+const selectRecipe = defineSlotRecipe({
+	slots: ['label', 'trigger', 'item'],
+	base: {
+		label: {
+			fontSize: 16,
+			fontWeight: 600,
+			fontFamily: sansSerifFont,
+		},
+		trigger: {
+			fontSize: 18,
+			fontWeight: 500,
+		},
+		item: {
+			fontSize: 18,
+			fontWeight: 500,
 			fontFamily: sansSerifFont,
 		},
 	},
@@ -83,6 +103,10 @@ export const config = defineConfig({
 		'*:focus': {
 			outline: 'none !important',
 			boxShadow: 'none !important',
+		},
+		"[data-scope='select'][data-part='content']": {
+			boxShadow: 'lg !important',
+			transitionProperty: 'opacity, transform',
 		},
 	},
 	theme: {
@@ -107,6 +131,7 @@ export const config = defineConfig({
 		slotRecipes: {
 			card: cardRecipe,
 			menu: menuRecipe,
+			select: selectRecipe,
 		},
 		textStyles,
 	},

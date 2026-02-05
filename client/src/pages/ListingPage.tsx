@@ -351,7 +351,10 @@ export const ListingPage = () => {
 								</Link>
 							</Flex>
 
-							<Text fontSize={18}>
+							<Text
+								fontSize={18}
+								fontWeight={500}
+							>
 								{listingData?.subtitle}
 							</Text>
 
@@ -400,12 +403,7 @@ export const ListingPage = () => {
 												}}
 											>
 												<Select.HiddenSelect />
-												<Select.Label
-													fontSize={
-														16
-													}
-													fontWeight="bold"
-												>
+												<Select.Label>
 													{
 														variation.name
 													}
@@ -457,7 +455,7 @@ export const ListingPage = () => {
 									}
 								>
 									<FaPlusCircle />
-									Add to Cart
+									add to cart
 									<RxDotFilled />
 									<Text
 										height={7}
@@ -476,7 +474,7 @@ export const ListingPage = () => {
 								>
 									<ListingPageButton size="lg">
 										<IoIosHeart />
-										Save
+										save
 									</ListingPageButton>
 									<ListingPageButton
 										size="lg"
@@ -488,7 +486,7 @@ export const ListingPage = () => {
 										}
 									>
 										<FaShare />
-										Share
+										share
 									</ListingPageButton>
 								</SimpleGrid>
 							</Stack>
@@ -560,8 +558,7 @@ export const ListingPage = () => {
 const ListingPageButton = (props: ButtonProps) => (
 	<Button
 		width="100%"
-		fontSize={18}
-		fontWeight={600}
+		fontSize={20}
 		{...props}
 		borderRadius="full"
 	/>

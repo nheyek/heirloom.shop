@@ -1,4 +1,4 @@
-import { Box, BoxProps } from '@chakra-ui/react';
+import { BoxProps, Text } from '@chakra-ui/react';
 
 type Props = BoxProps & {
 	htmlString: string;
@@ -6,7 +6,7 @@ type Props = BoxProps & {
 
 export const RichText = (props: Props) => {
 	return (
-		<Box
+		<Text
 			{...props}
 			css={{
 				'& p': {

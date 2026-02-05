@@ -111,6 +111,7 @@ export const ListingCard = (
 						lineClamp={2}
 						minHeight={45}
 						fontSize={16}
+						fontWeight={500}
 					>
 						{props.subtitle}
 					</Card.Description>

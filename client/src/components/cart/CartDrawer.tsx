@@ -1,15 +1,16 @@
 import {
 	Button,
+	Center,
 	Drawer,
 	Flex,
 	IconButton,
 	SimpleGrid,
-	Stack,
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { FaCreditCard } from 'react-icons/fa';
+import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
+import { PiBookOpenTextFill } from 'react-icons/pi';
 import { RxDotFilled } from 'react-icons/rx';
 import {
 	CartItem,
@@ -33,10 +34,6 @@ export const CartDrawer = ({
 		0,
 	);
 
-	const checkoutText = useBreakpointValue({
-		base: 'Checkout',
-		md: 'Proceed to Checkout',
-	});
 	let gridCols = useBreakpointValue({ base: 1, md: 2 });
 	if (cart.length <= 1) {
 		gridCols = 1;
@@ -71,23 +68,25 @@ export const CartDrawer = ({
 
 					<Drawer.Body>
 						{cart.length === 0 ? (
-							<Flex
+							<Center
 								height="100%"
-								alignItems="center"
-								justifyContent="center"
-								flexDirection="column"
-								gap={4}
+								gap={5}
+								flexDir="column"
 							>
 								<Text
-									fontSize="lg"
+									fontSize={30}
 									color="gray.500"
 								>
 									Your cart is empty
 								</Text>
-								<Button onClick={onClose}>
-									Continue Shopping
+								<Button
+									onClick={onClose}
+									size="md"
+								>
+									<PiBookOpenTextFill />
+									Keep Looking
 								</Button>
-							</Flex>
+							</Center>
 						) : (
 							<SimpleGrid
 								columns={gridCols}
@@ -121,30 +120,29 @@ export const CartDrawer = ({
 
 					{cart.length > 0 && (
 						<Drawer.Footer>
-							<Stack
-								gap={3}
+							<Button
+								size="xl"
 								width="100%"
 							>
-								<Button
-									size="xl"
-									fontSize={20}
-									fontWeight={600}
+								<Flex
+									gap={3}
+									alignItems="center"
+									fontSize={22}
 								>
-									<FaCreditCard />
-									{checkoutText}
-									<RxDotFilled />
-
-									<Text
-										height={7}
-										fontSize={28}
-										textStyle="ornamental"
-									>
-										{' '}
-										$
-										{cartTotal.toLocaleString()}
-									</Text>
-								</Button>
-							</Stack>
+									<FaArrowCircleRight />
+									checkout
+								</Flex>
+								<RxDotFilled />
+								<Text
+									height={7}
+									fontSize={28}
+									textStyle="ornamental"
+								>
+									{' '}
+									$
+									{cartTotal.toLocaleString()}
+								</Text>
+							</Button>
 						</Drawer.Footer>
 					)}
 				</Drawer.Content>
