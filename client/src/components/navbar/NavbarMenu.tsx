@@ -65,7 +65,7 @@ export const NavbarMenu = () => {
 								<MenuItem value="saved">
 									<FaHeart />
 									<Text pl={1}>
-										Favorites
+										favorites
 									</Text>
 								</MenuItem>
 							</Link>
@@ -75,7 +75,7 @@ export const NavbarMenu = () => {
 								onClick={handleLogout}
 							>
 								<PiSignOutBold />
-								<Text pl={1}>Log out</Text>
+								<Text pl={1}>log out</Text>
 							</MenuItem>
 						</Menu.Content>
 					</MotionFlex>
@@ -87,8 +87,7 @@ export const NavbarMenu = () => {
 
 const MenuItem = (props: MenuItemProps) => (
 	<Menu.Item
-		fontSize={16}
-		fontWeight={500}
+		fontSize={18}
 		cursor="pointer"
 		py={2}
 		{...props}

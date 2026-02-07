@@ -17,10 +17,10 @@ export const LoginButton = () => {
 			size="xl"
 			variant="plain"
 			color="#FFF"
-			fontWeight={700}
+			fontSize={22}
 			onClick={handleLogin}
 		>
-			Log In
+			sign in
 		</Button>
 	);
 };

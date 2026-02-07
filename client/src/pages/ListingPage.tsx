@@ -215,7 +215,6 @@ export const ListingPage = () => {
 			<Accordion.Root
 				variant="plain"
 				collapsible
-				defaultValue={['0']}
 				multiple
 				size="lg"
 			>
@@ -228,7 +227,7 @@ export const ListingPage = () => {
 							<Accordion.ItemTrigger>
 								<Text
 									fontSize={18}
-									fontWeight="bold"
+									fontWeight={600}
 									flex="1"
 								>
 									{item.title}
@@ -319,43 +318,35 @@ export const ListingPage = () => {
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={3}>
-							<Stack gap={1.5}>
-								<Stack gap={0}>
-									<Heading
-										mr={5}
-										size="4xl"
-									>
-										{listingData?.title}
-									</Heading>
+							<Flex direction="column">
+								<Heading
+									size="4xl"
+									mr={5}
+								>
+									{listingData?.title}
+								</Heading>
 
-									{/* <CountryFlagIcon
+								{/* <CountryFlagIcon
 									countryCode={
 										listingData?.countryCode as CountryCode
 									}
 									size={26}
 								/> */}
 
-									<Link
-										fontSize={24}
-										onClick={() =>
-											navigate(
-												`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
-											)
-										}
-									>
-										{
-											listingData?.shopTitle
-										}
-									</Link>
-								</Stack>
-								<Text
-									fontSize={18}
-									fontWeight={500}
+								<Link
+									fontSize={24}
+									onClick={() =>
+										navigate(
+											`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
+										)
+									}
 								>
-									{listingData?.subtitle}
-								</Text>
-							</Stack>
-
+									{listingData?.shopTitle}
+								</Link>
+							</Flex>
+							<Text fontSize={18}>
+								{listingData?.subtitle}
+							</Text>
 							{layout ===
 								Layout.MULTI_COLUMN &&
 								renderFullDescription()}
@@ -402,9 +393,7 @@ export const ListingPage = () => {
 											>
 												<Select.HiddenSelect />
 												<Select.Label>
-													{
-														variation.name
-													}
+													{variation.name.toLowerCase()}
 												</Select.Label>
 												<Select.Control>
 													<Select.Trigger cursor="button">

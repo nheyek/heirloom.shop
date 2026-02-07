@@ -123,25 +123,27 @@ export const CartDrawer = ({
 							<Button
 								size="xl"
 								width="100%"
+								fontSize={24}
 							>
-								<Flex
-									gap={3}
-									alignItems="center"
-									fontSize={22}
-								>
-									<FaArrowCircleRight />
-									checkout
-								</Flex>
-								<RxDotFilled />
 								<Text
-									height={7}
 									fontSize={28}
+									height="28px"
+									fontWeight={600}
 									textStyle="ornamental"
 								>
 									{' '}
 									$
 									{cartTotal.toLocaleString()}
 								</Text>
+								<RxDotFilled />
+
+								<Flex
+									gap={3}
+									alignItems="center"
+								>
+									checkout
+									<FaArrowCircleRight />
+								</Flex>
 							</Button>
 						</Drawer.Footer>
 					)}

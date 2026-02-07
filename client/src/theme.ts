@@ -78,7 +78,7 @@ const selectRecipe = defineSlotRecipe({
 	slots: ['label', 'trigger', 'item'],
 	base: {
 		label: {
-			fontSize: 16,
+			fontSize: 18,
 			fontWeight: 600,
 			fontFamily: sansSerifFont,
 		},
