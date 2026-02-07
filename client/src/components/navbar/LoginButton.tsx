@@ -14,10 +14,9 @@ export const LoginButton = () => {
 
 	return (
 		<Button
-			size="xl"
 			variant="plain"
 			color="#FFF"
-			fontSize={22}
+			fontSize={20}
 			onClick={handleLogin}
 		>
 			sign in
