@@ -6,30 +6,32 @@ import {
 	GridItem,
 	IconButton,
 } from '@chakra-ui/react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { FaShoppingCart } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useCart } from '../../providers/CartProvider';
-import { useUserInfo } from '../../providers/UserProvider';
+import { FadeInBox } from '../animation/FadeInBox';
 import { Logo } from '../brand/Logo';
 import { CartDrawer } from '../cart/CartDrawer';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
 import { NavbarSearch } from './NavbarSearch';
 
-const MotionBox = motion.create(Box);
+enum gridTemplateAreas {
+	LOGO = 'LOGO',
+	SEARCH = 'SEARCH',
+	LOGIN = 'LOGIN',
+}
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } =
 		useAuth0();
-	const { user } = useUserInfo();
 	const {
 		cartCount,
 		isOpen: cartIsOpen,
 		openCart,
 		closeCart,
 	} = useCart();
-	const navigate = useNavigate();
 
 	return (
 		<Box
@@ -40,60 +42,54 @@ export const Navbar = () => {
 		>
 			<Grid
 				gridTemplateAreas={{
-					base: `"logo . login" ". search ."`,
-					sm: `". logo login" ". search ."`,
-					md: `"logo search login"`,
+					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.LOGIN}" ". ${gridTemplateAreas.SEARCH} ."`,
+					sm: `". ${gridTemplateAreas.LOGO} ${gridTemplateAreas.LOGIN}" ". ${gridTemplateAreas.SEARCH} ."`,
+					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.LOGIN}"`,
 				}}
 				templateColumns="150px 1fr 150px"
 				alignItems="center"
-				gap={{ base: 2, md: 6 }}
+				gap={5}
 			>
 				<GridItem
-					area="logo"
+					area={gridTemplateAreas.LOGO}
 					justifySelf={{
 						base: 'start',
 						sm: 'center',
 						md: 'start',
 					}}
 				>
-					<Box
-						width="150px"
-						flexShrink={0}
-						mt={1}
-						cursor="pointer"
-						onClick={() => navigate('/')}
-					>
-						<Logo />
-					</Box>
+					<Link to="/">
+						<Box
+							flexShrink={0}
+							width={150}
+							mt={1}
+							cursor="button"
+						>
+							<Logo />
+						</Box>
+					</Link>
 				</GridItem>
 				<GridItem
-					area="search"
+					area={gridTemplateAreas.SEARCH}
 					justifySelf="center"
 					justifyContent="center"
-					w="full"
-					maxW="550px"
+					w="100%"
+					maxW={550}
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<NavbarSearch />
 				</GridItem>
 				<GridItem
-					area="login"
+					area={gridTemplateAreas.LOGIN}
 					justifySelf="end"
 				>
-					<Box
-						display="flex"
+					<Flex
 						alignItems="center"
 						gap={2}
 					>
 						<AnimatePresence>
 							{!authIsLoading && (
-								<MotionBox
-									initial={{ opacity: 0 }}
-									animate={{ opacity: 1 }}
-									exit={{ opacity: 0 }}
-									transition={{
-										duration: 0.15,
-									}}
+								<FadeInBox
 									display="flex"
 									alignItems="center"
 									gap={2}
@@ -121,28 +117,30 @@ export const Navbar = () => {
 												position="absolute"
 												top={-1}
 												right={-1}
+												w={'22px'}
+												h={'22px'}
 												borderRadius="full"
 												fontSize={
 													12
 												}
-												w={'22px'}
-												h={'22px'}
 												alignItems="center"
 												justifyContent="center"
-												fontWeight="bold"
+												fontWeight={
+													700
+												}
 											>
 												{cartCount}
 											</Flex>
 										)}
 									</Box>
-								</MotionBox>
+								</FadeInBox>
 							)}
 						</AnimatePresence>
 						<CartDrawer
 							isOpen={cartIsOpen}
 							onClose={closeCart}
 						/>
-					</Box>
+					</Flex>
 				</GridItem>
 			</Grid>
 		</Box>
