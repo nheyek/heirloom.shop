@@ -46,7 +46,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 					<Drawer.Header>
 						<Drawer.Title
 							fontSize={30}
-							fontWeight={600}
+							fontWeight={500}
 						>
 							Shopping Cart
 						</Drawer.Title>
@@ -119,6 +119,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 							<Button
 								size="xl"
 								width="100%"
+								fontSize={22}
 							>
 								<Text
 									fontSize={28}
@@ -134,7 +135,6 @@ export const ShoppingCardDrawer = (props: Props) => {
 								<Flex
 									gap={3}
 									alignItems="center"
-									fontSize={24}
 								>
 									checkout
 									<FaArrowCircleRight />

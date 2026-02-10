@@ -1,4 +1,3 @@
-import { CartListingData } from '@common/types/CartListingData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { ListingVariationData } from '@common/types/ListingVariationData';
@@ -36,14 +35,11 @@ export const mapListingToListingPageData = (
 	shippingDetails: listing.shippingProfile
 		? {
 				shipTimeDaysMin:
-					listing.shippingProfile
-						.shippingDaysMin || 0,
+					listing.shippingProfile.shippingDaysMin || 0,
 				shipTimeDaysMax:
-					listing.shippingProfile
-						.shippingDaysMax || 0,
+					listing.shippingProfile.shippingDaysMax || 0,
 				shippingRate: Number(
-					listing.shippingProfile
-						.flatShippingRateUsDollars,
+					listing.shippingProfile.flatShippingRateUsDollars,
 				)
 					? `$${listing.shippingProfile.flatShippingRateUsDollars}`
 					: 'FREE',
@@ -52,14 +48,11 @@ export const mapListingToListingPageData = (
 	returnExchangePolicy: listing.returnExchangeProfile
 		? {
 				returnsAccepted:
-					listing.returnExchangeProfile
-						.acceptReturns,
+					listing.returnExchangeProfile.acceptReturns,
 				exchangesAccepted:
-					listing.returnExchangeProfile
-						.acceptExchanges,
+					listing.returnExchangeProfile.acceptExchanges,
 				returnWindowDays:
-					listing.returnExchangeProfile
-						.returnWindowDays,
+					listing.returnExchangeProfile.returnWindowDays,
 			}
 		: undefined,
 	variations: variations.map(mapVariationToVariationData),
@@ -80,12 +73,4 @@ export const mapVariationToVariationData = (
 				option.additionalPriceUsDollars,
 			),
 		})),
-});
-
-export const mapListingToCartListingData = (
-	listing: Listing,
-	variations: ListingVariation[],
-): CartListingData => ({
-	...mapListingToListingCardData(listing),
-	variations: variations.map(mapVariationToVariationData),
 });

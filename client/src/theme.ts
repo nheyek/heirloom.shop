@@ -100,10 +100,12 @@ export const config = defineConfig({
 			touchAction: 'pan-y',
 			height: '100vh',
 		},
+		// Prevents outline on accordion section headers on mobile
 		'*:focus': {
 			outline: 'none !important',
 			boxShadow: 'none !important',
 		},
+		// Prevents Chakra bug where box shadow doesn't appear correctly on select option menu
 		"[data-scope='select'][data-part='content']": {
 			boxShadow: 'lg !important',
 			transitionProperty: 'opacity, transform',

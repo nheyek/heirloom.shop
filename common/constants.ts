@@ -15,9 +15,6 @@ export const API_ROUTES = {
 		base: 'search',
 		queryParam: 'q',
 	},
-	cart: {
-		listings: 'cart/listings',
-	},
 };
 
 export const SEARCH_QUERY_LIMITS = {
