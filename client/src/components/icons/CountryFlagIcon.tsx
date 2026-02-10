@@ -2,6 +2,7 @@ import { SVGProps } from 'react';
 import { FaLocationDot } from 'react-icons/fa6';
 import { CountryCode } from '../../constants';
 
+// Flags sourced from https://www.npmjs.com/package/country-flag-icons
 export const CountryFlagIcon = (props: {
 	countryCode: CountryCode | null;
 	size?: number;

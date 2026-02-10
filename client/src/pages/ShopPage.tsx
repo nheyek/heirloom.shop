@@ -1,4 +1,11 @@
-import { AspectRatio, Box, Skeleton, Text } from '@chakra-ui/react';
+import {
+	AspectRatio,
+	Box,
+	Heading,
+	Skeleton,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -112,7 +119,8 @@ export const ShopPage = () => {
 								}}
 							/>
 						</Box>
-						<Box
+						<Stack
+							gap={{ base: 0, md: 1.5, lg: 2 }}
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
@@ -120,35 +128,34 @@ export const ShopPage = () => {
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
-							<Text
-								fontSize={[
-									'36px',
-									'42px',
-									'48px',
-									'54px',
-								]}
-								fontWeight="700"
-								textStyle="ornamental"
-								lineHeight={1}
-							>
-								{shopData?.title}
-							</Text>
-							<Text
-								fontSize={[
-									'24px',
-									'28px',
-									'32px',
-									'36px',
-								]}
-								fontWeight="600"
-								lineHeight={1.5}
-							>
-								{shopData?.classification}
-							</Text>
+							<Stack gap={{ base: 1, md: 4, lg: 6 }}>
+								<Heading
+									fontSize={{
+										base: '36px',
+										md: '48px',
+										lg: '64px',
+									}}
+									fontWeight="700"
+									textStyle="ornamental"
+								>
+									{shopData?.title}
+								</Heading>
+								<Heading
+									fontSize={{
+										base: '24px',
+										md: '32px',
+										lg: '36px',
+									}}
+									fontWeight="600"
+								>
+									{shopData?.classification}
+								</Heading>
+							</Stack>
+
 							<Box
 								display="flex"
 								alignItems="center"
-								gap={2}
+								gap={{ base: 2, lg: 3 }}
 								fontWeight="600"
 							>
 								<Box width={[5, 6, 7, 8]}>
@@ -165,17 +172,16 @@ export const ShopPage = () => {
 								</Box>
 
 								<Text
-									fontSize={[
-										'16px',
-										'20px',
-										'24px',
-										'28px',
-									]}
+									fontSize={{
+										base: '20px',
+										md: '28px',
+										lg: '32px',
+									}}
 								>
 									{shopData?.location}
 								</Text>
 							</Box>
-						</Box>
+						</Stack>
 					</Box>
 				</motion.div>
 			)}
