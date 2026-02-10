@@ -84,7 +84,7 @@ export const SavedPage = () => {
 			gap={4}
 		>
 			<Heading fontSize={32}>Favorite Listings</Heading>
-			{!isLoading && listings.length === 0 && !error && (
+			{!isLoading && !error && listings.length === 0 && (
 				<Text fontSize={18}>
 					You haven't favorited any listings yet. Click the
 					heart icon on any listing to save it.

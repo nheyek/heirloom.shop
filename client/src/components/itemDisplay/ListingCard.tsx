@@ -60,7 +60,7 @@ export const ListingCard = (
 					gap={1}
 				>
 					<Box>
-						<Card.Title fontSize={21}>
+						<Card.Title fontSize={22}>
 							<Link
 								truncate
 								display="block"

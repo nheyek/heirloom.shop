@@ -120,7 +120,7 @@ export const ShopPage = () => {
 							/>
 						</Box>
 						<Stack
-							gap={{ base: 0, md: 1.5, lg: 2 }}
+							gap={{ base: 0, md: 0.5, lg: 1 }}
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}

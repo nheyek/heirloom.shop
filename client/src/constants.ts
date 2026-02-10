@@ -39,3 +39,17 @@ export enum CountryCode {
 	CH = 'CH',
 	PT = 'PT',
 }
+
+export const countryDisplayName = {
+	[CountryCode.US]: 'USA',
+	[CountryCode.CA]: 'Canada',
+	[CountryCode.UK]: 'United Kingdom',
+	[CountryCode.IT]: 'Italy',
+	[CountryCode.FR]: 'France',
+	[CountryCode.DE]: 'Germany',
+	[CountryCode.BE]: 'Belgium',
+	[CountryCode.CZ]: 'Czech Republic',
+	[CountryCode.AT]: 'Austria',
+	[CountryCode.CH]: 'Switzerland',
+	[CountryCode.PT]: 'Portugal',
+};

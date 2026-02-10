@@ -17,8 +17,7 @@ type Props = {
 };
 
 export const ImageCollage = (props: Props) => {
-	let numGridCols =
-		useBreakpointValue({ base: 2, lg: 3 }) || 2;
+	let numGridCols = useBreakpointValue({ base: 2, lg: 3 }) || 2;
 
 	const numThumbnailTiles = numGridCols * 2 - 2;
 	const numSecondaryImages = props.urls.length - 1;
@@ -26,12 +25,11 @@ export const ImageCollage = (props: Props) => {
 		numThumbnailTiles,
 		numSecondaryImages,
 	);
-	const truncateImageList =
-		numThumbnailTiles < numSecondaryImages;
+	const truncateImageList = numThumbnailTiles < numSecondaryImages;
 
-	const [lightBoxPage, setLightBoxPage] = useState<
-		number | null
-	>(null);
+	const [lightBoxPage, setLightBoxPage] = useState<number | null>(
+		null,
+	);
 
 	const renderCollageImage = (index: number) => (
 		<AppImage
@@ -90,6 +88,7 @@ export const ImageCollage = (props: Props) => {
 							(_, i) => i + 1,
 						).map((index) => (
 							<GridItem
+								key={index}
 								rowSpan={1}
 								colSpan={1}
 							>
@@ -104,9 +103,7 @@ export const ImageCollage = (props: Props) => {
 							right={3}
 							bottom={3}
 							fontWeight="bold"
-							onClick={() =>
-								setLightBoxPage(0)
-							}
+							onClick={() => setLightBoxPage(0)}
 						>
 							<FaImages />
 							{props.urls.length} images

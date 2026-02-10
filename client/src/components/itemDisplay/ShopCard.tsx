@@ -1,10 +1,4 @@
-import {
-	Box,
-	Card,
-	Link,
-	SimpleGrid,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -40,7 +34,7 @@ export const ShopCard = (
 					p={3}
 					gap={1}
 				>
-					<Card.Title fontSize={21}>
+					<Card.Title fontSize={22}>
 						<Link
 							asChild
 							truncate
@@ -65,9 +59,7 @@ export const ShopCard = (
 							}
 							size={22}
 						/>
-						<Text truncate>
-							{props.classification}
-						</Text>
+						<Text truncate>{props.classification}</Text>
 						<Box
 							width={22}
 							height={22}
@@ -78,9 +70,7 @@ export const ShopCard = (
 								}
 							/>
 						</Box>
-						<Text truncate>
-							{props.location}
-						</Text>
+						<Text truncate>{props.location}</Text>
 					</SimpleGrid>
 				</Card.Body>
 			</Card.Root>

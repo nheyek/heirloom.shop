@@ -33,12 +33,15 @@ import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppError } from '../components/feedback/AppError';
+import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { ImageCollage } from '../components/imageDisplay/ImageCollage';
 import { MultiImage } from '../components/imageDisplay/MultiImage';
 import { IconText } from '../components/textDisplay/IconText';
 import { RichText } from '../components/textDisplay/RichText';
 import {
 	CLIENT_ROUTES,
+	CountryCode,
+	countryDisplayName,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../constants';
 import useApi from '../hooks/useApi';
@@ -300,7 +303,7 @@ export const ListingPage = () => {
 					gap={10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Stack gap={3}>
+						<Stack gap={4}>
 							<Flex direction="column">
 								<Heading
 									size="4xl"
@@ -308,16 +311,9 @@ export const ListingPage = () => {
 								>
 									{listingData?.title}
 								</Heading>
-
-								{/* <CountryFlagIcon
-									countryCode={
-										listingData?.countryCode as CountryCode
-									}
-									size={26}
-								/> */}
-
 								<Link
-									fontSize={24}
+									fontSize={22}
+									fontWeight={500}
 									onClick={() =>
 										navigate(
 											`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
@@ -327,9 +323,33 @@ export const ListingPage = () => {
 									{listingData?.shopTitle}
 								</Link>
 							</Flex>
-							<Text fontSize={18}>
+							<Stack
+								fontSize={16}
+								gap={2}
+							>
 								{listingData?.subtitle}
-							</Text>
+								{listingData?.countryCode && (
+									<Flex
+										fontWeight={500}
+										alignItems="center"
+										gap={2}
+									>
+										<CountryFlagIcon
+											countryCode={
+												listingData.countryCode as CountryCode
+											}
+											size={22}
+										/>
+										Made in{' '}
+										{
+											countryDisplayName[
+												listingData.countryCode as CountryCode
+											]
+										}
+									</Flex>
+								)}
+							</Stack>
+
 							{layout === Layout.MULTI_COLUMN &&
 								renderFullDescription()}
 						</Stack>
