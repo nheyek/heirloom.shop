@@ -1,17 +1,11 @@
-import {
-	Box,
-	Flex,
-	Heading,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
 import { IntroCarousel } from '../components/branding/IntroCarousel';
 import { Logo } from '../components/branding/Logo';
-import { AppError } from '../components/disclosure/AppError';
+import { AppError } from '../components/feedback/AppError';
 import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import { ShopGrid } from '../components/layout/ShopGrid';
@@ -21,31 +15,21 @@ import { useCategories } from '../providers/CategoriesProvider';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
-	const [shopsLoading, setShopsLoading] =
-		useState<boolean>(false);
-	const [shopsError, setShopsError] = useState<
-		string | null
-	>(null);
+	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
+	const [shopsError, setShopsError] = useState<string | null>(null);
 
-	const [listings, setListings] = useState<
-		ListingCardData[]
-	>([]);
+	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] =
 		useState<boolean>(false);
-	const [listingsError, setListingsError] = useState<
-		string | null
-	>(null);
+	const [listingsError, setListingsError] = useState<string | null>(
+		null,
+	);
 
-	const {
-		getChildCategories,
-		categoriesLoading,
-		categoriesError,
-	} = useCategories();
+	const { getChildCategories, categoriesLoading, categoriesError } =
+		useCategories();
 
 	const isLoading =
-		shopsLoading ||
-		listingsLoading ||
-		categoriesLoading;
+		shopsLoading || listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
 
@@ -126,9 +110,7 @@ export const LandingPage = () => {
 				<CategoryGrid
 					isLoading={categoriesLoading}
 					categories={getChildCategories(null)}
-					numPlaceholders={
-						NUM_TOP_LEVEL_CATEGORIES
-					}
+					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
 				/>
 			)}
 
@@ -152,9 +134,7 @@ export const LandingPage = () => {
 				pb={5}
 				gap={3}
 			>
-				<Heading fontSize={36}>
-					Featured Listings
-				</Heading>
+				<Heading fontSize={36}>Featured Listings</Heading>
 
 				{listingsError ? (
 					<AppError title="Failed to load featured listings" />

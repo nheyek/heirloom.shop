@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/types/CategoryTileData';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { CategoryTile } from '../entityDisplay/CategoryTile';
+import { CategoryTile } from '../itemDisplay/CategoryTile';
 
 const NUM_DEFAULT_PLACEHOLDERS = 4;
 
@@ -43,9 +43,7 @@ export const CategoryGrid = (props: Props) => {
 		<Skeleton
 			width="100%"
 			aspectRatio={
-				props.isLoading
-					? skeletonAspectRatio
-					: undefined
+				props.isLoading ? skeletonAspectRatio : undefined
 			}
 			borderRadius={0}
 			loading={props.isLoading}

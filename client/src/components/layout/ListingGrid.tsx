@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '../../constants';
-import { ListingCard } from '../entityDisplay/ListingCard';
+import { ListingCard } from '../itemDisplay/ListingCard';
 
 type Props = {
 	listings: ListingCardData[];
@@ -18,8 +18,7 @@ type Props = {
 };
 
 export const ListingGrid = (props: Props) => {
-	const numColumns =
-		useBreakpointValue(STANDARD_GRID_COLUMNS) || 1;
+	const numColumns = useBreakpointValue(STANDARD_GRID_COLUMNS) || 1;
 
 	if (numColumns === 1) {
 		return (

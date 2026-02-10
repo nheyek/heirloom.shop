@@ -10,7 +10,7 @@ import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
 import { MdHome } from 'react-icons/md';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppError } from '../components/disclosure/AppError';
+import { AppError } from '../components/feedback/AppError';
 import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import useApi from '../hooks/useApi';
@@ -27,24 +27,15 @@ export const CategoryPage = () => {
 		categoriesError,
 	} = useCategories();
 
-	const category = id
-		? getCategory(id?.toUpperCase())
-		: null;
-	const childCategories = id
-		? getChildCategories(id)
-		: [];
-	const ancestorCategories = id
-		? getAncestorCategories(id)
-		: [];
+	const category = id ? getCategory(id?.toUpperCase()) : null;
+	const childCategories = id ? getChildCategories(id) : [];
+	const ancestorCategories = id ? getAncestorCategories(id) : [];
 
-	const [listings, setListings] = useState<
-		ListingCardData[]
-	>([]);
-	const [listingsLoading, setListingsLoading] =
-		useState(true);
-	const [listingsError, setListingsError] = useState<
-		string | null
-	>(null);
+	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listingsLoading, setListingsLoading] = useState(true);
+	const [listingsError, setListingsError] = useState<string | null>(
+		null,
+	);
 	const isLoading = listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
@@ -81,12 +72,9 @@ export const CategoryPage = () => {
 						<>
 							Click{' '}
 							<Link
-								onClick={() =>
-									navigate('/')
-								}
+								onClick={() => navigate('/')}
 								style={{
-									textDecoration:
-										'underline',
+									textDecoration: 'underline',
 								}}
 							>
 								here
@@ -121,9 +109,7 @@ export const CategoryPage = () => {
 						>
 							<Breadcrumb.Item>
 								<Link
-									onClick={() =>
-										navigate('/')
-									}
+									onClick={() => navigate('/')}
 									whiteSpace="nowrap"
 								>
 									<MdHome />
@@ -132,33 +118,25 @@ export const CategoryPage = () => {
 							</Breadcrumb.Item>
 							<Breadcrumb.Separator />
 
-							{ancestorCategories.map(
-								(ancestor) => (
-									<Fragment
+							{ancestorCategories.map((ancestor) => (
+								<Fragment key={ancestor.id}>
+									<Breadcrumb.Item
 										key={ancestor.id}
 									>
-										<Breadcrumb.Item
-											key={
-												ancestor.id
+										<Link
+											whiteSpace="nowrap"
+											onClick={() =>
+												navigate(
+													`/category/${ancestor.id.toLowerCase()}`,
+												)
 											}
 										>
-											<Link
-												whiteSpace="nowrap"
-												onClick={() =>
-													navigate(
-														`/category/${ancestor.id.toLowerCase()}`,
-													)
-												}
-											>
-												{
-													ancestor.title
-												}
-											</Link>
-										</Breadcrumb.Item>
-										<Breadcrumb.Separator />
-									</Fragment>
-								),
-							)}
+											{ancestor.title}
+										</Link>
+									</Breadcrumb.Item>
+									<Breadcrumb.Separator />
+								</Fragment>
+							))}
 
 							<Breadcrumb.Item>
 								<Breadcrumb.CurrentLink

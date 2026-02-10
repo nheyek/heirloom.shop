@@ -32,7 +32,7 @@ import {
 import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppError } from '../components/disclosure/AppError';
+import { AppError } from '../components/feedback/AppError';
 import { ImageCollage } from '../components/imageDisplay/ImageCollage';
 import { MultiImage } from '../components/imageDisplay/MultiImage';
 import { IconText } from '../components/textDisplay/IconText';

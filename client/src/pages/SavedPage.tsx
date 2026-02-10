@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
-import { AppError } from '../components/disclosure/AppError';
+import { AppError } from '../components/feedback/AppError';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import useApi from '../hooks/useApi';
 
@@ -14,11 +14,8 @@ export const SavedPage = () => {
 	} = useAuth0();
 	const { getProtectedResource, postResource } = useApi();
 
-	const [listings, setListings] = useState<
-		ListingCardData[]
-	>([]);
-	const [isLoading, setIsLoading] =
-		useState<boolean>(true);
+	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const loadSavedListings = async () => {
@@ -50,15 +47,12 @@ export const SavedPage = () => {
 			return;
 		}
 
-		const pendingListingShortId =
-			sessionStorage.getItem(
-				'pendingListingFavorite',
-			);
+		const pendingListingShortId = sessionStorage.getItem(
+			'pendingListingFavorite',
+		);
 
 		if (pendingListingShortId) {
-			sessionStorage.removeItem(
-				'pendingListingFavorite',
-			);
+			sessionStorage.removeItem('pendingListingFavorite');
 
 			(async () => {
 				try {
@@ -67,10 +61,7 @@ export const SavedPage = () => {
 						{},
 					);
 				} catch (err) {
-					console.error(
-						'Failed to save listing:',
-						err,
-					);
+					console.error('Failed to save listing:', err);
 				}
 				await loadSavedListings();
 			})();
@@ -88,18 +79,13 @@ export const SavedPage = () => {
 			p={5}
 			gap={4}
 		>
-			<Heading fontSize={32}>
-				Favorite Listings
-			</Heading>
-			{!isLoading &&
-				listings.length === 0 &&
-				!error && (
-					<Text fontSize={18}>
-						You haven't favorited any listings
-						yet. Click the heart icon on any
-						listing to save it.
-					</Text>
-				)}
+			<Heading fontSize={32}>Favorite Listings</Heading>
+			{!isLoading && listings.length === 0 && !error && (
+				<Text fontSize={18}>
+					You haven't favorited any listings yet. Click the
+					heart icon on any listing to save it.
+				</Text>
+			)}
 			{error && <AppError title={error} />}
 
 			<ListingGrid

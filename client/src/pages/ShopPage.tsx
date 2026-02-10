@@ -1,9 +1,4 @@
-import {
-	AspectRatio,
-	Box,
-	Skeleton,
-	Text,
-} from '@chakra-ui/react';
+import { AspectRatio, Box, Skeleton, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -13,35 +8,31 @@ import useApi from '../hooks/useApi';
 
 import { API_ROUTES } from '@common/constants';
 import { motion } from 'framer-motion';
-import { AppError } from '../components/disclosure/AppError';
+import { AppError } from '../components/feedback/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/imageDisplay/AppImage';
-import {
-	CountryCode,
-	STANDARD_GRID_GAP,
-} from '../constants';
+import { CountryCode, STANDARD_GRID_GAP } from '../constants';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
 
 	const { getPublicResource } = useApi();
 
-	const [shopData, setShopData] =
-		useState<ShopCardData | null>(null);
+	const [shopData, setShopData] = useState<ShopCardData | null>(
+		null,
+	);
 	const [shopDataLoading, setShopDataLoading] =
 		useState<boolean>(true);
-	const [shopDataError, setShopDataError] = useState<
-		string | null
-	>(null);
+	const [shopDataError, setShopDataError] = useState<string | null>(
+		null,
+	);
 
-	const [listings, setListings] = useState<
-		ListingCardData[]
-	>([]);
+	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] =
 		useState<boolean>(true);
-	const [listingsError, setListingsError] = useState<
-		string | null
-	>(null);
+	const [listingsError, setListingsError] = useState<string | null>(
+		null,
+	);
 
 	const loadShopData = async () => {
 		const response = await getPublicResource(
@@ -81,9 +72,7 @@ export const ShopPage = () => {
 
 	const isLoading = shopDataLoading || listingsLoading;
 
-	const responsiveBannerAspectRatio = [
-		1.75, 2.25, 2.75, 3.25,
-	];
+	const responsiveBannerAspectRatio = [1.75, 2.25, 2.75, 3.25];
 
 	if (shopDataError) {
 		return (
@@ -99,9 +88,7 @@ export const ShopPage = () => {
 	return (
 		<>
 			{isLoading && (
-				<AspectRatio
-					ratio={responsiveBannerAspectRatio}
-				>
+				<AspectRatio ratio={responsiveBannerAspectRatio}>
 					<Skeleton width="100%" />
 				</AspectRatio>
 			)}

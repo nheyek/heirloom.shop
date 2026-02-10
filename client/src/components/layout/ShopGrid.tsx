@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '../../constants';
-import { ShopCard } from '../entityDisplay/ShopCard';
+import { ShopCard } from '../itemDisplay/ShopCard';
 
 type Props = {
 	isLoading: boolean;
@@ -18,8 +18,7 @@ type Props = {
 };
 
 export const ShopGrid = (props: Props) => {
-	const numColumns =
-		useBreakpointValue(STANDARD_GRID_COLUMNS) || 1;
+	const numColumns = useBreakpointValue(STANDARD_GRID_COLUMNS) || 1;
 
 	if (numColumns === 1) {
 		return (
@@ -60,9 +59,7 @@ export const ShopGrid = (props: Props) => {
 		>
 			{props.isLoading &&
 				Array.from({
-					length:
-						props.numPlaceholders ||
-						numColumns * 2,
+					length: props.numPlaceholders || numColumns * 2,
 				}).map((_, index) => (
 					<Skeleton
 						key={index}
