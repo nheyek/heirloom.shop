@@ -1,18 +1,9 @@
-import {
-	Box,
-	Card,
-	Flex,
-	IconButton,
-	Link,
-} from '@chakra-ui/react';
+import { Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
-import {
-	Link as RouterLink,
-	useNavigate,
-} from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -20,7 +11,7 @@ import {
 import { useFavoriteListing } from '../../hooks/useFavoriteListing';
 import { useShareListing } from '../../hooks/useShareListing';
 import { MultiImage } from '../imageDisplay/MultiImage';
-import { PriceTag } from '../textDisplay/PriceTagText';
+import { PriceTag } from '../textDisplay/PriceTag';
 
 export const ListingCard = (
 	props: ListingCardData & {
@@ -30,8 +21,7 @@ export const ListingCard = (
 	},
 ) => {
 	const shareListing = useShareListing();
-	const { toggleFavorite, isFavoriting } =
-		useFavoriteListing();
+	const { toggleFavorite, isFavoriting } = useFavoriteListing();
 	const [isSaved, setIsSaved] = useState(
 		props.initialSaved || false,
 	);
@@ -54,22 +44,12 @@ export const ListingCard = (
 				width={props.width}
 			>
 				<MultiImage
-					onImageClick={() =>
-						navigate(listingUrl)
-					}
-					aspectRatio={
-						STANDARD_IMAGE_ASPECT_RATIO
-					}
+					onImageClick={() => navigate(listingUrl)}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					urls={
 						props.multiImage
-							? props.imageUuids.map(
-									getImageUrl,
-								)
-							: [
-									getImageUrl(
-										props.imageUuids[0],
-									),
-								]
+							? props.imageUuids.map(getImageUrl)
+							: [getImageUrl(props.imageUuids[0])]
 					}
 				/>
 
@@ -119,17 +99,13 @@ export const ListingCard = (
 						justifyContent="space-between"
 						alignItems="center"
 					>
-						<PriceTag
-							value={`$${props.priceDollars.toLocaleString()}`}
-						/>
+						<PriceTag value={props.priceDollars} />
 						<Box>
 							<IconButton
 								variant="ghost"
 								rounded="full"
 								size="lg"
-								onClick={() =>
-									shareListing(props)
-								}
+								onClick={() => shareListing(props)}
 							>
 								<FaRegShareFromSquare />
 							</IconButton>
@@ -141,9 +117,7 @@ export const ListingCard = (
 								onClick={handleSaveClick}
 								disabled={isFavoriting}
 								color={
-									isSaved
-										? 'red.500'
-										: undefined
+									isSaved ? 'red.500' : undefined
 								}
 							>
 								{isSaved ? (

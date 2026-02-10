@@ -422,7 +422,7 @@ export const ListingPage = () => {
 									<RxDotFilled />
 									<Text
 										height={7}
-										fontSize={28}
+										fontSize={26}
 										fontWeight={600}
 										textStyle="ornamental"
 									>

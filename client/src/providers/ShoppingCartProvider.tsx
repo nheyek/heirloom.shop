@@ -99,16 +99,21 @@ export const ShoppingCartProvider = (props: {
 		quantity: number,
 	) => {
 		const itemKey = getItemKey(listingId, selectedOptions);
-		setItems((prevCart) =>
-			prevCart.map((item) =>
-				getItemKey(
-					item.listingData.shortId,
-					item.selectedOptions,
-				) === itemKey
-					? { ...item, quantity }
-					: item,
-			),
-		);
+
+		if (quantity === 0) {
+			removeFromCart(listingId, selectedOptions);
+		} else {
+			setItems((prevCart) =>
+				prevCart.map((item) =>
+					getItemKey(
+						item.listingData.shortId,
+						item.selectedOptions,
+					) === itemKey
+						? { ...item, quantity }
+						: item,
+				),
+			);
+		}
 	};
 
 	return (

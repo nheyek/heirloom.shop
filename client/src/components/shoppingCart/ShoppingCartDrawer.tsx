@@ -122,13 +122,12 @@ export const ShoppingCardDrawer = (props: Props) => {
 								fontSize={22}
 							>
 								<Text
-									fontSize={28}
-									height="28px"
+									fontSize={26}
+									height={7}
 									fontWeight={600}
 									textStyle="ornamental"
 								>
-									{' '}
-									${cartTotal.toLocaleString()}
+									${cartTotal.toLocaleString()}.00
 								</Text>
 								<RxDotFilled />
 

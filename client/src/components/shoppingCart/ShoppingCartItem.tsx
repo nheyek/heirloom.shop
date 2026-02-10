@@ -17,7 +17,7 @@ import {
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
 import { MultiImage } from '../imageDisplay/MultiImage';
-import { PriceTag } from '../textDisplay/PriceTagText';
+import { PriceTag } from '../textDisplay/PriceTag';
 
 type Props = {
 	item: ShoppingCartItem;
@@ -103,9 +103,7 @@ export const CartItemCard = ({
 					alignItems="end"
 					justifyContent="space-between"
 				>
-					<PriceTag
-						value={`$${itemPrice.toLocaleString()}`}
-					/>
+					<PriceTag value={itemPrice} />
 					<Flex
 						alignItems="center"
 						gap={2}
