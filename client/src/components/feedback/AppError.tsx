@@ -1,4 +1,4 @@
-import { Alert } from '@chakra-ui/react';
+import { Alert, Box } from '@chakra-ui/react';
 import { JSX } from 'react';
 
 type Props = {
@@ -7,13 +7,17 @@ type Props = {
 };
 
 export const AppError = (props: Props) => (
-	<Alert.Root status="error">
-		<Alert.Indicator />
-		<Alert.Content>
-			<Alert.Title>{props.title}</Alert.Title>
-			<Alert.Description>
-				{props.content}
-			</Alert.Description>
-		</Alert.Content>
-	</Alert.Root>
+	<Box m={5}>
+		<Alert.Root status="error">
+			<Alert.Indicator />
+			<Alert.Content>
+				<Alert.Title>{props.title}</Alert.Title>
+				{props.content && (
+					<Alert.Description>
+						{props.content}
+					</Alert.Description>
+				)}
+			</Alert.Content>
+		</Alert.Root>
+	</Box>
 );

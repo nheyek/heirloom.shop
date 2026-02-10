@@ -114,37 +114,38 @@ export const LandingPage = () => {
 				/>
 			)}
 
-			<Stack
-				px={5}
-				gap={3}
-			>
-				<Heading fontSize={36}>Makers</Heading>
-				{shopsError ? (
-					<AppError title="Failed to load makers" />
-				) : (
+			{shopsError ? (
+				<AppError title="Failed to load makers" />
+			) : (
+				<Stack
+					px={5}
+					gap={3}
+				>
+					<Heading fontSize={36}>Makers</Heading>
+
 					<ShopGrid
 						shops={shops}
 						isLoading={isLoading}
 					/>
-				)}
-			</Stack>
+				</Stack>
+			)}
 
-			<Stack
-				px={5}
-				pb={5}
-				gap={3}
-			>
-				<Heading fontSize={36}>Featured Listings</Heading>
+			{listingsError ? (
+				<AppError title={listingsError} />
+			) : (
+				<Stack
+					px={5}
+					pb={5}
+					gap={3}
+				>
+					<Heading fontSize={36}>Featured Listings</Heading>
 
-				{listingsError ? (
-					<AppError title="Failed to load featured listings" />
-				) : (
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}
 					/>
-				)}
-			</Stack>
+				</Stack>
+			)}
 		</Stack>
 	);
 };

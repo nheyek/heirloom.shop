@@ -65,25 +65,23 @@ export const CategoryPage = () => {
 
 	if (categoriesError) {
 		return (
-			<Box m={5}>
-				<AppError
-					title={'Failed to load categories'}
-					content={
-						<>
-							Click{' '}
-							<Link
-								onClick={() => navigate('/')}
-								style={{
-									textDecoration: 'underline',
-								}}
-							>
-								here
-							</Link>{' '}
-							to return to the homepage.
-						</>
-					}
-				/>
-			</Box>
+			<AppError
+				title={'Failed to load categories'}
+				content={
+					<>
+						Click{' '}
+						<Link
+							onClick={() => navigate('/')}
+							style={{
+								textDecoration: 'underline',
+							}}
+						>
+							here
+						</Link>{' '}
+						to return to the homepage.
+					</>
+				}
+			/>
 		);
 	}
 
@@ -156,16 +154,16 @@ export const CategoryPage = () => {
 				categories={childCategories}
 			/>
 
-			<Box px={5}>
-				{listingsError ? (
-					<AppError title={listingsError} />
-				) : (
+			{listingsError ? (
+				<AppError title={listingsError} />
+			) : (
+				<Box px={5}>
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}
 					/>
-				)}
-			</Box>
+				</Box>
+			)}
 		</Stack>
 	);
 };

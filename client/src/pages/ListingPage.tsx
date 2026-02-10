@@ -244,12 +244,10 @@ export const ListingPage = () => {
 
 	if (listingDataError) {
 		return (
-			<Box p={5}>
-				<AppError
-					title="Failed to load listing"
-					content={listingDataError}
-				/>
-			</Box>
+			<AppError
+				title="Failed to load listing"
+				content={listingDataError}
+			/>
 		);
 	}
 

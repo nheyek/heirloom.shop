@@ -1,4 +1,3 @@
-import { Box } from '@chakra-ui/react';
 import { useSearchParams } from 'react-router-dom';
 import { AppError } from '../components/feedback/AppError';
 
@@ -9,12 +8,10 @@ export const AuthCallback = () => {
 
 	if (error) {
 		return (
-			<Box p={5}>
-				<AppError
-					title="Login failed"
-					content={errorDescr || ''}
-				></AppError>
-			</Box>
+			<AppError
+				title="Login failed"
+				content={errorDescr || ''}
+			></AppError>
 		);
 	}
 

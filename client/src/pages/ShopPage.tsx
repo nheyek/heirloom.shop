@@ -76,12 +76,10 @@ export const ShopPage = () => {
 
 	if (shopDataError) {
 		return (
-			<Box p={5}>
-				<AppError
-					title="Failed to shop data"
-					content={shopDataError}
-				/>
-			</Box>
+			<AppError
+				title="Failed to shop data"
+				content={shopDataError}
+			/>
 		);
 	}
 
@@ -183,12 +181,10 @@ export const ShopPage = () => {
 			)}
 
 			{listingsError ? (
-				<Box p={5}>
-					<AppError
-						title="Failed to load listings"
-						content={listingsError}
-					/>
-				</Box>
+				<AppError
+					title="Failed to load listings"
+					content={listingsError}
+				/>
 			) : (
 				<Box
 					py={5}

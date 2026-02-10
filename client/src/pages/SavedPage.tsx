@@ -27,7 +27,7 @@ export const SavedPage = () => {
 				'me/favorited-listings',
 			);
 			if (response.error) {
-				setError('Failed to load saved listings');
+				setError('Failed to load favorites');
 			} else {
 				setListings(response.data);
 			}
@@ -74,6 +74,10 @@ export const SavedPage = () => {
 		return null;
 	}
 
+	if (error) {
+		return <AppError title={error} />;
+	}
+
 	return (
 		<Stack
 			p={5}
@@ -86,7 +90,6 @@ export const SavedPage = () => {
 					heart icon on any listing to save it.
 				</Text>
 			)}
-			{error && <AppError title={error} />}
 
 			<ListingGrid
 				listings={listings}
