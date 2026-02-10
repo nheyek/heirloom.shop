@@ -16,7 +16,7 @@ type Props = {
 	onImageClick?: () => void;
 };
 
-export const ImageCarousel = (props: Props) => {
+export const MultiImage = (props: Props) => {
 	const loadedImagesCount = useRef<number>(0);
 	const [allImagesLoaded, setAllImagesLoaded] =
 		useState<boolean>(false);

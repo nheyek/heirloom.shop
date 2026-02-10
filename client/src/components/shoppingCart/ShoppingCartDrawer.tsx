@@ -8,43 +8,37 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
-import { PiBookOpenTextFill } from 'react-icons/pi';
 import { RxDotFilled } from 'react-icons/rx';
-import {
-	CartItem,
-	useCart,
-} from '../../providers/CartProvider';
-import { CartItemCard } from './CartItemCard';
+import { useShoppingCart } from '../../providers/ShoppingCartProvider';
+import { CartItemCard } from './ShoppingCartItem';
 
-type CartDrawerProps = {
+type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 };
 
-export const CartDrawer = ({
-	isOpen: open,
-	onClose,
-}: CartDrawerProps) => {
-	const { cart, removeFromCart, updateQuantity } =
-		useCart();
-	const cartTotal = cart.reduce(
-		(sum, item) => sum + calculateItemTotal(item),
+export const ShoppingCardDrawer = (props: Props) => {
+	const shoppingCart = useShoppingCart();
+
+	const cartTotal = shoppingCart.items.reduce(
+		(sum, item) => sum + calculateItemPrice(item),
 		0,
 	);
 
 	let gridCols = useBreakpointValue({ base: 1, md: 2 });
-	if (cart.length <= 1) {
+	if (shoppingCart.items.length <= 1) {
 		gridCols = 1;
 	}
 
 	return (
 		<Drawer.Root
-			open={open}
-			onOpenChange={(e) => !e.open && onClose()}
+			open={props.isOpen}
+			onOpenChange={(e) => !e.open && props.onClose()}
 			placement="end"
-			size={cart.length <= 1 ? 'sm' : 'lg'}
+			size={shoppingCart.items.length <= 1 ? 'sm' : 'lg'}
 		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
@@ -67,7 +61,7 @@ export const CartDrawer = ({
 					</Drawer.Header>
 
 					<Drawer.Body>
-						{cart.length === 0 ? (
+						{shoppingCart.items.length === 0 ? (
 							<Center
 								height="100%"
 								gap={5}
@@ -75,16 +69,16 @@ export const CartDrawer = ({
 							>
 								<Text
 									fontSize={30}
-									color="gray.500"
+									fontWeight={300}
 								>
 									Your cart is empty
 								</Text>
 								<Button
-									onClick={onClose}
+									onClick={props.onClose}
 									size="md"
+									fontSize={18}
 								>
-									<PiBookOpenTextFill />
-									Keep Looking
+									keep looking
 								</Button>
 							</Center>
 						) : (
@@ -92,23 +86,25 @@ export const CartDrawer = ({
 								columns={gridCols}
 								gap={4}
 							>
-								{cart.map((item) => (
+								{shoppingCart.items.map((item) => (
 									<CartItemCard
-										key={`${item.listingId}-${JSON.stringify(item.selectedOptions)}`}
+										key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
 										item={item}
-										onNavigate={onClose}
+										onNavigate={props.onClose}
 										onUpdateQuantity={(
 											quantity,
 										) =>
-											updateQuantity(
-												item.listingId,
+											shoppingCart.updateQuantity(
+												item.listingData
+													.shortId,
 												item.selectedOptions,
 												quantity,
 											)
 										}
 										onRemove={() =>
-											removeFromCart(
-												item.listingId,
+											shoppingCart.removeFromCart(
+												item.listingData
+													.shortId,
 												item.selectedOptions,
 											)
 										}
@@ -118,12 +114,11 @@ export const CartDrawer = ({
 						)}
 					</Drawer.Body>
 
-					{cart.length > 0 && (
+					{shoppingCart.items.length > 0 && (
 						<Drawer.Footer>
 							<Button
 								size="xl"
 								width="100%"
-								fontSize={24}
 							>
 								<Text
 									fontSize={28}
@@ -132,14 +127,14 @@ export const CartDrawer = ({
 									textStyle="ornamental"
 								>
 									{' '}
-									$
-									{cartTotal.toLocaleString()}
+									${cartTotal.toLocaleString()}
 								</Text>
 								<RxDotFilled />
 
 								<Flex
 									gap={3}
 									alignItems="center"
+									fontSize={24}
 								>
 									checkout
 									<FaArrowCircleRight />
@@ -151,25 +146,4 @@ export const CartDrawer = ({
 			</Drawer.Positioner>
 		</Drawer.Root>
 	);
-};
-
-const calculateItemTotal = (item: CartItem): number => {
-	let total = item.listingData.priceDollars;
-
-	Object.entries(item.selectedOptions).forEach(
-		([varId, optId]) => {
-			const variation =
-				item.listingData.variations.find(
-					(v) => v.id === Number(varId),
-				);
-			const option = variation?.options.find(
-				(o) => o.id === optId,
-			);
-			if (option && variation?.pricesVary) {
-				total += option.additionalPriceDollars;
-			}
-		},
-	);
-
-	return total * item.quantity;
 };

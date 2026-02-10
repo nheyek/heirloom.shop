@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '../../constants';
-import { ShopCard } from '../compositeDisplay/ShopCard';
+import { ShopCard } from '../entityDisplay/ShopCard';
 
 type Props = {
 	isLoading: boolean;

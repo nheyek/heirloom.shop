@@ -6,13 +6,13 @@ import {
 	GridItem,
 	IconButton,
 } from '@chakra-ui/react';
-import { AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useCart } from '../../providers/CartProvider';
-import { FadeInBox } from '../animation/FadeInBox';
-import { Logo } from '../brand/Logo';
-import { CartDrawer } from '../cart/CartDrawer';
+import { useShoppingCart } from '../../providers/ShoppingCartProvider';
+import { Logo } from '../branding/Logo';
+import { AnimatedBox } from '../misc/AnimatedBox';
+import { ShoppingCardDrawer } from '../shoppingCart/ShoppingCartDrawer';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
 import { NavbarSearch } from './NavbarSearch';
@@ -24,14 +24,12 @@ enum gridTemplateAreas {
 }
 
 export const Navbar = () => {
-	const { isAuthenticated, isLoading: authIsLoading } =
-		useAuth0();
-	const {
-		cartCount,
-		isOpen: cartIsOpen,
-		openCart,
-		closeCart,
-	} = useCart();
+	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
+
+	const [shoppingCartIsOpen, setShoppingCartIsOpen] =
+		useState(false);
+
+	const shoppingCart = useShoppingCart();
 
 	return (
 		<Box
@@ -87,58 +85,56 @@ export const Navbar = () => {
 						alignItems="center"
 						gap={2}
 					>
-						<AnimatePresence>
-							{!authIsLoading && (
-								<FadeInBox
-									display="flex"
-									alignItems="center"
-									gap={2}
-								>
-									{!isAuthenticated && (
-										<LoginButton />
-									)}
-									{isAuthenticated && (
-										<NavbarMenu />
-									)}
-									<Box position="relative">
-										<IconButton
-											variant="plain"
-											color="#FFF"
-											onClick={
-												openCart
-											}
+						{!authIsLoading && (
+							<AnimatedBox
+								display="flex"
+								alignItems="center"
+								gap={2}
+							>
+								{!isAuthenticated && <LoginButton />}
+								{isAuthenticated && <NavbarMenu />}
+								<Box position="relative">
+									<IconButton
+										variant="plain"
+										color="#FFF"
+										onClick={() =>
+											setShoppingCartIsOpen(
+												true,
+											)
+										}
+									>
+										<FaShoppingCart />
+									</IconButton>
+									{shoppingCart.items.length >
+										0 && (
+										<Flex
+											background="#FFF"
+											border="2px solid #000"
+											position="absolute"
+											top={-1}
+											right={-1}
+											w="22px"
+											h="22px"
+											borderRadius="full"
+											fontSize={12}
+											alignItems="center"
+											justifyContent="center"
+											fontWeight={700}
 										>
-											<FaShoppingCart />
-										</IconButton>
-										{cartCount > 0 && (
-											<Flex
-												background="#FFF"
-												border="2px solid #000"
-												position="absolute"
-												top={-1}
-												right={-1}
-												w={'22px'}
-												h={'22px'}
-												borderRadius="full"
-												fontSize={
-													12
-												}
-												alignItems="center"
-												justifyContent="center"
-												fontWeight={
-													700
-												}
-											>
-												{cartCount}
-											</Flex>
-										)}
-									</Box>
-								</FadeInBox>
-							)}
-						</AnimatePresence>
-						<CartDrawer
-							isOpen={cartIsOpen}
-							onClose={closeCart}
+											{
+												shoppingCart.items
+													.length
+											}
+										</Flex>
+									)}
+								</Box>
+							</AnimatedBox>
+						)}
+						<ShoppingCardDrawer
+							isOpen={shoppingCartIsOpen}
+							onClose={() =>
+								setShoppingCartIsOpen(false)
+							}
 						/>
 					</Flex>
 				</GridItem>

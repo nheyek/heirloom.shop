@@ -10,5 +10,9 @@
 		"strict": true,
 		"skipLibCheck": true
 	},
-	"include": ["src"]
+	"include": [
+		"src",
+		"../common/types/ShoppingCartItem.ts",
+		"../common/domain"
+	]
 }

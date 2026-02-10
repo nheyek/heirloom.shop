@@ -1,6 +1,5 @@
 import {
 	Box,
-	BoxProps,
 	Flex,
 	Input,
 	InputGroup,
@@ -8,7 +7,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdCancel, MdCategory } from 'react-icons/md';
@@ -26,25 +25,7 @@ import {
 import { FaShop } from 'react-icons/fa6';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
-
-const MotionBox = motion.create(Box);
-const Animate = (
-	props: Omit<
-		BoxProps,
-		| 'onAnimationStart'
-		| 'onDragStart'
-		| 'onDragEnd'
-		| 'onDrag'
-	>,
-) => (
-	<MotionBox
-		{...props}
-		initial={{ opacity: 0 }}
-		animate={{ opacity: 1 }}
-		exit={{ opacity: 0 }}
-		transition={{ duration: 0.15 }}
-	/>
-);
+import { AnimatedBox } from '../misc/AnimatedBox';
 
 export const NavbarSearch = () => {
 	const navigate = useNavigate();
@@ -210,7 +191,7 @@ export const NavbarSearch = () => {
 				endElement={
 					<AnimatePresence>
 						{searchQuery && (
-							<Animate
+							<AnimatedBox
 								style={{
 									display: 'flex',
 									cursor: 'pointer',
@@ -220,7 +201,7 @@ export const NavbarSearch = () => {
 								}
 							>
 								<MdCancel size={16} />
-							</Animate>
+							</AnimatedBox>
 						)}
 					</AnimatePresence>
 				}
@@ -244,7 +225,7 @@ export const NavbarSearch = () => {
 			</InputGroup>
 			<AnimatePresence>
 				{showSearchPopover && searchQuery && (
-					<Animate
+					<AnimatedBox
 						position="absolute"
 						width="100%"
 						mt={1.5}
@@ -334,7 +315,7 @@ export const NavbarSearch = () => {
 								</>
 							)}
 						</Stack>
-					</Animate>
+					</AnimatedBox>
 				)}
 			</AnimatePresence>
 		</Box>

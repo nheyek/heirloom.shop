@@ -19,7 +19,7 @@ import {
 } from '../../constants';
 import { useFavoriteListing } from '../../hooks/useFavoriteListing';
 import { useShareListing } from '../../hooks/useShareListing';
-import { ImageCarousel } from '../imageDisplay/ImageCarousel';
+import { MultiImage } from '../imageDisplay/MultiImage';
 import { PriceTag } from '../textDisplay/PriceTagText';
 
 export const ListingCard = (
@@ -53,7 +53,7 @@ export const ListingCard = (
 				variant="elevated"
 				width={props.width}
 			>
-				<ImageCarousel
+				<MultiImage
 					onImageClick={() =>
 						navigate(listingUrl)
 					}

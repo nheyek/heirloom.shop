@@ -33,8 +33,8 @@ import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppError } from '../components/disclosure/AppError';
-import { ImageCarousel } from '../components/imageDisplay/ImageCarousel';
 import { ImageCollage } from '../components/imageDisplay/ImageCollage';
+import { MultiImage } from '../components/imageDisplay/MultiImage';
 import { IconText } from '../components/textDisplay/IconText';
 import { RichText } from '../components/textDisplay/RichText';
 import {
@@ -43,7 +43,7 @@ import {
 } from '../constants';
 import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
-import { useCart } from '../providers/CartProvider';
+import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { getListingDataForCart } from '../utils/typeUtils';
 
 const MotionFlex = motion.create(Flex);
@@ -68,29 +68,26 @@ export const ListingPage = () => {
 		useState<ListingPageData | null>(null);
 	const [listingDataLoading, setListingDataLoading] =
 		useState<boolean>(true);
-	const [listingDataError, setListingDataError] =
-		useState<string | null>(null);
+	const [listingDataError, setListingDataError] = useState<
+		string | null
+	>(null);
 
-	const [
-		selectedVariationOptions,
-		setSelectedVariationOptions,
-	] = useState<{
-		[variationId: number]: number;
-	}>({});
+	const [selectedVariationOptions, setSelectedVariationOptions] =
+		useState<{
+			[variationId: number]: number;
+		}>({});
 
 	const { getPublicResource } = useApi();
 	const shareListing = useShareListing();
-	const { addToCart, openCart } = useCart();
+	const shoppingCart = useShoppingCart();
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
 
-		addToCart(
-			listingData.shortId,
-			selectedVariationOptions,
+		shoppingCart.addToCart(
 			getListingDataForCart(listingData),
+			selectedVariationOptions,
 		);
-		openCart();
 	};
 
 	const loadListingData = async () => {
@@ -146,8 +143,7 @@ export const ListingPage = () => {
 
 	const imageUrls =
 		listingData?.imageUuids.map(
-			(uuid) =>
-				`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
+			(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
 		) || [];
 
 	const variationCollections =
@@ -165,8 +161,7 @@ export const ListingPage = () => {
 					.map((option) => ({
 						label:
 							variation.pricesVary &&
-							option.additionalPriceDollars >
-								0
+							option.additionalPriceDollars > 0
 								? `${option.name} (+$${option.additionalPriceDollars})`
 								: option.name,
 						value: option.id.toString(),
@@ -178,12 +173,10 @@ export const ListingPage = () => {
 		? {
 				min:
 					listingData.leadTimeDaysMin +
-					listingData.shippingDetails
-						.shipTimeDaysMin,
+					listingData.shippingDetails.shipTimeDaysMin,
 				max:
 					listingData.leadTimeDaysMax +
-					listingData.shippingDetails
-						.shipTimeDaysMax,
+					listingData.shippingDetails.shipTimeDaysMax,
 			}
 		: null;
 
@@ -218,37 +211,33 @@ export const ListingPage = () => {
 				multiple
 				size="lg"
 			>
-				{listingData?.fullDescr?.map(
-					(item, index) => (
-						<Accordion.Item
-							key={index}
-							value={index.toString()}
-						>
-							<Accordion.ItemTrigger>
-								<Text
-									fontSize={18}
-									fontWeight={600}
-									flex="1"
-								>
-									{item.title}
-								</Text>
-								<Accordion.ItemIndicator />
-							</Accordion.ItemTrigger>
-							<Accordion.ItemContent>
-								<Accordion.ItemBody
-									pt={0}
-									pb={2}
-								>
-									<RichText
-										htmlString={
-											item.richText
-										}
-									/>
-								</Accordion.ItemBody>
-							</Accordion.ItemContent>
-						</Accordion.Item>
-					),
-				)}
+				{listingData?.fullDescr?.map((item, index) => (
+					<Accordion.Item
+						key={index}
+						value={index.toString()}
+					>
+						<Accordion.ItemTrigger>
+							<Text
+								fontSize={18}
+								fontWeight={600}
+								flex="1"
+							>
+								{item.title}
+							</Text>
+							<Accordion.ItemIndicator />
+						</Accordion.ItemTrigger>
+						<Accordion.ItemContent>
+							<Accordion.ItemBody
+								pt={0}
+								pb={2}
+							>
+								<RichText
+									htmlString={item.richText}
+								/>
+							</Accordion.ItemBody>
+						</Accordion.ItemContent>
+					</Accordion.Item>
+				))}
 			</Accordion.Root>
 		</>
 	);
@@ -292,18 +281,14 @@ export const ListingPage = () => {
 					<ImageCollage
 						urls={imageUrls}
 						maxWidth={maxWidth}
-						aspectRatio={
-							STANDARD_IMAGE_ASPECT_RATIO
-						}
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					/>
 				</Box>
 			)}
 			{layout === Layout.SINGLE_COLUMN && (
-				<ImageCarousel
+				<MultiImage
 					urls={imageUrls}
-					aspectRatio={
-						STANDARD_IMAGE_ASPECT_RATIO
-					}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 				/>
 			)}
 			<Box
@@ -347,8 +332,7 @@ export const ListingPage = () => {
 							<Text fontSize={18}>
 								{listingData?.subtitle}
 							</Text>
-							{layout ===
-								Layout.MULTI_COLUMN &&
+							{layout === Layout.MULTI_COLUMN &&
 								renderFullDescription()}
 						</Stack>
 					</GridItem>
@@ -357,15 +341,12 @@ export const ListingPage = () => {
 							gap={6}
 							width="100%"
 						>
-							{variationCollections.length >
-								0 && (
+							{variationCollections.length > 0 && (
 								<Stack gap={3}>
 									{variationCollections.map(
 										(variation) => (
 											<Select.Root
-												key={
-													variation.id
-												}
+												key={variation.id}
 												variant="subtle"
 												collection={
 													variation.collection
@@ -373,8 +354,7 @@ export const ListingPage = () => {
 												size="lg"
 												value={[
 													selectedVariationOptions[
-														variation
-															.id
+														variation.id
 													]?.toString(),
 												]}
 												onValueChange={(
@@ -437,9 +417,7 @@ export const ListingPage = () => {
 							<Stack gap={3}>
 								<ListingPageButton
 									size="xl"
-									onClick={
-										handleAddToCart
-									}
+									onClick={handleAddToCart}
 								>
 									<FaPlusCircle />
 									add to cart
@@ -467,9 +445,7 @@ export const ListingPage = () => {
 										size="lg"
 										onClick={() =>
 											listingData &&
-											shareListing(
-												listingData,
-											)
+											shareListing(listingData)
 										}
 									>
 										<FaShare />
@@ -484,40 +460,27 @@ export const ListingPage = () => {
 								fontWeight={500}
 							>
 								{daysToDelivery && (
-									<IconText
-										icon={
-											FaHourglassStart
-										}
-									>
+									<IconText icon={FaHourglassStart}>
 										Estimated delivery
 										<b>
 											{formatDateRange(
-												daysToDelivery!
-													.min,
-												daysToDelivery!
-													.max,
+												daysToDelivery!.min,
+												daysToDelivery!.max,
 											)}
 										</b>
 									</IconText>
 								)}
 								{listingData?.originZip && (
-									<IconText
-										icon={FaLocationDot}
-									>
+									<IconText icon={FaLocationDot}>
 										Ships from
 										<b>
-											{
-												listingData?.originZip
-											}
+											{listingData?.originZip}
 										</b>
 									</IconText>
 								)}
 								{listingData?.shippingDetails && (
-									<IconText
-										icon={FaTruck}
-									>
-										Ships to continental
-										US for
+									<IconText icon={FaTruck}>
+										Ships to continental US for
 										<b>
 											{
 												listingData
@@ -527,9 +490,7 @@ export const ListingPage = () => {
 										</b>
 									</IconText>
 								)}
-								<IconText
-									icon={BiSolidPackage}
-								>
+								<IconText icon={BiSolidPackage}>
 									{returnPolicyText}
 								</IconText>
 							</Stack>
@@ -608,9 +569,7 @@ const LoadingSkeleton = (props: {
 			<Stack gap={10}>
 				<Skeleton
 					width="100%"
-					aspectRatio={
-						STANDARD_IMAGE_ASPECT_RATIO
-					}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 				></Skeleton>
 
 				<Stack
@@ -642,39 +601,29 @@ const LoadingSkeleton = (props: {
 						rowSpan={2}
 					>
 						<Skeleton
-							aspectRatio={
-								STANDARD_IMAGE_ASPECT_RATIO
-							}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 							height="100%"
 							width="100%"
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={
-								STANDARD_IMAGE_ASPECT_RATIO
-							}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={
-								STANDARD_IMAGE_ASPECT_RATIO
-							}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={
-								STANDARD_IMAGE_ASPECT_RATIO
-							}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={
-								STANDARD_IMAGE_ASPECT_RATIO
-							}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 				</SimpleGrid>

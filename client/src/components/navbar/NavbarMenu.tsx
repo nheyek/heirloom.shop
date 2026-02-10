@@ -1,20 +1,17 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Button,
-	Flex,
 	Menu,
 	MenuItemProps,
 	Portal,
 	Text,
 } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
-
-const MotionFlex = motion.create(Flex);
+import { AnimatedBox } from '../misc/AnimatedBox';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
@@ -45,11 +42,8 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<MotionFlex
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						transition={{ duration: 0.15 }}
+					<AnimatedBox
+						display="flex"
 						boxShadow="md"
 						borderRadius={5}
 						overflow="hidden"
@@ -78,7 +72,7 @@ export const NavbarMenu = () => {
 								<Text pl={1}>log out</Text>
 							</MenuItem>
 						</Menu.Content>
-					</MotionFlex>
+					</AnimatedBox>
 				</Menu.Positioner>
 			</Portal>
 		</Menu.Root>

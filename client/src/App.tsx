@@ -2,8 +2,8 @@ import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Footer } from './components/footer/Footer';
+import { ScrollToTop } from './components/misc/ScrollToTop';
 import { Navbar } from './components/navbar/NavBar';
-import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
@@ -32,9 +32,9 @@ const App = () => {
 			<Navbar />
 			<Box
 				flex="1"
+				width="100%"
 				maxWidth={1600}
 				mx="auto"
-				width="100%"
 			>
 				<Routes>
 					<Route

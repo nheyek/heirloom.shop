@@ -7,6 +7,8 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { calculateItemPrice } from '@common/domain/ShoppingCart';
+import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { FaTrashAlt } from 'react-icons/fa';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 import { Link as RouterLink } from 'react-router-dom';
@@ -14,50 +16,25 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
-import { CartItem } from '../../providers/CartProvider';
-import { ImageCarousel } from '../imageDisplay/ImageCarousel';
+import { MultiImage } from '../imageDisplay/MultiImage';
 import { PriceTag } from '../textDisplay/PriceTagText';
 
-interface CartItemCardProps {
-	item: CartItem;
+type Props = {
+	item: ShoppingCartItem;
 	onNavigate: () => void;
 	onUpdateQuantity: (quantity: number) => void;
 	onRemove: () => void;
-}
+};
 
 export const CartItemCard = ({
 	item,
 	onNavigate,
 	onUpdateQuantity,
 	onRemove,
-}: CartItemCardProps) => {
-	const listingUrl = `/${CLIENT_ROUTES.listing}/${item.listingId}`;
-	const getImageUrl = (uuid: string) =>
-		`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
+}: Props) => {
+	const listingUrl = `/${CLIENT_ROUTES.listing}/${item.listingData.shortId}`;
 
-	const calculateItemPrice = (): number => {
-		let total = item.listingData.priceDollars;
-
-		Object.entries(item.selectedOptions).forEach(
-			([varId, optId]) => {
-				const variation =
-					item.listingData.variations.find(
-						(v) => v.id === Number(varId),
-					);
-				const option = variation?.options.find(
-					(o) => o.id === optId,
-				);
-				if (option && variation?.pricesVary) {
-					total += option.additionalPriceDollars;
-				}
-			},
-		);
-
-		return total;
-	};
-
-	const itemPrice = calculateItemPrice();
-	const itemTotal = itemPrice * item.quantity;
+	const itemPrice = calculateItemPrice(item);
 
 	return (
 		<Card.Root variant="elevated">
@@ -66,15 +43,10 @@ export const CartItemCard = ({
 					to={listingUrl}
 					onClick={onNavigate}
 				>
-					<ImageCarousel
-						aspectRatio={
-							STANDARD_IMAGE_ASPECT_RATIO
-						}
+					<MultiImage
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 						urls={[
-							getImageUrl(
-								item.listingData
-									.imageUuids[0],
-							),
+							`${process.env.LISTING_IMAGES_URL}/${item.listingData.imageUuids[0]}.jpg`,
 						]}
 					/>
 				</RouterLink>
@@ -142,9 +114,7 @@ export const CartItemCard = ({
 							size="2xs"
 							variant="outline"
 							onClick={() =>
-								onUpdateQuantity(
-									item.quantity - 1,
-								)
+								onUpdateQuantity(item.quantity - 1)
 							}
 						>
 							<TiMinus />
@@ -161,9 +131,7 @@ export const CartItemCard = ({
 							size="2xs"
 							variant="outline"
 							onClick={() =>
-								onUpdateQuantity(
-									item.quantity + 1,
-								)
+								onUpdateQuantity(item.quantity + 1)
 							}
 						>
 							<TiPlus />

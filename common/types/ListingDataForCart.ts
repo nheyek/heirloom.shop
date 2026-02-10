@@ -1,6 +1,6 @@
 import { ListingCardData } from './ListingCardData';
 import { ListingVariationData } from './ListingVariationData';
 
-export type CartListingData = ListingCardData & {
+export type ListingDataForCart = ListingCardData & {
 	variations: ListingVariationData[];
 };
