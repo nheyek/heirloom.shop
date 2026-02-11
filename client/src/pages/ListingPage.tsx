@@ -84,7 +84,11 @@ export const ListingPage = () => {
 	const { getPublicResource } = useApi();
 	const shareListing = useShareListing();
 	const shoppingCart = useShoppingCart();
-	const { favoriteIds, toggleFavorite } = useFavorites();
+	const {
+		favoriteIds,
+		toggleFavorite,
+		isLoading: favoritesLoading,
+	} = useFavorites();
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
@@ -256,7 +260,7 @@ export const ListingPage = () => {
 		);
 	}
 
-	if (listingDataLoading) {
+	if (listingDataLoading || favoritesLoading) {
 		return (
 			<LoadingSkeleton
 				maxWidth={maxWidth}
