@@ -3,8 +3,7 @@ import { useState } from 'react';
 import useApi from './useApi';
 
 export const useFavoriteListing = () => {
-	const { isAuthenticated, loginWithRedirect } =
-		useAuth0();
+	const { isAuthenticated, loginWithRedirect } = useAuth0();
 	const { postResource, deleteResource } = useApi();
 	const [isFavoriting, setIsFavoriting] = useState(false);
 
@@ -13,13 +12,11 @@ export const useFavoriteListing = () => {
 		currentFavoritedState: boolean,
 	) => {
 		if (!isAuthenticated) {
-			// Store listing to favorite in sessionStorage before redirecting
 			sessionStorage.setItem(
 				'pendingListingFavorite',
 				listingShortId,
 			);
 
-			// Redirect to login, will return to /saved page
 			loginWithRedirect({
 				appState: { returnTo: '/saved' },
 			});
@@ -29,12 +26,10 @@ export const useFavoriteListing = () => {
 		setIsFavoriting(true);
 
 		if (currentFavoritedState) {
-			// Unfavorite
 			await deleteResource(
 				`listings/${listingShortId}/favorite`,
 			);
 		} else {
-			// Favorite
 			await postResource(
 				`listings/${listingShortId}/favorite`,
 				{},

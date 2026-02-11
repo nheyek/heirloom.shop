@@ -2,24 +2,11 @@ import { useEffect, useState } from 'react';
 
 type StorageType = 'localStorage' | 'sessionStorage';
 
-/**
- * A hook that persists state to localStorage or sessionStorage.
- * Automatically loads the value on mount and saves on every update.
- *
- * @param key - The storage key to use
- * @param initialValue - The initial value if nothing is in storage
- * @param storageType - 'localStorage' (default) or 'sessionStorage'
- * @returns A stateful value and setter function, just like useState
- *
- * @example
- * const [cart, setCart] = usePersistedState('shopping-cart', [], 'localStorage');
- */
 export const usePersistedState = <T>(
 	key: string,
 	initialValue: T,
 	storageType: StorageType = 'localStorage',
 ): [T, React.Dispatch<React.SetStateAction<T>>] => {
-	// Initialize state with value from storage or initial value
 	const [state, setState] = useState<T>(() => {
 		try {
 			const storage =
@@ -39,7 +26,6 @@ export const usePersistedState = <T>(
 		return initialValue;
 	});
 
-	// Save to storage whenever state changes
 	useEffect(() => {
 		try {
 			const storage =
