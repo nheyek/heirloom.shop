@@ -1,4 +1,5 @@
 import {
+	Badge,
 	Box,
 	Card,
 	Flex,
@@ -6,6 +7,7 @@ import {
 	Link,
 	Stack,
 	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
@@ -65,9 +67,9 @@ export const CartItemCard = ({
 
 			<Card.Body
 				p={4}
-				gap={3}
+				gap={2.5}
 			>
-				<Stack gap={1}>
+				<Stack gap={0.5}>
 					<Card.Title fontSize={20}>
 						<Link
 							truncate
@@ -98,6 +100,36 @@ export const CartItemCard = ({
 						</Link>
 					)}
 				</Stack>
+
+				{Object.keys(item.selectedOptions).length > 0 && (
+					<Wrap gap={1.5}>
+						{Object.entries(item.selectedOptions).map(
+							([variationId, optionId]) => {
+								const variation =
+									item.listingData.variations.find(
+										(v) =>
+											v.id ===
+											Number(variationId),
+									);
+								const option =
+									variation?.options.find(
+										(o) => o.id === optionId,
+									);
+								if (!variation || !option)
+									return null;
+								return (
+									<Badge
+										size="md"
+										key={variationId}
+									>
+										{variation.name}:{' '}
+										{option.name}
+									</Badge>
+								);
+							},
+						)}
+					</Wrap>
+				)}
 
 				<Flex
 					alignItems="end"
