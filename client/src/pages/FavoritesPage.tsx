@@ -8,13 +8,13 @@ import { ListingGrid } from '../components/layout/ListingGrid';
 import { CLIENT_ROUTES } from '../constants';
 import useApi from '../hooks/useApi';
 
-export const SavedPage = () => {
+export const FavoritesPage = () => {
 	const {
 		isAuthenticated,
 		loginWithRedirect,
 		isLoading: authIsLoading,
 	} = useAuth0();
-	const { getProtectedResource, postResource } = useApi();
+	const { getProtectedResource } = useApi();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -38,43 +38,15 @@ export const SavedPage = () => {
 	};
 
 	useEffect(() => {
-		if (authIsLoading) {
-			return;
-		}
-
-		if (!isAuthenticated) {
+		if (!authIsLoading && !isAuthenticated) {
 			loginWithRedirect({
 				appState: { returnTo: CLIENT_ROUTES.favorites },
 			});
 			return;
 		}
 
-		const pendingListingShortId = sessionStorage.getItem(
-			'pendingListingFavorite',
-		);
-
-		if (pendingListingShortId) {
-			sessionStorage.removeItem('pendingListingFavorite');
-
-			(async () => {
-				try {
-					await postResource(
-						`listings/${pendingListingShortId}/favorite`,
-						{},
-					);
-				} catch (err) {
-					console.error('Failed to save listing:', err);
-				}
-				await loadSavedListings();
-			})();
-		} else {
-			loadSavedListings();
-		}
-	}, [isAuthenticated, authIsLoading]);
-
-	if (!isAuthenticated) {
-		return null;
-	}
+		loadSavedListings();
+	}, [authIsLoading]);
 
 	if (error) {
 		return <AppError title={error} />;
@@ -86,17 +58,16 @@ export const SavedPage = () => {
 			gap={4}
 		>
 			<Heading fontSize={32}>Favorite Listings</Heading>
-			{!isLoading && !error && listings.length === 0 && (
+			{!isLoading && listings.length === 0 && (
 				<Text fontSize={18}>
 					You haven't favorited any listings yet. Click the
-					heart icon on any listing to save it.
+					heart icon on any listing to favorite it.
 				</Text>
 			)}
 
 			<ListingGrid
 				listings={listings}
 				isLoading={isLoading}
-				initialSaved={true}
 			/>
 		</Stack>
 	);

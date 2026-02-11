@@ -7,9 +7,9 @@ import { Navbar } from './components/navbar/NavBar';
 import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
+import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
-import { SavedPage } from './pages/SavedPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
 
@@ -51,7 +51,7 @@ const App = () => {
 					/>
 					<Route
 						path={`/${CLIENT_ROUTES.favorites}`}
-						element={<SavedPage />}
+						element={<FavoritesPage />}
 					/>
 					<Route
 						path={`/${CLIENT_ROUTES.category}/:id`}

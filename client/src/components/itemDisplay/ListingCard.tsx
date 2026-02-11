@@ -1,6 +1,5 @@
 import { Box, Card, Flex, IconButton, Link } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
-import { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -8,8 +7,8 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
-import { useFavoriteListing } from '../../hooks/useFavoriteListing';
 import { useShareListing } from '../../hooks/useShareListing';
+import { useFavorites } from '../../providers/FavoritesProvider';
 import { MultiImage } from '../imageDisplay/MultiImage';
 import { PriceTag } from '../textDisplay/PriceTag';
 
@@ -17,21 +16,13 @@ export const ListingCard = (
 	props: ListingCardData & {
 		width?: number;
 		multiImage?: boolean;
-		initialSaved?: boolean;
 	},
 ) => {
 	const shareListing = useShareListing();
-	const { toggleFavorite, isFavoriting } = useFavoriteListing();
-	const [isSaved, setIsSaved] = useState(
-		props.initialSaved || false,
-	);
+	const { favoriteIds, toggleFavorite } = useFavorites();
+	const isSaved = favoriteIds.has(props.shortId);
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
-
-	const handleSaveClick = async () => {
-		await toggleFavorite(props.shortId, isSaved);
-		setIsSaved(!isSaved);
-	};
 
 	const getImageUrl = (uuid: string) =>
 		`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
@@ -114,8 +105,9 @@ export const ListingCard = (
 								variant="ghost"
 								rounded="full"
 								size="lg"
-								onClick={handleSaveClick}
-								disabled={isFavoriting}
+								onClick={() =>
+									toggleFavorite(props.shortId)
+								}
 								color={
 									isSaved ? 'red.500' : undefined
 								}

@@ -46,6 +46,7 @@ import {
 } from '../constants';
 import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
+import { useFavorites } from '../providers/FavoritesProvider';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { getListingDataForCart } from '../utils/typeUtils';
 
@@ -83,6 +84,7 @@ export const ListingPage = () => {
 	const { getPublicResource } = useApi();
 	const shareListing = useShareListing();
 	const shoppingCart = useShoppingCart();
+	const { favoriteIds, toggleFavorite } = useFavorites();
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
@@ -455,9 +457,22 @@ export const ListingPage = () => {
 									columns={2}
 									gap={3}
 								>
-									<ListingPageButton size="lg">
+									<ListingPageButton
+										size="lg"
+										onClick={() =>
+											id && toggleFavorite(id)
+										}
+										color={
+											id &&
+											favoriteIds.has(id)
+												? 'red.500'
+												: undefined
+										}
+									>
 										<IoIosHeart />
-										save
+										{id && favoriteIds.has(id)
+											? 'saved'
+											: 'save'}
 									</ListingPageButton>
 									<ListingPageButton
 										size="lg"

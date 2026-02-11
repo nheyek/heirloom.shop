@@ -14,7 +14,6 @@ import { ListingCard } from '../itemDisplay/ListingCard';
 type Props = {
 	listings: ListingCardData[];
 	isLoading: boolean;
-	initialSaved?: boolean;
 };
 
 export const ListingGrid = (props: Props) => {
@@ -46,7 +45,7 @@ export const ListingGrid = (props: Props) => {
 						key={listing.id}
 						{...listing}
 						width={300}
-						initialSaved={props.initialSaved}
+
 					/>
 				))}
 			</HStack>
@@ -72,7 +71,6 @@ export const ListingGrid = (props: Props) => {
 					key={listing.id}
 					{...listing}
 					multiImage
-					initialSaved={props.initialSaved}
 				/>
 			))}
 		</SimpleGrid>

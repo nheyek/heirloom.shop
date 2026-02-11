@@ -106,9 +106,13 @@ export const config = defineConfig({
 			outline: 'none !important',
 			boxShadow: 'none !important',
 		},
-		// Prevents Chakra bug where box shadow doesn't appear correctly on select option menu
+		// Prevents Chakra bug where box shadow doesn't appear correctly on select/menu components
 		"[data-scope='select'][data-part='content']": {
-			boxShadow: 'lg !important',
+			boxShadow: 'md !important',
+			transitionProperty: 'opacity, transform',
+		},
+		"[data-scope='menu'][data-part='content']": {
+			boxShadow: 'md !important',
 			transitionProperty: 'opacity, transform',
 		},
 	},
