@@ -458,13 +458,12 @@ export const ListingPage = () => {
 									gap={3}
 								>
 									<ListingPageButton
-										size="lg"
+										size="md"
 										onClick={() =>
 											id && toggleFavorite(id)
 										}
-										color={
-											id &&
-											favoriteIds.has(id)
+										background={
+											id && favoriteIds.has(id)
 												? 'red.500'
 												: undefined
 										}
@@ -475,7 +474,7 @@ export const ListingPage = () => {
 											: 'save'}
 									</ListingPageButton>
 									<ListingPageButton
-										size="lg"
+										size="md"
 										onClick={() =>
 											listingData &&
 											shareListing(listingData)
