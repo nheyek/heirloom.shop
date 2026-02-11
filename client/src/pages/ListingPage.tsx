@@ -95,7 +95,7 @@ export const ListingPage = () => {
 
 	const loadListingData = async () => {
 		const response = await getPublicResource(
-			`${API_ROUTES.listings}/${id}`,
+			`${API_ROUTES.listings.base}/${id}`,
 		);
 		if (response.error) {
 			setListingDataError(response.error.message);
