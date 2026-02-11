@@ -8,12 +8,9 @@ import {
 	Image,
 	useCarouselContext,
 } from '@chakra-ui/react';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 import { IoClose } from 'react-icons/io5';
-import {
-	LuChevronLeft,
-	LuChevronRight,
-} from 'react-icons/lu';
 
 type Props = {
 	urls: string[];
@@ -26,7 +23,7 @@ export const LightBox = (props: Props) => {
 	return (
 		<Dialog.Root
 			initialFocusEl={() => null}
-			size="full"
+			size="xl"
 			open={props.page !== null}
 			onInteractOutside={() => {
 				props.setPage(null);
@@ -52,9 +49,7 @@ export const LightBox = (props: Props) => {
 							}
 						>
 							<ActionButton
-								onClick={() =>
-									props.setPage(null)
-								}
+								onClick={() => props.setPage(null)}
 								top={5}
 								right={5}
 								size="2xs"
@@ -67,40 +62,29 @@ export const LightBox = (props: Props) => {
 									insetStart={10}
 								>
 									<ActionButton>
-										<LuChevronLeft />
+										<FaArrowLeft />
 									</ActionButton>
 								</Carousel.PrevTrigger>
 
 								<Carousel.ItemGroup
-									aspectRatio={
-										props.aspectRatio
-									}
-									maxH="85vh"
+									aspectRatio={props.aspectRatio}
 								>
-									{props.urls.map(
-										(src, index) => (
-											<Carousel.Item
-												key={index}
-												index={
-													index
+									{props.urls.map((src, index) => (
+										<Carousel.Item
+											key={index}
+											index={index}
+											overflow="hidden"
+										>
+											<Image
+												src={src}
+												objectFit="cover"
+												aspectRatio={
+													props.aspectRatio
 												}
-												overflow="hidden"
-											>
-												<Image
-													src={
-														src
-													}
-													objectFit="cover"
-													aspectRatio={
-														props.aspectRatio
-													}
-													borderRadius={
-														5
-													}
-												/>
-											</Carousel.Item>
-										),
-									)}
+												borderRadius={5}
+											/>
+										</Carousel.Item>
+									))}
 								</Carousel.ItemGroup>
 
 								<Carousel.NextTrigger
@@ -108,16 +92,14 @@ export const LightBox = (props: Props) => {
 									insetEnd={10}
 								>
 									<ActionButton>
-										<LuChevronRight />
+										<FaArrowRight />
 									</ActionButton>
 								</Carousel.NextTrigger>
 							</Carousel.Control>
 
 							<CarouselThumbnails
 								urls={props.urls}
-								aspectRatio={
-									props.aspectRatio
-								}
+								aspectRatio={props.aspectRatio}
 							/>
 						</Carousel.Root>
 					</Dialog.Body>
