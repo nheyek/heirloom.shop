@@ -50,7 +50,8 @@ const buttonRecipe = defineRecipe({
 			},
 			outline: {
 				borderWidth: 2,
-				borderColor: '#000',
+				color: brandColor,
+				borderColor: brandColor,
 			},
 		},
 	},

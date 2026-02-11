@@ -39,7 +39,10 @@ export const CartItemCard = ({
 	const itemPrice = calculateItemPrice(item);
 
 	return (
-		<Card.Root variant="elevated">
+		<Card.Root
+			variant="elevated"
+			height="fit-content"
+		>
 			<Box position="relative">
 				<RouterLink
 					to={listingUrl}
