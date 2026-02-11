@@ -6,6 +6,7 @@ import useApi from '../hooks/useApi';
 
 type FavoritesContextType = {
 	favoriteIds: Set<string>;
+	isFavorited: (shortId: string) => boolean;
 	toggleFavorite: (shortId: string) => Promise<void>;
 	isLoading: boolean;
 	error: string | null;
@@ -59,6 +60,8 @@ export const FavoritesProvider = (props: {
 		}
 	}, [isAuthenticated]);
 
+	const isFavorited = (shortId: string) => favoriteIds.has(shortId);
+
 	const toggleFavorite = async (shortId: string) => {
 		if (!isAuthenticated) {
 			loginWithRedirect();
@@ -99,6 +102,7 @@ export const FavoritesProvider = (props: {
 		<FavoritesContext.Provider
 			value={{
 				favoriteIds,
+				isFavorited,
 				toggleFavorite,
 				isLoading,
 				error,
