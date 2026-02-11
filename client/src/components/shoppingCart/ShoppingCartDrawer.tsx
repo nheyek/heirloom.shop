@@ -24,7 +24,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
 	const cartTotal = shoppingCart.items.reduce(
-		(sum, item) => sum + calculateItemPrice(item),
+		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
 		0,
 	);
 
