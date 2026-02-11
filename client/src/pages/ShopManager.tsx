@@ -23,13 +23,10 @@ export const ShopManager = () => {
 
 	const fetchListings = async () => {
 		const { data, error } = await getPublicResource(
-			API_ROUTES.listings,
+			API_ROUTES.listings.base,
 		);
 		if (error) {
-			console.error(
-				'Error fetching listings:',
-				error,
-			);
+			console.error('Error fetching listings:', error);
 		} else {
 			console.log('Fetched listings:', data);
 		}
@@ -159,9 +156,7 @@ export const ShopManager = () => {
 												Save
 											</Button>
 										</Dialog.Footer>
-										<Dialog.CloseTrigger
-											asChild
-										>
+										<Dialog.CloseTrigger asChild>
 											<CloseButton size="sm" />
 										</Dialog.CloseTrigger>
 									</Dialog.Content>
@@ -169,9 +164,7 @@ export const ShopManager = () => {
 							</Portal>
 						</Dialog.Root>
 					</Tabs.Content>
-					<Tabs.Content value="orders">
-						Orders
-					</Tabs.Content>
+					<Tabs.Content value="orders">Orders</Tabs.Content>
 					<Tabs.Content value="messages">
 						Messages
 					</Tabs.Content>

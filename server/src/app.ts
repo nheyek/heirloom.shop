@@ -20,11 +20,26 @@ const main = async () => {
 	app.use(express.json());
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	app.use(`/api/${API_ROUTES.listings}`, listingRouter);
-	app.use(`/api/${API_ROUTES.currentUser}`, currentUserRouter);
-	app.use(`/api/${API_ROUTES.shops.base}`, shopRouter);
-	app.use(`/api/${API_ROUTES.categories.base}`, categoryRouter);
-	app.use(`/api/${API_ROUTES.search.base}`, searchRouter);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.listings.base}`,
+		listingRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.currentUser.base}`,
+		currentUserRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.shops.base}`,
+		shopRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.categories.base}`,
+		categoryRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.search.base}`,
+		searchRouter,
+	);
 
 	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));

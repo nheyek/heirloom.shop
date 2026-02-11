@@ -47,7 +47,7 @@ export const NavbarMenu = () => {
 							gapY={2}
 							animation="none"
 						>
-							<Link to={`/${CLIENT_ROUTES.saved}`}>
+							<Link to={`/${CLIENT_ROUTES.favorites}`}>
 								<MenuItem value="saved">
 									<FaHeart />
 									<Text pl={1}>favorites</Text>

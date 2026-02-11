@@ -1,6 +1,13 @@
 export const API_ROUTES = {
-	currentUser: 'me',
-	listings: 'listings',
+	base: 'api',
+	currentUser: {
+		base: 'me',
+		favorites: 'favorites',
+	},
+	listings: {
+		base: 'listings',
+		favorite: 'favorite',
+	},
 	shops: {
 		base: 'shops',
 		listings: 'listings',

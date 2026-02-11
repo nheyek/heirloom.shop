@@ -50,7 +50,7 @@ const App = () => {
 						element={<ShopManager />}
 					/>
 					<Route
-						path={`/${CLIENT_ROUTES.saved}`}
+						path={`/${CLIENT_ROUTES.favorites}`}
 						element={<SavedPage />}
 					/>
 					<Route

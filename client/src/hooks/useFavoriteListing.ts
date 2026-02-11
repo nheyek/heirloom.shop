@@ -1,4 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
+import { API_ROUTES } from '@common/constants';
 import { useState } from 'react';
 import useApi from './useApi';
 
@@ -27,11 +28,11 @@ export const useFavoriteListing = () => {
 
 		if (currentFavoritedState) {
 			await deleteResource(
-				`listings/${listingShortId}/favorite`,
+				`${API_ROUTES.listings.base}/${listingShortId}/${API_ROUTES.listings.favorite}`,
 			);
 		} else {
 			await postResource(
-				`listings/${listingShortId}/favorite`,
+				`${API_ROUTES.listings.base}/${listingShortId}/${API_ROUTES.listings.favorite}`,
 				{},
 			);
 		}

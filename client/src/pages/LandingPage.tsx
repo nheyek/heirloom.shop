@@ -47,7 +47,7 @@ export const LandingPage = () => {
 
 	const loadListings = async () => {
 		const listingsResponse = await getPublicResource(
-			API_ROUTES.listings,
+			API_ROUTES.listings.base,
 		);
 		if (listingsResponse.error) {
 			setListingsError('Failed to load listings');

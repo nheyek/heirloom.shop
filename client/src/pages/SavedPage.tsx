@@ -1,9 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
+import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { useEffect, useState } from 'react';
 import { AppError } from '../components/feedback/AppError';
 import { ListingGrid } from '../components/layout/ListingGrid';
+import { CLIENT_ROUTES } from '../constants';
 import useApi from '../hooks/useApi';
 
 export const SavedPage = () => {
@@ -24,7 +26,7 @@ export const SavedPage = () => {
 
 		setTimeout(async () => {
 			const response = await getProtectedResource(
-				'me/favorited-listings',
+				`${API_ROUTES.currentUser.base}/${API_ROUTES.currentUser.favorites}`,
 			);
 			if (response.error) {
 				setError('Failed to load favorites');
@@ -42,7 +44,7 @@ export const SavedPage = () => {
 
 		if (!isAuthenticated) {
 			loginWithRedirect({
-				appState: { returnTo: '/saved' },
+				appState: { returnTo: CLIENT_ROUTES.favorites },
 			});
 			return;
 		}

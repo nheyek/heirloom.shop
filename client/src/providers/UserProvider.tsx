@@ -1,11 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { API_ROUTES } from '@common/constants';
 import { UserInfo } from '@common/types/UserInfo';
-import React, {
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import useApi from '../hooks/useApi';
 
 type UserContextType = {
@@ -15,9 +11,9 @@ type UserContextType = {
 	refresh: () => Promise<void>;
 };
 
-const UserContext = React.createContext<
-	UserContextType | undefined
->(undefined);
+const UserContext = React.createContext<UserContextType | undefined>(
+	undefined,
+);
 
 export const UserProvider = (props: {
 	children: React.ReactNode;
@@ -34,13 +30,11 @@ export const UserProvider = (props: {
 			setError(null);
 
 			const res = await getProtectedResource(
-				API_ROUTES.currentUser,
+				API_ROUTES.currentUser.base,
 			);
 
 			if (res.error) {
-				throw new Error(
-					`Failed to fetch user: ${res.error}`,
-				);
+				throw new Error(`Failed to fetch user: ${res.error}`);
 			}
 
 			const data: UserInfo = await res.data;

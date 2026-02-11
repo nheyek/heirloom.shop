@@ -14,7 +14,7 @@ export const CLIENT_ROUTES = {
 	shop: 'shop',
 	listing: 'listing',
 	shopManager: 'shop-manager',
-	saved: 'saved',
+	favorites: 'favorites',
 };
 
 export enum CategoryIconCode {
