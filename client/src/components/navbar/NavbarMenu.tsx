@@ -42,25 +42,15 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<AnimatedBox
-						display="flex"
-						boxShadow="md"
-						borderRadius={5}
-						overflow="hidden"
-					>
+					<AnimatedBox display="flex">
 						<Menu.Content
 							gapY={2}
-							boxShadow="none"
 							animation="none"
 						>
-							<Link
-								to={`/${CLIENT_ROUTES.saved}`}
-							>
+							<Link to={`/${CLIENT_ROUTES.saved}`}>
 								<MenuItem value="saved">
 									<FaHeart />
-									<Text pl={1}>
-										favorites
-									</Text>
+									<Text pl={1}>favorites</Text>
 								</MenuItem>
 							</Link>
 
