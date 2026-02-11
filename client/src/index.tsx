@@ -6,6 +6,7 @@ import { App } from './App';
 
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
+import { FavoritesProvider } from './providers/FavoritesProvider';
 import { ShoppingCartProvider } from './providers/ShoppingCartProvider';
 import { UserProvider } from './providers/UserProvider';
 import customSystem from './theme';
@@ -16,13 +17,15 @@ root.render(
 		<BrowserRouter>
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
-					<CategoriesProvider>
-						<ShoppingCartProvider>
-							<ChakraProvider value={customSystem}>
-								<App />
-							</ChakraProvider>
-						</ShoppingCartProvider>
-					</CategoriesProvider>
+					<FavoritesProvider>
+						<CategoriesProvider>
+							<ShoppingCartProvider>
+								<ChakraProvider value={customSystem}>
+									<App />
+								</ChakraProvider>
+							</ShoppingCartProvider>
+						</CategoriesProvider>
+					</FavoritesProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
 		</BrowserRouter>
