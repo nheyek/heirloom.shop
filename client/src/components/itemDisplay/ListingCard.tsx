@@ -94,7 +94,6 @@ export const ListingCard = (
 						<Box>
 							<IconButton
 								variant="ghost"
-								rounded="full"
 								size="lg"
 								onClick={() => shareListing(props)}
 							>
@@ -103,13 +102,12 @@ export const ListingCard = (
 
 							<IconButton
 								variant="ghost"
-								rounded="full"
 								size="lg"
 								onClick={() =>
 									toggleFavorite(props.shortId)
 								}
 								color={
-									isSaved ? 'red.500' : undefined
+									isSaved ? 'red.600' : undefined
 								}
 							>
 								{isSaved ? (

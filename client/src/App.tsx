@@ -12,6 +12,7 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
+import { AppToaster } from './toaster/AppToaster';
 
 const App = () => {
 	const [mounted, setMounted] = useState(false);
@@ -29,6 +30,8 @@ const App = () => {
 			transition="opacity 0.5s"
 		>
 			<ScrollToTop />
+			<AppToaster />
+
 			<Navbar />
 			<Box
 				flex="1"

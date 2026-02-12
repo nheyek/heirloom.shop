@@ -1,6 +1,6 @@
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { usePersistedState } from '../hooks/usePersistedState';
 
 const BROWSER_STORAGE_KEY = 'shopping-cart';
@@ -20,6 +20,9 @@ type ShoppingCartContext = {
 		selectedOptions: { [variationId: number]: number },
 		quantity: number,
 	) => void;
+	isDrawerOpen: boolean;
+	openDrawer: () => void;
+	closeDrawer: () => void;
 };
 
 export const ShoppingCartContext = createContext<
@@ -33,6 +36,9 @@ export const ShoppingCartProvider = (props: {
 		BROWSER_STORAGE_KEY,
 		[],
 	);
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const openDrawer = () => setIsDrawerOpen(true);
+	const closeDrawer = () => setIsDrawerOpen(false);
 
 	const addToCart = (
 		listingData: ListingDataForCart,
@@ -123,6 +129,9 @@ export const ShoppingCartProvider = (props: {
 				addToCart,
 				removeFromCart,
 				updateQuantity,
+				isDrawerOpen,
+				openDrawer,
+				closeDrawer,
 			}}
 		>
 			{props.children}

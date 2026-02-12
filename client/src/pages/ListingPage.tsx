@@ -48,6 +48,7 @@ import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
 import { useFavorites } from '../providers/FavoritesProvider';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
+import { toaster } from '../toaster';
 import { getListingDataForCart } from '../utils/typeUtils';
 
 const MotionFlex = motion.create(Flex);
@@ -93,6 +94,16 @@ export const ListingPage = () => {
 			getListingDataForCart(listingData),
 			selectedVariationOptions,
 		);
+
+		toaster.create({
+			title: 'added',
+			description: listingData.title,
+			type: 'success',
+			action: {
+				label: 'view cart',
+				onClick: shoppingCart.openDrawer,
+			},
+		});
 	};
 
 	const loadListingData = async () => {
@@ -464,7 +475,7 @@ export const ListingPage = () => {
 										}
 										background={
 											id && favoriteIds.has(id)
-												? 'red.500'
+												? 'red.600'
 												: undefined
 										}
 									>

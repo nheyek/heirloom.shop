@@ -6,7 +6,6 @@ import {
 	GridItem,
 	IconButton,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
@@ -26,9 +25,6 @@ enum gridTemplateAreas {
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 
-	const [shoppingCartIsOpen, setShoppingCartIsOpen] =
-		useState(false);
-
 	const shoppingCart = useShoppingCart();
 
 	return (
@@ -46,7 +42,8 @@ export const Navbar = () => {
 				}}
 				templateColumns="150px 1fr 150px"
 				alignItems="center"
-				gap={5}
+				gapX={5}
+				gapY={1}
 			>
 				<GridItem
 					area={gridTemplateAreas.LOGO}
@@ -97,10 +94,8 @@ export const Navbar = () => {
 									<IconButton
 										variant="plain"
 										color="#FFF"
-										onClick={() =>
-											setShoppingCartIsOpen(
-												true,
-											)
+										onClick={
+											shoppingCart.openDrawer
 										}
 									>
 										<FaShoppingCart />
@@ -131,10 +126,8 @@ export const Navbar = () => {
 							</AnimatedBox>
 						)}
 						<ShoppingCardDrawer
-							isOpen={shoppingCartIsOpen}
-							onClose={() =>
-								setShoppingCartIsOpen(false)
-							}
+							isOpen={shoppingCart.isDrawerOpen}
+							onClose={shoppingCart.closeDrawer}
 						/>
 					</Flex>
 				</GridItem>
