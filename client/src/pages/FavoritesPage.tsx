@@ -40,7 +40,7 @@ export const FavoritesPage = () => {
 	useEffect(() => {
 		if (!authIsLoading && !isAuthenticated) {
 			loginWithRedirect({
-				appState: { returnTo: CLIENT_ROUTES.favorites },
+				appState: { returnTo: `/${CLIENT_ROUTES.favorites}` },
 			});
 			return;
 		}

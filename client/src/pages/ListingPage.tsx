@@ -337,7 +337,7 @@ export const ListingPage = () => {
 								</Link>
 							</Flex>
 							<Stack
-								fontSize={16}
+								fontSize={18}
 								gap={2}
 							>
 								{listingData?.subtitle}

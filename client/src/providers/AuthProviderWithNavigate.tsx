@@ -17,9 +17,7 @@ export const Auth0ProviderWithNavigate = (props: {
 	const redirectUri = `${location.protocol}//${location.host}/callback`;
 
 	const onRedirectCallback = (appState?: AppState) => {
-		navigate(
-			appState?.returnTo || window.location.pathname,
-		);
+		navigate(appState?.returnTo || '/');
 	};
 
 	if (!(domain && clientId && redirectUri)) {

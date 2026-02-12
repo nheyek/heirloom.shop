@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import React, { useContext, useEffect, useState } from 'react';
+import { CLIENT_ROUTES } from '../constants';
 import useApi from '../hooks/useApi';
 
 type FavoritesContextType = {
@@ -64,7 +65,9 @@ export const FavoritesProvider = (props: {
 
 	const toggleFavorite = async (shortId: string) => {
 		if (!isAuthenticated) {
-			loginWithRedirect();
+			loginWithRedirect({
+				appState: { returnTo: `/${CLIENT_ROUTES.favorites}` },
+			});
 			return;
 		}
 
