@@ -97,7 +97,7 @@ export const ListingPage = () => {
 
 		toaster.create({
 			title: 'added',
-			description: listingData.title,
+			description: listingData.title.toLowerCase(),
 			type: 'success',
 			action: {
 				label: 'view cart',
@@ -316,7 +316,7 @@ export const ListingPage = () => {
 					gap={10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Stack gap={4}>
+						<Stack gap={3}>
 							<Flex direction="column">
 								<Heading
 									size="4xl"

@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { API_ROUTES } from '@common/constants';
 import { useState } from 'react';
+import { CLIENT_ROUTES } from '../constants';
 import useApi from './useApi';
 
 export const useFavoriteListing = () => {
@@ -19,7 +20,7 @@ export const useFavoriteListing = () => {
 			);
 
 			loginWithRedirect({
-				appState: { returnTo: '/saved' },
+				appState: { returnTo: CLIENT_ROUTES.favorites },
 			});
 			return;
 		}
