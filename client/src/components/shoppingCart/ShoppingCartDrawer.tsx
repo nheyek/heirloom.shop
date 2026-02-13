@@ -1,12 +1,12 @@
 import {
 	Button,
 	Center,
+	DataList,
 	Drawer,
 	Flex,
 	IconButton,
-	SimpleGrid,
+	Stack,
 	Text,
-	useBreakpointValue,
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
@@ -28,25 +28,21 @@ export const ShoppingCardDrawer = (props: Props) => {
 		0,
 	);
 
-	let gridCols = useBreakpointValue({ base: 1, md: 2 });
-	if (shoppingCart.items.length <= 1) {
-		gridCols = 1;
-	}
-
 	return (
 		<Drawer.Root
 			open={props.isOpen}
 			onOpenChange={(e) => !e.open && props.onClose()}
 			placement="end"
-			size={shoppingCart.items.length <= 1 ? 'sm' : 'lg'}
+			size="sm"
 		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
 				<Drawer.Content>
-					<Drawer.Header>
+					<Drawer.Header p={5}>
 						<Drawer.Title
-							fontSize={30}
-							fontWeight={500}
+							fontSize={32}
+							fontWeight={600}
+							textStyle="ornamental"
 						>
 							Shopping Cart
 						</Drawer.Title>
@@ -60,12 +56,16 @@ export const ShoppingCardDrawer = (props: Props) => {
 						</Drawer.CloseTrigger>
 					</Drawer.Header>
 
-					<Drawer.Body>
+					<Drawer.Body
+						display="flex"
+						flexDir="column"
+						py={5}
+					>
 						{shoppingCart.items.length === 0 ? (
 							<Center
+								flexDir="column"
 								height="100%"
 								gap={5}
-								flexDir="column"
 							>
 								<Text
 									fontSize={30}
@@ -82,10 +82,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 								</Button>
 							</Center>
 						) : (
-							<SimpleGrid
-								columns={gridCols}
-								gap={4}
-							>
+							<Stack gap={5}>
 								{shoppingCart.items.map((item) => (
 									<CartItemCard
 										key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
@@ -110,22 +107,71 @@ export const ShoppingCardDrawer = (props: Props) => {
 										}
 									/>
 								))}
-							</SimpleGrid>
+							</Stack>
 						)}
 					</Drawer.Body>
 
 					{shoppingCart.items.length > 0 && (
-						<Drawer.Footer>
+						<Drawer.Footer
+							flexDir="column"
+							alignItems="start"
+							mt={0.5}
+							p={5}
+							gap={4}
+							background="brand"
+						>
+							<DataList.Root
+								marginTop="auto"
+								orientation="horizontal"
+								gap={1}
+							>
+								{[
+									{
+										label: 'Item total',
+										value: `$${cartTotal.toLocaleString()}.00`,
+									},
+									{
+										label: 'Shipping',
+										value: 'Free',
+									},
+									{
+										label: 'Tax',
+										value: 'Determined at checkout',
+									},
+								].map(({ label, value }) => (
+									<DataList.Item
+										key={label}
+										fontSize={15}
+									>
+										<DataList.ItemLabel
+											color="white"
+											minWidth={75}
+											fontWeight={700}
+										>
+											{label}
+										</DataList.ItemLabel>
+										<DataList.ItemValue
+											color="white"
+											fontWeight={500}
+										>
+											{value}
+										</DataList.ItemValue>
+									</DataList.Item>
+								))}
+							</DataList.Root>
 							<Button
-								size="xl"
+								variant="outline"
+								size="lg"
 								width="100%"
 								fontSize={22}
+								borderColor="white"
+								color="white"
+								_hover={{ background: 'gray.800' }}
 							>
 								<Text
 									fontSize={26}
-									height={7}
+									height="26px"
 									fontWeight={600}
-									textStyle="ornamental"
 								>
 									${cartTotal.toLocaleString()}.00
 								</Text>

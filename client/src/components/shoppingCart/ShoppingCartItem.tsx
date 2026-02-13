@@ -3,6 +3,7 @@ import {
 	Box,
 	Card,
 	Flex,
+	Group,
 	IconButton,
 	Link,
 	Stack,
@@ -12,6 +13,8 @@ import {
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { FaTrashAlt } from 'react-icons/fa';
+import { IoMdPricetags } from 'react-icons/io';
+import { MdLocalShipping } from 'react-icons/md';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -19,7 +22,6 @@ import {
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
 import { MultiImage } from '../imageDisplay/MultiImage';
-import { PriceTag } from '../textDisplay/PriceTag';
 
 type Props = {
 	item: ShoppingCartItem;
@@ -57,7 +59,9 @@ export const CartItemCard = ({
 				</RouterLink>
 				<IconButton
 					size="xs"
-					variant="subtle"
+					variant="solid"
+					bg="gray.100"
+					color="black"
 					position="absolute"
 					top={3}
 					right={3}
@@ -66,14 +70,56 @@ export const CartItemCard = ({
 				>
 					<FaTrashAlt />
 				</IconButton>
+				<Group
+					p={1}
+					gap={1}
+					attached
+					position="absolute"
+					bottom={3}
+					right={3}
+					bg="gray.100"
+					borderRadius="full"
+				>
+					<IconButton
+						variant="ghost"
+						size="2xs"
+						onClick={() =>
+							onUpdateQuantity(item.quantity - 1)
+						}
+					>
+						<TiMinus />
+					</IconButton>
+					<Text
+						textAlign="center"
+						minWidth={5}
+						fontSize={16}
+						fontWeight={700}
+					>
+						{item.quantity}
+					</Text>
+					<IconButton
+						variant="ghost"
+						size="2xs"
+						onClick={() =>
+							onUpdateQuantity(item.quantity + 1)
+						}
+					>
+						<TiPlus />
+					</IconButton>
+				</Group>
+				<Flex
+					alignItems="center"
+					gap={2}
+					borderRadius="full"
+				></Flex>
 			</Box>
 
 			<Card.Body
-				p={4}
-				gap={2.5}
+				p={3}
+				gap={3}
 			>
-				<Stack gap={0.5}>
-					<Card.Title fontSize={20}>
+				<Stack gap={1}>
+					<Card.Title fontSize={22}>
 						<Link
 							truncate
 							display="block"
@@ -105,7 +151,7 @@ export const CartItemCard = ({
 				</Stack>
 
 				{Object.keys(item.selectedOptions).length > 0 && (
-					<Wrap gap={1.5}>
+					<Wrap gap={2}>
 						{Object.entries(item.selectedOptions).map(
 							([variationId, optionId]) => {
 								const variation =
@@ -122,7 +168,7 @@ export const CartItemCard = ({
 									return null;
 								return (
 									<Badge
-										size="md"
+										size="lg"
 										key={variationId}
 									>
 										{variation.name}:{' '}
@@ -135,40 +181,40 @@ export const CartItemCard = ({
 				)}
 
 				<Flex
-					alignItems="end"
+					alignItems="center"
 					justifyContent="space-between"
 				>
-					<PriceTag value={itemPrice} />
 					<Flex
-						alignItems="center"
+						direction="row"
+						alignItems="start"
+						gap={1.5}
+					>
+						<IoMdPricetags size={24} />
+
+						<Text
+							fontSize={20}
+							fontWeight={500}
+							textStyle="ornamental"
+						>
+							${itemPrice.toLocaleString()}.00{' '}
+							{item.quantity > 1 &&
+								`(${item.quantity})`}
+						</Text>
+					</Flex>
+					<Flex
+						direction="row"
+						alignItems="start"
 						gap={2}
 					>
-						<IconButton
-							size="2xs"
-							variant="outline"
-							onClick={() =>
-								onUpdateQuantity(item.quantity - 1)
-							}
-						>
-							<TiMinus />
-						</IconButton>
+						<MdLocalShipping size={24} />
+
 						<Text
-							textAlign="center"
-							minWidth={5}
-							fontSize={16}
-							fontWeight={700}
+							fontSize={20}
+							fontWeight={500}
+							textStyle="ornamental"
 						>
-							{item.quantity}
+							$30.00
 						</Text>
-						<IconButton
-							size="2xs"
-							variant="outline"
-							onClick={() =>
-								onUpdateQuantity(item.quantity + 1)
-							}
-						>
-							<TiPlus />
-						</IconButton>
 					</Flex>
 				</Flex>
 			</Card.Body>

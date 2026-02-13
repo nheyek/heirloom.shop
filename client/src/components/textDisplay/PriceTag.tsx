@@ -2,6 +2,7 @@ import { Flex, Text } from '@chakra-ui/react';
 
 type Props = {
 	value: number;
+	quantity?: number;
 };
 
 export const PriceTag = (props: Props) => (
@@ -35,7 +36,10 @@ export const PriceTag = (props: Props) => (
 			lineHeight={1.4}
 			textStyle="ornamental"
 		>
-			${props.value.toLocaleString()}
+			${props.value.toLocaleString()}{' '}
+			{props.quantity &&
+				props.quantity > 1 &&
+				`(${props.quantity})`}
 		</Text>
 	</Flex>
 );
