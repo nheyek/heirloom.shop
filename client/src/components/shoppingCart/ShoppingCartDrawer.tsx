@@ -13,7 +13,7 @@ import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { CartItemCard } from './ShoppingCartItem';
+import { ShoppingCartItemCard } from './ShoppingCartItemCard';
 
 type Props = {
 	isOpen: boolean;
@@ -84,7 +84,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 						) : (
 							<Stack gap={5}>
 								{shoppingCart.items.map((item) => (
-									<CartItemCard
+									<ShoppingCartItemCard
 										key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
 										item={item}
 										onNavigate={props.onClose}
@@ -171,7 +171,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 								<Text
 									fontSize={26}
 									height="26px"
-									fontWeight={600}
+									fontWeight={500}
 								>
 									${cartTotal.toLocaleString()}.00
 								</Text>

@@ -4,6 +4,7 @@ import {
 	Card,
 	Flex,
 	Group,
+	Icon,
 	IconButton,
 	Link,
 	Stack,
@@ -30,7 +31,7 @@ type Props = {
 	onRemove: () => void;
 };
 
-export const CartItemCard = ({
+export const ShoppingCartItemCard = ({
 	item,
 	onNavigate,
 	onUpdateQuantity,
@@ -115,10 +116,10 @@ export const CartItemCard = ({
 			</Box>
 
 			<Card.Body
-				p={3}
-				gap={3}
+				p={2.5}
+				gap={2.5}
 			>
-				<Stack gap={1}>
+				<Stack gap={0.5}>
 					<Card.Title fontSize={22}>
 						<Link
 							truncate
@@ -186,13 +187,15 @@ export const CartItemCard = ({
 				>
 					<Flex
 						direction="row"
-						alignItems="start"
+						alignItems="center"
 						gap={1.5}
 					>
-						<IoMdPricetags size={24} />
+						<Icon mt="6px">
+							<IoMdPricetags size={26} />
+						</Icon>
 
 						<Text
-							fontSize={20}
+							fontSize={22}
 							fontWeight={500}
 							textStyle="ornamental"
 						>
@@ -203,17 +206,19 @@ export const CartItemCard = ({
 					</Flex>
 					<Flex
 						direction="row"
-						alignItems="start"
-						gap={2}
+						alignItems="center"
+						gap={1.5}
 					>
-						<MdLocalShipping size={24} />
+						<Icon mt="3px">
+							<MdLocalShipping size={26} />
+						</Icon>
 
 						<Text
-							fontSize={20}
+							fontSize={22}
 							fontWeight={500}
 							textStyle="ornamental"
 						>
-							$30.00
+							Free
 						</Text>
 					</Flex>
 				</Flex>
