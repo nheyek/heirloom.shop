@@ -116,10 +116,11 @@ export const ShoppingCartItemCard = ({
 			</Box>
 
 			<Card.Body
-				p={2.5}
-				gap={2.5}
+				px={4}
+				py={3}
+				gap={2}
 			>
-				<Stack gap={0.5}>
+				<Stack gap={1}>
 					<Card.Title fontSize={22}>
 						<Link
 							truncate
@@ -188,7 +189,7 @@ export const ShoppingCartItemCard = ({
 					<Flex
 						direction="row"
 						alignItems="center"
-						gap={1.5}
+						gap={2}
 					>
 						<Icon mt="6px">
 							<IoMdPricetags size={26} />
@@ -207,7 +208,7 @@ export const ShoppingCartItemCard = ({
 					<Flex
 						direction="row"
 						alignItems="center"
-						gap={1.5}
+						gap={2}
 					>
 						<Icon mt="3px">
 							<MdLocalShipping size={26} />

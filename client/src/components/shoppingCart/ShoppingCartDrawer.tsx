@@ -169,8 +169,9 @@ export const ShoppingCardDrawer = (props: Props) => {
 								_hover={{ background: 'gray.800' }}
 							>
 								<Text
+									textStyle="ornamental"
 									fontSize={26}
-									height="26px"
+									height="28px"
 									fontWeight={500}
 								>
 									${cartTotal.toLocaleString()}.00
