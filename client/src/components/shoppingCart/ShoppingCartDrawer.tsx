@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import { IoClose } from 'react-icons/io5';
+import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { ShoppingCartItemCard } from './ShoppingCartItemCard';
@@ -42,7 +42,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 					<Drawer.Header p={5}>
 						<Drawer.Title
 							fontSize={32}
-							fontWeight={600}
+							fontWeight={500}
 							textStyle="ornamental"
 						>
 							Shopping Cart
@@ -57,7 +57,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 									h={7}
 									w={7}
 								>
-									<IoClose />
+									<MdClose />
 								</Icon>
 							</IconButton>
 						</Drawer.CloseTrigger>
@@ -74,7 +74,10 @@ export const ShoppingCardDrawer = (props: Props) => {
 								height="100%"
 								gap={5}
 							>
-								<Text fontSize={30}>
+								<Text
+									fontSize={30}
+									fontWeight={300}
+								>
 									Your cart is empty
 								</Text>
 								<Button
@@ -119,23 +122,23 @@ export const ShoppingCardDrawer = (props: Props) => {
 						<Drawer.Footer
 							flexDir="column"
 							alignItems="start"
-							mt={1}
 							p={4}
 							gap={4}
+							mt={1}
 							background="brand"
 						>
 							<DataList.Root
 								orientation="horizontal"
-								gap={1.5}
+								gap={2}
 							>
 								{[
 									{
-										label: 'Item total',
+										label: 'Item Total',
 										value: `$${cartTotal.toLocaleString()}.00`,
 									},
 									{
 										label: 'Shipping',
-										value: '$444.44+ (Calculated at checkout)',
+										value: '$25.00',
 									},
 									{
 										label: 'Tax',

@@ -11,6 +11,7 @@ export const AppToaster = () => {
 					textStyle="sans"
 					px={4}
 					py={2}
+					borderRadius={5}
 				>
 					<Flex
 						gap={4}
@@ -33,6 +34,7 @@ export const AppToaster = () => {
 								cursor="pointer"
 								border="1px solid white"
 								fontSize={16}
+								whiteSpace="nowrap"
 							>
 								{toast.action.label}
 							</Toast.ActionTrigger>
