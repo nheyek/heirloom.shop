@@ -4,7 +4,6 @@ import {
 	Card,
 	Flex,
 	Group,
-	Icon,
 	IconButton,
 	Link,
 	Stack,
@@ -59,7 +58,7 @@ export const ShoppingCartItemCard = ({
 					/>
 				</RouterLink>
 				<IconButton
-					size="xs"
+					size="sm"
 					variant="solid"
 					bg="gray.100"
 					color="black"
@@ -72,7 +71,7 @@ export const ShoppingCartItemCard = ({
 					<FaTrashAlt />
 				</IconButton>
 				<Group
-					p={1}
+					p={0.5}
 					gap={1}
 					attached
 					position="absolute"
@@ -83,7 +82,7 @@ export const ShoppingCartItemCard = ({
 				>
 					<IconButton
 						variant="ghost"
-						size="2xs"
+						size="xs"
 						onClick={() =>
 							onUpdateQuantity(item.quantity - 1)
 						}
@@ -100,7 +99,7 @@ export const ShoppingCartItemCard = ({
 					</Text>
 					<IconButton
 						variant="ghost"
-						size="2xs"
+						size="xs"
 						onClick={() =>
 							onUpdateQuantity(item.quantity + 1)
 						}
@@ -116,9 +115,8 @@ export const ShoppingCartItemCard = ({
 			</Box>
 
 			<Card.Body
-				px={4}
-				py={3}
-				gap={2}
+				p={3}
+				gap={3}
 			>
 				<Stack gap={1}>
 					<Card.Title fontSize={22}>
@@ -191,14 +189,13 @@ export const ShoppingCartItemCard = ({
 						alignItems="center"
 						gap={2}
 					>
-						<Icon mt="6px">
-							<IoMdPricetags size={26} />
-						</Icon>
+						<IoMdPricetags size={26} />
 
 						<Text
 							fontSize={22}
 							fontWeight={500}
 							textStyle="ornamental"
+							mb="5px"
 						>
 							${itemPrice.toLocaleString()}.00{' '}
 							{item.quantity > 1 &&
@@ -210,16 +207,15 @@ export const ShoppingCartItemCard = ({
 						alignItems="center"
 						gap={2}
 					>
-						<Icon mt="3px">
-							<MdLocalShipping size={26} />
-						</Icon>
+						<MdLocalShipping size={26} />
 
 						<Text
 							fontSize={22}
 							fontWeight={500}
 							textStyle="ornamental"
+							mb="5px"
 						>
-							Free
+							$30.00
 						</Text>
 					</Flex>
 				</Flex>

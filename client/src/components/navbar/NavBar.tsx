@@ -31,7 +31,8 @@ export const Navbar = () => {
 		<Box
 			bg="brand"
 			px={4}
-			py={2}
+			pt={3}
+			pb={2}
 			boxShadow="md"
 		>
 			<Grid

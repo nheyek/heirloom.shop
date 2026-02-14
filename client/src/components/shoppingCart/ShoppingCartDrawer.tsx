@@ -4,13 +4,14 @@ import {
 	DataList,
 	Drawer,
 	Flex,
+	Icon,
 	IconButton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
+import { IoClose } from 'react-icons/io5';
 import { RxDotFilled } from 'react-icons/rx';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { ShoppingCartItemCard } from './ShoppingCartItemCard';
@@ -48,10 +49,16 @@ export const ShoppingCardDrawer = (props: Props) => {
 						</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton
-								size="md"
 								variant="ghost"
+								w={10}
+								h={10}
 							>
-								<MdClose />
+								<Icon
+									h={7}
+									w={7}
+								>
+									<IoClose />
+								</Icon>
 							</IconButton>
 						</Drawer.CloseTrigger>
 					</Drawer.Header>
@@ -67,10 +74,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 								height="100%"
 								gap={5}
 							>
-								<Text
-									fontSize={30}
-									fontWeight={300}
-								>
+								<Text fontSize={30}>
 									Your cart is empty
 								</Text>
 								<Button
@@ -115,15 +119,14 @@ export const ShoppingCardDrawer = (props: Props) => {
 						<Drawer.Footer
 							flexDir="column"
 							alignItems="start"
-							mt={0.5}
-							p={5}
+							mt={1}
+							p={4}
 							gap={4}
 							background="brand"
 						>
 							<DataList.Root
-								marginTop="auto"
 								orientation="horizontal"
-								gap={1}
+								gap={1.5}
 							>
 								{[
 									{
@@ -132,11 +135,11 @@ export const ShoppingCardDrawer = (props: Props) => {
 									},
 									{
 										label: 'Shipping',
-										value: 'Free',
+										value: '$444.44+ (Calculated at checkout)',
 									},
 									{
 										label: 'Tax',
-										value: 'Determined at checkout',
+										value: 'Calculated at checkout',
 									},
 								].map(({ label, value }) => (
 									<DataList.Item
@@ -146,7 +149,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 										<DataList.ItemLabel
 											color="white"
 											minWidth={75}
-											fontWeight={700}
+											fontWeight={600}
 										>
 											{label}
 										</DataList.ItemLabel>
@@ -172,7 +175,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 									textStyle="ornamental"
 									fontSize={26}
 									height="28px"
-									fontWeight={500}
+									fontWeight={600}
 								>
 									${cartTotal.toLocaleString()}.00
 								</Text>
