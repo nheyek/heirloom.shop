@@ -37,89 +37,97 @@ export const ListingCard = (
 		`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
 
 	return (
-		<Card.Root
-			variant="elevated"
-			width={props.width}
-		>
-			<RouterLink to={listingUrl}>
-				<MultiImage
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					urls={
-						props.multiImage
-							? props.imageUuids.map(getImageUrl)
-							: [getImageUrl(props.imageUuids[0])]
-					}
-				/>
-			</RouterLink>
-
-			<Card.Body
-				p={3}
-				gap={1}
+		<Box>
+			<Card.Root
+				variant="elevated"
+				width={props.width}
 			>
-				<Stack gap={0}>
-					<RouterLink to={listingUrl}>
-						<Link asChild>
-							<Heading
-								size="2xl"
-								fontWeight="semibold"
-								truncate
-							>
-								{props.title}
-							</Heading>
-						</Link>
-					</RouterLink>
-					{props.shopTitle && (
-						<RouterLink
-							to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
-						>
+				<RouterLink to={listingUrl}>
+					<MultiImage
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+						urls={
+							props.multiImage
+								? props.imageUuids.map(getImageUrl)
+								: [getImageUrl(props.imageUuids[0])]
+						}
+					/>
+				</RouterLink>
+
+				<Card.Body
+					p={3}
+					gap={1}
+				>
+					<Stack gap={0}>
+						<RouterLink to={listingUrl}>
 							<Link asChild>
 								<Heading
+									size="2xl"
+									fontWeight="semibold"
 									truncate
-									fontWeight="medium"
-									lineHeight={1.2}
 								>
-									{props.shopTitle}
+									{props.title}
 								</Heading>
 							</Link>
 						</RouterLink>
-					)}
-				</Stack>
+						{props.shopTitle && (
+							<RouterLink
+								to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
+							>
+								<Link asChild>
+									<Heading
+										truncate
+										fontWeight="medium"
+										lineHeight={1.2}
+									>
+										{props.shopTitle}
+									</Heading>
+								</Link>
+							</RouterLink>
+						)}
+					</Stack>
 
-				<Card.Description
-					lineClamp={2}
-					fontSize={16}
-					fontWeight={500}
-					fontFamily={FONT_DISPLAY_SLAB}
-				>
-					{props.subtitle}
-				</Card.Description>
-				<Flex
-					justifyContent="space-between"
-					alignItems="center"
-				>
-					<PriceTag value={props.priceDollars} />
-					<Box>
-						<IconButton
-							variant="ghost"
-							size="lg"
-							onClick={() => shareListing(props)}
-						>
-							<FaRegShareFromSquare />
-						</IconButton>
+					<Card.Description
+						lineClamp={2}
+						fontSize={16}
+						fontWeight={500}
+						fontFamily={FONT_DISPLAY_SLAB}
+					>
+						{props.subtitle}
+					</Card.Description>
+					<Flex
+						justifyContent="space-between"
+						alignItems="center"
+					>
+						<PriceTag value={props.priceDollars} />
+						<Box>
+							<IconButton
+								variant="ghost"
+								size="lg"
+								onClick={() => shareListing(props)}
+							>
+								<FaRegShareFromSquare />
+							</IconButton>
 
-						<IconButton
-							variant="ghost"
-							size="lg"
-							onClick={() =>
-								toggleFavorite(props.shortId)
-							}
-							color={isSaved ? 'red.600' : undefined}
-						>
-							{isSaved ? <FaHeart /> : <FaRegHeart />}
-						</IconButton>
-					</Box>
-				</Flex>
-			</Card.Body>
-		</Card.Root>
+							<IconButton
+								variant="ghost"
+								size="lg"
+								onClick={() =>
+									toggleFavorite(props.shortId)
+								}
+								color={
+									isSaved ? 'red.600' : undefined
+								}
+							>
+								{isSaved ? (
+									<FaHeart />
+								) : (
+									<FaRegHeart />
+								)}
+							</IconButton>
+						</Box>
+					</Flex>
+				</Card.Body>
+			</Card.Root>
+		</Box>
 	);
 };
