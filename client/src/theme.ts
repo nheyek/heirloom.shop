@@ -7,28 +7,26 @@ import {
 	defineTextStyles,
 } from '@chakra-ui/react';
 
-const brandColor = '#121212';
-const ornamentalFont = 'Alegreya';
-const standardFont = 'Bitter';
-const sansSerifFont = 'Alegreya Sans SC';
+export const COLOR_BRAND = '#121212';
+export const FONT_DEFAULT = 'Roboto';
+export const FONT_DECORATIVE = 'Alegreya';
+export const FONT_DISPLAY_SLAB = 'Bitter';
+export const FONT_DISPLAY_SANS = 'Alegreya Sans SC';
 
-export const textStyles = defineTextStyles({
+const textStyles = defineTextStyles({
 	ornamental: {
 		value: {
-			fontFamily: ornamentalFont,
+			fontFamily: FONT_DECORATIVE,
 		},
 	},
 	sans: {
 		value: {
-			fontFamily: sansSerifFont,
+			fontFamily: FONT_DISPLAY_SANS,
 		},
 	},
 });
 
 const inputRecipe = defineRecipe({
-	base: {
-		fontFamily: sansSerifFont,
-	},
 	variants: {
 		size: {
 			'2xl': {
@@ -40,7 +38,7 @@ const inputRecipe = defineRecipe({
 
 const buttonRecipe = defineRecipe({
 	base: {
-		fontFamily: sansSerifFont,
+		fontFamily: FONT_DISPLAY_SANS,
 		borderRadius: 'full',
 	},
 	variants: {
@@ -50,8 +48,8 @@ const buttonRecipe = defineRecipe({
 			},
 			outline: {
 				borderWidth: 2,
-				color: brandColor,
-				borderColor: brandColor,
+				color: COLOR_BRAND,
+				borderColor: COLOR_BRAND,
 			},
 		},
 	},
@@ -70,27 +68,18 @@ const menuRecipe = defineSlotRecipe({
 	slots: ['item'],
 	base: {
 		item: {
-			fontFamily: sansSerifFont,
+			fontFamily: FONT_DISPLAY_SANS,
 		},
 	},
 });
 
 const selectRecipe = defineSlotRecipe({
-	slots: ['label', 'trigger', 'item'],
+	slots: ['label'],
 	base: {
 		label: {
+			fontFamily: FONT_DISPLAY_SANS,
 			fontSize: 20,
 			fontWeight: 500,
-			fontFamily: sansSerifFont,
-		},
-		trigger: {
-			fontSize: 18,
-			fontWeight: 500,
-		},
-		item: {
-			fontSize: 18,
-			fontWeight: 500,
-			fontFamily: sansSerifFont,
 		},
 	},
 });
@@ -119,15 +108,15 @@ export const config = defineConfig({
 	theme: {
 		tokens: {
 			fonts: {
-				body: { value: standardFont },
+				body: { value: FONT_DEFAULT },
 				heading: {
-					value: ornamentalFont,
+					value: FONT_DECORATIVE,
 				},
 			},
 		},
 		semanticTokens: {
 			colors: {
-				brand: { value: brandColor },
+				brand: { value: COLOR_BRAND },
 			},
 		},
 		recipes: {

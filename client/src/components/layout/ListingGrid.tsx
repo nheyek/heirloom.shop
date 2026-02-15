@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '../../constants';
-import { ListingCard } from '../itemDisplay/ListingCard';
+import { ListingCard } from '../entityDisplay/ListingCard';
 
 type Props = {
 	listings: ListingCardData[];
@@ -45,7 +45,6 @@ export const ListingGrid = (props: Props) => {
 						key={listing.id}
 						{...listing}
 						width={300}
-
 					/>
 				))}
 			</HStack>

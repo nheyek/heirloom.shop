@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { ScrollToTop } from './components/misc/ScrollToTop';
 import { Navbar } from './components/navbar/NavBar';
@@ -12,7 +13,6 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
-import { AppToaster } from './toaster/AppToaster';
 
 const App = () => {
 	const [mounted, setMounted] = useState(false);

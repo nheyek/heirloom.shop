@@ -1,4 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { FONT_DECORATIVE } from '../../theme';
 
 type Props = {
 	value: number;
@@ -29,14 +30,13 @@ export const PriceTag = (props: Props) => (
 	>
 		<Text
 			fontSize={20}
-			fontWeight={600}
-			paddingLeft="24px"
-			paddingRight="9px"
-			paddingBottom="3px"
-			lineHeight={1.4}
-			textStyle="ornamental"
+			fontWeight={500}
+			fontFamily={FONT_DECORATIVE}
+			paddingLeft={6}
+			paddingRight={2.5}
+			paddingBottom={0.5}
 		>
-			${props.value.toLocaleString()}{' '}
+			${props.value.toLocaleString()}.00
 			{props.quantity &&
 				props.quantity > 1 &&
 				`(${props.quantity})`}

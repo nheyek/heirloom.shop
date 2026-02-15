@@ -1,4 +1,11 @@
-import { Box, Card, Link, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Card,
+	Heading,
+	Link,
+	SimpleGrid,
+	Text,
+} from '@chakra-ui/react';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { Link as RouterLink } from 'react-router-dom';
 import {
@@ -6,6 +13,7 @@ import {
 	CLIENT_ROUTES,
 	CountryCode,
 } from '../../constants';
+import { FONT_DISPLAY_SLAB } from '../../theme';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../imageDisplay/AppImage';
@@ -29,47 +37,44 @@ export const ShopCard = (
 						}}
 					/>
 				</RouterLink>
-
 				<Card.Body
 					p={3}
 					gap={1}
 				>
-					<Card.Title fontSize={22}>
-						<Link
-							asChild
-							truncate
-							display="block"
-						>
-							<RouterLink to={shopUrl}>
+					<RouterLink to={shopUrl}>
+						<Link asChild>
+							<Heading
+								size="2xl"
+								fontWeight="semibold"
+								truncate
+							>
 								{props.title}
-							</RouterLink>
+							</Heading>
 						</Link>
-					</Card.Title>
+					</RouterLink>
+
 					<SimpleGrid
 						columns={2}
 						gapY={1}
 						gridTemplateColumns="30px 1fr"
-						fontSize={18}
+						fontSize={16}
 						fontWeight={500}
+						fontFamily={FONT_DISPLAY_SLAB}
 						alignItems="center"
 					>
 						<CategoryIcon
 							iconCode={
 								props.categoryIcon as CategoryIconCode | null
 							}
-							size={22}
+							size={20}
 						/>
 						<Text truncate>{props.classification}</Text>
-						<Box
-							width={22}
-							height={22}
-						>
-							<CountryFlagIcon
-								countryCode={
-									props.countryCode as CountryCode | null
-								}
-							/>
-						</Box>
+						<CountryFlagIcon
+							countryCode={
+								props.countryCode as CountryCode | null
+							}
+							size={20}
+						/>
 						<Text truncate>{props.location}</Text>
 					</SimpleGrid>
 				</Card.Body>

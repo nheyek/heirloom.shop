@@ -73,9 +73,8 @@ export const LandingPage = () => {
 			gap={10}
 			mt={8}
 		>
-			<Flex
-				gap={3}
-				flexDir="column"
+			<Stack
+				gap={2}
 				alignItems="center"
 			>
 				<Flex
@@ -102,7 +101,7 @@ export const LandingPage = () => {
 				</Flex>
 
 				<IntroCarousel />
-			</Flex>
+			</Stack>
 
 			{categoriesError ? (
 				<AppError title="Failed to load categories" />

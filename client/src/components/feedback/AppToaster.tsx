@@ -1,6 +1,6 @@
 import { Flex, Toast, Toaster } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
-import { toaster } from '../toaster';
+import { toaster } from '../../toaster';
 
 export const AppToaster = () => {
 	return (

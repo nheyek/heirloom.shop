@@ -10,6 +10,7 @@ import { IconType } from 'react-icons';
 import { FaHandshakeSimple } from 'react-icons/fa6';
 import { GiAnvil } from 'react-icons/gi';
 import { PiShieldCheckeredFill } from 'react-icons/pi';
+import { FONT_DISPLAY_SLAB } from '../../theme';
 
 type IntroItem = {
 	Icon: IconType;
@@ -50,8 +51,7 @@ const introItems: IntroItem[] = [
 ];
 
 export const IntroCarousel = () => {
-	const slidesPerPage =
-		useBreakpointValue({ base: 1, lg: 3 }) || 1;
+	const slidesPerPage = useBreakpointValue({ base: 1, lg: 3 }) || 1;
 	const showControls = slidesPerPage < introItems.length;
 
 	return (
@@ -73,11 +73,11 @@ export const IntroCarousel = () => {
 							gap={3}
 							py={2}
 						>
-							<item.Icon size={36} />
+							<item.Icon size={32} />
 							<Text
-								fontSize={24}
+								fontSize={20}
 								textAlign="center"
-								textStyle="ornamental"
+								fontFamily={FONT_DISPLAY_SLAB}
 							>
 								{item.text}
 							</Text>

@@ -100,35 +100,11 @@ export const NavbarSearch = () => {
 	useEffect(onQueryChange, [query]);
 	useEffect(onMount, []);
 
-	const renderSearchResults = (
-		results: SearchResult[],
-		path: string,
-	) =>
-		results.map((result) => (
-			<Link
-				to={`/${path}/${result.id}`}
-				key={result.id}
-			>
-				<Box
-					p={1}
-					pl={9}
-					cursor="pointer"
-					_hover={{ bg: 'gray.100' }}
-					onClick={() => {
-						setQuery('');
-						setResults(null);
-						setShowPopover(false);
-					}}
-				>
-					<Text
-						fontSize={16}
-						fontWeight={500}
-					>
-						{result.label}
-					</Text>
-				</Box>
-			</Link>
-		));
+	const onResultClick = () => {
+		setQuery('');
+		setResults(null);
+		setShowPopover(false);
+	};
 
 	return (
 		<Box
@@ -158,8 +134,8 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					fontSize={18}
-					placeholder="search..."
+					fontSize={16}
+					placeholder="Search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}
 					value={query}
@@ -229,6 +205,7 @@ export const NavbarSearch = () => {
 									{renderSearchResults(
 										results.categoryResults,
 										CLIENT_ROUTES.category,
+										onResultClick,
 									)}
 
 									{results.shopResults.length > 0 &&
@@ -239,6 +216,7 @@ export const NavbarSearch = () => {
 									{renderSearchResults(
 										results.shopResults,
 										CLIENT_ROUTES.shop,
+										onResultClick,
 									)}
 
 									{results.listingResults.length >
@@ -250,6 +228,7 @@ export const NavbarSearch = () => {
 									{renderSearchResults(
 										results.listingResults,
 										CLIENT_ROUTES.listing,
+										onResultClick,
 									)}
 								</>
 							)}
@@ -261,20 +240,46 @@ export const NavbarSearch = () => {
 	);
 };
 
+const renderSearchResults = (
+	results: SearchResult[],
+	path: string,
+	onClick: () => void,
+) =>
+	results.map((result) => (
+		<Link
+			to={`/${path}/${result.id}`}
+			key={result.id}
+		>
+			<Text
+				fontSize={16}
+				p={1}
+				pl={10}
+				cursor="pointer"
+				_hover={{ bg: 'gray.100' }}
+				onClick={onClick}
+			>
+				{result.label}
+			</Text>
+		</Link>
+	));
+
 const renderSearchResultGroupLabel = (
 	icon: JSX.Element,
 	label: string,
 ) => (
 	<Flex
-		mx={3}
-		my={1}
 		alignItems="center"
-		gap={2}
+		my={1}
 	>
-		{icon}
+		<Flex
+			w={10}
+			justifyContent="center"
+		>
+			{icon}
+		</Flex>
 		<Text
-			fontSize={18}
-			fontWeight="bold"
+			fontSize={16}
+			fontWeight={500}
 		>
 			{label}
 		</Text>

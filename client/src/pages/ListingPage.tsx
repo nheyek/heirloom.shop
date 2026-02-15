@@ -22,7 +22,7 @@ import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BiSolidPackage } from 'react-icons/bi';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 import {
 	FaHourglassStart,
 	FaLocationDot,
@@ -48,6 +48,7 @@ import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
 import { useFavorites } from '../providers/FavoritesProvider';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
+import { FONT_DECORATIVE, FONT_DISPLAY_SLAB } from '../theme';
 import { toaster } from '../toaster';
 import { getListingDataForCart } from '../utils/typeUtils';
 
@@ -233,13 +234,7 @@ export const ListingPage = () => {
 						value={index.toString()}
 					>
 						<Accordion.ItemTrigger>
-							<Text
-								fontSize={18}
-								fontWeight={600}
-								flex="1"
-							>
-								{item.title}
-							</Text>
+							<Text flex="1">{item.title}</Text>
 							<Accordion.ItemIndicator />
 						</Accordion.ItemTrigger>
 						<Accordion.ItemContent>
@@ -316,7 +311,7 @@ export const ListingPage = () => {
 					gap={10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
-						<Stack gap={3}>
+						<Stack gap={4}>
 							<Flex direction="column">
 								<Heading
 									size="4xl"
@@ -324,34 +319,39 @@ export const ListingPage = () => {
 								>
 									{listingData?.title}
 								</Heading>
-								<Link
-									fontSize={22}
-									fontWeight={500}
-									onClick={() =>
-										navigate(
-											`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
-										)
-									}
+
+								<Heading
+									size="2xl"
+									fontWeight="medium"
 								>
-									{listingData?.shopTitle}
-								</Link>
+									<Link
+										onClick={() =>
+											navigate(
+												`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
+											)
+										}
+									>
+										{listingData?.shopTitle}
+									</Link>
+								</Heading>
 							</Flex>
 							<Stack
 								fontSize={18}
-								gap={2}
+								gap={1.5}
+								fontFamily={FONT_DISPLAY_SLAB}
 							>
 								{listingData?.subtitle}
 								{listingData?.countryCode && (
 									<Flex
-										fontWeight={500}
 										alignItems="center"
-										gap={2}
+										gap={2.5}
+										fontWeight={500}
 									>
 										<CountryFlagIcon
 											countryCode={
 												listingData.countryCode as CountryCode
 											}
-											size={22}
+											size={24}
 										/>
 										Made in{' '}
 										{
@@ -454,14 +454,15 @@ export const ListingPage = () => {
 									add to cart
 									<RxDotFilled />
 									<Text
-										height={7}
 										fontSize={26}
 										fontWeight={600}
-										textStyle="ornamental"
+										fontFamily={FONT_DECORATIVE}
+										paddingBottom={1}
 									>
 										{' '}
 										$
 										{totalPriceDollars.toLocaleString()}
+										.00
 									</Text>
 								</ListingPageButton>
 								<SimpleGrid
@@ -469,23 +470,25 @@ export const ListingPage = () => {
 									gap={3}
 								>
 									<ListingPageButton
-										size="md"
+										size="lg"
 										onClick={() =>
 											id && toggleFavorite(id)
 										}
-										background={
-											id && favoriteIds.has(id)
-												? 'red.600'
-												: undefined
-										}
 									>
-										<IoIosHeart />
-										{id && favoriteIds.has(id)
-											? 'saved'
-											: 'save'}
+										{id && favoriteIds.has(id) ? (
+											<>
+												<FaMinusCircle />
+												unsave
+											</>
+										) : (
+											<>
+												<IoIosHeart />
+												save
+											</>
+										)}
 									</ListingPageButton>
 									<ListingPageButton
-										size="md"
+										size="lg"
 										onClick={() =>
 											listingData &&
 											shareListing(listingData)
@@ -497,11 +500,7 @@ export const ListingPage = () => {
 								</SimpleGrid>
 							</Stack>
 
-							<Stack
-								gap={1.5}
-								pl={2}
-								fontWeight={500}
-							>
+							<Stack gap={1}>
 								{daysToDelivery && (
 									<IconText icon={FaHourglassStart}>
 										Estimated delivery
@@ -552,7 +551,6 @@ const ListingPageButton = (props: ButtonProps) => (
 		width="100%"
 		fontSize={20}
 		{...props}
-		borderRadius="full"
 	/>
 );
 

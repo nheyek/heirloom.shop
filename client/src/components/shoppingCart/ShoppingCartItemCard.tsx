@@ -4,6 +4,7 @@ import {
 	Card,
 	Flex,
 	Group,
+	Heading,
 	IconButton,
 	Link,
 	Stack,
@@ -21,6 +22,7 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
+import { FONT_DISPLAY_SANS } from '../../theme';
 import { MultiImage } from '../imageDisplay/MultiImage';
 
 type Props = {
@@ -41,10 +43,7 @@ export const ShoppingCartItemCard = ({
 	const itemPrice = calculateItemPrice(item);
 
 	return (
-		<Card.Root
-			variant="elevated"
-			height="fit-content"
-		>
+		<Card.Root variant="elevated">
 			<Box position="relative">
 				<RouterLink
 					to={listingUrl}
@@ -118,35 +117,34 @@ export const ShoppingCartItemCard = ({
 				p={3}
 				gap={3}
 			>
-				<Stack gap={1}>
-					<Card.Title fontSize={22}>
-						<Link
-							truncate
-							display="block"
-							asChild
-						>
-							<RouterLink
-								to={listingUrl}
-								onClick={onNavigate}
+				<Stack gap={0}>
+					<RouterLink to={listingUrl}>
+						<Link asChild>
+							<Heading
+								size="2xl"
+								fontWeight="semibold"
+								truncate
 							>
 								{item.listingData.title}
-							</RouterLink>
+							</Heading>
 						</Link>
-					</Card.Title>
+					</RouterLink>
+
 					{item.listingData.shopTitle && (
-						<Link
-							fontSize={18}
-							fontWeight={500}
-							asChild
-							cursor="button"
+						<RouterLink
+							to={`/${CLIENT_ROUTES.shop}/${item.listingData.shopShortId}`}
+							onClick={onNavigate}
 						>
-							<RouterLink
-								to={`/${CLIENT_ROUTES.shop}/${item.listingData.shopShortId}`}
-								onClick={onNavigate}
-							>
-								{item.listingData.shopTitle}
-							</RouterLink>
-						</Link>
+							<Link asChild>
+								<Heading
+									truncate
+									fontWeight="medium"
+									lineHeight={1.2}
+								>
+									{item.listingData.shopTitle}
+								</Heading>
+							</Link>
+						</RouterLink>
 					)}
 				</Stack>
 
@@ -194,7 +192,7 @@ export const ShoppingCartItemCard = ({
 						<Text
 							fontSize={22}
 							fontWeight={500}
-							textStyle="ornamental"
+							fontFamily={FONT_DISPLAY_SANS}
 							mb="5px"
 						>
 							${itemPrice.toLocaleString()}.00{' '}
@@ -212,7 +210,7 @@ export const ShoppingCartItemCard = ({
 						<Text
 							fontSize={22}
 							fontWeight={500}
-							textStyle="ornamental"
+							fontFamily={FONT_DISPLAY_SANS}
 							mb="5px"
 						>
 							$30.00

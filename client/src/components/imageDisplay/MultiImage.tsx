@@ -13,7 +13,6 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 type Props = {
 	urls: string[];
 	aspectRatio?: number;
-	onImageClick?: () => void;
 };
 
 export const MultiImage = (props: Props) => {
@@ -21,8 +20,7 @@ export const MultiImage = (props: Props) => {
 	const [allImagesLoaded, setAllImagesLoaded] =
 		useState<boolean>(false);
 
-	const [isHovered, setIsHovered] =
-		useState<boolean>(false);
+	const [isHovered, setIsHovered] = useState<boolean>(false);
 	const showArrows = isHovered && props.urls.length > 1;
 
 	return (
@@ -56,12 +54,7 @@ export const MultiImage = (props: Props) => {
 								index={index}
 							>
 								<Image
-									onClick={
-										props.onImageClick
-									}
-									aspectRatio={
-										props.aspectRatio
-									}
+									aspectRatio={props.aspectRatio}
 									width="100%"
 									height="100%"
 									src={src}
@@ -69,12 +62,9 @@ export const MultiImage = (props: Props) => {
 										loadedImagesCount.current += 1;
 										if (
 											loadedImagesCount.current ===
-											props.urls
-												.length
+											props.urls.length
 										) {
-											setAllImagesLoaded(
-												true,
-											);
+											setAllImagesLoaded(true);
 										}
 									}}
 								/>

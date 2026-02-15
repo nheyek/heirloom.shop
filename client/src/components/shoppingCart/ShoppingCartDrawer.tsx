@@ -13,7 +13,9 @@ import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
+import { TbArrowBack } from 'react-icons/tb';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
+import { FONT_DECORATIVE } from '../../theme';
 import { ShoppingCartItemCard } from './ShoppingCartItemCard';
 
 type Props = {
@@ -43,7 +45,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 						<Drawer.Title
 							fontSize={32}
 							fontWeight={500}
-							textStyle="ornamental"
+							fontFamily={FONT_DECORATIVE}
 						>
 							Shopping Cart
 						</Drawer.Title>
@@ -66,7 +68,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 					<Drawer.Body
 						display="flex"
 						flexDir="column"
-						py={5}
+						pb={5}
 					>
 						{shoppingCart.items.length === 0 ? (
 							<Center
@@ -85,6 +87,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 									size="md"
 									fontSize={18}
 								>
+									<TbArrowBack />
 									keep looking
 								</Button>
 							</Center>
@@ -138,7 +141,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 									},
 									{
 										label: 'Shipping',
-										value: '$25.00',
+										value: '$25.00+ (calculated at checkout)',
 									},
 									{
 										label: 'Tax',
@@ -147,19 +150,17 @@ export const ShoppingCardDrawer = (props: Props) => {
 								].map(({ label, value }) => (
 									<DataList.Item
 										key={label}
-										fontSize={15}
+										fontSize={16}
+										color="white"
 									>
 										<DataList.ItemLabel
-											color="white"
 											minWidth={75}
-											fontWeight={600}
+											fontWeight={500}
+											color="white"
 										>
 											{label}
 										</DataList.ItemLabel>
-										<DataList.ItemValue
-											color="white"
-											fontWeight={500}
-										>
+										<DataList.ItemValue>
 											{value}
 										</DataList.ItemValue>
 									</DataList.Item>
@@ -167,19 +168,20 @@ export const ShoppingCardDrawer = (props: Props) => {
 							</DataList.Root>
 							<Button
 								variant="outline"
-								size="lg"
+								color="white"
+								borderColor="white"
+								_hover={{ background: 'gray.800' }}
+								size="xl"
 								width="100%"
 								fontSize={22}
-								borderColor="white"
-								color="white"
-								_hover={{ background: 'gray.800' }}
 							>
 								<Text
-									textStyle="ornamental"
 									fontSize={26}
-									height="28px"
 									fontWeight={600}
+									fontFamily={FONT_DECORATIVE}
+									paddingBottom={1}
 								>
+									{' '}
 									${cartTotal.toLocaleString()}.00
 								</Text>
 								<RxDotFilled />
