@@ -16,4 +16,5 @@ export const getListingDataForCart = (
 	shopTitle: listing.shopTitle,
 	imageUuids: listing.imageUuids,
 	variations: listing.variations,
+	shippingPrice: Number(listing.shippingDetails?.shippingRate || 0),
 });

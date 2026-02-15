@@ -193,7 +193,7 @@ export const ShoppingCartItemCard = ({
 							fontSize={22}
 							fontWeight={500}
 							fontFamily={FONT_DISPLAY_SANS}
-							mb="5px"
+							mb={1}
 						>
 							${itemPrice.toLocaleString()}.00{' '}
 							{item.quantity > 1 &&
@@ -211,9 +211,9 @@ export const ShoppingCartItemCard = ({
 							fontSize={22}
 							fontWeight={500}
 							fontFamily={FONT_DISPLAY_SANS}
-							mb="5px"
+							mb={1}
 						>
-							$30.00
+							{item.listingData.shippingPrice || 'free'}
 						</Text>
 					</Flex>
 				</Flex>

@@ -26,8 +26,13 @@ type Props = {
 export const ShoppingCardDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
-	const cartTotal = shoppingCart.items.reduce(
+	const itemTotal = shoppingCart.items.reduce(
 		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
+		0,
+	);
+
+	const shippingTotal = shoppingCart.items.reduce(
+		(sum, item) => sum + (item.listingData.shippingPrice || 0),
 		0,
 	);
 
@@ -137,11 +142,13 @@ export const ShoppingCardDrawer = (props: Props) => {
 								{[
 									{
 										label: 'Item Total',
-										value: `$${cartTotal.toLocaleString()}.00`,
+										value: `$${itemTotal.toLocaleString()}.00`,
 									},
 									{
 										label: 'Shipping',
-										value: '$25.00+ (calculated at checkout)',
+										value: shippingTotal
+											? `$${shippingTotal.toLocaleString()}.00`
+											: 'Free',
 									},
 									{
 										label: 'Tax',
@@ -182,7 +189,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 									paddingBottom={1}
 								>
 									{' '}
-									${cartTotal.toLocaleString()}.00
+									${itemTotal.toLocaleString()}.00
 								</Text>
 								<RxDotFilled />
 
