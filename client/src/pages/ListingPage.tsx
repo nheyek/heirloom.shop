@@ -68,7 +68,7 @@ export const ListingPage = () => {
 		md: Layout.MULTI_COLUMN,
 	});
 
-	const maxWidth = 1200;
+	const maxWidth = 1100;
 
 	const [listingData, setListingData] =
 		useState<ListingPageData | null>(null);
@@ -275,8 +275,8 @@ export const ListingPage = () => {
 	return (
 		<MotionFlex
 			flexDir="column"
-			alignItems="start"
 			width="fit-content"
+			alignItems="center"
 			mx="auto"
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
@@ -284,9 +284,8 @@ export const ListingPage = () => {
 		>
 			{layout === Layout.MULTI_COLUMN && (
 				<Box
-					pt={5}
-					px={5}
-					mx="auto"
+					mx={5}
+					mt={10}
 				>
 					<ImageCollage
 						urls={imageUrls}
@@ -302,9 +301,8 @@ export const ListingPage = () => {
 				/>
 			)}
 			<Box
-				p={{ base: 5, md: 7, lg: 9 }}
-				pt={5}
-				mx="auto"
+				m={5}
+				mt={10}
 				maxWidth={maxWidth}
 			>
 				<SimpleGrid
