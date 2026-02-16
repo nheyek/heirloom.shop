@@ -57,8 +57,7 @@ export const ShopCard = (
 						columns={2}
 						gapY={1}
 						gridTemplateColumns="30px 1fr"
-						fontSize={16}
-						fontWeight={500}
+						fontSize={18}
 						fontFamily={FONT_DISPLAY_SLAB}
 						alignItems="center"
 					>
@@ -66,14 +65,14 @@ export const ShopCard = (
 							iconCode={
 								props.categoryIcon as CategoryIconCode | null
 							}
-							size={20}
+							size={22}
 						/>
 						<Text truncate>{props.classification}</Text>
 						<CountryFlagIcon
 							countryCode={
 								props.countryCode as CountryCode | null
 							}
-							size={20}
+							size={22}
 						/>
 						<Text truncate>{props.location}</Text>
 					</SimpleGrid>

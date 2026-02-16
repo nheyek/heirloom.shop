@@ -89,7 +89,6 @@ export const ListingCard = (
 					<Card.Description
 						lineClamp={2}
 						fontSize={16}
-						fontWeight={500}
 						fontFamily={FONT_DISPLAY_SLAB}
 					>
 						{props.subtitle}
