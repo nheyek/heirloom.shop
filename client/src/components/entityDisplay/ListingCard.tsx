@@ -55,7 +55,7 @@ export const ListingCard = (
 
 				<Card.Body
 					p={3}
-					gap={1}
+					gap={2}
 				>
 					<Stack gap={0}>
 						<RouterLink to={listingUrl}>
@@ -90,6 +90,7 @@ export const ListingCard = (
 						lineClamp={2}
 						fontSize={16}
 						fontFamily={FONT_DISPLAY_SLAB}
+						color="black"
 					>
 						{props.subtitle}
 					</Card.Description>
