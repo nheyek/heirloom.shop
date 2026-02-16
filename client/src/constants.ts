@@ -17,6 +17,11 @@ export const CLIENT_ROUTES = {
 	favorites: 'favorites',
 };
 
+export enum StorageKey {
+	SHOPPING_CART = 'shopping-cart',
+	PENDING_FAVORITE = 'pendingListingFavorite',
+}
+
 export enum CategoryIconCode {
 	RING = 'RING',
 	EARRINGS = 'EARRINGS',

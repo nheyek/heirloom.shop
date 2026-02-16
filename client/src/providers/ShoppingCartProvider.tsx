@@ -1,9 +1,8 @@
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { createContext, useContext, useState } from 'react';
+import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
-
-const BROWSER_STORAGE_KEY = 'shopping-cart';
 
 type ShoppingCartContext = {
 	items: ShoppingCartItem[];
@@ -33,7 +32,7 @@ export const ShoppingCartProvider = (props: {
 	children: React.ReactNode;
 }) => {
 	const [items, setItems] = usePersistedState<ShoppingCartItem[]>(
-		BROWSER_STORAGE_KEY,
+		StorageKey.SHOPPING_CART,
 		[],
 	);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);

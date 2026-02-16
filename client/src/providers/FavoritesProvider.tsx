@@ -3,7 +3,7 @@ import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CLIENT_ROUTES } from '../constants';
+import { CLIENT_ROUTES, StorageKey } from '../constants';
 import useApi from '../hooks/useApi';
 import { toaster } from '../toaster';
 
@@ -33,9 +33,23 @@ export const FavoritesProvider = (props: {
 		useApi();
 	const navigate = useNavigate();
 
+	const processPendingFavorite = async () => {
+		const pendingShortId = sessionStorage.getItem(
+			StorageKey.PENDING_FAVORITE,
+		);
+		if (!pendingShortId) return;
+
+		sessionStorage.removeItem(StorageKey.PENDING_FAVORITE);
+
+		const endpoint = `${API_ROUTES.listings.base}/${pendingShortId}/${API_ROUTES.listings.favorite}`;
+		await postResource(endpoint, {});
+	};
+
 	const loadFavorites = async () => {
 		setIsLoading(true);
 		setError(null);
+
+		await processPendingFavorite();
 
 		const res = await getProtectedResource(
 			`${API_ROUTES.currentUser.base}/${API_ROUTES.currentUser.favorites}`,
@@ -68,6 +82,10 @@ export const FavoritesProvider = (props: {
 
 	const toggleFavorite = async (listing: ListingCardData) => {
 		if (!isAuthenticated) {
+			sessionStorage.setItem(
+				StorageKey.PENDING_FAVORITE,
+				listing.shortId,
+			);
 			loginWithRedirect({
 				appState: { returnTo: `/${CLIENT_ROUTES.favorites}` },
 			});
