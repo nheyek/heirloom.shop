@@ -2,5 +2,5 @@ import { createToaster } from '@chakra-ui/react';
 
 export const toaster = createToaster({
 	placement: 'top',
-	duration: Infinity,
+	duration: 3000,
 });
