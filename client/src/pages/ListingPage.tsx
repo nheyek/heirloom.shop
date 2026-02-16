@@ -473,7 +473,10 @@ export const ListingPage = () => {
 									<ListingPageButton
 										size="lg"
 										onClick={() =>
-											id && toggleFavorite(id)
+											listingData &&
+											toggleFavorite(
+												listingData,
+											)
 										}
 										variant={
 											isFavorited

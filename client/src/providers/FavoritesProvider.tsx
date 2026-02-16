@@ -2,13 +2,15 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../constants';
 import useApi from '../hooks/useApi';
+import { toaster } from '../toaster';
 
 type FavoritesContextType = {
 	favoriteIds: Set<string>;
 	isFavorited: (shortId: string) => boolean;
-	toggleFavorite: (shortId: string) => Promise<void>;
+	toggleFavorite: (listing: ListingCardData) => Promise<void>;
 	isLoading: boolean;
 	error: string | null;
 };
@@ -29,6 +31,7 @@ export const FavoritesProvider = (props: {
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
 	const { getProtectedResource, postResource, deleteResource } =
 		useApi();
+	const navigate = useNavigate();
 
 	const loadFavorites = async () => {
 		setIsLoading(true);
@@ -63,7 +66,7 @@ export const FavoritesProvider = (props: {
 
 	const isFavorited = (shortId: string) => favoriteIds.has(shortId);
 
-	const toggleFavorite = async (shortId: string) => {
+	const toggleFavorite = async (listing: ListingCardData) => {
 		if (!isAuthenticated) {
 			loginWithRedirect({
 				appState: { returnTo: `/${CLIENT_ROUTES.favorites}` },
@@ -71,19 +74,19 @@ export const FavoritesProvider = (props: {
 			return;
 		}
 
-		const wasFavorited = favoriteIds.has(shortId);
+		const wasFavorited = favoriteIds.has(listing.shortId);
 
 		setFavoriteIds((prevFavorites) => {
-			const next = new Set(prevFavorites);
+			const newFavorites = new Set(prevFavorites);
 			if (wasFavorited) {
-				next.delete(shortId);
+				newFavorites.delete(listing.shortId);
 			} else {
-				next.add(shortId);
+				newFavorites.add(listing.shortId);
 			}
-			return next;
+			return newFavorites;
 		});
 
-		const endpoint = `${API_ROUTES.listings.base}/${shortId}/${API_ROUTES.listings.favorite}`;
+		const endpoint = `${API_ROUTES.listings.base}/${listing.shortId}/${API_ROUTES.listings.favorite}`;
 		const res = wasFavorited
 			? await deleteResource(endpoint)
 			: await postResource(endpoint, {});
@@ -92,11 +95,26 @@ export const FavoritesProvider = (props: {
 			setFavoriteIds((prev) => {
 				const reverted = new Set(prev);
 				if (wasFavorited) {
-					reverted.add(shortId);
+					reverted.add(listing.shortId);
 				} else {
-					reverted.delete(shortId);
+					reverted.delete(listing.shortId);
 				}
 				return reverted;
+			});
+		} else {
+			toaster.create({
+				title: wasFavorited
+					? 'removed from favorites'
+					: 'favorited',
+				description: listing.title.toLowerCase(),
+				type: 'success',
+				action: wasFavorited
+					? undefined
+					: {
+							label: 'view',
+							onClick: () =>
+								navigate(CLIENT_ROUTES.favorites),
+						},
 			});
 		}
 	};

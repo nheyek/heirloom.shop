@@ -1,5 +1,5 @@
 import { Flex, Toast, Toaster } from '@chakra-ui/react';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa6';
 import { toaster } from '../../toaster';
 
 export const AppToaster = () => {
@@ -12,6 +12,8 @@ export const AppToaster = () => {
 					px={4}
 					py={2}
 					borderRadius={5}
+					background="white"
+					color="black"
 				>
 					<Flex
 						gap={4}
@@ -22,19 +24,23 @@ export const AppToaster = () => {
 							direction="column"
 							gap={0}
 						>
-							<Toast.Title fontSize={20}>
+							<Toast.Title fontSize={18}>
 								{toast.title}
 							</Toast.Title>
-							<Toast.Description fontSize={16}>
+							<Toast.Description
+								fontSize={16}
+								maxW={150}
+								truncate
+							>
 								{toast.description}
 							</Toast.Description>
 						</Flex>
 						{toast.action && (
 							<Toast.ActionTrigger
-								cursor="pointer"
-								border="1px solid white"
-								fontSize={16}
+								cursor="button"
 								whiteSpace="nowrap"
+								fontSize={16}
+								border="1px solid"
 							>
 								{toast.action.label}
 							</Toast.ActionTrigger>
@@ -47,8 +53,8 @@ export const AppToaster = () => {
 };
 
 const renderIcon = (type: string) => {
-	const Icon = type == 'success' ? FaCheckCircle : null;
+	const Icon = type == 'success' ? FaCheck : null;
 	if (!Icon) return null;
 
-	return <Icon size={18} />;
+	return <Icon size={20} />;
 };

@@ -112,9 +112,7 @@ export const ListingCard = (props: Props) => {
 						<IconButton
 							variant="ghost"
 							size="lg"
-							onClick={() =>
-								toggleFavorite(props.shortId)
-							}
+							onClick={() => toggleFavorite(props)}
 							color={isSaved ? 'red.600' : undefined}
 						>
 							{isSaved ? <FaHeart /> : <FaRegHeart />}
