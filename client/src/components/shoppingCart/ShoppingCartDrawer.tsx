@@ -16,7 +16,7 @@ import { RxDotFilled } from 'react-icons/rx';
 import { TbArrowBack } from 'react-icons/tb';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
-import { ShoppingCartItemCard } from './ShoppingCartItemCard';
+import { ShoppingCartCard } from './ShoppingCartCard';
 
 type Props = {
 	isOpen: boolean;
@@ -99,7 +99,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 						) : (
 							<Stack gap={5}>
 								{shoppingCart.items.map((item) => (
-									<ShoppingCartItemCard
+									<ShoppingCartCard
 										key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
 										item={item}
 										onNavigate={props.onClose}

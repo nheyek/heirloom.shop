@@ -44,7 +44,7 @@ export const ListingGrid = (props: Props) => {
 					<ListingCard
 						key={listing.id}
 						{...listing}
-						width={300}
+						minWidth={300}
 					/>
 				))}
 			</HStack>

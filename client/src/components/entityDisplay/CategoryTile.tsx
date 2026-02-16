@@ -14,14 +14,13 @@ export const CategoryTile = (props: CategoryTileData) => {
 		>
 			<Box
 				position="relative"
-				cursor="pointer"
 				width="100%"
 				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 				textDecoration="none"
 			>
 				<AppImage
 					imageProps={{
-						src: `https://dev.cdn.heirloom.shop/category-images/${props.imageUuid}.jpg`,
+						src: `${process.env.CATEGORY_IMAGES_URL}/${props.imageUuid}.jpg`,
 					}}
 				></AppImage>
 				<Flex

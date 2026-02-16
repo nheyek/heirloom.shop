@@ -45,7 +45,7 @@ export const ShopGrid = (props: Props) => {
 					<ShopCard
 						key={cardData.id}
 						{...cardData}
-						width={300}
+						minWidth={300}
 					/>
 				))}
 			</HStack>

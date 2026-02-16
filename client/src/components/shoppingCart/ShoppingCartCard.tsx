@@ -13,6 +13,8 @@ import {
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
+import { JSX } from 'react';
+import { IconType } from 'react-icons';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdPricetags } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
@@ -32,7 +34,7 @@ type Props = {
 	onRemove: () => void;
 };
 
-export const ShoppingCartItemCard = ({
+export const ShoppingCartCard = ({
 	item,
 	onNavigate,
 	onUpdateQuantity,
@@ -58,9 +60,8 @@ export const ShoppingCartItemCard = ({
 				</RouterLink>
 				<IconButton
 					size="sm"
-					variant="solid"
+					variant="ghost"
 					bg="gray.100"
-					color="black"
 					position="absolute"
 					top={3}
 					right={3}
@@ -80,8 +81,8 @@ export const ShoppingCartItemCard = ({
 					borderRadius="full"
 				>
 					<IconButton
-						variant="ghost"
 						size="xs"
+						variant="ghost"
 						onClick={() =>
 							onUpdateQuantity(item.quantity - 1)
 						}
@@ -97,8 +98,8 @@ export const ShoppingCartItemCard = ({
 						{item.quantity}
 					</Text>
 					<IconButton
-						variant="ghost"
 						size="xs"
+						variant="ghost"
 						onClick={() =>
 							onUpdateQuantity(item.quantity + 1)
 						}
@@ -182,42 +183,41 @@ export const ShoppingCartItemCard = ({
 					alignItems="center"
 					justifyContent="space-between"
 				>
-					<Flex
-						direction="row"
-						alignItems="center"
-						gap={2}
-					>
-						<IoMdPricetags size={26} />
-
-						<Text
-							fontSize={22}
-							fontWeight={500}
-							fontFamily={FONT_DISPLAY_SANS}
-							mb={1}
-						>
+					{renderFooterText(
+						IoMdPricetags,
+						<>
 							${itemPrice.toLocaleString()}.00{' '}
 							{item.quantity > 1 &&
 								`(${item.quantity})`}
-						</Text>
-					</Flex>
-					<Flex
-						direction="row"
-						alignItems="center"
-						gap={2}
-					>
-						<MdLocalShipping size={26} />
-
-						<Text
-							fontSize={22}
-							fontWeight={500}
-							fontFamily={FONT_DISPLAY_SANS}
-							mb={1}
-						>
+						</>,
+					)}
+					{renderFooterText(
+						MdLocalShipping,
+						<>
 							{item.listingData.shippingPrice || 'free'}
-						</Text>
-					</Flex>
+						</>,
+					)}
 				</Flex>
 			</Card.Body>
 		</Card.Root>
 	);
 };
+
+const renderFooterText = (Icon: IconType, text: JSX.Element) => (
+	<Flex
+		direction="row"
+		alignItems="center"
+		gap={2}
+	>
+		<Icon size={26} />
+
+		<Text
+			fontSize={22}
+			fontWeight={500}
+			fontFamily={FONT_DISPLAY_SANS}
+			mb={1}
+		>
+			{text}
+		</Text>
+	</Flex>
+);
