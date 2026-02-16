@@ -22,14 +22,14 @@ import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BiSolidPackage } from 'react-icons/bi';
-import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
+import { FaHeart, FaPlusCircle } from 'react-icons/fa';
 import {
+	FaCheck,
 	FaHourglassStart,
 	FaLocationDot,
 	FaShare,
 	FaTruck,
 } from 'react-icons/fa6';
-import { IoIosHeart } from 'react-icons/io';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppError } from '../components/feedback/AppError';
@@ -87,6 +87,7 @@ export const ListingPage = () => {
 	const shareListing = useShareListing();
 	const shoppingCart = useShoppingCart();
 	const { favoriteIds, toggleFavorite } = useFavorites();
+	const isFavorited = id && favoriteIds.has(id);
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
@@ -474,15 +475,20 @@ export const ListingPage = () => {
 										onClick={() =>
 											id && toggleFavorite(id)
 										}
+										variant={
+											isFavorited
+												? 'outline'
+												: 'solid'
+										}
 									>
-										{id && favoriteIds.has(id) ? (
+										{isFavorited ? (
 											<>
-												<FaMinusCircle />
-												unsave
+												<FaCheck />
+												saved
 											</>
 										) : (
 											<>
-												<IoIosHeart />
+												<FaHeart />
 												save
 											</>
 										)}
