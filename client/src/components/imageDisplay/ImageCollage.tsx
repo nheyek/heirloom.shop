@@ -18,9 +18,11 @@ type Props = {
 
 export const ImageCollage = (props: Props) => {
 	let numGridCols = useBreakpointValue({ base: 2, lg: 3 }) || 2;
+	numGridCols = Math.min(numGridCols, props.urls.length);
 
 	const numThumbnailTiles = numGridCols * 2 - 2;
 	const numSecondaryImages = props.urls.length - 1;
+
 	const numThumbnails = Math.min(
 		numThumbnailTiles,
 		numSecondaryImages,
@@ -30,6 +32,14 @@ export const ImageCollage = (props: Props) => {
 	const [lightBoxPage, setLightBoxPage] = useState<number | null>(
 		null,
 	);
+
+	let maxWidth = props.maxWidth;
+	if (numGridCols <= 2) {
+		maxWidth /= 4 / 3;
+	}
+	if (numGridCols === 1) {
+		maxWidth /= 3 / 2;
+	}
 
 	const renderCollageImage = (index: number) => (
 		<AppImage
@@ -47,9 +57,6 @@ export const ImageCollage = (props: Props) => {
 		/>
 	);
 
-	/* Proportional maximum height with a single thumbnail column */
-	const maxHeight = props.maxWidth * (4 / 9);
-
 	return (
 		<>
 			<LightBox
@@ -59,7 +66,7 @@ export const ImageCollage = (props: Props) => {
 			/>
 			{props.urls.length === 1 ? (
 				<Box
-					height={maxHeight}
+					maxWidth={maxWidth}
 					aspectRatio={props.aspectRatio}
 				>
 					{renderCollageImage(0)}
@@ -67,8 +74,7 @@ export const ImageCollage = (props: Props) => {
 			) : (
 				<Box
 					position="relative"
-					maxW={props.maxWidth}
-					maxH={maxHeight}
+					maxW={maxWidth}
 				>
 					<Grid
 						templateRows="repeat(2, 1fr)"
