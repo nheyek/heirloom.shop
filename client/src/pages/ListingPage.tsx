@@ -484,12 +484,12 @@ export const ListingPage = () => {
 										{isFavorited ? (
 											<>
 												<FaCheck />
-												saved
+												favorited
 											</>
 										) : (
 											<>
 												<FaHeart />
-												save
+												favorite
 											</>
 										)}
 									</ListingPageButton>

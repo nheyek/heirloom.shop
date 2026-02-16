@@ -269,7 +269,7 @@ const renderSearchResultGroupLabel = (
 ) => (
 	<Flex
 		alignItems="center"
-		my={1}
+		py={1}
 	>
 		<Flex
 			w={10}
@@ -279,7 +279,7 @@ const renderSearchResultGroupLabel = (
 		</Flex>
 		<Text
 			fontSize={16}
-			fontWeight={500}
+			fontWeight={600}
 		>
 			{label}
 		</Text>

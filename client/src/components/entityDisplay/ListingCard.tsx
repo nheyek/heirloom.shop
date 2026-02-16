@@ -10,7 +10,7 @@ import {
 import { ListingCardData } from '@common/types/ListingCardData';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -29,8 +29,9 @@ export const ListingCard = (
 ) => {
 	const shareListing = useShareListing();
 	const { favoriteIds, toggleFavorite } = useFavorites();
-	const isSaved = favoriteIds.has(props.shortId);
+	const navigate = useNavigate();
 
+	const isSaved = favoriteIds.has(props.shortId);
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
 	const getImageUrl = (uuid: string) =>
@@ -42,20 +43,21 @@ export const ListingCard = (
 				variant="elevated"
 				width={props.width}
 			>
-				<RouterLink to={listingUrl}>
-					<MultiImage
-						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-						urls={
-							props.multiImage
-								? props.imageUuids.map(getImageUrl)
-								: [getImageUrl(props.imageUuids[0])]
-						}
-					/>
-				</RouterLink>
+				<MultiImage
+					onImageClick={() => {
+						navigate(listingUrl);
+					}}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					urls={
+						props.multiImage
+							? props.imageUuids.map(getImageUrl)
+							: [getImageUrl(props.imageUuids[0])]
+					}
+				/>
 
 				<Card.Body
 					p={3}
-					gap={2}
+					gap={1}
 				>
 					<Stack gap={0}>
 						<RouterLink to={listingUrl}>

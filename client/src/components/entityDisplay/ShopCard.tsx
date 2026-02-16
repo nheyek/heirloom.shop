@@ -39,7 +39,7 @@ export const ShopCard = (
 				</RouterLink>
 				<Card.Body
 					p={3}
-					gap={0.5}
+					gap={1}
 				>
 					<RouterLink to={shopUrl}>
 						<Link asChild>
@@ -55,7 +55,7 @@ export const ShopCard = (
 
 					<SimpleGrid
 						columns={2}
-						gapY={1}
+						gapY={0.5}
 						gridTemplateColumns="30px 1fr"
 						fontSize={18}
 						fontFamily={FONT_DISPLAY_SLAB}

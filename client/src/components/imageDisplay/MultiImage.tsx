@@ -13,6 +13,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 type Props = {
 	urls: string[];
 	aspectRatio?: number;
+	onImageClick?: () => void;
 };
 
 export const MultiImage = (props: Props) => {
@@ -58,6 +59,12 @@ export const MultiImage = (props: Props) => {
 									width="100%"
 									height="100%"
 									src={src}
+									onClick={props.onImageClick}
+									cursor={
+										props.onImageClick
+											? 'button'
+											: 'auto'
+									}
 									onLoad={() => {
 										loadedImagesCount.current += 1;
 										if (
