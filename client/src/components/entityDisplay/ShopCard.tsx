@@ -39,7 +39,7 @@ export const ShopCard = (
 				</RouterLink>
 				<Card.Body
 					p={3}
-					gap={1}
+					gap={0.5}
 				>
 					<RouterLink to={shopUrl}>
 						<Link asChild>
