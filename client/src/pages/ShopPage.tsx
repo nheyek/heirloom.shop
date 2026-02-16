@@ -19,6 +19,7 @@ import { AppError } from '../components/feedback/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/imageDisplay/AppImage';
 import { CountryCode, STANDARD_GRID_GAP } from '../constants';
+import { FONT_DECORATIVE } from '../theme';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -124,7 +125,7 @@ export const ShopPage = () => {
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
-							textStyle="ornamental"
+							fontFamily={FONT_DECORATIVE}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
@@ -136,7 +137,7 @@ export const ShopPage = () => {
 										lg: '64px',
 									}}
 									fontWeight="700"
-									textStyle="ornamental"
+									fontFamily={FONT_DECORATIVE}
 								>
 									{shopData?.title}
 								</Heading>

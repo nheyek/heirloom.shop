@@ -15,6 +15,7 @@ import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
+import { FONT_DECORATIVE } from '../theme';
 
 export const CategoryPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -101,7 +102,7 @@ export const CategoryPage = () => {
 					<Breadcrumb.Root>
 						<Breadcrumb.List
 							fontSize={22}
-							textStyle="ornamental"
+							fontFamily={FONT_DECORATIVE}
 							flexWrap="wrap"
 							rowGap={3}
 						>

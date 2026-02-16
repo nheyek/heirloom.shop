@@ -4,7 +4,6 @@ import {
 	defineConfig,
 	defineRecipe,
 	defineSlotRecipe,
-	defineTextStyles,
 } from '@chakra-ui/react';
 
 export const COLOR_BRAND = '#121212';
@@ -12,19 +11,6 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SLAB = 'Bitter';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans SC';
-
-const textStyles = defineTextStyles({
-	ornamental: {
-		value: {
-			fontFamily: FONT_DECORATIVE,
-		},
-	},
-	sans: {
-		value: {
-			fontFamily: FONT_DISPLAY_SANS,
-		},
-	},
-});
 
 const inputRecipe = defineRecipe({
 	variants: {
@@ -129,7 +115,6 @@ export const config = defineConfig({
 			menu: menuRecipe,
 			select: selectRecipe,
 		},
-		textStyles,
 	},
 });
 

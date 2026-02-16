@@ -1,4 +1,5 @@
 import { Flex, Toast, Toaster } from '@chakra-ui/react';
+import { FONT_DISPLAY_SANS } from 'client/src/theme';
 import { FaCheck } from 'react-icons/fa6';
 import { toaster } from '../../toaster';
 
@@ -8,7 +9,7 @@ export const AppToaster = () => {
 			{(toast) => (
 				<Toast.Root
 					width="auto"
-					textStyle="sans"
+					fontFamily={FONT_DISPLAY_SANS}
 					px={4}
 					py={2}
 					borderRadius={5}

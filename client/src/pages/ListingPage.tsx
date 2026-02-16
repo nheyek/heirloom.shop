@@ -102,7 +102,7 @@ export const ListingPage = () => {
 			description: listingData.title.toLowerCase(),
 			type: 'success',
 			action: {
-				label: 'view cart',
+				label: 'view',
 				onClick: shoppingCart.openDrawer,
 			},
 		});

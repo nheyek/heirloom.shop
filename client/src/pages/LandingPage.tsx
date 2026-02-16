@@ -12,6 +12,7 @@ import { ShopGrid } from '../components/layout/ShopGrid';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
 import { useCategories } from '../providers/CategoriesProvider';
+import { FONT_DECORATIVE } from '../theme';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -82,7 +83,7 @@ export const LandingPage = () => {
 					alignItems="center"
 				>
 					<Text
-						textStyle="ornamental"
+						fontFamily={FONT_DECORATIVE}
 						fontSize={{ base: 32, lg: 36 }}
 						fontWeight="normal"
 						pr="7px"
