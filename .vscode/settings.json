@@ -26,5 +26,6 @@
 	},
 	"[terraform-vars]": {
 		"editor.tabSize": 2
-	}
+	},
+	"typescript.preferences.importModuleSpecifier": "relative"
 }
