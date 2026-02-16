@@ -65,6 +65,7 @@ export const ListingCard = (props: Props) => {
 								size="2xl"
 								fontWeight="semibold"
 								truncate
+								display="block"
 							>
 								{props.title}
 							</Heading>
@@ -79,6 +80,7 @@ export const ListingCard = (props: Props) => {
 									truncate
 									fontWeight="medium"
 									lineHeight={1.2}
+									display="block"
 								>
 									{props.shopTitle}
 								</Heading>

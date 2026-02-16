@@ -125,6 +125,7 @@ export const ShoppingCartCard = ({
 								size="2xl"
 								fontWeight="semibold"
 								truncate
+								display="block"
 							>
 								{item.listingData.title}
 							</Heading>
@@ -141,6 +142,7 @@ export const ShoppingCartCard = ({
 									truncate
 									fontWeight="medium"
 									lineHeight={1.2}
+									display="block"
 								>
 									{item.listingData.shopTitle}
 								</Heading>

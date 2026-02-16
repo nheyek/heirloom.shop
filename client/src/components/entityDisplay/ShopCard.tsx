@@ -47,6 +47,7 @@ export const ShopCard = (props: Props) => {
 							size="2xl"
 							fontWeight="semibold"
 							truncate
+							display="block"
 						>
 							{props.title}
 						</Heading>
