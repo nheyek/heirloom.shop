@@ -47,17 +47,12 @@ export const ShoppingCartCard = ({
 	return (
 		<Card.Root variant="elevated">
 			<Box position="relative">
-				<RouterLink
-					to={listingUrl}
-					onClick={onNavigate}
-				>
-					<MultiImage
-						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-						urls={[
-							`${process.env.LISTING_IMAGES_URL}/${item.listingData.imageUuids[0]}.jpg`,
-						]}
-					/>
-				</RouterLink>
+				<MultiImage
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					urls={[
+						`${process.env.LISTING_IMAGES_URL}/${item.listingData.imageUuids[0]}.jpg`,
+					]}
+				/>
 				<IconButton
 					size="sm"
 					variant="ghost"
@@ -119,7 +114,10 @@ export const ShoppingCartCard = ({
 				gap={3}
 			>
 				<Stack gap={0}>
-					<RouterLink to={listingUrl}>
+					<RouterLink
+						to={listingUrl}
+						onClick={onNavigate}
+					>
 						<Link asChild>
 							<Heading
 								size="2xl"
