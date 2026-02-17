@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	Center,
 	DataList,
@@ -14,9 +15,11 @@ import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
 import { TbArrowBack } from 'react-icons/tb';
+import { Link } from 'react-router-dom';
+import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
-import { ShoppingCartCard } from './ShoppingCartCard';
+import { ShoppingCartContents } from './ShoppingCartContents';
 
 type Props = {
 	isOpen: boolean;
@@ -98,30 +101,9 @@ export const ShoppingCardDrawer = (props: Props) => {
 							</Center>
 						) : (
 							<Stack gap={5}>
-								{shoppingCart.items.map((item) => (
-									<ShoppingCartCard
-										key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
-										item={item}
-										onNavigate={props.onClose}
-										onUpdateQuantity={(
-											quantity,
-										) =>
-											shoppingCart.updateQuantity(
-												item.listingData
-													.shortId,
-												item.selectedOptions,
-												quantity,
-											)
-										}
-										onRemove={() =>
-											shoppingCart.removeFromCart(
-												item.listingData
-													.shortId,
-												item.selectedOptions,
-											)
-										}
-									/>
-								))}
+								<ShoppingCartContents
+									onNavigate={props.onClose}
+								/>
 							</Stack>
 						)}
 					</Drawer.Body>
@@ -173,34 +155,46 @@ export const ShoppingCardDrawer = (props: Props) => {
 									</DataList.Item>
 								))}
 							</DataList.Root>
-							<Button
-								variant="outline"
-								color="white"
-								borderColor="white"
-								_hover={{ background: 'gray.800' }}
-								size="xl"
-								width="100%"
-								fontSize={22}
-							>
-								<Text
-									fontSize={26}
-									fontWeight={600}
-									fontFamily={FONT_DECORATIVE}
-									paddingBottom={1}
-								>
-									{' '}
-									${itemTotal.toLocaleString()}.00
-								</Text>
-								<RxDotFilled />
 
-								<Flex
-									gap={3}
-									alignItems="center"
-								>
-									checkout
-									<FaArrowCircleRight />
-								</Flex>
-							</Button>
+							<Box width="100%">
+								<Link to={CLIENT_ROUTES.checkout}>
+									<Button
+										variant="outline"
+										color="white"
+										borderColor="white"
+										_hover={{
+											background: 'gray.800',
+										}}
+										size="xl"
+										width="100%"
+										fontSize={22}
+										onClick={props.onClose}
+									>
+										<Text
+											fontSize={26}
+											fontWeight={600}
+											fontFamily={
+												FONT_DECORATIVE
+											}
+											paddingBottom={1}
+										>
+											{' '}
+											$
+											{itemTotal.toLocaleString()}
+											.00
+										</Text>
+										<RxDotFilled />
+
+										<Flex
+											gap={3}
+											alignItems="center"
+										>
+											checkout
+											<FaArrowCircleRight />
+										</Flex>
+									</Button>
+								</Link>
+							</Box>
 						</Drawer.Footer>
 					)}
 				</Drawer.Content>

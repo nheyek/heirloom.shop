@@ -8,6 +8,7 @@ import { Navbar } from './components/navbar/NavBar';
 import { CLIENT_ROUTES } from './constants';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
+import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
@@ -68,6 +69,10 @@ const App = () => {
 						path={`/${CLIENT_ROUTES.listing}/:id`}
 						element={<ListingPage />}
 					/>
+					<Route
+						path={`/${CLIENT_ROUTES.checkout}`}
+						element={<CheckoutPage />}
+					/>{' '}
 					<Route
 						path="*"
 						element={

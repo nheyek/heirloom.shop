@@ -42,6 +42,7 @@ import {
 	CLIENT_ROUTES,
 	CountryCode,
 	countryDisplayName,
+	Layout,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../constants';
 import useApi from '../hooks/useApi';
@@ -53,11 +54,6 @@ import { toaster } from '../toaster';
 import { getListingDataForCart } from '../utils/typeUtils';
 
 const MotionFlex = motion.create(Flex);
-
-enum Layout {
-	SINGLE_COLUMN,
-	MULTI_COLUMN,
-}
 
 export const ListingPage = () => {
 	const { id } = useParams<{ id: string }>();

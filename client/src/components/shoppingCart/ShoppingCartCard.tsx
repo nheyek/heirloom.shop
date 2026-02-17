@@ -29,20 +29,15 @@ import { MultiImage } from '../imageDisplay/MultiImage';
 
 type Props = {
 	item: ShoppingCartItem;
-	onNavigate: () => void;
+	onNavigate?: () => void;
 	onUpdateQuantity: (quantity: number) => void;
 	onRemove: () => void;
 };
 
-export const ShoppingCartCard = ({
-	item,
-	onNavigate,
-	onUpdateQuantity,
-	onRemove,
-}: Props) => {
-	const listingUrl = `/${CLIENT_ROUTES.listing}/${item.listingData.shortId}`;
+export const ShoppingCartCard = (props: Props) => {
+	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
 
-	const itemPrice = calculateItemPrice(item);
+	const itemPrice = calculateItemPrice(props.item);
 
 	return (
 		<Card.Root variant="elevated">
@@ -50,7 +45,7 @@ export const ShoppingCartCard = ({
 				<MultiImage
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					urls={[
-						`${process.env.LISTING_IMAGES_URL}/${item.listingData.imageUuids[0]}.jpg`,
+						`${process.env.LISTING_IMAGES_URL}/${props.item.listingData.imageUuids[0]}.jpg`,
 					]}
 				/>
 				<IconButton
@@ -60,7 +55,7 @@ export const ShoppingCartCard = ({
 					position="absolute"
 					top={3}
 					right={3}
-					onClick={onRemove}
+					onClick={props.onRemove}
 					cursor="button"
 				>
 					<FaTrashAlt />
@@ -79,7 +74,9 @@ export const ShoppingCartCard = ({
 						size="xs"
 						variant="ghost"
 						onClick={() =>
-							onUpdateQuantity(item.quantity - 1)
+							props.onUpdateQuantity(
+								props.item.quantity - 1,
+							)
 						}
 					>
 						<TiMinus />
@@ -90,13 +87,15 @@ export const ShoppingCartCard = ({
 						fontSize={16}
 						fontWeight={700}
 					>
-						{item.quantity}
+						{props.item.quantity}
 					</Text>
 					<IconButton
 						size="xs"
 						variant="ghost"
 						onClick={() =>
-							onUpdateQuantity(item.quantity + 1)
+							props.onUpdateQuantity(
+								props.item.quantity + 1,
+							)
 						}
 					>
 						<TiPlus />
@@ -116,7 +115,7 @@ export const ShoppingCartCard = ({
 				<Stack gap={0}>
 					<RouterLink
 						to={listingUrl}
-						onClick={onNavigate}
+						onClick={props.onNavigate}
 					>
 						<Link asChild>
 							<Heading
@@ -125,15 +124,15 @@ export const ShoppingCartCard = ({
 								truncate
 								display="block"
 							>
-								{item.listingData.title}
+								{props.item.listingData.title}
 							</Heading>
 						</Link>
 					</RouterLink>
 
-					{item.listingData.shopTitle && (
+					{props.item.listingData.shopTitle && (
 						<RouterLink
-							to={`/${CLIENT_ROUTES.shop}/${item.listingData.shopShortId}`}
-							onClick={onNavigate}
+							to={`/${CLIENT_ROUTES.shop}/${props.item.listingData.shopShortId}`}
+							onClick={props.onNavigate}
 						>
 							<Link asChild>
 								<Heading
@@ -142,40 +141,37 @@ export const ShoppingCartCard = ({
 									lineHeight={1.2}
 									display="block"
 								>
-									{item.listingData.shopTitle}
+									{props.item.listingData.shopTitle}
 								</Heading>
 							</Link>
 						</RouterLink>
 					)}
 				</Stack>
 
-				{Object.keys(item.selectedOptions).length > 0 && (
+				{Object.keys(props.item.selectedOptions).length >
+					0 && (
 					<Wrap gap={2}>
-						{Object.entries(item.selectedOptions).map(
-							([variationId, optionId]) => {
-								const variation =
-									item.listingData.variations.find(
-										(v) =>
-											v.id ===
-											Number(variationId),
-									);
-								const option =
-									variation?.options.find(
-										(o) => o.id === optionId,
-									);
-								if (!variation || !option)
-									return null;
-								return (
-									<Badge
-										size="lg"
-										key={variationId}
-									>
-										{variation.name}:{' '}
-										{option.name}
-									</Badge>
+						{Object.entries(
+							props.item.selectedOptions,
+						).map(([variationId, optionId]) => {
+							const variation =
+								props.item.listingData.variations.find(
+									(v) =>
+										v.id === Number(variationId),
 								);
-							},
-						)}
+							const option = variation?.options.find(
+								(o) => o.id === optionId,
+							);
+							if (!variation || !option) return null;
+							return (
+								<Badge
+									size="lg"
+									key={variationId}
+								>
+									{variation.name}: {option.name}
+								</Badge>
+							);
+						})}
 					</Wrap>
 				)}
 
@@ -187,14 +183,15 @@ export const ShoppingCartCard = ({
 						IoMdPricetags,
 						<>
 							${itemPrice.toLocaleString()}.00{' '}
-							{item.quantity > 1 &&
-								`(${item.quantity})`}
+							{props.item.quantity > 1 &&
+								`(${props.item.quantity})`}
 						</>,
 					)}
 					{renderFooterText(
 						MdLocalShipping,
 						<>
-							{item.listingData.shippingPrice || 'free'}
+							{props.item.listingData.shippingPrice ||
+								'free'}
 						</>,
 					)}
 				</Flex>

@@ -1,5 +1,10 @@
 export const NUM_TOP_LEVEL_CATEGORIES = 4;
 
+export enum Layout {
+	SINGLE_COLUMN,
+	MULTI_COLUMN,
+}
+
 export const STANDARD_GRID_COLUMNS = {
 	base: 1,
 	sm: 2,
@@ -15,6 +20,7 @@ export const CLIENT_ROUTES = {
 	listing: 'listing',
 	shopManager: 'shop-manager',
 	favorites: 'favorites',
+	checkout: 'checkout',
 };
 
 export enum StorageKey {
