@@ -5,6 +5,7 @@ import {
 	Heading,
 	HStack,
 	Input,
+	InputProps,
 	SimpleGrid,
 	Stack,
 	useBreakpointValue,
@@ -41,7 +42,7 @@ export const CheckoutPage = () => {
 				maxW={600}
 			>
 				<Field.Root>
-					<Input
+					<FormInput
 						placeholder="Email address"
 						name="email"
 						type="email"
@@ -50,30 +51,51 @@ export const CheckoutPage = () => {
 
 				<HStack gap={5}>
 					<Field.Root>
-						<Input
+						<FormInput
 							placeholder="First name"
 							name="firstName"
 						/>
 					</Field.Root>
 					<Field.Root>
-						<Input
+						<FormInput
 							placeholder="Last name"
 							name="lastName"
 						/>
 					</Field.Root>
 				</HStack>
 				<Field.Root>
-					<Input
+					<FormInput
 						name="address"
 						placeholder="Address"
 					/>
 				</Field.Root>
 				<Field.Root>
-					<Input
+					<FormInput
 						name="addressSecondary"
 						placeholder="Apartment, suite, etc. (optional)"
 					/>
 				</Field.Root>
+
+				<HStack gap={5}>
+					<Field.Root>
+						<FormInput
+							placeholder="City"
+							name="city"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="State"
+							name="state"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="Zip code"
+							name="zip"
+						/>
+					</Field.Root>
+				</HStack>
 			</Fieldset.Root>
 		</Stack>
 	);
@@ -99,3 +121,11 @@ export const CheckoutPage = () => {
 		</Stack>
 	);
 };
+
+const FormInput = (props: InputProps) => (
+	<Input
+		height="50px"
+		variant="outline"
+		{...props}
+	/>
+);

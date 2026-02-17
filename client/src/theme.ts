@@ -59,6 +59,18 @@ const menuRecipe = defineSlotRecipe({
 	},
 });
 
+const fieldsetRecipe = defineSlotRecipe({
+	slots: ['root', 'content'],
+	variants: {
+		size: {
+			lg: {
+				root: { spaceY: 3 },
+				content: { gap: 3 },
+			},
+		},
+	},
+});
+
 const selectRecipe = defineSlotRecipe({
 	slots: ['label'],
 	base: {
@@ -111,6 +123,7 @@ export const config = defineConfig({
 		},
 		slotRecipes: {
 			card: cardRecipe,
+			fieldset: fieldsetRecipe,
 			menu: menuRecipe,
 			select: selectRecipe,
 		},
