@@ -12,22 +12,46 @@ import {
 } from '@chakra-ui/react';
 import { MdLocalShipping, MdShoppingCart } from 'react-icons/md';
 import { ShoppingCartContents } from '../components/shoppingCart/ShoppingCartContents';
+import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
+import { useShoppingCart } from '../providers/ShoppingCartProvider';
 
 export const CheckoutPage = () => {
+	const shoppingCart = useShoppingCart();
 	const layout = useBreakpointValue({
 		base: Layout.SINGLE_COLUMN,
 		md: Layout.MULTI_COLUMN,
 	});
 	const renderShoppingCartSection = () => (
-		<Stack gap={5}>
+		<Stack gap={6}>
 			<HStack gap={3}>
 				<MdShoppingCart size={36} />
-				<Heading size="3xl">Shopping Cart</Heading>
+				<Heading
+					size="3xl"
+					fontWeight="medium"
+				>
+					Shopping Cart
+				</Heading>
 			</HStack>
 
-			<Stack gap={5}>
-				<ShoppingCartContents />
+			<ShoppingCartContents />
+			<Stack gap={3}>
+				<ShoppingCartSummary
+					textColor="black"
+					pendingLineItemMessage="Enter shipping address"
+				/>
+
+				<Heading
+					size="4xl"
+					fontWeight="medium"
+				>
+					$
+					{(
+						shoppingCart.itemTotal +
+						shoppingCart.shippingTotal
+					).toLocaleString()}
+					.00
+				</Heading>
 			</Stack>
 		</Stack>
 	);
@@ -35,7 +59,12 @@ export const CheckoutPage = () => {
 		<Stack gap={5}>
 			<HStack gap={3}>
 				<MdLocalShipping size={36} />
-				<Heading size="3xl">Shipping Address</Heading>
+				<Heading
+					size="3xl"
+					fontWeight="medium"
+				>
+					Shipping Address
+				</Heading>
 			</HStack>
 			<Fieldset.Root
 				size="lg"
@@ -49,7 +78,7 @@ export const CheckoutPage = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={5}>
+				<HStack gap={2.5}>
 					<Field.Root>
 						<FormInput
 							placeholder="First name"
@@ -76,7 +105,7 @@ export const CheckoutPage = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={5}>
+				<HStack gap={2.5}>
 					<Field.Root>
 						<FormInput
 							placeholder="City"
@@ -124,8 +153,9 @@ export const CheckoutPage = () => {
 
 const FormInput = (props: InputProps) => (
 	<Input
-		height="50px"
-		variant="outline"
+		height={12}
+		variant="subtle"
+		fontSize={16}
 		{...props}
 	/>
 );

@@ -2,7 +2,6 @@ import {
 	Box,
 	Button,
 	Center,
-	DataList,
 	Drawer,
 	Flex,
 	Icon,
@@ -10,7 +9,6 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
@@ -20,6 +18,7 @@ import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
 import { ShoppingCartContents } from './ShoppingCartContents';
+import { ShoppingCartSummary } from './ShoppingCartSummary';
 
 type Props = {
 	isOpen: boolean;
@@ -28,16 +27,6 @@ type Props = {
 
 export const ShoppingCardDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
-
-	const itemTotal = shoppingCart.items.reduce(
-		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
-		0,
-	);
-
-	const shippingTotal = shoppingCart.items.reduce(
-		(sum, item) => sum + (item.listingData.shippingPrice || 0),
-		0,
-	);
 
 	return (
 		<Drawer.Root
@@ -117,44 +106,10 @@ export const ShoppingCardDrawer = (props: Props) => {
 							mt={1}
 							background="brand"
 						>
-							<DataList.Root
-								orientation="horizontal"
-								gap={2}
-							>
-								{[
-									{
-										label: 'Item Total',
-										value: `$${itemTotal.toLocaleString()}.00`,
-									},
-									{
-										label: 'Shipping',
-										value: shippingTotal
-											? `$${shippingTotal.toLocaleString()}.00`
-											: 'Free',
-									},
-									{
-										label: 'Tax',
-										value: 'Calculated at checkout',
-									},
-								].map(({ label, value }) => (
-									<DataList.Item
-										key={label}
-										fontSize={16}
-										color="white"
-									>
-										<DataList.ItemLabel
-											minWidth={75}
-											fontWeight={500}
-											color="white"
-										>
-											{label}
-										</DataList.ItemLabel>
-										<DataList.ItemValue>
-											{value}
-										</DataList.ItemValue>
-									</DataList.Item>
-								))}
-							</DataList.Root>
+							<ShoppingCartSummary
+								pendingLineItemMessage="Calculated at checkout"
+								textColor="white"
+							/>
 
 							<Box width="100%">
 								<Link to={CLIENT_ROUTES.checkout}>
@@ -180,7 +135,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 										>
 											{' '}
 											$
-											{itemTotal.toLocaleString()}
+											{shoppingCart.itemTotal.toLocaleString()}
 											.00
 										</Text>
 										<RxDotFilled />

@@ -1,11 +1,16 @@
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { createContext, useContext, useState } from 'react';
+import { calculateItemPrice } from '../../../common/domain/ShoppingCart';
 import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
 
 type ShoppingCartContext = {
+	isDrawerOpen: boolean;
 	items: ShoppingCartItem[];
+	itemTotal: number;
+	shippingTotal: number;
+	shippingAddress: string | null;
 	addToCart: (
 		listing: ListingDataForCart,
 		selectedOptions: { [variationId: number]: number },
@@ -19,7 +24,6 @@ type ShoppingCartContext = {
 		selectedOptions: { [variationId: number]: number },
 		quantity: number,
 	) => void;
-	isDrawerOpen: boolean;
 	openDrawer: () => void;
 	closeDrawer: () => void;
 };
@@ -36,8 +40,20 @@ export const ShoppingCartProvider = (props: {
 		[],
 	);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	const [shippingAddress, setShippingAddress] = useState(null);
+
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
+
+	const itemTotal = items.reduce(
+		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
+		0,
+	);
+
+	const shippingTotal = items.reduce(
+		(sum, item) => sum + (item.listingData.shippingPrice || 0),
+		0,
+	);
 
 	const addToCart = (
 		listingData: ListingDataForCart,
@@ -124,11 +140,14 @@ export const ShoppingCartProvider = (props: {
 	return (
 		<ShoppingCartContext.Provider
 			value={{
+				isDrawerOpen,
 				items,
+				itemTotal,
+				shippingTotal,
+				shippingAddress,
 				addToCart,
 				removeFromCart,
 				updateQuantity,
-				isDrawerOpen,
 				openDrawer,
 				closeDrawer,
 			}}
