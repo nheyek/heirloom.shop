@@ -69,7 +69,6 @@ const selectRecipe = defineSlotRecipe({
 		},
 	},
 });
-
 export const config = defineConfig({
 	globalCss: {
 		'html, body': {

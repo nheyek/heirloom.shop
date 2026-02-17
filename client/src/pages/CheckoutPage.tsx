@@ -1,7 +1,10 @@
 import {
+	Field,
+	Fieldset,
 	GridItem,
 	Heading,
 	HStack,
+	Input,
 	SimpleGrid,
 	Stack,
 	useBreakpointValue,
@@ -33,12 +36,51 @@ export const CheckoutPage = () => {
 				<MdLocalShipping size={36} />
 				<Heading size="3xl">Shipping Address</Heading>
 			</HStack>
+			<Fieldset.Root
+				size="lg"
+				maxW={600}
+			>
+				<Field.Root>
+					<Input
+						placeholder="Email address"
+						name="email"
+						type="email"
+					/>
+				</Field.Root>
+
+				<HStack gap={5}>
+					<Field.Root>
+						<Input
+							placeholder="First name"
+							name="firstName"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<Input
+							placeholder="Last name"
+							name="lastName"
+						/>
+					</Field.Root>
+				</HStack>
+				<Field.Root>
+					<Input
+						name="address"
+						placeholder="Address"
+					/>
+				</Field.Root>
+				<Field.Root>
+					<Input
+						name="addressSecondary"
+						placeholder="Apartment, suite, etc. (optional)"
+					/>
+				</Field.Root>
+			</Fieldset.Root>
 		</Stack>
 	);
 
 	return (
 		<Stack
-			maxWidth={1200}
+			maxWidth={1100}
 			mt={10}
 			mx="auto"
 		>
