@@ -10,9 +10,12 @@ import {
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { FaCreditCard } from 'react-icons/fa';
-import { MdLocalShipping, MdShoppingCart } from 'react-icons/md';
-import { ShoppingCartContents } from '../components/shoppingCart/ShoppingCartContents';
+import {
+	MdLocalShipping,
+	MdPayment,
+	MdShoppingCart,
+} from 'react-icons/md';
+import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
@@ -23,6 +26,7 @@ export const CheckoutPage = () => {
 		base: Layout.SINGLE_COLUMN,
 		md: Layout.MULTI_COLUMN,
 	});
+
 	const renderShoppingCartSection = () => (
 		<Stack gap={4}>
 			<HStack gap={2}>
@@ -35,36 +39,27 @@ export const CheckoutPage = () => {
 				</Heading>
 			</HStack>
 
-			<Stack gap={7}>
-				<HStack
-					gap={5}
-					overflowX="scroll"
-					m={-5}
-					p={5}
+			<CheckoutShoppingCart
+				truncated={layout === Layout.SINGLE_COLUMN}
+			/>
+
+			<Stack gap={2}>
+				<ShoppingCartSummary
+					textColor="black"
+					pendingLineItemMessage="Enter shipping address"
+				/>
+
+				<Heading
+					size="3xl"
+					fontWeight="semibold"
 				>
-					<ShoppingCartContents
-						truncated={layout === Layout.SINGLE_COLUMN}
-					/>
-				</HStack>
-
-				<Stack gap={2}>
-					<ShoppingCartSummary
-						textColor="black"
-						pendingLineItemMessage="Enter shipping address"
-					/>
-
-					<Heading
-						size="3xl"
-						fontWeight="medium"
-					>
-						$
-						{(
-							shoppingCart.itemTotal +
-							shoppingCart.shippingTotal
-						).toLocaleString()}
-						.00
-					</Heading>
-				</Stack>
+					$
+					{(
+						shoppingCart.itemTotal +
+						shoppingCart.shippingTotal
+					).toLocaleString()}
+					.00
+				</Heading>
 			</Stack>
 		</Stack>
 	);
@@ -76,7 +71,7 @@ export const CheckoutPage = () => {
 					size="2xl"
 					fontWeight="medium"
 				>
-					Shipping Address
+					Shipping Details
 				</Heading>
 			</HStack>
 			<Fieldset.Root
@@ -95,25 +90,25 @@ export const CheckoutPage = () => {
 					<Field.Root>
 						<FormInput
 							placeholder="First name"
-							name="firstName"
+							name="given-name"
 						/>
 					</Field.Root>
 					<Field.Root>
 						<FormInput
 							placeholder="Last name"
-							name="lastName"
+							name="family-name"
 						/>
 					</Field.Root>
 				</HStack>
 				<Field.Root>
 					<FormInput
-						name="address"
+						name="address-line1"
 						placeholder="Address"
 					/>
 				</Field.Root>
 				<Field.Root>
 					<FormInput
-						name="addressSecondary"
+						name="address-line2"
 						placeholder="Apartment, suite, etc. (optional)"
 					/>
 				</Field.Root>
@@ -134,7 +129,7 @@ export const CheckoutPage = () => {
 					<Field.Root>
 						<FormInput
 							placeholder="Zip code"
-							name="zip"
+							name="postal-code"
 						/>
 					</Field.Root>
 				</HStack>
@@ -144,7 +139,7 @@ export const CheckoutPage = () => {
 
 	const renderPaymentSection = () => (
 		<HStack gap={2}>
-			<FaCreditCard size={28} />
+			<MdPayment size={28} />
 			<Heading
 				size="2xl"
 				fontWeight="medium"
@@ -162,7 +157,7 @@ export const CheckoutPage = () => {
 		>
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
-				gap={5}
+				gap={8}
 				mx={{ base: 5, md: 10 }}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
