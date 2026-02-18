@@ -213,6 +213,7 @@ const renderFooterText = (Icon: IconType, text: JSX.Element) => (
 			fontWeight={500}
 			fontFamily={FONT_DISPLAY_SANS}
 			mb={1}
+			lineHeight={1}
 		>
 			{text}
 		</Text>

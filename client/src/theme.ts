@@ -64,8 +64,8 @@ const fieldsetRecipe = defineSlotRecipe({
 	variants: {
 		size: {
 			lg: {
-				root: { spaceY: 2.5 },
-				content: { gap: 2.5 },
+				root: { spaceY: 3 },
+				content: { gap: 3 },
 			},
 		},
 	},
