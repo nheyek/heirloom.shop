@@ -25,26 +25,36 @@ export const CheckoutPage = () => {
 	});
 	const renderShoppingCartSection = () => (
 		<Stack gap={4}>
-			<HStack gap={3}>
-				<MdShoppingCart size={36} />
+			<HStack gap={2}>
+				<MdShoppingCart size={28} />
 				<Heading
-					size="3xl"
+					fontSize="2xl"
 					fontWeight="medium"
 				>
 					Shopping Cart
 				</Heading>
 			</HStack>
 
-			<Stack gap={6}>
-				<ShoppingCartContents />
-				<Stack gap={1.5}>
+			<Stack gap={7}>
+				<HStack
+					gap={5}
+					overflowX="scroll"
+					m={-5}
+					p={5}
+				>
+					<ShoppingCartContents
+						truncated={layout === Layout.SINGLE_COLUMN}
+					/>
+				</HStack>
+
+				<Stack gap={2}>
 					<ShoppingCartSummary
 						textColor="black"
 						pendingLineItemMessage="Enter shipping address"
 					/>
 
 					<Heading
-						size="4xl"
+						size="3xl"
 						fontWeight="medium"
 					>
 						$
@@ -59,89 +69,89 @@ export const CheckoutPage = () => {
 		</Stack>
 	);
 	const renderFormSection = () => (
-		<Stack gap={8}>
-			<Stack gap={4}>
-				<HStack gap={3}>
-					<MdLocalShipping size={36} />
-					<Heading
-						size="3xl"
-						fontWeight="medium"
-					>
-						Shipping Address
-					</Heading>
-				</HStack>
-				<Fieldset.Root
-					size="lg"
-					maxW={600}
-				>
-					<Field.Root>
-						<FormInput
-							placeholder="Email address"
-							name="email"
-							type="email"
-						/>
-					</Field.Root>
-
-					<HStack gap={3}>
-						<Field.Root>
-							<FormInput
-								placeholder="First name"
-								name="firstName"
-							/>
-						</Field.Root>
-						<Field.Root>
-							<FormInput
-								placeholder="Last name"
-								name="lastName"
-							/>
-						</Field.Root>
-					</HStack>
-					<Field.Root>
-						<FormInput
-							name="address"
-							placeholder="Address"
-						/>
-					</Field.Root>
-					<Field.Root>
-						<FormInput
-							name="addressSecondary"
-							placeholder="Apartment, suite, etc. (optional)"
-						/>
-					</Field.Root>
-
-					<HStack gap={3}>
-						<Field.Root>
-							<FormInput
-								placeholder="City"
-								name="city"
-							/>
-						</Field.Root>
-						<Field.Root>
-							<FormInput
-								placeholder="State"
-								name="state"
-							/>
-						</Field.Root>
-						<Field.Root>
-							<FormInput
-								placeholder="Zip code"
-								name="zip"
-							/>
-						</Field.Root>
-					</HStack>
-				</Fieldset.Root>
-			</Stack>
-
-			<HStack gap={3}>
-				<FaCreditCard size={36} />
+		<Stack gap={4}>
+			<HStack gap={2}>
+				<MdLocalShipping size={28} />
 				<Heading
-					size="3xl"
+					size="2xl"
 					fontWeight="medium"
 				>
-					Payment
+					Shipping Address
 				</Heading>
 			</HStack>
+			<Fieldset.Root
+				size="lg"
+				maxW={600}
+			>
+				<Field.Root>
+					<FormInput
+						placeholder="Email address"
+						name="email"
+						type="email"
+					/>
+				</Field.Root>
+
+				<HStack gap={3}>
+					<Field.Root>
+						<FormInput
+							placeholder="First name"
+							name="firstName"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="Last name"
+							name="lastName"
+						/>
+					</Field.Root>
+				</HStack>
+				<Field.Root>
+					<FormInput
+						name="address"
+						placeholder="Address"
+					/>
+				</Field.Root>
+				<Field.Root>
+					<FormInput
+						name="addressSecondary"
+						placeholder="Apartment, suite, etc. (optional)"
+					/>
+				</Field.Root>
+
+				<HStack gap={3}>
+					<Field.Root>
+						<FormInput
+							placeholder="City"
+							name="city"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="State"
+							name="state"
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="Zip code"
+							name="zip"
+						/>
+					</Field.Root>
+				</HStack>
+			</Fieldset.Root>
 		</Stack>
+	);
+
+	const renderPaymentSection = () => (
+		<HStack gap={2}>
+			<FaCreditCard size={28} />
+			<Heading
+				size="2xl"
+				fontWeight="medium"
+			>
+				Payment
+			</Heading>
+		</HStack>
 	);
 
 	return (
@@ -153,11 +163,17 @@ export const CheckoutPage = () => {
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
 				gap={5}
-				gapY={10}
 				mx={{ base: 5, md: 10 }}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
-					{renderFormSection()}
+					{layout === Layout.MULTI_COLUMN && (
+						<Stack gap={8}>
+							{renderFormSection()}
+							{renderPaymentSection()}
+						</Stack>
+					)}
+					{layout === Layout.SINGLE_COLUMN &&
+						renderFormSection()}
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
 					{renderShoppingCartSection()}

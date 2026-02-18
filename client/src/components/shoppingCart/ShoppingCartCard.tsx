@@ -29,6 +29,7 @@ import { MultiImage } from '../imageDisplay/MultiImage';
 
 type Props = {
 	item: ShoppingCartItem;
+	minWidth?: number;
 	onNavigate?: () => void;
 	onUpdateQuantity: (quantity: number) => void;
 	onRemove: () => void;
@@ -40,7 +41,10 @@ export const ShoppingCartCard = (props: Props) => {
 	const itemPrice = calculateItemPrice(props.item);
 
 	return (
-		<Card.Root variant="elevated">
+		<Card.Root
+			variant="elevated"
+			minWidth={props.minWidth}
+		>
 			<Box position="relative">
 				<MultiImage
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
