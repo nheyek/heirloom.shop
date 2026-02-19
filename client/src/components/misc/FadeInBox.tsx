@@ -3,13 +3,10 @@ import { motion } from 'framer-motion';
 
 const MotionBox = motion.create(Box);
 
-export const AnimatedBox = (
+export const FadeInBox = (
 	props: Omit<
 		BoxProps,
-		| 'onAnimationStart'
-		| 'onDragStart'
-		| 'onDragEnd'
-		| 'onDrag'
+		'onAnimationStart' | 'onDragStart' | 'onDragEnd' | 'onDrag'
 	>,
 ) => (
 	<MotionBox

@@ -11,7 +11,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
-import { AnimatedBox } from '../misc/AnimatedBox';
+import { FadeInBox } from '../misc/FadeInBox';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
@@ -42,7 +42,7 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<AnimatedBox display="flex">
+					<FadeInBox display="flex">
 						<Menu.Content
 							gapY={2}
 							animation="none"
@@ -62,7 +62,7 @@ export const NavbarMenu = () => {
 								<Text pl={1}>log out</Text>
 							</MenuItem>
 						</Menu.Content>
-					</AnimatedBox>
+					</FadeInBox>
 				</Menu.Positioner>
 			</Portal>
 		</Menu.Root>

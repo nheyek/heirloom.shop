@@ -22,7 +22,7 @@ import {
 import { FaShop } from 'react-icons/fa6';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { AnimatedBox } from '../misc/AnimatedBox';
+import { FadeInBox } from '../misc/FadeInBox';
 
 export const NavbarSearch = () => {
 	const { getPublicResource } = useApi();
@@ -118,7 +118,7 @@ export const NavbarSearch = () => {
 				endElement={
 					<AnimatePresence>
 						{query && (
-							<AnimatedBox
+							<FadeInBox
 								style={{
 									display: 'flex',
 									cursor: 'pointer',
@@ -126,7 +126,7 @@ export const NavbarSearch = () => {
 								onClick={() => setQuery('')}
 							>
 								<MdCancel size={16} />
-							</AnimatedBox>
+							</FadeInBox>
 						)}
 					</AnimatePresence>
 				}
@@ -145,7 +145,7 @@ export const NavbarSearch = () => {
 			</InputGroup>
 			<AnimatePresence>
 				{showPopover && query && (
-					<AnimatedBox
+					<FadeInBox
 						position="absolute"
 						width="100%"
 						mt={1.5}
@@ -233,7 +233,7 @@ export const NavbarSearch = () => {
 								</>
 							)}
 						</Stack>
-					</AnimatedBox>
+					</FadeInBox>
 				)}
 			</AnimatePresence>
 		</Box>

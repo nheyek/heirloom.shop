@@ -10,15 +10,12 @@ import {
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import {
-	MdLocalShipping,
-	MdPayment,
-	MdShoppingCart,
-} from 'react-icons/md';
-import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
+import { MdLocalShipping, MdPayment } from 'react-icons/md';
+import { CheckoutOrderSummary } from '../components/checkout/CheckoutOrderSummary';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
+import { FONT_DISPLAY_SANS } from '../theme';
 
 export const CheckoutPage = () => {
 	const shoppingCart = useShoppingCart();
@@ -29,29 +26,25 @@ export const CheckoutPage = () => {
 
 	const renderShoppingCartSection = () => (
 		<Stack gap={4}>
-			<HStack gap={2}>
-				<MdShoppingCart size={28} />
-				<Heading
-					fontSize="2xl"
-					fontWeight="medium"
-				>
-					Shopping Cart
-				</Heading>
-			</HStack>
-
-			<CheckoutShoppingCart
+			<CheckoutOrderSummary
 				truncated={layout === Layout.SINGLE_COLUMN}
 			/>
-
-			<Stack gap={2}>
+			<Stack
+				gap={2}
+				background="brand"
+				py={5}
+				px={10}
+				mx={-10}
+			>
 				<ShoppingCartSummary
-					textColor="black"
+					textColor="white"
 					pendingLineItemMessage="Enter shipping address"
 				/>
 
 				<Heading
 					size="3xl"
 					fontWeight="semibold"
+					color="white"
 				>
 					$
 					{(
@@ -64,14 +57,15 @@ export const CheckoutPage = () => {
 		</Stack>
 	);
 	const renderFormSection = () => (
-		<Stack gap={4}>
-			<HStack gap={2}>
-				<MdLocalShipping size={28} />
+		<Stack gap={3}>
+			<HStack gap={3}>
+				<MdLocalShipping size={30} />
 				<Heading
-					size="2xl"
+					fontSize={24}
 					fontWeight="medium"
+					fontFamily={FONT_DISPLAY_SANS}
 				>
-					Shipping Details
+					shipping
 				</Heading>
 			</HStack>
 			<Fieldset.Root
@@ -138,13 +132,14 @@ export const CheckoutPage = () => {
 	);
 
 	const renderPaymentSection = () => (
-		<HStack gap={2}>
-			<MdPayment size={28} />
+		<HStack gap={3}>
+			<MdPayment size={30} />
 			<Heading
-				size="2xl"
+				fontSize={24}
 				fontWeight="medium"
+				fontFamily={FONT_DISPLAY_SANS}
 			>
-				Payment
+				payment
 			</Heading>
 		</HStack>
 	);
@@ -157,7 +152,7 @@ export const CheckoutPage = () => {
 		>
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
-				gap={8}
+				gap={4}
 				mx={{ base: 5, md: 10 }}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
@@ -172,6 +167,8 @@ export const CheckoutPage = () => {
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
 					{renderShoppingCartSection()}
+					{/* {layout === Layout.SINGLE_COLUMN &&
+						renderPaymentSection()} */}
 				</GridItem>
 			</SimpleGrid>
 		</Stack>

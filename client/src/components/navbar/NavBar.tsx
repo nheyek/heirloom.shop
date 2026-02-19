@@ -10,7 +10,7 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { Logo } from '../branding/Logo';
-import { AnimatedBox } from '../misc/AnimatedBox';
+import { FadeInBox } from '../misc/FadeInBox';
 import { ShoppingCardDrawer } from '../shoppingCart/ShoppingCartDrawer';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
@@ -83,7 +83,7 @@ export const Navbar = () => {
 						gap={2}
 					>
 						{!authIsLoading && (
-							<AnimatedBox
+							<FadeInBox
 								display="flex"
 								alignItems="center"
 								gap={2}
@@ -123,7 +123,7 @@ export const Navbar = () => {
 										</Flex>
 									)}
 								</Box>
-							</AnimatedBox>
+							</FadeInBox>
 						)}
 						<ShoppingCardDrawer
 							isOpen={shoppingCart.isDrawerOpen}
