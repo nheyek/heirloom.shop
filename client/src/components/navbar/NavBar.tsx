@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { Logo } from '../branding/Logo';
 import { FadeInBox } from '../misc/FadeInBox';
-import { ShoppingCardDrawer } from '../shoppingCart/ShoppingCartDrawer';
+import { ShoppingCartDrawer } from '../shoppingCart/ShoppingCartDrawer';
 import { LoginButton } from './LoginButton';
 import { NavbarMenu } from './NavbarMenu';
 import { NavbarSearch } from './NavbarSearch';
@@ -125,7 +125,7 @@ export const Navbar = () => {
 								</Box>
 							</FadeInBox>
 						)}
-						<ShoppingCardDrawer
+						<ShoppingCartDrawer
 							isOpen={shoppingCart.isDrawerOpen}
 							onClose={shoppingCart.closeDrawer}
 						/>

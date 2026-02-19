@@ -1,16 +1,17 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
 import { FaChevronDown } from 'react-icons/fa';
+import { Layout } from '../../constants';
 import { FONT_DISPLAY_SANS } from '../../theme';
 import { ShoppingCartContents } from '../shoppingCart/ShoppingCartContents';
 
 type Props = {
-	truncated: boolean;
+	layout?: Layout;
 };
 
 export const CheckoutOrderSummary = (props: Props) => {
-	if (props.truncated) {
+	if (props.layout === Layout.SINGLE_COLUMN) {
 		return (
-			<Collapsible.Root>
+			<Collapsible.Root mx={5}>
 				<Collapsible.Trigger
 					fontSize={20}
 					fontWeight={500}

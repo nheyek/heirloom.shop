@@ -7,7 +7,7 @@ type Props = {
 	textColor?: string;
 };
 
-export const ShoppingCartSummary = (props: Props) => {
+export const ShoppingCartBreakdown = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
 	return (

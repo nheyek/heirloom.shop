@@ -17,15 +17,15 @@ import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
+import { ShoppingCartBreakdown } from './ShoppingCartBreakdown';
 import { ShoppingCartContents } from './ShoppingCartContents';
-import { ShoppingCartSummary } from './ShoppingCartSummary';
 
 type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 };
 
-export const ShoppingCardDrawer = (props: Props) => {
+export const ShoppingCartDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
 	return (
@@ -106,7 +106,7 @@ export const ShoppingCardDrawer = (props: Props) => {
 							mt={1}
 							background="brand"
 						>
-							<ShoppingCartSummary
+							<ShoppingCartBreakdown
 								pendingLineItemMessage="Calculated at checkout"
 								textColor="white"
 							/>
