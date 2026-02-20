@@ -10,8 +10,7 @@ import {
 import { AnimatePresence } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { MdCancel, MdCategory } from 'react-icons/md';
-import { RiStackFill } from 'react-icons/ri';
+import { MdCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
@@ -20,8 +19,10 @@ import {
 	SearchResultCollection,
 } from '@common/types/SearchResultCollection';
 import { FaShop } from 'react-icons/fa6';
+import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
+import { FONT_DISPLAY_SLAB } from '../../theme';
 import { FadeInBox } from '../misc/FadeInBox';
 
 export const NavbarSearch = () => {
@@ -125,7 +126,7 @@ export const NavbarSearch = () => {
 								}}
 								onClick={() => setQuery('')}
 							>
-								<MdCancel size={16} />
+								<MdCancel size={18} />
 							</FadeInBox>
 						)}
 					</AnimatePresence>
@@ -143,99 +144,96 @@ export const NavbarSearch = () => {
 					onFocus={() => results && setShowPopover(true)}
 				/>
 			</InputGroup>
-			<AnimatePresence>
-				{showPopover && query && (
-					<FadeInBox
-						position="absolute"
-						width="100%"
-						mt={1.5}
-						bg="#FFF"
-						borderRadius="md"
-						boxShadow="md"
-						overflow="hidden"
-						zIndex="popover"
+			{showPopover && query && (
+				<FadeInBox
+					position="absolute"
+					width="100%"
+					mt={1.5}
+					bg="#FFF"
+					borderRadius="md"
+					boxShadow="md"
+					overflow="hidden"
+					zIndex="popover"
+					fontFamily={FONT_DISPLAY_SLAB}
+				>
+					<Stack
+						gap={0}
+						my={2}
 					>
-						<Stack
-							gap={0}
-							my={2}
-						>
-							{isLoading && (
-								<Stack
-									gap={2}
-									px={2}
-								>
-									<Skeleton
-										width="55%"
-										height={6}
-									></Skeleton>
-									<Skeleton
-										width="70%"
-										height={6}
-									></Skeleton>
-									<Skeleton
-										width="35%"
-										height={6}
-									></Skeleton>
-								</Stack>
+						{isLoading && (
+							<Stack
+								gap={2}
+								px={2}
+							>
+								<Skeleton
+									width="55%"
+									height={6}
+								></Skeleton>
+								<Skeleton
+									width="70%"
+									height={6}
+								></Skeleton>
+								<Skeleton
+									width="35%"
+									height={6}
+								></Skeleton>
+							</Stack>
+						)}
+						{error &&
+							renderSearchException(
+								'An error occurred',
 							)}
-							{error &&
-								renderSearchException(
-									'An error occurred',
+						{results && (
+							<>
+								{[
+									results.categoryResults,
+									results.listingResults,
+									results.shopResults,
+								].every(
+									(resultList) =>
+										resultList.length === 0,
+								) &&
+									renderSearchException(
+										'No results found',
+									)}
+
+								{results.categoryResults.length > 0 &&
+									renderSearchResultGroupLabel(
+										<TbCategoryFilled />,
+										'Categories',
+									)}
+								{renderSearchResults(
+									results.categoryResults,
+									CLIENT_ROUTES.category,
+									onResultClick,
 								)}
-							{results && (
-								<>
-									{[
-										results.categoryResults,
-										results.listingResults,
-										results.shopResults,
-									].every(
-										(resultList) =>
-											resultList.length === 0,
-									) &&
-										renderSearchException(
-											'No results found',
-										)}
 
-									{results.categoryResults.length >
-										0 &&
-										renderSearchResultGroupLabel(
-											<MdCategory />,
-											'Categories',
-										)}
-									{renderSearchResults(
-										results.categoryResults,
-										CLIENT_ROUTES.category,
-										onResultClick,
+								{results.shopResults.length > 0 &&
+									renderSearchResultGroupLabel(
+										<FaShop />,
+										'Makers',
 									)}
+								{renderSearchResults(
+									results.shopResults,
+									CLIENT_ROUTES.shop,
+									onResultClick,
+								)}
 
-									{results.shopResults.length > 0 &&
-										renderSearchResultGroupLabel(
-											<FaShop />,
-											'Makers',
-										)}
-									{renderSearchResults(
-										results.shopResults,
-										CLIENT_ROUTES.shop,
-										onResultClick,
+								{results.listingResults.length > 0 &&
+									renderSearchResultGroupLabel(
+										<TbSquaresFilled />,
+										'Listings',
 									)}
-
-									{results.listingResults.length >
-										0 &&
-										renderSearchResultGroupLabel(
-											<RiStackFill />,
-											'Listings',
-										)}
-									{renderSearchResults(
-										results.listingResults,
-										CLIENT_ROUTES.listing,
-										onResultClick,
-									)}
-								</>
-							)}
-						</Stack>
-					</FadeInBox>
-				)}
-			</AnimatePresence>
+								{renderSearchResults(
+									results.listingResults,
+									CLIENT_ROUTES.listing,
+									onResultClick,
+								)}
+							</>
+						)}
+					</Stack>
+				</FadeInBox>
+			)}
 		</Box>
 	);
 };
@@ -251,7 +249,7 @@ const renderSearchResults = (
 			key={result.id}
 		>
 			<Text
-				fontSize={16}
+				fontSize={18}
 				p={1}
 				pl={10}
 				cursor="pointer"
@@ -278,8 +276,8 @@ const renderSearchResultGroupLabel = (
 			{icon}
 		</Flex>
 		<Text
-			fontSize={16}
-			fontWeight={600}
+			fontSize={18}
+			fontWeight={500}
 		>
 			{label}
 		</Text>
