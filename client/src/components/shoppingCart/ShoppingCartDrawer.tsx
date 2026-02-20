@@ -103,7 +103,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							alignItems="start"
 							p={4}
 							gap={4}
-							mt={1}
+							mt={0.5}
 							background="brand"
 						>
 							<ShoppingCartBreakdown
