@@ -41,7 +41,8 @@ export const CheckoutShoppingCart = (props: Props) => {
 					</HStack>
 				</Collapsible.Trigger>
 				<Collapsible.Content
-					my={2}
+					mt={4}
+					mb={2}
 					overflow="visible"
 				>
 					<HStack
