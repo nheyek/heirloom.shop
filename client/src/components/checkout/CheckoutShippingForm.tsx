@@ -12,8 +12,11 @@ import { FONT_DISPLAY_SANS } from '../../theme';
 
 export const CheckoutShippingForm = () => {
 	return (
-		<Stack gap={3}>
-			<HStack gap={3}>
+		<Stack gap={4}>
+			<HStack
+				gap={3}
+				h={8}
+			>
 				<MdLocalShipping size={30} />
 				<Heading
 					fontSize={24}
@@ -23,10 +26,7 @@ export const CheckoutShippingForm = () => {
 					shipping
 				</Heading>
 			</HStack>
-			<Fieldset.Root
-				size="lg"
-				maxW={600}
-			>
+			<Fieldset.Root size="lg">
 				<Field.Root>
 					<FormInput
 						placeholder="Email address"

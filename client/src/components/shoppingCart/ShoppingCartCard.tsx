@@ -24,26 +24,25 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
+import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '../../theme';
 import { MultiImage } from '../imageDisplay/MultiImage';
 
 type Props = {
 	item: ShoppingCartItem;
-	minWidth?: number;
 	onNavigate?: () => void;
-	onUpdateQuantity: (quantity: number) => void;
-	onRemove: () => void;
+	minWidth?: number;
 };
 
 export const ShoppingCartCard = (props: Props) => {
+	const shoppingCart = useShoppingCart();
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
-
 	const itemPrice = calculateItemPrice(props.item);
 
 	return (
 		<Card.Root
 			variant="elevated"
-			minWidth={props.minWidth}
+			minWidth={props.minWidth || 300}
 		>
 			<Box position="relative">
 				<MultiImage
@@ -59,7 +58,12 @@ export const ShoppingCartCard = (props: Props) => {
 					position="absolute"
 					top={3}
 					right={3}
-					onClick={props.onRemove}
+					onClick={() =>
+						shoppingCart.removeFromCart(
+							props.item.listingData.shortId,
+							props.item.selectedOptions,
+						)
+					}
 					cursor="button"
 				>
 					<FaTrashAlt />
@@ -78,7 +82,9 @@ export const ShoppingCartCard = (props: Props) => {
 						size="xs"
 						variant="ghost"
 						onClick={() =>
-							props.onUpdateQuantity(
+							shoppingCart.updateQuantity(
+								props.item.listingData.shortId,
+								props.item.selectedOptions,
 								props.item.quantity - 1,
 							)
 						}
@@ -97,7 +103,9 @@ export const ShoppingCartCard = (props: Props) => {
 						size="xs"
 						variant="ghost"
 						onClick={() =>
-							props.onUpdateQuantity(
+							shoppingCart.updateQuantity(
+								props.item.listingData.shortId,
+								props.item.selectedOptions,
 								props.item.quantity + 1,
 							)
 						}
