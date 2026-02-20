@@ -1,4 +1,5 @@
 import {
+	Box,
 	Field,
 	Fieldset,
 	HStack,
@@ -6,10 +7,95 @@ import {
 	InputProps,
 	Stack,
 } from '@chakra-ui/react';
+import { useLoadScript } from '@react-google-maps/api';
+import { useEffect, useRef, useState } from 'react';
 import { MdLocalShipping } from 'react-icons/md';
+import { AddressFields } from '../../../../common/types/AddressFields';
+import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
 
 export const CheckoutShippingForm = () => {
+	const { isLoaded } = useLoadScript({
+		googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
+		libraries: ['places'],
+	});
+
+	const debounceRef =
+		useRef<ReturnType<typeof setTimeout>>(undefined);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	const [address, setAddress] = useState<AddressFields>({
+		address1: '',
+		address2: '',
+		city: '',
+		state: '',
+		zip: '',
+	});
+	const [addressInput, setAddressInput] = useState('');
+	const [suggestions, setSuggestions] = useState<
+		google.maps.places.AutocompleteSuggestion[]
+	>([]);
+	const [showSuggestions, setShowSuggestions] = useState(false);
+
+	useEffect(() => {
+		const handleClickOutside = (e: MouseEvent) => {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(e.target as Node)
+			) {
+				setShowSuggestions(false);
+			}
+		};
+		document.addEventListener('mousedown', handleClickOutside);
+		return () =>
+			document.removeEventListener(
+				'mousedown',
+				handleClickOutside,
+			);
+	}, []);
+
+	const fetchSuggestions = (value: string) => {
+		if (debounceRef.current) clearTimeout(debounceRef.current);
+		if (!value.trim() || !isLoaded) {
+			setSuggestions([]);
+			setShowSuggestions(false);
+			return;
+		}
+		debounceRef.current = setTimeout(async () => {
+			const { suggestions: results } =
+				await google.maps.places.AutocompleteSuggestion.fetchAutocompleteSuggestions(
+					{
+						input: value,
+						includedRegionCodes: ['us'],
+					},
+				);
+			setSuggestions(results);
+			setShowSuggestions(true);
+		}, 300);
+	};
+
+	const handleSelect = async (
+		suggestion: google.maps.places.AutocompleteSuggestion,
+	) => {
+		setShowSuggestions(false);
+		setSuggestions([]);
+
+		const prediction = suggestion.placePrediction;
+		if (!prediction) return;
+
+		const place = prediction.toPlace();
+		await place.fetchFields({
+			fields: ['addressComponents'],
+		});
+		const fields = extractAddressFields(
+			place.addressComponents || [],
+		);
+		setAddress((prev) => ({ ...prev, ...fields }));
+		setAddressInput(
+			fields.address1 || prediction.text?.text || '',
+		);
+	};
+
 	return (
 		<Stack gap={4}>
 			<CheckoutHeading
@@ -41,15 +127,74 @@ export const CheckoutShippingForm = () => {
 					</Field.Root>
 				</HStack>
 				<Field.Root>
-					<FormInput
-						name="address-line1"
-						placeholder="Address"
-					/>
+					<Box
+						ref={containerRef}
+						position="relative"
+						width="100%"
+					>
+						<FormInput
+							placeholder="Address"
+							name="address-line1"
+							value={addressInput}
+							onChange={(e) => {
+								setAddressInput(e.target.value);
+								fetchSuggestions(e.target.value);
+							}}
+							onFocus={() =>
+								suggestions.length > 0 &&
+								setShowSuggestions(true)
+							}
+							autoComplete="off"
+						/>
+						{showSuggestions &&
+							suggestions.length > 0 && (
+								<Box
+									position="absolute"
+									top="100%"
+									left={0}
+									right={0}
+									zIndex={10}
+									bg="white"
+									borderRadius="md"
+									boxShadow="md"
+									mt={1}
+									overflow="hidden"
+								>
+									{suggestions.map((s, i) => (
+										<Box
+											key={i}
+											px={3}
+											py={2}
+											cursor="pointer"
+											fontSize={14}
+											_hover={{
+												bg: 'gray.100',
+											}}
+											onMouseDown={() =>
+												handleSelect(s)
+											}
+										>
+											{
+												s.placePrediction
+													?.text?.text
+											}
+										</Box>
+									))}
+								</Box>
+							)}
+					</Box>
 				</Field.Root>
 				<Field.Root>
 					<FormInput
 						name="address-line2"
 						placeholder="Apartment, suite, etc. (optional)"
+						value={address.address2}
+						onChange={(e) =>
+							setAddress((prev) => ({
+								...prev,
+								address2: e.target.value,
+							}))
+						}
 					/>
 				</Field.Root>
 
@@ -58,18 +203,39 @@ export const CheckoutShippingForm = () => {
 						<FormInput
 							placeholder="City"
 							name="city"
+							value={address.city}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									city: e.target.value,
+								}))
+							}
 						/>
 					</Field.Root>
 					<Field.Root>
 						<FormInput
 							placeholder="State"
 							name="state"
+							value={address.state}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									state: e.target.value,
+								}))
+							}
 						/>
 					</Field.Root>
 					<Field.Root>
 						<FormInput
 							placeholder="Zip code"
 							name="postal-code"
+							value={address.zip}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									zip: e.target.value,
+								}))
+							}
 						/>
 					</Field.Root>
 				</HStack>
