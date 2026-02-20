@@ -1,31 +1,22 @@
 import {
 	Field,
 	Fieldset,
-	Heading,
 	HStack,
 	Input,
 	InputProps,
 	Stack,
 } from '@chakra-ui/react';
 import { MdLocalShipping } from 'react-icons/md';
-import { FONT_DISPLAY_SANS } from '../../theme';
+import { CheckoutHeading } from './CheckoutHeading';
 
 export const CheckoutShippingForm = () => {
 	return (
 		<Stack gap={4}>
-			<HStack
-				gap={3}
-				h={8}
+			<CheckoutHeading
+				Icon={() => <MdLocalShipping size={30} />}
 			>
-				<MdLocalShipping size={30} />
-				<Heading
-					fontSize={24}
-					fontWeight="medium"
-					fontFamily={FONT_DISPLAY_SANS}
-				>
-					shipping
-				</Heading>
-			</HStack>
+				shipping
+			</CheckoutHeading>
 			<Fieldset.Root size="lg">
 				<Field.Root>
 					<FormInput

@@ -1,7 +1,6 @@
 import {
 	Carousel,
 	Collapsible,
-	Heading,
 	HStack,
 	IconButton,
 	Span,
@@ -13,6 +12,7 @@ import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '../../theme';
 import { ShoppingCartCard } from '../shoppingCart/ShoppingCartCard';
 import { ShoppingCartContents } from '../shoppingCart/ShoppingCartContents';
+import { CheckoutHeading } from './CheckoutHeading';
 
 type Props = {
 	layout?: Layout;
@@ -65,16 +65,11 @@ export const CheckoutShoppingCart = (props: Props) => {
 				gap={4}
 			>
 				<HStack justify="space-between">
-					<HStack gap={3}>
-						<FaShoppingCart size={26} />
-						<Heading
-							fontSize={24}
-							fontWeight="medium"
-							fontFamily={FONT_DISPLAY_SANS}
-						>
-							shopping cart
-						</Heading>
-					</HStack>
+					<CheckoutHeading
+						Icon={() => <FaShoppingCart size={24} />}
+					>
+						shopping cart
+					</CheckoutHeading>
 
 					<HStack>
 						<Carousel.PrevTrigger asChild>
@@ -95,7 +90,10 @@ export const CheckoutShoppingCart = (props: Props) => {
 						</Carousel.NextTrigger>
 					</HStack>
 				</HStack>
-				<Carousel.ItemGroup m={-5}>
+				<Carousel.ItemGroup
+					m={-5}
+					pb={1}
+				>
 					{shoppingCart.items.map((item, index) => (
 						<Carousel.Item
 							key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
