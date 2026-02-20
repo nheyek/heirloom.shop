@@ -96,7 +96,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 				>
 					{shoppingCart.items.map((item, index) => (
 						<Carousel.Item
-							key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
+							key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
 							index={index}
 							p={5}
 						>

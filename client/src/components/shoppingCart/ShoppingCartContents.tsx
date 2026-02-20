@@ -12,7 +12,7 @@ export const ShoppingCartContents = (props: Props) => {
 		.sort((itemA, itemB) => itemB.addedAt - itemA.addedAt)
 		.map((item) => (
 			<ShoppingCartCard
-				key={`${item.listingData.shopId}-${JSON.stringify(item.selectedOptions)}`}
+				key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
 				item={item}
 				onNavigate={props.onNavigate}
 			/>
