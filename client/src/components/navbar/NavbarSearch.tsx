@@ -249,7 +249,7 @@ const renderSearchResults = (
 			key={result.id}
 		>
 			<Text
-				fontSize={18}
+				fontSize={16}
 				p={1}
 				pl={10}
 				cursor="pointer"
@@ -276,8 +276,8 @@ const renderSearchResultGroupLabel = (
 			{icon}
 		</Flex>
 		<Text
-			fontSize={18}
-			fontWeight={500}
+			fontSize={16}
+			fontWeight={600}
 		>
 			{label}
 		</Text>
