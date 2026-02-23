@@ -51,7 +51,7 @@ export const CheckoutPage = () => {
 					>
 						$
 						{(
-							shoppingCart.itemTotal +
+							shoppingCart.itemPriceTotal +
 							shoppingCart.shippingTotal
 						).toLocaleString()}
 						.00

@@ -134,7 +134,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 										>
 											{' '}
 											$
-											{shoppingCart.itemTotal.toLocaleString()}
+											{shoppingCart.itemPriceTotal.toLocaleString()}
 											.00
 										</Text>
 										<RxDotFilled />

@@ -8,7 +8,8 @@ import { usePersistedState } from '../hooks/usePersistedState';
 type ShoppingCartContext = {
 	isDrawerOpen: boolean;
 	items: ShoppingCartItem[];
-	itemTotal: number;
+	itemQuantityTotal: number;
+	itemPriceTotal: number;
 	shippingTotal: number;
 	shippingAddress: string | null;
 	addToCart: (
@@ -45,7 +46,12 @@ export const ShoppingCartProvider = (props: {
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
 
-	const itemTotal = items.reduce(
+	const itemQuantityTotal = items.reduce(
+		(sum, item) => sum + item.quantity,
+		0,
+	);
+
+	const itemPriceTotal = items.reduce(
 		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
 		0,
 	);
@@ -142,7 +148,8 @@ export const ShoppingCartProvider = (props: {
 			value={{
 				isDrawerOpen,
 				items,
-				itemTotal,
+				itemQuantityTotal,
+				itemPriceTotal,
 				shippingTotal,
 				shippingAddress,
 				addToCart,

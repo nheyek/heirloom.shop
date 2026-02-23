@@ -69,7 +69,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 					<CheckoutHeading
 						Icon={() => <FaShoppingCart size={24} />}
 					>
-						{`cart (${shoppingCart.items.length})`}
+						{`cart (${shoppingCart.itemQuantityTotal})`}
 					</CheckoutHeading>
 
 					<HStack>

@@ -18,7 +18,7 @@ export const ShoppingCartBreakdown = (props: Props) => {
 			{[
 				{
 					label: 'Item Total',
-					value: `$${shoppingCart.itemTotal.toLocaleString()}.00`,
+					value: `$${shoppingCart.itemPriceTotal.toLocaleString()}.00`,
 				},
 				{
 					label: 'Shipping',
