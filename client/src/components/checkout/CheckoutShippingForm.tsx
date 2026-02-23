@@ -15,6 +15,7 @@ import { FaSearch } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 import { AddressFields } from '../../../../common/types/AddressFields';
 import { US_STATES } from '../../constants';
+import { useUserInfo } from '../../providers/UserProvider';
 import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
 
@@ -26,11 +27,16 @@ export const CheckoutShippingForm = () => {
 		libraries: LIBRARIES,
 	});
 
+	const userInfo = useUserInfo();
+
 	const debounceRef =
 		useRef<ReturnType<typeof setTimeout>>(undefined);
 	const containerRef = useRef<HTMLDivElement>(null);
 
+	const [email, setEmail] = useState<string>('');
 	const [address, setAddress] = useState<AddressFields>({
+		firstName: '',
+		lastName: '',
 		address1: '',
 		address2: '',
 		city: '',
@@ -59,6 +65,10 @@ export const CheckoutShippingForm = () => {
 				handleClickOutside,
 			);
 	}, []);
+
+	useEffect(() => {
+		userInfo.user && setEmail(userInfo.user?.email);
+	}, [userInfo]);
 
 	const fetchSuggestions = (value: string) => {
 		if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -115,6 +125,10 @@ export const CheckoutShippingForm = () => {
 						placeholder="Email address"
 						name="email"
 						type="email"
+						value={email}
+						onChange={(e) => {
+							setEmail(e.target.value);
+						}}
 					/>
 				</Field.Root>
 
@@ -123,12 +137,26 @@ export const CheckoutShippingForm = () => {
 						<FormInput
 							placeholder="First name"
 							name="given-name"
+							value={address.firstName}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									firstName: e.target.value,
+								}))
+							}
 						/>
 					</Field.Root>
 					<Field.Root>
 						<FormInput
 							placeholder="Last name"
 							name="family-name"
+							value={address.lastName}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									lastName: e.target.value,
+								}))
+							}
 						/>
 					</Field.Root>
 				</HStack>
