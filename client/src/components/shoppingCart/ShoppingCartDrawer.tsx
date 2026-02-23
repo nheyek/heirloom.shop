@@ -1,7 +1,6 @@
 import {
 	Box,
 	Button,
-	Center,
 	Drawer,
 	Flex,
 	Icon,
@@ -12,13 +11,13 @@ import {
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
-import { TbArrowBack } from 'react-icons/tb';
 import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
 import { ShoppingCartBreakdown } from './ShoppingCartBreakdown';
 import { ShoppingCartContents } from './ShoppingCartContents';
+import { ShoppingCartEmptyMessage } from './ShoppingCartEmptyMessage';
 
 type Props = {
 	isOpen: boolean;
@@ -67,27 +66,10 @@ export const ShoppingCartDrawer = (props: Props) => {
 						flexDir="column"
 						pb={5}
 					>
-						{shoppingCart.items.length === 0 ? (
-							<Center
-								flexDir="column"
-								height="100%"
-								gap={5}
-							>
-								<Text
-									fontSize={30}
-									fontWeight={300}
-								>
-									Your cart is empty
-								</Text>
-								<Button
-									onClick={props.onClose}
-									size="md"
-									fontSize={18}
-								>
-									<TbArrowBack />
-									keep looking
-								</Button>
-							</Center>
+						{shoppingCart.itemQuantityTotal === 0 ? (
+							<ShoppingCartEmptyMessage
+								onClick={props.onClose}
+							/>
 						) : (
 							<Stack gap={5}>
 								<ShoppingCartContents

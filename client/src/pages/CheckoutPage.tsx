@@ -6,9 +6,11 @@ import {
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 import { CheckoutShippingForm } from '../components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
 import { ShoppingCartBreakdown } from '../components/shoppingCart/ShoppingCartBreakdown';
+import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 
@@ -18,6 +20,7 @@ export const CheckoutPage = () => {
 		base: Layout.SINGLE_COLUMN,
 		md: Layout.MULTI_COLUMN,
 	});
+	const navigate = useNavigate();
 
 	const renderShoppingCartSection = () => {
 		const invertColors = layout === Layout.SINGLE_COLUMN;
@@ -60,6 +63,16 @@ export const CheckoutPage = () => {
 			</Stack>
 		);
 	};
+
+	if (shoppingCart.itemQuantityTotal === 0) {
+		return (
+			<Box height={300}>
+				<ShoppingCartEmptyMessage
+					onClick={() => navigate('/')}
+				/>
+			</Box>
+		);
+	}
 
 	return (
 		<Box
