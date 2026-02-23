@@ -34,7 +34,7 @@ export const PriceTag = (props: Props) => (
 			fontFamily={FONT_DECORATIVE}
 			paddingLeft={6}
 			paddingRight={2.5}
-			paddingBottom={0.5}
+			paddingBottom="3px"
 		>
 			${props.value.toLocaleString()}.00
 			{props.quantity &&
