@@ -83,8 +83,10 @@ export const CheckoutShippingForm = () => {
 					{
 						input: value,
 						includedRegionCodes: ['us'],
+						includedPrimaryTypes: ['street_address'],
 					},
 				);
+			console.log(results);
 			setSuggestions(results);
 			setShowSuggestions(true);
 		}, 300);
@@ -197,26 +199,31 @@ export const CheckoutShippingForm = () => {
 									mt={1}
 									overflow="hidden"
 								>
-									{suggestions.map((s, i) => (
-										<Box
-											key={i}
-											px={3}
-											py={2}
-											cursor="pointer"
-											fontSize={14}
-											_hover={{
-												bg: 'gray.100',
-											}}
-											onMouseDown={() =>
-												handleSelect(s)
-											}
-										>
-											{
-												s.placePrediction
-													?.text?.text
-											}
-										</Box>
-									))}
+									{suggestions.map(
+										(suggestion, i) => (
+											<Box
+												key={i}
+												px={3}
+												py={2}
+												cursor="pointer"
+												fontSize={14}
+												_hover={{
+													bg: 'gray.100',
+												}}
+												onMouseDown={() =>
+													handleSelect(
+														suggestion,
+													)
+												}
+											>
+												{
+													suggestion
+														.placePrediction
+														?.text?.text
+												}
+											</Box>
+										),
+									)}
 								</Box>
 							)}
 					</Box>

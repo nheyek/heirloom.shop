@@ -18,19 +18,19 @@ export const extractAddressFields = (
 		const type = component.types[0];
 		switch (type) {
 			case 'street_number':
-				streetNumber = component.longText || '';
+				streetNumber = component.shortText || '';
 				break;
 			case 'route':
-				route = component.longText || '';
+				route = component.shortText || '';
 				break;
 			case 'locality':
-				fields.city = component.longText || '';
+				fields.city = component.shortText || '';
 				break;
 			case 'administrative_area_level_1':
 				fields.state = component.shortText || '';
 				break;
 			case 'postal_code':
-				fields.zip = component.longText || '';
+				fields.zip = component.shortText || '';
 				break;
 		}
 	}
