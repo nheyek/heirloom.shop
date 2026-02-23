@@ -4,20 +4,26 @@ import {
 	Fieldset,
 	HStack,
 	Input,
+	InputGroup,
 	InputProps,
+	NativeSelect,
 	Stack,
 } from '@chakra-ui/react';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 import { AddressFields } from '../../../../common/types/AddressFields';
+import { US_STATES } from '../../constants';
 import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
+
+const LIBRARIES: 'places'[] = ['places'];
 
 export const CheckoutShippingForm = () => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
-		libraries: ['places'],
+		libraries: LIBRARIES,
 	});
 
 	const debounceRef =
@@ -132,20 +138,23 @@ export const CheckoutShippingForm = () => {
 						position="relative"
 						width="100%"
 					>
-						<FormInput
-							placeholder="Address"
-							name="address-line1"
-							value={addressInput}
-							onChange={(e) => {
-								setAddressInput(e.target.value);
-								fetchSuggestions(e.target.value);
-							}}
-							onFocus={() =>
-								suggestions.length > 0 &&
-								setShowSuggestions(true)
-							}
-							autoComplete="off"
-						/>
+						<InputGroup startElement={<FaSearch />}>
+							<FormInput
+								placeholder="Address"
+								name="address-line1"
+								value={addressInput}
+								onChange={(e) => {
+									setAddressInput(e.target.value);
+									fetchSuggestions(e.target.value);
+								}}
+								onFocus={() =>
+									suggestions.length > 0 &&
+									setShowSuggestions(true)
+								}
+								autoComplete="off"
+							/>
+						</InputGroup>
+
 						{showSuggestions &&
 							suggestions.length > 0 && (
 								<Box
@@ -213,17 +222,33 @@ export const CheckoutShippingForm = () => {
 						/>
 					</Field.Root>
 					<Field.Root>
-						<FormInput
-							placeholder="State"
-							name="state"
-							value={address.state}
-							onChange={(e) =>
-								setAddress((prev) => ({
-									...prev,
-									state: e.target.value,
-								}))
-							}
-						/>
+						<NativeSelect.Root
+							variant="subtle"
+							size="lg"
+						>
+							<NativeSelect.Field
+								placeholder="State"
+								height={11}
+								fontSize={15}
+								value={address.state}
+								onChange={(e) =>
+									setAddress((prev) => ({
+										...prev,
+										state: e.target.value,
+									}))
+								}
+							>
+								{US_STATES.map((s) => (
+									<option
+										key={s.value}
+										value={s.value}
+									>
+										{s.label}
+									</option>
+								))}
+							</NativeSelect.Field>
+							<NativeSelect.Indicator />
+						</NativeSelect.Root>
 					</Field.Root>
 					<Field.Root>
 						<FormInput
@@ -246,9 +271,9 @@ export const CheckoutShippingForm = () => {
 
 const FormInput = (props: InputProps) => (
 	<Input
-		height={11}
+		height={12}
 		variant="subtle"
-		fontSize={15}
+		fontSize={16}
 		{...props}
 	/>
 );
