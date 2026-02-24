@@ -1,4 +1,4 @@
-import { Box, useToken } from '@chakra-ui/react';
+import { Skeleton, useToken } from '@chakra-ui/react';
 import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
@@ -16,10 +16,15 @@ const stripePromise = loadStripe(
 );
 
 export const _CheckoutPaymentForm = () => {
+	const [ready, setReady] = useState<boolean>(false);
+
 	return (
-		<Box>
-			<PaymentElement options={{ layout: 'tabs' }} />
-		</Box>
+		<Skeleton loading={!ready}>
+			<PaymentElement
+				options={{ layout: 'tabs' }}
+				onReady={() => setTimeout(() => setReady(true), 1000)}
+			/>
+		</Skeleton>
 	);
 };
 
@@ -51,6 +56,7 @@ export const CheckoutPaymentForm = () => {
 		<Elements
 			stripe={stripePromise}
 			options={{
+				loader: 'never',
 				clientSecret: clientSecret,
 				fonts: [
 					{
@@ -67,8 +73,8 @@ export const CheckoutPaymentForm = () => {
 							borderRadius: '3px',
 							boxShadow: 'none',
 							backgroundColor: gray100,
-							paddingTop: '12px',
-							paddingBottom: '12px',
+							paddingTop: '10px',
+							paddingBottom: '10px',
 							paddingLeft: '12px',
 							fontWetight: 'bold',
 						},

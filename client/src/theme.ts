@@ -70,17 +70,6 @@ const fieldsetRecipe = defineSlotRecipe({
 	},
 });
 
-const drawerRecipe = defineSlotRecipe({
-	slots: ['content'],
-	variants: {
-		size: {
-			sm: {
-				content: { maxW: 375 },
-			},
-		},
-	},
-});
-
 const selectRecipe = defineSlotRecipe({
 	slots: ['label', 'item'],
 	base: {
@@ -133,7 +122,6 @@ export const config = defineConfig({
 		},
 		slotRecipes: {
 			card: cardRecipe,
-			drawer: drawerRecipe,
 			fieldset: fieldsetRecipe,
 			menu: menuRecipe,
 			select: selectRecipe,

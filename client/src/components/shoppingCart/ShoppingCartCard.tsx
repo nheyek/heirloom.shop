@@ -8,6 +8,7 @@ import {
 	Heading,
 	IconButton,
 	Link,
+	Span,
 	Stack,
 	Text,
 	Wrap,
@@ -17,7 +18,7 @@ import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
 import { FaTrashAlt } from 'react-icons/fa';
-import { IoMdPricetags } from 'react-icons/io';
+import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 import { Link as RouterLink } from 'react-router-dom';
@@ -197,7 +198,7 @@ export const ShoppingCartCard = (props: Props & CardRootProps) => {
 					justifyContent="space-between"
 				>
 					{renderFooterText(
-						IoMdPricetags,
+						IoMdPricetag,
 						<>
 							${itemPrice.toLocaleString()}.00{' '}
 							{props.item.quantity > 1 &&
@@ -207,8 +208,9 @@ export const ShoppingCartCard = (props: Props & CardRootProps) => {
 					{renderFooterText(
 						MdLocalShipping,
 						<>
-							{props.item.listingData.shippingPrice ||
-								'$0.00'}
+							{props.item.listingData.shippingPrice || (
+								<Span fontSize={20}>Free</Span>
+							)}
 						</>,
 					)}
 				</Flex>
@@ -221,7 +223,7 @@ const renderFooterText = (Icon: IconType, text: JSX.Element) => (
 	<Flex
 		direction="row"
 		alignItems="center"
-		gap={2}
+		gap={1.5}
 	>
 		<Icon size={26} />
 
@@ -229,7 +231,7 @@ const renderFooterText = (Icon: IconType, text: JSX.Element) => (
 			fontSize={22}
 			fontWeight={500}
 			fontFamily={FONT_DISPLAY_SANS}
-			mb={1}
+			mb="2px"
 			lineHeight={1}
 		>
 			{text}
