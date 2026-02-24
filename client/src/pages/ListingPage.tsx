@@ -231,7 +231,12 @@ export const ListingPage = () => {
 						value={index.toString()}
 					>
 						<Accordion.ItemTrigger>
-							<Text flex="1">{item.title}</Text>
+							<Text
+								flex="1"
+								fontSize={20}
+							>
+								{item.title}
+							</Text>
 							<Accordion.ItemIndicator />
 						</Accordion.ItemTrigger>
 						<Accordion.ItemContent>

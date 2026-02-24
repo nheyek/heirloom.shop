@@ -32,6 +32,7 @@ type Props = {
 	item: ShoppingCartItem;
 	onNavigate?: () => void;
 	minWidth?: number;
+	hideButtons?: boolean;
 };
 
 export const ShoppingCartCard = (props: Props) => {
@@ -51,68 +52,72 @@ export const ShoppingCartCard = (props: Props) => {
 						`${process.env.LISTING_IMAGES_URL}/${props.item.listingData.imageUuids[0]}.jpg`,
 					]}
 				/>
-				<IconButton
-					size="sm"
-					variant="ghost"
-					bg="gray.100"
-					position="absolute"
-					top={3}
-					right={3}
-					onClick={() =>
-						shoppingCart.removeFromCart(
-							props.item.listingData.shortId,
-							props.item.selectedOptions,
-						)
-					}
-					cursor="button"
-				>
-					<FaTrashAlt />
-				</IconButton>
-				<Group
-					p={0.5}
-					gap={1}
-					attached
-					position="absolute"
-					bottom={3}
-					right={3}
-					bg="gray.100"
-					borderRadius="full"
-				>
+				{props.hideButtons !== true && (
 					<IconButton
-						size="xs"
+						size="sm"
 						variant="ghost"
+						bg="gray.100"
+						position="absolute"
+						top={3}
+						right={3}
 						onClick={() =>
-							shoppingCart.updateQuantity(
+							shoppingCart.removeFromCart(
 								props.item.listingData.shortId,
 								props.item.selectedOptions,
-								props.item.quantity - 1,
 							)
 						}
+						cursor="button"
 					>
-						<TiMinus />
+						<FaTrashAlt />
 					</IconButton>
-					<Text
-						textAlign="center"
-						minWidth={5}
-						fontSize={16}
-						fontWeight={700}
+				)}
+				{props.hideButtons !== true && (
+					<Group
+						p={0.5}
+						gap={1}
+						attached
+						position="absolute"
+						bottom={3}
+						right={3}
+						bg="gray.100"
+						borderRadius="full"
 					>
-						{props.item.quantity}
-					</Text>
-					<IconButton
-						size="xs"
-						variant="ghost"
-						onClick={() =>
-							shoppingCart.updateQuantity(
-								props.item.listingData.shortId,
-								props.item.selectedOptions,
-								props.item.quantity + 1,
-							)
-						}
-					>
-						<TiPlus />
-					</IconButton>
-				</Group>
+						<IconButton
+							size="xs"
+							variant="ghost"
+							onClick={() =>
+								shoppingCart.updateQuantity(
+									props.item.listingData.shortId,
+									props.item.selectedOptions,
+									props.item.quantity - 1,
+								)
+							}
+						>
+							<TiMinus />
+						</IconButton>
+						<Text
+							textAlign="center"
+							minWidth={5}
+							fontSize={16}
+							fontWeight={700}
+						>
+							{props.item.quantity}
+						</Text>
+						<IconButton
+							size="xs"
+							variant="ghost"
+							onClick={() =>
+								shoppingCart.updateQuantity(
+									props.item.listingData.shortId,
+									props.item.selectedOptions,
+									props.item.quantity + 1,
+								)
+							}
+						>
+							<TiPlus />
+						</IconButton>
+					</Group>
+				)}
 				<Flex
 					alignItems="center"
 					gap={2}

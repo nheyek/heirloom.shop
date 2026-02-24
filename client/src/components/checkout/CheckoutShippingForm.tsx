@@ -116,7 +116,7 @@ export const CheckoutShippingForm = () => {
 	};
 
 	return (
-		<Stack gap={4}>
+		<Stack gap={3}>
 			<CheckoutHeading
 				Icon={() => <MdLocalShipping size={30} />}
 			>
@@ -135,7 +135,7 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={3}>
+				<HStack gap={2}>
 					<Field.Root>
 						<FormInput
 							placeholder="First name"
@@ -243,7 +243,7 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={3}>
+				<HStack gap={2}>
 					<Field.Root>
 						<FormInput
 							placeholder="City"

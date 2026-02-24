@@ -63,7 +63,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 			<Carousel.Root
 				slideCount={shoppingCart.items.length}
 				slidesPerPage={1}
-				gap={4}
+				gap={3}
 			>
 				<HStack justify="space-between">
 					<CheckoutHeading
@@ -104,6 +104,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 							<ShoppingCartCard
 								item={item}
 								minWidth={250}
+								hideButtons
 							/>
 						</Carousel.Item>
 					))}

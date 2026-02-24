@@ -7,7 +7,7 @@ type Props = {
 	textColor?: string;
 };
 
-export const ShoppingCartBreakdown = (props: Props) => {
+export const ShoppingCartSummary = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
 	return (
@@ -33,7 +33,7 @@ export const ShoppingCartBreakdown = (props: Props) => {
 			].map(({ label, value }) => (
 				<DataList.Item
 					key={label}
-					fontSize={16}
+					fontSize={18}
 					color={props.textColor}
 				>
 					<DataList.ItemLabel

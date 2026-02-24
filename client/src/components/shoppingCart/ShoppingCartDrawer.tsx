@@ -15,9 +15,9 @@ import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
-import { ShoppingCartBreakdown } from './ShoppingCartBreakdown';
 import { ShoppingCartContents } from './ShoppingCartContents';
 import { ShoppingCartEmptyMessage } from './ShoppingCartEmptyMessage';
+import { ShoppingCartSummary } from './ShoppingCartSummary';
 
 type Props = {
 	isOpen: boolean;
@@ -87,7 +87,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							gap={4}
 							background="brand"
 						>
-							<ShoppingCartBreakdown
+							<ShoppingCartSummary
 								pendingLineItemMessage="Calculated at checkout"
 								textColor="white"
 							/>

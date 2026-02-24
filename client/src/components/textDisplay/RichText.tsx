@@ -10,12 +10,12 @@ export const RichText = (props: Props) => {
 			{...props}
 			css={{
 				'& p': {
-					fontSize: 16,
+					fontSize: 18,
 					lineHeight: 'base',
 					marginBottom: 2,
 				},
 				'& h1': {
-					fontSize: 20,
+					fontSize: 22,
 					marginTop: 4,
 					marginBottom: 2,
 					fontWeight: 'bold',

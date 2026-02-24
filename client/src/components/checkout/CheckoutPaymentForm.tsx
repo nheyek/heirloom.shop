@@ -62,6 +62,7 @@ export const CheckoutPaymentForm = () => {
 				],
 				appearance: {
 					labels: 'floating',
+					variables: { spacingUnit: '3px' },
 					rules: {
 						'.Label': {
 							fontFamily: FONT_DEFAULT,
@@ -74,9 +75,8 @@ export const CheckoutPaymentForm = () => {
 							borderRadius: '3px',
 							boxShadow: 'none',
 							backgroundColor: gray100,
-							paddingX: '10px',
-							paddingTop: '10px',
-							paddingBottom: '10px',
+							padding: '10px',
+							paddingLeft: '12px',
 						},
 						'.Input:focus': {
 							outline: `1px solid ${gray400}`,

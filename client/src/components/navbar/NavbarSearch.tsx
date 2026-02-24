@@ -135,7 +135,7 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					fontSize={16}
+					fontSize={18}
 					placeholder="Search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}

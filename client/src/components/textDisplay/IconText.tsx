@@ -10,6 +10,7 @@ export const IconText = (props: Props) => (
 	<Flex
 		alignItems="center"
 		gap={2.5}
+		fontSize={18}
 	>
 		{<props.icon />}
 

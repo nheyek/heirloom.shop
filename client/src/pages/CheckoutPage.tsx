@@ -14,8 +14,8 @@ import { CheckoutHeading } from '../components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '../components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '../components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
-import { ShoppingCartBreakdown } from '../components/shoppingCart/ShoppingCartBreakdown';
 import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
+import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 
@@ -47,7 +47,7 @@ export const CheckoutPage = () => {
 							: undefined
 					}
 				>
-					<ShoppingCartBreakdown
+					<ShoppingCartSummary
 						textColor={invertColors ? 'white' : 'black'}
 						pendingLineItemMessage="Enter shipping address"
 					/>
@@ -82,9 +82,9 @@ export const CheckoutPage = () => {
 	return (
 		<Box
 			maxWidth={{ lg: 1000 }}
-			mt={{ base: 5, md: 10 }}
+			mt={6}
 			mx="auto"
-			px={5}
+			px={4}
 		>
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
@@ -95,7 +95,7 @@ export const CheckoutPage = () => {
 					<Stack gap={6}>
 						<CheckoutShippingForm />
 						{layout === Layout.MULTI_COLUMN && (
-							<Stack gap={4}>
+							<Stack gap={3}>
 								<CheckoutHeading
 									Icon={() => (
 										<FaCreditCard size={24} />

@@ -64,19 +64,19 @@ const fieldsetRecipe = defineSlotRecipe({
 	variants: {
 		size: {
 			lg: {
-				root: { spaceY: 3 },
-				content: { gap: 3 },
+				root: { spaceY: 2 },
+				content: { gap: 2 },
 			},
 		},
 	},
 });
 
 const selectRecipe = defineSlotRecipe({
-	slots: ['label'],
+	slots: ['label', 'item'],
 	base: {
 		label: {
 			fontFamily: FONT_DISPLAY_SANS,
-			fontSize: 20,
+			fontSize: 18,
 			fontWeight: 500,
 		},
 	},
