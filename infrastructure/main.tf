@@ -90,6 +90,12 @@ resource "digitalocean_app" "heirloom" {
         value = digitalocean_database_cluster.db.port
         scope = "RUN_TIME"
       }
+
+      env {
+        key   = "STRIPE_SECRET_KEY"
+        value = var.stripe_secret_key
+        scope = "RUN_TIME"
+      }
     }
     domain {
       name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"

@@ -111,10 +111,10 @@ export const Navbar = () => {
 											w="22px"
 											h="22px"
 											borderRadius="full"
-											fontSize={14}
+											fontSize={12}
 											alignItems="center"
 											justifyContent="center"
-											fontWeight={600}
+											fontWeight={700}
 										>
 											{
 												shoppingCart.items

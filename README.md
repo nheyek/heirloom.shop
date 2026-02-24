@@ -74,6 +74,7 @@ doctl compute ssh-key create "my-key" --public-key "$(cat ~/.ssh/id_rsa.pub)"
 export DIGITALOCEAN_TOKEN="your-token"
 export SPACES_ACCESS_KEY_ID="your-access-key"
 export SPACES_SECRET_ACCESS_KEY="your-secret-key"
+export TF_VAR_stripe_secret_key=$STRIPE_SECRET_KEY
 ```
 
 ### Infrastructure Setup
