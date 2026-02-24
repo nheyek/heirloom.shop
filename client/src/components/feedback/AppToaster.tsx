@@ -1,6 +1,5 @@
 import { Flex, Toast, Toaster } from '@chakra-ui/react';
 import { FaCheck } from 'react-icons/fa6';
-import { FONT_DISPLAY_SANS } from '../../theme';
 import { toaster } from '../../toaster';
 
 export const AppToaster = () => {
@@ -9,12 +8,17 @@ export const AppToaster = () => {
 			{(toast) => (
 				<Toast.Root
 					width="auto"
-					fontFamily={FONT_DISPLAY_SANS}
 					px={4}
 					py={2}
 					borderRadius={5}
-					background="white"
-					color="black"
+					background={
+						toast.type === 'success'
+							? 'green.success'
+							: 'white'
+					}
+					color={
+						toast.type === 'success' ? 'white' : 'black'
+					}
 				>
 					<Flex
 						gap={4}
@@ -25,11 +29,11 @@ export const AppToaster = () => {
 							direction="column"
 							gap={0}
 						>
-							<Toast.Title fontSize={18}>
+							<Toast.Title fontSize={15}>
 								{toast.title}
 							</Toast.Title>
 							<Toast.Description
-								fontSize={16}
+								fontSize={14}
 								maxW={150}
 								truncate
 							>
@@ -40,7 +44,7 @@ export const AppToaster = () => {
 							<Toast.ActionTrigger
 								cursor="button"
 								whiteSpace="nowrap"
-								fontSize={16}
+								fontSize={14}
 								border="1px solid"
 							>
 								{toast.action.label}

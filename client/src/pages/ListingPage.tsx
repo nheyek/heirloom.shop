@@ -94,11 +94,11 @@ export const ListingPage = () => {
 		);
 
 		toaster.create({
-			title: 'added',
-			description: listingData.title.toLowerCase(),
+			title: 'Added to Cart',
+			description: listingData.title,
 			type: 'success',
 			action: {
-				label: 'view',
+				label: 'View',
 				onClick: shoppingCart.openDrawer,
 			},
 		});

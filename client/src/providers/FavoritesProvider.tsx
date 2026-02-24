@@ -122,14 +122,14 @@ export const FavoritesProvider = (props: {
 		} else {
 			toaster.create({
 				title: wasFavorited
-					? 'removed from favorites'
-					: 'favorited',
-				description: listing.title.toLowerCase(),
-				type: 'success',
+					? 'Removed from favorites'
+					: 'Favorited',
+				description: listing.title,
+				type: wasFavorited ? 'info' : 'success',
 				action: wasFavorited
 					? undefined
 					: {
-							label: 'view',
+							label: 'View',
 							onClick: () =>
 								navigate(CLIENT_ROUTES.favorites),
 						},
