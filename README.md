@@ -2,12 +2,12 @@
 
 # Stack
 
--   Back-end: Node/Express API
--   Database: PostgreSQL
--   Front-end: React/TypeScript, ChakraUI
--   Authentication: Auth0
--   Hosting: DigitalOcean
--   DevOps: GitHub
+- Back-end: Node/Express API
+- Database: PostgreSQL
+- Front-end: React/TypeScript, ChakraUI
+- Authentication: Auth0
+- Hosting: DigitalOcean
+- DevOps: GitHub
 
 # Local DB setup (PostgreSQL)
 
@@ -20,32 +20,33 @@
 
 # Development guide
 
--   Download Node and NPM
--   Run `npm install` in `client` and `server`
--   Download VS Code and install Prettier extension `ext install esbenp.prettier-vscode`
--   Run API server: `cd server && npm run dev`
--   Run front-end server: `cd client && npm run dev`
-    -   Served at localhost:3000
+- Download Node and NPM
+- Run `npm install` in `client` and `server`
+- Download VS Code and install Prettier extension `ext install esbenp.prettier-vscode`
+- Set Stripe SK environment variable: `STRIPE_SECRET_KEY`
+- Run API server: `cd server && npm run dev`
+- Run front-end server: `cd client && npm run dev`
+    - Served at localhost:3000
 
 ### Migrations
 
--   Add new migration script with `dbmate new [migration_title]` from the root directory
--   Ensure database URL environment variable is set: `export DATABASE_URL="postgres://postgres@127.0.0.1:5432/heirloomdb?sslmode=disable"`
--   Update database: `DATABASE_URL=postgres://postgres@127.0.0.1:5432/heirloomdb?sslmode=disable dbmate up`
--   Rollback: `dbmate rollback`
--   Update TS entities `NODE_ENV=development npx mikro-orm generate-entities --save --path=src/entities` from the `server` directory
+- Add new migration script with `dbmate new [migration_title]` from the root directory
+- Ensure database URL environment variable is set: `export DATABASE_URL="postgres://postgres@127.0.0.1:5432/heirloomdb?sslmode=disable"`
+- Update database: `DATABASE_URL=postgres://postgres@127.0.0.1:5432/heirloomdb?sslmode=disable dbmate up`
+- Rollback: `dbmate rollback`
+- Update TS entities `NODE_ENV=development npx mikro-orm generate-entities --save --path=src/entities` from the `server` directory
 
 ### Data Seeding
 
--   Basic structural data (e.g. listing categories) and hard-coded admin permissions are set/updated by `seed_base_data.sql`
--   Sample data for non-prod instances is set by `seed_sample_data.sql`
--   Locally, running `seed_data.sh` will run both of the above in sequence
+- Basic structural data (e.g. listing categories) and hard-coded admin permissions are set/updated by `seed_base_data.sql`
+- Sample data for non-prod instances is set by `seed_sample_data.sql`
+- Locally, running `seed_data.sh` will run both of the above in sequence
 
 # Infrastructure
 
--   Hosted on DigitalOcean resources
--   Controlled via Terraform/Doctl
--   Need: DigitalOcean personal access token
+- Hosted on DigitalOcean resources
+- Controlled via Terraform/Doctl
+- Need: DigitalOcean personal access token
 
 ### Local Install
 
@@ -57,8 +58,8 @@ brew install doctl
 
 ### SSH Config
 
--   Get access token from Digital Ocean
--   Connect GitHub and Digital Ocean accounts
+- Get access token from Digital Ocean
+- Connect GitHub and Digital Ocean accounts
 
 #### Make Digital Ocean key and get fingerprint
 
@@ -77,19 +78,19 @@ export SPACES_SECRET_ACCESS_KEY="your-secret-key"
 
 ### Infrastructure Setup
 
--   When running for the first time
+- When running for the first time
 
 ```
 terraform init
 ```
 
--   To prevent the chicken-and-egg issue with the Node app and the database firewall run (specifically needed when creating new environment or replacing the app resource)
+- To prevent the chicken-and-egg issue with the Node app and the database firewall run (specifically needed when creating new environment or replacing the app resource)
 
 ```
 ./bootstrap.sh [environment]
 ```
 
--   After running the bootstrap script, and for any subsequent runs, run the following
+- After running the bootstrap script, and for any subsequent runs, run the following
 
 ```
 terraform apply -var-file=environments/[environment].tfvars

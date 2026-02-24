@@ -7,6 +7,7 @@ import { initORM } from './db';
 import categoryRouter from './routes/category.routes';
 import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
+import paymentRouter from './routes/payment.routes';
 import searchRouter from './routes/search.routes';
 import shopRouter from './routes/shop.routes';
 
@@ -39,6 +40,10 @@ const main = async () => {
 	app.use(
 		`/${API_ROUTES.base}/${API_ROUTES.search.base}`,
 		searchRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.payment.base}`,
+		paymentRouter,
 	);
 
 	app.use((req, res, next) => {

@@ -22,6 +22,10 @@ export const API_ROUTES = {
 		base: 'search',
 		queryParam: 'q',
 	},
+	payment: {
+		base: 'payment',
+		intent: 'intent',
+	},
 };
 
 export const SEARCH_QUERY_LIMITS = {

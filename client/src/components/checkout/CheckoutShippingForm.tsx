@@ -16,6 +16,7 @@ import { MdLocalShipping } from 'react-icons/md';
 import { AddressFields } from '../../../../common/types/AddressFields';
 import { US_STATES } from '../../constants';
 import { useUserInfo } from '../../providers/UserProvider';
+import { FONT_DEFAULT } from '../../theme';
 import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
 
@@ -263,7 +264,7 @@ export const CheckoutShippingForm = () => {
 						>
 							<NativeSelect.Field
 								placeholder="State"
-								height={11}
+								height={12}
 								fontSize={15}
 								value={address.state}
 								onChange={(e) =>
@@ -306,9 +307,12 @@ export const CheckoutShippingForm = () => {
 
 const FormInput = (props: InputProps) => (
 	<Input
-		height={12}
 		variant="subtle"
-		fontSize={16}
+		fontSize={18}
+		fontFamily={FONT_DEFAULT}
+		p={3}
+		height={12}
+		borderRadius={3}
 		{...props}
 	/>
 );

@@ -1,12 +1,17 @@
 import {
 	Box,
+	Button,
 	GridItem,
 	Heading,
 	SimpleGrid,
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { FaCheckCircle } from 'react-icons/fa';
+import { FaCreditCard } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
+import { CheckoutHeading } from '../components/checkout/CheckoutHeading';
+import { CheckoutPaymentForm } from '../components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '../components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
 import { ShoppingCartBreakdown } from '../components/shoppingCart/ShoppingCartBreakdown';
@@ -87,7 +92,29 @@ export const CheckoutPage = () => {
 				gapY={5}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
-					<CheckoutShippingForm />
+					<Stack gap={6}>
+						<CheckoutShippingForm />
+						{layout === Layout.MULTI_COLUMN && (
+							<Stack gap={4}>
+								<CheckoutHeading
+									Icon={() => (
+										<FaCreditCard size={24} />
+									)}
+								>
+									payment
+								</CheckoutHeading>
+								<CheckoutPaymentForm />
+							</Stack>
+						)}
+						<Button
+							size="xl"
+							fontSize={24}
+							mb={10}
+						>
+							<FaCheckCircle />
+							confirm order
+						</Button>
+					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
 					{renderShoppingCartSection()}

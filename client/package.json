@@ -20,6 +20,8 @@
 		"@emotion/styled": "^11.14.1",
 		"@lexical/react": "^0.39.0",
 		"@react-google-maps/api": "^2.20.8",
+		"@stripe/react-stripe-js": "^5.6.0",
+		"@stripe/stripe-js": "^8.8.0",
 		"axios": "^1.11.0",
 		"framer-motion": "^12.23.12",
 		"lexical": "^0.39.0",

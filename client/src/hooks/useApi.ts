@@ -1,16 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import axios, {
-	AxiosError,
-	AxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 const useApi = () => {
-	const { getAccessTokenSilently, loginWithRedirect } =
-		useAuth0();
+	const { getAccessTokenSilently, loginWithRedirect } = useAuth0();
 
-	const extractErrorMessage = (
-		error: AxiosError,
-	): string => {
+	const extractErrorMessage = (error: AxiosError): string => {
 		const { response } = error;
 
 		if (
@@ -55,8 +49,7 @@ const useApi = () => {
 			return await callApi(retryConfig, 1);
 		} catch (refreshError) {
 			const currentPath =
-				window.location.pathname +
-				window.location.search;
+				window.location.pathname + window.location.search;
 			await loginWithRedirect({
 				appState: { returnTo: currentPath },
 			});
@@ -89,17 +82,13 @@ const useApi = () => {
 					axiosError.response?.status === 401 &&
 					retryCount === 0
 				) {
-					return await handleTokenRefresh(
-						config,
-						callApi,
-					);
+					return await handleTokenRefresh(config, callApi);
 				}
 
 				return {
 					data: null,
 					error: {
-						message:
-							extractErrorMessage(axiosError),
+						message: extractErrorMessage(axiosError),
 					},
 				};
 			}
@@ -141,9 +130,7 @@ const useApi = () => {
 		return token;
 	};
 
-	const getProtectedResource = async (
-		endpoint: string,
-	) => {
+	const getProtectedResource = async (endpoint: string) => {
 		const token = await getToken();
 
 		const config = {
@@ -163,7 +150,28 @@ const useApi = () => {
 		};
 	};
 
-	const postResource = async (
+	const postPublicResource = async (
+		endpoint: string,
+		payload: any,
+	) => {
+		const config = {
+			url: `/api/${endpoint}`,
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+			},
+			data: payload,
+		};
+
+		const { data, error } = await callApi(config);
+
+		return {
+			data: data || null,
+			error,
+		};
+	};
+
+	const postProtectedResource = async (
 		endpoint: string,
 		payload: any,
 	) => {
@@ -209,7 +217,8 @@ const useApi = () => {
 	return {
 		getPublicResource,
 		getProtectedResource,
-		postResource,
+		postPublicResource,
+		postResource: postProtectedResource,
 		deleteResource,
 	};
 };
