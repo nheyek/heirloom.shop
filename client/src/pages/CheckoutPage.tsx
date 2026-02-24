@@ -101,7 +101,7 @@ export const CheckoutPage = () => {
 										<FaCreditCard size={24} />
 									)}
 								>
-									payment
+									Payment
 								</CheckoutHeading>
 								<CheckoutPaymentForm />
 							</Stack>
@@ -112,7 +112,7 @@ export const CheckoutPage = () => {
 							mb={10}
 						>
 							<FaCheckCircle />
-							confirm order
+							Confirm Order
 						</Button>
 					</Stack>
 				</GridItem>

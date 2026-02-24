@@ -19,7 +19,7 @@ export const LoginButton = () => {
 			fontSize={20}
 			onClick={handleLogin}
 		>
-			sign in
+			Sign In
 		</Button>
 	);
 };

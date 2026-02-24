@@ -10,7 +10,7 @@ import { IconType } from 'react-icons';
 import { FaHandshakeSimple } from 'react-icons/fa6';
 import { GiAnvil } from 'react-icons/gi';
 import { PiShieldCheckeredFill } from 'react-icons/pi';
-import { FONT_DISPLAY_SLAB } from '../../theme';
+import { FONT_DISPLAY_SANS } from '../../theme';
 
 type IntroItem = {
 	Icon: IconType;
@@ -75,9 +75,9 @@ export const IntroCarousel = () => {
 						>
 							<item.Icon size={32} />
 							<Text
-								fontSize={20}
+								fontSize={22}
 								textAlign="center"
-								fontFamily={FONT_DISPLAY_SLAB}
+								fontFamily={FONT_DISPLAY_SANS}
 							>
 								{item.text}
 							</Text>

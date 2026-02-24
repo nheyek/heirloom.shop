@@ -17,7 +17,7 @@ import {
 } from '../../constants';
 import { useShareListing } from '../../hooks/useShareListing';
 import { useFavorites } from '../../providers/FavoritesProvider';
-import { FONT_DISPLAY_SLAB } from '../../theme';
+import { FONT_DISPLAY_SANS } from '../../theme';
 import { MultiImage } from '../imageDisplay/MultiImage';
 import { PriceTag } from '../textDisplay/PriceTag';
 
@@ -91,8 +91,8 @@ export const ListingCard = (props: Props) => {
 
 				<Card.Description
 					lineClamp={2}
-					fontSize={16}
-					fontFamily={FONT_DISPLAY_SLAB}
+					fontSize={18}
+					fontFamily={FONT_DISPLAY_SANS}
 					color="black"
 				>
 					{props.subtitle}

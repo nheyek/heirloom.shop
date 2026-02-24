@@ -12,7 +12,7 @@ import {
 	CLIENT_ROUTES,
 	CountryCode,
 } from '../../constants';
-import { FONT_DISPLAY_SLAB } from '../../theme';
+import { FONT_DISPLAY_SANS } from '../../theme';
 import { CategoryIcon } from '../icons/CategoryIcon';
 import { CountryFlagIcon } from '../icons/CountryFlagIcon';
 import { AppImage } from '../imageDisplay/AppImage';
@@ -56,24 +56,23 @@ export const ShopCard = (props: Props) => {
 
 				<SimpleGrid
 					columns={2}
-					gapY={0.5}
 					gridTemplateColumns="30px 1fr"
-					fontSize={18}
-					fontFamily={FONT_DISPLAY_SLAB}
+					fontSize={20}
+					fontFamily={FONT_DISPLAY_SANS}
 					alignItems="center"
 				>
 					<CategoryIcon
 						iconCode={
 							props.categoryIcon as CategoryIconCode | null
 						}
-						size={22}
+						size={20}
 					/>
 					<Text truncate>{props.classification}</Text>
 					<CountryFlagIcon
 						countryCode={
 							props.countryCode as CountryCode | null
 						}
-						size={22}
+						size={20}
 					/>
 					<Text truncate>{props.location}</Text>
 				</SimpleGrid>

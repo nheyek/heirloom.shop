@@ -7,10 +7,9 @@ import {
 } from '@chakra-ui/react';
 
 export const COLOR_BRAND = '#121212';
-export const FONT_DEFAULT = 'Alegreya Sans';
+export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
-export const FONT_DISPLAY_SLAB = 'Bitter';
-export const FONT_DISPLAY_SANS = 'Alegreya Sans SC';
+export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
 const inputRecipe = defineRecipe({
 	variants: {

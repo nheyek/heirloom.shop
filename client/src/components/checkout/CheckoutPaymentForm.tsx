@@ -3,7 +3,6 @@ import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useState } from 'react';
 import useApi from '../../hooks/useApi';
-import { FONT_DEFAULT } from '../../theme';
 
 const stripePromise = loadStripe(
 	'pk_test_51T45cDQ5g6WbwJsUBcf1MIcU1OLAfvZ3dKWFQf1ly9DOIFU9mFqUvbylLBLkOYoVHpaMinK7Zst2l68Js0Ez0MPt00g6hawzCL',
@@ -48,8 +47,6 @@ export const CheckoutPaymentForm = () => {
 		loadStripe();
 	}, []);
 
-	console.log(clientSecret);
-
 	return clientSecret ? (
 		<Elements
 			stripe={stripePromise}
@@ -64,13 +61,8 @@ export const CheckoutPaymentForm = () => {
 					labels: 'floating',
 					variables: { spacingUnit: '3px' },
 					rules: {
-						'.Label': {
-							fontFamily: FONT_DEFAULT,
-							fontSize: '18px',
-						},
 						'.Input': {
-							fontFamily: FONT_DEFAULT,
-							fontSize: '18px',
+							fontSize: '16px',
 							border: '0',
 							borderRadius: '3px',
 							boxShadow: 'none',
@@ -84,7 +76,6 @@ export const CheckoutPaymentForm = () => {
 							border: '0',
 						},
 						'.Error': {
-							fontFamily: FONT_DEFAULT,
 							fontSize: '16px',
 						},
 					},

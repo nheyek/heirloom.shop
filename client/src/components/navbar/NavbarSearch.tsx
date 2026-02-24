@@ -22,7 +22,7 @@ import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
-import { FONT_DISPLAY_SLAB } from '../../theme';
+import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '../../theme';
 import { FadeInBox } from '../misc/FadeInBox';
 
 export const NavbarSearch = () => {
@@ -135,7 +135,7 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					fontSize={18}
+					fontSize={16}
 					placeholder="Search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}
@@ -154,7 +154,7 @@ export const NavbarSearch = () => {
 					boxShadow="md"
 					overflow="hidden"
 					zIndex="popover"
-					fontFamily={FONT_DISPLAY_SLAB}
+					fontFamily={FONT_DISPLAY_SANS}
 				>
 					<Stack
 						gap={0}
@@ -249,7 +249,7 @@ const renderSearchResults = (
 			key={result.id}
 		>
 			<Text
-				fontSize={16}
+				fontSize={18}
 				p={1}
 				pl={10}
 				cursor="pointer"
@@ -276,8 +276,8 @@ const renderSearchResultGroupLabel = (
 			{icon}
 		</Flex>
 		<Text
-			fontSize={16}
-			fontWeight={600}
+			fontSize={18}
+			fontWeight={500}
 		>
 			{label}
 		</Text>
@@ -286,8 +286,9 @@ const renderSearchResultGroupLabel = (
 
 const renderSearchException = (message: string) => (
 	<Text
+		fontFamily={FONT_DEFAULT}
 		fontStyle="italic"
-		p={2}
+		p={1}
 		pl={4}
 		color="gray.500"
 		fontSize={18}

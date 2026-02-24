@@ -208,7 +208,7 @@ export const ShoppingCartCard = (props: Props) => {
 						MdLocalShipping,
 						<>
 							{props.item.listingData.shippingPrice ||
-								'free'}
+								'Free'}
 						</>,
 					)}
 				</Flex>

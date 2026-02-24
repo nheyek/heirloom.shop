@@ -49,7 +49,7 @@ import useApi from '../hooks/useApi';
 import { useShareListing } from '../hooks/useShareListing';
 import { useFavorites } from '../providers/FavoritesProvider';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
-import { FONT_DECORATIVE, FONT_DISPLAY_SLAB } from '../theme';
+import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '../theme';
 import { toaster } from '../toaster';
 import { getListingDataForCart } from '../utils/typeUtils';
 
@@ -229,6 +229,7 @@ export const ListingPage = () => {
 					<Accordion.Item
 						key={index}
 						value={index.toString()}
+						fontFamily={FONT_DISPLAY_SANS}
 					>
 						<Accordion.ItemTrigger>
 							<Text
@@ -336,9 +337,9 @@ export const ListingPage = () => {
 								</Heading>
 							</Flex>
 							<Stack
-								fontSize={18}
+								fontSize={20}
 								gap={1.5}
-								fontFamily={FONT_DISPLAY_SLAB}
+								fontFamily={FONT_DISPLAY_SANS}
 							>
 								{listingData?.subtitle}
 								{listingData?.countryCode && (
@@ -404,7 +405,7 @@ export const ListingPage = () => {
 											>
 												<Select.HiddenSelect />
 												<Select.Label>
-													{variation.name.toLowerCase()}
+													{variation.name}
 												</Select.Label>
 												<Select.Control>
 													<Select.Trigger cursor="button">
@@ -451,7 +452,7 @@ export const ListingPage = () => {
 									onClick={handleAddToCart}
 								>
 									<FaPlusCircle />
-									add to cart
+									Add to Cart
 									<RxDotFilled />
 									<Text
 										fontSize={26}
@@ -486,12 +487,12 @@ export const ListingPage = () => {
 										{isFavorited ? (
 											<>
 												<FaCheck />
-												favorited
+												Favorited
 											</>
 										) : (
 											<>
 												<FaHeart />
-												favorite
+												Favorite
 											</>
 										)}
 									</ListingPageButton>
@@ -503,12 +504,15 @@ export const ListingPage = () => {
 										}
 									>
 										<FaShare />
-										share
+										Share
 									</ListingPageButton>
 								</SimpleGrid>
 							</Stack>
 
-							<Stack gap={1}>
+							<Stack
+								gap={1}
+								fontFamily={FONT_DISPLAY_SANS}
+							>
 								{daysToDelivery && (
 									<IconText icon={FaHourglassStart}>
 										Estimated delivery

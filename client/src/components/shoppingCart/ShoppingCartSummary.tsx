@@ -33,7 +33,7 @@ export const ShoppingCartSummary = (props: Props) => {
 			].map(({ label, value }) => (
 				<DataList.Item
 					key={label}
-					fontSize={18}
+					fontSize={16}
 					color={props.textColor}
 				>
 					<DataList.ItemLabel

@@ -125,7 +125,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 											gap={3}
 											alignItems="center"
 										>
-											checkout
+											Checkout
 											<FaArrowCircleRight />
 										</Flex>
 									</Button>

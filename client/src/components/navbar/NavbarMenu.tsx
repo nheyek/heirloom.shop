@@ -50,7 +50,7 @@ export const NavbarMenu = () => {
 							<Link to={`/${CLIENT_ROUTES.favorites}`}>
 								<MenuItem value="saved">
 									<FaHeart />
-									<Text pl={1}>favorites</Text>
+									<Text pl={1}>Favorites</Text>
 								</MenuItem>
 							</Link>
 
@@ -59,7 +59,7 @@ export const NavbarMenu = () => {
 								onClick={handleLogout}
 							>
 								<PiSignOutBold />
-								<Text pl={1}>log out</Text>
+								<Text pl={1}>Log Out</Text>
 							</MenuItem>
 						</Menu.Content>
 					</FadeInBox>
