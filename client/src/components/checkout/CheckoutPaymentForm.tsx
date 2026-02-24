@@ -67,8 +67,10 @@ export const CheckoutPaymentForm = () => {
 							borderRadius: '3px',
 							boxShadow: 'none',
 							backgroundColor: gray100,
-							padding: '10px',
+							paddingTop: '12px',
+							paddingBottom: '12px',
 							paddingLeft: '12px',
+							fontWetight: 'bold',
 						},
 						'.Input:focus': {
 							outline: `1px solid ${gray400}`,

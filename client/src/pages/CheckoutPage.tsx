@@ -31,7 +31,7 @@ export const CheckoutPage = () => {
 		const invertColors = layout === Layout.SINGLE_COLUMN;
 
 		return (
-			<Stack gap={5}>
+			<Stack gap={4}>
 				<CheckoutShoppingCart layout={layout} />
 				<Stack
 					gap={2}
