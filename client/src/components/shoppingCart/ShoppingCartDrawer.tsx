@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../../theme';
-import { ShoppingCartContents } from './ShoppingCartContents';
+import { ShoppingCartCard } from './ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from './ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from './ShoppingCartSummary';
 
@@ -72,9 +72,19 @@ export const ShoppingCartDrawer = (props: Props) => {
 							/>
 						) : (
 							<Stack gap={5}>
-								<ShoppingCartContents
-									onNavigate={props.onClose}
-								/>
+								{shoppingCart.items
+									.sort(
+										(itemA, itemB) =>
+											itemB.addedAt -
+											itemA.addedAt,
+									)
+									.map((item) => (
+										<ShoppingCartCard
+											key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
+											item={item}
+											onNavigate={props.onClose}
+										/>
+									))}
 							</Stack>
 						)}
 					</Drawer.Body>

@@ -11,7 +11,6 @@ import { Layout } from '../../constants';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '../../theme';
 import { ShoppingCartCard } from '../shoppingCart/ShoppingCartCard';
-import { ShoppingCartContents } from '../shoppingCart/ShoppingCartContents';
 import { CheckoutHeading } from './CheckoutHeading';
 
 type Props = {
@@ -31,8 +30,8 @@ export const CheckoutShoppingCart = (props: Props) => {
 					cursor="button"
 				>
 					<HStack gap={3}>
-						<FaShoppingCart size={18} />
-						<Span>shopping cart</Span>
+						<FaShoppingCart size={22} />
+						<Span>Shopping Cart</Span>
 						<Collapsible.Indicator
 							_open={{ transform: 'rotate(180deg)' }}
 						>
@@ -51,7 +50,15 @@ export const CheckoutShoppingCart = (props: Props) => {
 						m={-5}
 						p={5}
 					>
-						<ShoppingCartContents />
+						{shoppingCart.items.map((item, index) => (
+							<ShoppingCartCard
+								key={index}
+								item={item}
+								hideButtons
+								minW={250}
+								w={300}
+							/>
+						))}
 					</HStack>
 				</Collapsible.Content>
 			</Collapsible.Root>
@@ -113,5 +120,5 @@ export const CheckoutShoppingCart = (props: Props) => {
 		);
 	}
 
-	return <ShoppingCartContents />;
+	return null;
 };

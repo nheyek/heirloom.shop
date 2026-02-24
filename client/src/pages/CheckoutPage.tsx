@@ -82,7 +82,7 @@ export const CheckoutPage = () => {
 	return (
 		<Box
 			maxWidth={{ lg: 1000 }}
-			mt={6}
+			mt={{ base: 4, md: 8 }}
 			mx="auto"
 			px={4}
 		>
@@ -95,25 +95,27 @@ export const CheckoutPage = () => {
 					<Stack gap={6}>
 						<CheckoutShippingForm />
 						{layout === Layout.MULTI_COLUMN && (
-							<Stack gap={3}>
-								<CheckoutHeading
-									Icon={() => (
-										<FaCreditCard size={24} />
-									)}
+							<>
+								<Stack gap={3}>
+									<CheckoutHeading
+										Icon={() => (
+											<FaCreditCard size={24} />
+										)}
+									>
+										Payment
+									</CheckoutHeading>
+									<CheckoutPaymentForm />
+								</Stack>
+								<Button
+									size="xl"
+									mb={10}
+									fontSize={22}
 								>
-									Payment
-								</CheckoutHeading>
-								<CheckoutPaymentForm />
-							</Stack>
+									<FaCheckCircle />
+									Place Order
+								</Button>
+							</>
 						)}
-						<Button
-							size="xl"
-							fontSize={24}
-							mb={10}
-						>
-							<FaCheckCircle />
-							Confirm Order
-						</Button>
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>

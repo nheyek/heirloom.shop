@@ -3,5 +3,5 @@ import { ListingVariationData } from './ListingVariationData';
 
 export type ListingDataForCart = ListingCardData & {
 	variations: ListingVariationData[];
-	shippingPrice: number | null;
+	shippingPrice: number;
 };

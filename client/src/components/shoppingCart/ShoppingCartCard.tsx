@@ -2,6 +2,7 @@ import {
 	Badge,
 	Box,
 	Card,
+	CardRootProps,
 	Flex,
 	Group,
 	Heading,
@@ -31,11 +32,10 @@ import { MultiImage } from '../imageDisplay/MultiImage';
 type Props = {
 	item: ShoppingCartItem;
 	onNavigate?: () => void;
-	minWidth?: number;
 	hideButtons?: boolean;
 };
 
-export const ShoppingCartCard = (props: Props) => {
+export const ShoppingCartCard = (props: Props & CardRootProps) => {
 	const shoppingCart = useShoppingCart();
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
 	const itemPrice = calculateItemPrice(props.item);
@@ -43,7 +43,7 @@ export const ShoppingCartCard = (props: Props) => {
 	return (
 		<Card.Root
 			variant="elevated"
-			minWidth={props.minWidth || 300}
+			{...props}
 		>
 			<Box position="relative">
 				<MultiImage
@@ -208,7 +208,7 @@ export const ShoppingCartCard = (props: Props) => {
 						MdLocalShipping,
 						<>
 							{props.item.listingData.shippingPrice ||
-								'Free'}
+								'$0.00'}
 						</>,
 					)}
 				</Flex>

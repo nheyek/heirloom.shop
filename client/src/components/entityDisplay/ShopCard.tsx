@@ -65,14 +65,14 @@ export const ShopCard = (props: Props) => {
 						iconCode={
 							props.categoryIcon as CategoryIconCode | null
 						}
-						size={20}
+						size={21}
 					/>
 					<Text truncate>{props.classification}</Text>
 					<CountryFlagIcon
 						countryCode={
 							props.countryCode as CountryCode | null
 						}
-						size={20}
+						size={21}
 					/>
 					<Text truncate>{props.location}</Text>
 				</SimpleGrid>
