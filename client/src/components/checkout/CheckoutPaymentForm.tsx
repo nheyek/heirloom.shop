@@ -30,6 +30,8 @@ export const _CheckoutPaymentForm = () => {
 
 export const CheckoutPaymentForm = () => {
 	const clientSecret = useRef<string | null>(null);
+	const [isLoaded, setIsLoaded] = useState<boolean>(false);
+
 	const { postPublicResource } = useApi();
 	const [gray100, gray400] = useToken('colors', [
 		'gray.100',
@@ -45,6 +47,7 @@ export const CheckoutPaymentForm = () => {
 		);
 		if (!intentResponse.error) {
 			clientSecret.current = intentResponse.data.clientSecret;
+			setIsLoaded(true);
 		}
 	};
 
@@ -52,7 +55,7 @@ export const CheckoutPaymentForm = () => {
 		loadStripe();
 	}, []);
 
-	return clientSecret.current ? (
+	return isLoaded && clientSecret.current ? (
 		<Elements
 			stripe={stripePromise}
 			options={{
