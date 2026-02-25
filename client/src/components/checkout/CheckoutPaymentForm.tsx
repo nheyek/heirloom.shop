@@ -1,4 +1,10 @@
-import { Skeleton, useToken } from '@chakra-ui/react';
+import {
+	GridItem,
+	Presence,
+	SimpleGrid,
+	Skeleton,
+	useToken,
+} from '@chakra-ui/react';
 import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useRef, useState } from 'react';
@@ -15,16 +21,48 @@ const stripePromise = loadStripe(
 	},
 );
 
+const FormSkeletonRow = () => <Skeleton height="53px" />;
+
+const FormSkeleton = () => (
+	<SimpleGrid
+		columns={2}
+		gap={1.5}
+	>
+		<GridItem colSpan={2}>
+			<FormSkeletonRow />
+		</GridItem>
+		<GridItem colSpan={1}>
+			<FormSkeletonRow />
+		</GridItem>
+		<GridItem colSpan={1}>
+			<FormSkeletonRow />
+		</GridItem>
+		<GridItem colSpan={1}>
+			<FormSkeletonRow />
+		</GridItem>
+		<GridItem colSpan={1}>
+			<FormSkeletonRow />
+		</GridItem>
+	</SimpleGrid>
+);
+
 export const _CheckoutPaymentForm = () => {
 	const [ready, setReady] = useState<boolean>(false);
 
 	return (
-		<Skeleton loading={!ready}>
-			<PaymentElement
-				options={{ layout: 'tabs' }}
-				onReady={() => setTimeout(() => setReady(true), 1000)}
-			/>
-		</Skeleton>
+		<>
+			<Presence present={!ready}>
+				<FormSkeleton />
+			</Presence>
+			<Presence present={ready}>
+				<PaymentElement
+					options={{ layout: 'tabs' }}
+					onReady={() => {
+						setReady(true);
+					}}
+				/>
+			</Presence>
+		</>
 	);
 };
 
@@ -74,11 +112,11 @@ export const CheckoutPaymentForm = (props: Props) => {
 				],
 				appearance: {
 					labels: 'floating',
-					variables: { spacingUnit: '3px' },
+					variables: { spacingUnit: '4px' },
 					rules: {
 						'.Input': {
 							fontSize: '16px',
-							borderRadius: '3px',
+							borderRadius: '5px',
 							boxShadow: 'none',
 							backgroundColor: props.invertColors
 								? 'transparent'
@@ -115,5 +153,7 @@ export const CheckoutPaymentForm = (props: Props) => {
 		>
 			<_CheckoutPaymentForm />
 		</Elements>
-	) : null;
+	) : (
+		<FormSkeleton />
+	);
 };

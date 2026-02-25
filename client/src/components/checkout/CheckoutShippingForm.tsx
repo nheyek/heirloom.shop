@@ -134,7 +134,7 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={2}>
+				<HStack gap={3}>
 					<Field.Root>
 						<FormInput
 							placeholder="First name"
@@ -242,7 +242,7 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={2}>
+				<HStack gap={3}>
 					<Field.Root>
 						<FormInput
 							placeholder="City"
@@ -310,7 +310,7 @@ const FormInput = (props: InputProps) => (
 		fontSize={16}
 		p={3}
 		height={12}
-		borderRadius={3}
+		borderRadius={5}
 		{...props}
 	/>
 );

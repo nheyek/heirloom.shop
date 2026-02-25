@@ -89,7 +89,7 @@ export const CheckoutPage = () => {
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
 				gapX={{ base: 4, lg: 8 }}
-				gapY={6}
+				gapY={5}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
 					<Stack gap={6}>
@@ -122,7 +122,7 @@ export const CheckoutPage = () => {
 					{layout === Layout.MULTI_COLUMN &&
 						renderShoppingCartSection()}
 					{layout === Layout.SINGLE_COLUMN && (
-						<Stack gap={3}>
+						<Stack gap={4}>
 							<CheckoutShoppingCart layout={layout} />
 							<Stack
 								gap={5}
@@ -170,9 +170,9 @@ export const CheckoutPage = () => {
 
 								<CheckoutPaymentForm invertColors />
 								<Button
-									size="xl"
+									size="2xl"
 									width="full"
-									fontSize={22}
+									fontSize={24}
 									variant="outline"
 									color="white"
 									border="2px solid white"
