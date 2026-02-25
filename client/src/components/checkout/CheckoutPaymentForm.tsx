@@ -28,14 +28,20 @@ export const _CheckoutPaymentForm = () => {
 	);
 };
 
-export const CheckoutPaymentForm = () => {
+type Props = {
+	invertColors?: boolean;
+};
+
+export const CheckoutPaymentForm = (props: Props) => {
 	const clientSecret = useRef<string | null>(null);
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	const { postPublicResource } = useApi();
-	const [gray100, gray400] = useToken('colors', [
+	const [gray100, gray300, gray400, gray500] = useToken('colors', [
 		'gray.100',
+		'gray.300',
 		'gray.400',
+		'gray.500',
 	]);
 
 	const loadStripe = async () => {
@@ -72,22 +78,36 @@ export const CheckoutPaymentForm = () => {
 					rules: {
 						'.Input': {
 							fontSize: '16px',
-							border: '0',
 							borderRadius: '3px',
 							boxShadow: 'none',
-							backgroundColor: gray100,
+							backgroundColor: props.invertColors
+								? 'transparent'
+								: gray100,
+							color: props.invertColors
+								? 'white'
+								: 'black',
+							border: props.invertColors
+								? '1px solid white'
+								: 'none',
 							paddingTop: '10px',
 							paddingBottom: '10px',
 							paddingLeft: '12px',
-							fontWetight: 'bold',
+							fontWeight: '500',
 						},
 						'.Input:focus': {
-							outline: `1px solid ${gray400}`,
+							outline: `1px solid ${props.invertColors ? 'white' : gray400}`,
 							boxShadow: 'none',
-							border: '0',
+							border: props.invertColors
+								? '1px solid white'
+								: '0',
 						},
 						'.Error': {
 							fontSize: '16px',
+						},
+						'.Label': {
+							color: props.invertColors
+								? gray300
+								: gray500,
 						},
 					},
 				},

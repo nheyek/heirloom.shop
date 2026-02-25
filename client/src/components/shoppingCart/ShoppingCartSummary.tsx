@@ -17,7 +17,7 @@ export const ShoppingCartSummary = (props: Props) => {
 		>
 			{[
 				{
-					label: 'Item Total',
+					label: 'Subtotal',
 					value: `$${shoppingCart.itemPriceTotal.toLocaleString()}.00`,
 				},
 				{

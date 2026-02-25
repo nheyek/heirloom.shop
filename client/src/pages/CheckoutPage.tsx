@@ -25,11 +25,11 @@ export const CheckoutPage = () => {
 		base: Layout.SINGLE_COLUMN,
 		md: Layout.MULTI_COLUMN,
 	});
+	const invertColors = layout === Layout.SINGLE_COLUMN;
+
 	const navigate = useNavigate();
 
 	const renderShoppingCartSection = () => {
-		const invertColors = layout === Layout.SINGLE_COLUMN;
-
 		return (
 			<Stack gap={4}>
 				<CheckoutShoppingCart layout={layout} />
@@ -119,7 +119,70 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
-					{renderShoppingCartSection()}
+					{layout === Layout.MULTI_COLUMN &&
+						renderShoppingCartSection()}
+					{layout === Layout.SINGLE_COLUMN && (
+						<Stack gap={2}>
+							<CheckoutShoppingCart layout={layout} />
+							<Stack
+								gap={5}
+								background={
+									invertColors ? 'brand' : 'none'
+								}
+								p={
+									layout === Layout.SINGLE_COLUMN
+										? 5
+										: undefined
+								}
+								mx={
+									layout === Layout.SINGLE_COLUMN
+										? -5
+										: undefined
+								}
+							>
+								<Stack gap={2}>
+									<ShoppingCartSummary
+										textColor={
+											invertColors
+												? 'white'
+												: 'black'
+										}
+										pendingLineItemMessage="Enter shipping address"
+									/>
+
+									<Heading
+										size="3xl"
+										fontWeight="semibold"
+										color={
+											invertColors
+												? 'white'
+												: 'black'
+										}
+									>
+										$
+										{(
+											shoppingCart.itemPriceTotal +
+											shoppingCart.shippingTotal
+										).toLocaleString()}
+										.00
+									</Heading>
+								</Stack>
+
+								<CheckoutPaymentForm invertColors />
+								<Button
+									size="xl"
+									width="full"
+									fontSize={22}
+									variant="outline"
+									color="white"
+									border="2px solid white"
+								>
+									<FaCheckCircle />
+									Place Order
+								</Button>
+							</Stack>
+						</Stack>
+					)}
 				</GridItem>
 			</SimpleGrid>
 		</Box>
