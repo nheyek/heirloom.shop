@@ -122,7 +122,7 @@ export const CheckoutPage = () => {
 					{layout === Layout.MULTI_COLUMN &&
 						renderShoppingCartSection()}
 					{layout === Layout.SINGLE_COLUMN && (
-						<Stack gap={2}>
+						<Stack gap={3}>
 							<CheckoutShoppingCart layout={layout} />
 							<Stack
 								gap={5}
