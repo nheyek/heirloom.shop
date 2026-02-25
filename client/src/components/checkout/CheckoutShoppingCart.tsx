@@ -31,7 +31,12 @@ export const CheckoutShoppingCart = (props: Props) => {
 				>
 					<HStack gap={3}>
 						<FaShoppingCart size={22} />
-						<Span>Shopping Cart</Span>
+						<Span
+							fontSize={20}
+							marginTop={0.5}
+						>
+							Shopping Cart
+						</Span>
 						<Collapsible.Indicator
 							_open={{ transform: 'rotate(180deg)' }}
 						>
@@ -55,8 +60,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 								key={index}
 								item={item}
 								hideButtons
-								minW={250}
-								w={300}
+								cardProps={{ minW: 250, maxW: 300 }}
 							/>
 						))}
 					</HStack>
@@ -110,7 +114,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 						>
 							<ShoppingCartCard
 								item={item}
-								minWidth={250}
+								cardProps={{ minW: 250 }}
 								hideButtons
 							/>
 						</Carousel.Item>

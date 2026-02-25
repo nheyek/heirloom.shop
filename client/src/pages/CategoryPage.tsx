@@ -1,6 +1,7 @@
 import {
 	Box,
 	Breadcrumb,
+	HStack,
 	Link,
 	Skeleton,
 	Stack,
@@ -8,8 +9,12 @@ import {
 import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
-import { MdHome } from 'react-icons/md';
-import { useNavigate, useParams } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
+import {
+	Link as RouterLink,
+	useNavigate,
+	useParams,
+} from 'react-router-dom';
 import { AppError } from '../components/feedback/AppError';
 import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
@@ -106,13 +111,14 @@ export const CategoryPage = () => {
 							flexWrap="wrap"
 							rowGap={3}
 						>
-							<Breadcrumb.Item>
-								<Link
-									onClick={() => navigate('/')}
-									whiteSpace="nowrap"
-								>
-									<MdHome />
-									Home
+							<Breadcrumb.Item whiteSpace="nowrap">
+								<Link asChild>
+									<RouterLink to="/">
+										<HStack gap={3}>
+											<FaHome size={24} />
+											Home
+										</HStack>
+									</RouterLink>
 								</Link>
 							</Breadcrumb.Item>
 							<Breadcrumb.Separator />
@@ -139,7 +145,7 @@ export const CategoryPage = () => {
 
 							<Breadcrumb.Item>
 								<Breadcrumb.CurrentLink
-									fontWeight={600}
+									fontWeight={500}
 									whiteSpace="nowrap"
 								>
 									{category?.title}

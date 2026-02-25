@@ -6,6 +6,7 @@ import {
 	Flex,
 	Group,
 	Heading,
+	HStack,
 	IconButton,
 	Link,
 	Span,
@@ -15,8 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { JSX } from 'react';
-import { IconType } from 'react-icons';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
@@ -34,9 +33,10 @@ type Props = {
 	item: ShoppingCartItem;
 	onNavigate?: () => void;
 	hideButtons?: boolean;
+	cardProps?: CardRootProps;
 };
 
-export const ShoppingCartCard = (props: Props & CardRootProps) => {
+export const ShoppingCartCard = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
 	const itemPrice = calculateItemPrice(props.item);
@@ -44,7 +44,7 @@ export const ShoppingCartCard = (props: Props & CardRootProps) => {
 	return (
 		<Card.Root
 			variant="elevated"
-			{...props}
+			{...props.cardProps}
 		>
 			<Box position="relative">
 				<MultiImage
@@ -185,6 +185,8 @@ export const ShoppingCartCard = (props: Props & CardRootProps) => {
 								<Badge
 									size="lg"
 									key={variationId}
+									fontFamily={FONT_DISPLAY_SANS}
+									fontSize={18}
 								>
 									{variation.name}: {option.name}
 								</Badge>
@@ -196,45 +198,33 @@ export const ShoppingCartCard = (props: Props & CardRootProps) => {
 				<Flex
 					alignItems="center"
 					justifyContent="space-between"
+					fontFamily={FONT_DISPLAY_SANS}
+					fontSize={22}
+					fontWeight={500}
+					lineHeight={1}
 				>
-					{renderFooterText(
-						IoMdPricetag,
-						<>
+					<HStack gap={1.5}>
+						<IoMdPricetag size={24} />
+						<Span mb="3px">
 							${itemPrice.toLocaleString()}.00{' '}
 							{props.item.quantity > 1 &&
 								`(${props.item.quantity})`}
-						</>,
-					)}
-					{renderFooterText(
-						MdLocalShipping,
-						<>
-							{props.item.listingData.shippingPrice || (
-								<Span fontSize={20}>Free</Span>
-							)}
-						</>,
-					)}
+						</Span>
+					</HStack>
+					<HStack gap={2}>
+						<MdLocalShipping size={24} />
+						{props.item.listingData.shippingPrice ? (
+							<Span mb="3px">
+								$
+								{props.item.listingData.shippingPrice.toLocaleString()}
+								.00
+							</Span>
+						) : (
+							<Span fontSize={20}>Free</Span>
+						)}
+					</HStack>
 				</Flex>
 			</Card.Body>
 		</Card.Root>
 	);
 };
-
-const renderFooterText = (Icon: IconType, text: JSX.Element) => (
-	<Flex
-		direction="row"
-		alignItems="center"
-		gap={1.5}
-	>
-		<Icon size={26} />
-
-		<Text
-			fontSize={22}
-			fontWeight={500}
-			fontFamily={FONT_DISPLAY_SANS}
-			mb="2px"
-			lineHeight={1}
-		>
-			{text}
-		</Text>
-	</Flex>
-);

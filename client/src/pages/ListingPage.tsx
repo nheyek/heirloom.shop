@@ -287,7 +287,7 @@ export const ListingPage = () => {
 			{layout === Layout.MULTI_COLUMN && (
 				<Box
 					mx={5}
-					mt={10}
+					mt={5}
 				>
 					<ImageCollage
 						urls={imageUrls}
@@ -304,12 +304,11 @@ export const ListingPage = () => {
 			)}
 			<Box
 				m={5}
-				mt={10}
 				maxWidth={maxWidth}
 			>
 				<SimpleGrid
 					columns={{ base: 1, md: 2, lg: 5 }}
-					gap={10}
+					gap={layout === Layout.SINGLE_COLUMN ? 5 : 10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={4}>

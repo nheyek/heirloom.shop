@@ -1,7 +1,7 @@
 import { Skeleton, useToken } from '@chakra-ui/react';
 import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useApi from '../../hooks/useApi';
 
 const stripePromise = loadStripe(
@@ -29,7 +29,7 @@ export const _CheckoutPaymentForm = () => {
 };
 
 export const CheckoutPaymentForm = () => {
-	const [clientSecret, setClientSecret] = useState<string>('');
+	const clientSecret = useRef<string | null>(null);
 	const { postPublicResource } = useApi();
 	const [gray100, gray400] = useToken('colors', [
 		'gray.100',
@@ -44,7 +44,7 @@ export const CheckoutPaymentForm = () => {
 			},
 		);
 		if (!intentResponse.error) {
-			setClientSecret((await intentResponse).data.clientSecret);
+			clientSecret.current = intentResponse.data.clientSecret;
 		}
 	};
 
@@ -52,12 +52,12 @@ export const CheckoutPaymentForm = () => {
 		loadStripe();
 	}, []);
 
-	return clientSecret ? (
+	return clientSecret.current ? (
 		<Elements
 			stripe={stripePromise}
 			options={{
 				loader: 'never',
-				clientSecret: clientSecret,
+				clientSecret: clientSecret.current,
 				fonts: [
 					{
 						cssSrc: 'https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400&display=swap',

@@ -88,8 +88,8 @@ export const CheckoutPage = () => {
 		>
 			<SimpleGrid
 				columns={{ base: 1, md: 5, lg: 3 }}
-				gapX={{ base: 5, lg: 10 }}
-				gapY={5}
+				gapX={{ base: 4, lg: 8 }}
+				gapY={6}
 			>
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
 					<Stack gap={6}>
