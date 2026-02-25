@@ -1,13 +1,13 @@
 import {
-	GridItem,
 	Presence,
-	SimpleGrid,
 	Skeleton,
+	Stack,
 	useToken,
 } from '@chakra-ui/react';
 import { Elements, PaymentElement } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useEffect, useRef, useState } from 'react';
+import { Layout } from '../../constants';
 import useApi from '../../hooks/useApi';
 
 const stripePromise = loadStripe(
@@ -21,29 +21,14 @@ const stripePromise = loadStripe(
 	},
 );
 
-const FormSkeletonRow = () => <Skeleton height="53px" />;
+const FormSkeletonRow = () => <Skeleton height="50px" />;
 
 const FormSkeleton = () => (
-	<SimpleGrid
-		columns={2}
-		gap={1.5}
-	>
-		<GridItem colSpan={2}>
-			<FormSkeletonRow />
-		</GridItem>
-		<GridItem colSpan={1}>
-			<FormSkeletonRow />
-		</GridItem>
-		<GridItem colSpan={1}>
-			<FormSkeletonRow />
-		</GridItem>
-		<GridItem colSpan={1}>
-			<FormSkeletonRow />
-		</GridItem>
-		<GridItem colSpan={1}>
-			<FormSkeletonRow />
-		</GridItem>
-	</SimpleGrid>
+	<Stack gap={3}>
+		<FormSkeletonRow />
+		<FormSkeletonRow />
+		<FormSkeletonRow />
+	</Stack>
 );
 
 export const _CheckoutPaymentForm = () => {
@@ -67,7 +52,7 @@ export const _CheckoutPaymentForm = () => {
 };
 
 type Props = {
-	invertColors?: boolean;
+	layout: Layout;
 };
 
 export const CheckoutPaymentForm = (props: Props) => {
@@ -99,11 +84,12 @@ export const CheckoutPaymentForm = (props: Props) => {
 		loadStripe();
 	}, []);
 
+	const useDarkMode = props.layout === Layout.COMPACT;
+
 	return isLoaded && clientSecret.current ? (
 		<Elements
 			stripe={stripePromise}
 			options={{
-				loader: 'never',
 				clientSecret: clientSecret.current,
 				fonts: [
 					{
@@ -118,13 +104,11 @@ export const CheckoutPaymentForm = (props: Props) => {
 							fontSize: '16px',
 							borderRadius: '5px',
 							boxShadow: 'none',
-							backgroundColor: props.invertColors
+							backgroundColor: useDarkMode
 								? 'transparent'
 								: gray100,
-							color: props.invertColors
-								? 'white'
-								: 'black',
-							border: props.invertColors
+							color: useDarkMode ? 'white' : 'black',
+							border: useDarkMode
 								? '1px solid white'
 								: 'none',
 							paddingTop: '10px',
@@ -133,9 +117,9 @@ export const CheckoutPaymentForm = (props: Props) => {
 							fontWeight: '500',
 						},
 						'.Input:focus': {
-							outline: `1px solid ${props.invertColors ? 'white' : gray400}`,
+							outline: `1px solid ${useDarkMode ? 'white' : gray400}`,
 							boxShadow: 'none',
-							border: props.invertColors
+							border: useDarkMode
 								? '1px solid white'
 								: '0',
 						},
@@ -143,9 +127,7 @@ export const CheckoutPaymentForm = (props: Props) => {
 							fontSize: '16px',
 						},
 						'.Label': {
-							color: props.invertColors
-								? gray300
-								: gray500,
+							color: useDarkMode ? gray300 : gray500,
 						},
 					},
 				},

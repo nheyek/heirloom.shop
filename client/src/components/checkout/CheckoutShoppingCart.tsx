@@ -20,7 +20,7 @@ type Props = {
 export const CheckoutShoppingCart = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 
-	if (props.layout === Layout.SINGLE_COLUMN) {
+	if (props.layout === Layout.COMPACT) {
 		return (
 			<Collapsible.Root>
 				<Collapsible.Trigger
@@ -69,7 +69,7 @@ export const CheckoutShoppingCart = (props: Props) => {
 		);
 	}
 
-	if (props.layout === Layout.MULTI_COLUMN) {
+	if (props.layout === Layout.WIDE) {
 		return (
 			<Carousel.Root
 				slideCount={shoppingCart.items.length}

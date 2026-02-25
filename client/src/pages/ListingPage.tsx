@@ -60,8 +60,8 @@ export const ListingPage = () => {
 	const navigate = useNavigate();
 
 	const layout = useBreakpointValue({
-		base: Layout.SINGLE_COLUMN,
-		md: Layout.MULTI_COLUMN,
+		base: Layout.COMPACT,
+		md: Layout.WIDE,
 	});
 
 	const maxWidth = 1100;
@@ -284,7 +284,7 @@ export const ListingPage = () => {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 1, ease: 'easeInOut' }}
 		>
-			{layout === Layout.MULTI_COLUMN && (
+			{layout === Layout.WIDE && (
 				<Box
 					mx={5}
 					mt={5}
@@ -296,7 +296,7 @@ export const ListingPage = () => {
 					/>
 				</Box>
 			)}
-			{layout === Layout.SINGLE_COLUMN && (
+			{layout === Layout.COMPACT && (
 				<MultiImage
 					urls={imageUrls}
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
@@ -308,7 +308,7 @@ export const ListingPage = () => {
 			>
 				<SimpleGrid
 					columns={{ base: 1, md: 2, lg: 5 }}
-					gap={layout === Layout.SINGLE_COLUMN ? 5 : 10}
+					gap={layout === Layout.COMPACT ? 5 : 10}
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={4}>
@@ -363,7 +363,7 @@ export const ListingPage = () => {
 								)}
 							</Stack>
 
-							{layout === Layout.MULTI_COLUMN &&
+							{layout === Layout.WIDE &&
 								renderFullDescription()}
 						</Stack>
 					</GridItem>
@@ -549,7 +549,7 @@ export const ListingPage = () => {
 							</Stack>
 						</Stack>
 					</GridItem>
-					{layout === Layout.SINGLE_COLUMN &&
+					{layout === Layout.COMPACT &&
 						renderFullDescription()}
 				</SimpleGrid>
 			</Box>
@@ -616,7 +616,7 @@ const LoadingSkeleton = (props: {
 		</Stack>
 	);
 
-	if (props.layout === Layout.SINGLE_COLUMN) {
+	if (props.layout === Layout.COMPACT) {
 		return (
 			<Stack gap={10}>
 				<Skeleton

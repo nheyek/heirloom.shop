@@ -22,10 +22,10 @@ import { useShoppingCart } from '../providers/ShoppingCartProvider';
 export const CheckoutPage = () => {
 	const shoppingCart = useShoppingCart();
 	const layout = useBreakpointValue({
-		base: Layout.SINGLE_COLUMN,
-		md: Layout.MULTI_COLUMN,
+		base: Layout.COMPACT,
+		md: Layout.WIDE,
 	});
-	const invertColors = layout === Layout.SINGLE_COLUMN;
+	const invertColors = layout === Layout.COMPACT;
 
 	const navigate = useNavigate();
 
@@ -36,16 +36,8 @@ export const CheckoutPage = () => {
 				<Stack
 					gap={2}
 					background={invertColors ? 'brand' : 'none'}
-					p={
-						layout === Layout.SINGLE_COLUMN
-							? 5
-							: undefined
-					}
-					mx={
-						layout === Layout.SINGLE_COLUMN
-							? -5
-							: undefined
-					}
+					p={layout === Layout.COMPACT ? 5 : undefined}
+					mx={layout === Layout.COMPACT ? -5 : undefined}
 				>
 					<ShoppingCartSummary
 						textColor={invertColors ? 'white' : 'black'}
@@ -94,7 +86,7 @@ export const CheckoutPage = () => {
 				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
 					<Stack gap={6}>
 						<CheckoutShippingForm />
-						{layout === Layout.MULTI_COLUMN && (
+						{layout === Layout.WIDE && (
 							<>
 								<Stack gap={3}>
 									<CheckoutHeading
@@ -104,7 +96,9 @@ export const CheckoutPage = () => {
 									>
 										Payment
 									</CheckoutHeading>
-									<CheckoutPaymentForm />
+									<CheckoutPaymentForm
+										layout={Layout.WIDE}
+									/>
 								</Stack>
 								<Button
 									size="xl"
@@ -119,9 +113,9 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
-					{layout === Layout.MULTI_COLUMN &&
+					{layout === Layout.WIDE &&
 						renderShoppingCartSection()}
-					{layout === Layout.SINGLE_COLUMN && (
+					{layout === Layout.COMPACT && (
 						<Stack gap={4}>
 							<CheckoutShoppingCart layout={layout} />
 							<Stack
@@ -130,12 +124,12 @@ export const CheckoutPage = () => {
 									invertColors ? 'brand' : 'none'
 								}
 								p={
-									layout === Layout.SINGLE_COLUMN
+									layout === Layout.COMPACT
 										? 5
 										: undefined
 								}
 								mx={
-									layout === Layout.SINGLE_COLUMN
+									layout === Layout.COMPACT
 										? -5
 										: undefined
 								}
@@ -168,7 +162,9 @@ export const CheckoutPage = () => {
 									</Heading>
 								</Stack>
 
-								<CheckoutPaymentForm invertColors />
+								<CheckoutPaymentForm
+									layout={Layout.COMPACT}
+								/>
 								<Button
 									size="2xl"
 									width="full"
