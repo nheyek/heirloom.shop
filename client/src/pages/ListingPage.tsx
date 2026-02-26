@@ -61,7 +61,7 @@ export const ListingPage = () => {
 
 	const layout = useBreakpointValue({
 		base: Layout.COMPACT,
-		md: Layout.WIDE,
+		md: Layout.STANDARD,
 	});
 
 	const maxWidth = 1100;
@@ -284,7 +284,7 @@ export const ListingPage = () => {
 			animate={{ opacity: 1 }}
 			transition={{ duration: 1, ease: 'easeInOut' }}
 		>
-			{layout === Layout.WIDE && (
+			{layout === Layout.STANDARD && (
 				<Box
 					mx={5}
 					mt={5}
@@ -363,7 +363,7 @@ export const ListingPage = () => {
 								)}
 							</Stack>
 
-							{layout === Layout.WIDE &&
+							{layout === Layout.STANDARD &&
 								renderFullDescription()}
 						</Stack>
 					</GridItem>

@@ -98,7 +98,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							background="brand"
 						>
 							<ShoppingCartSummary
-								pendingLineItemMessage="Calculated at checkout"
+								pendingMessage="Calculated at checkout"
 								textColor="white"
 							/>
 

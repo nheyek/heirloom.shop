@@ -3,7 +3,7 @@ import { JSX } from 'react';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 
 type Props = {
-	pendingLineItemMessage: JSX.Element | string;
+	pendingMessage: JSX.Element | string;
 	textColor?: string;
 };
 
@@ -28,7 +28,7 @@ export const ShoppingCartSummary = (props: Props) => {
 				},
 				{
 					label: 'Tax',
-					value: props.pendingLineItemMessage,
+					value: props.pendingMessage,
 				},
 			].map(({ label, value }) => (
 				<DataList.Item

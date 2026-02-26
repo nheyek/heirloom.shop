@@ -14,52 +14,15 @@ import { CheckoutHeading } from '../components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '../components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '../components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '../components/checkout/CheckoutShoppingCart';
+import { CheckoutShoppingCartCompact } from '../components/checkout/CheckoutShoppingCartCompact';
 import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 
 export const CheckoutPage = () => {
-	const shoppingCart = useShoppingCart();
-	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.WIDE,
-	});
-	const invertColors = layout === Layout.COMPACT;
-
 	const navigate = useNavigate();
-
-	const renderShoppingCartSection = () => {
-		return (
-			<Stack gap={4}>
-				<CheckoutShoppingCart layout={layout} />
-				<Stack
-					gap={2}
-					background={invertColors ? 'brand' : 'none'}
-					p={layout === Layout.COMPACT ? 5 : undefined}
-					mx={layout === Layout.COMPACT ? -5 : undefined}
-				>
-					<ShoppingCartSummary
-						textColor={invertColors ? 'white' : 'black'}
-						pendingLineItemMessage="Enter shipping address"
-					/>
-
-					<Heading
-						size="3xl"
-						fontWeight="semibold"
-						color={invertColors ? 'white' : 'black'}
-					>
-						$
-						{(
-							shoppingCart.itemPriceTotal +
-							shoppingCart.shippingTotal
-						).toLocaleString()}
-						.00
-					</Heading>
-				</Stack>
-			</Stack>
-		);
-	};
+	const shoppingCart = useShoppingCart();
 
 	if (shoppingCart.itemQuantityTotal === 0) {
 		return (
@@ -71,114 +34,102 @@ export const CheckoutPage = () => {
 		);
 	}
 
+	const layout = useBreakpointValue({
+		base: Layout.COMPACT,
+		md: Layout.STANDARD,
+	});
+
+	if (layout === Layout.COMPACT) {
+		return (
+			<Stack gap={0}>
+				<Stack
+					p={5}
+					gap={5}
+				>
+					<CheckoutShippingForm />
+					<CheckoutShoppingCartCompact />
+				</Stack>
+
+				<Stack
+					p={5}
+					gap={5}
+					background="brand"
+				>
+					<Stack gap={2}>
+						<ShoppingCartSummary
+							textColor={'white'}
+							pendingMessage="Enter shipping address"
+						/>
+
+						<Heading
+							size="3xl"
+							fontWeight="semibold"
+							color="white"
+						>
+							$
+							{(
+								shoppingCart.itemPriceTotal +
+								shoppingCart.shippingTotal
+							).toLocaleString()}
+							.00
+						</Heading>
+					</Stack>
+					<CheckoutPaymentForm layout={Layout.COMPACT} />
+					<Button
+						size="2xl"
+						width="full"
+						fontSize={24}
+						variant="outline"
+						color="white"
+						border="2px solid white"
+					>
+						<FaCheckCircle />
+						Place Order
+					</Button>
+				</Stack>
+			</Stack>
+		);
+	}
+
 	return (
 		<Box
 			maxWidth={{ lg: 1000 }}
-			mt={{ base: 4, md: 8 }}
-			mx="auto"
+			mt={8}
 			px={4}
+			mx="auto"
 		>
 			<SimpleGrid
-				columns={{ base: 1, md: 5, lg: 3 }}
-				gapX={{ base: 4, lg: 8 }}
+				columns={{ md: 5, lg: 3 }}
+				gapX={10}
 				gapY={5}
 			>
-				<GridItem colSpan={{ base: 1, md: 3, lg: 2 }}>
+				<GridItem colSpan={{ md: 3, lg: 2 }}>
 					<Stack gap={6}>
 						<CheckoutShippingForm />
-						{layout === Layout.WIDE && (
-							<>
-								<Stack gap={3}>
-									<CheckoutHeading
-										Icon={() => (
-											<FaCreditCard size={24} />
-										)}
-									>
-										Payment
-									</CheckoutHeading>
-									<CheckoutPaymentForm
-										layout={Layout.WIDE}
-									/>
-								</Stack>
-								<Button
-									size="xl"
-									mb={10}
-									fontSize={22}
-								>
-									<FaCheckCircle />
-									Place Order
-								</Button>
-							</>
-						)}
+						<Stack gap={3}>
+							<CheckoutHeading
+								Icon={() => (
+									<FaCreditCard size={24} />
+								)}
+							>
+								Payment
+							</CheckoutHeading>
+							<CheckoutPaymentForm
+								layout={Layout.STANDARD}
+							/>
+						</Stack>
+						<Button
+							size="xl"
+							mb={10}
+							fontSize={22}
+						>
+							<FaCheckCircle />
+							Place Order
+						</Button>
 					</Stack>
 				</GridItem>
-				<GridItem colSpan={{ base: 1, md: 2, lg: 1 }}>
-					{layout === Layout.WIDE &&
-						renderShoppingCartSection()}
-					{layout === Layout.COMPACT && (
-						<Stack gap={4}>
-							<CheckoutShoppingCart layout={layout} />
-							<Stack
-								gap={5}
-								background={
-									invertColors ? 'brand' : 'none'
-								}
-								p={
-									layout === Layout.COMPACT
-										? 5
-										: undefined
-								}
-								mx={
-									layout === Layout.COMPACT
-										? -5
-										: undefined
-								}
-							>
-								<Stack gap={2}>
-									<ShoppingCartSummary
-										textColor={
-											invertColors
-												? 'white'
-												: 'black'
-										}
-										pendingLineItemMessage="Enter shipping address"
-									/>
-
-									<Heading
-										size="3xl"
-										fontWeight="semibold"
-										color={
-											invertColors
-												? 'white'
-												: 'black'
-										}
-									>
-										$
-										{(
-											shoppingCart.itemPriceTotal +
-											shoppingCart.shippingTotal
-										).toLocaleString()}
-										.00
-									</Heading>
-								</Stack>
-
-								<CheckoutPaymentForm
-									layout={Layout.COMPACT}
-								/>
-								<Button
-									size="2xl"
-									width="full"
-									fontSize={24}
-									variant="outline"
-									color="white"
-									border="2px solid white"
-								>
-									<FaCheckCircle />
-									Place Order
-								</Button>
-							</Stack>
-						</Stack>
-					)}
+				<GridItem colSpan={{ md: 2, lg: 1 }}>
+					<CheckoutShoppingCart />
 				</GridItem>
 			</SimpleGrid>
 		</Box>

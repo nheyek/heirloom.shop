@@ -2,7 +2,7 @@ export const NUM_TOP_LEVEL_CATEGORIES = 4;
 
 export enum Layout {
 	COMPACT,
-	WIDE,
+	STANDARD,
 }
 
 export const STANDARD_GRID_COLUMNS = {
