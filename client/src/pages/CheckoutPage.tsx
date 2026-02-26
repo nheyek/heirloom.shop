@@ -31,7 +31,13 @@ export const CheckoutPage = () => {
 
 	if (shoppingCart.itemQuantityTotal === 0) {
 		return (
-			<Box height={300}>
+			<Box
+				position="absolute"
+				top={0}
+				bottom={0}
+				left={0}
+				right={0}
+			>
 				<ShoppingCartEmptyMessage
 					onClick={() => navigate('/')}
 				/>
