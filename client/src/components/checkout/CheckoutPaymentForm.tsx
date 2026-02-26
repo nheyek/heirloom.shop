@@ -60,9 +60,9 @@ export const CheckoutPaymentForm = (props: Props) => {
 	const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
 	const { postPublicResource } = useApi();
-	const [gray100, gray300, gray400, gray500] = useToken('colors', [
+	const [gray100, gray200, gray400, gray500] = useToken('colors', [
 		'gray.100',
-		'gray.300',
+		'gray.200',
 		'gray.400',
 		'gray.500',
 	]);
@@ -127,7 +127,7 @@ export const CheckoutPaymentForm = (props: Props) => {
 							fontSize: '16px',
 						},
 						'.Label': {
-							color: useDarkMode ? gray300 : gray500,
+							color: useDarkMode ? gray200 : gray500,
 						},
 					},
 				},
