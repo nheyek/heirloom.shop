@@ -23,7 +23,7 @@ import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '../../constants';
 import useApi from '../../hooks/useApi';
 import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '../../theme';
-import { FadeInBox } from '../misc/FadeInBox';
+import { FadeInBox } from '../util/FadeInBox';
 
 export const NavbarSearch = () => {
 	const { getPublicResource } = useApi();

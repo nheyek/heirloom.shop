@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '../../constants';
-import { ListingCard } from '../entityDisplay/ListingCard';
+import { ListingCard } from '../itemDisplay/ListingCard';
 
 type Props = {
 	listings: ListingCardData[];

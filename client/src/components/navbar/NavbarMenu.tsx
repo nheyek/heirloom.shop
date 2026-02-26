@@ -11,7 +11,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '../../constants';
-import { FadeInBox } from '../misc/FadeInBox';
+import { FadeInBox } from '../util/FadeInBox';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
