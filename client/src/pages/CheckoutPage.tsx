@@ -24,6 +24,11 @@ export const CheckoutPage = () => {
 	const navigate = useNavigate();
 	const shoppingCart = useShoppingCart();
 
+	const layout = useBreakpointValue({
+		base: Layout.COMPACT,
+		md: Layout.STANDARD,
+	});
+
 	if (shoppingCart.itemQuantityTotal === 0) {
 		return (
 			<Box height={300}>
@@ -33,11 +38,6 @@ export const CheckoutPage = () => {
 			</Box>
 		);
 	}
-
-	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.STANDARD,
-	});
 
 	if (layout === Layout.COMPACT) {
 		return (
