@@ -52,7 +52,7 @@ export const CheckoutPage = () => {
 					p={5}
 					gap={5}
 				>
-					<CheckoutShippingForm />
+					<CheckoutShippingForm layout={Layout.COMPACT} />
 					<CheckoutShoppingCartCompact />
 				</Stack>
 
@@ -111,7 +111,9 @@ export const CheckoutPage = () => {
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
 					<Stack gap={6}>
-						<CheckoutShippingForm />
+						<CheckoutShippingForm
+							layout={Layout.STANDARD}
+						/>
 						<Stack gap={3}>
 							<CheckoutHeading
 								Icon={() => (

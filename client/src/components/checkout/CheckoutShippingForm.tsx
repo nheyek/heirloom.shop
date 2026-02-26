@@ -14,14 +14,14 @@ import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
 import { AddressFields } from '../../../../common/types/AddressFields';
-import { US_STATES } from '../../constants';
+import { Layout, US_STATES } from '../../constants';
 import { useUserInfo } from '../../providers/UserProvider';
 import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
 
 const LIBRARIES: 'places'[] = ['places'];
 
-export const CheckoutShippingForm = () => {
+export const CheckoutShippingForm = (props: { layout: Layout }) => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
 		libraries: LIBRARIES,
@@ -114,6 +114,97 @@ export const CheckoutShippingForm = () => {
 		);
 	};
 
+	const NameFields = () => (
+		<>
+			<Field.Root>
+				<FormInput
+					placeholder="First name"
+					name="given-name"
+					value={address.firstName}
+					onChange={(e) =>
+						setAddress((prev) => ({
+							...prev,
+							firstName: e.target.value,
+						}))
+					}
+				/>
+			</Field.Root>
+			<Field.Root>
+				<FormInput
+					placeholder="Last name"
+					name="family-name"
+					value={address.lastName}
+					onChange={(e) =>
+						setAddress((prev) => ({
+							...prev,
+							lastName: e.target.value,
+						}))
+					}
+				/>
+			</Field.Root>
+		</>
+	);
+
+	const CityStateZip = () => (
+		<>
+			<Field.Root>
+				<FormInput
+					placeholder="City"
+					name="city"
+					value={address.city}
+					onChange={(e) =>
+						setAddress((prev) => ({
+							...prev,
+							city: e.target.value,
+						}))
+					}
+				/>
+			</Field.Root>
+			<Field.Root>
+				<NativeSelect.Root
+					variant="subtle"
+					size="lg"
+				>
+					<NativeSelect.Field
+						placeholder="State"
+						height={12}
+						fontSize={16}
+						value={address.state}
+						onChange={(e) =>
+							setAddress((prev) => ({
+								...prev,
+								state: e.target.value,
+							}))
+						}
+					>
+						{US_STATES.map((s) => (
+							<option
+								key={s.value}
+								value={s.value}
+							>
+								{s.label}
+							</option>
+						))}
+					</NativeSelect.Field>
+					<NativeSelect.Indicator />
+				</NativeSelect.Root>
+			</Field.Root>
+			<Field.Root>
+				<FormInput
+					placeholder="Zip code"
+					name="postal-code"
+					value={address.zip}
+					onChange={(e) =>
+						setAddress((prev) => ({
+							...prev,
+							zip: e.target.value,
+						}))
+					}
+				/>
+			</Field.Root>
+		</>
+	);
+
 	return (
 		<Stack gap={3}>
 			<CheckoutHeading
@@ -134,34 +225,14 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={3}>
-					<Field.Root>
-						<FormInput
-							placeholder="First name"
-							name="given-name"
-							value={address.firstName}
-							onChange={(e) =>
-								setAddress((prev) => ({
-									...prev,
-									firstName: e.target.value,
-								}))
-							}
-						/>
-					</Field.Root>
-					<Field.Root>
-						<FormInput
-							placeholder="Last name"
-							name="family-name"
-							value={address.lastName}
-							onChange={(e) =>
-								setAddress((prev) => ({
-									...prev,
-									lastName: e.target.value,
-								}))
-							}
-						/>
-					</Field.Root>
-				</HStack>
+				{props.layout === Layout.COMPACT ? (
+					<NameFields />
+				) : (
+					<HStack gap={3}>
+						<NameFields />
+					</HStack>
+				)}
+
 				<Field.Root>
 					<Box
 						ref={containerRef}
@@ -242,63 +313,13 @@ export const CheckoutShippingForm = () => {
 					/>
 				</Field.Root>
 
-				<HStack gap={3}>
-					<Field.Root>
-						<FormInput
-							placeholder="City"
-							name="city"
-							value={address.city}
-							onChange={(e) =>
-								setAddress((prev) => ({
-									...prev,
-									city: e.target.value,
-								}))
-							}
-						/>
-					</Field.Root>
-					<Field.Root>
-						<NativeSelect.Root
-							variant="subtle"
-							size="lg"
-						>
-							<NativeSelect.Field
-								placeholder="State"
-								height={12}
-								fontSize={16}
-								value={address.state}
-								onChange={(e) =>
-									setAddress((prev) => ({
-										...prev,
-										state: e.target.value,
-									}))
-								}
-							>
-								{US_STATES.map((s) => (
-									<option
-										key={s.value}
-										value={s.value}
-									>
-										{s.label}
-									</option>
-								))}
-							</NativeSelect.Field>
-							<NativeSelect.Indicator />
-						</NativeSelect.Root>
-					</Field.Root>
-					<Field.Root>
-						<FormInput
-							placeholder="Zip code"
-							name="postal-code"
-							value={address.zip}
-							onChange={(e) =>
-								setAddress((prev) => ({
-									...prev,
-									zip: e.target.value,
-								}))
-							}
-						/>
-					</Field.Root>
-				</HStack>
+				{props.layout === Layout.COMPACT ? (
+					<CityStateZip />
+				) : (
+					<HStack gap={3}>
+						<CityStateZip />
+					</HStack>
+				)}
 			</Fieldset.Root>
 		</Stack>
 	);
