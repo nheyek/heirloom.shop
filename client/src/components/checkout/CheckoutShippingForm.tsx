@@ -2,7 +2,7 @@ import {
 	Box,
 	Field,
 	Fieldset,
-	HStack,
+	Flex,
 	Input,
 	InputGroup,
 	InputProps,
@@ -114,99 +114,10 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 		);
 	};
 
-	const NameFields = () => (
-		<>
-			<Field.Root>
-				<FormInput
-					placeholder="First name"
-					name="given-name"
-					value={address.firstName}
-					onChange={(e) =>
-						setAddress((prev) => ({
-							...prev,
-							firstName: e.target.value,
-						}))
-					}
-				/>
-			</Field.Root>
-			<Field.Root>
-				<FormInput
-					placeholder="Last name"
-					name="family-name"
-					value={address.lastName}
-					onChange={(e) =>
-						setAddress((prev) => ({
-							...prev,
-							lastName: e.target.value,
-						}))
-					}
-				/>
-			</Field.Root>
-		</>
-	);
-
-	const CityStateZip = () => (
-		<>
-			<Field.Root>
-				<FormInput
-					placeholder="City"
-					name="city"
-					value={address.city}
-					onChange={(e) =>
-						setAddress((prev) => ({
-							...prev,
-							city: e.target.value,
-						}))
-					}
-				/>
-			</Field.Root>
-			<Field.Root>
-				<NativeSelect.Root
-					variant="subtle"
-					size="lg"
-				>
-					<NativeSelect.Field
-						placeholder="State"
-						height={12}
-						fontSize={16}
-						value={address.state}
-						onChange={(e) =>
-							setAddress((prev) => ({
-								...prev,
-								state: e.target.value,
-							}))
-						}
-					>
-						{US_STATES.map((s) => (
-							<option
-								key={s.value}
-								value={s.value}
-							>
-								{s.label}
-							</option>
-						))}
-					</NativeSelect.Field>
-					<NativeSelect.Indicator />
-				</NativeSelect.Root>
-			</Field.Root>
-			<Field.Root>
-				<FormInput
-					placeholder="Zip code"
-					name="postal-code"
-					value={address.zip}
-					onChange={(e) =>
-						setAddress((prev) => ({
-							...prev,
-							zip: e.target.value,
-						}))
-					}
-				/>
-			</Field.Root>
-		</>
-	);
+	const gap = 3;
 
 	return (
-		<Stack gap={3}>
+		<Stack gap={gap}>
 			<CheckoutHeading
 				Icon={() => <MdLocalShipping size={30} />}
 			>
@@ -225,13 +136,41 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 					/>
 				</Field.Root>
 
-				{props.layout === Layout.COMPACT ? (
-					<NameFields />
-				) : (
-					<HStack gap={3}>
-						<NameFields />
-					</HStack>
-				)}
+				<Flex
+					gap={3}
+					direction={
+						props.layout === Layout.COMPACT
+							? 'column'
+							: 'row'
+					}
+				>
+					<Field.Root>
+						<FormInput
+							placeholder="First name"
+							name="given-name"
+							value={address.firstName}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									firstName: e.target.value,
+								}))
+							}
+						/>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="Last name"
+							name="family-name"
+							value={address.lastName}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									lastName: e.target.value,
+								}))
+							}
+						/>
+					</Field.Root>
+				</Flex>
 
 				<Field.Root>
 					<Box
@@ -313,13 +252,70 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 					/>
 				</Field.Root>
 
-				{props.layout === Layout.COMPACT ? (
-					<CityStateZip />
-				) : (
-					<HStack gap={3}>
-						<CityStateZip />
-					</HStack>
-				)}
+				<Flex
+					gap={gap}
+					direction={
+						props.layout === Layout.COMPACT
+							? 'column'
+							: 'row'
+					}
+				>
+					<Field.Root>
+						<FormInput
+							placeholder="City"
+							name="city"
+							value={address.city}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									city: e.target.value,
+								}))
+							}
+						/>
+					</Field.Root>
+					<Field.Root>
+						<NativeSelect.Root
+							variant="subtle"
+							size="lg"
+						>
+							<NativeSelect.Field
+								placeholder="State"
+								height={12}
+								fontSize={16}
+								value={address.state}
+								onChange={(e) =>
+									setAddress((prev) => ({
+										...prev,
+										state: e.target.value,
+									}))
+								}
+							>
+								{US_STATES.map((s) => (
+									<option
+										key={s.value}
+										value={s.value}
+									>
+										{s.label}
+									</option>
+								))}
+							</NativeSelect.Field>
+							<NativeSelect.Indicator />
+						</NativeSelect.Root>
+					</Field.Root>
+					<Field.Root>
+						<FormInput
+							placeholder="Zip code"
+							name="postal-code"
+							value={address.zip}
+							onChange={(e) =>
+								setAddress((prev) => ({
+									...prev,
+									zip: e.target.value,
+								}))
+							}
+						/>
+					</Field.Root>
+				</Flex>
 			</Fieldset.Root>
 		</Stack>
 	);
