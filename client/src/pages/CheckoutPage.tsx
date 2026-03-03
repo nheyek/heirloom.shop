@@ -7,7 +7,6 @@ import {
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -23,16 +22,19 @@ import { useShoppingCart } from '../providers/ShoppingCartProvider';
 
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
-	const shoppingCart = useShoppingCart();
+	const {
+		itemQuantityTotal,
+		itemPriceTotal,
+		shippingTotal,
+		validateShippingAddress,
+	} = useShoppingCart();
 
 	const layout = useBreakpointValue({
 		base: Layout.COMPACT,
 		md: Layout.STANDARD,
 	});
 
-	const [email, setEmail] = useState<string>('');
-
-	if (shoppingCart.itemQuantityTotal === 0) {
+	if (itemQuantityTotal === 0) {
 		return (
 			<Box
 				position="absolute"
@@ -77,8 +79,7 @@ export const CheckoutPage = () => {
 						>
 							$
 							{(
-								shoppingCart.itemPriceTotal +
-								shoppingCart.shippingTotal
+								itemPriceTotal + shippingTotal
 							).toLocaleString()}
 							.00
 						</Heading>
@@ -132,6 +133,7 @@ export const CheckoutPage = () => {
 							size="xl"
 							mb={10}
 							fontSize={22}
+							onClick={validateShippingAddress}
 						>
 							<FaCheckCircle />
 							Place Order

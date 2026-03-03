@@ -30,7 +30,11 @@ export const CheckoutShippingForm = (props: Props) => {
 		libraries: LIBRARIES,
 	});
 
-	const { shippingAddress, setShippingAddress } = useShoppingCart();
+	const {
+		shippingAddress,
+		shippingAddressErrors,
+		setShippingAddress,
+	} = useShoppingCart();
 
 	const debounceRef =
 		useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -150,7 +154,11 @@ export const CheckoutShippingForm = (props: Props) => {
 							}
 						/>
 					</Field.Root>
-					<Field.Root>
+					<Field.Root
+						invalid={Boolean(
+							shippingAddressErrors.lastName,
+						)}
+					>
 						<FormInput
 							placeholder="Last name"
 							name="family-name"
@@ -162,6 +170,9 @@ export const CheckoutShippingForm = (props: Props) => {
 								})
 							}
 						/>
+						<Field.ErrorText>
+							{shippingAddressErrors.lastName}
+						</Field.ErrorText>
 					</Field.Root>
 				</Flex>
 

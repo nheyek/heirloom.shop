@@ -1,4 +1,4 @@
-import { AddressFields } from '../../../common/types/AddressFields';
+import { ShippingAddress } from '../../../common/types/ShippingAddress';
 
 type AddressComponent = {
 	types: string[];
@@ -8,8 +8,8 @@ type AddressComponent = {
 
 export const extractAddressFields = (
 	components: AddressComponent[],
-): Partial<AddressFields> => {
-	const fields: Partial<AddressFields> = {};
+): Partial<ShippingAddress> => {
+	const fields: Partial<ShippingAddress> = {};
 
 	let streetNumber = '';
 	let route = '';

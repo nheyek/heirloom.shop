@@ -1,4 +1,4 @@
-export type AddressFields = {
+export type ShippingAddress = {
 	email: string;
 	firstName: string;
 	lastName: string;

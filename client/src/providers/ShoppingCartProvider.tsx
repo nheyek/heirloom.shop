@@ -1,10 +1,14 @@
-import { AddressFields } from '@common/types/AddressFields';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
+import { ShippingAddress } from '@common/types/ShippingAddress';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { createContext, useContext, useState } from 'react';
 import { calculateItemPrice } from '../../../common/domain/ShoppingCart';
 import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
+
+type ShippingAddressErrors = {
+	[K in keyof ShippingAddress]?: string | null;
+};
 
 type ShoppingCartContext = {
 	isDrawerOpen: boolean;
@@ -12,7 +16,8 @@ type ShoppingCartContext = {
 	itemQuantityTotal: number;
 	itemPriceTotal: number;
 	shippingTotal: number;
-	shippingAddress: AddressFields;
+	shippingAddress: ShippingAddress;
+	shippingAddressErrors: ShippingAddressErrors;
 	addToCart: (
 		listing: ListingDataForCart,
 		selectedOptions: { [variationId: number]: number },
@@ -26,7 +31,8 @@ type ShoppingCartContext = {
 		selectedOptions: { [variationId: number]: number },
 		quantity: number,
 	) => void;
-	setShippingAddress: (address: AddressFields) => void;
+	setShippingAddress: (address: ShippingAddress) => void;
+	validateShippingAddress: () => void;
 	openDrawer: () => void;
 	closeDrawer: () => void;
 };
@@ -44,7 +50,7 @@ export const ShoppingCartProvider = (props: {
 	);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [shippingAddress, setShippingAddress] =
-		useState<AddressFields>({
+		useState<ShippingAddress>({
 			email: '',
 			firstName: '',
 			lastName: '',
@@ -54,6 +60,8 @@ export const ShoppingCartProvider = (props: {
 			state: '',
 			zip: '',
 		});
+	const [shippingAddressErrors, setShippingAddressErrors] =
+		useState({});
 
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
@@ -155,6 +163,16 @@ export const ShoppingCartProvider = (props: {
 		}
 	};
 
+	const validateShippingAddress = () => {
+		const errors: ShippingAddressErrors = {};
+
+		if (!shippingAddress.lastName) {
+			errors.lastName = 'Last name is required.';
+		}
+
+		setShippingAddressErrors(errors);
+	};
+
 	return (
 		<ShoppingCartContext.Provider
 			value={{
@@ -164,10 +182,12 @@ export const ShoppingCartProvider = (props: {
 				itemPriceTotal,
 				shippingTotal,
 				shippingAddress,
+				shippingAddressErrors,
 				addToCart,
 				removeFromCart,
 				updateQuantity,
 				setShippingAddress,
+				validateShippingAddress,
 				openDrawer,
 				closeDrawer,
 			}}
