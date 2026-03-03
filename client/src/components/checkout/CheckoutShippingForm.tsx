@@ -9,11 +9,11 @@ import {
 	NativeSelect,
 	Stack,
 } from '@chakra-ui/react';
+import { AddressFields } from '@common/types/AddressFields';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
-import { AddressFields } from '../../../../common/types/AddressFields';
 import { Layout, US_STATES } from '../../constants';
 import { useUserInfo } from '../../providers/UserProvider';
 import { extractAddressFields } from '../../utils/addressUtils';
@@ -21,7 +21,17 @@ import { CheckoutHeading } from './CheckoutHeading';
 
 const LIBRARIES: 'places'[] = ['places'];
 
-export const CheckoutShippingForm = (props: { layout: Layout }) => {
+type Props = {
+	layout?: Layout;
+	email: string;
+	address: AddressFields;
+	setEmail: (email: string) => void;
+	setAddress: (
+		callback: (prev: AddressFields) => AddressFields,
+	) => void;
+};
+
+export const CheckoutShippingForm = (props: Props) => {
 	const { isLoaded } = useLoadScript({
 		googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY as string,
 		libraries: LIBRARIES,
@@ -33,16 +43,6 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 		useRef<ReturnType<typeof setTimeout>>(undefined);
 	const containerRef = useRef<HTMLDivElement>(null);
 
-	const [email, setEmail] = useState<string>('');
-	const [address, setAddress] = useState<AddressFields>({
-		firstName: '',
-		lastName: '',
-		address1: '',
-		address2: '',
-		city: '',
-		state: '',
-		zip: '',
-	});
 	const [addressInput, setAddressInput] = useState('');
 	const [suggestions, setSuggestions] = useState<
 		google.maps.places.AutocompleteSuggestion[]
@@ -67,7 +67,7 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 	}, []);
 
 	useEffect(() => {
-		userInfo.user && setEmail(userInfo.user?.email);
+		userInfo.user && props.setEmail(userInfo.user?.email);
 	}, [userInfo]);
 
 	const fetchSuggestions = (value: string) => {
@@ -108,10 +108,8 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 		const fields = extractAddressFields(
 			place.addressComponents || [],
 		);
-		setAddress((prev) => ({ ...prev, ...fields }));
-		setAddressInput(
-			fields.address1 || prediction.text?.text || '',
-		);
+		props.setAddress((prev) => ({ ...prev, ...fields }));
+		setAddressInput(fields.line1 || prediction.text?.text || '');
 	};
 
 	const gap = 3;
@@ -129,15 +127,15 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 						placeholder="Email address"
 						name="email"
 						type="email"
-						value={email}
+						value={props.email}
 						onChange={(e) => {
-							setEmail(e.target.value);
+							props.setEmail(e.target.value);
 						}}
 					/>
 				</Field.Root>
 
 				<Flex
-					gap={3}
+					gap={gap}
 					direction={
 						props.layout === Layout.COMPACT
 							? 'column'
@@ -148,9 +146,9 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 						<FormInput
 							placeholder="First name"
 							name="given-name"
-							value={address.firstName}
+							value={props.address.firstName}
 							onChange={(e) =>
-								setAddress((prev) => ({
+								props.setAddress((prev) => ({
 									...prev,
 									firstName: e.target.value,
 								}))
@@ -161,9 +159,9 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 						<FormInput
 							placeholder="Last name"
 							name="family-name"
-							value={address.lastName}
+							value={props.address.lastName}
 							onChange={(e) =>
-								setAddress((prev) => ({
+								props.setAddress((prev) => ({
 									...prev,
 									lastName: e.target.value,
 								}))
@@ -242,11 +240,11 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 					<FormInput
 						name="address-line2"
 						placeholder="Apartment, suite, etc. (optional)"
-						value={address.address2}
+						value={props.address.line2}
 						onChange={(e) =>
-							setAddress((prev) => ({
+							props.setAddress((prev) => ({
 								...prev,
-								address2: e.target.value,
+								line2: e.target.value,
 							}))
 						}
 					/>
@@ -264,9 +262,9 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 						<FormInput
 							placeholder="City"
 							name="city"
-							value={address.city}
+							value={props.address.city}
 							onChange={(e) =>
-								setAddress((prev) => ({
+								props.setAddress((prev) => ({
 									...prev,
 									city: e.target.value,
 								}))
@@ -282,9 +280,9 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 								placeholder="State"
 								height={12}
 								fontSize={16}
-								value={address.state}
+								value={props.address.state}
 								onChange={(e) =>
-									setAddress((prev) => ({
+									props.setAddress((prev) => ({
 										...prev,
 										state: e.target.value,
 									}))
@@ -306,9 +304,9 @@ export const CheckoutShippingForm = (props: { layout: Layout }) => {
 						<FormInput
 							placeholder="Zip code"
 							name="postal-code"
-							value={address.zip}
+							value={props.address.zip}
 							onChange={(e) =>
-								setAddress((prev) => ({
+								props.setAddress((prev) => ({
 									...prev,
 									zip: e.target.value,
 								}))

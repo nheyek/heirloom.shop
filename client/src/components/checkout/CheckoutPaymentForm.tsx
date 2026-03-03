@@ -114,7 +114,6 @@ export const CheckoutPaymentForm = (props: Props) => {
 							paddingTop: '10px',
 							paddingBottom: '10px',
 							paddingLeft: '12px',
-							fontWeight: '500',
 						},
 						'.Input:focus': {
 							outline: `1px solid ${useDarkMode ? 'white' : gray400}`,

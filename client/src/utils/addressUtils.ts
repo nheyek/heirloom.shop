@@ -36,7 +36,7 @@ export const extractAddressFields = (
 	}
 
 	if (streetNumber || route) {
-		fields.address1 = `${streetNumber} ${route}`.trim();
+		fields.line1 = `${streetNumber} ${route}`.trim();
 	}
 
 	return fields;

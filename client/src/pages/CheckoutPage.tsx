@@ -7,6 +7,8 @@ import {
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { AddressFields } from '@common/types/AddressFields';
+import { useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
@@ -29,6 +31,17 @@ export const CheckoutPage = () => {
 		md: Layout.STANDARD,
 	});
 
+	const [email, setEmail] = useState<string>('');
+	const [address, setAddress] = useState<AddressFields>({
+		firstName: '',
+		lastName: '',
+		line1: '',
+		line2: '',
+		city: '',
+		state: '',
+		zip: '',
+	});
+
 	if (shoppingCart.itemQuantityTotal === 0) {
 		return (
 			<Box
@@ -45,6 +58,16 @@ export const CheckoutPage = () => {
 		);
 	}
 
+	const ShippingForm = () => (
+		<CheckoutShippingForm
+			layout={layout}
+			email={email}
+			address={address}
+			setEmail={setEmail}
+			setAddress={setAddress}
+		/>
+	);
+
 	if (layout === Layout.COMPACT) {
 		return (
 			<Stack gap={0}>
@@ -52,7 +75,7 @@ export const CheckoutPage = () => {
 					p={5}
 					gap={5}
 				>
-					<CheckoutShippingForm layout={Layout.COMPACT} />
+					<ShippingForm />
 					<CheckoutShoppingCartCompact />
 				</Stack>
 
@@ -111,9 +134,8 @@ export const CheckoutPage = () => {
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
 					<Stack gap={6}>
-						<CheckoutShippingForm
-							layout={Layout.STANDARD}
-						/>
+						<ShippingForm />
+
 						<Stack gap={3}>
 							<CheckoutHeading
 								Icon={() => (
