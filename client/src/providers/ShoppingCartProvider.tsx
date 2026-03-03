@@ -1,3 +1,4 @@
+import { AddressFields } from '@common/types/AddressFields';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { createContext, useContext, useState } from 'react';
@@ -11,7 +12,7 @@ type ShoppingCartContext = {
 	itemQuantityTotal: number;
 	itemPriceTotal: number;
 	shippingTotal: number;
-	shippingAddress: string | null;
+	shippingAddress: AddressFields;
 	addToCart: (
 		listing: ListingDataForCart,
 		selectedOptions: { [variationId: number]: number },
@@ -25,6 +26,7 @@ type ShoppingCartContext = {
 		selectedOptions: { [variationId: number]: number },
 		quantity: number,
 	) => void;
+	setShippingAddress: (address: AddressFields) => void;
 	openDrawer: () => void;
 	closeDrawer: () => void;
 };
@@ -41,7 +43,17 @@ export const ShoppingCartProvider = (props: {
 		[],
 	);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	const [shippingAddress, setShippingAddress] = useState(null);
+	const [shippingAddress, setShippingAddress] =
+		useState<AddressFields>({
+			email: '',
+			firstName: '',
+			lastName: '',
+			line1: '',
+			line2: '',
+			city: '',
+			state: '',
+			zip: '',
+		});
 
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
@@ -155,6 +167,7 @@ export const ShoppingCartProvider = (props: {
 				addToCart,
 				removeFromCart,
 				updateQuantity,
+				setShippingAddress,
 				openDrawer,
 				closeDrawer,
 			}}
@@ -187,3 +200,6 @@ const getItemKey = (
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };
+function EmptyStrings<T>(): any {
+	throw new Error('Function not implemented.');
+}

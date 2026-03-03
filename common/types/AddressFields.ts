@@ -1,4 +1,5 @@
 export type AddressFields = {
+	email: string;
 	firstName: string;
 	lastName: string;
 	line1: string;
