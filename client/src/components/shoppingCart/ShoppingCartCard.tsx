@@ -129,6 +129,7 @@ export const ShoppingCartCard = (props: Props) => {
 			<Card.Body
 				p={3}
 				gap={3}
+				justifyContent="space-between"
 			>
 				<Stack gap={0}>
 					<RouterLink

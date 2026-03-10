@@ -7,7 +7,7 @@ import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
 
 type ShippingAddressErrors = {
-	[K in keyof ShippingAddress]?: string | null;
+	[K in keyof ShippingAddress]?: string;
 };
 
 type ShoppingCartContext = {
@@ -33,6 +33,7 @@ type ShoppingCartContext = {
 	) => void;
 	setShippingAddress: (address: ShippingAddress) => void;
 	validateShippingAddress: () => void;
+	clearShippingAddressError: (key: keyof ShippingAddress) => void;
 	openDrawer: () => void;
 	closeDrawer: () => void;
 };
@@ -170,7 +171,32 @@ export const ShoppingCartProvider = (props: {
 			errors.lastName = 'Last name is required.';
 		}
 
+		if (!shippingAddress.line1) {
+			errors.line1 = 'Address is required.';
+		}
+
+		if (!shippingAddress.city) {
+			errors.city = 'City is required.';
+		}
+
+		if (!shippingAddress.state) {
+			errors.state = 'State is required.';
+		}
+
+		if (!shippingAddress.zip) {
+			errors.zip = 'Zip code is required.';
+		}
+
 		setShippingAddressErrors(errors);
+	};
+
+	const clearShippingAddressError = (
+		key: keyof ShippingAddress,
+	) => {
+		setShippingAddressErrors({
+			...shippingAddressErrors,
+			[key]: null,
+		});
 	};
 
 	return (
@@ -188,6 +214,7 @@ export const ShoppingCartProvider = (props: {
 				updateQuantity,
 				setShippingAddress,
 				validateShippingAddress,
+				clearShippingAddressError,
 				openDrawer,
 				closeDrawer,
 			}}

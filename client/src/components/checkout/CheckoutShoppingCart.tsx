@@ -1,6 +1,5 @@
 import {
 	Carousel,
-	Heading,
 	HStack,
 	IconButton,
 	Stack,
@@ -60,7 +59,10 @@ export const CheckoutShoppingCart = () => {
 						>
 							<ShoppingCartCard
 								item={item}
-								cardProps={{ minW: 250 }}
+								cardProps={{
+									minW: 250,
+									height: '100%',
+								}}
 								hideButtons
 							/>
 						</Carousel.Item>
@@ -68,21 +70,7 @@ export const CheckoutShoppingCart = () => {
 				</Carousel.ItemGroup>
 			</Carousel.Root>
 
-			<Stack gap={2}>
-				<ShoppingCartSummary pendingMessage="Enter shipping address" />
-
-				<Heading
-					size="3xl"
-					fontWeight="semibold"
-				>
-					$
-					{(
-						shoppingCart.itemPriceTotal +
-						shoppingCart.shippingTotal
-					).toLocaleString()}
-					.00
-				</Heading>
-			</Stack>
+			<ShoppingCartSummary pendingMessage="Enter shipping address" />
 		</Stack>
 	);
 };

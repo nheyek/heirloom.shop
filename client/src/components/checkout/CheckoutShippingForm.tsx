@@ -1,5 +1,6 @@
 import {
 	Box,
+	Collapsible,
 	Field,
 	Fieldset,
 	Flex,
@@ -8,6 +9,7 @@ import {
 	InputProps,
 	NativeSelect,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
@@ -18,6 +20,7 @@ import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { extractAddressFields } from '../../utils/addressUtils';
 import { CheckoutHeading } from './CheckoutHeading';
 
+const ERROR_COLOR = '#df1b41';
 const LIBRARIES: 'places'[] = ['places'];
 
 type Props = {
@@ -34,6 +37,7 @@ export const CheckoutShippingForm = (props: Props) => {
 		shippingAddress,
 		shippingAddressErrors,
 		setShippingAddress,
+		clearShippingAddressError,
 	} = useShoppingCart();
 
 	const debounceRef =
@@ -154,25 +158,23 @@ export const CheckoutShippingForm = (props: Props) => {
 							}
 						/>
 					</Field.Root>
-					<Field.Root
-						invalid={Boolean(
-							shippingAddressErrors.lastName,
-						)}
-					>
+					<Field.Root gap={0}>
 						<FormInput
 							placeholder="Last name"
 							name="family-name"
 							value={shippingAddress.lastName}
-							onChange={(e) =>
+							onChange={(e) => {
 								setShippingAddress({
 									...shippingAddress,
 									lastName: e.target.value,
-								})
-							}
+								});
+								clearShippingAddressError('lastName');
+							}}
+							invalid={!!shippingAddressErrors.lastName}
 						/>
-						<Field.ErrorText>
-							{shippingAddressErrors.lastName}
-						</Field.ErrorText>
+						{renderFieldError(
+							shippingAddressErrors.lastName,
+						)}
 					</Field.Root>
 				</Flex>
 
@@ -190,12 +192,18 @@ export const CheckoutShippingForm = (props: Props) => {
 								onChange={(e) => {
 									setAddressInput(e.target.value);
 									fetchSuggestions(e.target.value);
+									clearShippingAddressError(
+										'line1',
+									);
 								}}
 								onFocus={() =>
 									suggestions.length > 0 &&
 									setShowSuggestions(true)
 								}
 								autoComplete="off"
+								invalid={
+									!!shippingAddressErrors.line1
+								}
 							/>
 						</InputGroup>
 
@@ -240,6 +248,9 @@ export const CheckoutShippingForm = (props: Props) => {
 									)}
 								</Box>
 							)}
+						{renderFieldError(
+							shippingAddressErrors.line1,
+						)}
 					</Box>
 				</Field.Root>
 				<Field.Root>
@@ -264,20 +275,23 @@ export const CheckoutShippingForm = (props: Props) => {
 							: 'row'
 					}
 				>
-					<Field.Root>
+					<Field.Root gap={0}>
 						<FormInput
 							placeholder="City"
 							name="city"
 							value={shippingAddress.city}
-							onChange={(e) =>
+							onChange={(e) => {
 								setShippingAddress({
 									...shippingAddress,
 									city: e.target.value,
-								})
-							}
+								});
+								clearShippingAddressError('city');
+							}}
+							invalid={!!shippingAddressErrors.city}
 						/>
+						{renderFieldError(shippingAddressErrors.city)}
 					</Field.Root>
-					<Field.Root>
+					<Field.Root gap={0}>
 						<NativeSelect.Root
 							variant="subtle"
 							size="lg"
@@ -287,11 +301,19 @@ export const CheckoutShippingForm = (props: Props) => {
 								height={12}
 								fontSize={16}
 								value={shippingAddress.state}
-								onChange={(e) =>
+								onChange={(e) => {
 									setShippingAddress({
 										...shippingAddress,
 										state: e.target.value,
-									})
+									});
+									clearShippingAddressError(
+										'state',
+									);
+								}}
+								border={
+									shippingAddressErrors.state
+										? `1px solid ${ERROR_COLOR}`
+										: undefined
 								}
 							>
 								{US_STATES.map((s) => (
@@ -303,21 +325,28 @@ export const CheckoutShippingForm = (props: Props) => {
 									</option>
 								))}
 							</NativeSelect.Field>
+
 							<NativeSelect.Indicator />
 						</NativeSelect.Root>
+						{renderFieldError(
+							shippingAddressErrors.state,
+						)}
 					</Field.Root>
-					<Field.Root>
+					<Field.Root gap={0}>
 						<FormInput
 							placeholder="Zip code"
 							name="postal-code"
 							value={shippingAddress.zip}
-							onChange={(e) =>
+							onChange={(e) => {
 								setShippingAddress({
 									...shippingAddress,
 									zip: e.target.value,
-								})
-							}
+								});
+								clearShippingAddressError('zip');
+							}}
+							invalid={!!shippingAddressErrors.zip}
 						/>
+						{renderFieldError(shippingAddressErrors.zip)}
 					</Field.Root>
 				</Flex>
 			</Fieldset.Root>
@@ -325,13 +354,31 @@ export const CheckoutShippingForm = (props: Props) => {
 	);
 };
 
-const FormInput = (props: InputProps) => (
+const FormInput = (props: InputProps & { invalid?: boolean }) => (
 	<Input
 		variant="subtle"
 		fontSize={16}
 		p={3}
 		height={12}
 		borderRadius={5}
+		border={
+			props.invalid ? `1px solid ${ERROR_COLOR}` : undefined
+		}
 		{...props}
 	/>
+);
+
+const renderFieldError = (errorText?: String) => (
+	<Collapsible.Root open={Boolean(errorText)}>
+		<Collapsible.Content>
+			<Text
+				fontSize={15}
+				color={ERROR_COLOR}
+				lineHeight={1}
+				paddingTop={2.5}
+			>
+				{errorText}
+			</Text>
+		</Collapsible.Content>
+	</Collapsible.Root>
 );

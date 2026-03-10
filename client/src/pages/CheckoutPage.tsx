@@ -5,10 +5,12 @@ import {
 	Heading,
 	SimpleGrid,
 	Stack,
+	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
+import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 import { CheckoutHeading } from '../components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '../components/checkout/CheckoutPaymentForm';
@@ -19,6 +21,7 @@ import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCar
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
+import { FONT_DECORATIVE } from '../theme';
 
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
@@ -129,6 +132,11 @@ export const CheckoutPage = () => {
 								layout={Layout.STANDARD}
 							/>
 						</Stack>
+					</Stack>
+				</GridItem>
+				<GridItem colSpan={{ md: 2, lg: 1 }}>
+					<Stack gap={5}>
+						<CheckoutShoppingCart />
 						<Button
 							size="xl"
 							mb={10}
@@ -136,12 +144,23 @@ export const CheckoutPage = () => {
 							onClick={validateShippingAddress}
 						>
 							<FaCheckCircle />
-							Place Order
+							Pay Now
+							<RxDotFilled />
+							<Text
+								fontSize={26}
+								fontWeight={600}
+								fontFamily={FONT_DECORATIVE}
+								paddingBottom={1}
+							>
+								{' '}
+								$
+								{(
+									itemPriceTotal + shippingTotal
+								).toLocaleString()}
+								.00
+							</Text>
 						</Button>
 					</Stack>
-				</GridItem>
-				<GridItem colSpan={{ md: 2, lg: 1 }}>
-					<CheckoutShoppingCart />
 				</GridItem>
 			</SimpleGrid>
 		</Box>

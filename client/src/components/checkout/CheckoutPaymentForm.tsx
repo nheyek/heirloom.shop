@@ -123,7 +123,8 @@ export const CheckoutPaymentForm = (props: Props) => {
 								: '0',
 						},
 						'.Error': {
-							fontSize: '16px',
+							fontSize: '15px',
+							paddingTop: '6px',
 						},
 						'.Label': {
 							color: useDarkMode ? gray200 : gray500,
