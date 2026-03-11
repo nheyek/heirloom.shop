@@ -23,6 +23,7 @@ import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSumm
 import { Layout } from '../constants';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../theme';
+import { validateDeliverableAddress } from '../utils/googleMapsUtils';
 
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
@@ -32,17 +33,24 @@ export const CheckoutPage = () => {
 		itemQuantityTotal,
 		itemPriceTotal,
 		shippingTotal,
+		shippingAddress,
 		validateShippingAddress,
 	} = useShoppingCart();
 
 	const handlePlaceOrder = async () => {
-		const adddressIsValid = !validateShippingAddress();
+		const hasFieldErrors = !validateShippingAddress();
+		if (hasFieldErrors) return;
+
+		const isDeliverable =
+			await validateDeliverableAddress(shippingAddress);
+		if (!isDeliverable) {
+			console.log('Address is not deliverable');
+			return;
+		}
 
 		if (!stripe || !elements) return;
 		const { error } = await elements.submit();
-
-		if (error || !adddressIsValid) return;
-
+		if (error) return;
 		// TODO: confirm payment with stripe
 	};
 

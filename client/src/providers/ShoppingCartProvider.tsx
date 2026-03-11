@@ -197,7 +197,7 @@ export const ShoppingCartProvider = (props: {
 
 		setShippingAddressErrors(errors);
 
-		if (Object.values(errors).some((error) => !!error)) {
+		if (Object.values(errors).some(Boolean)) {
 			return false;
 		}
 
@@ -261,6 +261,3 @@ const getItemKey = (
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };
-function EmptyStrings<T>(): any {
-	throw new Error('Function not implemented.');
-}

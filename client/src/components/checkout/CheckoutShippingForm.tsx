@@ -128,12 +128,13 @@ export const CheckoutShippingForm = (props: Props) => {
 						name="email"
 						type="email"
 						value={shippingAddress.email}
-						onChange={(e) =>
+						onChange={(e) => {
 							setShippingAddress({
 								...shippingAddress,
 								email: e.target.value,
-							})
-						}
+							});
+							clearShippingAddressError('email');
+						}}
 						invalid={!!shippingAddressErrors.email}
 					/>
 					{renderFieldError(shippingAddressErrors.email)}
@@ -192,11 +193,16 @@ export const CheckoutShippingForm = (props: Props) => {
 								name="address-line1"
 								value={addressInput}
 								onChange={(e) => {
-									setAddressInput(e.target.value);
-									fetchSuggestions(e.target.value);
+									setShippingAddress({
+										...shippingAddress,
+										line1: e.target.value,
+									});
 									clearShippingAddressError(
 										'line1',
 									);
+
+									setAddressInput(e.target.value);
+									fetchSuggestions(e.target.value);
 								}}
 								onFocus={() =>
 									suggestions.length > 0 &&
