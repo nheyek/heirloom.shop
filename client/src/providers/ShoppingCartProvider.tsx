@@ -167,6 +167,14 @@ export const ShoppingCartProvider = (props: {
 	const validateShippingAddress = () => {
 		const errors: ShippingAddressErrors = {};
 
+		if (!shippingAddress.email) {
+			errors.email = 'Email is required.';
+		} else if (
+			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingAddress.email)
+		) {
+			errors.email = 'Email format is invalid.';
+		}
+
 		if (!shippingAddress.lastName) {
 			errors.lastName = 'Last name is required.';
 		}

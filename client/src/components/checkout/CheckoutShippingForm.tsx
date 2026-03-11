@@ -122,7 +122,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				Shipping
 			</CheckoutHeading>
 			<Fieldset.Root size="lg">
-				<Field.Root>
+				<Field.Root gap={0}>
 					<FormInput
 						placeholder="Email address"
 						name="email"
@@ -134,7 +134,9 @@ export const CheckoutShippingForm = (props: Props) => {
 								email: e.target.value,
 							})
 						}
+						invalid={!!shippingAddressErrors.email}
 					/>
+					{renderFieldError(shippingAddressErrors.email)}
 				</Field.Root>
 
 				<Flex
