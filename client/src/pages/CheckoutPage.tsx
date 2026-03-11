@@ -103,9 +103,9 @@ export const CheckoutPage = () => {
 					</Stack>
 					<CheckoutPaymentForm />
 					<Button
-						size="xl"
+						size="2xl"
 						width="full"
-						fontSize={22}
+						fontSize={24}
 						variant="outline"
 						color="white"
 						border="2px solid white"
@@ -148,8 +148,9 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
-					<Stack gap={5}>
+					<Stack gap={4}>
 						<CheckoutShoppingCart />
+						<ShoppingCartSummary pendingMessage="Enter shipping address" />
 						<Button
 							size="xl"
 							mb={10}
