@@ -103,16 +103,16 @@ export const CheckoutPage = () => {
 					</Stack>
 					<CheckoutPaymentForm />
 					<Button
-						size="2xl"
+						size="xl"
 						width="full"
-						fontSize={24}
+						fontSize={22}
 						variant="outline"
 						color="white"
 						border="2px solid white"
 						onClick={handlePlaceOrder}
 					>
 						<FaCheckCircle />
-						Place Order
+						Pay Now
 					</Button>
 				</Stack>
 			</Stack>
