@@ -14,6 +14,7 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
+import { PaymentElementProvider } from './providers/PaymentElementProvider';
 
 const App = () => {
 	const [mounted, setMounted] = useState(false);
@@ -71,7 +72,11 @@ const App = () => {
 					/>
 					<Route
 						path={`/${CLIENT_ROUTES.checkout}`}
-						element={<CheckoutPage />}
+						element={
+							<PaymentElementProvider>
+								<CheckoutPage />
+							</PaymentElementProvider>
+						}
 					/>{' '}
 					<Route
 						path="*"

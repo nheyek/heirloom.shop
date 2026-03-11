@@ -32,7 +32,7 @@ type ShoppingCartContext = {
 		quantity: number,
 	) => void;
 	setShippingAddress: (address: ShippingAddress) => void;
-	validateShippingAddress: () => void;
+	validateShippingAddress: () => boolean;
 	clearShippingAddressError: (key: keyof ShippingAddress) => void;
 	openDrawer: () => void;
 	closeDrawer: () => void;
@@ -196,6 +196,12 @@ export const ShoppingCartProvider = (props: {
 		}
 
 		setShippingAddressErrors(errors);
+
+		if (Object.values(errors).some((error) => !!error)) {
+			return false;
+		}
+
+		return true;
 	};
 
 	const clearShippingAddressError = (

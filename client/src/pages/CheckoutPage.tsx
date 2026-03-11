@@ -8,6 +8,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
@@ -25,12 +26,25 @@ import { FONT_DECORATIVE } from '../theme';
 
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
+	const stripe = useStripe();
+	const elements = useElements();
 	const {
 		itemQuantityTotal,
 		itemPriceTotal,
 		shippingTotal,
 		validateShippingAddress,
 	} = useShoppingCart();
+
+	const handlePlaceOrder = async () => {
+		const adddressIsValid = !validateShippingAddress();
+
+		if (!stripe || !elements) return;
+		const { error } = await elements.submit();
+
+		if (error || !adddressIsValid) return;
+
+		// TODO: confirm payment with stripe
+	};
 
 	const layout = useBreakpointValue({
 		base: Layout.COMPACT,
@@ -87,7 +101,7 @@ export const CheckoutPage = () => {
 							.00
 						</Heading>
 					</Stack>
-					<CheckoutPaymentForm layout={Layout.COMPACT} />
+					<CheckoutPaymentForm />
 					<Button
 						size="2xl"
 						width="full"
@@ -95,6 +109,7 @@ export const CheckoutPage = () => {
 						variant="outline"
 						color="white"
 						border="2px solid white"
+						onClick={handlePlaceOrder}
 					>
 						<FaCheckCircle />
 						Place Order
@@ -107,7 +122,7 @@ export const CheckoutPage = () => {
 	return (
 		<Box
 			maxWidth={{ lg: 1000 }}
-			mt={8}
+			my={8}
 			px={4}
 			mx="auto"
 		>
@@ -128,9 +143,7 @@ export const CheckoutPage = () => {
 							>
 								Payment
 							</CheckoutHeading>
-							<CheckoutPaymentForm
-								layout={Layout.STANDARD}
-							/>
+							<CheckoutPaymentForm />
 						</Stack>
 					</Stack>
 				</GridItem>
@@ -141,7 +154,7 @@ export const CheckoutPage = () => {
 							size="xl"
 							mb={10}
 							fontSize={22}
-							onClick={validateShippingAddress}
+							onClick={handlePlaceOrder}
 						>
 							<FaCheckCircle />
 							Pay Now
