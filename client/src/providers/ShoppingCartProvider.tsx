@@ -173,7 +173,7 @@ export const ShoppingCartProvider = (props: {
 	const validateShippingAddress = async () => {
 		const errors: ShippingAddressErrors = {};
 
-		if (!shippingAddress.email) {
+		if (!shippingAddress.email.trim()) {
 			errors.email = 'Email is required.';
 		} else if (
 			!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingAddress.email)
@@ -181,11 +181,11 @@ export const ShoppingCartProvider = (props: {
 			errors.email = 'Email format is invalid.';
 		}
 
-		if (!shippingAddress.lastName) {
+		if (!shippingAddress.lastName.trim()) {
 			errors.lastName = 'Last name is required.';
 		}
 
-		if (!shippingAddress.line1) {
+		if (!shippingAddress.line1.trim()) {
 			errors.line1 = 'Address is required.';
 		}
 
@@ -193,11 +193,11 @@ export const ShoppingCartProvider = (props: {
 			errors.city = 'City is required.';
 		}
 
-		if (!shippingAddress.state) {
+		if (!shippingAddress.state.trim()) {
 			errors.state = 'State is required.';
 		}
 
-		if (!shippingAddress.zip) {
+		if (!shippingAddress.zip.trim()) {
 			errors.zip = 'Zip code is required.';
 		}
 
