@@ -388,17 +388,18 @@ export const CheckoutShippingForm = (props: Props) => {
 	);
 };
 
-const FormInput = (props: InputProps & { invalid?: boolean }) => (
+const FormInput = ({
+	invalid,
+	...rest
+}: InputProps & { invalid?: boolean }) => (
 	<Input
 		variant="subtle"
 		fontSize={16}
 		p={3}
 		height={12}
 		borderRadius={5}
-		border={
-			props.invalid ? `1px solid ${ERROR_COLOR}` : undefined
-		}
-		{...props}
+		border={invalid ? `1px solid ${ERROR_COLOR}` : undefined}
+		{...rest}
 	/>
 );
 
