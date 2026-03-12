@@ -204,7 +204,15 @@ export const CheckoutShippingForm = (props: Props) => {
 									);
 
 									setAddressInput(e.target.value);
-									fetchSuggestions(e.target.value);
+
+									if (
+										document.activeElement ===
+										e.target
+									) {
+										fetchSuggestions(
+											e.currentTarget.value,
+										);
+									}
 								}}
 								onFocus={() =>
 									suggestions.length > 0 &&
