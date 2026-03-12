@@ -1,4 +1,5 @@
 import {
+	Alert,
 	Box,
 	Collapsible,
 	Field,
@@ -36,6 +37,7 @@ export const CheckoutShippingForm = (props: Props) => {
 	const {
 		shippingAddress,
 		shippingAddressErrors,
+		shippingAddressUndeliverable,
 		setShippingAddress,
 		clearShippingAddressError,
 	} = useShoppingCart();
@@ -358,6 +360,20 @@ export const CheckoutShippingForm = (props: Props) => {
 					</Field.Root>
 				</Flex>
 			</Fieldset.Root>
+			<Collapsible.Root
+				open={Boolean(shippingAddressUndeliverable)}
+			>
+				<Collapsible.Content>
+					<Alert.Root status="error">
+						<Alert.Indicator />
+						<Alert.Content>
+							<Alert.Title>
+								Address validation failed
+							</Alert.Title>
+						</Alert.Content>
+					</Alert.Root>
+				</Collapsible.Content>
+			</Collapsible.Root>
 		</Stack>
 	);
 };

@@ -5,6 +5,7 @@ import { createContext, useContext, useState } from 'react';
 import { calculateItemPrice } from '../../../common/domain/ShoppingCart';
 import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
+import { validateDeliverableAddress } from '../utils/googleMapsUtils';
 
 type ShippingAddressErrors = {
 	[K in keyof ShippingAddress]?: string;
@@ -18,6 +19,7 @@ type ShoppingCartContext = {
 	shippingTotal: number;
 	shippingAddress: ShippingAddress;
 	shippingAddressErrors: ShippingAddressErrors;
+	shippingAddressUndeliverable: boolean;
 	addToCart: (
 		listing: ListingDataForCart,
 		selectedOptions: { [variationId: number]: number },
@@ -32,7 +34,7 @@ type ShoppingCartContext = {
 		quantity: number,
 	) => void;
 	setShippingAddress: (address: ShippingAddress) => void;
-	validateShippingAddress: () => boolean;
+	validateShippingAddress: () => Promise<boolean>;
 	clearShippingAddressError: (key: keyof ShippingAddress) => void;
 	openDrawer: () => void;
 	closeDrawer: () => void;
@@ -63,6 +65,10 @@ export const ShoppingCartProvider = (props: {
 		});
 	const [shippingAddressErrors, setShippingAddressErrors] =
 		useState({});
+	const [
+		shippingAddressUndeliverable,
+		setShippingAddressUndeliverable,
+	] = useState(false);
 
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
@@ -164,7 +170,7 @@ export const ShoppingCartProvider = (props: {
 		}
 	};
 
-	const validateShippingAddress = () => {
+	const validateShippingAddress = async () => {
 		const errors: ShippingAddressErrors = {};
 
 		if (!shippingAddress.email) {
@@ -201,6 +207,14 @@ export const ShoppingCartProvider = (props: {
 			return false;
 		}
 
+		const isDeliverable =
+			await validateDeliverableAddress(shippingAddress);
+
+		if (!isDeliverable) {
+			setShippingAddressUndeliverable(true);
+			return false;
+		}
+
 		return true;
 	};
 
@@ -211,6 +225,7 @@ export const ShoppingCartProvider = (props: {
 			...shippingAddressErrors,
 			[key]: null,
 		});
+		setShippingAddressUndeliverable(false);
 	};
 
 	return (
@@ -223,6 +238,7 @@ export const ShoppingCartProvider = (props: {
 				shippingTotal,
 				shippingAddress,
 				shippingAddressErrors,
+				shippingAddressUndeliverable,
 				addToCart,
 				removeFromCart,
 				updateQuantity,

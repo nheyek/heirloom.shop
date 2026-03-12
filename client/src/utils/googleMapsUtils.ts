@@ -67,8 +67,9 @@ export const validateDeliverableAddress = async (
 
 	if (!response.ok) return false;
 
-	const data = await response.json();
-	const uspsData = data.result?.uspsData;
+	const responseData = await response.json();
+	console.log(responseData);
+	const uspsData = responseData.result?.uspsData;
 
 	return uspsData?.dpvConfirmation === 'Y';
 };
