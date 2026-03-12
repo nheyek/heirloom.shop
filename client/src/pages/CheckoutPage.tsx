@@ -21,6 +21,7 @@ import { CheckoutShoppingCartCompact } from '../components/checkout/CheckoutShop
 import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '../constants';
+import useApi from '../hooks/useApi';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../theme';
 
@@ -28,6 +29,7 @@ export const CheckoutPage = () => {
 	const navigate = useNavigate();
 	const stripe = useStripe();
 	const elements = useElements();
+	const { postPublicResource } = useApi();
 	const {
 		itemQuantityTotal,
 		itemPriceTotal,
@@ -42,7 +44,14 @@ export const CheckoutPage = () => {
 		if (!stripe || !elements) return;
 		const { error } = await elements.submit();
 		if (error) return;
-		// TODO: confirm payment with stripe
+
+		const intentResponse = await postPublicResource(
+			'payment/intent',
+			{ amount: (itemPriceTotal + shippingTotal) * 100 },
+		);
+		if (intentResponse.error) return;
+
+		// TODO: stripe.confirmPayment
 	};
 
 	const layout = useBreakpointValue({
