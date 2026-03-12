@@ -308,6 +308,8 @@ export const CheckoutShippingForm = (props: Props) => {
 						>
 							<NativeSelect.Field
 								placeholder="State"
+								name="address-level1"
+								autoComplete="address-level1"
 								height={12}
 								fontSize={16}
 								value={shippingAddress.state}
