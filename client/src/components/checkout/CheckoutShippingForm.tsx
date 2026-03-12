@@ -378,7 +378,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						<Alert.Indicator />
 						<Alert.Content>
 							<Alert.Title>
-								Address validation failed
+								Address validation failed.
 							</Alert.Title>
 						</Alert.Content>
 					</Alert.Root>

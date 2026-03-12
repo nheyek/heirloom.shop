@@ -199,6 +199,8 @@ export const ShoppingCartProvider = (props: {
 
 		if (!shippingAddress.zip.trim()) {
 			errors.zip = 'Zip code is required.';
+		} else if (!/^\d{5}(-\d{4})?$/.test(shippingAddress.zip)) {
+			errors.zip = 'Invalid zip code.';
 		}
 
 		setShippingAddressErrors(errors);
