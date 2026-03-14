@@ -110,14 +110,9 @@ export const CheckoutShippingForm = (props: Props) => {
 		setAddressInput(fields.line1 || prediction.text?.text || '');
 	};
 
-	const gap = 3;
-
-	useEffect(() => {
-		'layout changed';
-	}, [props.layout]);
-
+	const fieldGap = 3;
 	return (
-		<Stack gap={gap}>
+		<Stack gap={fieldGap}>
 			<CheckoutHeading
 				Icon={() => <MdLocalShipping size={30} />}
 			>
@@ -143,7 +138,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
-					gap={gap}
+					gap={fieldGap}
 					direction={
 						props.layout === Layout.COMPACT
 							? 'column'
@@ -286,7 +281,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
-					gap={gap}
+					gap={fieldGap}
 					direction={
 						props.layout === Layout.COMPACT
 							? 'column'

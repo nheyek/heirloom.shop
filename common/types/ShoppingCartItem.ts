@@ -1,4 +1,4 @@
-import { ListingDataForCart } from '@common/types/ListingDataForCart';
+import { ListingDataForCart } from './ListingDataForCart';
 
 export type ShoppingCartItem = {
 	listingData: ListingDataForCart;

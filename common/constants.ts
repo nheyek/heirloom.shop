@@ -26,6 +26,10 @@ export const API_ROUTES = {
 		base: 'payment',
 		intent: 'intent',
 	},
+	tax: {
+		base: 'tax',
+		calculate: 'calculate',
+	},
 };
 
 export const SEARCH_QUERY_LIMITS = {
