@@ -98,7 +98,8 @@ export const ShoppingCartProvider = (props: {
 	);
 
 	const shippingTotal = items.reduce(
-		(sum, item) => sum + (item.listingData.shippingPrice || 0),
+		(sum, item) =>
+			sum + (item.listingData.shippingPrice || 0) * item.quantity,
 		0,
 	);
 
