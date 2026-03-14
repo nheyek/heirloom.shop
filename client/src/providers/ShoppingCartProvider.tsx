@@ -1,7 +1,13 @@
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShippingAddress } from '@common/types/ShippingAddress';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { createContext, useContext, useState } from 'react';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { calculateItemPrice } from '../../../common/domain/ShoppingCart';
 import { StorageKey } from '../constants';
 import { usePersistedState } from '../hooks/usePersistedState';
@@ -72,6 +78,14 @@ export const ShoppingCartProvider = (props: {
 
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
+
+	const taxDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+
+	useEffect(() => {
+		if (taxDebounceRef.current) clearTimeout(taxDebounceRef.current);
+		taxDebounceRef.current = setTimeout(calculateTax, 300);
+		return () => clearTimeout(taxDebounceRef.current);
+	}, [shippingAddress]);
 
 	const itemQuantityTotal = items.reduce(
 		(sum, item) => sum + item.quantity,
@@ -170,7 +184,7 @@ export const ShoppingCartProvider = (props: {
 		}
 	};
 
-	const validateShippingAddress = async () => {
+	const getShippingAddressFieldErrors = () => {
 		const errors: ShippingAddressErrors = {};
 
 		if (!shippingAddress.email.trim()) {
@@ -203,6 +217,11 @@ export const ShoppingCartProvider = (props: {
 			errors.zip = 'Invalid zip code.';
 		}
 
+		return errors;
+	};
+
+	const validateShippingAddress = async () => {
+		const errors = getShippingAddressFieldErrors();
 		setShippingAddressErrors(errors);
 
 		if (Object.values(errors).some(Boolean)) {
@@ -218,6 +237,13 @@ export const ShoppingCartProvider = (props: {
 		}
 
 		return true;
+	};
+
+	const calculateTax = async () => {
+		const errors = getShippingAddressFieldErrors();
+		if (!Object.values(errors).some(Boolean)) {
+			console.log('calculating tax...');
+		}
 	};
 
 	const clearShippingAddressError = (

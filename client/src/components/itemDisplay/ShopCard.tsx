@@ -37,10 +37,7 @@ export const ShopCard = (props: Props) => {
 					}}
 				/>
 			</RouterLink>
-			<Card.Body
-				p={3}
-				gap={0}
-			>
+			<Card.Body p={3}>
 				<RouterLink to={shopUrl}>
 					<Link asChild>
 						<Heading
