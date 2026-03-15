@@ -8,8 +8,10 @@ import {
 	useRef,
 	useState,
 } from 'react';
+import { API_ROUTES } from '../../../common/constants';
 import { calculateItemPrice } from '../../../common/domain/ShoppingCart';
 import { StorageKey } from '../constants';
+import useApi from '../hooks/useApi';
 import { usePersistedState } from '../hooks/usePersistedState';
 import { validateDeliverableAddress } from '../utils/googleMapsUtils';
 
@@ -23,6 +25,8 @@ type ShoppingCartContext = {
 	itemQuantityTotal: number;
 	itemPriceTotal: number;
 	shippingTotal: number;
+	taxTotal: number | null;
+	taxCalcLoading: boolean;
 	shippingAddress: ShippingAddress;
 	shippingAddressErrors: ShippingAddressErrors;
 	shippingAddressUndeliverable: boolean;
@@ -75,14 +79,21 @@ export const ShoppingCartProvider = (props: {
 		shippingAddressUndeliverable,
 		setShippingAddressUndeliverable,
 	] = useState(false);
+	const [taxCalcLoading, setTaxCalcLoading] =
+		useState<boolean>(false);
+	const [taxTotal, setTaxTotal] = useState<number | null>(null);
 
 	const openDrawer = () => setIsDrawerOpen(true);
 	const closeDrawer = () => setIsDrawerOpen(false);
 
-	const taxDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+	const taxDebounceRef =
+		useRef<ReturnType<typeof setTimeout>>(undefined);
+
+	const { postPublicResource } = useApi();
 
 	useEffect(() => {
-		if (taxDebounceRef.current) clearTimeout(taxDebounceRef.current);
+		if (taxDebounceRef.current)
+			clearTimeout(taxDebounceRef.current);
 		taxDebounceRef.current = setTimeout(calculateTax, 300);
 		return () => clearTimeout(taxDebounceRef.current);
 	}, [shippingAddress]);
@@ -99,7 +110,8 @@ export const ShoppingCartProvider = (props: {
 
 	const shippingTotal = items.reduce(
 		(sum, item) =>
-			sum + (item.listingData.shippingPrice || 0) * item.quantity,
+			sum +
+			(item.listingData.shippingPrice || 0) * item.quantity,
 		0,
 	);
 
@@ -243,7 +255,27 @@ export const ShoppingCartProvider = (props: {
 	const calculateTax = async () => {
 		const errors = getShippingAddressFieldErrors();
 		if (!Object.values(errors).some(Boolean)) {
-			console.log('calculating tax...');
+			setTaxCalcLoading(true);
+
+			const taxCalculationResponse = await postPublicResource(
+				`${API_ROUTES.tax.base}/${API_ROUTES.tax.calculate}`,
+				{
+					items: items.map((item) => ({
+						listingShortId: item.listingData.shortId,
+						selectedOptions: item.selectedOptions,
+						quantity: item.quantity,
+					})),
+					shippingAddress,
+				},
+			);
+
+			if (taxCalculationResponse.error) {
+				// TODO: Handle tax calculation error
+			} else {
+				setTaxTotal(taxCalculationResponse.data);
+			}
+
+			setTaxCalcLoading(false);
 		}
 	};
 
@@ -265,6 +297,8 @@ export const ShoppingCartProvider = (props: {
 				itemQuantityTotal,
 				itemPriceTotal,
 				shippingTotal,
+				taxTotal,
+				taxCalcLoading,
 				shippingAddress,
 				shippingAddressErrors,
 				shippingAddressUndeliverable,

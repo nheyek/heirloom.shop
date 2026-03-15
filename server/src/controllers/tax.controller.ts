@@ -6,7 +6,16 @@ export const calculateTax = async (
 	request: Request<{}, {}, CheckoutData>,
 	response: Response,
 ) => {
-	const totals = await calculateCheckoutTotals(request.body);
-	const subTotal = totals.subtotalDollars;
-	// TODO: calculate tax using subTotal and request.body.shippingAddress
+	// TODO: Address validation
+
+	const preTaxTotal = await calculateCheckoutTotals(request.body);
+	const illinoisSalesTaxRate = 0.0625; // TODO: Replace with Stripe sales tax calculation
+
+	let taxTotal = 0;
+	const zipCodeNumeric = Number(request.body.shippingAddress.zip);
+	if (zipCodeNumeric >= 60001 && zipCodeNumeric <= 62999) {
+		taxTotal = Math.ceil(illinoisSalesTaxRate * preTaxTotal * 100) / 100;
+	}
+
+	response.json(taxTotal);
 };

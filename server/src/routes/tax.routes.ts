@@ -4,6 +4,6 @@ import { calculateTax } from '../controllers/tax.controller';
 
 const router = Router();
 
-router.post(API_ROUTES.tax.calculate, calculateTax);
+router.post(`/${API_ROUTES.tax.calculate}`, calculateTax);
 
 export default router;

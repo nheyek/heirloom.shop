@@ -10,6 +10,7 @@ import currentUserRouter from './routes/me.routes';
 import paymentRouter from './routes/payment.routes';
 import searchRouter from './routes/search.routes';
 import shopRouter from './routes/shop.routes';
+import taxRouter from './routes/tax.routes';
 
 dotenvFlow.config();
 
@@ -45,6 +46,7 @@ const main = async () => {
 		`/${API_ROUTES.base}/${API_ROUTES.payment.base}`,
 		paymentRouter,
 	);
+	app.use(`/${API_ROUTES.base}/${API_ROUTES.tax.base}`, taxRouter);
 
 	app.use((req, res, next) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));

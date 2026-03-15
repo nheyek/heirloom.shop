@@ -34,10 +34,14 @@ export const CheckoutPage = () => {
 		itemQuantityTotal,
 		itemPriceTotal,
 		shippingTotal,
+		taxTotal,
 		validateShippingAddress,
 	} = useShoppingCart();
 
-	const handlePlaceOrder = async () => {
+	const orderTotal =
+		itemPriceTotal + shippingTotal + (taxTotal || 0);
+
+	const handleConfirmation = async () => {
 		const failedValidation = !(await validateShippingAddress());
 		if (failedValidation) return;
 
@@ -102,11 +106,7 @@ export const CheckoutPage = () => {
 							fontWeight="semibold"
 							color="white"
 						>
-							$
-							{(
-								itemPriceTotal + shippingTotal
-							).toLocaleString()}
-							.00
+							${orderTotal.toLocaleString()}
 						</Heading>
 					</Stack>
 					<CheckoutPaymentForm />
@@ -117,7 +117,7 @@ export const CheckoutPage = () => {
 						variant="outline"
 						color="white"
 						border="2px solid white"
-						onClick={handlePlaceOrder}
+						onClick={handleConfirmation}
 					>
 						<FaCheckCircle />
 						Pay Now
@@ -163,7 +163,7 @@ export const CheckoutPage = () => {
 							size="xl"
 							mb={10}
 							fontSize={22}
-							onClick={handlePlaceOrder}
+							onClick={handleConfirmation}
 						>
 							<FaCheckCircle />
 							Pay Now
@@ -175,11 +175,7 @@ export const CheckoutPage = () => {
 								paddingBottom={1}
 							>
 								{' '}
-								$
-								{(
-									itemPriceTotal + shippingTotal
-								).toLocaleString()}
-								.00
+								${orderTotal.toLocaleString()}
 							</Text>
 						</Button>
 					</Stack>

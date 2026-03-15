@@ -28,7 +28,10 @@ export const ShoppingCartSummary = (props: Props) => {
 				},
 				{
 					label: 'Tax',
-					value: props.pendingMessage,
+					value:
+						shoppingCart.taxTotal === null
+							? props.pendingMessage
+							: `$${shoppingCart.taxTotal.toLocaleString()}`,
 				},
 			].map(({ label, value }) => (
 				<DataList.Item

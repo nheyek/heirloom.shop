@@ -3,15 +3,9 @@ import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
 
-export type CheckoutTotals = {
-	subtotalDollars: number;
-	shippingDollars: number;
-	totalDollars: number;
-};
-
 export const calculateCheckoutTotals = async (
 	checkoutData: CheckoutData,
-): Promise<CheckoutTotals> => {
+): Promise<number> => {
 	const em = getEm();
 
 	const shortIds = checkoutData.items.map(
@@ -36,7 +30,9 @@ export const calculateCheckoutTotals = async (
 	const listingByShortId = new Map(
 		listings.map((l) => [l.shortId, l]),
 	);
-	const optionById = new Map(variationOptions.map((o) => [o.id, o]));
+	const optionById = new Map(
+		variationOptions.map((o) => [o.id, o]),
+	);
 
 	let subtotalDollars = 0;
 	let shippingDollars = 0;
@@ -58,13 +54,10 @@ export const calculateCheckoutTotals = async (
 		subtotalDollars += itemPriceDollars * item.quantity;
 		shippingDollars +=
 			Number(
-				listing.shippingProfile?.flatShippingRateUsDollars ?? 0,
+				listing.shippingProfile?.flatShippingRateUsDollars ??
+					0,
 			) * item.quantity;
 	}
 
-	return {
-		subtotalDollars,
-		shippingDollars,
-		totalDollars: subtotalDollars + shippingDollars,
-	};
+	return subtotalDollars + shippingDollars;
 };
