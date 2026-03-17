@@ -2,7 +2,6 @@ import { CheckoutData } from '@common/types/CheckoutData';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
-import { centsToDollars } from '../utils/priceConversion';
 
 export const calculateCheckoutTotals = async (
 	checkoutData: CheckoutData,
@@ -56,5 +55,6 @@ export const calculateCheckoutTotals = async (
 			item.quantity;
 	}
 
-	return centsToDollars(subtotalCents + shippingCents);
+	// Return dollars for now (API compatibility)
+	return (subtotalCents + shippingCents) / 100;
 };
