@@ -5,7 +5,6 @@ import { ListingVariationData } from '@common/types/ListingVariationData';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
-import { centsToDollars } from '../utils/priceConversion';
 
 export const mapListingToListingCardData = (
 	listing: Listing,
@@ -17,7 +16,7 @@ export const mapListingToListingCardData = (
 	categoryId: listing.category
 		? listing.category.id.toString()
 		: '',
-	priceDollars: centsToDollars(listing.priceCents || 0),
+	priceCents: listing.priceCents || 0,
 	countryCode: listing.country?.code,
 	shopId: listing.shop.id,
 	shopShortId: listing.shop.shortId || '',
@@ -41,7 +40,7 @@ export const mapListingToListingPageData = (
 				shipTimeDaysMax:
 					listing.shippingProfile.shippingDaysMax || 0,
 				shippingRate: listing.shippingProfile.flatShippingRateCents
-					? `$${centsToDollars(listing.shippingProfile.flatShippingRateCents).toFixed(2)}`
+					? `$${(listing.shippingProfile.flatShippingRateCents / 100).toFixed(2)}`
 					: 'FREE',
 			}
 		: undefined,
@@ -69,9 +68,7 @@ export const mapVariationToVariationData = (
 		.map((option: ListingVariationOption) => ({
 			id: option.id,
 			name: option.optionName,
-			additionalPriceDollars: centsToDollars(
-				option.additionalPriceCents || 0,
-			),
+			additionalPriceCents: option.additionalPriceCents || 0,
 		})),
 });
 
