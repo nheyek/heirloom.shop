@@ -1,9 +1,11 @@
+import { CartListingData } from '@common/types/CartListingData';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { ListingVariationData } from '@common/types/ListingVariationData';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
+import { centsToDollars } from '../utils/priceConversion';
 
 export const mapListingToListingCardData = (
 	listing: Listing,
@@ -15,7 +17,7 @@ export const mapListingToListingCardData = (
 	categoryId: listing.category
 		? listing.category.id.toString()
 		: '',
-	priceDollars: listing.priceDollars || 0,
+	priceDollars: centsToDollars(listing.priceCents || 0),
 	countryCode: listing.country?.code,
 	shopId: listing.shop.id,
 	shopShortId: listing.shop.shortId || '',
@@ -38,10 +40,8 @@ export const mapListingToListingPageData = (
 					listing.shippingProfile.shippingDaysMin || 0,
 				shipTimeDaysMax:
 					listing.shippingProfile.shippingDaysMax || 0,
-				shippingRate: Number(
-					listing.shippingProfile.flatShippingRateUsDollars,
-				)
-					? `$${listing.shippingProfile.flatShippingRateUsDollars}`
+				shippingRate: listing.shippingProfile.flatShippingRateCents
+					? `$${centsToDollars(listing.shippingProfile.flatShippingRateCents).toFixed(2)}`
 					: 'FREE',
 			}
 		: undefined,
@@ -69,8 +69,16 @@ export const mapVariationToVariationData = (
 		.map((option: ListingVariationOption) => ({
 			id: option.id,
 			name: option.optionName,
-			additionalPriceDollars: Number(
-				option.additionalPriceUsDollars,
+			additionalPriceDollars: centsToDollars(
+				option.additionalPriceCents || 0,
 			),
 		})),
+});
+
+export const mapListingToCartListingData = (
+	listing: Listing,
+	variations: ListingVariation[],
+): CartListingData => ({
+	...mapListingToListingCardData(listing),
+	variations: variations.map(mapVariationToVariationData),
 });
