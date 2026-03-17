@@ -49,7 +49,7 @@ export class Listing {
 	subtitle?: string;
 
 	@Property({ type: 'integer' })
-	priceDollars: number & Opt = 0;
+	priceCents: number & Opt = 0;
 
 	@ManyToOne({
 		entity: () => Shop,
