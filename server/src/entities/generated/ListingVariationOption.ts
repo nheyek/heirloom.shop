@@ -27,12 +27,10 @@ export class ListingVariationOption {
 	optionName!: string;
 
 	@Property({
-		type: 'decimal',
-		precision: 6,
-		scale: 2,
-		defaultRaw: `0.00`,
+		type: 'integer',
+		defaultRaw: `0`,
 	})
-	additionalPriceUsDollars!: string & Opt;
+	additionalPriceCents!: number & Opt;
 
 	@Property({
 		columnType: 'timestamp(6)',
