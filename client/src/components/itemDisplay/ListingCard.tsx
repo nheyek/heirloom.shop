@@ -101,7 +101,7 @@ export const ListingCard = (props: Props) => {
 					justifyContent="space-between"
 					alignItems="center"
 				>
-					<PriceTag value={props.priceDollars} />
+					<PriceTag priceCents={props.priceCents} />
 					<Box>
 						<IconButton
 							variant="ghost"
