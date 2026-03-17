@@ -2,6 +2,7 @@ import { CheckoutData } from '@common/types/CheckoutData';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
+import { centsToDollars } from '../utils/priceConversion';
 
 export const calculateCheckoutTotals = async (
 	checkoutData: CheckoutData,
@@ -34,30 +35,26 @@ export const calculateCheckoutTotals = async (
 		variationOptions.map((o) => [o.id, o]),
 	);
 
-	let subtotalDollars = 0;
-	let shippingDollars = 0;
+	let subtotalCents = 0;
+	let shippingCents = 0;
 
 	for (const item of checkoutData.items) {
 		const listing = listingByShortId.get(item.listingShortId);
 		if (!listing) continue;
 
-		let itemPriceDollars = listing.priceDollars;
+		let itemPriceCents = listing.priceCents || 0;
 		for (const optionId of Object.values(item.selectedOptions)) {
 			const option = optionById.get(optionId);
 			if (option) {
-				itemPriceDollars += Number(
-					option.additionalPriceUsDollars,
-				);
+				itemPriceCents += option.additionalPriceCents || 0;
 			}
 		}
 
-		subtotalDollars += itemPriceDollars * item.quantity;
-		shippingDollars +=
-			Number(
-				listing.shippingProfile?.flatShippingRateUsDollars ??
-					0,
-			) * item.quantity;
+		subtotalCents += itemPriceCents * item.quantity;
+		shippingCents +=
+			(listing.shippingProfile?.flatShippingRateCents ?? 0) *
+			item.quantity;
 	}
 
-	return subtotalDollars + shippingDollars;
+	return centsToDollars(subtotalCents + shippingCents);
 };
