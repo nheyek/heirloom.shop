@@ -142,7 +142,7 @@ export const ListingPage = () => {
 		}
 	}, [listingData]);
 
-	let totalPriceDollars = listingData?.priceDollars || 0;
+	let totalPriceCents = listingData?.priceCents || 0;
 	for (const variation of listingData?.variations || []) {
 		const selectedOptionId =
 			selectedVariationOptions[variation.id];
@@ -150,8 +150,8 @@ export const ListingPage = () => {
 			(option) => option.id === selectedOptionId,
 		);
 		if (variation.pricesVary && selectedOption) {
-			totalPriceDollars +=
-				selectedOption.additionalPriceDollars;
+			totalPriceCents +=
+				selectedOption.additionalPriceCents;
 		}
 	}
 
@@ -169,14 +169,14 @@ export const ListingPage = () => {
 				items: variation.options
 					.sort(
 						(optionA, optionB) =>
-							optionA.additionalPriceDollars -
-							optionB.additionalPriceDollars,
+							optionA.additionalPriceCents -
+							optionB.additionalPriceCents,
 					)
 					.map((option) => ({
 						label:
 							variation.pricesVary &&
-							option.additionalPriceDollars > 0
-								? `${option.name} (+$${option.additionalPriceDollars})`
+							option.additionalPriceCents > 0
+								? `${option.name} (+$${(option.additionalPriceCents / 100).toFixed(2)})`
 								: option.name,
 						value: option.id.toString(),
 					})),
@@ -461,8 +461,7 @@ export const ListingPage = () => {
 									>
 										{' '}
 										$
-										{totalPriceDollars.toLocaleString()}
-										.00
+										{(totalPriceCents / 100).toFixed(2)}
 									</Text>
 								</ListingPageButton>
 								<SimpleGrid
