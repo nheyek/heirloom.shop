@@ -18,12 +18,10 @@ export class ShippingProfile {
 	profileName!: string;
 
 	@Property({
-		type: 'decimal',
-		precision: 6,
-		scale: 2,
+		type: 'integer',
 		nullable: true,
 	})
-	flatShippingRateUsDollars?: string;
+	flatShippingRateCents?: number;
 
 	@Property({ nullable: true })
 	shippingDaysMin?: number;
