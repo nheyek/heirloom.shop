@@ -1,7 +1,7 @@
 export type ListingVariationOptionData = {
 	id: number;
 	name: string;
-	additionalPriceDollars: number;
+	additionalPriceCents: number;
 };
 
 export type ListingVariationData = {
