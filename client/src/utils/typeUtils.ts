@@ -9,7 +9,7 @@ export const getListingDataForCart = (
 	title: listing.title,
 	subtitle: listing.subtitle,
 	categoryId: listing.categoryId,
-	priceDollars: listing.priceDollars,
+	priceCents: listing.priceCents,
 	countryCode: listing.countryCode,
 	shopId: listing.shopId,
 	shopShortId: listing.shopShortId,
