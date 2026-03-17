@@ -4,7 +4,7 @@ export type ListingCardData = {
 	title: string;
 	subtitle: string;
 	categoryId: string;
-	priceDollars: number;
+	priceCents: number;
 	countryCode?: string;
 	shopId: number;
 	shopShortId: string;
