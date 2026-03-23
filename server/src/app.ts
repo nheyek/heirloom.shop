@@ -1,0 +1,74 @@
+import { API_ROUTES } from '@common/constants';
+import dotenvFlow from 'dotenv-flow';
+import express from 'express';
+import path from 'path';
+import 'reflect-metadata';
+import { initORM } from './db';
+import categoryRouter from './routes/category.routes';
+import checkoutRouter from './routes/checkout.routes';
+import listingRouter from './routes/listing.routes';
+import currentUserRouter from './routes/me.routes';
+import orderRouter from './routes/order.routes';
+import searchRouter from './routes/search.routes';
+import shopRouter from './routes/shop.routes';
+import webhookRouter from './routes/webhook.routes';
+
+dotenvFlow.config();
+
+const main = async () => {
+	const app = express();
+
+	await initORM();
+
+	app.use(
+		`/${API_ROUTES.webhooks.base}`,
+		express.raw({ type: 'application/json' }),
+		webhookRouter,
+	);
+
+	app.use(express.json());
+	app.use(express.static(path.join(__dirname, 'public')));
+
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.listings.base}`,
+		listingRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.currentUser.base}`,
+		currentUserRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.shops.base}`,
+		shopRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.categories.base}`,
+		categoryRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.search.base}`,
+		searchRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.checkout.base}`,
+		checkoutRouter,
+	);
+	app.use(
+		`/${API_ROUTES.base}/${API_ROUTES.orders.base}`,
+		orderRouter,
+	);
+
+	app.use((req, res, next) => {
+		res.sendFile(path.join(__dirname, 'public/index.html'));
+	});
+
+	const PORT = process.env.PORT || 3000;
+	app.listen(PORT, () => {
+		console.log(`Server listening on port ${PORT}`);
+	});
+};
+
+main().catch((e) => {
+	console.error(e);
+	process.exit(1);
+});

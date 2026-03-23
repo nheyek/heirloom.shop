@@ -1,0 +1,44 @@
+name: Grant App DB Access
+
+on:
+    workflow_dispatch: # run manually whenever needed
+
+jobs:
+    grants:
+        runs-on: ubuntu-latest
+        env:
+            DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+            DEV_DATABASE_ID: ${{ secrets.DEV_DATABASE_ID }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - id: fw
+              uses: ./.github/actions/db-firewall-runner-ip-add
+
+            - name: Grant heirloom user full access
+              env:
+                  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+              run: |
+                  echo "Granting privileges to user 'heirloom' on DB 'heirloom'..."
+
+                  psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
+                    -- Ensure the heirloom user can connect to the database
+                    GRANT CONNECT ON DATABASE heirloomdb TO heirloom;
+
+                    -- Schema privileges
+                    GRANT USAGE, CREATE ON SCHEMA public TO heirloom;
+
+                    -- Object privileges
+                    GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO heirloom;
+                    GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO heirloom;
+
+                    -- Default privileges for future objects
+                    ALTER DEFAULT PRIVILEGES IN SCHEMA public
+                      GRANT ALL ON TABLES TO heirloom;
+                    ALTER DEFAULT PRIVILEGES IN SCHEMA public
+                      GRANT ALL ON SEQUENCES TO heirloom;
+
+            - uses: ./.github/actions/db-firewall-runner-ip-remove
+              with:
+                  ip: ${{ steps.fw.outputs.ip }}

@@ -1,0 +1,4 @@
+export enum OrderStatus {
+	PENDING = 'PENDING',
+	PAYMENT_SUCCEEDED = 'PAYMENT_SUCCEEDED',
+}

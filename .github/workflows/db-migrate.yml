@@ -1,0 +1,37 @@
+name: Deploy Database Schema
+
+on: workflow_dispatch
+
+jobs:
+    migrate:
+        runs-on: ubuntu-latest
+        env:
+            DIGITALOCEAN_ACCESS_TOKEN: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+            DEV_DATABASE_ID: ${{ secrets.DEV_DATABASE_ID }}
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v4
+
+            - id: fw
+              uses: ./.github/actions/db-firewall-runner-ip-add
+
+            - name: Install dbmate
+              run: |
+                  curl -fsSL -o /usr/local/bin/dbmate \
+                    https://github.com/amacneil/dbmate/releases/latest/download/dbmate-linux-amd64
+                  chmod +x /usr/local/bin/dbmate
+
+            - name: Run migrations
+              env:
+                  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+              run: dbmate up
+
+            - name: Seed data
+              env:
+                  DATABASE_URL: ${{ secrets.DEV_DATABASE_URL }}
+              run: |
+                  bash ./seed_data.sh
+
+            - uses: ./.github/actions/db-firewall-runner-ip-remove
+              with:
+                  ip: ${{ steps.fw.outputs.ip }}
