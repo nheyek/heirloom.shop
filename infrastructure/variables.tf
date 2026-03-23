@@ -40,13 +40,3 @@ variable "cdn_custom_domain" {
   description = "Custom domain for CDN"
   type        = string
 }
-
-variable "stripe_secret_key" {
-  type      = string
-  sensitive = true
-}
-
-variable "stripe_webhook_secret" {
-  type      = string
-  sensitive = true
-}

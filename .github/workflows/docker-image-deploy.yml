@@ -22,6 +22,11 @@ jobs:
             - name: Log in to DO Container Registry
               run: doctl registry login
 
+            - name: Write server secrets to .env.production
+              run: |
+                  echo "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}" >> server/.env.production
+                  echo "STRIPE_WEBHOOK_SECRET=${{ secrets.STRIPE_WEBHOOK_SECRET }}" >> server/.env.production
+
             - name: Build Docker image
               run: |
                   docker build \
