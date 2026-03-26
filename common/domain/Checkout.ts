@@ -44,7 +44,7 @@ export const getEmailFieldError = (email: string) => {
 	return null;
 };
 
-export const getCheckoutItemDefs = (items: ShoppingCartItem[]) =>
+export const getSimpleCartItems = (items: ShoppingCartItem[]) =>
 	items.map((item) => ({
 		listingShortId: item.listingData.shortId,
 		selectedOptions: item.selectedOptions,

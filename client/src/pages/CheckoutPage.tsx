@@ -10,6 +10,7 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
+import { getSimpleCartItems } from '@common/domain/Checkout';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';
@@ -17,7 +18,6 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
-import { getCheckoutItemDefs } from '../../../common/domain/Checkout';
 import { CheckoutHeading } from '../components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '../components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '../components/checkout/CheckoutShippingForm';
@@ -104,7 +104,7 @@ export const CheckoutPage = () => {
 		const intentResponse = await postPublicResource(
 			`${API_ROUTES.checkout.base}/${API_ROUTES.checkout.submitOrder}`,
 			{
-				items: getCheckoutItemDefs(items),
+				items: getSimpleCartItems(items),
 				shippingAddress,
 			},
 		);

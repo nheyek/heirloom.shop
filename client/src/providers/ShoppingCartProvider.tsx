@@ -1,8 +1,8 @@
 import { API_ROUTES } from '@common/constants';
 import {
-	getCheckoutItemDefs,
 	getEmailFieldError,
 	getShippingAddressFieldErrors,
+	getSimpleCartItems,
 } from '@common/domain/Checkout';
 import { calculateItemPrice } from '@common/domain/ShoppingCart';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
@@ -242,7 +242,7 @@ export const ShoppingCartProvider = (props: {
 			const taxCalculationResponse = await postPublicResource(
 				`${API_ROUTES.checkout.base}/${API_ROUTES.checkout.calculateTax}`,
 				{
-					items: getCheckoutItemDefs(items),
+					items: getSimpleCartItems(items),
 					shippingAddress,
 				},
 			);
@@ -292,7 +292,7 @@ export const ShoppingCartProvider = (props: {
 				validateCheckoutFields,
 				clearShippingAddressError,
 				clearEmailError: () => setCheckoutEmailError(null),
-			clearCart: () => setItems([]),
+				clearCart: () => setItems([]),
 				openDrawer,
 				closeDrawer,
 			}}
