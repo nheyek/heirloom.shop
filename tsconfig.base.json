@@ -3,6 +3,9 @@
 		"baseUrl": ".",
 		"paths": {
 			"@common/*": ["common/*"]
-		}
+		},
+		"esModuleInterop": true,
+		"strict": true,
+		"skipLibCheck": true
 	}
 }
