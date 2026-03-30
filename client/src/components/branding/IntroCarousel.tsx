@@ -73,7 +73,7 @@ export const IntroCarousel = () => {
 							gap={3}
 							py={2}
 						>
-							<item.Icon size={36} />
+							<item.Icon size={32} />
 							<Text
 								fontSize={22}
 								textAlign="center"
