@@ -93,16 +93,20 @@ export const createListing = async (
 	shopId: number,
 ) => {
 	const em = getEm();
+
+	const [{ nextval }] = await em
+		.getConnection()
+		.execute("SELECT nextval('listing_id_seq')");
+	const nextId = Number(nextval);
+
 	const listing = em.create(Listing, {
+		id: nextId,
+		shortId: encodeId(nextId),
 		title: profileApiRequest.title,
 		fullDescr: profileApiRequest.desc,
 		shop: { id: shopId } as Shop,
 	});
 	await em.persistAndFlush(listing);
-
-	// Generate short_id after we have the ID
-	listing.shortId = encodeId(listing.id);
-	await em.flush();
 
 	return listing.id;
 };

@@ -9,7 +9,7 @@ export const mapListingToApiResponseData = (
 	listing: Listing,
 ): ListingCardData => ({
 	id: listing.id,
-	shortId: listing.shortId || '',
+	shortId: listing.shortId,
 	title: listing.title,
 	subtitle: listing.subtitle || '',
 	categoryId: listing.category

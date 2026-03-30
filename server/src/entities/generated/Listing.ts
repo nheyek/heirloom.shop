@@ -59,8 +59,8 @@ export class Listing {
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;
 
-  @Property({ length: 10, nullable: true, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
-  shortId?: string;
+  @Property({ length: 10, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
+  shortId!: string;
 
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);
