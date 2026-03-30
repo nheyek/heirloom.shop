@@ -9,7 +9,7 @@ export type ListingPageData = ListingCardData & {
 	shippingDetails?: {
 		shipTimeDaysMin: number;
 		shipTimeDaysMax: number;
-		shippingRate: string;
+		shippingRate: number;
 	};
 	returnExchangePolicy?: {
 		returnsAccepted: boolean;

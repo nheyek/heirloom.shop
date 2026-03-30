@@ -537,11 +537,11 @@ export const ListingPage = () => {
 									<IconText icon={FaTruck}>
 										Ships to continental US for
 										<b>
-											{
+											{formatCentsAsDollars(
 												listingData
 													?.shippingDetails
-													?.shippingRate
-											}
+													?.shippingRate,
+											)}
 										</b>
 									</IconText>
 								)}

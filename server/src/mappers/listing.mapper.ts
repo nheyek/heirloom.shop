@@ -38,10 +38,9 @@ export const mapListingToCompleteApiResponseData = (
 					listing.shippingProfile.shippingDaysMin || 0,
 				shipTimeDaysMax:
 					listing.shippingProfile.shippingDaysMax || 0,
-				shippingRate: listing.shippingProfile
-					.flatShippingRateCents
-					? `$${(listing.shippingProfile.flatShippingRateCents / 100).toFixed(2)}`
-					: 'FREE',
+				shippingRate:
+					listing.shippingProfile.flatShippingRateCents ||
+					0,
 			}
 		: undefined,
 	returnExchangePolicy: listing.returnExchangeProfile
