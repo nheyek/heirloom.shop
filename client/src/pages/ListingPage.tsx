@@ -540,7 +540,8 @@ export const ListingPage = () => {
 											{formatCentsAsDollars(
 												listingData
 													?.shippingDetails
-													?.shippingRate,
+													?.shippingRate ||
+													0,
 											)}
 										</b>
 									</IconText>

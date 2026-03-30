@@ -1,6 +1,5 @@
-export const formatCentsAsDollars = (cents: number): string => {
-	return (cents / 100).toLocaleString('en-US', {
+export const formatCentsAsDollars = (cents: number): string =>
+	(cents / 100).toLocaleString('en-US', {
 		style: 'currency',
 		currency: 'USD',
 	});
-};
