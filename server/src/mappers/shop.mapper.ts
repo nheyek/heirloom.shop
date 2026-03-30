@@ -1,7 +1,7 @@
-import { Shop } from '../entities/generated/Shop';
 import { ShopCardData } from '@common/types/ShopCardData';
+import { Shop } from '../entities/generated/Shop';
 
-export const mapShopToShopCardData = (
+export const mapShopToApiResponseData = (
 	shop: Shop,
 ): ShopCardData => ({
 	id: shop.id,

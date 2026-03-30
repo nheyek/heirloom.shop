@@ -5,7 +5,7 @@ import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
 
-export const mapListingToListingCardData = (
+export const mapListingToApiResponseData = (
 	listing: Listing,
 ): ListingCardData => ({
 	id: listing.id,
@@ -23,11 +23,11 @@ export const mapListingToListingCardData = (
 	imageUuids: listing.imageUuids,
 });
 
-export const mapListingToListingPageData = (
+export const mapListingToCompleteApiResponseData = (
 	listing: Listing,
 	variations: ListingVariation[],
 ): ListingPageData => ({
-	...mapListingToListingCardData(listing),
+	...mapListingToApiResponseData(listing),
 	fullDescr: listing.fullDescr,
 	leadTimeDaysMin: listing.leadTimeDaysMin,
 	leadTimeDaysMax: listing.leadTimeDaysMax,
@@ -54,10 +54,10 @@ export const mapListingToListingPageData = (
 					listing.returnExchangeProfile.returnWindowDays,
 			}
 		: undefined,
-	variations: variations.map(mapVariationToVariationData),
+	variations: variations.map(mapVariationToApiResponseData),
 });
 
-export const mapVariationToVariationData = (
+export const mapVariationToApiResponseData = (
 	variation: ListingVariation,
 ): ListingVariationData => ({
 	id: variation.id,

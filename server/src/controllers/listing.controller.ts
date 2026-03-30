@@ -1,13 +1,13 @@
 import { Request, Response } from 'express';
 import {
-	mapListingToListingCardData,
-	mapListingToListingPageData,
+	mapListingToApiResponseData,
+	mapListingToCompleteApiResponseData,
 } from '../mappers/listing.mapper';
 import * as listingService from '../services/listing.service';
 
 export const getAllListings = async (req: Request, res: Response) => {
 	const listings = await listingService.findListingsComplete();
-	res.json(listings.map(mapListingToListingCardData));
+	res.json(listings.map(mapListingToApiResponseData));
 };
 
 export const getListingById = async (req: Request, res: Response) => {
@@ -20,5 +20,7 @@ export const getListingById = async (req: Request, res: Response) => {
 	const variations = await listingService.findListingVariations(
 		listing.id,
 	);
-	res.json(mapListingToListingPageData(listing, variations));
+	res.json(
+		mapListingToCompleteApiResponseData(listing, variations),
+	);
 };

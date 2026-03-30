@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { mapListingToListingCardData } from '../mappers/listing.mapper';
+import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import * as favoriteListingService from '../services/favoriteListing.service';
 import * as listingService from '../services/listing.service';
 import * as userService from '../services/user.service';
@@ -80,5 +80,5 @@ export const getFavoritedListings = async (
 		await favoriteListingService.getFavoritedListingsForUser(
 			user.id,
 		);
-	res.json(listings.map(mapListingToListingCardData));
+	res.json(listings.map(mapListingToApiResponseData));
 };

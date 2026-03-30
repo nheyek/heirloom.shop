@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { mapCategoryToCategoryTileData } from '../mappers/category.mapper';
-import { mapListingToListingCardData } from '../mappers/listing.mapper';
+import { mapCategoryToApiResponseData } from '../mappers/category.mapper';
+import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import {
 	findAllCategories,
 	findCategoryById,
@@ -14,7 +14,7 @@ export const getTopLevelCategories = async (
 	res: Response,
 ) => {
 	const categories = await findTopLevelCategories();
-	res.json(categories.map(mapCategoryToCategoryTileData));
+	res.json(categories.map(mapCategoryToApiResponseData));
 };
 
 export const getCategoryById = async (
@@ -28,7 +28,7 @@ export const getCategoryById = async (
 		return res.status(404).json({ error: 'Category not found' });
 	}
 
-	res.json(mapCategoryToCategoryTileData(category));
+	res.json(mapCategoryToApiResponseData(category));
 };
 
 export const getChildCategories = async (
@@ -37,7 +37,7 @@ export const getChildCategories = async (
 ) => {
 	const { id } = req.params;
 	const children = await findChildCategories(id.toUpperCase());
-	res.json(children.map(mapCategoryToCategoryTileData));
+	res.json(children.map(mapCategoryToApiResponseData));
 };
 
 export const getListingsByCategory = async (
@@ -48,10 +48,10 @@ export const getListingsByCategory = async (
 	const listings = await listingService.findListingsByCategory(
 		id.toUpperCase(),
 	);
-	res.json(listings.map(mapListingToListingCardData));
+	res.json(listings.map(mapListingToApiResponseData));
 };
 
 export const getCategories = async (req: Request, res: Response) => {
 	const categories = await findAllCategories();
-	res.json(categories.map(mapCategoryToCategoryTileData));
+	res.json(categories.map(mapCategoryToApiResponseData));
 };

@@ -65,7 +65,7 @@ export const createOrderItemSnapshots = (
 		if (!listing) continue;
 
 		let unitPriceCents = listing.priceCents || 0;
-		const variations: OrderItemSnapshot['variations'] = [];
+		const variations = [];
 
 		for (const optionId of Object.values(item.selectedOptions)) {
 			const option = optionById.get(optionId);
