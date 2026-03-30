@@ -14,7 +14,7 @@ import {
 	Text,
 	Wrap,
 } from '@chakra-ui/react';
-import { calculateItemPrice } from '@common/domain/ShoppingCart';
+import { calculateItemPrice } from '@common/domain/shoppingCart';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdPricetag } from 'react-icons/io';

@@ -1,4 +1,4 @@
-import { calculateItemPrice } from './ShoppingCart';
+import { calculateItemPrice } from './shoppingCart';
 import { ShoppingCartItem } from '../types/ShoppingCartItem';
 
 const baseItem: ShoppingCartItem = {

@@ -2,7 +2,7 @@ import {
 	getShippingAddressFieldErrors,
 	getEmailFieldError,
 	getSimpleCartItems,
-} from './Checkout';
+} from './checkout';
 import { ShippingAddress } from '../types/ShippingAddress';
 import { ShoppingCartItem } from '../types/ShoppingCartItem';
 

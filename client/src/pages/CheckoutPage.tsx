@@ -10,7 +10,7 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
-import { getSimpleCartItems } from '@common/domain/Checkout';
+import { getSimpleCartItems } from '@common/domain/checkout';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';

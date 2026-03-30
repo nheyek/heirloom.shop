@@ -3,8 +3,8 @@ import {
 	getEmailFieldError,
 	getShippingAddressFieldErrors,
 	getSimpleCartItems,
-} from '@common/domain/Checkout';
-import { calculateItemPrice } from '@common/domain/ShoppingCart';
+} from '@common/domain/checkout';
+import { calculateItemPrice } from '@common/domain/shoppingCart';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import {
 	ShippingAddress,
