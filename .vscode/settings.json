@@ -11,13 +11,15 @@
 		"**/.git": true,
 		"**/node_modules": true,
 		"**/dist": true,
-		"**/package-lock.json": true
+		"**/package-lock.json": true,
+		"server/temp": true
 	},
 	"search.exclude": {
 		"**/.git": true,
 		"**/node_modules": true,
 		"**/dist": true,
-		"**/package-lock.json": true
+		"**/package-lock.json": true,
+		"server/temp": true
 	},
 	"[terraform]": {
 		"editor.formatOnSave": true,

@@ -13,9 +13,9 @@ import searchRouter from './routes/search.routes';
 import shopRouter from './routes/shop.routes';
 import webhookRouter from './routes/webhook.routes';
 
-dotenvFlow.config();
+dotenvFlow.config({ path: path.join(__dirname, '..') });
 
-const main = async () => {
+export const createApp = async () => {
 	const app = express();
 
 	await initORM();
@@ -62,13 +62,20 @@ const main = async () => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));
 	});
 
+	return app;
+};
+
+const main = async () => {
+	const app = await createApp();
 	const PORT = process.env.PORT || 3000;
 	app.listen(PORT, () => {
 		console.log(`Server listening on port ${PORT}`);
 	});
 };
 
-main().catch((e) => {
-	console.error(e);
-	process.exit(1);
-});
+if (require.main === module) {
+	main().catch((e) => {
+		console.error(e);
+		process.exit(1);
+	});
+}

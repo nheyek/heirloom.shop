@@ -3,13 +3,12 @@ import { Request, Response } from 'express';
 import Stripe from 'stripe';
 import { updateOrderStatus } from '../services/order.service';
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
-const stripe = new Stripe(webhookSecret);
-
 export const handleStripeWebhook = async (
 	request: Request,
 	response: Response,
 ) => {
+	const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 	const sig = request.headers['stripe-signature'];
 
 	let event: Stripe.Event;

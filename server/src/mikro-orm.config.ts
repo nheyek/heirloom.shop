@@ -1,8 +1,9 @@
 import { defineConfig } from '@mikro-orm/postgresql';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import dotenvFlow from 'dotenv-flow';
+import path from 'path';
 
-dotenvFlow.config();
+dotenvFlow.config({ path: path.join(__dirname, '..') });
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -29,10 +30,11 @@ const config = defineConfig({
 		'dist/server/src/entities/generated/*.js',
 	],
 	entitiesTs: [
-		'src/entities/*.ts',
-		'src/entities/generated/*.ts',
+		path.join(__dirname, 'entities/*.ts'),
+		path.join(__dirname, 'entities/generated/*.ts'),
 	],
 	metadataProvider: TsMorphMetadataProvider,
+	metadataCache: { enabled: true, options: { cacheDir: path.join(__dirname, '../temp') } },
 	discovery: { warnWhenNoEntities: false },
 	extensions: [
 		...(isDev

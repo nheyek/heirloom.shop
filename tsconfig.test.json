@@ -2,7 +2,9 @@
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		"target": "es2020",
-		"module": "commonjs"
+		"module": "commonjs",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true
 	},
-	"include": ["common", "client/src", "server/src"]
+	"include": ["common", "client/src", "server/src", "tests"]
 }
