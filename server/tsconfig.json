@@ -13,5 +13,6 @@
 		"outDir": "dist"
 	},
 	"include": ["src"],
+	"exclude": ["**/*.test.ts"],
 	"files": ["src/types/express.d.ts"]
 }

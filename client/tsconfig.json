@@ -11,5 +11,6 @@
 		"src",
 		"../common/types/ShoppingCartItem.ts",
 		"../common/domain"
-	]
+	],
+	"exclude": ["**/*.test.ts"]
 }
