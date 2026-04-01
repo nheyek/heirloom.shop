@@ -1,6 +1,6 @@
 import { API_ROUTES } from '@common/constants';
 import { Router } from 'express';
-import { getFavoritedListings } from '../controllers/favoriteListing.controller';
+import { getFavoritedListings } from '../controllers/favorites.controller';
 import { getCurrentUser } from '../controllers/user.controller';
 import { authAndSetUser } from '../middleware/auth0.middleware';
 
