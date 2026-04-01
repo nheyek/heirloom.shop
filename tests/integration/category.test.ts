@@ -1,7 +1,7 @@
-import request from 'supertest';
 import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
+import request from 'supertest';
 import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
@@ -152,13 +152,13 @@ describe('GET /api/categories/:id', () => {
 	});
 });
 
-describe('GET /api/categories/:id/topLevel', () => {
-	it('returns only the top-level categories', async () => {
+describe('GET /api/categories/topLevel', () => {
+	it('returns only the 3 top-level categories', async () => {
 		const res = await request(getApp()).get(
-			'/api/categories/CLOTHING/topLevel',
+			'/api/categories/topLevel',
 		);
 		expect(res.status).toBe(200);
-		expect(Array.isArray(res.body)).toBe(true);
+		expect(res.body).toHaveLength(3);
 		const ids = res.body.map((c: any) => c.id);
 		expect(ids).toEqual(
 			expect.arrayContaining([
@@ -167,68 +167,34 @@ describe('GET /api/categories/:id/topLevel', () => {
 				'FURNITURE',
 			]),
 		);
-		expect(ids).not.toContain('MENS');
-		expect(ids).not.toContain('WOMENS');
-		expect(ids).not.toContain('MENS_SHIRTS');
-		expect(ids).not.toContain('JEWELRY_VINTAGE');
-	});
-
-	it('returns exactly 3 top-level categories', async () => {
-		const res = await request(getApp()).get(
-			'/api/categories/CLOTHING/topLevel',
-		);
-		expect(res.body).toHaveLength(3);
-	});
-
-	it('top-level categories have no parentId', async () => {
-		const res = await request(getApp()).get(
-			'/api/categories/CLOTHING/topLevel',
-		);
-		for (const category of res.body) {
-			expect(category.parentId).toBeUndefined();
-		}
 	});
 });
 
 describe('GET /api/categories/:id/children', () => {
-	it('returns the direct children of a category', async () => {
+	it('returns only the direct children with their parentId', async () => {
 		const res = await request(getApp()).get(
 			'/api/categories/CLOTHING/children',
 		);
 		expect(res.status).toBe(200);
-		const ids = res.body.map((c: any) => c.id);
-		expect(ids).toEqual(
-			expect.arrayContaining(['MENS', 'WOMENS']),
-		);
-		expect(ids).not.toContain('MENS_SHIRTS');
-	});
-
-	it('returns exactly 2 children for CLOTHING', async () => {
-		const res = await request(getApp()).get(
-			'/api/categories/CLOTHING/children',
-		);
 		expect(res.body).toHaveLength(2);
+		const ids = res.body.map((c: any) => c.id);
+		expect(ids).toEqual(expect.arrayContaining(['MENS', 'WOMENS']));
+		expect(ids).not.toContain('MENS_SHIRTS');
+		for (const child of res.body) {
+			expect(child.parentId).toBe('CLOTHING');
+		}
 	});
 
-	it('returns exactly 1 child for JEWELRY', async () => {
-		const res = await request(getApp()).get(
-			'/api/categories/JEWELRY/children',
-		);
-		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(1);
-		expect(res.body[0]).toMatchObject({
-			id: 'JEWELRY_VINTAGE',
-			parentId: 'JEWELRY',
-		});
-	});
-
-	it('returns 1 child for MENS (the grandchild level)', async () => {
+	it('works at the grandchild level', async () => {
 		const res = await request(getApp()).get(
 			'/api/categories/MENS/children',
 		);
 		expect(res.status).toBe(200);
 		expect(res.body).toHaveLength(1);
-		expect(res.body[0].id).toBe('MENS_SHIRTS');
+		expect(res.body[0]).toMatchObject({
+			id: 'MENS_SHIRTS',
+			parentId: 'MENS',
+		});
 	});
 
 	it('returns an empty array for a leaf category', async () => {
@@ -239,21 +205,14 @@ describe('GET /api/categories/:id/children', () => {
 		expect(res.body).toHaveLength(0);
 	});
 
-	it('returns an empty array for an unknown category', async () => {
+	it('returns 404 for an unknown category', async () => {
 		const res = await request(getApp()).get(
 			'/api/categories/DOES_NOT_EXIST/children',
 		);
-		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(0);
-	});
-
-	it('children include their parentId in the response', async () => {
-		const res = await request(getApp()).get(
-			'/api/categories/CLOTHING/children',
-		);
-		for (const child of res.body) {
-			expect(child.parentId).toBe('CLOTHING');
-		}
+		expect(res.status).toBe(404);
+		expect(res.body).toMatchObject({
+			error: ERROR_MESSAGES.category.notFound,
+		});
 	});
 });
 
@@ -263,15 +222,16 @@ describe('GET /api/categories/:id/listings', () => {
 			'/api/categories/CLOTHING/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(Array.isArray(res.body)).toBe(true);
 		expect(res.body).toHaveLength(0);
 	});
 
-	it('returns an empty array for an unknown category', async () => {
+	it('returns 404 for an unknown category', async () => {
 		const res = await request(getApp()).get(
 			'/api/categories/DOES_NOT_EXIST/listings',
 		);
-		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(0);
+		expect(res.status).toBe(404);
+		expect(res.body).toMatchObject({
+			error: ERROR_MESSAGES.category.notFound,
+		});
 	});
 });

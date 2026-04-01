@@ -39,7 +39,16 @@ export const getChildCategories = async (
 	res: Response,
 ) => {
 	const { id } = req.params;
-	const children = await findChildCategories(id.toUpperCase());
+	const upperId = id.toUpperCase();
+
+	const category = await findCategoryById(upperId);
+	if (!category) {
+		return res
+			.status(404)
+			.json({ error: ERROR_MESSAGES.category.notFound });
+	}
+
+	const children = await findChildCategories(upperId);
 	res.json(children.map(mapCategoryToApiResponseData));
 };
 
@@ -48,9 +57,16 @@ export const getListingsByCategory = async (
 	res: Response,
 ) => {
 	const { id } = req.params;
-	const listings = await listingService.findListingsByCategory(
-		id.toUpperCase(),
-	);
+	const upperId = id.toUpperCase();
+
+	const category = await findCategoryById(upperId);
+	if (!category) {
+		return res
+			.status(404)
+			.json({ error: ERROR_MESSAGES.category.notFound });
+	}
+
+	const listings = await listingService.findListingsByCategory(upperId);
 	res.json(listings.map(mapListingToApiResponseData));
 };
 

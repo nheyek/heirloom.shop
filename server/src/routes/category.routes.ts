@@ -11,11 +11,8 @@ import {
 const router = Router();
 
 router.get('/', getCategories);
+router.get(`/${API_ROUTES.categories.topLevel}`, getTopLevelCategories);
 router.get('/:id', getCategoryById);
-router.get(
-	`/:id/${API_ROUTES.categories.topLevel}`,
-	getTopLevelCategories,
-);
 router.get(
 	`/:id/${API_ROUTES.categories.children}`,
 	getChildCategories,
