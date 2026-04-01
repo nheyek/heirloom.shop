@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ERROR_MESSAGES } from '../constants';
 import { mapCategoryToApiResponseData } from '../mappers/category.mapper';
 import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import {
@@ -25,7 +26,9 @@ export const getCategoryById = async (
 	const category = await findCategoryById(id.toUpperCase());
 
 	if (!category) {
-		return res.status(404).json({ error: 'Category not found' });
+		return res
+			.status(404)
+			.json({ error: ERROR_MESSAGES.category.notFound });
 	}
 
 	res.json(mapCategoryToApiResponseData(category));

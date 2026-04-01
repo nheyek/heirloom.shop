@@ -1,5 +1,5 @@
 {
-	"extends": "../tsconfig.base.json",
+	"extends": "../tsconfig.json",
 	"compilerOptions": {
 		"target": "ES6",
 		"module": "ESNext",
@@ -7,10 +7,6 @@
 		"jsx": "react-jsx",
 		"moduleResolution": "bundler"
 	},
-	"include": [
-		"src",
-		"../common/types/ShoppingCartItem.ts",
-		"../common/domain"
-	],
+	"include": ["src", "../common"],
 	"exclude": ["**/*.test.ts"]
 }

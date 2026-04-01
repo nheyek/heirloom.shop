@@ -5,15 +5,13 @@ import * as userService from '../services/user.service';
 export const getCurrentUser = async (req: Request, res: Response) => {
 	const userEmail = req.userClaims?.email;
 
-	let currentUser = await userService.findUserByEmail(userEmail);
-	if (!currentUser) {
-		try {
-			currentUser = await userService.createUser(userEmail);
-		} catch {
-			return res.status(500).json({
-				message: 'Failed to auto-create user record',
-			});
-		}
+	let currentUser;
+	try {
+		currentUser = await userService.findOrCreateUser(userEmail);
+	} catch {
+		return res.status(500).json({
+			message: 'Failed to auto-create user record',
+		});
 	}
 
 	const shopId = await userService.getShopIdForUser(currentUser.id);

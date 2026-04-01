@@ -1,8 +1,8 @@
 import request from 'supertest';
-import { TEST_USER_EMAIL } from '../../server/src/middleware/auth0.middleware';
-import { getEm } from '../../server/src/db';
-import { AppUser } from '../../server/src/entities/generated/AppUser';
-import { findUserByEmail } from '../../server/src/services/user.service';
+import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
+import { getEm } from '@server/db';
+import { AppUser } from '@server/entities/generated/AppUser';
+import { findUserByEmail } from '@server/services/user.service';
 import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
