@@ -3,7 +3,7 @@ import { Router } from 'express';
 import {
 	favoriteListingByShortId,
 	unfavoriteListingByShortId,
-} from '../controllers/favorites.controller';
+} from '../controllers/favorite.controller';
 import {
 	getAllListings,
 	getListingById,
