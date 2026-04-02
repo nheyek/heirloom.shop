@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ERROR_MESSAGES } from '../constants';
 import {
 	mapListingToApiResponseData,
 	mapListingToCompleteApiResponseData,
@@ -15,7 +16,7 @@ export const getListingById = async (req: Request, res: Response) => {
 	const listing =
 		await listingService.findFullListingDataByShortId(shortId);
 	if (!listing) {
-		return res.status(404).json({ message: 'Product not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.listing.notFound });
 	}
 	const variations = await listingService.findListingVariations(
 		listing.id,
