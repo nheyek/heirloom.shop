@@ -10,7 +10,7 @@ export const favoriteListingByShortId = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401);
+		return res.status(401).end();
 	}
 
 	const shortId = req.params.id;
@@ -41,7 +41,7 @@ export const unfavoriteListingByShortId = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401);
+		return res.status(401).end();
 	}
 
 	const shortId = req.params.id;
@@ -75,7 +75,7 @@ export const getFavoritedListings = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401);
+		return res.status(401).end();
 	}
 
 	const user = await userService.findUserByEmail(

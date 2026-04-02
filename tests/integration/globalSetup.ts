@@ -53,7 +53,14 @@ export default async function globalSetup() {
 		database: TEST_DB,
 	});
 
+	// Strip dbmate psql meta-commands (\restrict / \unrestrict) that the pg
+	// client cannot parse — they are only meaningful to the psql CLI.
+	const cleanSchema = schema
+		.split('\n')
+		.filter((line) => !line.startsWith('\\'))
+		.join('\n');
+
 	await testClient.connect();
-	await testClient.query(schema);
+	await testClient.query(cleanSchema);
 	await testClient.end();
 }

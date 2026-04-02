@@ -43,7 +43,7 @@ export const addListingToShop = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401);
+		return res.status(401).end();
 	}
 
 	const shortId = req.params.id;
