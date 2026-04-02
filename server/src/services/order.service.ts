@@ -50,6 +50,12 @@ export const getOrderStatus = async (
 	return order.orderStatus as OrderStatus;
 };
 
+export const getOrderById = async (id: number): Promise<AppOrder> => {
+	const em = getEm();
+	const order = await em.findOneOrFail(AppOrder, { id });
+	return order;
+};
+
 export const updateOrderPaymentIntent = async (
 	orderId: number,
 	paymentIntentId: string,

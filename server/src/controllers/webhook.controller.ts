@@ -1,7 +1,11 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
+import { sendEmail } from '@server/services/emailer.service';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import { updateOrderStatus } from '../services/order.service';
+import {
+	getOrderById,
+	updateOrderStatus,
+} from '../services/order.service';
 
 export const handleStripeWebhook = async (
 	request: Request,
@@ -35,6 +39,14 @@ export const handleStripeWebhook = async (
 				OrderStatus.PAYMENT_SUCCEEDED,
 			);
 		}
+
+		const order = await getOrderById(orderId);
+
+		await sendEmail({
+			to: order.shippingAddress.email,
+			subject: 'Order Confirmation',
+			html: `<p>Thank you for your order!</p>`,
+		});
 	}
 
 	response.json({ received: true });
