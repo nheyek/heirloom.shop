@@ -4,5 +4,9 @@ export const ERROR_MESSAGES = {
 	},
 	listing: {
 		notFound: 'Product not found',
+		favoriteNotFound: 'Listing not found',
+	},
+	user: {
+		notFound: 'User not found',
 	},
 };

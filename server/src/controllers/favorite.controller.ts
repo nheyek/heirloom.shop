@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { ERROR_MESSAGES } from '../constants';
 import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import * as favoriteListingService from '../services/favoriteListing.service';
 import * as listingService from '../services/listing.service';
@@ -17,14 +18,14 @@ export const favoriteListingByShortId = async (
 		await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
-		return res.status(404).json({ message: 'Listing not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.listing.favoriteNotFound });
 	}
 
 	const user = await userService.findUserByEmail(
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: 'User not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	await favoriteListingService.favoriteListing(user.id, listing.id);
@@ -44,14 +45,14 @@ export const unfavoriteListingByShortId = async (
 		await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
-		return res.status(404).json({ message: 'Listing not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.listing.favoriteNotFound });
 	}
 
 	const user = await userService.findUserByEmail(
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: 'User not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	await favoriteListingService.unfavoriteListing(
@@ -73,7 +74,7 @@ export const getFavoritedListings = async (
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: 'User not found' });
+		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	const listings =
