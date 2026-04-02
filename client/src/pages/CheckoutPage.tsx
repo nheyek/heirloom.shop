@@ -49,6 +49,7 @@ export const CheckoutPage = () => {
 		itemPriceTotal,
 		shippingTotal,
 		taxTotal,
+		checkoutEmail,
 		shippingAddress,
 		validateCheckoutFields,
 		clearCart,
@@ -105,6 +106,7 @@ export const CheckoutPage = () => {
 			`${API_ROUTES.checkout.base}/${API_ROUTES.checkout.submitOrder}`,
 			{
 				items: getSimpleCartItems(items),
+				email: checkoutEmail,
 				shippingAddress,
 			},
 		);

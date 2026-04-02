@@ -34,6 +34,7 @@ CREATE TABLE public.app_order (
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     shipping_price integer DEFAULT 0 NOT NULL,
     short_id character varying(10) NOT NULL,
+    email character varying(255) NOT NULL,
     CONSTRAINT app_order_short_id_nonempty CHECK (((short_id)::text <> ''::text))
 );
 
@@ -925,4 +926,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260319120000'),
     ('20260320222034'),
     ('20260330000000'),
-    ('20260330000001');
+    ('20260330000001'),
+    ('20260402000000');

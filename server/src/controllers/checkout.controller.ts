@@ -58,6 +58,7 @@ export const submitOrder = async (
 		subtotalCents,
 		shippingCents,
 		taxTotal,
+		checkoutData.email,
 	);
 
 	const paymentIntent = await createPaymentIntent(

@@ -43,7 +43,7 @@ export const handleStripeWebhook = async (
 		const order = await getOrderById(orderId);
 
 		await sendEmail({
-			to: order.shippingAddress.email,
+			to: order.email,
 			subject: 'Order Confirmation',
 			html: `<p>Thank you for your order!</p>`,
 		});

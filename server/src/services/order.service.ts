@@ -11,6 +11,7 @@ export const createOrder = async (
 	subtotalCents: number,
 	shippingCents: number,
 	taxTotalCents: number,
+	email: string,
 ): Promise<AppOrder> => {
 	const em = getEm();
 
@@ -27,6 +28,7 @@ export const createOrder = async (
 		subtotal: subtotalCents,
 		shippingPrice: shippingCents,
 		taxTotal: taxTotalCents,
+		email,
 	});
 	await em.persistAndFlush(order);
 	return order;

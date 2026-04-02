@@ -36,4 +36,7 @@ export class AppOrder {
   @Property({ length: 10, unique: 'app_order_short_id_key' })
   shortId!: string;
 
+  @Property()
+  email!: string;
+
 }
