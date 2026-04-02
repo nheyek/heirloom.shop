@@ -1,3 +1,5 @@
+export const EMAIL_FROM = 'noreply@heirloom.shop';
+
 export const ERROR_MESSAGES = {
 	category: {
 		notFound: 'Category not found',
