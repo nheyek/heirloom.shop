@@ -1,5 +1,6 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { getEm } from '@server/db';
+import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingVariation } from '@server/entities/generated/ListingVariation';
 import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
@@ -11,30 +12,30 @@ import { useApp } from './helpers/setupApp';
 const getApp = useApp();
 
 /**
- * Sample data:
- * Shop 1: "Artisan Workshop"
- *   - "Handmade Bowl" ($25, no shipping)
- *   - "Ceramic Mug" ($15, $5 shipping) with Size variation (Small +$0, Large +$3)
- * Shop 2: "Wood Crafts"
- *   - "Cutting Board" ($45, $8 shipping)
+ * Sample data (IDs in the 300s to avoid conflicts with other test files):
+ * Shop 30: "Artisan Workshop"
+ *   - "Handmade Bowl" ($25, no shipping)  shortId="cbwl01"
+ *   - "Ceramic Mug" ($15, $5 shipping)    shortId="cmug01"  with Size variation (Small +$0, Large +$3)
+ * Shop 31: "Wood Crafts"
+ *   - "Cutting Board" ($45, $8 shipping)  shortId="cbrd01"
  */
 beforeAll(async () => {
 	const em = getEm();
 
 	const shop1 = em.create(Shop, {
-		id: 1,
+		id: 30,
 		title: 'Artisan Workshop',
-		shortId: 'shop01',
+		shortId: 'shop30',
 	});
 
 	const shop2 = em.create(Shop, {
-		id: 2,
+		id: 31,
 		title: 'Wood Crafts',
-		shortId: 'shop02',
+		shortId: 'shop31',
 	});
 
 	const bowl = em.create(Listing, {
-		shortId: 'bowl01',
+		shortId: 'cbwl01',
 		title: 'Handmade Bowl',
 		priceCents: 2500,
 		shop: shop1,
@@ -42,13 +43,14 @@ beforeAll(async () => {
 	});
 
 	const mugShipping = em.create(ShippingProfile, {
+		id: 30,
 		profileName: 'Standard Shipping',
 		flatShippingRateCents: 500,
 		shop: shop1,
 	});
 
 	const mug = em.create(Listing, {
-		shortId: 'mug01',
+		shortId: 'cmug01',
 		title: 'Ceramic Mug',
 		priceCents: 1500,
 		shop: shop1,
@@ -78,13 +80,14 @@ beforeAll(async () => {
 	});
 
 	const boardShipping = em.create(ShippingProfile, {
+		id: 31,
 		profileName: 'Heavy Item Shipping',
 		flatShippingRateCents: 800,
 		shop: shop2,
 	});
 
 	const cuttingBoard = em.create(Listing, {
-		shortId: 'board01',
+		shortId: 'cbrd01',
 		title: 'Cutting Board',
 		priceCents: 4500,
 		shop: shop2,
@@ -126,7 +129,13 @@ describe('POST /api/checkout/calculateTax', () => {
 
 	it('calculates tax for Illinois addresses and returns zero for non-Illinois', async () => {
 		const requestBody = {
-			items: [{ listingShortId: 'bowl01', selectedOptions: {}, quantity: 1 }],
+			items: [
+				{
+					listingShortId: 'cbwl01',
+					selectedOptions: {},
+					quantity: 1,
+				},
+			],
 			shippingAddress: illinoisAddress,
 		};
 
@@ -139,7 +148,10 @@ describe('POST /api/checkout/calculateTax', () => {
 
 		const nyRes = await request(getApp())
 			.post('/api/checkout/calculateTax')
-			.send({ ...requestBody, shippingAddress: nonIllinoisAddress });
+			.send({
+				...requestBody,
+				shippingAddress: nonIllinoisAddress,
+			});
 
 		expect(nyRes.status).toBe(200);
 		expect(nyRes.body.TaxTotalCents).toBe(0);
@@ -149,14 +161,20 @@ describe('POST /api/checkout/calculateTax', () => {
 		const res = await request(getApp())
 			.post('/api/checkout/calculateTax')
 			.send({
-				items: [{ listingShortId: 'mug01', selectedOptions: { 1: 1 }, quantity: 1 }],
+				items: [
+					{
+						listingShortId: 'cmug01',
+						selectedOptions: { 1: 1 },
+						quantity: 1,
+					},
+				],
 				shippingAddress: illinoisAddress,
 			});
 
 		expect(res.status).toBe(200);
-		// Tax on $15 (item) + $5 (shipping) = $20, ~10% = ~$2 (200 cents)
-		expect(res.body.TaxTotalCents).toBeGreaterThanOrEqual(150);
-		expect(res.body.TaxTotalCents).toBeLessThanOrEqual(250);
+		// Tax on $15 (item) + $5 (shipping) = $20 at 6.25% = 125 cents
+		expect(res.body.TaxTotalCents).toBeGreaterThanOrEqual(100);
+		expect(res.body.TaxTotalCents).toBeLessThanOrEqual(200);
 	});
 
 	it('handles variation options, quantities, and multiple items', async () => {
@@ -164,15 +182,23 @@ describe('POST /api/checkout/calculateTax', () => {
 			.post('/api/checkout/calculateTax')
 			.send({
 				items: [
-					{ listingShortId: 'bowl01', selectedOptions: {}, quantity: 2 },
-					{ listingShortId: 'mug01', selectedOptions: { 1: 2 }, quantity: 1 },
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 2,
+					},
+					{
+						listingShortId: 'cmug01',
+						selectedOptions: { 1: 2 },
+						quantity: 1,
+					},
 				],
 				shippingAddress: illinoisAddress,
 			});
 
 		expect(res.status).toBe(200);
-		// Total: 2*$25 + ($15+$3) + $5 shipping = $73
-		expect(res.body.TaxTotalCents).toBeGreaterThanOrEqual(600);
+		// Total: 2*$25 + ($15+$3) + $5 shipping = $73 at 6.25% = 457 cents
+		expect(res.body.TaxTotalCents).toBeGreaterThanOrEqual(400);
 	});
 
 	it('handles empty cart and unknown items', async () => {
@@ -186,7 +212,13 @@ describe('POST /api/checkout/calculateTax', () => {
 		const unknownRes = await request(getApp())
 			.post('/api/checkout/calculateTax')
 			.send({
-				items: [{ listingShortId: 'unknown', selectedOptions: {}, quantity: 1 }],
+				items: [
+					{
+						listingShortId: 'unknown',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
 				shippingAddress: illinoisAddress,
 			});
 
@@ -219,8 +251,15 @@ describe('POST /api/checkout/submitOrder', () => {
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
 			.send({
-				items: [{ listingShortId: 'bowl01', selectedOptions: {}, quantity: 1 }],
+				items: [
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
 				shippingAddress: address,
+				email: 'buyer@example.com',
 			});
 
 		expect(res.status).toBe(200);
@@ -229,8 +268,10 @@ describe('POST /api/checkout/submitOrder', () => {
 		expect(res.body.clientSecret).toContain('pi_');
 
 		const em = getEm();
-		const order = await em.findOne('AppOrder' as any, { shortId: res.body.orderShortId });
-		
+		const order = await em.findOne(AppOrder, {
+			shortId: res.body.orderShortId,
+		});
+
 		expect(order!.subtotal).toBe(2500);
 		expect(order!.shippingPrice).toBe(0);
 		expect(order!.taxTotal).toBeGreaterThan(0);
@@ -244,20 +285,31 @@ describe('POST /api/checkout/submitOrder', () => {
 			.post('/api/checkout/submitOrder')
 			.send({
 				items: [
-					{ listingShortId: 'bowl01', selectedOptions: {}, quantity: 1 },
-					{ listingShortId: 'mug01', selectedOptions: { 1: 2 }, quantity: 2 },
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+					{
+						listingShortId: 'cmug01',
+						selectedOptions: { 1: 2 },
+						quantity: 2,
+					},
 				],
 				shippingAddress: address,
+				email: 'buyer@example.com',
 			});
 
 		expect(res.status).toBe(200);
 
 		const em = getEm();
-		const order = await em.findOne('AppOrder' as any, { shortId: res.body.orderShortId });
-		
+		const order = await em.findOne(AppOrder, {
+			shortId: res.body.orderShortId,
+		});
+
 		expect(order!.subtotal).toBe(6100); // $25 + 2*($15+$3)
 		expect(order!.shippingPrice).toBe(1000); // 2*$5
-		
+
 		const items = order!.items;
 		expect(items).toHaveLength(2);
 		expect(items[0]).toMatchObject({
