@@ -38,6 +38,14 @@ export const submitOrder = async (
 ) => {
 	const checkoutData = request.body;
 
+	// Validate cart is not empty
+	if (!checkoutData.items || checkoutData.items.length === 0) {
+		response.status(400).json({
+			error: 'Cart cannot be empty',
+		} as any);
+		return;
+	}
+
 	const queryData = await loadCheckoutData(checkoutData);
 	const { subtotalCents, shippingTotalCents: shippingCents } =
 		calculateCheckoutTotals(checkoutData.items, queryData);
