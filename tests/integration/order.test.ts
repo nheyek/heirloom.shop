@@ -16,6 +16,7 @@ beforeAll(async () => {
 
 	const order1 = em.create(AppOrder, {
 		shortId: 'ord123',
+		email: 'customer@example.com',
 		items: [],
 		shippingAddress: {
 			firstName: 'John',
@@ -34,6 +35,7 @@ beforeAll(async () => {
 
 	const order2 = em.create(AppOrder, {
 		shortId: 'ord456',
+		email: 'another@example.com',
 		items: [],
 		shippingAddress: {
 			firstName: 'Jane',

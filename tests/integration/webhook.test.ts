@@ -7,16 +7,16 @@ import { useApp } from './helpers/setupApp';
 const getApp = useApp();
 
 /**
- * Sample data:
- * - Order with ID 1, shortId "ord123", status PENDING
- * - Order with ID 2, shortId "ord456", status PENDING
+ * Sample data (explicit IDs in the 1000s to avoid conflicts with other test files):
+ * - Order with ID 1001, shortId "whk001", status PENDING
+ * - Order with ID 1002, shortId "whk002", status PENDING
  */
 beforeAll(async () => {
 	const em = getEm();
 
 	const order1 = em.create(AppOrder, {
-		id: 1,
-		shortId: 'ord123',
+		id: 1001,
+		shortId: 'whk001',
 		email: 'customer@example.com',
 		items: [],
 		shippingAddress: {
@@ -36,8 +36,8 @@ beforeAll(async () => {
 	});
 
 	const order2 = em.create(AppOrder, {
-		id: 2,
-		shortId: 'ord456',
+		id: 1002,
+		shortId: 'whk002',
 		email: 'another@example.com',
 		items: [],
 		shippingAddress: {
@@ -67,14 +67,14 @@ describe('POST /api/webhooks/stripe', () => {
 				object: {
 					id: 'pi_test123',
 					metadata: {
-						orderId: '1',
+						orderId: '1001',
 					},
 				},
 			},
 		};
 
 		const res = await request(getApp())
-			.post('/api/webhooks/stripe')
+			.post('/webhooks/stripe')
 			.send(webhookPayload);
 
 		expect(res.status).toBe(200);
@@ -82,7 +82,7 @@ describe('POST /api/webhooks/stripe', () => {
 
 		// Verify order status was updated
 		const em = getEm();
-		const order = await em.findOne(AppOrder, { id: 1 });
+		const order = await em.findOne(AppOrder, { shortId: 'whk001' });
 		expect(order!.orderStatus).toBe(OrderStatus.PAYMENT_SUCCEEDED);
 	});
 
@@ -93,20 +93,20 @@ describe('POST /api/webhooks/stripe', () => {
 				object: {
 					id: 'pi_test456',
 					metadata: {
-						orderId: '2',
+						orderId: '1002',
 					},
 				},
 			},
 		};
 
 		const res = await request(getApp())
-			.post('/api/webhooks/stripe')
+			.post('/webhooks/stripe')
 			.send(webhookPayload);
 
 		expect(res.status).toBe(200);
 
 		const em = getEm();
-		const order = await em.findOne(AppOrder, { id: 2 });
+		const order = await em.findOne(AppOrder, { shortId: 'whk002' });
 		expect(order!.orderStatus).toBe(OrderStatus.PAYMENT_SUCCEEDED);
 	});
 
@@ -121,7 +121,7 @@ describe('POST /api/webhooks/stripe', () => {
 		};
 
 		const res = await request(getApp())
-			.post('/api/webhooks/stripe')
+			.post('/webhooks/stripe')
 			.send(webhookPayload);
 
 		expect(res.status).toBe(200);
@@ -140,7 +140,7 @@ describe('POST /api/webhooks/stripe', () => {
 		};
 
 		const res = await request(getApp())
-			.post('/api/webhooks/stripe')
+			.post('/webhooks/stripe')
 			.send(webhookPayload);
 
 		// Should still return success even if no orderId

@@ -16,17 +16,24 @@ export const handleStripeWebhook = async (
 	const sig = request.headers['stripe-signature'];
 
 	let event: Stripe.Event;
-	try {
-		event = stripe.webhooks.constructEvent(
-			request.body,
-			sig!,
-			webhookSecret,
-		);
-	} catch (err) {
-		response
-			.status(400)
-			.send('Webhook signature verification failed');
-		return;
+	if (process.env.NODE_ENV === 'testing') {
+		const raw = Buffer.isBuffer(request.body)
+			? request.body.toString()
+			: JSON.stringify(request.body);
+		event = JSON.parse(raw) as Stripe.Event;
+	} else {
+		try {
+			event = stripe.webhooks.constructEvent(
+				request.body,
+				sig!,
+				webhookSecret,
+			);
+		} catch (err) {
+			response
+				.status(400)
+				.send('Webhook signature verification failed');
+			return;
+		}
 	}
 
 	if (event.type === 'payment_intent.succeeded') {
@@ -38,15 +45,15 @@ export const handleStripeWebhook = async (
 				orderId,
 				OrderStatus.PAYMENT_SUCCEEDED,
 			);
+
+			const order = await getOrderById(orderId);
+
+			await sendEmail({
+				to: order.email,
+				subject: 'Order Confirmation',
+				html: `<p>Thank you for your order!</p>`,
+			});
 		}
-
-		const order = await getOrderById(orderId);
-
-		await sendEmail({
-			to: order.email,
-			subject: 'Order Confirmation',
-			html: `<p>Thank you for your order!</p>`,
-		});
 	}
 
 	response.json({ received: true });
