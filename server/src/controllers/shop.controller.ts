@@ -1,5 +1,6 @@
 import { ShopProfile } from '@common/types/ShopProfile';
 import { Request, Response } from 'express';
+import { ERROR_MESSAGES } from '../constants';
 import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import { mapShopToApiResponseData } from '../mappers/shop.mapper';
 import * as listingService from '../services/listing.service';
@@ -15,7 +16,9 @@ export const getShop = async (req: Request, res: Response) => {
 	const shortId = req.params.id;
 	const shop = await shopService.findShopByShortId(shortId);
 	if (!shop) {
-		return res.status(404).json({ message: 'Shop not found' });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.shop.notFound });
 	}
 	res.json(mapShopToApiResponseData(shop));
 };
@@ -27,7 +30,9 @@ export const getListingsByShop = async (
 	const shortId = req.params.id;
 	const shop = await shopService.findShopByShortId(shortId);
 	if (!shop) {
-		return res.status(404).json({ message: 'Shop not found' });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.shop.notFound });
 	}
 	const listings = await listingService.findListingsByShop(shop.id);
 	return res.json(listings.map(mapListingToApiResponseData));
@@ -38,31 +43,30 @@ export const addListingToShop = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401).json({
-			message: 'Unauthorized: Missing email claim',
-		});
+		return res.status(401);
 	}
 
 	const shortId = req.params.id;
 	const shop = await shopService.findShopByShortId(shortId);
 	if (!shop) {
-		return res.status(404).json({ message: 'Shop not found' });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.shop.notFound });
 	}
 
 	try {
-		shopService.authorizeShopAction(
+		await shopService.authorizeShopAction(
 			shop.id,
 			req.userClaims.email,
 		);
 	} catch (e) {
-		res.status(403).json({
-			message:
-				'Forbidden: You do not have permission to perform this action on the shop',
+		return res.status(403).json({
+			message: ERROR_MESSAGES.shop.forbidden,
 		});
 	}
 
 	const profileApiRequest = req.body as ShopProfile;
-	const id = productService.createListing(
+	const id = await productService.createListing(
 		profileApiRequest,
 		shop.id,
 	);

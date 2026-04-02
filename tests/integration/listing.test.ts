@@ -39,7 +39,6 @@ beforeAll(async () => {
 	});
 
 	const vase = em.create(Listing, {
-		id: 1,
 		shortId: 'vase01',
 		title: 'Handmade Vase',
 		subtitle: 'Hand-thrown stoneware',
@@ -47,7 +46,6 @@ beforeAll(async () => {
 		shop: shop1,
 	});
 	const shirt = em.create(Listing, {
-		id: 2,
 		shortId: 'shrt01',
 		title: "Men's Oxford Shirt",
 		priceCents: 8900,
@@ -55,7 +53,6 @@ beforeAll(async () => {
 		category: 'MENS_SHIRTS',
 	});
 	const blouse = em.create(Listing, {
-		id: 3,
 		shortId: 'blse01',
 		title: 'Linen Blouse',
 		priceCents: 7500,
@@ -63,7 +60,6 @@ beforeAll(async () => {
 		category: 'WOMENS',
 	});
 	const brooch = em.create(Listing, {
-		id: 4,
 		shortId: 'brch01',
 		title: 'Art Deco Brooch',
 		priceCents: 12000,
@@ -71,7 +67,6 @@ beforeAll(async () => {
 		category: 'JEWELRY_VINTAGE',
 	});
 	const dresser = em.create(Listing, {
-		id: 5,
 		shortId: 'drss01',
 		title: 'Mahogany Dresser',
 		priceCents: 145000,
@@ -95,7 +90,6 @@ beforeAll(async () => {
 		returnWindowDays: 30,
 	});
 	const desk = em.create(Listing, {
-		id: 6,
 		shortId: 'desk01',
 		title: 'Victorian Writing Desk',
 		priceCents: 89500,
@@ -163,7 +157,6 @@ describe('GET /api/listings/:id', () => {
 		);
 		expect(res.status).toBe(200);
 		expect(res.body).toMatchObject({
-			id: 2,
 			shortId: 'shrt01',
 			title: "Men's Oxford Shirt",
 			priceCents: 8900,

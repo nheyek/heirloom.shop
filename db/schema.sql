@@ -1,3 +1,8 @@
+\restrict dbmate
+
+-- Dumped from database version 15.13 (Homebrew)
+-- Dumped by pg_dump version 15.17 (Homebrew)
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -117,7 +122,7 @@ CREATE TABLE public.listing (
     lead_time_days_max integer DEFAULT 0 NOT NULL,
     shipping_origin_id integer,
     full_descr jsonb,
-    short_id character varying(10)
+    short_id character varying(10) NOT NULL
 );
 
 
@@ -134,6 +139,26 @@ CREATE TABLE public.listing_category (
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
 );
+
+
+--
+-- Name: listing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.listing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.listing_id_seq OWNED BY public.listing.id;
 
 
 --
@@ -202,26 +227,6 @@ CREATE SEQUENCE public.listing_variation_option_id_seq
 --
 
 ALTER SEQUENCE public.listing_variation_option_id_seq OWNED BY public.listing_variation_option.id;
-
-
---
--- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.product_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.product_id_seq OWNED BY public.listing.id;
 
 
 --
@@ -464,7 +469,7 @@ ALTER TABLE ONLY public.app_user ALTER COLUMN id SET DEFAULT nextval('public.app
 -- Name: listing id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.listing_id_seq'::regclass);
 
 
 --
@@ -875,9 +880,49 @@ ALTER TABLE ONLY public.user_favorite_listing
 -- PostgreSQL database dump complete
 --
 
+\unrestrict dbmate
+
 
 --
 -- Dbmate schema migrations
 --
 
-INSERT INTO public.schema_migrations (version) VALUES ('20260320222034');
+INSERT INTO public.schema_migrations (version) VALUES
+    ('20250724200401'),
+    ('20250805180143'),
+    ('20250913005316'),
+    ('20251010152025'),
+    ('20251023163605'),
+    ('20251125181457'),
+    ('20251126162741'),
+    ('20251208210850'),
+    ('20251209162737'),
+    ('20251229185344'),
+    ('20251230150327'),
+    ('20251230152757'),
+    ('20260109202903'),
+    ('20260116151037'),
+    ('20260116151954'),
+    ('20260116154907'),
+    ('20260116161320'),
+    ('20260116185227'),
+    ('20260116185549'),
+    ('20260118193651'),
+    ('20260118204227'),
+    ('20260118205636'),
+    ('20260121153310'),
+    ('20260129201958'),
+    ('20260130141013'),
+    ('20260130151814'),
+    ('20260318000000'),
+    ('20260318141717'),
+    ('20260318142402'),
+    ('20260318143323'),
+    ('20260318182554'),
+    ('20260318193756'),
+    ('20260318194100'),
+    ('20260318194200'),
+    ('20260319120000'),
+    ('20260320222034'),
+    ('20260330000000'),
+    ('20260330000001');

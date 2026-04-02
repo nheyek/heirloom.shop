@@ -10,7 +10,7 @@ export const favoriteListingByShortId = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(401);
 	}
 
 	const shortId = req.params.id;
@@ -18,14 +18,18 @@ export const favoriteListingByShortId = async (
 		await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
-		return res.status(404).json({ message: ERROR_MESSAGES.listing.favoriteNotFound });
+		return res.status(404).json({
+			message: ERROR_MESSAGES.listing.favoriteNotFound,
+		});
 	}
 
 	const user = await userService.findUserByEmail(
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	await favoriteListingService.favoriteListing(user.id, listing.id);
@@ -37,7 +41,7 @@ export const unfavoriteListingByShortId = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(401);
 	}
 
 	const shortId = req.params.id;
@@ -45,14 +49,18 @@ export const unfavoriteListingByShortId = async (
 		await listingService.findFullListingDataByShortId(shortId);
 
 	if (!listing) {
-		return res.status(404).json({ message: ERROR_MESSAGES.listing.favoriteNotFound });
+		return res.status(404).json({
+			message: ERROR_MESSAGES.listing.favoriteNotFound,
+		});
 	}
 
 	const user = await userService.findUserByEmail(
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	await favoriteListingService.unfavoriteListing(
@@ -67,14 +75,16 @@ export const getFavoritedListings = async (
 	res: Response,
 ) => {
 	if (!req.userClaims?.email) {
-		return res.status(401).json({ message: 'Unauthorized' });
+		return res.status(401);
 	}
 
 	const user = await userService.findUserByEmail(
 		req.userClaims.email,
 	);
 	if (!user) {
-		return res.status(404).json({ message: ERROR_MESSAGES.user.notFound });
+		return res
+			.status(404)
+			.json({ message: ERROR_MESSAGES.user.notFound });
 	}
 
 	const listings =

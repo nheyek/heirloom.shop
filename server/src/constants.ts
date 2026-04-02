@@ -6,6 +6,11 @@ export const ERROR_MESSAGES = {
 		notFound: 'Product not found',
 		favoriteNotFound: 'Listing not found',
 	},
+	shop: {
+		notFound: 'Shop not found',
+		forbidden:
+			'Forbidden: You do not have permission to perform this action on the shop',
+	},
 	user: {
 		notFound: 'User not found',
 	},

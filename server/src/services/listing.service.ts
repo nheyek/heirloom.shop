@@ -6,9 +6,7 @@ import { ListingVariation } from '../entities/generated/ListingVariation';
 import { Shop } from '../entities/generated/Shop';
 import { encodeId } from '../utils/hashids';
 
-export const findListingsComplete = async (): Promise<
-	Listing[]
-> => {
+export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
 	return em.find(
 		Listing,
@@ -33,10 +31,8 @@ export const findListingsByCategory = async (
 ): Promise<Listing[]> => {
 	const em = getEm();
 
-	const categoryIdResult = await em
-		.getConnection()
-		.execute(
-			`
+	const categoryIdResult = await em.getConnection().execute(
+		`
         WITH RECURSIVE category_tree AS (
         SELECT id FROM listing_category WHERE id = ?
         UNION ALL
@@ -45,13 +41,11 @@ export const findListingsByCategory = async (
         )
         SELECT id FROM category_tree
     `,
-			[categoryId],
-			'all',
-		);
-
-	const categoryIds = categoryIdResult.map(
-		(row: any) => row.id,
+		[categoryId],
+		'all',
 	);
+
+	const categoryIds = categoryIdResult.map((row: any) => row.id);
 	return em.find(
 		Listing,
 		{
@@ -104,7 +98,7 @@ export const createListing = async (
 		shortId: encodeId(nextId),
 		title: profileApiRequest.title,
 		fullDescr: profileApiRequest.desc,
-		shop: { id: shopId } as Shop,
+		shop: em.getReference(Shop, shopId),
 	});
 	await em.persistAndFlush(listing);
 

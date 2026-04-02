@@ -18,7 +18,7 @@ export const authAndSetUser = (
 ) => {
 	if (process.env.NODE_ENV === 'testing') {
 		if (!req.headers.authorization) {
-			return res.status(401).json({ message: 'Unauthorized' });
+			return res.status(401);
 		}
 		req.userClaims = { email: TEST_USER_EMAIL };
 		return next();
