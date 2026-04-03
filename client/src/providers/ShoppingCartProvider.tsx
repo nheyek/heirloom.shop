@@ -76,7 +76,7 @@ export const ShoppingCartProvider = (props: {
 	const [checkoutEmailError, setCheckoutEmailError] = useState<
 		string | null
 	>(null);
-	const [shippingAddress, setShippingAddress] =
+	const [shippingAddress, _setShippingAddress] =
 		useState<ShippingAddress>({
 			firstName: '',
 			lastName: '',
@@ -86,12 +86,18 @@ export const ShoppingCartProvider = (props: {
 			state: '',
 			zip: '',
 		});
+
 	const [shippingAddressErrors, setShippingAddressErrors] =
 		useState({});
 	const [
 		shippingAddressUndeliverable,
 		setShippingAddressUndeliverable,
 	] = useState(false);
+
+	const setShippingAddress = (address: ShippingAddress) => {
+		_setShippingAddress(address);
+		setShippingAddressUndeliverable(false);
+	};
 	const [taxCalcLoading, setTaxCalcLoading] =
 		useState<boolean>(false);
 	const [taxTotal, setTaxTotal] = useState<number | null>(null);
