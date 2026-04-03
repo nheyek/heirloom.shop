@@ -7,6 +7,7 @@ import { ListingVariationOption } from '@server/entities/generated/ListingVariat
 import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
+import { seedCategories } from './helpers/seedData';
 import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
@@ -21,6 +22,7 @@ const getApp = useApp();
  */
 beforeAll(async () => {
 	const em = getEm();
+	await seedCategories(em);
 
 	const shop1 = em.create(Shop, {
 		id: 30,
@@ -39,6 +41,7 @@ beforeAll(async () => {
 		title: 'Handmade Bowl',
 		priceCents: 2500,
 		shop: shop1,
+		category: 'FURNITURE',
 		imageUuids: ['img-bowl-01'],
 	});
 
@@ -54,6 +57,7 @@ beforeAll(async () => {
 		title: 'Ceramic Mug',
 		priceCents: 1500,
 		shop: shop1,
+		category: 'FURNITURE',
 		shippingProfile: mugShipping,
 		imageUuids: ['img-mug-01'],
 	});
@@ -91,6 +95,7 @@ beforeAll(async () => {
 		title: 'Cutting Board',
 		priceCents: 4500,
 		shop: shop2,
+		category: 'FURNITURE',
 		shippingProfile: boardShipping,
 		imageUuids: ['img-board-01'],
 	});

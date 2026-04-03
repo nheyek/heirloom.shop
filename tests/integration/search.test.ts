@@ -42,6 +42,7 @@ beforeAll(async () => {
 		title: 'Handmade Ceramic Bowl',
 		priceCents: 2500,
 		shop: artisanShop,
+		category: 'FURNITURE',
 	});
 
 	const cuttingBoard = em.create(Listing, {
@@ -49,6 +50,7 @@ beforeAll(async () => {
 		title: 'Wooden Cutting Board',
 		priceCents: 4500,
 		shop: woodShop,
+		category: 'FURNITURE',
 	});
 
 	const vase = em.create(Listing, {
@@ -56,6 +58,7 @@ beforeAll(async () => {
 		title: 'Ceramic Vase',
 		priceCents: 3500,
 		shop: artisanShop,
+		category: 'FURNITURE',
 	});
 
 	await em.persistAndFlush([

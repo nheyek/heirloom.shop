@@ -12,9 +12,7 @@ export const mapListingToApiResponseData = (
 	shortId: listing.shortId,
 	title: listing.title,
 	subtitle: listing.subtitle || '',
-	categoryId: listing.category
-		? listing.category.id.toString()
-		: '',
+	categoryId: listing.category.id,
 	priceCents: listing.priceCents || 0,
 	countryCode: listing.country?.code,
 	shopId: listing.shop.id,

@@ -3,6 +3,7 @@ import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
+import { seedCategories } from './helpers/seedData';
 import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
@@ -19,6 +20,7 @@ const AUTH = { Authorization: 'Bearer test' };
  */
 beforeAll(async () => {
 	const em = getEm();
+	await seedCategories(em);
 
 	// Ensure the test user exists
 	await request(getApp()).get('/api/me').set(AUTH);
@@ -34,6 +36,7 @@ beforeAll(async () => {
 		title: 'Ceramic Bowl',
 		priceCents: 3200,
 		shop,
+		category: 'FURNITURE',
 	});
 	const scarf = em.create(Listing, {
 		id: 102,
@@ -41,6 +44,7 @@ beforeAll(async () => {
 		title: 'Wool Scarf',
 		priceCents: 5500,
 		shop,
+		category: 'CLOTHING',
 	});
 	const lamp = em.create(Listing, {
 		id: 103,
@@ -48,6 +52,7 @@ beforeAll(async () => {
 		title: 'Brass Lamp',
 		priceCents: 18000,
 		shop,
+		category: 'FURNITURE',
 	});
 
 	await em.persistAndFlush([shop, bowl, scarf, lamp]);

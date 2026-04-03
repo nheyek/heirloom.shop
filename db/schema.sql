@@ -111,7 +111,7 @@ CREATE TABLE public.listing (
     title character varying(128) NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    category_id character varying(64),
+    category_id character varying(64) NOT NULL,
     subtitle character varying(256),
     price_cents integer DEFAULT 0 NOT NULL,
     shop_id integer NOT NULL,
@@ -754,7 +754,7 @@ CREATE INDEX idx_user_favorite_listing_user_id ON public.user_favorite_listing U
 --
 
 ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.listing_category(id) ON DELETE SET NULL;
+    ADD CONSTRAINT listing_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.listing_category(id) ON DELETE RESTRICT;
 
 
 --
@@ -927,4 +927,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260320222034'),
     ('20260330000000'),
     ('20260330000001'),
-    ('20260402000000');
+    ('20260402000000'),
+    ('20260403000000');

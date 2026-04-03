@@ -23,8 +23,8 @@ export class Listing {
   @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
-  @ManyToOne({ entity: () => ListingCategory, deleteRule: 'set null', nullable: true })
-  category?: ListingCategory;
+  @ManyToOne({ entity: () => ListingCategory })
+  category!: ListingCategory;
 
   @Property({ length: 256, nullable: true })
   subtitle?: string;

@@ -6,6 +6,7 @@ import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import { findOrCreateUser } from '@server/services/user.service';
 import request from 'supertest';
+import { seedCategories } from './helpers/seedData';
 import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
@@ -24,6 +25,7 @@ const AUTH = { Authorization: 'Bearer test' };
  */
 beforeAll(async () => {
 	const em = getEm();
+	await seedCategories(em);
 
 	const testUser = await findOrCreateUser(TEST_USER_EMAIL);
 
@@ -46,6 +48,7 @@ beforeAll(async () => {
 		title: 'Oak Dining Table',
 		priceCents: 120000,
 		shop: woodworkers,
+		category: 'FURNITURE',
 	});
 	const bookshelf = em.create(Listing, {
 		id: 202,
@@ -53,6 +56,7 @@ beforeAll(async () => {
 		title: 'Walnut Bookshelf',
 		priceCents: 85000,
 		shop: woodworkers,
+		category: 'FURNITURE',
 	});
 
 	const ownerRole = em.create(ShopUserRole, {

@@ -14,7 +14,7 @@ const getApp = useApp();
  * Sample data:
  *
  * Shop 1: "Artisan Workshop"
- *   - "Handmade Vase"       (no category)
+ *   - "Handmade Vase"       (FURNITURE)
  *   - "Men's Oxford Shirt"  (MENS_SHIRTS — grandchild of CLOTHING)
  *   - "Linen Blouse"        (WOMENS — child of CLOTHING)
  *
@@ -44,6 +44,7 @@ beforeAll(async () => {
 		subtitle: 'Hand-thrown stoneware',
 		priceCents: 2500,
 		shop: shop1,
+		category: 'FURNITURE',
 	});
 	const shirt = em.create(Listing, {
 		shortId: 'shrt01',
