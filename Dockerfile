@@ -11,7 +11,7 @@ RUN npm install -g typescript
 
 # Include common types
 COPY common ./common
-COPY tsconfig.base.json ./
+COPY tsconfig.json ./
 
 # Copy package manifests
 COPY server/package*.json ./server/
