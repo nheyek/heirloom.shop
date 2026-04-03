@@ -22,7 +22,12 @@ import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
 
 export const CategoryPage = () => {
-	const { id } = useParams<{ id: string }>();
+	const navigate = useNavigate();
+	const { id: idParam } = useParams<{ id: string }>();
+	if (!idParam) {
+		navigate('/');
+	}
+	const id = idParam!;
 
 	const {
 		getCategory,
@@ -32,9 +37,9 @@ export const CategoryPage = () => {
 		categoriesError,
 	} = useCategories();
 
-	const category = id ? getCategory(id?.toUpperCase()) : null;
-	const childCategories = id ? getChildCategories(id) : [];
-	const ancestorCategories = id ? getAncestorCategories(id) : [];
+	const category = getCategory(id.toUpperCase());
+	const childCategories = getChildCategories(id);
+	const ancestorCategories = getAncestorCategories(id);
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
@@ -43,11 +48,9 @@ export const CategoryPage = () => {
 	);
 	const isLoading = listingsLoading || categoriesLoading;
 
-	const navigate = useNavigate();
-
 	const loadListings = async () => {
 		const response = await categoryClient.getListings({
-			params: { id: id! },
+			params: { id },
 		});
 		if (response.status === 200) {
 			setListings(response.body);
