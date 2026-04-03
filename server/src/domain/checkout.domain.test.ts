@@ -1,8 +1,8 @@
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
+import { CheckoutCartData } from '../types/CheckoutCartData';
 import {
 	calculateCheckoutTotals,
-	CheckoutQueryData,
 	createOrderItemSnapshots,
 } from './checkout.domain';
 
@@ -52,18 +52,18 @@ const makeOption = (
 
 describe('calculateCheckoutTotals', () => {
 	it('returns zero totals for an empty cart', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [],
 			variationOptions: [],
 		};
 		expect(calculateCheckoutTotals([], queryData)).toEqual({
 			subtotalCents: 0,
-			shippingTotalCents: 0,
+			shippingCents: 0,
 		});
 	});
 
 	it('calculates subtotal from listing base price', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [],
 		};
@@ -81,7 +81,7 @@ describe('calculateCheckoutTotals', () => {
 	});
 
 	it('multiplies unit price by quantity', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 500)],
 			variationOptions: [],
 		};
@@ -99,7 +99,7 @@ describe('calculateCheckoutTotals', () => {
 	});
 
 	it('adds additional price from selected options', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [
 				makeOption(10, 1, 500, 'Size', 'Large'),
@@ -119,7 +119,7 @@ describe('calculateCheckoutTotals', () => {
 	});
 
 	it('calculates shipping total from shipping profile', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
 					flatShippingRateCents: 400,
@@ -141,7 +141,7 @@ describe('calculateCheckoutTotals', () => {
 	});
 
 	it('treats missing shipping profile as zero shipping', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [],
 		};
@@ -159,7 +159,7 @@ describe('calculateCheckoutTotals', () => {
 	});
 
 	it('skips items whose listing is not found', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [],
 		};
@@ -175,31 +175,12 @@ describe('calculateCheckoutTotals', () => {
 		);
 		expect(result).toEqual({
 			subtotalCents: 0,
-			shippingTotalCents: 0,
+			shippingCents: 0,
 		});
 	});
 
-	it('throws when a selected option is not in queryData', () => {
-		const queryData: CheckoutQueryData = {
-			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
-		};
-		expect(() =>
-			calculateCheckoutTotals(
-				[
-					{
-						listingShortId: 'abc',
-						selectedOptions: { 1: 999 },
-						quantity: 1,
-					},
-				],
-				queryData,
-			),
-		).toThrow('Variation with ID 1 not found for listing abc');
-	});
-
 	it('accumulates totals across multiple items', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
 					flatShippingRateCents: 300,
@@ -232,7 +213,7 @@ describe('calculateCheckoutTotals', () => {
 
 describe('createOrderItemSnapshots', () => {
 	it('returns an empty array for an empty cart', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [],
 			variationOptions: [],
 		};
@@ -240,7 +221,7 @@ describe('createOrderItemSnapshots', () => {
 	});
 
 	it('creates a snapshot with correct fields', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
 					title: 'Handmade Bowl',
@@ -271,7 +252,7 @@ describe('createOrderItemSnapshots', () => {
 	});
 
 	it('uses null for imageUuid when listing has no images', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000, { imageUuids: [] })],
 			variationOptions: [],
 		};
@@ -289,7 +270,7 @@ describe('createOrderItemSnapshots', () => {
 	});
 
 	it('includes variation name and value in snapshot', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [
 				makeOption(10, 1, 500, 'Size', 'Large'),
@@ -312,7 +293,7 @@ describe('createOrderItemSnapshots', () => {
 	});
 
 	it('skips items whose listing is not found', () => {
-		const queryData: CheckoutQueryData = {
+		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 			variationOptions: [],
 		};

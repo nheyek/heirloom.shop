@@ -1,5 +1,5 @@
 import { calculateItemPrice } from './shoppingCart';
-import { ShoppingCartItem } from '../types/ShoppingCartItem';
+import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 
 const baseItem: ShoppingCartItem = {
 	listingData: {
