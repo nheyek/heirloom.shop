@@ -71,6 +71,50 @@ describe('calculateItemPrice', () => {
 		expect(calculateItemPrice(item)).toBe(1000);
 	});
 
+	it('throws when a selected variation does not exist on the listing', () => {
+		const item: ShoppingCartItem = {
+			...baseItem,
+			listingData: {
+				...baseItem.listingData,
+				variations: [
+					{
+						id: 10,
+						name: 'Size',
+						pricesVary: true,
+						options: [{ id: 1, name: 'Small', additionalPriceCents: 0 }],
+					},
+				],
+			},
+			selectedOptions: { 99: 1 },
+		};
+
+		expect(() => calculateItemPrice(item)).toThrow(
+			'Variation with ID 99 not found for listing abc123',
+		);
+	});
+
+	it('throws when a selected option does not exist on the variation', () => {
+		const item: ShoppingCartItem = {
+			...baseItem,
+			listingData: {
+				...baseItem.listingData,
+				variations: [
+					{
+						id: 10,
+						name: 'Size',
+						pricesVary: true,
+						options: [{ id: 1, name: 'Small', additionalPriceCents: 0 }],
+					},
+				],
+			},
+			selectedOptions: { 10: 99 },
+		};
+
+		expect(() => calculateItemPrice(item)).toThrow(
+			'Option with ID 99 not found for variation 10 in listing abc123',
+		);
+	});
+
 	it('accumulates price across multiple variations', () => {
 		const item: ShoppingCartItem = {
 			...baseItem,
