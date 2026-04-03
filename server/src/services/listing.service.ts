@@ -1,6 +1,7 @@
 import { sql } from '@mikro-orm/core';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
+import { ListingCategory } from '../entities/generated/ListingCategory';
 import { ListingImage } from '../entities/generated/ListingImage';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { Shop } from '../entities/generated/Shop';
@@ -83,7 +84,7 @@ export const findFullListingDataByShortId = async (
 };
 
 export const createListing = async (
-	profileApiRequest: { title: string; desc: string },
+	profileApiRequest: { title: string; desc: string; categoryId: string },
 	shopId: number,
 ) => {
 	const em = getEm();
@@ -99,6 +100,7 @@ export const createListing = async (
 		title: profileApiRequest.title,
 		fullDescr: profileApiRequest.desc,
 		shop: em.getReference(Shop, shopId),
+		category: em.getReference(ListingCategory, profileApiRequest.categoryId),
 	});
 	await em.persistAndFlush(listing);
 
