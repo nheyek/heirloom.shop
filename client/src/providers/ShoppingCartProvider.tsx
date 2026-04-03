@@ -7,12 +7,6 @@ import {
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { TaxCalculationResponse } from '@common/types/TaxCalculationResponse';
 import {
-	getEmailFieldError,
-	getShippingAddressFieldErrors,
-	getSimpleCartItems,
-} from 'client/src/domain/checkout';
-import { calculateItemPrice } from 'client/src/domain/shoppingCart';
-import {
 	createContext,
 	useContext,
 	useEffect,
@@ -20,6 +14,12 @@ import {
 	useState,
 } from 'react';
 import { StorageKey } from '../constants';
+import {
+	getEmailFieldError,
+	getShippingAddressFieldErrors,
+	getSimpleCartItems,
+} from '../domain/checkout';
+import { calculateItemPrice } from '../domain/shoppingCart';
 import useApi from '../hooks/useApi';
 import { usePersistedState } from '../hooks/usePersistedState';
 import { validateDeliverableAddress } from '../utils/googleMapsUtils';

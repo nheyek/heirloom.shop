@@ -15,7 +15,6 @@ import {
 	Wrap,
 } from '@chakra-ui/react';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { calculateItemPrice } from 'client/src/domain/shoppingCart';
 import { FaTrashAlt } from 'react-icons/fa';
 import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
@@ -25,6 +24,7 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../../constants';
+import { calculateItemPrice } from '../../domain/shoppingCart';
 import { useShoppingCart } from '../../providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '../../theme';
 import { formatCentsAsDollars } from '../../utils/priceDisplay';

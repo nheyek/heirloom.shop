@@ -12,7 +12,6 @@ import {
 import { API_ROUTES } from '@common/constants';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
-import { getSimpleCartItems } from 'client/src/domain/checkout';
 import { useEffect, useRef, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
@@ -26,6 +25,7 @@ import { CheckoutShoppingCartCompact } from '../components/checkout/CheckoutShop
 import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES, Layout } from '../constants';
+import { getSimpleCartItems } from '../domain/checkout';
 import useApi from '../hooks/useApi';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../theme';
