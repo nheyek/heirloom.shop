@@ -4,3 +4,4 @@ coverage/
 .terraform/
 terraform.tfstate
 terraform.tfstate.backup
+/.claude
