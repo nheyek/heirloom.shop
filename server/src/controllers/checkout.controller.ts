@@ -1,27 +1,27 @@
-import { CheckoutData } from '@common/types/CheckoutData';
+import { CheckoutApiRequest } from '@common/types/apiRequest/CheckoutApiRequest';
 import { PaymentIntentResponse } from '@common/types/PaymentIntentResponse';
 import { TaxCalculationResponse } from '@common/types/TaxCalculationResponse';
 import { Request, Response } from 'express';
 import {
-	calculateCheckoutTotals,
-	createOrderItemSnapshots,
+    calculateCheckoutTotals,
+    createOrderItemSnapshots,
 } from '../domain/checkout.domain';
 import { loadCheckoutData } from '../services/checkout.service';
 import {
-	createOrder,
-	updateOrderPaymentIntent,
+    createOrder,
+    updateOrderPaymentIntent,
 } from '../services/order.service';
 import { createPaymentIntent } from '../services/payment.service';
 import { getTaxTotal } from '../services/tax.service';
 
 export const calculateTax = async (
-	request: Request<{}, {}, CheckoutData>,
+	request: Request<{}, {}, CheckoutApiRequest>,
 	response: Response<TaxCalculationResponse>,
 ) => {
 	// TODO: Address validation
 
 	const queryData = await loadCheckoutData(request.body);
-	const { subtotalCents, shippingTotalCents: shippingCents } =
+	const { subtotalCents, shippingCents: shippingCents } =
 		calculateCheckoutTotals(request.body.items, queryData);
 
 	response.json({
@@ -33,40 +33,45 @@ export const calculateTax = async (
 };
 
 export const submitOrder = async (
-	request: Request<{}, {}, CheckoutData>,
+	request: Request<{}, {}, CheckoutApiRequest>,
 	response: Response<PaymentIntentResponse>,
 ) => {
-	const checkoutData = request.body;
+	const checkoutApiRequest = request.body;
 
 	// Validate cart is not empty
-	if (!checkoutData.items || checkoutData.items.length === 0) {
+	if (
+		!checkoutApiRequest.items ||
+		checkoutApiRequest.items.length === 0
+	) {
 		response.status(400).json({
 			error: 'Cart cannot be empty',
 		} as any);
 		return;
 	}
 
-	const queryData = await loadCheckoutData(checkoutData);
-	const { subtotalCents, shippingTotalCents: shippingCents } =
-		calculateCheckoutTotals(checkoutData.items, queryData);
+	const cartData = await loadCheckoutData(checkoutApiRequest);
+	// TODO: Validate cart items have options selected for required variants
+
+	const { subtotalCents, shippingCents: shippingCents } =
+		calculateCheckoutTotals(checkoutApiRequest.items, cartData);
 	const snapshots = createOrderItemSnapshots(
-		checkoutData.items,
-		queryData,
+		checkoutApiRequest.items,
+		cartData,
 	);
 
 	const preTaxTotal = subtotalCents + shippingCents;
 	const taxTotal = getTaxTotal(
 		preTaxTotal,
-		checkoutData.shippingAddress,
+		checkoutApiRequest.shippingAddress,
 	);
 
 	const order = await createOrder(
 		snapshots,
-		checkoutData.shippingAddress,
+		checkoutApiRequest.shippingAddress,
 		subtotalCents,
 		shippingCents,
 		taxTotal,
-		checkoutData.email,
+		checkoutApiRequest.email,
 	);
 
 	const paymentIntent = await createPaymentIntent(

@@ -1,8 +1,8 @@
 import {
 	ShippingAddress,
 	ShippingAddressErrors,
-} from '../types/ShippingAddress';
-import { ShoppingCartItem } from '../types/ShoppingCartItem';
+} from '../../../common/types/ShippingAddress';
+import { ShoppingCartItem } from '../../../common/types/ShoppingCartItem';
 
 export const getShippingAddressFieldErrors = (
 	shippingAddress: ShippingAddress,

@@ -10,9 +10,9 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
-import { getSimpleCartItems } from '@common/domain/checkout';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
+import { getSimpleCartItems } from 'client/src/domain/checkout';
 import { useEffect, useRef, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';

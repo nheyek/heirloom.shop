@@ -1,12 +1,12 @@
-import { CheckoutData } from '@common/types/CheckoutData';
+import { CheckoutApiRequest } from '@common/types/apiRequest/CheckoutApiRequest';
+import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { getEm } from '../db';
-import { CheckoutQueryData } from '../domain/checkout.domain';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
 
 export const loadCheckoutData = async (
-	checkoutData: CheckoutData,
-): Promise<CheckoutQueryData> => {
+	checkoutData: CheckoutApiRequest,
+): Promise<CheckoutCartData> => {
 	const em = getEm();
 
 	const shortIds = checkoutData.items.map(

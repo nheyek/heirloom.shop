@@ -1,10 +1,4 @@
 import { API_ROUTES } from '@common/constants';
-import {
-	getEmailFieldError,
-	getShippingAddressFieldErrors,
-	getSimpleCartItems,
-} from '@common/domain/checkout';
-import { calculateItemPrice } from '@common/domain/shoppingCart';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import {
 	ShippingAddress,
@@ -12,6 +6,12 @@ import {
 } from '@common/types/ShippingAddress';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { TaxCalculationResponse } from '@common/types/TaxCalculationResponse';
+import {
+	getEmailFieldError,
+	getShippingAddressFieldErrors,
+	getSimpleCartItems,
+} from 'client/src/domain/checkout';
+import { calculateItemPrice } from 'client/src/domain/shoppingCart';
 import {
 	createContext,
 	useContext,

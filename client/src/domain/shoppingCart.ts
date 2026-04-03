@@ -1,4 +1,4 @@
-import { ShoppingCartItem } from '../types/ShoppingCartItem';
+import { ShoppingCartItem } from '../../../common/types/ShoppingCartItem';
 
 export const calculateItemPrice = (
 	item: ShoppingCartItem,
