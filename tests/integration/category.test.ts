@@ -17,9 +17,9 @@ describe('GET /api/categories', () => {
 		res = await request(getApp()).get('/api/categories');
 	});
 
-	it('returns 200 with all 7 categories', () => {
+	it('returns 200 with all 8 categories', () => {
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(7);
+		expect(res.body).toHaveLength(8);
 	});
 
 	it('returns categories with the expected shape', () => {
@@ -92,18 +92,19 @@ describe('GET /api/categories/:id', () => {
 });
 
 describe('GET /api/categories/topLevel', () => {
-	it('returns only the 3 top-level categories', async () => {
+	it('returns only the 4 top-level categories', async () => {
 		const res = await request(getApp()).get(
 			'/api/categories/topLevel',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(3);
+		expect(res.body).toHaveLength(4);
 		const ids = res.body.map((c: any) => c.id);
 		expect(ids).toEqual(
 			expect.arrayContaining([
 				'CLOTHING',
 				'JEWELRY',
 				'FURNITURE',
+				'CERAMICS',
 			]),
 		);
 	});

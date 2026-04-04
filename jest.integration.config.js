@@ -1,7 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
 	testEnvironment: 'node',
-	maxWorkers: 4,
+	maxWorkers: 1,
 	testMatch: ['<rootDir>/tests/integration/**/*.test.ts'],
 	moduleNameMapper: {
 		'^@common/(.*)$': '<rootDir>/common/$1',

@@ -1,11 +1,10 @@
-import { API_ROUTES } from '@common/constants';
 import { CategoryTileData } from '@common/types/CategoryTileData';
 import React, {
 	useContext,
 	useEffect,
 	useState,
 } from 'react';
-import useApi from '../hooks/useApi';
+import { categoryClient } from '../hooks/categoryClient';
 
 type CategoriesContextType = {
 	getCategory: (
@@ -63,27 +62,21 @@ export const CategoriesProvider = (props: {
 		return ancestors.reverse();
 	};
 
-	const { getPublicResource } = useApi();
-
 	const loadCategories = async () => {
 		setIsLoading(true);
 
-		const response = await getPublicResource(
-			API_ROUTES.categories.base,
-		);
-		if (response.error) {
-			setError('Failed to load category hierarchy');
-		} else {
+		const response = await categoryClient.getAll();
+		if (response.status === 200) {
 			setCategories(
 				new Map(
-					response.data.map(
-						(category: CategoryTileData) => [
-							category.id,
-							category,
-						],
-					),
+					response.body.map((category: CategoryTileData) => [
+						category.id,
+						category,
+					]),
 				),
 			);
+		} else {
+			setError('Failed to load category hierarchy');
 		}
 
 		setIsLoading(false);

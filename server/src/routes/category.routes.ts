@@ -1,25 +1,82 @@
-import { API_ROUTES } from '@common/constants';
-import { Router } from 'express';
+import { categoryContract } from '@common/contract';
+import { initServer } from '@ts-rest/express';
+import { ERROR_MESSAGES } from '../constants';
+import { mapCategoryToApiResponseData } from '../mappers/category.mapper';
+import { mapListingToApiResponseData } from '../mappers/listing.mapper';
 import {
-	getCategories,
-	getCategoryById,
-	getChildCategories,
-	getListingsByCategory,
-	getTopLevelCategories,
-} from '../controllers/category.controller';
+	findAllCategories,
+	findCategoryById,
+	findChildCategories,
+	findTopLevelCategories,
+} from '../services/category.service';
+import * as listingService from '../services/listing.service';
 
-const router = Router();
+const s = initServer();
 
-router.get('/', getCategories);
-router.get(`/${API_ROUTES.categories.topLevel}`, getTopLevelCategories);
-router.get('/:id', getCategoryById);
-router.get(
-	`/:id/${API_ROUTES.categories.children}`,
-	getChildCategories,
-);
-router.get(
-	`/:id/${API_ROUTES.categories.listings}`,
-	getListingsByCategory,
-);
+export const categoryRouter = s.router(categoryContract, {
+	getAll: {
+		handler: async () => {
+			const categories = await findAllCategories();
+			return {
+				status: 200 as const,
+				body: categories.map(mapCategoryToApiResponseData),
+			};
+		},
+		middleware: [],
+	},
 
-export default router;
+	getTopLevel: async () => {
+		const categories = await findTopLevelCategories();
+		return {
+			status: 200 as const,
+			body: categories.map(mapCategoryToApiResponseData),
+		};
+	},
+
+	getById: async ({ params: { id } }) => {
+		const category = await findCategoryById(id.toUpperCase());
+		if (!category) {
+			return {
+				status: 404 as const,
+				body: { error: ERROR_MESSAGES.category.notFound },
+			};
+		}
+		return {
+			status: 200 as const,
+			body: mapCategoryToApiResponseData(category),
+		};
+	},
+
+	getChildren: async ({ params: { id } }) => {
+		const upperId = id.toUpperCase();
+		const category = await findCategoryById(upperId);
+		if (!category) {
+			return {
+				status: 404 as const,
+				body: { error: ERROR_MESSAGES.category.notFound },
+			};
+		}
+		const children = await findChildCategories(upperId);
+		return {
+			status: 200 as const,
+			body: children.map(mapCategoryToApiResponseData),
+		};
+	},
+
+	getListings: async ({ params: { id } }) => {
+		const upperId = id.toUpperCase();
+		const category = await findCategoryById(upperId);
+		if (!category) {
+			return {
+				status: 404 as const,
+				body: { error: ERROR_MESSAGES.category.notFound },
+			};
+		}
+		const listings =
+			await listingService.findListingsByCategory(upperId);
+		return {
+			status: 200 as const,
+			body: listings.map(mapListingToApiResponseData),
+		};
+	},
+});

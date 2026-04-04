@@ -1,10 +1,12 @@
 import { API_ROUTES } from '@common/constants';
+import { categoryContract } from '@common/contract';
+import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
 import path from 'path';
 import 'reflect-metadata';
 import { initORM } from './db';
-import categoryRouter from './routes/category.routes';
+import { categoryRouter } from './routes/category.routes';
 import checkoutRouter from './routes/checkout.routes';
 import listingRouter from './routes/listing.routes';
 import currentUserRouter from './routes/me.routes';
@@ -41,10 +43,7 @@ export const createApp = async () => {
 		`/${API_ROUTES.base}/${API_ROUTES.shops.base}`,
 		shopRouter,
 	);
-	app.use(
-		`/${API_ROUTES.base}/${API_ROUTES.categories.base}`,
-		categoryRouter,
-	);
+	createExpressEndpoints(categoryContract, categoryRouter, app);
 	app.use(
 		`/${API_ROUTES.base}/${API_ROUTES.search.base}`,
 		searchRouter,

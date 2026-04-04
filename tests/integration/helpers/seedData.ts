@@ -2,8 +2,7 @@ import { getEm } from '@server/db';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 
 /**
- * Upserts the shared category hierarchy used across test files.
- * Safe to call from multiple test files in parallel.
+ * Category hierarchy (8 total):
  *
  * CLOTHING       (top-level, has imageUuid)
  *   MENS         (child of CLOTHING)
@@ -13,7 +12,10 @@ import { ListingCategory } from '@server/entities/generated/ListingCategory';
  * JEWELRY        (top-level)
  *   JEWELRY_VINTAGE  (child of JEWELRY)
  *
- * FURNITURE      (top-level, no children, has imageUuid)
+ * FURNITURE      (top-level, has imageUuid)
+ *
+ * CERAMICS       (top-level — catch-all for listings whose category is
+ *                 not meaningful to any test assertion)
  */
 export async function seedCategories(em: ReturnType<typeof getEm>) {
 	await em.upsert(ListingCategory, {
@@ -49,5 +51,9 @@ export async function seedCategories(em: ReturnType<typeof getEm>) {
 		id: 'FURNITURE',
 		title: 'Furniture',
 		imageUuid: 'aaaaaaaa-0000-0000-0000-000000000002',
+	});
+	await em.upsert(ListingCategory, {
+		id: 'CERAMICS',
+		title: 'Ceramics',
 	});
 }

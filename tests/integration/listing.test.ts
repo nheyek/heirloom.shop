@@ -14,14 +14,14 @@ const getApp = useApp();
  * Sample data:
  *
  * Shop 1: "Artisan Workshop"
- *   - "Handmade Vase"       (FURNITURE)
+ *   - "Handmade Vase"       (CERAMICS)
  *   - "Men's Oxford Shirt"  (MENS_SHIRTS — grandchild of CLOTHING)
  *   - "Linen Blouse"        (WOMENS — child of CLOTHING)
  *
  * Shop 2: "Vintage Finds"
- *   - "Art Deco Brooch"    (JEWELRY_VINTAGE — child of JEWELRY)
- *   - "Mahogany Dresser"   (FURNITURE — top-level)
- *   - "Victorian Writing Desk" (FURNITURE — with shipping + return profiles)
+ *   - "Art Deco Brooch"          (JEWELRY_VINTAGE — child of JEWELRY)
+ *   - "Mahogany Dresser"         (FURNITURE — top-level)
+ *   - "Victorian Writing Desk"   (FURNITURE — with shipping + return profiles)
  */
 beforeAll(async () => {
 	const em = getEm();
@@ -44,7 +44,7 @@ beforeAll(async () => {
 		subtitle: 'Hand-thrown stoneware',
 		priceCents: 2500,
 		shop: shop1,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 	const shirt = em.create(Listing, {
 		shortId: 'shrt01',

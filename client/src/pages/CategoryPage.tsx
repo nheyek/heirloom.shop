@@ -6,7 +6,6 @@ import {
 	Skeleton,
 	Stack,
 } from '@chakra-ui/react';
-import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { Fragment, useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
@@ -18,12 +17,17 @@ import {
 import { AppError } from '../components/feedback/AppError';
 import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
-import useApi from '../hooks/useApi';
+import { categoryClient } from '../hooks/categoryClient';
 import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
 
 export const CategoryPage = () => {
-	const { id } = useParams<{ id: string }>();
+	const navigate = useNavigate();
+	const { id: idParam } = useParams<{ id: string }>();
+	if (!idParam) {
+		navigate('/');
+	}
+	const id = idParam!;
 
 	const {
 		getCategory,
@@ -33,9 +37,9 @@ export const CategoryPage = () => {
 		categoriesError,
 	} = useCategories();
 
-	const category = id ? getCategory(id?.toUpperCase()) : null;
-	const childCategories = id ? getChildCategories(id) : [];
-	const ancestorCategories = id ? getAncestorCategories(id) : [];
+	const category = getCategory(id.toUpperCase());
+	const childCategories = getChildCategories(id);
+	const ancestorCategories = getAncestorCategories(id);
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
@@ -44,18 +48,14 @@ export const CategoryPage = () => {
 	);
 	const isLoading = listingsLoading || categoriesLoading;
 
-	const { getPublicResource } = useApi();
-
-	const navigate = useNavigate();
-
 	const loadListings = async () => {
-		const listingsResponse = await getPublicResource(
-			`${API_ROUTES.categories.base}/${id}/${API_ROUTES.categories.listings}`,
-		);
-		if (listingsResponse.error) {
-			setListingsError('Failed to load listings');
+		const response = await categoryClient.getListings({
+			params: { id },
+		});
+		if (response.status === 200) {
+			setListings(response.body);
 		} else {
-			setListings(listingsResponse.data);
+			setListingsError('Failed to load listings');
 		}
 
 		setListingsLoading(false);
