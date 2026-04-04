@@ -48,7 +48,7 @@ beforeAll(async () => {
 		title: 'Oak Dining Table',
 		priceCents: 120000,
 		shop: woodworkers,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 	const bookshelf = em.create(Listing, {
 		id: 202,
@@ -56,7 +56,7 @@ beforeAll(async () => {
 		title: 'Walnut Bookshelf',
 		priceCents: 85000,
 		shop: woodworkers,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 
 	const ownerRole = em.create(ShopUserRole, {
@@ -179,7 +179,7 @@ describe('POST /api/shops/:id/listings', () => {
 		const res = await request(getApp())
 			.post('/api/shops/wood20/listings')
 			.set(AUTH)
-			.send({ title: 'Cedar Shelf', desc: 'Hand-crafted cedar shelf' });
+			.send({ title: 'Cedar Shelf', desc: 'Hand-crafted cedar shelf', categoryId: 'CERAMICS' });
 		expect(res.status).toBe(201);
 		expect(typeof res.body.id).toBe('number');
 	});

@@ -41,7 +41,7 @@ beforeAll(async () => {
 		title: 'Handmade Bowl',
 		priceCents: 2500,
 		shop: shop1,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 		imageUuids: ['img-bowl-01'],
 	});
 
@@ -57,7 +57,7 @@ beforeAll(async () => {
 		title: 'Ceramic Mug',
 		priceCents: 1500,
 		shop: shop1,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 		shippingProfile: mugShipping,
 		imageUuids: ['img-mug-01'],
 	});
@@ -95,7 +95,7 @@ beforeAll(async () => {
 		title: 'Cutting Board',
 		priceCents: 4500,
 		shop: shop2,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 		shippingProfile: boardShipping,
 		imageUuids: ['img-board-01'],
 	});

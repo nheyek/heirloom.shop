@@ -11,7 +11,7 @@ const getApp = useApp();
 const AUTH = { Authorization: 'Bearer test' };
 
 /**
- * Sample data (IDs in the 100s to avoid conflicts with listing.test.ts):
+ * Sample data (IDs in the 100s to avoid conflicts with other test files):
  *
  * Shop 10: "Craft Co"
  *   - "Ceramic Bowl"  shortId="bowl01"
@@ -36,7 +36,7 @@ beforeAll(async () => {
 		title: 'Ceramic Bowl',
 		priceCents: 3200,
 		shop,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 	const scarf = em.create(Listing, {
 		id: 102,
@@ -44,7 +44,7 @@ beforeAll(async () => {
 		title: 'Wool Scarf',
 		priceCents: 5500,
 		shop,
-		category: 'CLOTHING',
+		category: 'CERAMICS',
 	});
 	const lamp = em.create(Listing, {
 		id: 103,
@@ -52,7 +52,7 @@ beforeAll(async () => {
 		title: 'Brass Lamp',
 		priceCents: 18000,
 		shop,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 
 	await em.persistAndFlush([shop, bowl, scarf, lamp]);

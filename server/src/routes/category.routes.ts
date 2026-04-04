@@ -14,12 +14,15 @@ import * as listingService from '../services/listing.service';
 const s = initServer();
 
 export const categoryRouter = s.router(categoryContract, {
-	getAll: async () => {
-		const categories = await findAllCategories();
-		return {
-			status: 200 as const,
-			body: categories.map(mapCategoryToApiResponseData),
-		};
+	getAll: {
+		handler: async () => {
+			const categories = await findAllCategories();
+			return {
+				status: 200 as const,
+				body: categories.map(mapCategoryToApiResponseData),
+			};
+		},
+		middleware: [],
 	},
 
 	getTopLevel: async () => {
@@ -69,7 +72,8 @@ export const categoryRouter = s.router(categoryContract, {
 				body: { error: ERROR_MESSAGES.category.notFound },
 			};
 		}
-		const listings = await listingService.findListingsByCategory(upperId);
+		const listings =
+			await listingService.findListingsByCategory(upperId);
 		return {
 			status: 200 as const,
 			body: listings.map(mapListingToApiResponseData),

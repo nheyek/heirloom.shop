@@ -1,6 +1,5 @@
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
-import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
 import { seedCategories } from './helpers/seedData';
@@ -42,7 +41,7 @@ beforeAll(async () => {
 		title: 'Handmade Ceramic Bowl',
 		priceCents: 2500,
 		shop: artisanShop,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 
 	const cuttingBoard = em.create(Listing, {
@@ -50,7 +49,7 @@ beforeAll(async () => {
 		title: 'Wooden Cutting Board',
 		priceCents: 4500,
 		shop: woodShop,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 
 	const vase = em.create(Listing, {
@@ -58,7 +57,7 @@ beforeAll(async () => {
 		title: 'Ceramic Vase',
 		priceCents: 3500,
 		shop: artisanShop,
-		category: 'FURNITURE',
+		category: 'CERAMICS',
 	});
 
 	await em.persistAndFlush([
@@ -103,7 +102,7 @@ describe('GET /api/search', () => {
 		expect(res.status).toBe(200);
 		expect(res.body).toHaveProperty('categoryResults');
 		expect(res.body.categoryResults.length).toBeGreaterThan(0);
-		
+
 		const categoryIds = res.body.categoryResults.map((r: any) => r.id);
 		expect(categoryIds).toContain('jewelry');
 	});
