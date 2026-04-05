@@ -246,7 +246,7 @@ describe('POST /api/checkout/submitOrder', () => {
 	it('rejects empty cart with 400 error', async () => {
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
-			.send({ items: [], shippingAddress: address });
+			.send({ items: [], shippingAddress: address, email: 'test@example.com' });
 
 		expect(res.status).toBe(400);
 		expect(res.body).toHaveProperty('error');

@@ -26,6 +26,60 @@ const ListingCardDataSchema = z.object({
 
 const ErrorSchema = z.object({ error: z.string() });
 
+const ShippingAddressSchema = z.object({
+	firstName: z.string(),
+	lastName: z.string(),
+	line1: z.string(),
+	line2: z.string(),
+	city: z.string(),
+	state: z.string(),
+	zip: z.string(),
+});
+
+const CheckoutItemSchema = z.object({
+	listingShortId: z.string(),
+	selectedOptions: z.record(z.string(), z.number()),
+	quantity: z.number(),
+});
+
+const TaxRequestSchema = z.object({
+	items: z.array(CheckoutItemSchema),
+	shippingAddress: ShippingAddressSchema,
+});
+
+const CheckoutBodySchema = TaxRequestSchema.extend({
+	email: z.string(),
+});
+
+const TaxResponseSchema = z.object({ TaxTotalCents: z.number() });
+
+const PaymentIntentResponseSchema = z.object({
+	clientSecret: z.string(),
+	orderShortId: z.string(),
+});
+
+export const checkoutContract = c.router({
+	calculateTax: {
+		method: 'POST',
+		path: '/api/checkout/calculateTax',
+		body: TaxRequestSchema,
+		responses: {
+			200: TaxResponseSchema,
+			500: ErrorSchema,
+		},
+	},
+	submitOrder: {
+		method: 'POST',
+		path: '/api/checkout/submitOrder',
+		body: CheckoutBodySchema,
+		responses: {
+			200: PaymentIntentResponseSchema,
+			400: ErrorSchema,
+			500: ErrorSchema,
+		},
+	},
+});
+
 export const categoryContract = c.router({
 	getAll: {
 		method: 'GET',
@@ -67,4 +121,9 @@ export const categoryContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+});
+
+export const appContract = c.router({
+	categories: categoryContract,
+	checkout: checkoutContract,
 });

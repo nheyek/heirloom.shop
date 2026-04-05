@@ -1,13 +1,79 @@
-import { API_ROUTES } from '@common/constants';
-import { Router } from 'express';
+import { checkoutContract } from '@common/contract';
+import { initServer } from '@ts-rest/express';
 import {
-	calculateTax,
-	submitOrder,
-} from '../controllers/checkout.controller';
+	calculateCheckoutTotals,
+	createOrderItemSnapshots,
+} from '../domain/checkout.domain';
+import { loadCheckoutData } from '../services/checkout.service';
+import {
+	createOrder,
+	updateOrderPaymentIntent,
+} from '../services/order.service';
+import { createPaymentIntent } from '../services/payment.service';
+import { getTaxTotal } from '../services/tax.service';
 
-const router = Router();
+const s = initServer();
 
-router.post(`/${API_ROUTES.checkout.calculateTax}`, calculateTax);
-router.post(`/${API_ROUTES.checkout.submitOrder}`, submitOrder);
+export const checkoutRouter = s.router(checkoutContract, {
+	calculateTax: async ({ body }) => {
+		const cartData = await loadCheckoutData(body.items);
+		const { subtotalCents, shippingCents } =
+			calculateCheckoutTotals(body.items, cartData);
+		return {
+			status: 200 as const,
+			body: {
+				TaxTotalCents: getTaxTotal(
+					subtotalCents + shippingCents,
+					body.shippingAddress,
+				),
+			},
+		};
+	},
 
-export default router;
+	submitOrder: async ({ body }) => {
+		if (!body.items || body.items.length === 0) {
+			return {
+				status: 400 as const,
+				body: { error: 'Cart cannot be empty' },
+			};
+		}
+
+		const cartData = await loadCheckoutData(body.items);
+		const { subtotalCents, shippingCents } =
+			calculateCheckoutTotals(body.items, cartData);
+		const snapshots = createOrderItemSnapshots(body.items, cartData);
+
+		const preTaxTotal = subtotalCents + shippingCents;
+		const taxTotal = getTaxTotal(preTaxTotal, body.shippingAddress);
+
+		const order = await createOrder(
+			snapshots,
+			body.shippingAddress,
+			subtotalCents,
+			shippingCents,
+			taxTotal,
+			body.email,
+		);
+
+		const paymentIntent = await createPaymentIntent(
+			preTaxTotal + taxTotal,
+			{ orderId: order.id },
+		);
+		await updateOrderPaymentIntent(order.id, paymentIntent.id);
+
+		if (!paymentIntent.client_secret) {
+			return {
+				status: 500 as const,
+				body: { error: 'Failed to create payment intent' },
+			};
+		}
+
+		return {
+			status: 200 as const,
+			body: {
+				orderShortId: order.shortId,
+				clientSecret: paymentIntent.client_secret,
+			},
+		};
+	},
+});

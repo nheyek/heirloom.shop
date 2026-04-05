@@ -1,18 +1,18 @@
-import { CheckoutApiRequest } from '@common/types/apiRequest/CheckoutApiRequest';
+import { CheckoutItemData } from '@common/types/CheckoutItemData';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
 
 export const loadCheckoutData = async (
-	checkoutData: CheckoutApiRequest,
+	items: CheckoutItemData[],
 ): Promise<CheckoutCartData> => {
 	const em = getEm();
 
-	const shortIds = checkoutData.items.map(
+	const shortIds = items.map(
 		(item) => item.listingShortId,
 	);
-	const optionIds = checkoutData.items.flatMap((item) =>
+	const optionIds = items.flatMap((item) =>
 		Object.values(item.selectedOptions),
 	);
 

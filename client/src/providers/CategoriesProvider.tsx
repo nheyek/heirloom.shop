@@ -1,21 +1,12 @@
 import { CategoryTileData } from '@common/types/CategoryTileData';
-import React, {
-	useContext,
-	useEffect,
-	useState,
-} from 'react';
-import { categoryClient } from '../hooks/categoryClient';
+import React, { useContext, useEffect, useState } from 'react';
+import { useApiClient } from '../hooks/useApiClient';
+import { callApi } from '../utils/apiUtils';
 
 type CategoriesContextType = {
-	getCategory: (
-		id: string,
-	) => CategoryTileData | undefined;
-	getChildCategories: (
-		id: string | null,
-	) => CategoryTileData[];
-	getAncestorCategories: (
-		id: string,
-	) => CategoryTileData[];
+	getCategory: (id: string) => CategoryTileData | undefined;
+	getChildCategories: (id: string | null) => CategoryTileData[];
+	getAncestorCategories: (id: string) => CategoryTileData[];
 	categoriesLoading: boolean;
 	categoriesError: string | null;
 };
@@ -26,11 +17,11 @@ const CategoriesContext =
 export const CategoriesProvider = (props: {
 	children: React.ReactNode;
 }) => {
+	const apiClient = useApiClient();
 	const [categories, setCategories] = useState<
 		Map<string, CategoryTileData>
 	>(new Map());
-	const [isLoading, setIsLoading] =
-		useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const getCategory = (id: string) =>
@@ -45,9 +36,7 @@ export const CategoriesProvider = (props: {
 
 	const getAncestorCategories = (id: string) => {
 		const ancestors: CategoryTileData[] = [];
-		let currentCategory = categories.get(
-			id.toUpperCase(),
-		);
+		let currentCategory = categories.get(id.toUpperCase());
 		while (currentCategory?.parentId) {
 			const parentCategory = categories.get(
 				currentCategory.parentId,
@@ -65,18 +54,15 @@ export const CategoriesProvider = (props: {
 	const loadCategories = async () => {
 		setIsLoading(true);
 
-		const response = await categoryClient.getAll();
-		if (response.status === 200) {
+		const result = await callApi(apiClient.categories.getAll());
+		if (result.error !== null) {
+			setError(result.error);
+		} else {
 			setCategories(
 				new Map(
-					response.body.map((category: CategoryTileData) => [
-						category.id,
-						category,
-					]),
+					result.data.map((category) => [category.id, category]),
 				),
 			);
-		} else {
-			setError('Failed to load category hierarchy');
 		}
 
 		setIsLoading(false);

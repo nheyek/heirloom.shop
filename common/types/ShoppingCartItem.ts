@@ -2,7 +2,7 @@ import { ListingDataForCart } from './ListingDataForCart';
 
 export type ShoppingCartItem = {
 	listingData: ListingDataForCart;
-	selectedOptions: { [variationId: number]: number };
+	selectedOptions: Record<string, number>;
 	quantity: number;
 	addedAt: number;
 };

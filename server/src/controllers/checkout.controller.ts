@@ -20,7 +20,7 @@ export const calculateTax = async (
 ) => {
 	// TODO: Address validation
 
-	const queryData = await loadCheckoutData(request.body);
+	const queryData = await loadCheckoutData(request.body.items);
 	const { subtotalCents, shippingCents: shippingCents } =
 		calculateCheckoutTotals(request.body.items, queryData);
 
@@ -49,7 +49,7 @@ export const submitOrder = async (
 		return;
 	}
 
-	const cartData = await loadCheckoutData(checkoutApiRequest);
+	const cartData = await loadCheckoutData(checkoutApiRequest.items);
 	// TODO: Validate cart items have options selected for required variants
 
 	const { subtotalCents, shippingCents: shippingCents } =

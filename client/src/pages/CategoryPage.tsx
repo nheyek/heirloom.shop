@@ -17,7 +17,7 @@ import {
 import { AppError } from '../components/feedback/AppError';
 import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
-import { categoryClient } from '../hooks/categoryClient';
+import { useApiClient } from '../hooks/useApiClient';
 import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
 import { callApi } from '../utils/apiUtils';
@@ -29,6 +29,8 @@ export const CategoryPage = () => {
 		navigate('/');
 	}
 	const id = idParam!;
+
+	const apiClient = useApiClient();
 
 	const {
 		getCategory,
@@ -51,12 +53,12 @@ export const CategoryPage = () => {
 
 	const loadListings = async () => {
 		const result = await callApi(
-			categoryClient.getListings({ params: { id } }),
+			apiClient.categories.getListings({ params: { id } }),
 		);
-		if ('error' in result) {
+		if (result.error !== null) {
 			setListingsError(result.error);
 		} else {
-			setListings(result);
+			setListings(result.data);
 		}
 
 		setListingsLoading(false);

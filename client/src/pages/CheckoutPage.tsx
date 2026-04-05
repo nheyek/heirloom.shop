@@ -11,6 +11,8 @@ import {
 } from '@chakra-ui/react';
 import { API_ROUTES } from '@common/constants';
 import { OrderStatus } from '@common/enums/OrderStatus';
+import { useApiClient } from '../hooks/useApiClient';
+import { callApi } from '../utils/apiUtils';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -38,7 +40,8 @@ export const CheckoutPage = () => {
 	const navigate = useNavigate();
 	const stripe = useStripe();
 	const elements = useElements();
-	const { postPublicResource, getPublicResource } = useApi();
+	const apiClient = useApiClient();
+	const { getPublicResource } = useApi();
 	const pollIntervalRef = useRef<ReturnType<
 		typeof setInterval
 	> | null>(null);
@@ -102,22 +105,23 @@ export const CheckoutPage = () => {
 
 		setPendingSubmit(true);
 
-		const intentResponse = await postPublicResource(
-			`${API_ROUTES.checkout.base}/${API_ROUTES.checkout.submitOrder}`,
-			{
-				items: getSimpleCartItems(items),
-				email: checkoutEmail,
-				shippingAddress,
-			},
+		const intentResult = await callApi(
+			apiClient.checkout.submitOrder({
+				body: {
+					items: getSimpleCartItems(items),
+					email: checkoutEmail,
+					shippingAddress,
+				},
+			}),
 		);
 
-		if (intentResponse.error) {
+		if (intentResult.error !== null) {
 			submittingRef.current = false;
 			setPendingSubmit(false);
 			return;
 		}
 
-		const { clientSecret, orderShortId } = intentResponse.data;
+		const { clientSecret, orderShortId } = intentResult.data;
 		const { error: confirmError } = await stripe.confirmPayment({
 			elements,
 			clientSecret,

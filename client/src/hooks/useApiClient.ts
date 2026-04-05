@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { categoryContract } from '@common/contract';
+import { appContract } from '@common/contract';
 import { initClient, tsRestFetchApi } from '@ts-rest/core';
 
 export const useApiClient = () => {
@@ -17,7 +17,7 @@ export const useApiClient = () => {
 			},
 		});
 
-	return initClient(categoryContract, {
+	return initClient(appContract, {
 		baseUrl: '',
 		baseHeaders: {},
 		api: async (args) => {

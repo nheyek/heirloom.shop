@@ -1,5 +1,5 @@
 export type CheckoutItemData = {
 	listingShortId: string;
-	selectedOptions: { [variationId: number]: number };
+	selectedOptions: Record<string, number>;
 	quantity: number;
 };

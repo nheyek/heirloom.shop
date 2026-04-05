@@ -1,11 +1,9 @@
-import { API_ROUTES } from '@common/constants';
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import {
 	ShippingAddress,
 	ShippingAddressErrors,
 } from '@common/types/ShippingAddress';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { TaxCalculationResponse } from '@common/types/TaxCalculationResponse';
 import {
 	createContext,
 	useContext,
@@ -20,8 +18,9 @@ import {
 	getSimpleCartItems,
 } from '../domain/checkout';
 import { calculateItemPrice } from '../domain/shoppingCart';
-import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
 import { usePersistedState } from '../hooks/usePersistedState';
+import { callApi } from '../utils/apiUtils';
 import { validateDeliverableAddress } from '../utils/googleMapsUtils';
 
 type ShoppingCartContext = {
@@ -108,7 +107,7 @@ export const ShoppingCartProvider = (props: {
 	const taxDebounceRef =
 		useRef<ReturnType<typeof setTimeout>>(undefined);
 
-	const { postPublicResource } = useApi();
+	const apiClient = useApiClient();
 
 	useEffect(() => {
 		if (taxDebounceRef.current)
@@ -245,20 +244,19 @@ export const ShoppingCartProvider = (props: {
 		if (!Object.values(errors).some(Boolean)) {
 			setTaxCalcLoading(true);
 
-			const taxCalculationResponse = await postPublicResource(
-				`${API_ROUTES.checkout.base}/${API_ROUTES.checkout.calculateTax}`,
-				{
-					items: getSimpleCartItems(items),
-					shippingAddress,
-				},
+			const result = await callApi(
+				apiClient.checkout.calculateTax({
+					body: {
+						items: getSimpleCartItems(items),
+						shippingAddress,
+					},
+				}),
 			);
 
-			if (taxCalculationResponse.error) {
+			if (result.error !== null) {
 				// TODO: Handle tax calculation error
 			} else {
-				const responseData: TaxCalculationResponse =
-					taxCalculationResponse.data;
-				setTaxTotal(responseData.TaxTotalCents);
+				setTaxTotal(result.data.TaxTotalCents);
 			}
 
 			setTaxCalcLoading(false);
