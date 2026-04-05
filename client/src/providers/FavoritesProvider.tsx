@@ -1,10 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, StorageKey } from '../constants';
-import useApi from '../hooks/useApi';
 import { useApiClient } from '../hooks/useApiClient';
 import { toaster } from '../toaster';
 import { callApi } from '../utils/apiUtils';
@@ -31,7 +29,6 @@ export const FavoritesProvider = (props: {
 	const [error, setError] = useState<string | null>(null);
 
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
-	const { getProtectedResource } = useApi();
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
 
@@ -57,18 +54,14 @@ export const FavoritesProvider = (props: {
 
 		await processPendingFavorite();
 
-		const res = await getProtectedResource(
-			`${API_ROUTES.currentUser.base}/${API_ROUTES.currentUser.favorites}`,
-		);
+		const result = await callApi(apiClient.me.getFavorites());
 
-		if (res.error) {
+		if (result.error !== null) {
 			setError('Failed to fetch favorites');
 		} else {
 			setFavoriteIds(
 				new Set<string>(
-					res.data.map(
-						(listing: ListingCardData) => listing.shortId,
-					),
+					result.data.map((listing) => listing.shortId),
 				),
 			);
 		}

@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { API_ROUTES } from '@common/constants';
 import { UserInfo } from '@common/types/UserInfo';
 import React, { useContext, useEffect, useState } from 'react';
-import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
+import { callApi } from '../utils/apiUtils';
 
 type UserContextType = {
 	user: UserInfo | null;
@@ -21,30 +21,22 @@ export const UserProvider = (props: {
 	const [user, setUser] = useState<UserInfo | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
-	const { getProtectedResource } = useApi();
+	const apiClient = useApiClient();
 	const { isAuthenticated } = useAuth0();
 
 	const loadUser = async () => {
-		try {
-			setLoading(true);
-			setError(null);
+		setLoading(true);
+		setError(null);
 
-			const res = await getProtectedResource(
-				API_ROUTES.currentUser.base,
-			);
-
-			if (res.error) {
-				throw new Error(`Failed to fetch user: ${res.error}`);
-			}
-
-			const data: UserInfo = await res.data;
-			setUser(data);
-		} catch (err: any) {
-			setError(err.message ?? 'Unknown error');
+		const result = await callApi(apiClient.me.getMe());
+		if (result.error !== null) {
+			setError(result.error);
 			setUser(null);
-		} finally {
-			setLoading(false);
+		} else {
+			setUser(result.data);
 		}
+
+		setLoading(false);
 	};
 
 	useEffect(() => {

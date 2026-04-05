@@ -162,6 +162,12 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
 
+const UserInfoSchema = z.object({
+	id: z.number(),
+	email: z.string(),
+	shopId: z.number().nullable(),
+});
+
 export const listingsContract = c.router({
 	getAll: {
 		method: 'GET',
@@ -201,8 +207,30 @@ export const listingsContract = c.router({
 	},
 });
 
+export const meContract = c.router({
+	getMe: {
+		method: 'GET',
+		path: '/api/me',
+		responses: {
+			200: UserInfoSchema,
+			401: ErrorSchema,
+			500: ErrorSchema,
+		},
+	},
+	getFavorites: {
+		method: 'GET',
+		path: '/api/me/favorites',
+		responses: {
+			200: z.array(ListingCardDataSchema),
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+});
+
 export const appContract = c.router({
 	categories: categoryContract,
 	checkout: checkoutContract,
 	listings: listingsContract,
+	me: meContract,
 });
