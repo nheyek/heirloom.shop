@@ -1,5 +1,4 @@
-import { CheckoutItemData } from '../CheckoutItemData';
-import { ShippingAddress } from '../ShippingAddress';
+import { CheckoutItemData, ShippingAddress } from '@common/contract';
 
 export type CheckoutApiRequest = {
 	items: CheckoutItemData[];

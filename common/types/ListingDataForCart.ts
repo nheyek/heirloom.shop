@@ -1,5 +1,4 @@
-import { ListingCardData } from './ListingCardData';
-import { ListingVariationData } from './ListingVariationData';
+import { ListingCardData, ListingVariationData } from '@common/contract';
 
 export type ListingDataForCart = ListingCardData & {
 	variations: ListingVariationData[];
