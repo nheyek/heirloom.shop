@@ -24,13 +24,16 @@ const ListingCardDataSchema = z.object({
 	imageUuids: z.array(z.string()),
 });
 
-const NotFoundSchema = z.object({ error: z.string() });
+const ErrorSchema = z.object({ error: z.string() });
 
 export const categoryContract = c.router({
 	getAll: {
 		method: 'GET',
 		path: '/api/categories',
-		responses: { 200: z.array(CategoryTileDataSchema) },
+		responses: {
+			200: z.array(CategoryTileDataSchema),
+			500: ErrorSchema,
+		},
 	},
 	getTopLevel: {
 		method: 'GET',
@@ -43,7 +46,7 @@ export const categoryContract = c.router({
 		pathParams: z.object({ id: z.string() }),
 		responses: {
 			200: CategoryTileDataSchema,
-			404: NotFoundSchema,
+			404: ErrorSchema,
 		},
 	},
 	getChildren: {
@@ -52,7 +55,7 @@ export const categoryContract = c.router({
 		pathParams: z.object({ id: z.string() }),
 		responses: {
 			200: z.array(CategoryTileDataSchema),
-			404: NotFoundSchema,
+			404: ErrorSchema,
 		},
 	},
 	getListings: {
@@ -61,7 +64,7 @@ export const categoryContract = c.router({
 		pathParams: z.object({ id: z.string() }),
 		responses: {
 			200: z.array(ListingCardDataSchema),
-			404: NotFoundSchema,
+			404: ErrorSchema,
 		},
 	},
 });

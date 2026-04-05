@@ -20,6 +20,7 @@ import { ListingGrid } from '../components/layout/ListingGrid';
 import { categoryClient } from '../hooks/categoryClient';
 import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
+import { callApi } from '../utils/apiUtils';
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();
@@ -49,13 +50,13 @@ export const CategoryPage = () => {
 	const isLoading = listingsLoading || categoriesLoading;
 
 	const loadListings = async () => {
-		const response = await categoryClient.getListings({
-			params: { id },
-		});
-		if (response.status === 200) {
-			setListings(response.body);
+		const result = await callApi(
+			categoryClient.getListings({ params: { id } }),
+		);
+		if ('error' in result) {
+			setListingsError(result.error);
 		} else {
-			setListingsError('Failed to load listings');
+			setListings(result);
 		}
 
 		setListingsLoading(false);
