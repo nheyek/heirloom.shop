@@ -11,24 +11,24 @@ import {
 	Tabs,
 	Textarea,
 } from '@chakra-ui/react';
-import { API_ROUTES } from '@common/constants';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
 import { useUserInfo } from '../providers/UserProvider';
+import { callApi } from '../utils/apiUtils';
 
 export const ShopManager = () => {
-	const { getPublicResource, postResource } = useApi();
+	const { postResource } = useApi();
+	const apiClient = useApiClient();
 	const { user } = useUserInfo();
 
 	const fetchListings = async () => {
-		const { data, error } = await getPublicResource(
-			API_ROUTES.listings.base,
-		);
-		if (error) {
-			console.error('Error fetching listings:', error);
+		const result = await callApi(apiClient.listings.getAll());
+		if (result.error !== null) {
+			console.error('Error fetching listings:', result.error);
 		} else {
-			console.log('Fetched listings:', data);
+			console.log('Fetched listings:', result.data);
 		}
 	};
 

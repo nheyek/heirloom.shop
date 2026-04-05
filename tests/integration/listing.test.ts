@@ -148,7 +148,7 @@ describe('GET /api/listings/:id', () => {
 		);
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.listing.notFound,
+			error: ERROR_MESSAGES.listing.notFound,
 		});
 	});
 

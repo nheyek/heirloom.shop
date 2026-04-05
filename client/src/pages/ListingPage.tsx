@@ -18,7 +18,6 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { API_ROUTES } from '@common/constants';
 import { ListingPageData } from '@common/types/ListingPageData';
 import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
@@ -47,7 +46,8 @@ import {
 	Layout,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '../constants';
-import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
+import { callApi } from '../utils/apiUtils';
 import { useShareListing } from '../hooks/useShareListing';
 import { useFavorites } from '../providers/FavoritesProvider';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
@@ -82,7 +82,7 @@ export const ListingPage = () => {
 			[variationId: number]: number;
 		}>({});
 
-	const { getPublicResource } = useApi();
+	const apiClient = useApiClient();
 	const shareListing = useShareListing();
 	const shoppingCart = useShoppingCart();
 	const { favoriteIds, toggleFavorite } = useFavorites();
@@ -108,13 +108,13 @@ export const ListingPage = () => {
 	};
 
 	const loadListingData = async () => {
-		const response = await getPublicResource(
-			`${API_ROUTES.listings.base}/${id}`,
+		const result = await callApi(
+			apiClient.listings.getById({ params: { id: id! } }),
 		);
-		if (response.error) {
-			setListingDataError(response.error.message);
+		if (result.error !== null) {
+			setListingDataError(result.error);
 		} else {
-			setListingData(response.data);
+			setListingData(result.data);
 		}
 		setListingDataLoading(false);
 	};

@@ -5,7 +5,9 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, StorageKey } from '../constants';
 import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
 import { toaster } from '../toaster';
+import { callApi } from '../utils/apiUtils';
 
 type FavoritesContextType = {
 	favoriteIds: Set<string>;
@@ -29,8 +31,8 @@ export const FavoritesProvider = (props: {
 	const [error, setError] = useState<string | null>(null);
 
 	const { isAuthenticated, loginWithRedirect } = useAuth0();
-	const { getProtectedResource, postResource, deleteResource } =
-		useApi();
+	const { getProtectedResource } = useApi();
+	const apiClient = useApiClient();
 	const navigate = useNavigate();
 
 	const processPendingFavorite = async () => {
@@ -41,8 +43,12 @@ export const FavoritesProvider = (props: {
 
 		sessionStorage.removeItem(StorageKey.PENDING_FAVORITE);
 
-		const endpoint = `${API_ROUTES.listings.base}/${pendingShortId}/${API_ROUTES.listings.favorite}`;
-		await postResource(endpoint, {});
+		await callApi(
+			apiClient.listings.favorite({
+				params: { id: pendingShortId },
+				body: {},
+			}),
+		);
 	};
 
 	const loadFavorites = async () => {
@@ -104,12 +110,21 @@ export const FavoritesProvider = (props: {
 			return newFavorites;
 		});
 
-		const endpoint = `${API_ROUTES.listings.base}/${listing.shortId}/${API_ROUTES.listings.favorite}`;
 		const res = wasFavorited
-			? await deleteResource(endpoint)
-			: await postResource(endpoint, {});
+			? await callApi(
+					apiClient.listings.unfavorite({
+						params: { id: listing.shortId },
+						body: {},
+					}),
+				)
+			: await callApi(
+					apiClient.listings.favorite({
+						params: { id: listing.shortId },
+						body: {},
+					}),
+				);
 
-		if (res.error) {
+		if (res.error !== null) {
 			setFavoriteIds((prev) => {
 				const reverted = new Set(prev);
 				if (wasFavorited) {

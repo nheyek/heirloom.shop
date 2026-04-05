@@ -11,8 +11,10 @@ import { ListingGrid } from '../components/layout/ListingGrid';
 import { ShopGrid } from '../components/layout/ShopGrid';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
 import useApi from '../hooks/useApi';
+import { useApiClient } from '../hooks/useApiClient';
 import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
+import { callApi } from '../utils/apiUtils';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -33,6 +35,7 @@ export const LandingPage = () => {
 		shopsLoading || listingsLoading || categoriesLoading;
 
 	const { getPublicResource } = useApi();
+	const apiClient = useApiClient();
 
 	const loadShopData = async () => {
 		const shopResponse = await getPublicResource(
@@ -47,13 +50,11 @@ export const LandingPage = () => {
 	};
 
 	const loadListings = async () => {
-		const listingsResponse = await getPublicResource(
-			API_ROUTES.listings.base,
-		);
-		if (listingsResponse.error) {
+		const result = await callApi(apiClient.listings.getAll());
+		if (result.error !== null) {
 			setListingsError('Failed to load listings');
 		} else {
-			setListings(listingsResponse.data);
+			setListings(result.data);
 		}
 		setListingsLoading(false);
 	};

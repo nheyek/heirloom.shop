@@ -67,17 +67,19 @@ describe('POST /api/listings/:id/favorite', () => {
 	it('returns 404 for an unknown listing', async () => {
 		const res = await request(getApp())
 			.post('/api/listings/unknown/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.listing.favoriteNotFound,
+			error: ERROR_MESSAGES.listing.favoriteNotFound,
 		});
 	});
 
 	it('returns 200 with favorited: true', async () => {
 		const res = await request(getApp())
 			.post('/api/listings/bowl01/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ favorited: true });
 	});
@@ -85,7 +87,8 @@ describe('POST /api/listings/:id/favorite', () => {
 	it('is idempotent — favoriting again still returns 200', async () => {
 		const res = await request(getApp())
 			.post('/api/listings/bowl01/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ favorited: true });
 	});
@@ -94,7 +97,7 @@ describe('POST /api/listings/:id/favorite', () => {
 describe('DELETE /api/listings/:id/favorite', () => {
 	beforeAll(async () => {
 		// Ensure scarf is favorited before testing removal
-		await request(getApp()).post('/api/listings/scrf01/favorite').set(AUTH);
+		await request(getApp()).post('/api/listings/scrf01/favorite').set(AUTH).send({});
 	});
 
 	it('returns 401 without auth', async () => {
@@ -107,17 +110,19 @@ describe('DELETE /api/listings/:id/favorite', () => {
 	it('returns 404 for an unknown listing', async () => {
 		const res = await request(getApp())
 			.delete('/api/listings/unknown/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.listing.favoriteNotFound,
+			error: ERROR_MESSAGES.listing.favoriteNotFound,
 		});
 	});
 
 	it('returns 200 with favorited: false', async () => {
 		const res = await request(getApp())
 			.delete('/api/listings/scrf01/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ favorited: false });
 	});
@@ -125,7 +130,8 @@ describe('DELETE /api/listings/:id/favorite', () => {
 	it('is idempotent — unfavoriting again still returns 200', async () => {
 		const res = await request(getApp())
 			.delete('/api/listings/scrf01/favorite')
-			.set(AUTH);
+			.set(AUTH)
+			.send({});
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ favorited: false });
 	});
@@ -135,8 +141,8 @@ describe('GET /api/me/favorites', () => {
 	beforeAll(async () => {
 		// scrf01 was unfavorited above so its record is gone — favoriting it
 		// here gives us two fresh records in a known order for the ordering test
-		await request(getApp()).post('/api/listings/scrf01/favorite').set(AUTH);
-		await request(getApp()).post('/api/listings/lamp01/favorite').set(AUTH);
+		await request(getApp()).post('/api/listings/scrf01/favorite').set(AUTH).send({});
+		await request(getApp()).post('/api/listings/lamp01/favorite').set(AUTH).send({});
 	});
 
 	it('returns 401 without auth', async () => {

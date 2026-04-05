@@ -123,7 +123,86 @@ export const categoryContract = c.router({
 	},
 });
 
+const ListingVariationOptionSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	additionalPriceCents: z.number(),
+});
+
+const ListingVariationSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	pricesVary: z.boolean(),
+	options: z.array(ListingVariationOptionSchema),
+});
+
+const ListingPageDataSchema = ListingCardDataSchema.extend({
+	fullDescr: z
+		.array(z.object({ title: z.string(), richText: z.string() }))
+		.optional(),
+	leadTimeDaysMin: z.number(),
+	leadTimeDaysMax: z.number(),
+	originZip: z.string().optional(),
+	shippingDetails: z
+		.object({
+			shipTimeDaysMin: z.number(),
+			shipTimeDaysMax: z.number(),
+			shippingRate: z.number(),
+		})
+		.optional(),
+	returnExchangePolicy: z
+		.object({
+			returnsAccepted: z.boolean(),
+			exchangesAccepted: z.boolean(),
+			returnWindowDays: z.number(),
+		})
+		.optional(),
+	variations: z.array(ListingVariationSchema),
+});
+
+const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
+
+export const listingsContract = c.router({
+	getAll: {
+		method: 'GET',
+		path: '/api/listings',
+		responses: { 200: z.array(ListingCardDataSchema) },
+	},
+	getById: {
+		method: 'GET',
+		path: '/api/listings/:id',
+		pathParams: z.object({ id: z.string() }),
+		responses: {
+			200: ListingPageDataSchema,
+			404: ErrorSchema,
+		},
+	},
+	favorite: {
+		method: 'POST',
+		path: '/api/listings/:id/favorite',
+		pathParams: z.object({ id: z.string() }),
+		body: z.object({}),
+		responses: {
+			200: FavoriteResponseSchema,
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	unfavorite: {
+		method: 'DELETE',
+		path: '/api/listings/:id/favorite',
+		pathParams: z.object({ id: z.string() }),
+		body: z.object({}),
+		responses: {
+			200: FavoriteResponseSchema,
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+});
+
 export const appContract = c.router({
 	categories: categoryContract,
 	checkout: checkoutContract,
+	listings: listingsContract,
 });
