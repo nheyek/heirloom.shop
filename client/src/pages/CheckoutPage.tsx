@@ -9,7 +9,6 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { API_ROUTES } from '@common/constants';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { useApiClient } from '../hooks/useApiClient';
 import { callApi } from '../utils/apiUtils';
@@ -28,7 +27,6 @@ import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCar
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES, Layout } from '../constants';
 import { getSimpleCartItems } from '../domain/checkout';
-import useApi from '../hooks/useApi';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../theme';
 import { formatCentsAsDollars } from '../utils/priceDisplay';
@@ -41,7 +39,6 @@ export const CheckoutPage = () => {
 	const stripe = useStripe();
 	const elements = useElements();
 	const apiClient = useApiClient();
-	const { getPublicResource } = useApi();
 	const pollIntervalRef = useRef<ReturnType<
 		typeof setInterval
 	> | null>(null);
@@ -73,10 +70,13 @@ export const CheckoutPage = () => {
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
-			const { data } = await getPublicResource(
-				`${API_ROUTES.orders.base}/${shortId}/${API_ROUTES.orders.status}`,
+			const result = await callApi(
+				apiClient.orders.getStatus({ params: { shortId } }),
 			);
-			if (data?.orderStatus === OrderStatus.PAYMENT_SUCCEEDED) {
+			if (
+				result.error === null &&
+				result.data.orderStatus === OrderStatus.PAYMENT_SUCCEEDED
+			) {
 				clearInterval(pollIntervalRef.current!);
 				clearCart();
 				navigate(`/${CLIENT_ROUTES.orderSuccess}`);

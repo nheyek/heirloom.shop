@@ -1,5 +1,6 @@
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
+import { OrderStatus } from './enums/OrderStatus';
 
 const c = initContract();
 
@@ -207,6 +208,18 @@ export const listingsContract = c.router({
 	},
 });
 
+export const ordersContract = c.router({
+	getStatus: {
+		method: 'GET',
+		path: '/api/orders/:shortId/status',
+		pathParams: z.object({ shortId: z.string() }),
+		responses: {
+			200: z.object({ orderStatus: z.nativeEnum(OrderStatus) }),
+			404: ErrorSchema,
+		},
+	},
+});
+
 export const meContract = c.router({
 	getMe: {
 		method: 'GET',
@@ -233,4 +246,5 @@ export const appContract = c.router({
 	checkout: checkoutContract,
 	listings: listingsContract,
 	me: meContract,
+	orders: ordersContract,
 });

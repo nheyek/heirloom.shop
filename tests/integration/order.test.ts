@@ -1,4 +1,5 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
+import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import request from 'supertest';
@@ -78,5 +79,8 @@ describe('GET /api/orders/:shortId/status', () => {
 		const res = await request(getApp()).get('/api/orders/unknown/status');
 
 		expect(res.status).toBe(404);
+		expect(res.body).toMatchObject({
+			error: ERROR_MESSAGES.order.notFound,
+		});
 	});
 });

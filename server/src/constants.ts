@@ -16,4 +16,7 @@ export const ERROR_MESSAGES = {
 	user: {
 		notFound: 'User not found',
 	},
+	order: {
+		notFound: 'Order not found',
+	},
 };
