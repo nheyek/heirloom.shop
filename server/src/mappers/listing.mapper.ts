@@ -1,6 +1,6 @@
-import { ListingCardData } from '@common/types/ListingCardData';
-import { ListingPageData } from '@common/types/ListingPageData';
-import { ListingVariationData } from '@common/types/ListingVariationData';
+import { ListingCardData } from '@common/contract';
+import { ListingPageData } from '@common/contract';
+import { ListingVariationData } from '@common/contract';
 import { Listing } from '../entities/generated/Listing';
 import { ListingVariation } from '../entities/generated/ListingVariation';
 import { ListingVariationOption } from '../entities/generated/ListingVariationOption';

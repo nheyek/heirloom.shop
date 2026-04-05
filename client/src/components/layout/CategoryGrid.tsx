@@ -3,7 +3,7 @@ import {
 	Skeleton,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { CategoryTileData } from '@common/types/CategoryTileData';
+import { CategoryTileData } from '@common/contract';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
 import { CategoryTile } from '../itemDisplay/CategoryTile';
 

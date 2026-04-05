@@ -1,6 +1,6 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
-import { ShippingAddress } from '@common/types/ShippingAddress';
+import { ShippingAddress } from '@common/contract';
 import { getEm } from '../db';
 import { AppOrder } from '../entities/generated/AppOrder';
 import { encodeId } from '../utils/hashids';

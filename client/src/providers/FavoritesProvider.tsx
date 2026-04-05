@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingCardData } from '@common/contract';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, StorageKey } from '../constants';

@@ -3,7 +3,7 @@ import {
 	getEmailFieldError,
 	getSimpleCartItems,
 } from './checkout';
-import { ShippingAddress } from '@common/types/ShippingAddress';
+import { ShippingAddress } from '@common/contract';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 
 const validAddress: ShippingAddress = {

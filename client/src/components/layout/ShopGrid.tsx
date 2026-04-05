@@ -4,7 +4,7 @@ import {
 	Skeleton,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { ShopCardData } from '@common/types/ShopCardData';
+import { ShopCardData } from '@common/contract';
 import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,

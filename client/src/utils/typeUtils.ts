@@ -1,5 +1,5 @@
 import { ListingDataForCart } from '@common/types/ListingDataForCart';
-import { ListingPageData } from '@common/types/ListingPageData';
+import { ListingPageData } from '@common/contract';
 
 export const getListingDataForCart = (
 	listing: ListingPageData,

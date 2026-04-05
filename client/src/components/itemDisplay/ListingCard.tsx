@@ -7,7 +7,7 @@ import {
 	Link,
 	Stack,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingCardData } from '@common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';

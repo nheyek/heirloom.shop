@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
 import { AppError } from '../components/feedback/AppError';
 import { ListingGrid } from '../components/layout/ListingGrid';

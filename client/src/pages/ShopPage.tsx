@@ -6,8 +6,8 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
-import { ShopCardData } from '@common/types/ShopCardData';
+import { ListingCardData } from '@common/contract';
+import { ShopCardData } from '@common/contract';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

@@ -1,4 +1,4 @@
-import { CheckoutItemData } from '@common/types/CheckoutItemData';
+import { CheckoutItemData } from '@common/contract';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { getEm } from '../db';
 import { Listing } from '../entities/generated/Listing';

@@ -1,4 +1,4 @@
-import { ShippingAddress } from '@common/types/ShippingAddress';
+import { ShippingAddress } from '@common/contract';
 
 export const getTaxTotal = (
 	preTaxTotal: number,

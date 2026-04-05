@@ -6,7 +6,7 @@ import {
 	Skeleton,
 	Stack,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
+import { ListingCardData } from '@common/contract';
 import { Fragment, useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import {

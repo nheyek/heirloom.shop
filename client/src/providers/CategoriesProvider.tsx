@@ -1,4 +1,4 @@
-import { CategoryTileData } from '@common/types/CategoryTileData';
+import { CategoryTileData } from '@common/contract';
 import React, { useContext, useEffect, useState } from 'react';
 import { useApiClient } from '../hooks/useApiClient';
 import { callApi } from '../utils/apiUtils';

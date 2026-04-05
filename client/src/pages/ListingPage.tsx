@@ -18,7 +18,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { ListingPageData } from '@common/types/ListingPageData';
+import { ListingPageData } from '@common/contract';
 import { formatDateRange } from '@common/utils';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';

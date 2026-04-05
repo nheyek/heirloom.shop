@@ -1,12 +1,4 @@
-export type ShippingAddress = {
-	firstName: string;
-	lastName: string;
-	line1: string;
-	line2: string;
-	city: string;
-	state: string;
-	zip: string;
-};
+import { ShippingAddress } from '@common/contract';
 
 export type ShippingAddressErrors = {
 	[K in keyof ShippingAddress]?: string;

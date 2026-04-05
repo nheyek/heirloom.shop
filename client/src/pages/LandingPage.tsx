@@ -1,6 +1,6 @@
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
-import { ListingCardData } from '@common/types/ListingCardData';
-import { ShopCardData } from '@common/types/ShopCardData';
+import { ListingCardData } from '@common/contract';
+import { ShopCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
 import { IntroCarousel } from '../components/branding/IntroCarousel';
 import { Logo } from '../components/branding/Logo';

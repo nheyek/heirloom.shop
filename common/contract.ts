@@ -325,3 +325,17 @@ export const appContract = c.router({
 	search: searchContract,
 	shops: shopsContract,
 });
+
+export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
+export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
+export type ListingVariationOptionData = z.infer<typeof ListingVariationOptionSchema>;
+export type ListingVariationData = z.infer<typeof ListingVariationSchema>;
+export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
+export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
+export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
+export type PaymentIntentResponse = z.infer<typeof PaymentIntentResponseSchema>;
+export type TaxCalculationResponse = z.infer<typeof TaxResponseSchema>;
+export type ShopCardData = z.infer<typeof ShopCardDataSchema>;
+export type UserInfo = z.infer<typeof UserInfoSchema>;
+export type SearchResult = z.infer<typeof SearchResultSchema>;
+export type SearchResultCollection = z.infer<typeof SearchResultCollectionSchema>;

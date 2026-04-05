@@ -1,4 +1,4 @@
-import { ShopCardData } from '@common/types/ShopCardData';
+import { ShopCardData } from '@common/contract';
 import { Shop } from '../entities/generated/Shop';
 
 export const mapShopToApiResponseData = (

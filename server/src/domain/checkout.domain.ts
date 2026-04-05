@@ -1,4 +1,4 @@
-import { CheckoutItemData } from '@common/types/CheckoutItemData';
+import { CheckoutItemData } from '@common/contract';
 import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';

@@ -17,7 +17,7 @@ import { SEARCH_QUERY_LIMITS } from '@common/constants';
 import {
 	SearchResult,
 	SearchResultCollection,
-} from '@common/types/SearchResultCollection';
+} from '@common/contract';
 import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '../../constants';
