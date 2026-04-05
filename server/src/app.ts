@@ -1,5 +1,5 @@
 import { API_ROUTES } from '@common/constants';
-import { categoryContract, checkoutContract, listingsContract, meContract, ordersContract } from '@common/contract';
+import { categoryContract, checkoutContract, listingsContract, meContract, ordersContract, searchContract } from '@common/contract';
 import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
@@ -11,7 +11,7 @@ import { checkoutRouter } from './routes/checkout.routes';
 import { listingRouter } from './routes/listing.routes';
 import { meRouter } from './routes/me.routes';
 import { orderRouter } from './routes/order.routes';
-import searchRouter from './routes/search.routes';
+import { searchRouter } from './routes/search.routes';
 import shopRouter from './routes/shop.routes';
 import webhookRouter from './routes/webhook.routes';
 
@@ -39,10 +39,7 @@ export const createApp = async () => {
 	);
 	createExpressEndpoints(categoryContract, categoryRouter, app);
 	createExpressEndpoints(checkoutContract, checkoutRouter, app);
-	app.use(
-		`/${API_ROUTES.base}/${API_ROUTES.search.base}`,
-		searchRouter,
-	);
+	createExpressEndpoints(searchContract, searchRouter, app);
 	createExpressEndpoints(ordersContract, orderRouter, app);
 
 	app.use((req, res, next) => {

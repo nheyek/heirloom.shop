@@ -208,6 +208,26 @@ export const listingsContract = c.router({
 	},
 });
 
+const SearchResultSchema = z.object({ id: z.string(), label: z.string() });
+
+const SearchResultCollectionSchema = z.object({
+	listingResults: z.array(SearchResultSchema),
+	shopResults: z.array(SearchResultSchema),
+	categoryResults: z.array(SearchResultSchema),
+});
+
+export const searchContract = c.router({
+	search: {
+		method: 'GET',
+		path: '/api/search',
+		query: z.object({ q: z.string().optional() }),
+		responses: {
+			200: SearchResultCollectionSchema,
+			400: ErrorSchema,
+		},
+	},
+});
+
 export const ordersContract = c.router({
 	getStatus: {
 		method: 'GET',
@@ -247,4 +267,5 @@ export const appContract = c.router({
 	listings: listingsContract,
 	me: meContract,
 	orders: ordersContract,
+	search: searchContract,
 });

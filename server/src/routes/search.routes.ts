@@ -1,8 +1,36 @@
-import { Router } from 'express';
-import { search } from '../controllers/search.controller';
+import { searchContract } from '@common/contract';
+import { SEARCH_QUERY_LIMITS } from '@common/constants';
+import { initServer } from '@ts-rest/express';
+import * as searchService from '../services/search.service';
+import { sanitizeInputString } from '../utils/sanitize';
+import { validateStringLength } from '../utils/validation';
 
-const router = Router();
+const s = initServer();
 
-router.get('/', search);
+export const searchRouter = s.router(searchContract, {
+	search: async ({ query: { q } }) => {
+		if (typeof q !== 'string') {
+			return {
+				status: 400 as const,
+				body: { error: 'Query parameter "q" is required' },
+			};
+		}
 
-export default router;
+		const sanitized = sanitizeInputString(q);
+		const lengthCheck = validateStringLength(
+			sanitized,
+			SEARCH_QUERY_LIMITS.minChars,
+			SEARCH_QUERY_LIMITS.maxChars,
+			'Query',
+		);
+		if (!lengthCheck.valid) {
+			return {
+				status: 400 as const,
+				body: { error: lengthCheck.message! },
+			};
+		}
+
+		const results = await searchService.search(sanitized);
+		return { status: 200 as const, body: results };
+	},
+});

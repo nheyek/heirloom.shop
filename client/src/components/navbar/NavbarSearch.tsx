@@ -13,7 +13,7 @@ import { FaSearch } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { API_ROUTES, SEARCH_QUERY_LIMITS } from '@common/constants';
+import { SEARCH_QUERY_LIMITS } from '@common/constants';
 import {
 	SearchResult,
 	SearchResultCollection,
@@ -21,12 +21,13 @@ import {
 import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '../../constants';
-import useApi from '../../hooks/useApi';
+import { useApiClient } from '../../hooks/useApiClient';
 import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '../../theme';
+import { callApi } from '../../utils/apiUtils';
 import { FadeInBox } from '../util/FadeInBox';
 
 export const NavbarSearch = () => {
-	const { getPublicResource } = useApi();
+	const apiClient = useApiClient();
 
 	const containerRef = useRef<HTMLDivElement>(null);
 
@@ -38,17 +39,15 @@ export const NavbarSearch = () => {
 	const [showPopover, setShowPopover] = useState(false);
 
 	const search = async (query: string) => {
-		const { data, error } = await getPublicResource(
-			`${API_ROUTES.search.base}?${API_ROUTES.search.queryParam}=${encodeURIComponent(query)}`,
+		const result = await callApi(
+			apiClient.search.search({ query: { q: query } }),
 		);
-		if (data) {
-			setResults(data);
-		}
-		if (error) {
+		if (result.error !== null) {
 			setResults(null);
 			setError(true);
+		} else {
+			setResults(result.data);
 		}
-
 		setIsLoading(false);
 	};
 

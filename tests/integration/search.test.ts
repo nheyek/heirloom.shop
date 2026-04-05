@@ -122,16 +122,16 @@ describe('GET /api/search', () => {
 		const res = await request(getApp()).get('/api/search');
 
 		expect(res.status).toBe(400);
-		expect(res.body).toHaveProperty('message');
-		expect(res.body.message).toContain('required');
+		expect(res.body).toHaveProperty('error');
+		expect(res.body.error).toContain('required');
 	});
 
 	it('returns 400 for query shorter than 3 characters', async () => {
 		const res = await request(getApp()).get('/api/search?q=ab');
 
 		expect(res.status).toBe(400);
-		expect(res.body).toHaveProperty('message');
-		expect(res.body.message).toContain('at least 3 characters');
+		expect(res.body).toHaveProperty('error');
+		expect(res.body.error).toContain('at least 3 characters');
 	});
 
 	it('returns 400 for query longer than 48 characters', async () => {
@@ -139,8 +139,8 @@ describe('GET /api/search', () => {
 		const res = await request(getApp()).get(`/api/search?q=${longQuery}`);
 
 		expect(res.status).toBe(400);
-		expect(res.body).toHaveProperty('message');
-		expect(res.body.message).toContain('48 characters');
+		expect(res.body).toHaveProperty('error');
+		expect(res.body.error).toContain('48 characters');
 	});
 
 	it('escapes special LIKE characters in query', async () => {
