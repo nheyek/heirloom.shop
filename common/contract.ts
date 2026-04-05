@@ -208,6 +208,61 @@ export const listingsContract = c.router({
 	},
 });
 
+const ShopCardDataSchema = z.object({
+	id: z.number(),
+	shortId: z.string(),
+	title: z.string(),
+	location: z.string().nullish(),
+	classification: z.string().nullish(),
+	profileImageUuid: z.string().nullish(),
+	countryCode: z.string().nullable(),
+	categoryIcon: z.string().nullable(),
+});
+
+const ShopProfileSchema = z.object({
+	title: z.string(),
+	desc: z.string(),
+	categoryId: z.string().optional(),
+});
+
+export const shopsContract = c.router({
+	getAll: {
+		method: 'GET',
+		path: '/api/shops',
+		responses: { 200: z.array(ShopCardDataSchema) },
+	},
+	getById: {
+		method: 'GET',
+		path: '/api/shops/:id',
+		pathParams: z.object({ id: z.string() }),
+		responses: {
+			200: ShopCardDataSchema,
+			404: ErrorSchema,
+		},
+	},
+	getListings: {
+		method: 'GET',
+		path: '/api/shops/:id/listings',
+		pathParams: z.object({ id: z.string() }),
+		responses: {
+			200: z.array(ListingCardDataSchema),
+			404: ErrorSchema,
+		},
+	},
+	addListing: {
+		method: 'POST',
+		path: '/api/shops/:id/listings',
+		pathParams: z.object({ id: z.string() }),
+		body: ShopProfileSchema,
+		responses: {
+			201: z.object({ id: z.number() }),
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+});
+
 const SearchResultSchema = z.object({ id: z.string(), label: z.string() });
 
 const SearchResultCollectionSchema = z.object({
@@ -268,4 +323,5 @@ export const appContract = c.router({
 	me: meContract,
 	orders: ordersContract,
 	search: searchContract,
+	shops: shopsContract,
 });

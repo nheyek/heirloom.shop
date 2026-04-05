@@ -8,13 +8,12 @@ import {
 } from '@chakra-ui/react';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
+import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ListingGrid } from '../components/layout/ListingGrid';
-import useApi from '../hooks/useApi';
-
-import { API_ROUTES } from '@common/constants';
-import { motion } from 'framer-motion';
+import { useApiClient } from '../hooks/useApiClient';
+import { callApi } from '../utils/apiUtils';
 import { AppError } from '../components/feedback/AppError';
 import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
 import { AppImage } from '../components/imageDisplay/AppImage';
@@ -24,7 +23,7 @@ import { FONT_DECORATIVE } from '../theme';
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
 
-	const { getPublicResource } = useApi();
+	const apiClient = useApiClient();
 
 	const [shopData, setShopData] = useState<ShopCardData | null>(
 		null,
@@ -43,25 +42,25 @@ export const ShopPage = () => {
 	);
 
 	const loadShopData = async () => {
-		const response = await getPublicResource(
-			`${API_ROUTES.shops.base}/${id}`,
+		const result = await callApi(
+			apiClient.shops.getById({ params: { id: id! } }),
 		);
-		if (response.error) {
-			setShopDataError(response.error.message);
+		if (result.error !== null) {
+			setShopDataError(result.error);
 		} else {
-			setShopData(response.data);
+			setShopData(result.data);
 		}
 		setShopDataLoading(false);
 	};
 
 	const loadListings = async () => {
-		const response = await getPublicResource(
-			`${API_ROUTES.shops.base}/${id}/${API_ROUTES.shops.listings}`,
+		const result = await callApi(
+			apiClient.shops.getListings({ params: { id: id! } }),
 		);
-		if (response.error) {
-			setListingsError(response.error.message);
+		if (result.error !== null) {
+			setListingsError(result.error);
 		} else {
-			setListings(response.data);
+			setListings(result.data);
 		}
 		setListingsLoading(false);
 	};

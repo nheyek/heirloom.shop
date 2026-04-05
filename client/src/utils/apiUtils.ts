@@ -1,4 +1,4 @@
-type SuccessBody<R> = R extends { status: 200; body: infer T }
+type SuccessBody<R> = R extends { status: 200 | 201; body: infer T }
 	? T
 	: never;
 
@@ -11,7 +11,7 @@ export async function callApi<
 >(promise: Promise<R>): Promise<ApiResult<SuccessBody<R>>> {
 	try {
 		const response = await promise;
-		if (response.status === 200) {
+		if (response.status === 200 || response.status === 201) {
 			return { data: response.body as SuccessBody<R>, error: null };
 		}
 		const { body } = response;

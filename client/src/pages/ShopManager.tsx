@@ -13,13 +13,11 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import useApi from '../hooks/useApi';
 import { useApiClient } from '../hooks/useApiClient';
 import { useUserInfo } from '../providers/UserProvider';
 import { callApi } from '../utils/apiUtils';
 
 export const ShopManager = () => {
-	const { postResource } = useApi();
 	const apiClient = useApiClient();
 	const { user } = useUserInfo();
 
@@ -33,19 +31,16 @@ export const ShopManager = () => {
 	};
 
 	const submitNewListing = async () => {
-		const listingData = {
-			title: 'test',
-			desc: 'This is a test listing',
-		};
-
-		const { data, error } = await postResource(
-			`shops/${user?.shopId}/listings`,
-			listingData,
+		const result = await callApi(
+			apiClient.shops.addListing({
+				params: { id: String(user?.shopId) },
+				body: { title: 'test', desc: 'This is a test listing' },
+			}),
 		);
-		if (error) {
-			console.error('Error creating listing:', error);
+		if (result.error !== null) {
+			console.error('Error creating listing:', result.error);
 		} else {
-			console.log('Listing created:', data.id);
+			console.log('Listing created:', result.data.id);
 		}
 	};
 

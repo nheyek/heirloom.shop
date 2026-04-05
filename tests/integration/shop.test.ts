@@ -108,7 +108,7 @@ describe('GET /api/shops/:id', () => {
 		const res = await request(getApp()).get('/api/shops/unknown');
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.shop.notFound,
+			error: ERROR_MESSAGES.shop.notFound,
 		});
 	});
 
@@ -130,7 +130,7 @@ describe('GET /api/shops/:id/listings', () => {
 		const res = await request(getApp()).get('/api/shops/unknown/listings');
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.shop.notFound,
+			error: ERROR_MESSAGES.shop.notFound,
 		});
 	});
 
@@ -171,7 +171,7 @@ describe('POST /api/shops/:id/listings', () => {
 			.send({ title: 'New Item', desc: '' });
 		expect(res.status).toBe(404);
 		expect(res.body).toMatchObject({
-			message: ERROR_MESSAGES.shop.notFound,
+			error: ERROR_MESSAGES.shop.notFound,
 		});
 	});
 

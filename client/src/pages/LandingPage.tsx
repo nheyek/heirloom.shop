@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
-import { API_ROUTES } from '@common/constants';
 import { ListingCardData } from '@common/types/ListingCardData';
 import { ShopCardData } from '@common/types/ShopCardData';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,6 @@ import { CategoryGrid } from '../components/layout/CategoryGrid';
 import { ListingGrid } from '../components/layout/ListingGrid';
 import { ShopGrid } from '../components/layout/ShopGrid';
 import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
-import useApi from '../hooks/useApi';
 import { useApiClient } from '../hooks/useApiClient';
 import { useCategories } from '../providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '../theme';
@@ -34,17 +32,14 @@ export const LandingPage = () => {
 	const isLoading =
 		shopsLoading || listingsLoading || categoriesLoading;
 
-	const { getPublicResource } = useApi();
 	const apiClient = useApiClient();
 
 	const loadShopData = async () => {
-		const shopResponse = await getPublicResource(
-			API_ROUTES.shops.base,
-		);
-		if (shopResponse.error) {
+		const result = await callApi(apiClient.shops.getAll());
+		if (result.error !== null) {
 			setShopsError('Failed to load makers');
 		} else {
-			setShops(shopResponse.data);
+			setShops(result.data);
 		}
 		setShopsLoading(false);
 	};
