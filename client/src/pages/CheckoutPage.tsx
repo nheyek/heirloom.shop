@@ -42,7 +42,6 @@ export const CheckoutPage = () => {
 	const pollIntervalRef = useRef<ReturnType<
 		typeof setInterval
 	> | null>(null);
-	const submittingRef = useRef(false);
 	const {
 		items,
 		itemQuantityTotal,
@@ -89,22 +88,19 @@ export const CheckoutPage = () => {
 	};
 
 	const handleConfirmation = async () => {
-		if (submittingRef.current) return;
-		submittingRef.current = true;
+		setPendingSubmit(true);
 
 		const failedValidation = !(await validateCheckoutFields());
 		if (failedValidation || !stripe || !elements) {
-			submittingRef.current = false;
+			setPendingSubmit(false);
 			return;
 		}
 
 		const { error } = await elements.submit();
 		if (error) {
-			submittingRef.current = false;
+			setPendingSubmit(false);
 			return;
 		}
-
-		setPendingSubmit(true);
 
 		const intentResult = await callApi(
 			apiClient.checkout.submitOrder({
@@ -117,7 +113,6 @@ export const CheckoutPage = () => {
 		);
 
 		if (intentResult.error !== null) {
-			submittingRef.current = false;
 			setPendingSubmit(false);
 			return;
 		}
@@ -133,7 +128,6 @@ export const CheckoutPage = () => {
 		});
 
 		if (confirmError) {
-			submittingRef.current = false;
 			setPendingSubmit(false);
 		} else {
 			startPollingOrderStatus(orderShortId);
@@ -203,6 +197,7 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
+						disabled={pendingSubmit}
 					>
 						<FaCheckCircle />
 						Pay Now
