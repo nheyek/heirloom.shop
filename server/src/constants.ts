@@ -1,4 +1,4 @@
-export const EMAIL_FROM = 'noreply@heirloom.shop';
+export const EMAIL_FROM = 'support@heirloom.shop';
 
 export const ERROR_MESSAGES = {
 	category: {

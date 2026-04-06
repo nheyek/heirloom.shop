@@ -50,8 +50,12 @@ export const handleStripeWebhook = async (
 
 			await sendEmail({
 				to: order.email,
-				subject: 'Order Confirmation',
-				html: `<p>Thank you for your order!</p>`,
+				template: {
+					id: 'confirmation-email',
+					variables: {
+						ORDER_ID: order.shortId,
+					},
+				},
 			});
 		}
 	}

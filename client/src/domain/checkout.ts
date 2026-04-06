@@ -42,7 +42,7 @@ export const getEmailFieldError = (email: string) => {
 	return null;
 };
 
-export const getSimpleCartItems = (items: ShoppingCartItem[]) =>
+export const simplifyCartItems = (items: ShoppingCartItem[]) =>
 	items.map((item) => ({
 		listingShortId: item.listingData.shortId,
 		selectedOptions: item.selectedOptions,

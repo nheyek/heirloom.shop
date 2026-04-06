@@ -10,8 +10,6 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { OrderStatus } from '@common/enums/OrderStatus';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -26,9 +24,11 @@ import { CheckoutShoppingCartCompact } from '../components/checkout/CheckoutShop
 import { ShoppingCartEmptyMessage } from '../components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '../components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES, Layout } from '../constants';
-import { getSimpleCartItems } from '../domain/checkout';
+import { simplifyCartItems } from '../domain/checkout';
+import { useApiClient } from '../hooks/useApiClient';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '../theme';
+import { callApi } from '../utils/apiUtils';
 import { formatCentsAsDollars } from '../utils/priceDisplay';
 
 const POLL_INTERVAL_MS = 2000;
@@ -75,7 +75,8 @@ export const CheckoutPage = () => {
 			);
 			if (
 				result.error === null &&
-				result.data.orderStatus === OrderStatus.PAYMENT_SUCCEEDED
+				result.data.orderStatus ===
+					OrderStatus.PAYMENT_SUCCEEDED
 			) {
 				clearInterval(pollIntervalRef.current!);
 				clearCart();
@@ -108,7 +109,7 @@ export const CheckoutPage = () => {
 		const intentResult = await callApi(
 			apiClient.checkout.submitOrder({
 				body: {
-					items: getSimpleCartItems(items),
+					items: simplifyCartItems(items),
 					email: checkoutEmail,
 					shippingAddress,
 				},

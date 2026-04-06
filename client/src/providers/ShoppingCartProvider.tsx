@@ -1,5 +1,5 @@
-import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShippingAddress } from '@common/contract';
+import { ListingDataForCart } from '@common/types/ListingDataForCart';
 import { ShippingAddressErrors } from '@common/types/ShippingAddress';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import {
@@ -13,7 +13,7 @@ import { StorageKey } from '../constants';
 import {
 	getEmailFieldError,
 	getShippingAddressFieldErrors,
-	getSimpleCartItems,
+	simplifyCartItems,
 } from '../domain/checkout';
 import { calculateItemPrice } from '../domain/shoppingCart';
 import { useApiClient } from '../hooks/useApiClient';
@@ -245,7 +245,7 @@ export const ShoppingCartProvider = (props: {
 			const result = await callApi(
 				apiClient.checkout.calculateTax({
 					body: {
-						items: getSimpleCartItems(items),
+						items: simplifyCartItems(items),
 						shippingAddress,
 					},
 				}),
