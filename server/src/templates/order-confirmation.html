@@ -10,6 +10,12 @@
 			http-equiv="X-UA-Compatible"
 			content="IE=edge"
 		/>
+		<style>
+			@media (prefers-color-scheme: dark) {
+				.logo-dark { display: inline !important; }
+				.logo-light { display: none !important; }
+			}
+		</style>
 	</head>
 	<body
 		style="
@@ -47,8 +53,14 @@
 								style="padding-bottom: 16px"
 							>
 								<img
+									class="logo-light"
 									src="https://dev.cdn.heirloom.shop/logo.png"
 									style="width: 200px"
+								/>
+								<img
+									class="logo-dark"
+									src="https://dev.cdn.heirloom.shop/logo-white.png"
+									style="width: 200px; display: none"
 								/>
 							</td>
 						</tr>
