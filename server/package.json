@@ -34,7 +34,7 @@
 		"resend": "^6.10.0",
 		"stripe": "^20.3.1",
 		"typeorm": "^0.3.25",
-		"zod": "^3.25.76"
+		"zod": "^4.3.6"
 	},
 	"devDependencies": {
 		"@mikro-orm/entity-generator": "^6.4.16",
