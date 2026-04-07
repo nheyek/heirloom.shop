@@ -159,12 +159,9 @@ export const CheckoutPage = () => {
 						>
 							<Spinner
 								size="xl"
-								borderWidth={2}
+								borderWidth={3}
 							/>
-							<Text
-								fontSize={24}
-								fontWeight={300}
-							>
+							<Text fontSize={24}>
 								Confirming your order...
 							</Text>
 						</Stack>
