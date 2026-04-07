@@ -14,10 +14,13 @@ COPY common ./common
 COPY tsconfig.json ./
 
 # Copy package manifests
+COPY package*.json ./
 COPY server/package*.json ./server/
 COPY client/package*.json ./client/
 
 # Install dependencies
+WORKDIR /app
+RUN npm install
 WORKDIR /app/server
 RUN npm install
 WORKDIR /app/client
