@@ -1,6 +1,7 @@
 import {
 	Box,
 	Button,
+	Dialog,
 	GridItem,
 	Heading,
 	SimpleGrid,
@@ -53,6 +54,8 @@ export const CheckoutPage = () => {
 		validateCheckoutFields,
 		clearCart,
 	} = useShoppingCart();
+
+	const [pendingValidation, setPendingValidation] = useState(false);
 	const [pendingSubmit, setPendingSubmit] = useState(false);
 
 	useEffect(() => {
@@ -88,13 +91,13 @@ export const CheckoutPage = () => {
 	};
 
 	const handleConfirmation = async () => {
-		setPendingSubmit(true);
-
+		setPendingValidation(true);
 		const failedValidation = !(await validateCheckoutFields());
-		if (failedValidation || !stripe || !elements) {
-			setPendingSubmit(false);
-			return;
-		}
+		setPendingValidation(false);
+
+		if (failedValidation || !stripe || !elements) return;
+
+		setPendingSubmit(true);
 
 		const { error } = await elements.submit();
 		if (error) {
@@ -139,6 +142,38 @@ export const CheckoutPage = () => {
 		md: Layout.STANDARD,
 	});
 
+	const submissionModal = (
+		<Dialog.Root
+			open={pendingSubmit}
+			placement="center"
+			closeOnInteractOutside={false}
+			closeOnEscape={false}
+		>
+			<Dialog.Backdrop />
+			<Dialog.Positioner>
+				<Dialog.Content>
+					<Dialog.Body py={12}>
+						<Stack
+							align="center"
+							gap={8}
+						>
+							<Spinner
+								size="xl"
+								borderWidth={2}
+							/>
+							<Text
+								fontSize={24}
+								fontWeight={300}
+							>
+								Confirming your order...
+							</Text>
+						</Stack>
+					</Dialog.Body>
+				</Dialog.Content>
+			</Dialog.Positioner>
+		</Dialog.Root>
+	);
+
 	if (itemQuantityTotal === 0) {
 		return (
 			<Box
@@ -158,13 +193,14 @@ export const CheckoutPage = () => {
 	if (layout === Layout.COMPACT) {
 		return (
 			<Stack gap={0}>
+				{submissionModal}
 				<Stack
 					p={5}
 					gap={5}
 				>
 					<CheckoutShippingForm
 						layout={layout}
-						disabled={pendingSubmit}
+						disabled={pendingValidation || pendingSubmit}
 					/>
 					<CheckoutShoppingCartCompact />
 				</Stack>
@@ -197,7 +233,6 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
-						disabled={pendingSubmit}
 					>
 						<FaCheckCircle />
 						Pay Now
@@ -214,6 +249,7 @@ export const CheckoutPage = () => {
 			px={4}
 			mx="auto"
 		>
+			{submissionModal}
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}
@@ -249,32 +285,18 @@ export const CheckoutPage = () => {
 							mb={10}
 							fontSize={22}
 							onClick={handleConfirmation}
-							disabled={pendingSubmit}
 						>
-							{pendingSubmit ? (
-								<Spinner
-									size="md"
-									color="white"
-									borderWidth={3}
-								/>
-							) : (
-								<>
-									<FaCheckCircle />
-									Pay Now
-									<RxDotFilled />
-									<Text
-										fontSize={26}
-										fontWeight={600}
-										fontFamily={FONT_DECORATIVE}
-										paddingBottom={1}
-									>
-										{' '}
-										{formatCentsAsDollars(
-											orderTotal,
-										)}
-									</Text>
-								</>
-							)}
+							<FaCheckCircle />
+							Pay Now
+							<RxDotFilled />
+							<Text
+								fontSize={26}
+								fontWeight={600}
+								fontFamily={FONT_DECORATIVE}
+								paddingBottom={1}
+							>
+								{formatCentsAsDollars(orderTotal)}
+							</Text>
 						</Button>
 					</Stack>
 				</GridItem>
