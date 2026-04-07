@@ -1,7 +1,6 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
-import { FaReceipt } from 'react-icons/fa';
-import { IoBagCheckOutline } from 'react-icons/io5';
-import { TbSquares } from 'react-icons/tb';
+import { IoBagCheckOutline, IoReceipt } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import { FONT_DECORATIVE } from '../theme';
 
 export const OrderSuccess = () => {
@@ -35,18 +34,19 @@ export const OrderSuccess = () => {
 							fontSize={20}
 							width="100%"
 						>
-							<FaReceipt />
+							<IoReceipt />
 							View details
 						</Button>
-						<Button
-							size="xl"
-							variant="outline"
-							fontSize={20}
-							width="100%"
-						>
-							<TbSquares />
-							Continue browsing
-						</Button>
+						<Link to="/">
+							<Button
+								size="xl"
+								variant="outline"
+								fontSize={20}
+								width="100%"
+							>
+								Continue browsing
+							</Button>
+						</Link>
 					</Stack>
 				</Stack>
 			</Center>

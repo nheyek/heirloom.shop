@@ -28,7 +28,7 @@ import { CLIENT_ROUTES, Layout } from '../constants';
 import { simplifyCartItems } from '../domain/checkout';
 import { useApiClient } from '../hooks/useApiClient';
 import { useShoppingCart } from '../providers/ShoppingCartProvider';
-import { FONT_DECORATIVE } from '../theme';
+import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '../theme';
 import { callApi } from '../utils/apiUtils';
 import { formatCentsAsDollars } from '../utils/priceDisplay';
 
@@ -161,7 +161,10 @@ export const CheckoutPage = () => {
 								size="xl"
 								borderWidth={3}
 							/>
-							<Text fontSize={24}>
+							<Text
+								fontSize={28}
+								fontFamily={FONT_DISPLAY_SANS}
+							>
 								Confirming your order...
 							</Text>
 						</Stack>
