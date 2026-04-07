@@ -11,6 +11,14 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
+export const breakpoints = {
+	sm: '480px',
+	md: '768px',
+	lg: '992px',
+	xl: '1280px',
+	'2xl': '1536px',
+};
+
 const inputRecipe = defineRecipe({
 	variants: {
 		size: {
@@ -101,6 +109,7 @@ export const config = defineConfig({
 		},
 	},
 	theme: {
+		breakpoints,
 		tokens: {
 			fonts: {
 				body: { value: FONT_DEFAULT },
