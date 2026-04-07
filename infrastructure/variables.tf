@@ -50,3 +50,8 @@ variable "stripe_webhook_secret" {
   type      = string
   sensitive = true
 }
+
+variable "resend_api_key" {
+  type      = string
+  sensitive = true
+}
