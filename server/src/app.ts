@@ -1,5 +1,13 @@
 import { API_ROUTES } from '@common/constants';
-import { categoryContract, checkoutContract, listingsContract, meContract, ordersContract, searchContract, shopsContract } from '@common/contract';
+import {
+	categoryContract,
+	checkoutContract,
+	listingsContract,
+	meContract,
+	ordersContract,
+	searchContract,
+	shopsContract,
+} from '@common/contract';
 import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';

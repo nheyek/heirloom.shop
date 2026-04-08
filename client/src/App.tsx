@@ -12,9 +12,9 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
-import { OrderSuccess } from './pages/OrderSuccess';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
+import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
 
 const App = () => {

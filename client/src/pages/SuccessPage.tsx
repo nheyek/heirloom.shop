@@ -18,10 +18,10 @@ export const OrderSuccess = () => {
 					alignItems="center"
 				>
 					<Stack alignItems="center">
-						<IoBagCheckOutline size={64} />
+						<IoBagCheckOutline size={48} />
 
 						<Text
-							fontSize={48}
+							fontSize={36}
 							fontFamily={FONT_DECORATIVE}
 						>
 							Order Confirmed
@@ -30,8 +30,8 @@ export const OrderSuccess = () => {
 
 					<Stack width={250}>
 						<Button
-							size="xl"
-							fontSize={20}
+							size="lg"
+							fontSize={18}
 							width="100%"
 						>
 							<IoReceipt />
@@ -39,9 +39,9 @@ export const OrderSuccess = () => {
 						</Button>
 						<Link to="/">
 							<Button
-								size="xl"
+								size="lg"
 								variant="outline"
-								fontSize={20}
+								fontSize={18}
 								width="100%"
 							>
 								Continue browsing
