@@ -56,7 +56,7 @@ export const CheckoutPage = () => {
 	} = useShoppingCart();
 
 	const [pendingValidation, setPendingValidation] = useState(false);
-	const [pendingSubmit, setPendingSubmit] = useState(true);
+	const [pendingSubmit, setPendingSubmit] = useState(false);
 
 	useEffect(() => {
 		return () => {
