@@ -28,7 +28,7 @@ export const OrderSuccess = () => {
 						</Text>
 					</Stack>
 
-					<Stack width={250}>
+					<Stack width={200}>
 						<Button
 							size="lg"
 							fontSize={18}

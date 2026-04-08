@@ -12,46 +12,24 @@
 		/>
 		<style>
 			@media (prefers-color-scheme: dark) {
-				.logo-dark { display: inline !important; }
-				.logo-light { display: none !important; }
+				.logo-dark {
+					display: inline !important;
+				}
+				.logo-light {
+					display: none !important;
+				}
 			}
 		</style>
 	</head>
-	<body
-		style="
-			margin: 0;
-			padding: 0;
-			background-color: #ffffff;
-			font-family: 'Georgia, sans-serif;
-		"
-	>
-		<!-- Outer background wrapper (Protonmail / client compat) -->
-		<table
-			width="100%"
-			cellpadding="0"
-			cellspacing="0"
-			border="0"
-			bgcolor="#ffffff"
-		>
+	<body style="margin: 16px; padding: 0; font-family: 'Arial'">
+		<table width="100%">
 			<tr>
-				<td
-					bgcolor="#ffffff"
-					align="center"
-					style="padding: 32px 16px"
-				>
+				<td bgcolor="#ffffff">
 					<!-- Inner container -->
-					<table
-						cellpadding="0"
-						cellspacing="0"
-						border="0"
-						style="width: 100%"
-					>
+					<table style="width: 550px">
 						<!-- Logo -->
 						<tr>
-							<td
-								align="center"
-								style="padding-bottom: 16px"
-							>
+							<td align="center">
 								<img
 									class="logo-light"
 									src="https://dev.cdn.heirloom.shop/logo.png"
@@ -60,65 +38,53 @@
 								<img
 									class="logo-dark"
 									src="https://dev.cdn.heirloom.shop/logo-white.png"
-									style="width: 200px; display: none"
+									style="
+										width: 200px;
+										display: none;
+									"
 								/>
 							</td>
 						</tr>
 
 						<!-- Thank you heading -->
 						<tr>
-							<td
-								align="center"
-								style="padding-bottom: 24px"
-							>
-								<p
-									style="
-										margin: 0;
-										font-family:
-											'Alegreya Sans', Arial,
-											sans-serif;
-										font-size: 24px;
-										font-weight: 500;
-										color: #1a1a1a;
-										line-height: 1.4;
-									"
-								>
+							<td align="center">
+								<p style="font-size: 28px; margin: 0">
 									Thank you for your order.
 								</p>
 							</td>
 						</tr>
 
-						<!-- Body text -->
 						<tr>
 							<td align="center">
-								<p
+								<a
+									href="https://dev.heirloom.shop"
+									target="_blank"
 									style="
-										margin: 0 0 12px 0;
-										font-family:
-											'Alegreya Sans', Arial,
-											sans-serif;
-										font-size: 18px;
-										font-weight: 400;
-										color: #444444;
-										line-height: 1.6;
+										display: inline-block;
+										font-size: 16px;
+										color: #ffffff;
+										text-decoration: none;
+										margin: 20px;
+										padding: 8px 16px;
+										border-radius: 5px;
+										background-color: #000000;
 									"
 								>
+									View details
+								</a>
+							</td>
+						</tr>
+
+						<!-- Body text -->
+						<tr>
+							<td style="font-size: 18px">
+								<p style="margin: 0">
 									You will receive an email when
 									each item in your order has
 									shipped.
 								</p>
-								<p
-									style="
-										margin: 0;
-										font-family:
-											'Alegreya Sans', Arial,
-											sans-serif;
-										font-size: 18px;
-										font-weight: 400;
-										color: #444444;
-										line-height: 1.6;
-									"
-								>
+								<p style="margin-top: 12px">
 									Reply to this email with any
 									questions or concerns.
 								</p>
