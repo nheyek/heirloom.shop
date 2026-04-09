@@ -1,8 +1,8 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
 import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { FONT_DISPLAY_SANS } from '../../theme';
-import { ShoppingCartCard } from '../shoppingCart/ShoppingCartCard';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FONT_DISPLAY_SANS } from '@client/theme';
+import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 
 export const CheckoutShoppingCartCompact = () => {
 	const shoppingCart = useShoppingCart();

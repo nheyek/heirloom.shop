@@ -1,7 +1,7 @@
 import {
 	getShippingAddressFieldErrors,
 	getEmailFieldError,
-	getSimpleCartItems,
+	simplifyCartItems,
 } from './checkout';
 import { ShippingAddress } from '@common/contract';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
@@ -90,7 +90,7 @@ describe('getEmailFieldError', () => {
 	});
 });
 
-describe('getSimpleCartItems', () => {
+describe('simplifyCartItems', () => {
 	const makeItem = (shortId: string, quantity: number): ShoppingCartItem => ({
 		listingData: {
 			id: 1,
@@ -112,7 +112,7 @@ describe('getSimpleCartItems', () => {
 	});
 
 	it('maps items to simple cart items', () => {
-		const result = getSimpleCartItems([makeItem('abc', 2), makeItem('xyz', 1)]);
+		const result = simplifyCartItems([makeItem('abc', 2), makeItem('xyz', 1)]);
 		expect(result).toEqual([
 			{ listingShortId: 'abc', selectedOptions: { 1: 2 }, quantity: 2 },
 			{ listingShortId: 'xyz', selectedOptions: { 1: 2 }, quantity: 1 },
@@ -120,6 +120,6 @@ describe('getSimpleCartItems', () => {
 	});
 
 	it('returns an empty array for an empty cart', () => {
-		expect(getSimpleCartItems([])).toEqual([]);
+		expect(simplifyCartItems([])).toEqual([]);
 	});
 });

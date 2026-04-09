@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { UserInfo } from '@common/contract';
 import React, { useContext, useEffect, useState } from 'react';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
 
 type UserContextType = {
 	user: UserInfo | null;

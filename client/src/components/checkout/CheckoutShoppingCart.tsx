@@ -1,9 +1,9 @@
 import { Carousel, HStack, IconButton } from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { ShoppingCartCard } from '../shoppingCart/ShoppingCartCard';
-import { CheckoutHeading } from './CheckoutHeading';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
+import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 
 export const CheckoutShoppingCart = () => {
 	const shoppingCart = useShoppingCart();

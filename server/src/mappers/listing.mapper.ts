@@ -1,9 +1,9 @@
 import { ListingCardData } from '@common/contract';
 import { ListingPageData } from '@common/contract';
 import { ListingVariationData } from '@common/contract';
-import { Listing } from '../entities/generated/Listing';
-import { ListingVariation } from '../entities/generated/ListingVariation';
-import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
+import { Listing } from '@server/entities/generated/Listing';
+import { ListingVariation } from '@server/entities/generated/ListingVariation';
+import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
 
 export const mapListingToApiResponseData = (
 	listing: Listing,

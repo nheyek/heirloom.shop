@@ -8,8 +8,8 @@ import { ShopCardData } from '@common/contract';
 import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
-} from '../../constants';
-import { ShopCard } from '../itemDisplay/ShopCard';
+} from '@client/constants';
+import { ShopCard } from '@client/components/itemDisplay/ShopCard';
 
 type Props = {
 	isLoading: boolean;

@@ -4,8 +4,8 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { CategoryTileData } from '@common/contract';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
-import { CategoryTile } from '../itemDisplay/CategoryTile';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { CategoryTile } from '@client/components/itemDisplay/CategoryTile';
 
 const NUM_DEFAULT_PLACEHOLDERS = 4;
 

@@ -2,7 +2,7 @@ import { useToken } from '@chakra-ui/react';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
-import { breakpoints } from '../theme';
+import { breakpoints } from '@client/theme';
 
 const stripePromise = loadStripe(
 	'pk_test_51T45cDQ5g6WbwJsUBcf1MIcU1OLAfvZ3dKWFQf1ly9DOIFU9mFqUvbylLBLkOYoVHpaMinK7Zst2l68Js0Ez0MPt00g6hawzCL',

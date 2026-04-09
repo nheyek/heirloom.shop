@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
 import { RxDotFilled } from 'react-icons/rx';
 import { useLocation } from 'react-router-dom';
-import { CLIENT_ROUTES } from '../../constants';
+import { CLIENT_ROUTES } from '@client/constants';
 
 const hideFooterPages = [CLIENT_ROUTES.checkout];
 

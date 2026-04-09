@@ -1,7 +1,7 @@
-import { getEm } from '../db';
-import { UserFavoriteListing } from '../entities/generated/UserFavoriteListing';
-import { Listing } from '../entities/generated/Listing';
-import { AppUser } from '../entities/generated/AppUser';
+import { getEm } from '@server/db';
+import { UserFavoriteListing } from '@server/entities/generated/UserFavoriteListing';
+import { Listing } from '@server/entities/generated/Listing';
+import { AppUser } from '@server/entities/generated/AppUser';
 
 export const favoriteListing = async (
 	userId: number,

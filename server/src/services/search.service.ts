@@ -2,10 +2,10 @@ import {
 	SearchResult,
 	SearchResultCollection,
 } from '@common/contract';
-import { getEm } from '../db';
-import { Listing } from '../entities/generated/Listing';
-import { ListingCategory } from '../entities/generated/ListingCategory';
-import { Shop } from '../entities/generated/Shop';
+import { getEm } from '@server/db';
+import { Listing } from '@server/entities/generated/Listing';
+import { ListingCategory } from '@server/entities/generated/ListingCategory';
+import { Shop } from '@server/entities/generated/Shop';
 
 const MAX_RESULTS_PER_TYPE = 5;
 

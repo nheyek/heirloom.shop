@@ -1,6 +1,6 @@
 import { HStack, Span } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
-import { FONT_DISPLAY_SANS } from '../../theme';
+import { FONT_DISPLAY_SANS } from '@client/theme';
 
 type Props = {
 	Icon: IconType;

@@ -11,14 +11,14 @@ import { ShopCardData } from '@common/contract';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { ListingGrid } from '../components/layout/ListingGrid';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
-import { AppError } from '../components/feedback/AppError';
-import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
-import { AppImage } from '../components/imageDisplay/AppImage';
-import { CountryCode, STANDARD_GRID_GAP } from '../constants';
-import { FONT_DECORATIVE } from '../theme';
+import { ListingGrid } from '@client/components/layout/ListingGrid';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
+import { AppError } from '@client/components/feedback/AppError';
+import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
+import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
+import { FONT_DECORATIVE } from '@client/theme';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();

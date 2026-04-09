@@ -8,7 +8,7 @@ import {
 	GiRing,
 } from 'react-icons/gi';
 import { MdCategory } from 'react-icons/md';
-import { CategoryIconCode } from '../../constants';
+import { CategoryIconCode } from '@client/constants';
 
 const iconMap: Record<CategoryIconCode, IconType> = {
 	[CategoryIconCode.RING]: GiRing,

@@ -1,10 +1,10 @@
 import { meContract } from '@common/contract';
 import { initServer } from '@ts-rest/express';
-import { ERROR_MESSAGES } from '../constants';
-import { mapListingToApiResponseData } from '../mappers/listing.mapper';
-import { authAndSetUser } from '../middleware/auth0.middleware';
-import * as favoriteListingService from '../services/favoriteListing.service';
-import * as userService from '../services/user.service';
+import { ERROR_MESSAGES } from '@server/constants';
+import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
+import { authAndSetUser } from '@server/middleware/auth0.middleware';
+import * as favoriteListingService from '@server/services/favoriteListing.service';
+import * as userService from '@server/services/user.service';
 
 const s = initServer();
 

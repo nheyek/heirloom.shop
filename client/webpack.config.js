@@ -22,6 +22,7 @@ module.exports = (env, argv) => {
 			extensions: ['.ts', '.tsx', '.js'],
 			alias: {
 				'@common': path.resolve(__dirname, '../common'),
+				'@client': path.resolve(__dirname, 'src'),
 			},
 		},
 		devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',

@@ -7,7 +7,7 @@ import Stripe from 'stripe';
 import {
 	getOrderById,
 	updateOrderStatus,
-} from '../services/order.service';
+} from '@server/services/order.service';
 
 export const handleStripeWebhook = async (
 	request: Request,

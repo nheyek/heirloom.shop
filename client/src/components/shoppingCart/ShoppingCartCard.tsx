@@ -23,12 +23,12 @@ import { Link as RouterLink } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
-} from '../../constants';
-import { calculateItemPrice } from '../../domain/shoppingCart';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { FONT_DISPLAY_SANS } from '../../theme';
-import { formatCentsAsDollars } from '../../utils/priceDisplay';
-import { MultiImage } from '../imageDisplay/MultiImage';
+} from '@client/constants';
+import { calculateItemPrice } from '@client/domain/shoppingCart';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FONT_DISPLAY_SANS } from '@client/theme';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 
 type Props = {
 	item: ShoppingCartItem;

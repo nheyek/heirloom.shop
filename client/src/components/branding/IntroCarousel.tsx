@@ -10,7 +10,7 @@ import { IconType } from 'react-icons';
 import { FaHandshakeSimple } from 'react-icons/fa6';
 import { GiAnvil } from 'react-icons/gi';
 import { PiShieldCheckeredFill } from 'react-icons/pi';
-import { FONT_DISPLAY_SANS } from '../../theme';
+import { FONT_DISPLAY_SANS } from '@client/theme';
 
 type IntroItem = {
 	Icon: IconType;

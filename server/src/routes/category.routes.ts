@@ -1,15 +1,15 @@
 import { categoryContract } from '@common/contract';
 import { initServer } from '@ts-rest/express';
-import { ERROR_MESSAGES } from '../constants';
-import { mapCategoryToApiResponseData } from '../mappers/category.mapper';
-import { mapListingToApiResponseData } from '../mappers/listing.mapper';
+import { ERROR_MESSAGES } from '@server/constants';
+import { mapCategoryToApiResponseData } from '@server/mappers/category.mapper';
+import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import {
 	findAllCategories,
 	findCategoryById,
 	findChildCategories,
 	findTopLevelCategories,
-} from '../services/category.service';
-import * as listingService from '../services/listing.service';
+} from '@server/services/category.service';
+import * as listingService from '@server/services/listing.service';
 
 const s = initServer();
 

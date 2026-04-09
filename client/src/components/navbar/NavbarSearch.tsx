@@ -20,11 +20,11 @@ import {
 } from '@common/contract';
 import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
-import { CLIENT_ROUTES } from '../../constants';
-import { useApiClient } from '../../hooks/useApiClient';
-import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '../../theme';
-import { callApi } from '../../utils/apiUtils';
-import { FadeInBox } from '../util/FadeInBox';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '@client/theme';
+import { callApi } from '@client/utils/apiUtils';
+import { FadeInBox } from '@client/components/util/FadeInBox';
 
 export const NavbarSearch = () => {
 	const apiClient = useApiClient();

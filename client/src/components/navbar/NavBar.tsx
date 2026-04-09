@@ -8,13 +8,13 @@ import {
 } from '@chakra-ui/react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { Logo } from '../branding/Logo';
-import { ShoppingCartDrawer } from '../shoppingCart/ShoppingCartDrawer';
-import { FadeInBox } from '../util/FadeInBox';
-import { LoginButton } from './LoginButton';
-import { NavbarMenu } from './NavbarMenu';
-import { NavbarSearch } from './NavbarSearch';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { Logo } from '@client/components/branding/Logo';
+import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
+import { FadeInBox } from '@client/components/util/FadeInBox';
+import { LoginButton } from '@client/components/navbar/LoginButton';
+import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
+import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
 
 enum gridTemplateAreas {
 	LOGO = 'LOGO',

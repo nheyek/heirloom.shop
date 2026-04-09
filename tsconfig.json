@@ -3,7 +3,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@common/*": ["common/*"],
-			"@server/*": ["server/src/*"]
+			"@server/*": ["server/src/*"],
+			"@client/*": ["client/src/*"]
 		},
 		"target": "es2020",
 		"module": "commonjs",

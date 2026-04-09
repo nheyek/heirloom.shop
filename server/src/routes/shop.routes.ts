@@ -1,11 +1,11 @@
 import { shopsContract } from '@common/contract';
 import { initServer } from '@ts-rest/express';
-import { ERROR_MESSAGES } from '../constants';
-import { mapListingToApiResponseData } from '../mappers/listing.mapper';
-import { mapShopToApiResponseData } from '../mappers/shop.mapper';
-import { authAndSetUser } from '../middleware/auth0.middleware';
-import * as listingService from '../services/listing.service';
-import * as shopService from '../services/shop.service';
+import { ERROR_MESSAGES } from '@server/constants';
+import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
+import { mapShopToApiResponseData } from '@server/mappers/shop.mapper';
+import { authAndSetUser } from '@server/middleware/auth0.middleware';
+import * as listingService from '@server/services/listing.service';
+import * as shopService from '@server/services/shop.service';
 
 const s = initServer();
 

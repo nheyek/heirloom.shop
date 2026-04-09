@@ -1,7 +1,7 @@
 import { CategoryTileData } from '@common/contract';
 import React, { useContext, useEffect, useState } from 'react';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
 
 type CategoriesContextType = {
 	getCategory: (id: string) => CategoryTileData | undefined;

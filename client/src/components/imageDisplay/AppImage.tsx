@@ -5,7 +5,7 @@ import {
 	SkeletonProps,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '../../constants';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 
 type Props = {
 	containerProps?: SkeletonProps;

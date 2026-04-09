@@ -16,10 +16,10 @@ import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { MdLocalShipping } from 'react-icons/md';
-import { Layout, US_STATES } from '../../constants';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { extractAddressFields } from '../../utils/addressUtils';
-import { CheckoutHeading } from './CheckoutHeading';
+import { Layout, US_STATES } from '@client/constants';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { extractAddressFields } from '@client/utils/addressUtils';
+import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 
 const ERROR_COLOR = '#df1b41';
 const LIBRARIES: 'places'[] = ['places'];

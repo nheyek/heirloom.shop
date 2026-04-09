@@ -1,14 +1,14 @@
 import { listingsContract } from '@common/contract';
 import { initServer } from '@ts-rest/express';
-import { ERROR_MESSAGES } from '../constants';
-import * as favoriteListingService from '../services/favoriteListing.service';
-import * as listingService from '../services/listing.service';
-import * as userService from '../services/user.service';
-import { authAndSetUser } from '../middleware/auth0.middleware';
+import { ERROR_MESSAGES } from '@server/constants';
+import * as favoriteListingService from '@server/services/favoriteListing.service';
+import * as listingService from '@server/services/listing.service';
+import * as userService from '@server/services/user.service';
+import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import {
 	mapListingToApiResponseData,
 	mapListingToCompleteApiResponseData,
-} from '../mappers/listing.mapper';
+} from '@server/mappers/listing.mapper';
 
 const s = initServer();
 

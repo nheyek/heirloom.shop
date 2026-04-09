@@ -1,8 +1,8 @@
 import { ordersContract } from '@common/contract';
 import { NotFoundError } from '@mikro-orm/core';
 import { initServer } from '@ts-rest/express';
-import { ERROR_MESSAGES } from '../constants';
-import { getOrderStatus } from '../services/order.service';
+import { ERROR_MESSAGES } from '@server/constants';
+import { getOrderStatus } from '@server/services/order.service';
 
 const s = initServer();
 

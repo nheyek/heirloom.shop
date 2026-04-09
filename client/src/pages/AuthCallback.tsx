@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { AppError } from '../components/feedback/AppError';
+import { AppError } from '@client/components/feedback/AppError';
 
 export const AuthCallback = () => {
 	const [searchParams, setSearchParams] = useSearchParams();

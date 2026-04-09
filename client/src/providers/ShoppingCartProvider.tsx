@@ -9,17 +9,17 @@ import {
 	useRef,
 	useState,
 } from 'react';
-import { StorageKey } from '../constants';
+import { StorageKey } from '@client/constants';
 import {
 	getEmailFieldError,
 	getShippingAddressFieldErrors,
 	simplifyCartItems,
-} from '../domain/checkout';
-import { calculateItemPrice } from '../domain/shoppingCart';
-import { useApiClient } from '../hooks/useApiClient';
-import { usePersistedState } from '../hooks/usePersistedState';
-import { callApi } from '../utils/apiUtils';
-import { validateDeliverableAddress } from '../utils/googleMapsUtils';
+} from '@client/domain/checkout';
+import { calculateItemPrice } from '@client/domain/shoppingCart';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { usePersistedState } from '@client/hooks/usePersistedState';
+import { callApi } from '@client/utils/apiUtils';
+import { validateDeliverableAddress } from '@client/utils/googleMapsUtils';
 
 type ShoppingCartContext = {
 	isDrawerOpen: boolean;

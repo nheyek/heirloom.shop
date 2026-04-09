@@ -1,4 +1,4 @@
-import { CLIENT_ROUTES } from '../constants';
+import { CLIENT_ROUTES } from '@client/constants';
 
 export const useShareListing = () => {
 	return (listing: {

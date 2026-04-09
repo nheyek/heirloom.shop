@@ -2,17 +2,17 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/contract';
 import { ShopCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
-import { IntroCarousel } from '../components/branding/IntroCarousel';
-import { Logo } from '../components/branding/Logo';
-import { AppError } from '../components/feedback/AppError';
-import { CategoryGrid } from '../components/layout/CategoryGrid';
-import { ListingGrid } from '../components/layout/ListingGrid';
-import { ShopGrid } from '../components/layout/ShopGrid';
-import { NUM_TOP_LEVEL_CATEGORIES } from '../constants';
-import { useApiClient } from '../hooks/useApiClient';
-import { useCategories } from '../providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '../theme';
-import { callApi } from '../utils/apiUtils';
+import { IntroCarousel } from '@client/components/branding/IntroCarousel';
+import { Logo } from '@client/components/branding/Logo';
+import { AppError } from '@client/components/feedback/AppError';
+import { CategoryGrid } from '@client/components/layout/CategoryGrid';
+import { ListingGrid } from '@client/components/layout/ListingGrid';
+import { ShopGrid } from '@client/components/layout/ShopGrid';
+import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { useCategories } from '@client/providers/CategoriesProvider';
+import { FONT_DECORATIVE } from '@client/theme';
+import { callApi } from '@client/utils/apiUtils';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);

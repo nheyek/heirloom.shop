@@ -33,28 +33,28 @@ import {
 } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-import { AppError } from '../components/feedback/AppError';
-import { CountryFlagIcon } from '../components/icons/CountryFlagIcon';
-import { ImageCollage } from '../components/imageDisplay/ImageCollage';
-import { MultiImage } from '../components/imageDisplay/MultiImage';
-import { IconText } from '../components/textDisplay/IconText';
-import { RichText } from '../components/textDisplay/RichText';
+import { AppError } from '@client/components/feedback/AppError';
+import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
+import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { IconText } from '@client/components/textDisplay/IconText';
+import { RichText } from '@client/components/textDisplay/RichText';
 import {
 	CLIENT_ROUTES,
 	CountryCode,
 	countryDisplayName,
 	Layout,
 	STANDARD_IMAGE_ASPECT_RATIO,
-} from '../constants';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
-import { useShareListing } from '../hooks/useShareListing';
-import { useFavorites } from '../providers/FavoritesProvider';
-import { useShoppingCart } from '../providers/ShoppingCartProvider';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '../theme';
-import { toaster } from '../toaster';
-import { formatCentsAsDollars } from '../utils/priceDisplay';
-import { getListingDataForCart } from '../utils/typeUtils';
+} from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
+import { useShareListing } from '@client/hooks/useShareListing';
+import { useFavorites } from '@client/providers/FavoritesProvider';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import { toaster } from '@client/toaster';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { getListingDataForCart } from '@client/utils/typeUtils';
 
 const MotionFlex = motion.create(Flex);
 

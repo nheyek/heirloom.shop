@@ -6,6 +6,7 @@ module.exports = {
 	moduleNameMapper: {
 		'^@common/(.*)$': '<rootDir>/common/$1',
 		'^@server/(.*)$': '<rootDir>/server/src/$1',
+		'^@client/(.*)$': '<rootDir>/client/src/$1',
 	},
 	transform: {
 		'^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json' }],

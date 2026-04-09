@@ -1,10 +1,10 @@
-import { Listing } from '../entities/generated/Listing';
-import { ListingVariationOption } from '../entities/generated/ListingVariationOption';
-import { CheckoutCartData } from '../types/CheckoutCartData';
+import { Listing } from '@server/entities/generated/Listing';
+import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
+import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import {
 	calculateCheckoutTotals,
 	createOrderItemSnapshots,
-} from './checkout.domain';
+} from '@server/domain/checkout.domain';
 
 const makeListing = (
 	shortId: string,

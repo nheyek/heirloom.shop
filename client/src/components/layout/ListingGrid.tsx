@@ -8,8 +8,8 @@ import { ListingCardData } from '@common/contract';
 import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
-} from '../../constants';
-import { ListingCard } from '../itemDisplay/ListingCard';
+} from '@client/constants';
+import { ListingCard } from '@client/components/itemDisplay/ListingCard';
 
 type Props = {
 	listings: ListingCardData[];

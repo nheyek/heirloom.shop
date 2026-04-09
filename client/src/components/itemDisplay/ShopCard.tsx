@@ -11,11 +11,11 @@ import {
 	CategoryIconCode,
 	CLIENT_ROUTES,
 	CountryCode,
-} from '../../constants';
-import { FONT_DISPLAY_SANS } from '../../theme';
-import { CategoryIcon } from '../icons/CategoryIcon';
-import { CountryFlagIcon } from '../icons/CountryFlagIcon';
-import { AppImage } from '../imageDisplay/AppImage';
+} from '@client/constants';
+import { FONT_DISPLAY_SANS } from '@client/theme';
+import { CategoryIcon } from '@client/components/icons/CategoryIcon';
+import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
+import { AppImage } from '@client/components/imageDisplay/AppImage';
 
 type Props = ShopCardData & {
 	minWidth?: number;

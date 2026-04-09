@@ -1,9 +1,9 @@
 import { searchContract } from '@common/contract';
 import { SEARCH_QUERY_LIMITS } from '@common/constants';
 import { initServer } from '@ts-rest/express';
-import * as searchService from '../services/search.service';
-import { sanitizeInputString } from '../utils/sanitize';
-import { validateStringLength } from '../utils/validation';
+import * as searchService from '@server/services/search.service';
+import { sanitizeInputString } from '@server/utils/sanitize';
+import { validateStringLength } from '@server/utils/validation';
 
 const s = initServer();
 

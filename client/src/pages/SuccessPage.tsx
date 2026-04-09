@@ -1,7 +1,7 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
 import { IoBagCheckOutline, IoReceipt } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { FONT_DECORATIVE } from '../theme';
+import { FONT_DECORATIVE } from '@client/theme';
 
 export const OrderSuccess = () => {
 	return (

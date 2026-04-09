@@ -1,6 +1,6 @@
 import { API_ROUTES } from '@common/constants';
 import { Router } from 'express';
-import { handleStripeWebhook } from '../controllers/webhook.controller';
+import { handleStripeWebhook } from '@server/controllers/webhook.controller';
 
 const router = Router();
 

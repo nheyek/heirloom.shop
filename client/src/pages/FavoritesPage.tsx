@@ -2,11 +2,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Heading, Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
-import { AppError } from '../components/feedback/AppError';
-import { ListingGrid } from '../components/layout/ListingGrid';
-import { CLIENT_ROUTES } from '../constants';
-import { useApiClient } from '../hooks/useApiClient';
-import { callApi } from '../utils/apiUtils';
+import { AppError } from '@client/components/feedback/AppError';
+import { ListingGrid } from '@client/components/layout/ListingGrid';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
 
 export const FavoritesPage = () => {
 	const {

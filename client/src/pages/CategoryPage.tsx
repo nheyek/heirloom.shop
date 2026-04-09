@@ -14,13 +14,13 @@ import {
 	useNavigate,
 	useParams,
 } from 'react-router-dom';
-import { AppError } from '../components/feedback/AppError';
-import { CategoryGrid } from '../components/layout/CategoryGrid';
-import { ListingGrid } from '../components/layout/ListingGrid';
-import { useApiClient } from '../hooks/useApiClient';
-import { useCategories } from '../providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '../theme';
-import { callApi } from '../utils/apiUtils';
+import { AppError } from '@client/components/feedback/AppError';
+import { CategoryGrid } from '@client/components/layout/CategoryGrid';
+import { ListingGrid } from '@client/components/layout/ListingGrid';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { useCategories } from '@client/providers/CategoriesProvider';
+import { FONT_DECORATIVE } from '@client/theme';
+import { callApi } from '@client/utils/apiUtils';
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();

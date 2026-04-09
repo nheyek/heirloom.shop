@@ -12,13 +12,13 @@ import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
-import { CLIENT_ROUTES } from '../../constants';
-import { useShoppingCart } from '../../providers/ShoppingCartProvider';
-import { FONT_DECORATIVE } from '../../theme';
-import { formatCentsAsDollars } from '../../utils/priceDisplay';
-import { ShoppingCartCard } from './ShoppingCartCard';
-import { ShoppingCartEmptyMessage } from './ShoppingCartEmptyMessage';
-import { ShoppingCartSummary } from './ShoppingCartSummary';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FONT_DECORATIVE } from '@client/theme';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
+import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
+import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 
 type Props = {
 	isOpen: boolean;

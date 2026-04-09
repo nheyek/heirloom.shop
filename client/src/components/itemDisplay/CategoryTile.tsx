@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
-} from '../../constants';
-import { AppImage } from '../imageDisplay/AppImage';
+} from '@client/constants';
+import { AppImage } from '@client/components/imageDisplay/AppImage';
 
 export const CategoryTile = (props: CategoryTileData) => {
 	return (

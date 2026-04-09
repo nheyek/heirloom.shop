@@ -13,9 +13,9 @@ import {
 } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
-import { useApiClient } from '../hooks/useApiClient';
-import { useUserInfo } from '../providers/UserProvider';
-import { callApi } from '../utils/apiUtils';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { useUserInfo } from '@client/providers/UserProvider';
+import { callApi } from '@client/utils/apiUtils';
 
 export const ShopManager = () => {
 	const apiClient = useApiClient();

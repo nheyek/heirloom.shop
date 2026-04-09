@@ -1,5 +1,5 @@
 import { ShopCardData } from '@common/contract';
-import { Shop } from '../entities/generated/Shop';
+import { Shop } from '@server/entities/generated/Shop';
 
 export const mapShopToApiResponseData = (
 	shop: Shop,

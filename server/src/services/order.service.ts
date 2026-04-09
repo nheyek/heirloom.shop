@@ -1,9 +1,9 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { ShippingAddress } from '@common/contract';
-import { getEm } from '../db';
-import { AppOrder } from '../entities/generated/AppOrder';
-import { encodeId } from '../utils/hashids';
+import { getEm } from '@server/db';
+import { AppOrder } from '@server/entities/generated/AppOrder';
+import { encodeId } from '@server/utils/hashids';
 
 export const createOrder = async (
 	snapshots: OrderItemSnapshot[],

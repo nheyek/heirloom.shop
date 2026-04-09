@@ -3,14 +3,14 @@ import { initServer } from '@ts-rest/express';
 import {
 	calculateCheckoutTotals,
 	createOrderItemSnapshots,
-} from '../domain/checkout.domain';
-import { loadCheckoutData } from '../services/checkout.service';
+} from '@server/domain/checkout.domain';
+import { loadCheckoutData } from '@server/services/checkout.service';
 import {
 	createOrder,
 	updateOrderPaymentIntent,
-} from '../services/order.service';
-import { createPaymentIntent } from '../services/payment.service';
-import { getTaxTotal } from '../services/tax.service';
+} from '@server/services/order.service';
+import { createPaymentIntent } from '@server/services/payment.service';
+import { getTaxTotal } from '@server/services/tax.service';
 
 const s = initServer();
 

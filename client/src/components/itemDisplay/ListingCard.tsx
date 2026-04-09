@@ -14,12 +14,12 @@ import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
-} from '../../constants';
-import { useShareListing } from '../../hooks/useShareListing';
-import { useFavorites } from '../../providers/FavoritesProvider';
-import { FONT_DISPLAY_SANS } from '../../theme';
-import { MultiImage } from '../imageDisplay/MultiImage';
-import { PriceTag } from '../textDisplay/PriceTag';
+} from '@client/constants';
+import { useShareListing } from '@client/hooks/useShareListing';
+import { useFavorites } from '@client/providers/FavoritesProvider';
+import { FONT_DISPLAY_SANS } from '@client/theme';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { PriceTag } from '@client/components/textDisplay/PriceTag';
 
 type Props = ListingCardData & {
 	minWidth?: number;
