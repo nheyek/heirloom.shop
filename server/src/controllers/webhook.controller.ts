@@ -1,23 +1,13 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
+import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
+import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
 import Stripe from 'stripe';
 import {
 	getOrderById,
 	updateOrderStatus,
 } from '../services/order.service';
-
-const orderConfirmationTemplate = fs.readFileSync(
-	path.join(
-		__dirname,
-		'..',
-		'templates',
-		'order-confirmation.html',
-	),
-	'utf-8',
-);
 
 export const handleStripeWebhook = async (
 	request: Request,
@@ -63,7 +53,11 @@ export const handleStripeWebhook = async (
 			const response = await sendEmail({
 				to: order.email,
 				subject: `Order Confirmed: ${order.shortId}`,
-				html: orderConfirmationTemplate,
+				text: orderConfirmation({
+					name: order.shippingAddress?.firstName,
+					orderId: order.shortId,
+					items: order.items as OrderItemSnapshot[],
+				}),
 			});
 		}
 	}

@@ -6,7 +6,7 @@ const MIN_LENGTH = 5;
 const hashids = new Hashids(
 	SALT,
 	MIN_LENGTH,
-	'ABCDEFGHJKLMNPQRSTUVWXYZ23456789',
+	'ABCDEFGHJKMNPQR23456789',
 );
 
 export function encodeId(id: number): string {

@@ -6,7 +6,7 @@ const env = process.env.NODE_ENV;
 export const sendEmail = async (params: {
 	to: string;
 	subject: string;
-	html: string;
+	text: string;
 }) => {
 	if (env === 'testing') return;
 
@@ -20,6 +20,6 @@ export const sendEmail = async (params: {
 		to: params.to,
 		from: EMAIL_FROM,
 		subject,
-		html: params.html,
+		text: params.text,
 	});
 };

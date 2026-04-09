@@ -15,7 +15,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/app.ts",
-		"build": "tsc && tsc-alias && cp -r src/templates dist/server/src/templates"
+		"build": "tsc && tsc-alias"
 	},
 	"dependencies": {
 		"@mikro-orm/cli": "^6.4.16",

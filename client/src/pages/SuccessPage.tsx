@@ -18,10 +18,10 @@ export const OrderSuccess = () => {
 					alignItems="center"
 				>
 					<Stack alignItems="center">
-						<IoBagCheckOutline size={48} />
+						<IoBagCheckOutline size={50} />
 
 						<Text
-							fontSize={36}
+							fontSize={40}
 							fontFamily={FONT_DECORATIVE}
 						>
 							Order Confirmed
