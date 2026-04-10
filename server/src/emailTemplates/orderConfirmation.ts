@@ -31,11 +31,10 @@ ${params.items.map(formatItem).join('\n\n')}
 
 View your order here: ${orderUrl}
 
-We will let you know when your order has shipped.
+We will let you know when each item has shipped.
 
 Sincerely,
 The Heirloom Team
 
-P.S. You may reply to this email with any questions or concerns.
-`;
+P.S. You may reply to this email with any questions or concerns.`;
 };
