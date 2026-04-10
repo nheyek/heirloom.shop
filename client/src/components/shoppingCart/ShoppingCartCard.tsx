@@ -201,7 +201,7 @@ export const ShoppingCartCard = (props: Props) => {
 				)}
 
 				<Stack
-					gap={1.5}
+					gap={2}
 					lineHeight={1}
 				>
 					<Flex
@@ -237,7 +237,6 @@ export const ShoppingCartCard = (props: Props) => {
 						fontSize={18}
 						gap={1}
 						fontFamily={FONT_DISPLAY_SANS}
-						alignSelf="end"
 					>
 						<Span>Estimated delivery</Span>
 						<Span fontWeight={500}>
