@@ -22,6 +22,7 @@ export const CLIENT_ROUTES = {
 	favorites: 'favorites',
 	checkout: 'checkout',
 	orderSuccess: 'success',
+	order: 'order',
 };
 
 export enum StorageKey {

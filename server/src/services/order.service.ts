@@ -1,3 +1,4 @@
+import { randomBytes } from 'crypto';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { ShippingAddress } from '@common/contract';
@@ -23,6 +24,7 @@ export const createOrder = async (
 	const order = em.create(AppOrder, {
 		id: nextId,
 		shortId: encodeId(nextId),
+		accessKey: randomBytes(16).toString('hex'),
 		items: snapshots,
 		shippingAddress,
 		subtotal: subtotalCents,
@@ -50,6 +52,11 @@ export const getOrderStatus = async (
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { shortId });
 	return order.orderStatus as OrderStatus;
+};
+
+export const getOrderByShortId = async (shortId: string): Promise<AppOrder> => {
+	const em = getEm();
+	return em.findOneOrFail(AppOrder, { shortId });
 };
 
 export const getOrderById = async (id: number): Promise<AppOrder> => {

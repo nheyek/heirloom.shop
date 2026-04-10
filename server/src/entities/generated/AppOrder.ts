@@ -39,4 +39,7 @@ export class AppOrder {
   @Property()
   email!: string;
 
+  @Property({ length: 64 })
+  accessKey!: string;
+
 }

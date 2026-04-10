@@ -14,6 +14,7 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
+import { OrderPage } from './pages/OrderPage';
 import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
 
@@ -80,6 +81,10 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.orderSuccess}`}
 							element={<OrderSuccess />}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.order}/:shortId`}
+							element={<OrderPage />}
 						/>
 
 						<Route

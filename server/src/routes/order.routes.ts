@@ -2,7 +2,7 @@ import { ordersContract } from '@common/contract';
 import { NotFoundError } from '@mikro-orm/core';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
-import { getOrderStatus } from '@server/services/order.service';
+import { getOrderByShortId, getOrderStatus } from '@server/services/order.service';
 
 const s = initServer();
 
@@ -11,6 +11,23 @@ export const orderRouter = s.router(ordersContract, {
 		try {
 			const orderStatus = await getOrderStatus(shortId);
 			return { status: 200 as const, body: { orderStatus } };
+		} catch (err) {
+			if (err instanceof NotFoundError) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.order.notFound },
+				};
+			}
+			throw err;
+		}
+	},
+	getByShortId: async ({ params: { shortId }, query: { key } }) => {
+		try {
+			const order = await getOrderByShortId(shortId);
+			if (order.accessKey !== key) {
+				return { status: 403 as const, body: { error: 'Forbidden' } };
+			}
+			return { status: 200 as const, body: {} };
 		} catch (err) {
 			if (err instanceof NotFoundError) {
 				return {
