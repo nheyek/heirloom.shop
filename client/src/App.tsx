@@ -79,7 +79,7 @@ const App = () => {
 							element={<CheckoutPage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.orderSuccess}`}
+							path={`/${CLIENT_ROUTES.orderConfirmed}`}
 							element={<OrderSuccess />}
 						/>
 						<Route

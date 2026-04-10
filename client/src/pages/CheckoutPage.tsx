@@ -82,7 +82,7 @@ export const CheckoutPage = () => {
 			) {
 				clearInterval(pollIntervalRef.current!);
 				clearCart();
-				navigate(`/${CLIENT_ROUTES.orderSuccess}`, {
+				navigate(`/${CLIENT_ROUTES.orderConfirmed}`, {
 					state: { shortId, accessKey },
 				});
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
@@ -127,7 +127,7 @@ export const CheckoutPage = () => {
 			elements,
 			clientSecret,
 			confirmParams: {
-				return_url: `${window.location.origin}/${CLIENT_ROUTES.orderSuccess}`,
+				return_url: `${window.location.origin}/${CLIENT_ROUTES.orderConfirmed}`,
 			},
 			redirect: 'if_required',
 		});

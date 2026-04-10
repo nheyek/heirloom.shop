@@ -21,7 +21,7 @@ export const CLIENT_ROUTES = {
 	shopManager: 'shop-manager',
 	favorites: 'favorites',
 	checkout: 'checkout',
-	orderSuccess: 'success',
+	orderConfirmed: 'order-confirmed',
 	order: 'order',
 };
 
