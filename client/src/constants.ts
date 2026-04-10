@@ -26,7 +26,7 @@ export const CLIENT_ROUTES = {
 };
 
 export enum StorageKey {
-	SHOPPING_CART = 'shopping-cart',
+	SHOPPING_CART = 'shopping-cart-v2',
 	PENDING_FAVORITE = 'pendingListingFavorite',
 }
 

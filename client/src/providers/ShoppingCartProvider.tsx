@@ -67,52 +67,69 @@ export const ShoppingCartContext = createContext<
 export const ShoppingCartProvider = (props: {
 	children: React.ReactNode;
 }) => {
+	// Source of truth for cart contents (what's in the cart, how many, which options)
 	const [persistedItems, setPersistedItems] = usePersistedState<PersistedCartItem[]>(
 		StorageKey.SHOPPING_CART,
 		[],
 	);
-	const [items, setItems] = useState<ShoppingCartItem[]>([]);
+
+	// Current listing data fetched from the server, keyed by shortId
+	const [cartListingData, setCartListingData] = useState<Record<string, CartItemData>>({});
+
 	const [cartLoading, setCartLoading] = useState(false);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [checkoutEmail, setCheckoutEmail] = useState('');
-	const [checkoutEmailError, setCheckoutEmailError] = useState<
-		string | null
-	>(null);
-	const [shippingAddress, _setShippingAddress] =
-		useState<ShippingAddress>({
-			firstName: '',
-			lastName: '',
-			line1: '',
-			line2: '',
-			city: '',
-			state: '',
-			zip: '',
-		});
-
-	const [shippingAddressErrors, setShippingAddressErrors] =
-		useState({});
-	const [
-		shippingAddressUndeliverable,
-		setShippingAddressUndeliverable,
-	] = useState(false);
-
-	const setShippingAddress = (address: ShippingAddress) => {
-		_setShippingAddress(address);
-		setShippingAddressUndeliverable(false);
-	};
-	const [taxCalcLoading, setTaxCalcLoading] =
-		useState<boolean>(false);
+	const [checkoutEmailError, setCheckoutEmailError] = useState<string | null>(null);
+	const [shippingAddress, _setShippingAddress] = useState<ShippingAddress>({
+		firstName: '',
+		lastName: '',
+		line1: '',
+		line2: '',
+		city: '',
+		state: '',
+		zip: '',
+	});
+	const [shippingAddressErrors, setShippingAddressErrors] = useState({});
+	const [shippingAddressUndeliverable, setShippingAddressUndeliverable] = useState(false);
+	const [taxCalcLoading, setTaxCalcLoading] = useState<boolean>(false);
 	const [taxTotal, setTaxTotal] = useState<number | null>(null);
 
-	const openDrawer = () => setIsDrawerOpen(true);
-	const closeDrawer = () => setIsDrawerOpen(false);
-
-	const taxDebounceRef =
-		useRef<ReturnType<typeof setTimeout>>(undefined);
-
+	const taxDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 	const apiClient = useApiClient();
 
-	// Hydrate full cart items from server on mount
+	// Derive the full cart item list from the two sources — no duplication of
+	// quantity / selectedOptions between them
+	const items: ShoppingCartItem[] = persistedItems
+		.map((p) => {
+			const listingData = cartListingData[p.listingShortId];
+			if (!listingData) return null;
+			return {
+				listingData,
+				selectedOptions: p.selectedOptions,
+				quantity: p.quantity,
+				addedAt: p.addedAt,
+			};
+		})
+		.filter((item): item is ShoppingCartItem => item !== null);
+
+	const itemQuantityTotal = persistedItems.reduce(
+		(sum, item) => sum + item.quantity,
+		0,
+	);
+
+	const itemPriceTotal = persistedItems.reduce((sum, p) => {
+		const listingData = cartListingData[p.listingShortId];
+		if (!listingData) return sum;
+		return sum + calculateItemPrice(listingData, p.selectedOptions) * p.quantity;
+	}, 0);
+
+	const shippingTotal = persistedItems.reduce((sum, p) => {
+		const listingData = cartListingData[p.listingShortId];
+		if (!listingData) return sum;
+		return sum + (listingData.shippingPrice || 0) * p.quantity;
+	}, 0);
+
+	// Hydrate listing data from server on mount
 	useEffect(() => {
 		if (persistedItems.length === 0) return;
 
@@ -128,116 +145,60 @@ export const ShoppingCartProvider = (props: {
 				return;
 			}
 
-			const cartData = result.data;
-			const hydrated: ShoppingCartItem[] = persistedItems
-				.map((persisted) => {
-					const listingData = cartData.find(
-						(d) => d.shortId === persisted.listingShortId,
-					);
-					if (!listingData) return null;
-					return {
-						listingData,
-						selectedOptions: persisted.selectedOptions,
-						quantity: persisted.quantity,
-						addedAt: persisted.addedAt,
-					};
-				})
-				.filter((item) => item !== null);
+			const listingMap: Record<string, CartItemData> = {};
+			for (const listing of result.data) {
+				listingMap[listing.shortId] = listing;
+			}
+			setCartListingData(listingMap);
 
-			// Remove any persisted items whose listing was not found
-			const foundShortIds = new Set(cartData.map((d) => d.shortId));
+			// Drop any persisted items whose listing was not found
+			const foundShortIds = new Set(Object.keys(listingMap));
 			setPersistedItems((prev) =>
 				prev.filter((p) => foundShortIds.has(p.listingShortId)),
 			);
 
-			setItems(hydrated);
 			setCartLoading(false);
 		});
 	}, []);
 
 	useEffect(() => {
-		if (taxDebounceRef.current)
-			clearTimeout(taxDebounceRef.current);
+		if (taxDebounceRef.current) clearTimeout(taxDebounceRef.current);
 		taxDebounceRef.current = setTimeout(calculateTax, 300);
 		return () => clearTimeout(taxDebounceRef.current);
 	}, [shippingAddress]);
 
-	const itemQuantityTotal = persistedItems.reduce(
-		(sum, item) => sum + item.quantity,
-		0,
-	);
+	const setShippingAddress = (address: ShippingAddress) => {
+		_setShippingAddress(address);
+		setShippingAddressUndeliverable(false);
+	};
 
-	const itemPriceTotal = items.reduce(
-		(sum, item) => sum + calculateItemPrice(item) * item.quantity,
-		0,
-	);
-
-	const shippingTotal = items.reduce(
-		(sum, item) =>
-			sum +
-			(item.listingData.shippingPrice || 0) * item.quantity,
-		0,
-	);
+	const openDrawer = () => setIsDrawerOpen(true);
+	const closeDrawer = () => setIsDrawerOpen(false);
 
 	const addToCart = (
-		listingData: CartItemData,
+		listing: CartItemData,
 		selectedOptions: { [variationId: number]: number },
 	) => {
-		const itemKey = getItemKey(listingData.shortId, selectedOptions);
+		const itemKey = getItemKey(listing.shortId, selectedOptions);
 
 		setPersistedItems((prev) => {
 			const existing = prev.find(
-				(item) =>
-					getItemKey(item.listingShortId, item.selectedOptions) ===
-					itemKey,
+				(item) => getItemKey(item.listingShortId, item.selectedOptions) === itemKey,
 			);
 			if (existing) {
 				return prev.map((item) =>
-					getItemKey(item.listingShortId, item.selectedOptions) ===
-					itemKey
+					getItemKey(item.listingShortId, item.selectedOptions) === itemKey
 						? { ...item, quantity: item.quantity + 1 }
 						: item,
 				);
 			}
 			return [
 				...prev,
-				{
-					listingShortId: listingData.shortId,
-					selectedOptions,
-					quantity: 1,
-					addedAt: Date.now(),
-				},
+				{ listingShortId: listing.shortId, selectedOptions, quantity: 1, addedAt: Date.now() },
 			];
 		});
 
-		setItems((prev) => {
-			const existing = prev.find(
-				(item) =>
-					getItemKey(
-						item.listingData.shortId,
-						item.selectedOptions,
-					) === itemKey,
-			);
-			if (existing) {
-				return prev.map((item) =>
-					getItemKey(
-						item.listingData.shortId,
-						item.selectedOptions,
-					) === itemKey
-						? { ...item, quantity: item.quantity + 1 }
-						: item,
-				);
-			}
-			return [
-				...prev,
-				{
-					listingData,
-					selectedOptions,
-					quantity: 1,
-					addedAt: Date.now(),
-				},
-			];
-		});
+		setCartListingData((prev) => ({ ...prev, [listing.shortId]: listing }));
 	};
 
 	const removeFromCart = (
@@ -247,18 +208,7 @@ export const ShoppingCartProvider = (props: {
 		const itemKey = getItemKey(listingId, selectedOptions);
 		setPersistedItems((prev) =>
 			prev.filter(
-				(item) =>
-					getItemKey(item.listingShortId, item.selectedOptions) !==
-					itemKey,
-			),
-		);
-		setItems((prev) =>
-			prev.filter(
-				(item) =>
-					getItemKey(
-						item.listingData.shortId,
-						item.selectedOptions,
-					) !== itemKey,
+				(item) => getItemKey(item.listingShortId, item.selectedOptions) !== itemKey,
 			),
 		);
 	};
@@ -272,23 +222,10 @@ export const ShoppingCartProvider = (props: {
 			removeFromCart(listingId, selectedOptions);
 			return;
 		}
-
 		const itemKey = getItemKey(listingId, selectedOptions);
-
 		setPersistedItems((prev) =>
 			prev.map((item) =>
-				getItemKey(item.listingShortId, item.selectedOptions) ===
-				itemKey
-					? { ...item, quantity }
-					: item,
-			),
-		);
-		setItems((prev) =>
-			prev.map((item) =>
-				getItemKey(
-					item.listingData.shortId,
-					item.selectedOptions,
-				) === itemKey
+				getItemKey(item.listingShortId, item.selectedOptions) === itemKey
 					? { ...item, quantity }
 					: item,
 			),
@@ -302,13 +239,9 @@ export const ShoppingCartProvider = (props: {
 		setShippingAddressErrors(errors);
 		setCheckoutEmailError(emailError);
 
-		if (emailError || Object.values(errors).some(Boolean)) {
-			return false;
-		}
+		if (emailError || Object.values(errors).some(Boolean)) return false;
 
-		const isDeliverable =
-			await validateDeliverableAddress(shippingAddress);
-
+		const isDeliverable = await validateDeliverableAddress(shippingAddress);
 		if (!isDeliverable) {
 			setShippingAddressUndeliverable(true);
 			return false;
@@ -343,13 +276,8 @@ export const ShoppingCartProvider = (props: {
 		}
 	};
 
-	const clearShippingAddressError = (
-		key: keyof ShippingAddress,
-	) => {
-		setShippingAddressErrors({
-			...shippingAddressErrors,
-			[key]: null,
-		});
+	const clearShippingAddressError = (key: keyof ShippingAddress) => {
+		setShippingAddressErrors({ ...shippingAddressErrors, [key]: null });
 		setShippingAddressUndeliverable(false);
 	};
 
@@ -380,7 +308,7 @@ export const ShoppingCartProvider = (props: {
 				clearEmailError: () => setCheckoutEmailError(null),
 				clearCart: () => {
 					setPersistedItems([]);
-					setItems([]);
+					setCartListingData({});
 				},
 				openDrawer,
 				closeDrawer,
@@ -406,11 +334,8 @@ const getItemKey = (
 	selectedOptions: { [variationId: number]: number },
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
-		.sort((optionA, optionB) => Number(optionA) - Number(optionB))
-		.map(
-			(variationId) =>
-				`${variationId}:${selectedOptions[Number(variationId)]}`,
-		)
+		.sort((a, b) => Number(a) - Number(b))
+		.map((variationId) => `${variationId}:${selectedOptions[Number(variationId)]}`)
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };

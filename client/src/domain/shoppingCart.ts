@@ -1,35 +1,32 @@
-import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
+import { CartItemData } from '@common/contract';
 
 export const calculateItemPrice = (
-	item: ShoppingCartItem,
+	listingData: CartItemData,
+	selectedOptions: Record<string, number>,
 ): number => {
-	let total = item.listingData.priceCents ?? 0;
+	let total = listingData.priceCents ?? 0;
 
-	Object.entries(item.selectedOptions).forEach(
-		([variationId, optionId]) => {
-			const variation = item.listingData.variations.find(
-				(v) => v.id === Number(variationId),
+	Object.entries(selectedOptions).forEach(([variationId, optionId]) => {
+		const variation = listingData.variations.find(
+			(v) => v.id === Number(variationId),
+		);
+
+		if (!variation) {
+			throw new Error(
+				`Variation with ID ${variationId} not found for listing ${listingData.shortId}`,
 			);
+		}
 
-			if (!variation) {
+		if (variation.pricesVary) {
+			const option = variation.options.find((o) => o.id === optionId);
+			if (!option) {
 				throw new Error(
-					`Variation with ID ${variationId} not found for listing ${item.listingData.shortId}`,
+					`Option with ID ${optionId} not found for variation ${variationId} in listing ${listingData.shortId}`,
 				);
 			}
-
-			if (variation?.pricesVary) {
-				const option = variation?.options.find(
-					(o) => o.id === optionId,
-				);
-				if (!option) {
-					throw new Error(
-						`Option with ID ${optionId} not found for variation ${variationId} in listing ${item.listingData.shortId}`,
-					);
-				}
-				total += option?.additionalPriceCents || 0;
-			}
-		},
-	);
+			total += option.additionalPriceCents || 0;
+		}
+	});
 
 	return total;
 };

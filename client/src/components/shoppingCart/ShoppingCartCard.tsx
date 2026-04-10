@@ -40,7 +40,7 @@ type Props = {
 export const ShoppingCartCard = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
-	const itemPrice = calculateItemPrice(props.item);
+	const itemPrice = calculateItemPrice(props.item.listingData, props.item.selectedOptions);
 
 	return (
 		<Card.Root
