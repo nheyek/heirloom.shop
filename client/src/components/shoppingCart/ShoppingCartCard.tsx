@@ -200,46 +200,51 @@ export const ShoppingCartCard = (props: Props) => {
 					</Wrap>
 				)}
 
-				<Flex
-					alignItems="center"
-					justifyContent="space-between"
-					fontSize={22}
-					fontWeight={500}
+				<Stack
+					gap={1.5}
 					lineHeight={1}
-					fontFamily={FONT_DISPLAY_SANS}
 				>
-					<HStack gap={1.5}>
-						<IoMdPricetag size={24} />
-						<Span mb="3px">
-							{formatCentsAsDollars(itemPrice)}
-							{props.item.quantity > 1 &&
-								` (${props.item.quantity})`}
+					<Flex
+						alignItems="center"
+						justifyContent="space-between"
+						fontSize={22}
+						fontWeight={500}
+						fontFamily={FONT_DISPLAY_SANS}
+					>
+						<HStack gap={1.5}>
+							<IoMdPricetag size={24} />
+							<Span mb="3px">
+								{formatCentsAsDollars(itemPrice)}
+								{props.item.quantity > 1 &&
+									` (${props.item.quantity})`}
+							</Span>
+						</HStack>
+						<HStack gap={2}>
+							<MdLocalShipping size={24} />
+							{props.item.listingData.shippingPrice ? (
+								<Span mb="3px">
+									{formatCentsAsDollars(
+										props.item.listingData
+											.shippingPrice,
+									)}
+								</Span>
+							) : (
+								<Span fontSize={20}>Free</Span>
+							)}
+						</HStack>
+					</Flex>
+					<HStack
+						fontSize={18}
+						gap={1}
+						fontFamily={FONT_DISPLAY_SANS}
+						alignSelf="end"
+					>
+						<Span>Estimated delivery</Span>
+						<Span fontWeight={500}>
+							{props.item.listingData.deliveryEstimate}
 						</Span>
 					</HStack>
-					<HStack gap={2}>
-						<MdLocalShipping size={24} />
-						{props.item.listingData.shippingPrice ? (
-							<Span mb="3px">
-								{formatCentsAsDollars(
-									props.item.listingData
-										.shippingPrice,
-								)}
-							</Span>
-						) : (
-							<Span fontSize={20}>Free</Span>
-						)}
-					</HStack>
-				</Flex>
-				<HStack
-					fontSize={18}
-					gap={1}
-					fontFamily={FONT_DISPLAY_SANS}
-				>
-					<Span>Estimated delivery</Span>
-					<Span fontWeight={500}>
-						{props.item.listingData.deliveryEstimate}
-					</Span>
-				</HStack>
+				</Stack>
 			</Card.Body>
 		</Card.Root>
 	);
