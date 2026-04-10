@@ -14,15 +14,22 @@ const formatItem = (item: OrderItemSnapshot) => {
 	].join('\n');
 };
 
+const APP_URL = process.env.APP_URL || 'https://heirloom.shop';
+
 export const orderConfirmation = (params: {
 	name?: string;
 	orderId: string;
+	accessKey: string;
 	items: OrderItemSnapshot[];
-}) => `Dear ${params.name || 'Customer'},
+}) => {
+	const orderUrl = `${APP_URL}/order/${params.orderId}?key=${params.accessKey}`;
+	return `Dear ${params.name || 'Customer'},
 
 We are writing to confirm your recent order (${params.orderId}) from Heirloom:
 
 ${params.items.map(formatItem).join('\n\n')}
+
+View your order here: ${orderUrl}
 
 We will let you know when your order has shipped.
 
@@ -31,3 +38,4 @@ The Heirloom Team
 
 P.S. You may reply to this email with any questions or concerns.
 `;
+};

@@ -68,7 +68,7 @@ export const CheckoutPage = () => {
 	const orderTotal =
 		itemPriceTotal + shippingTotal + (taxTotal || 0);
 
-	const startPollingOrderStatus = (shortId: string) => {
+	const startPollingOrderStatus = (shortId: string, accessKey: string) => {
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
@@ -82,7 +82,9 @@ export const CheckoutPage = () => {
 			) {
 				clearInterval(pollIntervalRef.current!);
 				clearCart();
-				navigate(`/${CLIENT_ROUTES.orderSuccess}`);
+				navigate(`/${CLIENT_ROUTES.orderSuccess}`, {
+					state: { shortId, accessKey },
+				});
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				clearInterval(pollIntervalRef.current!);
 				setPendingSubmit(false);
@@ -120,7 +122,7 @@ export const CheckoutPage = () => {
 			return;
 		}
 
-		const { clientSecret, orderShortId } = intentResult.data;
+		const { clientSecret, orderShortId, accessKey } = intentResult.data;
 		const { error: confirmError } = await stripe.confirmPayment({
 			elements,
 			clientSecret,
@@ -133,7 +135,7 @@ export const CheckoutPage = () => {
 		if (confirmError) {
 			setPendingSubmit(false);
 		} else {
-			startPollingOrderStatus(orderShortId);
+			startPollingOrderStatus(orderShortId, accessKey);
 		}
 	};
 

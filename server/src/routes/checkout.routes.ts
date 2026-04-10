@@ -72,6 +72,7 @@ export const checkoutRouter = s.router(checkoutContract, {
 			status: 200 as const,
 			body: {
 				orderShortId: order.shortId,
+				accessKey: order.accessKey,
 				clientSecret: paymentIntent.client_secret,
 			},
 		};

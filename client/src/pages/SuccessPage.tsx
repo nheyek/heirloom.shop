@@ -1,9 +1,18 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
 import { IoBagCheckOutline, IoReceipt } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useLocation } from 'react-router-dom';
+import { CLIENT_ROUTES } from '@client/constants';
 import { FONT_DECORATIVE } from '@client/theme';
 
 export const OrderSuccess = () => {
+	const { state } = useLocation();
+	const shortId: string | undefined = state?.shortId;
+	const accessKey: string | undefined = state?.accessKey;
+
+	if (!shortId || !accessKey) return <Navigate to="/" replace />;
+
+	const orderPath = `/${CLIENT_ROUTES.order}/${shortId}?key=${accessKey}`;
+
 	return (
 		<Box
 			position="absolute"
@@ -29,14 +38,16 @@ export const OrderSuccess = () => {
 					</Stack>
 
 					<Stack width={200}>
-						<Button
-							size="lg"
-							fontSize={18}
-							width="100%"
-						>
-							<IoReceipt />
-							View details
-						</Button>
+						<Link to={orderPath}>
+							<Button
+								size="lg"
+								fontSize={18}
+								width="100%"
+							>
+								<IoReceipt />
+								View details
+							</Button>
+						</Link>
 						<Link to="/">
 							<Button
 								size="lg"

@@ -57,6 +57,7 @@ const TaxResponseSchema = z.object({ TaxTotalCents: z.number() });
 const PaymentIntentResponseSchema = z.object({
 	clientSecret: z.string(),
 	orderShortId: z.string(),
+	accessKey: z.string(),
 });
 
 export const checkoutContract = c.router({

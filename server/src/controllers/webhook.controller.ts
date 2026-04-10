@@ -56,6 +56,7 @@ export const handleStripeWebhook = async (
 				text: orderConfirmation({
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
+					accessKey: order.accessKey,
 					items: order.items as OrderItemSnapshot[],
 				}),
 			});
