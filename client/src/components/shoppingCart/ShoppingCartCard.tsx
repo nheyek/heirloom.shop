@@ -14,12 +14,7 @@ import {
 	Text,
 	Wrap,
 } from '@chakra-ui/react';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import { FaTrashAlt } from 'react-icons/fa';
-import { IoMdPricetag } from 'react-icons/io';
-import { MdLocalShipping } from 'react-icons/md';
-import { TiMinus, TiPlus } from 'react-icons/ti';
-import { Link as RouterLink } from 'react-router-dom';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -27,8 +22,13 @@ import {
 import { calculateItemPrice } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
+import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
-import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { FaTrashAlt } from 'react-icons/fa';
+import { IoMdPricetag } from 'react-icons/io';
+import { MdLocalShipping } from 'react-icons/md';
+import { TiMinus, TiPlus } from 'react-icons/ti';
+import { Link as RouterLink } from 'react-router-dom';
 
 type Props = {
 	item: ShoppingCartItem;
@@ -40,7 +40,10 @@ type Props = {
 export const ShoppingCartCard = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.item.listingData.shortId}`;
-	const itemPrice = calculateItemPrice(props.item.listingData, props.item.selectedOptions);
+	const itemPrice = calculateItemPrice(
+		props.item.listingData,
+		props.item.selectedOptions,
+	);
 
 	return (
 		<Card.Root
@@ -200,10 +203,10 @@ export const ShoppingCartCard = (props: Props) => {
 				<Flex
 					alignItems="center"
 					justifyContent="space-between"
-					fontFamily={FONT_DISPLAY_SANS}
 					fontSize={22}
 					fontWeight={500}
 					lineHeight={1}
+					fontFamily={FONT_DISPLAY_SANS}
 				>
 					<HStack gap={1.5}>
 						<IoMdPricetag size={24} />
@@ -227,6 +230,16 @@ export const ShoppingCartCard = (props: Props) => {
 						)}
 					</HStack>
 				</Flex>
+				<HStack
+					fontSize={18}
+					gap={1}
+					fontFamily={FONT_DISPLAY_SANS}
+				>
+					<Span>Estimated delivery</Span>
+					<Span fontWeight={500}>
+						{props.item.listingData.deliveryEstimate}
+					</Span>
+				</HStack>
 			</Card.Body>
 		</Card.Root>
 	);
