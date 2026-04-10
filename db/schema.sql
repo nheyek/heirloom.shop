@@ -24,7 +24,6 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.app_order (
     id integer NOT NULL,
-    items jsonb NOT NULL,
     shipping_address jsonb NOT NULL,
     subtotal integer NOT NULL,
     tax_total integer NOT NULL,
@@ -58,6 +57,39 @@ CREATE SEQUENCE public.app_order_id_seq
 --
 
 ALTER SEQUENCE public.app_order_id_seq OWNED BY public.app_order.id;
+
+
+--
+-- Name: app_order_item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.app_order_item (
+    id integer NOT NULL,
+    order_id integer NOT NULL,
+    snapshot jsonb NOT NULL,
+    fulfillment jsonb DEFAULT '{}'::jsonb NOT NULL,
+    estimated_delivery character varying(255)
+);
+
+
+--
+-- Name: app_order_item_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.app_order_item_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: app_order_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.app_order_item_id_seq OWNED BY public.app_order_item.id;
 
 
 --
@@ -461,6 +493,13 @@ ALTER TABLE ONLY public.app_order ALTER COLUMN id SET DEFAULT nextval('public.ap
 
 
 --
+-- Name: app_order_item id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item ALTER COLUMN id SET DEFAULT nextval('public.app_order_item_id_seq'::regclass);
+
+
+--
 -- Name: app_user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -528,6 +567,14 @@ ALTER TABLE ONLY public.shop_user_role ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.user_favorite_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
+
+
+--
+-- Name: app_order_item app_order_item_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item
+    ADD CONSTRAINT app_order_item_pkey PRIMARY KEY (id);
 
 
 --
@@ -751,6 +798,14 @@ CREATE INDEX idx_user_favorite_listing_user_id ON public.user_favorite_listing U
 
 
 --
+-- Name: app_order_item app_order_item_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item
+    ADD CONSTRAINT app_order_item_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.app_order(id) ON DELETE CASCADE;
+
+
+--
 -- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -930,4 +985,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260330000001'),
     ('20260402000000'),
     ('20260403000000'),
-    ('20260409000000');
+    ('20260409000000'),
+    ('20260410000000');

@@ -1,13 +1,11 @@
-import { Entity, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, OneToMany, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { AppOrderItem } from './AppOrderItem';
 
 @Entity()
 export class AppOrder {
 
   @PrimaryKey()
   id!: number;
-
-  @Property({ type: 'json' })
-  items!: any;
 
   @Property({ type: 'json' })
   shippingAddress!: any;
@@ -41,5 +39,8 @@ export class AppOrder {
 
   @Property({ length: 64 })
   accessKey!: string;
+
+  @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
+  appOrderItemCollection = new Collection<AppOrderItem>(this);
 
 }

@@ -1,5 +1,4 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import { Request, Response } from 'express';
@@ -57,7 +56,7 @@ export const handleStripeWebhook = async (
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
 					accessKey: order.accessKey,
-					items: order.items as OrderItemSnapshot[],
+					items: order.items.getItems().map((item) => item.snapshot),
 				}),
 			});
 		}

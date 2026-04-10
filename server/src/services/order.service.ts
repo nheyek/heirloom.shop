@@ -4,6 +4,7 @@ import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { ShippingAddress } from '@common/contract';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
+import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { encodeId } from '@server/utils/hashids';
 
 export const createOrder = async (
@@ -25,7 +26,6 @@ export const createOrder = async (
 		id: nextId,
 		shortId: encodeId(nextId),
 		accessKey: randomBytes(16).toString('hex'),
-		items: snapshots,
 		shippingAddress,
 		subtotal: subtotalCents,
 		shippingPrice: shippingCents,
@@ -33,6 +33,12 @@ export const createOrder = async (
 		email,
 	});
 	await em.persistAndFlush(order);
+
+	for (const snapshot of snapshots) {
+		em.persist(em.create(AppOrderItem, { order, snapshot, fulfillment: {} }));
+	}
+	await em.flush();
+
 	return order;
 };
 
@@ -56,13 +62,12 @@ export const getOrderStatus = async (
 
 export const getOrderByShortId = async (shortId: string): Promise<AppOrder> => {
 	const em = getEm();
-	return em.findOneOrFail(AppOrder, { shortId });
+	return em.findOneOrFail(AppOrder, { shortId }, { populate: ['items'] });
 };
 
 export const getOrderById = async (id: number): Promise<AppOrder> => {
 	const em = getEm();
-	const order = await em.findOneOrFail(AppOrder, { id });
-	return order;
+	return em.findOneOrFail(AppOrder, { id }, { populate: ['items'] });
 };
 
 export const updateOrderPaymentIntent = async (
