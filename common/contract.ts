@@ -162,6 +162,12 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 	variations: z.array(ListingVariationSchema),
 });
 
+const CartItemDataSchema = ListingCardDataSchema.extend({
+	variations: z.array(ListingVariationSchema),
+	shippingPrice: z.number(),
+	deliveryEstimate: z.string().nullable().optional(),
+});
+
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
 
 const UserInfoSchema = z.object({
@@ -183,6 +189,14 @@ export const listingsContract = c.router({
 		responses: {
 			200: ListingPageDataSchema,
 			404: ErrorSchema,
+		},
+	},
+	getCartData: {
+		method: 'POST',
+		path: '/api/listings/cartData',
+		body: z.object({ items: z.array(CheckoutItemSchema) }),
+		responses: {
+			200: z.array(CartItemDataSchema),
 		},
 	},
 	favorite: {
@@ -344,6 +358,7 @@ export type ListingVariationOptionData = z.infer<typeof ListingVariationOptionSc
 export type ListingVariationData = z.infer<typeof ListingVariationSchema>;
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
+export type CartItemData = z.infer<typeof CartItemDataSchema>;
 export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
 export type PaymentIntentResponse = z.infer<typeof PaymentIntentResponseSchema>;
 export type TaxCalculationResponse = z.infer<typeof TaxResponseSchema>;

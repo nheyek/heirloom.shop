@@ -5,20 +5,21 @@ import {
 	Flex,
 	Icon,
 	IconButton,
+	Skeleton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { FaArrowCircleRight } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
-import { RxDotFilled } from 'react-icons/rx';
-import { Link } from 'react-router-dom';
+import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
+import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
+import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
-import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
-import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
+import { FaArrowCircleRight } from 'react-icons/fa';
+import { MdClose } from 'react-icons/md';
+import { RxDotFilled } from 'react-icons/rx';
+import { Link } from 'react-router-dom';
 
 type Props = {
 	isOpen: boolean;
@@ -67,7 +68,20 @@ export const ShoppingCartDrawer = (props: Props) => {
 						flexDir="column"
 						pb={5}
 					>
-						{shoppingCart.itemQuantityTotal === 0 ? (
+						{shoppingCart.cartLoading ? (
+							<Stack gap={5}>
+								{Array.from({
+									length: shoppingCart.pendingItemCount,
+								}).map((_, i) => (
+									<Skeleton
+										key={i}
+										height={300}
+										width="100%"
+										borderRadius="md"
+									/>
+								))}
+							</Stack>
+						) : shoppingCart.itemQuantityTotal === 0 ? (
 							<ShoppingCartEmptyMessage
 								onClick={props.onClose}
 							/>

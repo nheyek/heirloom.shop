@@ -1,7 +1,7 @@
-import { ListingDataForCart } from './ListingDataForCart';
+import { CartItemData } from '@common/contract';
 
 export type ShoppingCartItem = {
-	listingData: ListingDataForCart;
+	listingData: CartItemData;
 	selectedOptions: Record<string, number>;
 	quantity: number;
 	addedAt: number;

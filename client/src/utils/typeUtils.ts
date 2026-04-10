@@ -1,9 +1,9 @@
-import { ListingDataForCart } from '@common/types/ListingDataForCart';
-import { ListingPageData } from '@common/contract';
+import { CartItemData, ListingPageData } from '@common/contract';
+import { calculateDeliveryEstimate } from '@common/utils';
 
 export const getListingDataForCart = (
 	listing: ListingPageData,
-): ListingDataForCart => ({
+): CartItemData => ({
 	id: listing.id,
 	shortId: listing.shortId,
 	title: listing.title,
@@ -17,4 +17,9 @@ export const getListingDataForCart = (
 	imageUuids: listing.imageUuids,
 	variations: listing.variations,
 	shippingPrice: Number(listing.shippingDetails?.shippingRate || 0),
+	deliveryEstimate: calculateDeliveryEstimate(
+		listing.leadTimeDaysMin,
+		listing.leadTimeDaysMax,
+		listing.shippingDetails,
+	),
 });

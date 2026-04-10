@@ -1,3 +1,15 @@
+export const calculateDeliveryEstimate = (
+	leadTimeDaysMin: number,
+	leadTimeDaysMax: number,
+	shippingDetails?: { shipTimeDaysMin: number; shipTimeDaysMax: number },
+): string | null => {
+	if (!shippingDetails) return null;
+	return formatDateRange(
+		leadTimeDaysMin + shippingDetails.shipTimeDaysMin,
+		leadTimeDaysMax + shippingDetails.shipTimeDaysMax,
+	);
+};
+
 export const formatDateRange = (
 	minOffset: number,
 	maxOffset: number,

@@ -1,4 +1,5 @@
 import { listingsContract } from '@common/contract';
+import { calculateDeliveryEstimate } from '@common/utils';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import * as favoriteListingService from '@server/services/favoriteListing.service';
@@ -18,6 +19,31 @@ export const listingRouter = s.router(listingsContract, {
 		return {
 			status: 200 as const,
 			body: listings.map(mapListingToApiResponseData),
+		};
+	},
+	getCartData: async ({ body }) => {
+		const shortIds = [...new Set(body.items.map((i) => i.listingShortId))];
+		const results = await Promise.all(
+			shortIds.map(async (shortId) => {
+				const listing = await listingService.findFullListingDataByShortId(shortId);
+				if (!listing) return null;
+				const variations = await listingService.findListingVariations(listing.id);
+				const pageData = mapListingToCompleteApiResponseData(listing, variations);
+				return {
+					...mapListingToApiResponseData(listing),
+					variations: pageData.variations,
+					shippingPrice: Number(pageData.shippingDetails?.shippingRate || 0),
+					deliveryEstimate: calculateDeliveryEstimate(
+						pageData.leadTimeDaysMin,
+						pageData.leadTimeDaysMax,
+						pageData.shippingDetails,
+					),
+				};
+			}),
+		);
+		return {
+			status: 200 as const,
+			body: results.filter((r) => r !== null),
 		};
 	},
 	getById: async ({ params: { id } }) => {

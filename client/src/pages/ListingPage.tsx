@@ -19,7 +19,7 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { ListingPageData } from '@common/contract';
-import { formatDateRange } from '@common/utils';
+import { calculateDeliveryEstimate } from '@common/utils';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BiSolidPackage } from 'react-icons/bi';
@@ -185,15 +185,12 @@ export const ListingPage = () => {
 			}),
 		})) || [];
 
-	const daysToDelivery = listingData?.shippingDetails
-		? {
-				min:
-					listingData.leadTimeDaysMin +
-					listingData.shippingDetails.shipTimeDaysMin,
-				max:
-					listingData.leadTimeDaysMax +
-					listingData.shippingDetails.shipTimeDaysMax,
-			}
+	const deliveryEstimate = listingData
+		? calculateDeliveryEstimate(
+				listingData.leadTimeDaysMin,
+				listingData.leadTimeDaysMax,
+				listingData.shippingDetails,
+			)
 		: null;
 
 	const returnPolicy = listingData?.returnExchangePolicy;
@@ -514,15 +511,10 @@ export const ListingPage = () => {
 								gap={1}
 								fontFamily={FONT_DISPLAY_SANS}
 							>
-								{daysToDelivery && (
+								{deliveryEstimate && (
 									<IconText icon={FaHourglassStart}>
 										Estimated delivery
-										<b>
-											{formatDateRange(
-												daysToDelivery!.min,
-												daysToDelivery!.max,
-											)}
-										</b>
+										<b>{deliveryEstimate}</b>
 									</IconText>
 								)}
 								{listingData?.originZip && (
