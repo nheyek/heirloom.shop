@@ -62,12 +62,12 @@ export const getOrderStatus = async (
 
 export const getOrderByShortId = async (shortId: string): Promise<AppOrder> => {
 	const em = getEm();
-	return em.findOneOrFail(AppOrder, { shortId }, { populate: ['items'] });
+	return em.findOneOrFail(AppOrder, { shortId }, { populate: ['appOrderItemCollection'] });
 };
 
 export const getOrderById = async (id: number): Promise<AppOrder> => {
 	const em = getEm();
-	return em.findOneOrFail(AppOrder, { id }, { populate: ['items'] });
+	return em.findOneOrFail(AppOrder, { id }, { populate: ['appOrderItemCollection'] });
 };
 
 export const updateOrderPaymentIntent = async (

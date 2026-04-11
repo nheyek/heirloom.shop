@@ -57,7 +57,7 @@ export const handleStripeWebhook = async (
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
 					accessKey: order.accessKey,
-					items: order.items.getItems().map((item) => item.snapshot as OrderItemSnapshot),
+					items: order.appOrderItemCollection.getItems().map((item) => item.snapshot as OrderItemSnapshot),
 				}),
 			});
 		}

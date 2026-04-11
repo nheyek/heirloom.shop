@@ -67,8 +67,7 @@ CREATE TABLE public.app_order_item (
     id integer NOT NULL,
     order_id integer NOT NULL,
     snapshot jsonb NOT NULL,
-    fulfillment jsonb DEFAULT '{}'::jsonb NOT NULL,
-    estimated_delivery character varying(255)
+    fulfillment jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -986,4 +985,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260402000000'),
     ('20260403000000'),
     ('20260409000000'),
-    ('20260410000000');
+    ('20260410000000'),
+    ('20260410000001'),
+    ('20260410000002');

@@ -14,6 +14,6 @@ export class AppOrderItem {
   snapshot!: any;
 
   @Property({ type: 'json' })
-  fulfillment: Record<string, unknown> & Opt = {};
+  fulfillment: any & Opt = '{}';
 
 }
