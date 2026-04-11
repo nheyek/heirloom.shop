@@ -1,4 +1,5 @@
 import { CheckoutItemData } from '@common/contract';
+import { calculateDeliveryEstimate } from '@common/utils';
 import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
@@ -76,6 +77,16 @@ export const createOrderItemSnapshots = (
 			imageUuid: listing.imageUuids[0] ?? null,
 			unitPriceCents,
 			quantity: item.quantity,
+			estimatedDelivery: calculateDeliveryEstimate(
+				listing.leadTimeDaysMin,
+				listing.leadTimeDaysMax,
+				listing.shippingProfile
+					? {
+							shipTimeDaysMin: listing.shippingProfile.shippingDaysMin ?? 0,
+							shipTimeDaysMax: listing.shippingProfile.shippingDaysMax ?? 0,
+						}
+					: undefined,
+			),
 			variations,
 		});
 	}

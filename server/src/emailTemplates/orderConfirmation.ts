@@ -2,16 +2,20 @@ import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 
 const formatItem = (item: OrderItemSnapshot) => {
-	const quantity = item.quantity > 1 ? `${item.quantity}x ` : '';
+	const quantityPrefix = item.quantity > 1 ? `${item.quantity}x ` : '';
 	const variations =
 		item.variations.length > 0
 			? ` (${item.variations.map((v) => `${v.name}: ${v.value}`).join(', ')})`
 			: '';
-	return [
-		`${quantity}${item.title}${variations}`,
+	const lines = [
+		`${quantityPrefix}${item.title}${variations}`,
 		item.shopName,
 		formatCentsAsDollars(item.unitPriceCents),
-	].join('\n');
+	];
+	if (item.estimatedDelivery) {
+		lines.push(`Estimated delivery: ${item.estimatedDelivery}`);
+	}
+	return lines.join('\n');
 };
 
 const APP_URL = process.env.APP_URL || 'https://heirloom.shop';

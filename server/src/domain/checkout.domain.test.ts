@@ -11,6 +11,10 @@ const makeListing = (
 	priceCents: number,
 	overrides: Partial<{
 		flatShippingRateCents: number;
+		shippingDaysMin: number;
+		shippingDaysMax: number;
+		leadTimeDaysMin: number;
+		leadTimeDaysMax: number;
 		title: string;
 		shopTitle: string;
 		imageUuids: string[];
@@ -22,11 +26,14 @@ const makeListing = (
 		title: overrides.title ?? 'Test Listing',
 		shop: { title: overrides.shopTitle ?? 'Test Shop' },
 		imageUuids: overrides.imageUuids ?? [],
+		leadTimeDaysMin: overrides.leadTimeDaysMin ?? 0,
+		leadTimeDaysMax: overrides.leadTimeDaysMax ?? 0,
 		shippingProfile:
 			overrides.flatShippingRateCents !== undefined
 				? {
-						flatShippingRateCents:
-							overrides.flatShippingRateCents,
+						flatShippingRateCents: overrides.flatShippingRateCents,
+						shippingDaysMin: overrides.shippingDaysMin ?? 0,
+						shippingDaysMax: overrides.shippingDaysMax ?? 0,
 					}
 				: undefined,
 	}) as unknown as Listing;
@@ -232,13 +239,7 @@ describe('createOrderItemSnapshots', () => {
 			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 2,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 2 }],
 			queryData,
 		);
 		expect(snapshot).toEqual({
@@ -247,6 +248,7 @@ describe('createOrderItemSnapshots', () => {
 			imageUuid: 'uuid-1',
 			unitPriceCents: 1000,
 			quantity: 2,
+			estimatedDelivery: null,
 			variations: [],
 		});
 	});
@@ -257,13 +259,7 @@ describe('createOrderItemSnapshots', () => {
 			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
 			queryData,
 		);
 		expect(snapshot.imageUuid).toBeNull();
@@ -272,24 +268,46 @@ describe('createOrderItemSnapshots', () => {
 	it('includes variation name and value in snapshot', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [
-				makeOption(10, 1, 500, 'Size', 'Large'),
-			],
+			variationOptions: [makeOption(10, 1, 500, 'Size', 'Large')],
 		};
 		const [snapshot] = createOrderItemSnapshots(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: { 1: 10 },
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: { 1: 10 }, quantity: 1 }],
 			queryData,
 		);
 		expect(snapshot.unitPriceCents).toBe(1500);
-		expect(snapshot.variations).toEqual([
-			{ name: 'Size', value: 'Large' },
-		]);
+		expect(snapshot.variations).toEqual([{ name: 'Size', value: 'Large' }]);
+	});
+
+	it('populates estimatedDelivery from lead time and shipping days', () => {
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					flatShippingRateCents: 500,
+					leadTimeDaysMin: 3,
+					leadTimeDaysMax: 5,
+					shippingDaysMin: 2,
+					shippingDaysMax: 4,
+				}),
+			],
+			variationOptions: [],
+		};
+		const [snapshot] = createOrderItemSnapshots(
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
+			queryData,
+		);
+		expect(snapshot.estimatedDelivery).not.toBeNull();
+	});
+
+	it('sets estimatedDelivery to null when listing has no shipping profile', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000)],
+			variationOptions: [],
+		};
+		const [snapshot] = createOrderItemSnapshots(
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
+			queryData,
+		);
+		expect(snapshot.estimatedDelivery).toBeNull();
 	});
 
 	it('skips items whose listing is not found', () => {
@@ -298,13 +316,7 @@ describe('createOrderItemSnapshots', () => {
 			variationOptions: [],
 		};
 		const result = createOrderItemSnapshots(
-			[
-				{
-					listingShortId: 'unknown',
-					selectedOptions: {},
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'unknown', selectedOptions: {}, quantity: 1 }],
 			queryData,
 		);
 		expect(result).toEqual([]);
