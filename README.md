@@ -1,15 +1,15 @@
 # Introduction
-heirloom.shop is a curated marketplace for products that meet the highest standard of craftsmanship.
+heirloom.shop is a curated marketplace for premium crafted goods from honest makers.
 
 ## Background
 
-Major online marketplaces such as Amazon and Etsy increasingly resemble Temu. They're overrun with ultra-cheap, mass-produced junk with deceptive AI-generated product images.
+Major online marketplaces such as Amazon and Etsy increasingly resemble Temu. They're overrun with ultra-cheap, mass-produced products with deceptive AI-generated product images. It has become near-impossible for honest makers of quality products to compete on these platforms.
 
-Meanwhile, it has become impossible for honest makers of quality products to thrive on these platforms. Consider Amazon. They take 15% of every sale, and achieving any level of visibility requires paying promotion fees, typically 25% of revenue. Despite this, the Amazon seller portal is incredibly buggy and seller support is effectively nonexistent.
+Consider Amazon: They take a 15% commission, and achieving any level of visibility requires paying promotion fees. A "successful" promotion campaign would earn $3 in sales for every $1 spent. In other words, the effective commission on Amazon is nearly 50%. For that price, sellers get to constantly fight with an incredibly buggy Amazon seller portal and essentially non-existant seller support system.
 
 ## Vision
 
-The objective is to create an alternative to the above. Heirloom will be a marketplace for all kinds of consumer goods, with the following distinguishing characteristics:
+The idea for Heirloom is to create an alternative to the status quo. Heirloom will be a marketplace for all kinds of consumer goods, with the following distinguishing characteristics:
 
 * Exclusivity: Only products that meet a high standard of quality and integrity will be allowed on the platform.
 * Product discovery: The visibility of products will be entirely based on relevance and reputation. No ads!
