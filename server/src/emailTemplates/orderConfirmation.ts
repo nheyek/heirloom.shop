@@ -2,15 +2,15 @@ import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 
 const formatItem = (item: OrderItemSnapshot) => {
-	const quantityPrefix = item.quantity > 1 ? `${item.quantity}x ` : '';
 	const variations =
 		item.variations.length > 0
 			? ` (${item.variations.map((v) => `${v.name}: ${v.value}`).join(', ')})`
 			: '';
+	const unitPrice = `${formatCentsAsDollars(item.unitPriceCents)}${item.quantity > 1 ? ` (${item.quantity})` : ''}`;
 	const lines = [
-		`${quantityPrefix}${item.title}${variations}`,
+		`${item.title}${variations}`,
 		item.shopName,
-		formatCentsAsDollars(item.unitPriceCents),
+		unitPrice,
 	];
 	if (item.estimatedDelivery) {
 		lines.push(`Estimated delivery: ${item.estimatedDelivery}`);
@@ -25,17 +25,28 @@ export const orderConfirmation = (params: {
 	orderId: string;
 	accessKey: string;
 	items: OrderItemSnapshot[];
+	subtotalCents: number;
+	shippingCents: number;
+	taxCents: number;
 }) => {
 	const orderUrl = `${APP_URL}/order/${params.orderId}?key=${params.accessKey}`;
+	const totalCents =
+		params.subtotalCents + params.shippingCents + params.taxCents;
+
 	return `Dear ${params.name || 'Customer'},
 
 We are writing to confirm your recent order (${params.orderId}) from Heirloom:
 
 ${params.items.map(formatItem).join('\n\n')}
 
+Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
+Shipping: ${formatCentsAsDollars(params.shippingCents)}
+Tax:      ${formatCentsAsDollars(params.taxCents)}
+Total:    ${formatCentsAsDollars(totalCents)}
+
 View your order here: ${orderUrl}
 
-We will let you know when each item has shipped.
+We will let you know when your order has shipped.
 
 Sincerely,
 The Heirloom Team

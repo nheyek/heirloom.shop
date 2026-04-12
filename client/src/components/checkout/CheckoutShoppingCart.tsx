@@ -54,7 +54,6 @@ export const CheckoutShoppingCart = () => {
 							item={item}
 							cardProps={{
 								minW: 250,
-								height: '100%',
 							}}
 							hideButtons
 						/>

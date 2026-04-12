@@ -58,6 +58,9 @@ export const handleStripeWebhook = async (
 					orderId: order.shortId,
 					accessKey: order.accessKey,
 					items: order.appOrderItemCollection.getItems().map((item) => item.snapshot as OrderItemSnapshot),
+					subtotalCents: order.subtotal,
+					shippingCents: order.shippingPrice,
+					taxCents: order.taxTotal,
 				}),
 			});
 		}
