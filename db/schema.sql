@@ -31,7 +31,7 @@ CREATE TABLE public.app_order (
     payment_intent_id character varying(64),
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    shipping_price integer DEFAULT 0 NOT NULL,
+    shipping_price integer NOT NULL,
     short_id character varying(10) NOT NULL,
     email character varying(255) NOT NULL,
     access_key character varying(64) NOT NULL,
@@ -987,4 +987,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260409000000'),
     ('20260410000000'),
     ('20260410000001'),
-    ('20260410000002');
+    ('20260410000002'),
+    ('20260412000000');

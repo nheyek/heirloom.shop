@@ -298,6 +298,25 @@ export const searchContract = c.router({
 	},
 });
 
+const OrderItemSnapshotSchema = z.object({
+	title: z.string(),
+	shopName: z.string(),
+	imageUuid: z.string().nullable(),
+	unitPriceCents: z.number(),
+	quantity: z.number(),
+	estimatedDelivery: z.string().nullable(),
+	variations: z.array(z.object({ name: z.string(), value: z.string() })),
+});
+
+const OrderResponseSchema = z.object({
+	shortId: z.string(),
+	orderStatus: z.nativeEnum(OrderStatus),
+	items: z.array(OrderItemSnapshotSchema),
+	subtotalCents: z.number(),
+	shippingCents: z.number(),
+	taxCents: z.number(),
+});
+
 export const ordersContract = c.router({
 	getStatus: {
 		method: 'GET',
@@ -314,7 +333,7 @@ export const ordersContract = c.router({
 		pathParams: z.object({ shortId: z.string() }),
 		query: z.object({ key: z.string() }),
 		responses: {
-			200: z.object({}),
+			200: OrderResponseSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
 		},
@@ -365,4 +384,5 @@ export type TaxCalculationResponse = z.infer<typeof TaxResponseSchema>;
 export type ShopCardData = z.infer<typeof ShopCardDataSchema>;
 export type UserInfo = z.infer<typeof UserInfoSchema>;
 export type SearchResult = z.infer<typeof SearchResultSchema>;
+export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<typeof SearchResultCollectionSchema>;

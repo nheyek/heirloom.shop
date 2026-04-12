@@ -30,6 +30,7 @@ export const createOrder = async (
 		subtotal: subtotalCents,
 		shippingPrice: shippingCents,
 		taxTotal: taxTotalCents,
+		orderStatus: OrderStatus.PENDING,
 		email,
 	});
 	await em.persistAndFlush(order);
@@ -57,7 +58,7 @@ export const getOrderStatus = async (
 ): Promise<OrderStatus> => {
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { shortId });
-	return order.orderStatus as OrderStatus;
+	return order.orderStatus;
 };
 
 export const getOrderByShortId = async (shortId: string): Promise<AppOrder> => {
