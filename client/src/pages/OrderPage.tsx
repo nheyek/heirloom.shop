@@ -1,5 +1,7 @@
-import { Box, Center, Text } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
+import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
@@ -10,19 +12,32 @@ export const OrderPage = () => {
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
 
-	const [status, setStatus] = useState<
-		'loading' | 'authorized' | 'forbidden' | 'not_found'
-	>('loading');
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [orderDetails, setOrderDetails] =
+		useState<OrderResponse | null>(null);
+	const [error, setError] = useState<string | null>(null);
+
+	const loadOrderData = async () => {
+		if (!shortId) {
+			return;
+		}
+		setIsLoading(true);
+		const result = await callApi(
+			apiClient.orders.getByShortId({
+				params: { shortId },
+				query: { key },
+			}),
+		);
+		setIsLoading(false);
+		if (result.error !== null) {
+			setError(result.error);
+		} else {
+			setOrderDetails(result.data);
+		}
+	};
 
 	useEffect(() => {
-		if (!shortId) return;
-		apiClient.orders
-			.getByShortId({ params: { shortId }, query: { key } })
-			.then((res) => {
-				if (res.status === 200) setStatus('authorized');
-				else if (res.status === 403) setStatus('forbidden');
-				else setStatus('not_found');
-			});
+		loadOrderData();
 	}, [shortId, key]);
 
 	return (
@@ -33,18 +48,7 @@ export const OrderPage = () => {
 			left={0}
 			right={0}
 		>
-			<Center height="100%">
-				{status === 'loading' && <Text>Loading...</Text>}
-				{status === 'forbidden' && (
-					<Text>Access denied.</Text>
-				)}
-				{status === 'not_found' && (
-					<Text>Order not found.</Text>
-				)}
-				{status === 'authorized' && (
-					<Text>Order {shortId}</Text>
-				)}
-			</Center>
+			<Center height="100%"></Center>
 		</Box>
 	);
 };

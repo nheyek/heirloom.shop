@@ -18,21 +18,6 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { ListingPageData } from '@common/contract';
-import { calculateDeliveryEstimate } from '@common/utils';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { BiSolidPackage } from 'react-icons/bi';
-import { FaHeart, FaPlusCircle } from 'react-icons/fa';
-import {
-	FaCheck,
-	FaHourglassStart,
-	FaLocationDot,
-	FaShare,
-	FaTruck,
-} from 'react-icons/fa6';
-import { RxDotFilled } from 'react-icons/rx';
-import { useNavigate, useParams } from 'react-router-dom';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
@@ -47,14 +32,29 @@ import {
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { callApi } from '@client/utils/apiUtils';
 import { useShareListing } from '@client/hooks/useShareListing';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { toaster } from '@client/toaster';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
+import { ListingPageData } from '@common/contract';
+import { calculateDeliveryEstimate } from '@common/utils';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { BiSolidPackage } from 'react-icons/bi';
+import { FaHeart, FaPlusCircle } from 'react-icons/fa';
+import {
+	FaCheck,
+	FaHourglassStart,
+	FaLocationDot,
+	FaShare,
+	FaTruck,
+} from 'react-icons/fa6';
+import { RxDotFilled } from 'react-icons/rx';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MotionFlex = motion.create(Flex);
 
@@ -108,8 +108,10 @@ export const ListingPage = () => {
 	};
 
 	const loadListingData = async () => {
+		if (!id) return;
+
 		const result = await callApi(
-			apiClient.listings.getById({ params: { id: id! } }),
+			apiClient.listings.getById({ params: { id } }),
 		);
 		if (result.error !== null) {
 			setListingDataError(result.error);
@@ -123,9 +125,7 @@ export const ListingPage = () => {
 		setListingDataLoading(true);
 		setListingDataError(null);
 
-		setTimeout(() => {
-			loadListingData();
-		}, 500);
+		loadListingData();
 	}, [id]);
 
 	useEffect(() => {

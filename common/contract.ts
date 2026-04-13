@@ -278,7 +278,10 @@ export const shopsContract = c.router({
 	},
 });
 
-const SearchResultSchema = z.object({ id: z.string(), label: z.string() });
+const SearchResultSchema = z.object({
+	id: z.string(),
+	label: z.string(),
+});
 
 const SearchResultCollectionSchema = z.object({
 	listingResults: z.array(SearchResultSchema),
@@ -305,12 +308,14 @@ const OrderItemSnapshotSchema = z.object({
 	unitPriceCents: z.number(),
 	quantity: z.number(),
 	estimatedDelivery: z.string().nullable(),
-	variations: z.array(z.object({ name: z.string(), value: z.string() })),
+	variations: z.array(
+		z.object({ name: z.string(), value: z.string() }),
+	),
 });
 
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
-	orderStatus: z.nativeEnum(OrderStatus),
+	orderStatus: z.enum(OrderStatus),
 	items: z.array(OrderItemSnapshotSchema),
 	subtotalCents: z.number(),
 	shippingCents: z.number(),
@@ -323,7 +328,7 @@ export const ordersContract = c.router({
 		path: '/api/orders/:shortId/status',
 		pathParams: z.object({ shortId: z.string() }),
 		responses: {
-			200: z.object({ orderStatus: z.nativeEnum(OrderStatus) }),
+			200: z.object({ orderStatus: z.enum(OrderStatus) }),
 			404: ErrorSchema,
 		},
 	},
@@ -373,16 +378,26 @@ export const appContract = c.router({
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
-export type ListingVariationOptionData = z.infer<typeof ListingVariationOptionSchema>;
-export type ListingVariationData = z.infer<typeof ListingVariationSchema>;
+export type ListingVariationOptionData = z.infer<
+	typeof ListingVariationOptionSchema
+>;
+export type ListingVariationData = z.infer<
+	typeof ListingVariationSchema
+>;
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
 export type CartItemData = z.infer<typeof CartItemDataSchema>;
 export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
-export type PaymentIntentResponse = z.infer<typeof PaymentIntentResponseSchema>;
-export type TaxCalculationResponse = z.infer<typeof TaxResponseSchema>;
+export type PaymentIntentResponse = z.infer<
+	typeof PaymentIntentResponseSchema
+>;
+export type TaxCalculationResponse = z.infer<
+	typeof TaxResponseSchema
+>;
 export type ShopCardData = z.infer<typeof ShopCardDataSchema>;
 export type UserInfo = z.infer<typeof UserInfoSchema>;
 export type SearchResult = z.infer<typeof SearchResultSchema>;
 export type OrderResponse = z.infer<typeof OrderResponseSchema>;
-export type SearchResultCollection = z.infer<typeof SearchResultCollectionSchema>;
+export type SearchResultCollection = z.infer<
+	typeof SearchResultCollectionSchema
+>;
