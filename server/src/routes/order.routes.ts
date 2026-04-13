@@ -1,5 +1,5 @@
 import { ordersContract } from '@common/contract';
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
+import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import {
@@ -43,7 +43,7 @@ export const orderRouter = s.router(ordersContract, {
 						.getItems()
 						.map(
 							(item) =>
-								item.snapshot as OrderItemSnapshot,
+								item.snapshot as OrderItemDisplayData,
 						),
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,

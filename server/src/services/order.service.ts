@@ -1,14 +1,14 @@
-import { randomBytes } from 'crypto';
-import { OrderStatus } from '@common/enums/OrderStatus';
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { ShippingAddress } from '@common/contract';
+import { OrderStatus } from '@common/enums/OrderStatus';
+import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { encodeId } from '@server/utils/hashids';
+import { randomBytes } from 'crypto';
 
 export const createOrder = async (
-	snapshots: OrderItemSnapshot[],
+	snapshots: OrderItemDisplayData[],
 	shippingAddress: ShippingAddress,
 	subtotalCents: number,
 	shippingCents: number,
@@ -36,7 +36,13 @@ export const createOrder = async (
 	await em.persistAndFlush(order);
 
 	for (const snapshot of snapshots) {
-		em.persist(em.create(AppOrderItem, { order, snapshot, fulfillment: {} }));
+		em.persist(
+			em.create(AppOrderItem, {
+				order,
+				snapshot,
+				fulfillment: {},
+			}),
+		);
 	}
 	await em.flush();
 
@@ -61,14 +67,24 @@ export const getOrderStatus = async (
 	return order.orderStatus;
 };
 
-export const getOrderByShortId = async (shortId: string): Promise<AppOrder> => {
+export const getOrderByShortId = async (
+	shortId: string,
+): Promise<AppOrder> => {
 	const em = getEm();
-	return em.findOneOrFail(AppOrder, { shortId }, { populate: ['appOrderItemCollection'] });
+	return em.findOneOrFail(
+		AppOrder,
+		{ shortId },
+		{ populate: ['appOrderItemCollection'] },
+	);
 };
 
 export const getOrderById = async (id: number): Promise<AppOrder> => {
 	const em = getEm();
-	return em.findOneOrFail(AppOrder, { id }, { populate: ['appOrderItemCollection'] });
+	return em.findOneOrFail(
+		AppOrder,
+		{ id },
+		{ populate: ['appOrderItemCollection'] },
+	);
 };
 
 export const updateOrderPaymentIntent = async (

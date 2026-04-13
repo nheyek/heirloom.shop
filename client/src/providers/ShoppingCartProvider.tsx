@@ -1,13 +1,3 @@
-import { CartItemData, CheckoutItemData, ShippingAddress } from '@common/contract';
-import { ShippingAddressErrors } from '@common/types/ShippingAddress';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
-import {
-	createContext,
-	useContext,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
 import { StorageKey } from '@client/constants';
 import {
 	getEmailFieldError,
@@ -19,6 +9,20 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { usePersistedState } from '@client/hooks/usePersistedState';
 import { callApi } from '@client/utils/apiUtils';
 import { validateDeliverableAddress } from '@client/utils/googleMapsUtils';
+import {
+	CartItemData,
+	CheckoutItemData,
+	ShippingAddress,
+} from '@common/contract';
+import { ShippingAddressErrors } from '@common/types/ShippingAddressErrors';
+import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+import {
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 
 type PersistedCartItem = CheckoutItemData & { addedAt: number };
 
@@ -68,33 +72,43 @@ export const ShoppingCartProvider = (props: {
 	children: React.ReactNode;
 }) => {
 	// Source of truth for cart contents (what's in the cart, how many, which options)
-	const [persistedItems, setPersistedItems] = usePersistedState<PersistedCartItem[]>(
-		StorageKey.SHOPPING_CART,
-		[],
-	);
+	const [persistedItems, setPersistedItems] = usePersistedState<
+		PersistedCartItem[]
+	>(StorageKey.SHOPPING_CART, []);
 
 	// Current listing data fetched from the server, keyed by shortId
-	const [cartListingData, setCartListingData] = useState<Record<string, CartItemData>>({});
+	const [cartListingData, setCartListingData] = useState<
+		Record<string, CartItemData>
+	>({});
 
 	const [cartLoading, setCartLoading] = useState(false);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [checkoutEmail, setCheckoutEmail] = useState('');
-	const [checkoutEmailError, setCheckoutEmailError] = useState<string | null>(null);
-	const [shippingAddress, _setShippingAddress] = useState<ShippingAddress>({
-		firstName: '',
-		lastName: '',
-		line1: '',
-		line2: '',
-		city: '',
-		state: '',
-		zip: '',
-	});
-	const [shippingAddressErrors, setShippingAddressErrors] = useState({});
-	const [shippingAddressUndeliverable, setShippingAddressUndeliverable] = useState(false);
-	const [taxCalcLoading, setTaxCalcLoading] = useState<boolean>(false);
+	const [checkoutEmailError, setCheckoutEmailError] = useState<
+		string | null
+	>(null);
+	const [shippingAddress, _setShippingAddress] =
+		useState<ShippingAddress>({
+			firstName: '',
+			lastName: '',
+			line1: '',
+			line2: '',
+			city: '',
+			state: '',
+			zip: '',
+		});
+	const [shippingAddressErrors, setShippingAddressErrors] =
+		useState({});
+	const [
+		shippingAddressUndeliverable,
+		setShippingAddressUndeliverable,
+	] = useState(false);
+	const [taxCalcLoading, setTaxCalcLoading] =
+		useState<boolean>(false);
 	const [taxTotal, setTaxTotal] = useState<number | null>(null);
 
-	const taxDebounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+	const taxDebounceRef =
+		useRef<ReturnType<typeof setTimeout>>(undefined);
 	const apiClient = useApiClient();
 
 	// Derive the full cart item list from the two sources — no duplication of
@@ -120,7 +134,11 @@ export const ShoppingCartProvider = (props: {
 	const itemPriceTotal = persistedItems.reduce((sum, p) => {
 		const listingData = cartListingData[p.listingShortId];
 		if (!listingData) return sum;
-		return sum + calculateItemPrice(listingData, p.selectedOptions) * p.quantity;
+		return (
+			sum +
+			calculateItemPrice(listingData, p.selectedOptions) *
+				p.quantity
+		);
 	}, 0);
 
 	const shippingTotal = persistedItems.reduce((sum, p) => {
@@ -137,7 +155,11 @@ export const ShoppingCartProvider = (props: {
 
 		callApi(
 			apiClient.listings.getCartData({
-				body: { items: persistedItems.map(({ addedAt: _, ...rest }) => rest) },
+				body: {
+					items: persistedItems.map(
+						({ addedAt: _, ...rest }) => rest,
+					),
+				},
 			}),
 		).then((result) => {
 			if (result.error !== null) {
@@ -154,7 +176,9 @@ export const ShoppingCartProvider = (props: {
 			// Drop any persisted items whose listing was not found
 			const foundShortIds = new Set(Object.keys(listingMap));
 			setPersistedItems((prev) =>
-				prev.filter((p) => foundShortIds.has(p.listingShortId)),
+				prev.filter((p) =>
+					foundShortIds.has(p.listingShortId),
+				),
 			);
 
 			setCartLoading(false);
@@ -162,7 +186,8 @@ export const ShoppingCartProvider = (props: {
 	}, []);
 
 	useEffect(() => {
-		if (taxDebounceRef.current) clearTimeout(taxDebounceRef.current);
+		if (taxDebounceRef.current)
+			clearTimeout(taxDebounceRef.current);
 		taxDebounceRef.current = setTimeout(calculateTax, 300);
 		return () => clearTimeout(taxDebounceRef.current);
 	}, [shippingAddress]);
@@ -183,22 +208,37 @@ export const ShoppingCartProvider = (props: {
 
 		setPersistedItems((prev) => {
 			const existing = prev.find(
-				(item) => getItemKey(item.listingShortId, item.selectedOptions) === itemKey,
+				(item) =>
+					getItemKey(
+						item.listingShortId,
+						item.selectedOptions,
+					) === itemKey,
 			);
 			if (existing) {
 				return prev.map((item) =>
-					getItemKey(item.listingShortId, item.selectedOptions) === itemKey
+					getItemKey(
+						item.listingShortId,
+						item.selectedOptions,
+					) === itemKey
 						? { ...item, quantity: item.quantity + 1 }
 						: item,
 				);
 			}
 			return [
 				...prev,
-				{ listingShortId: listing.shortId, selectedOptions, quantity: 1, addedAt: Date.now() },
+				{
+					listingShortId: listing.shortId,
+					selectedOptions,
+					quantity: 1,
+					addedAt: Date.now(),
+				},
 			];
 		});
 
-		setCartListingData((prev) => ({ ...prev, [listing.shortId]: listing }));
+		setCartListingData((prev) => ({
+			...prev,
+			[listing.shortId]: listing,
+		}));
 	};
 
 	const removeFromCart = (
@@ -208,7 +248,11 @@ export const ShoppingCartProvider = (props: {
 		const itemKey = getItemKey(listingId, selectedOptions);
 		setPersistedItems((prev) =>
 			prev.filter(
-				(item) => getItemKey(item.listingShortId, item.selectedOptions) !== itemKey,
+				(item) =>
+					getItemKey(
+						item.listingShortId,
+						item.selectedOptions,
+					) !== itemKey,
 			),
 		);
 	};
@@ -225,7 +269,10 @@ export const ShoppingCartProvider = (props: {
 		const itemKey = getItemKey(listingId, selectedOptions);
 		setPersistedItems((prev) =>
 			prev.map((item) =>
-				getItemKey(item.listingShortId, item.selectedOptions) === itemKey
+				getItemKey(
+					item.listingShortId,
+					item.selectedOptions,
+				) === itemKey
 					? { ...item, quantity }
 					: item,
 			),
@@ -239,9 +286,11 @@ export const ShoppingCartProvider = (props: {
 		setShippingAddressErrors(errors);
 		setCheckoutEmailError(emailError);
 
-		if (emailError || Object.values(errors).some(Boolean)) return false;
+		if (emailError || Object.values(errors).some(Boolean))
+			return false;
 
-		const isDeliverable = await validateDeliverableAddress(shippingAddress);
+		const isDeliverable =
+			await validateDeliverableAddress(shippingAddress);
 		if (!isDeliverable) {
 			setShippingAddressUndeliverable(true);
 			return false;
@@ -276,8 +325,13 @@ export const ShoppingCartProvider = (props: {
 		}
 	};
 
-	const clearShippingAddressError = (key: keyof ShippingAddress) => {
-		setShippingAddressErrors({ ...shippingAddressErrors, [key]: null });
+	const clearShippingAddressError = (
+		key: keyof ShippingAddress,
+	) => {
+		setShippingAddressErrors({
+			...shippingAddressErrors,
+			[key]: null,
+		});
 		setShippingAddressUndeliverable(false);
 	};
 
@@ -335,7 +389,10 @@ const getItemKey = (
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort((a, b) => Number(a) - Number(b))
-		.map((variationId) => `${variationId}:${selectedOptions[Number(variationId)]}`)
+		.map(
+			(variationId) =>
+				`${variationId}:${selectedOptions[Number(variationId)]}`,
+		)
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };

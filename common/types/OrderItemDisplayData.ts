@@ -1,4 +1,4 @@
-export type OrderItemSnapshot = {
+export type OrderItemDisplayData = {
 	title: string;
 	shopName: string;
 	imageUuid: string | null;

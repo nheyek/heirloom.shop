@@ -1,6 +1,6 @@
 import { CheckoutItemData } from '@common/contract';
+import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { calculateDeliveryEstimate } from '@common/utils';
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
 
@@ -43,7 +43,7 @@ export const calculateCheckoutTotals = (
 export const createOrderItemSnapshots = (
 	items: CheckoutItemData[],
 	{ listings, variationOptions }: CheckoutCartData,
-): OrderItemSnapshot[] => {
+): OrderItemDisplayData[] => {
 	const listingByShortId = new Map(
 		listings.map((l) => [l.shortId, l]),
 	);
@@ -51,7 +51,7 @@ export const createOrderItemSnapshots = (
 		variationOptions.map((o) => [o.id, o]),
 	);
 
-	const snapshots: OrderItemSnapshot[] = [];
+	const snapshots: OrderItemDisplayData[] = [];
 
 	for (const item of items) {
 		const listing = listingByShortId.get(item.listingShortId);
@@ -82,8 +82,12 @@ export const createOrderItemSnapshots = (
 				listing.leadTimeDaysMax,
 				listing.shippingProfile
 					? {
-							shipTimeDaysMin: listing.shippingProfile.shippingDaysMin ?? 0,
-							shipTimeDaysMax: listing.shippingProfile.shippingDaysMax ?? 0,
+							shipTimeDaysMin:
+								listing.shippingProfile
+									.shippingDaysMin ?? 0,
+							shipTimeDaysMax:
+								listing.shippingProfile
+									.shippingDaysMax ?? 0,
 						}
 					: undefined,
 			),

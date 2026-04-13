@@ -1,7 +1,7 @@
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
+import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 
-const formatItem = (item: OrderItemSnapshot) => {
+const formatItem = (item: OrderItemDisplayData) => {
 	const variations =
 		item.variations.length > 0
 			? ` (${item.variations.map((v) => `${v.name}: ${v.value}`).join(', ')})`
@@ -24,7 +24,7 @@ export const orderConfirmation = (params: {
 	name?: string;
 	orderId: string;
 	accessKey: string;
-	items: OrderItemSnapshot[];
+	items: OrderItemDisplayData[];
 	subtotalCents: number;
 	shippingCents: number;
 	taxCents: number;

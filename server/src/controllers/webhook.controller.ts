@@ -1,13 +1,13 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
-import { OrderItemSnapshot } from '@common/types/OrderItemSnapshot';
+import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
-import { Request, Response } from 'express';
-import Stripe from 'stripe';
 import {
 	getOrderById,
 	updateOrderStatus,
 } from '@server/services/order.service';
+import { Request, Response } from 'express';
+import Stripe from 'stripe';
 
 export const handleStripeWebhook = async (
 	request: Request,
@@ -57,7 +57,12 @@ export const handleStripeWebhook = async (
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
 					accessKey: order.accessKey,
-					items: order.appOrderItemCollection.getItems().map((item) => item.snapshot as OrderItemSnapshot),
+					items: order.appOrderItemCollection
+						.getItems()
+						.map(
+							(item) =>
+								item.snapshot as OrderItemDisplayData,
+						),
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,
 					taxCents: order.taxTotal,
