@@ -69,10 +69,9 @@ export const OrderPage = () => {
 					px={5}
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
-					fontSize={20}
 				>
 					<Heading
-						fontSize={36}
+						fontSize={32}
 						fontFamily={FONT_DECORATIVE}
 					>
 						<Span fontWeight={400}>Order</Span>{' '}
@@ -82,6 +81,7 @@ export const OrderPage = () => {
 					<HStack
 						gap={10}
 						alignItems="start"
+						fontSize={18}
 					>
 						<Stack gap={1}>
 							<Text fontWeight={600}>Summary</Text>
@@ -123,13 +123,13 @@ export const OrderPage = () => {
 									>
 										<DataList.ItemLabel
 											minWidth={75}
-											fontSize={20}
+											fontSize={18}
 											color="black"
 										>
 											{label}
 										</DataList.ItemLabel>
 										<DataList.ItemValue
-											fontSize={20}
+											fontSize={18}
 										>
 											{value}
 										</DataList.ItemValue>
