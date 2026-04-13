@@ -38,6 +38,7 @@ export const orderRouter = s.router(ordersContract, {
 				body: {
 					shortId: order.shortId,
 					orderStatus: order.orderStatus,
+					shippingAddress: order.shippingAddress,
 					items: order.appOrderItemCollection
 						.getItems()
 						.map(

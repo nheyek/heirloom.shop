@@ -1,5 +1,6 @@
 import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { formatShippingAddress } from '@common/utils/shippingAddress';
 
 const formatItem = (item: OrderItemDisplayData) => {
 	const variations =
@@ -20,15 +21,6 @@ const formatItem = (item: OrderItemDisplayData) => {
 
 const APP_URL = process.env.APP_URL || 'https://heirloom.shop';
 
-const formatShippingAddress = (address: ShippingAddress): string => {
-	const lines = [
-		`${address.firstName} ${address.lastName}`,
-		address.line1,
-	];
-	if (address.line2) lines.push(address.line2);
-	lines.push(`${address.city}, ${address.state} ${address.zip}`);
-	return lines.join('\n');
-};
 
 export const orderConfirmation = (params: {
 	name?: string;
