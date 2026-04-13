@@ -22,8 +22,7 @@ import { MdLocalShipping } from 'react-icons/md';
 type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
-	/** Rendered inside the position:relative image container — use for action buttons */
-	actions?: ReactNode;
+	actionElements?: ReactNode;
 };
 
 export const OrderItemCard = (props: Props) => {
@@ -41,7 +40,7 @@ export const OrderItemCard = (props: Props) => {
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					urls={imageUrl ? [imageUrl] : []}
 				/>
-				{props.actions}
+				{props.actionElements}
 			</Box>
 
 			<Card.Body
@@ -73,16 +72,18 @@ export const OrderItemCard = (props: Props) => {
 
 				{props.item.variations.length > 0 && (
 					<Wrap gap={2}>
-						{props.item.variations.map(({ name, value }) => (
-							<Badge
-								size="lg"
-								key={name}
-								fontFamily={FONT_DISPLAY_SANS}
-								fontSize={18}
-							>
-								{name}: {value}
-							</Badge>
-						))}
+						{props.item.variations.map(
+							({ name, value }) => (
+								<Badge
+									size="lg"
+									key={name}
+									fontFamily={FONT_DISPLAY_SANS}
+									fontSize={18}
+								>
+									{name}: {value}
+								</Badge>
+							),
+						)}
 					</Wrap>
 				)}
 
@@ -97,7 +98,9 @@ export const OrderItemCard = (props: Props) => {
 					<HStack gap={1.5}>
 						<IoMdPricetag size={24} />
 						<Span mb="3px">
-							{formatCentsAsDollars(props.item.unitPriceCents)}
+							{formatCentsAsDollars(
+								props.item.unitPriceCents,
+							)}
 							{props.item.quantity > 1 &&
 								` (${props.item.quantity})`}
 						</Span>

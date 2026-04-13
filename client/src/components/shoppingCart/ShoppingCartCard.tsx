@@ -4,7 +4,7 @@ import {
 	IconButton,
 	Text,
 } from '@chakra-ui/react';
-import { OrderItemCard } from '@client/components/shoppingCart/OrderItemCard';
+import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
@@ -25,7 +25,7 @@ export const ShoppingCartCard = (props: Props) => {
 		<OrderItemCard
 			item={displayData}
 			cardProps={props.cardProps}
-			actions={
+			actionElements={
 				<>
 					<IconButton
 						size="sm"

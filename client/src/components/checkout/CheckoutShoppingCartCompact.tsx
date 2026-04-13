@@ -1,5 +1,5 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
-import { OrderItemCard } from '@client/components/shoppingCart/OrderItemCard';
+import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
