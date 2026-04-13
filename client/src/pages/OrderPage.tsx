@@ -5,6 +5,7 @@ import {
 	Heading,
 	HStack,
 	SimpleGrid,
+	Skeleton,
 	Span,
 	Stack,
 	Text,
@@ -61,6 +62,45 @@ export const OrderPage = () => {
 	return (
 		<Center>
 			{error && <Box>{error}</Box>}
+			{!error && isLoading && (
+				<Stack
+					maxW={1200}
+					w="100%"
+					py={10}
+					px={5}
+					gap={5}
+				>
+					<Skeleton
+						height={10}
+						width={300}
+					/>
+					<HStack
+						gap={10}
+						alignItems="start"
+					>
+						<Skeleton
+							height={100}
+							width={200}
+						/>
+						<Skeleton
+							height={100}
+							width={200}
+						/>
+					</HStack>
+					<SimpleGrid
+						gap={STANDARD_GRID_GAP}
+						columns={STANDARD_GRID_COLUMNS}
+						alignItems="start"
+					>
+						{Array.from({ length: 3 }).map((_, i) => (
+							<Skeleton
+								key={i}
+								height={300}
+							/>
+						))}
+					</SimpleGrid>
+				</Stack>
+			)}
 			{!error && orderDetails && (
 				<Stack
 					maxW={1200}
