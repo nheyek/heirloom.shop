@@ -122,9 +122,8 @@ export const OrderPage = () => {
 										lineHeight={1.25}
 									>
 										<DataList.ItemLabel
-											minWidth={75}
+											minWidth={65}
 											fontSize={18}
-											color="black"
 										>
 											{label}
 										</DataList.ItemLabel>
@@ -138,9 +137,7 @@ export const OrderPage = () => {
 							</DataList.Root>
 						</Stack>
 						<Stack gap={1}>
-							<Text fontWeight={600}>
-								Shipping Address
-							</Text>
+							<Text fontWeight={600}>Shipping to</Text>
 							<Text
 								whiteSpace="pre-wrap"
 								lineHeight={1.25}

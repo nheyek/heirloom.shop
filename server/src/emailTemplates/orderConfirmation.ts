@@ -1,4 +1,7 @@
-import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
+import {
+	OrderItemDisplayData,
+	ShippingAddress,
+} from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { formatShippingAddress } from '@common/utils/shippingAddress';
 
@@ -20,7 +23,6 @@ const formatItem = (item: OrderItemDisplayData) => {
 };
 
 const APP_URL = process.env.APP_URL || 'https://heirloom.shop';
-
 
 export const orderConfirmation = (params: {
 	name?: string;
@@ -44,8 +46,8 @@ ${params.items.map(formatItem).join('\n\n')}
 
 Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
 Shipping: ${formatCentsAsDollars(params.shippingCents)}
-Tax:      ${formatCentsAsDollars(params.taxCents)}
-Total:    ${formatCentsAsDollars(totalCents)}
+Tax: ${formatCentsAsDollars(params.taxCents)}
+Total: ${formatCentsAsDollars(totalCents)}
 
 Shipping to:
 ${formatShippingAddress(params.shippingAddress)}

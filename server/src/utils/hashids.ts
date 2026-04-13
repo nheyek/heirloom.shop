@@ -3,11 +3,7 @@ import Hashids from 'hashids';
 const SALT = 'heirloom';
 const MIN_LENGTH = 5;
 
-const hashids = new Hashids(
-	SALT,
-	MIN_LENGTH,
-	'ABCDEFGHJKMNPQR23456789',
-);
+const hashids = new Hashids(SALT, MIN_LENGTH, 'ABCDEFGHJKM23456789');
 
 export function encodeId(id: number): string {
 	return hashids.encode(id);
