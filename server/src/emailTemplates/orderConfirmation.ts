@@ -22,7 +22,10 @@ const formatItem = (item: OrderItemDisplayData) => {
 	return lines.join('\n');
 };
 
-const APP_URL = process.env.APP_URL || 'https://heirloom.shop';
+const APP_URL =
+	process.env.NODE_ENV === 'development'
+		? 'http://localhost:8080'
+		: 'https://dev.heirloom.shop';
 
 export const orderConfirmation = (params: {
 	name?: string;
