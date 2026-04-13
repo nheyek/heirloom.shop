@@ -62,149 +62,141 @@ export const OrderPage = () => {
 		loadOrderData();
 	}, [shortId, key]);
 
+	const renderSkeleton = () => (
+		<>
+			<Skeleton
+				height={10}
+				width={150}
+			/>
+			<Skeleton
+				height={100}
+				width={250}
+			/>
+			<Wrap
+				gap={STANDARD_GRID_GAP}
+				alignItems="start"
+			>
+				{Array.from({ length: 3 }).map((_, i) => (
+					<Skeleton
+						key={i}
+						width={350}
+						height={350}
+					/>
+				))}
+			</Wrap>
+		</>
+	);
+
+	const renderContent = (order: OrderResponse) => (
+		<>
+			<Heading
+				fontSize={32}
+				fontFamily={FONT_DECORATIVE}
+			>
+				<Span fontWeight={400}>Order</Span> {order.shortId}
+			</Heading>
+
+			<HStack
+				gap={10}
+				alignItems="start"
+				fontSize={18}
+			>
+				<Stack gap={1}>
+					<Text fontWeight={600}>Summary</Text>
+					<DataList.Root
+						orientation="horizontal"
+						gap={0}
+					>
+						{[
+							{
+								label: 'Subtotal',
+								value: formatCentsAsDollars(
+									order.subtotalCents,
+								),
+							},
+							{
+								label: 'Shipping',
+								value: formatCentsAsDollars(
+									order.shippingCents,
+								),
+							},
+							{
+								label: 'Tax',
+								value: formatCentsAsDollars(
+									order.taxCents,
+								),
+							},
+							{
+								label: 'Total',
+								value: formatCentsAsDollars(
+									order.subtotalCents +
+										order.shippingCents +
+										order.taxCents,
+								),
+							},
+						].map(({ label, value }) => (
+							<DataList.Item
+								key={label}
+								lineHeight={1.25}
+							>
+								<DataList.ItemLabel
+									minWidth={65}
+									fontSize={18}
+								>
+									{label}
+								</DataList.ItemLabel>
+								<DataList.ItemValue fontSize={18}>
+									{value}
+								</DataList.ItemValue>
+							</DataList.Item>
+						))}
+					</DataList.Root>
+				</Stack>
+				<Stack gap={1}>
+					<Text fontWeight={600}>Shipping to</Text>
+					<Text
+						whiteSpace="pre-wrap"
+						lineHeight={1.25}
+					>
+						{formatShippingAddress(order.shippingAddress)}
+					</Text>
+				</Stack>
+			</HStack>
+
+			<SimpleGrid
+				gap={STANDARD_GRID_GAP}
+				columns={Math.min(numColumns, order.items.length)}
+				alignItems="start"
+				width="fit-content"
+			>
+				{order.items.map((item, index) => (
+					<GridItem
+						maxW={350}
+						key={index}
+					>
+						<OrderItemCard item={item} />
+					</GridItem>
+				))}
+			</SimpleGrid>
+		</>
+	);
+
 	return (
 		<Center
 			py={{ base: 5, md: 10 }}
 			px={5}
 		>
 			{error && <Box>{error}</Box>}
-			{!error && isLoading && (
-				<Stack
-					w={{ base: '100%', md: 'fit-content' }}
-					maxW={1200}
-					gap={5}
-				>
-					<Skeleton
-						height={10}
-						width={150}
-					/>
-
-					<Skeleton
-						height={100}
-						width={250}
-					/>
-
-					<Wrap
-						gap={STANDARD_GRID_GAP}
-						alignItems="start"
-					>
-						{Array.from({ length: 3 }).map((_, i) => (
-							<Skeleton
-								key={i}
-								width={350}
-								height={350}
-							/>
-						))}
-					</Wrap>
-				</Stack>
-			)}
-			{!error && orderDetails && (
+			{!error && (isLoading || orderDetails) && (
 				<Stack
 					w={{ base: '100%', md: 'fit-content' }}
 					maxW={1200}
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
-					<Heading
-						fontSize={32}
-						fontFamily={FONT_DECORATIVE}
-					>
-						<Span fontWeight={400}>Order</Span>{' '}
-						{orderDetails.shortId}
-					</Heading>
-
-					<HStack
-						gap={10}
-						alignItems="start"
-						fontSize={18}
-					>
-						<Stack gap={1}>
-							<Text fontWeight={600}>Summary</Text>
-							<DataList.Root
-								orientation="horizontal"
-								gap={0}
-							>
-								{[
-									{
-										label: 'Subtotal',
-										value: formatCentsAsDollars(
-											orderDetails.subtotalCents,
-										),
-									},
-									{
-										label: 'Shipping',
-										value: formatCentsAsDollars(
-											orderDetails.shippingCents,
-										),
-									},
-									{
-										label: 'Tax',
-										value: formatCentsAsDollars(
-											orderDetails.taxCents,
-										),
-									},
-									{
-										label: 'Total',
-										value: formatCentsAsDollars(
-											orderDetails.subtotalCents +
-												orderDetails.shippingCents +
-												orderDetails.taxCents,
-										),
-									},
-								].map(({ label, value }) => (
-									<DataList.Item
-										key={label}
-										lineHeight={1.25}
-									>
-										<DataList.ItemLabel
-											minWidth={65}
-											fontSize={18}
-										>
-											{label}
-										</DataList.ItemLabel>
-										<DataList.ItemValue
-											fontSize={18}
-										>
-											{value}
-										</DataList.ItemValue>
-									</DataList.Item>
-								))}
-							</DataList.Root>
-						</Stack>
-						<Stack gap={1}>
-							<Text fontWeight={600}>Shipping to</Text>
-							<Text
-								whiteSpace="pre-wrap"
-								lineHeight={1.25}
-							>
-								{formatShippingAddress(
-									orderDetails.shippingAddress,
-								)}{' '}
-							</Text>
-						</Stack>
-					</HStack>
-
-					<SimpleGrid
-						gap={STANDARD_GRID_GAP}
-						columns={Math.min(
-							numColumns,
-							orderDetails.items.length,
-						)}
-						alignItems="start"
-						width="fit-content"
-					>
-						{orderDetails.items.map((item, index) => (
-							<GridItem
-								maxW={350}
-								key={index}
-							>
-								<OrderItemCard
-									key={index}
-									item={item}
-								/>
-							</GridItem>
-						))}
-					</SimpleGrid>
+					{isLoading
+						? renderSkeleton()
+						: renderContent(orderDetails!)}
 				</Stack>
 			)}
 		</Center>
