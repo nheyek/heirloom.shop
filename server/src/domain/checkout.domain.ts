@@ -1,5 +1,4 @@
-import { CheckoutItemData } from '@common/contract';
-import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
+import { CheckoutItemData, OrderItemDisplayData } from '@common/contract';
 import { calculateDeliveryEstimate } from '@common/utils';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
@@ -76,6 +75,8 @@ export const createOrderItemSnapshots = (
 			shopName: listing.shop.title,
 			imageUuid: listing.imageUuids[0] ?? null,
 			unitPriceCents,
+			shippingPriceCents:
+				listing.shippingProfile?.flatShippingRateCents ?? 0,
 			quantity: item.quantity,
 			estimatedDelivery: calculateDeliveryEstimate(
 				listing.leadTimeDaysMin,

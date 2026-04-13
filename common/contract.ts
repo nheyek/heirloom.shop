@@ -301,11 +301,12 @@ export const searchContract = c.router({
 	},
 });
 
-const OrderItemSnapshotSchema = z.object({
+export const OrderItemDisplayDataSchema = z.object({
 	title: z.string(),
 	shopName: z.string(),
 	imageUuid: z.string().nullable(),
 	unitPriceCents: z.number(),
+	shippingPriceCents: z.number(),
 	quantity: z.number(),
 	estimatedDelivery: z.string().nullable(),
 	variations: z.array(
@@ -316,7 +317,7 @@ const OrderItemSnapshotSchema = z.object({
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
 	orderStatus: z.enum(OrderStatus),
-	items: z.array(OrderItemSnapshotSchema),
+	items: z.array(OrderItemDisplayDataSchema),
 	subtotalCents: z.number(),
 	shippingCents: z.number(),
 	taxCents: z.number(),
@@ -397,6 +398,7 @@ export type TaxCalculationResponse = z.infer<
 export type ShopCardData = z.infer<typeof ShopCardDataSchema>;
 export type UserInfo = z.infer<typeof UserInfoSchema>;
 export type SearchResult = z.infer<typeof SearchResultSchema>;
+export type OrderItemDisplayData = z.infer<typeof OrderItemDisplayDataSchema>;
 export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema

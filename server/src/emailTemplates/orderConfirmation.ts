@@ -1,4 +1,4 @@
-import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
+import { OrderItemDisplayData } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 
 const formatItem = (item: OrderItemDisplayData) => {

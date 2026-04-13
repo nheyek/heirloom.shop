@@ -1,8 +1,9 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
-import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
+import { OrderItemCard } from '@client/components/shoppingCart/OrderItemCard';
+import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
-import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
+import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
 
 export const CheckoutShoppingCartCompact = () => {
 	const shoppingCart = useShoppingCart();
@@ -42,10 +43,9 @@ export const CheckoutShoppingCartCompact = () => {
 					p={5}
 				>
 					{shoppingCart.items.map((item, index) => (
-						<ShoppingCartCard
+						<OrderItemCard
 							key={index}
-							item={item}
-							hideButtons
+							item={getOrderItemDisplayData(item)}
 							cardProps={{ minW: 250, maxW: 300 }}
 						/>
 					))}

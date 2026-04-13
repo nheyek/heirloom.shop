@@ -1,0 +1,136 @@
+import {
+	Badge,
+	Box,
+	Card,
+	CardRootProps,
+	Flex,
+	Heading,
+	HStack,
+	Span,
+	Stack,
+	Wrap,
+} from '@chakra-ui/react';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { FONT_DISPLAY_SANS } from '@client/theme';
+import { OrderItemDisplayData } from '@common/contract';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { ReactNode } from 'react';
+import { IoMdPricetag } from 'react-icons/io';
+import { MdLocalShipping } from 'react-icons/md';
+
+type Props = {
+	item: OrderItemDisplayData;
+	cardProps?: CardRootProps;
+	/** Rendered inside the position:relative image container — use for action buttons */
+	actions?: ReactNode;
+};
+
+export const OrderItemCard = (props: Props) => {
+	const imageUrl = props.item.imageUuid
+		? `${process.env.LISTING_IMAGES_URL}/${props.item.imageUuid}.jpg`
+		: undefined;
+
+	return (
+		<Card.Root
+			variant="elevated"
+			{...props.cardProps}
+		>
+			<Box position="relative">
+				<MultiImage
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					urls={imageUrl ? [imageUrl] : []}
+				/>
+				{props.actions}
+			</Box>
+
+			<Card.Body
+				p={3}
+				gap={2}
+				justifyContent="space-between"
+			>
+				<Stack gap={0}>
+					<Heading
+						size="2xl"
+						fontWeight="semibold"
+						truncate
+						display="block"
+					>
+						{props.item.title}
+					</Heading>
+
+					{props.item.shopName && (
+						<Heading
+							truncate
+							fontWeight="medium"
+							lineHeight={1.2}
+							display="block"
+						>
+							{props.item.shopName}
+						</Heading>
+					)}
+				</Stack>
+
+				{props.item.variations.length > 0 && (
+					<Wrap gap={2}>
+						{props.item.variations.map(({ name, value }) => (
+							<Badge
+								size="lg"
+								key={name}
+								fontFamily={FONT_DISPLAY_SANS}
+								fontSize={18}
+							>
+								{name}: {value}
+							</Badge>
+						))}
+					</Wrap>
+				)}
+
+				<Flex
+					alignItems="center"
+					justifyContent="space-between"
+					lineHeight={1}
+					fontSize={22}
+					fontWeight={500}
+					fontFamily={FONT_DISPLAY_SANS}
+				>
+					<HStack gap={1.5}>
+						<IoMdPricetag size={24} />
+						<Span mb="3px">
+							{formatCentsAsDollars(props.item.unitPriceCents)}
+							{props.item.quantity > 1 &&
+								` (${props.item.quantity})`}
+						</Span>
+					</HStack>
+
+					<HStack gap={2}>
+						<MdLocalShipping size={24} />
+						{props.item.shippingPriceCents ? (
+							<Span mb="3px">
+								{formatCentsAsDollars(
+									props.item.shippingPriceCents,
+								)}
+							</Span>
+						) : (
+							<Span fontSize={20}>Free</Span>
+						)}
+					</HStack>
+				</Flex>
+
+				{props.item.estimatedDelivery && (
+					<HStack
+						fontSize={18}
+						gap={1}
+						lineHeight={1}
+						fontFamily={FONT_DISPLAY_SANS}
+					>
+						<Span>Estimated delivery</Span>
+						<Span fontWeight={500}>
+							{props.item.estimatedDelivery}
+						</Span>
+					</HStack>
+				)}
+			</Card.Body>
+		</Card.Root>
+	);
+};

@@ -1,6 +1,5 @@
-import { ShippingAddress } from '@common/contract';
+import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
 import { OrderStatus } from '@common/enums/OrderStatus';
-import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';

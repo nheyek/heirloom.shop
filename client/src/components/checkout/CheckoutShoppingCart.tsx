@@ -5,7 +5,8 @@ import {
 	Skeleton,
 } from '@chakra-ui/react';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
-import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
+import { OrderItemCard } from '@client/components/shoppingCart/OrderItemCard';
+import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FaShoppingCart } from 'react-icons/fa';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
@@ -70,14 +71,15 @@ export const CheckoutShoppingCart = () => {
 						))
 					: shoppingCart.items.map((item, index) => (
 							<Carousel.Item
-								key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
+								key={`${item.listingData.shortId}-${JSON.stringify(item.selectedOptions)}`}
 								index={index}
 								p={5}
 							>
-								<ShoppingCartCard
-									item={item}
+								<OrderItemCard
+									item={getOrderItemDisplayData(
+										item,
+									)}
 									cardProps={{ minW: 250 }}
-									hideButtons
 								/>
 							</Carousel.Item>
 						))}

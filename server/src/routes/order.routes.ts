@@ -1,5 +1,4 @@
-import { ordersContract } from '@common/contract';
-import { OrderItemDisplayData } from '@common/types/OrderItemDisplayData';
+import { ordersContract, OrderItemDisplayData } from '@common/contract';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import {
