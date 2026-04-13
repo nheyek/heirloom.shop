@@ -1,4 +1,5 @@
 import {
+	Box,
 	HStack,
 	SimpleGrid,
 	Skeleton,
@@ -8,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { Fragment, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type SkeletonDimensions = {
 	width: number;
@@ -60,9 +61,12 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					</>
 				)}
 				{items.map((item, index) => (
-					<Fragment key={getItemKey(item, index)}>
+					<Box
+						minWidth={300}
+						key={getItemKey(item, index)}
+					>
 						{renderItem(item, true)}
-					</Fragment>
+					</Box>
 				))}
 			</HStack>
 		);
@@ -85,9 +89,9 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					),
 				)}
 			{items.map((item, index) => (
-				<Fragment key={getItemKey(item, index)}>
+				<Box key={getItemKey(item, index)}>
 					{renderItem(item, false)}
-				</Fragment>
+				</Box>
 			))}
 		</SimpleGrid>
 	);

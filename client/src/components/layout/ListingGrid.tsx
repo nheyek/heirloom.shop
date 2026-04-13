@@ -15,7 +15,6 @@ export const ListingGrid = (props: Props) => (
 		renderItem={(listing, isMobile) => (
 			<ListingCard
 				{...listing}
-				minWidth={isMobile ? 300 : undefined}
 				multiImage={!isMobile}
 			/>
 		)}

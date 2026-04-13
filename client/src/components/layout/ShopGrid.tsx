@@ -14,11 +14,6 @@ export const ShopGrid = (props: Props) => (
 		isLoading={props.isLoading}
 		getItemKey={(shop) => shop.id}
 		numPlaceholders={props.numPlaceholders}
-		renderItem={(shop, isMobile) => (
-			<ShopCard
-				{...shop}
-				minWidth={isMobile ? 300 : undefined}
-			/>
-		)}
+		renderItem={(shop, _) => <ShopCard {...shop} />}
 	/>
 );
