@@ -82,6 +82,7 @@ export const OrderPage = () => {
 						<SimpleGrid
 							gap={STANDARD_GRID_GAP}
 							columns={STANDARD_GRID_COLUMNS}
+							alignItems="start"
 						>
 							{orderDetails.items.map((item, index) => (
 								<OrderItemCard
