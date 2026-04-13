@@ -54,46 +54,38 @@ export const OrderPage = () => {
 	}, [shortId, key]);
 
 	return (
-		<Box
-			position="absolute"
-			top={0}
-			bottom={0}
-			left={0}
-			right={0}
-		>
-			<Center>
-				{error && <Box>{error}</Box>}
-				{!error && orderDetails && (
-					<Stack
-						maxW={1000}
-						w="100%"
-						px={5}
-						py={8}
-						gap={5}
+		<Center>
+			{error && <Box>{error}</Box>}
+			{!error && orderDetails && (
+				<Stack
+					maxW={1200}
+					w="100%"
+					px={5}
+					py={8}
+					gap={5}
+				>
+					<Heading
+						fontSize={32}
+						fontFamily={FONT_DECORATIVE}
 					>
-						<Heading
-							fontSize={32}
-							fontFamily={FONT_DECORATIVE}
-						>
-							<Span fontWeight={400}>Order</Span>{' '}
-							{orderDetails.shortId}
-						</Heading>
+						<Span fontWeight={400}>Order</Span>{' '}
+						{orderDetails.shortId}
+					</Heading>
 
-						<SimpleGrid
-							gap={STANDARD_GRID_GAP}
-							columns={STANDARD_GRID_COLUMNS}
-							alignItems="start"
-						>
-							{orderDetails.items.map((item, index) => (
-								<OrderItemCard
-									key={index}
-									item={item}
-								/>
-							))}
-						</SimpleGrid>
-					</Stack>
-				)}
-			</Center>
-		</Box>
+					<SimpleGrid
+						gap={STANDARD_GRID_GAP}
+						columns={STANDARD_GRID_COLUMNS}
+						alignItems="start"
+					>
+						{orderDetails.items.map((item, index) => (
+							<OrderItemCard
+								key={index}
+								item={item}
+							/>
+						))}
+					</SimpleGrid>
+				</Stack>
+			)}
+		</Center>
 	);
 };

@@ -1,4 +1,4 @@
-import { OrderItemDisplayData } from '@common/contract';
+import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 
 const formatItem = (item: OrderItemDisplayData) => {
@@ -20,10 +20,21 @@ const formatItem = (item: OrderItemDisplayData) => {
 
 const APP_URL = process.env.APP_URL || 'https://heirloom.shop';
 
+const formatShippingAddress = (address: ShippingAddress): string => {
+	const lines = [
+		`${address.firstName} ${address.lastName}`,
+		address.line1,
+	];
+	if (address.line2) lines.push(address.line2);
+	lines.push(`${address.city}, ${address.state} ${address.zip}`);
+	return lines.join('\n');
+};
+
 export const orderConfirmation = (params: {
 	name?: string;
 	orderId: string;
 	accessKey: string;
+	shippingAddress: ShippingAddress;
 	items: OrderItemDisplayData[];
 	subtotalCents: number;
 	shippingCents: number;
@@ -43,6 +54,9 @@ Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
 Shipping: ${formatCentsAsDollars(params.shippingCents)}
 Tax:      ${formatCentsAsDollars(params.taxCents)}
 Total:    ${formatCentsAsDollars(totalCents)}
+
+Shipping to:
+${formatShippingAddress(params.shippingAddress)}
 
 View your order here: ${orderUrl}
 

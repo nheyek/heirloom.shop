@@ -57,6 +57,7 @@ export const handleStripeWebhook = async (
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
 					accessKey: order.accessKey,
+					shippingAddress: order.shippingAddress,
 					items: order.appOrderItemCollection
 						.getItems()
 						.map(
