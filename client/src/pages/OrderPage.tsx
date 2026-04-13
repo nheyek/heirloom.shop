@@ -1,5 +1,18 @@
-import { Box, Center } from '@chakra-ui/react';
+import {
+	Box,
+	Center,
+	Heading,
+	SimpleGrid,
+	Span,
+	Stack,
+} from '@chakra-ui/react';
+import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import {
+	STANDARD_GRID_COLUMNS,
+	STANDARD_GRID_GAP,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
@@ -48,7 +61,38 @@ export const OrderPage = () => {
 			left={0}
 			right={0}
 		>
-			<Center height="100%"></Center>
+			<Center>
+				{error && <Box>{error}</Box>}
+				{!error && orderDetails && (
+					<Stack
+						maxW={1000}
+						w="100%"
+						px={5}
+						py={8}
+						gap={5}
+					>
+						<Heading
+							fontSize={32}
+							fontFamily={FONT_DECORATIVE}
+						>
+							<Span fontWeight={400}>Order</Span>{' '}
+							{orderDetails.shortId}
+						</Heading>
+
+						<SimpleGrid
+							gap={STANDARD_GRID_GAP}
+							columns={STANDARD_GRID_COLUMNS}
+						>
+							{orderDetails.items.map((item, index) => (
+								<OrderItemCard
+									key={index}
+									item={item}
+								/>
+							))}
+						</SimpleGrid>
+					</Stack>
+				)}
+			</Center>
 		</Box>
 	);
 };
