@@ -6,8 +6,9 @@ import { IntroCarousel } from '@client/components/branding/IntroCarousel';
 import { Logo } from '@client/components/branding/Logo';
 import { AppError } from '@client/components/feedback/AppError';
 import { CategoryGrid } from '@client/components/layout/CategoryGrid';
+import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { ListingGrid } from '@client/components/layout/ListingGrid';
-import { ShopGrid } from '@client/components/layout/ShopGrid';
+import { ShopCard } from '@client/components/itemDisplay/ShopCard';
 import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -119,9 +120,11 @@ export const LandingPage = () => {
 				>
 					<Heading fontSize={36}>Makers</Heading>
 
-					<ShopGrid
-						shops={shops}
+					<ItemGrid
+						items={shops}
 						isLoading={isLoading}
+						getItemKey={(shop) => shop.id}
+						renderItem={(shop) => <ShopCard {...shop} />}
 					/>
 				</Stack>
 			)}

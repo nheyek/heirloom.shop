@@ -11,11 +11,6 @@ import {
 } from '@client/constants';
 import { ReactNode } from 'react';
 
-type SkeletonDimensions = {
-	width: number;
-	height: number;
-};
-
 type Props<T> = {
 	items: T[];
 	renderItem: (item: T, isMobile: boolean) => ReactNode;

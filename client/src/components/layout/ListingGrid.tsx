@@ -13,10 +13,7 @@ export const ListingGrid = (props: Props) => (
 		isLoading={props.isLoading}
 		getItemKey={(listing) => listing.id}
 		renderItem={(listing, isMobile) => (
-			<ListingCard
-				{...listing}
-				multiImage={!isMobile}
-			/>
+			<ListingCard {...listing} multiImage={!isMobile} />
 		)}
 	/>
 );
