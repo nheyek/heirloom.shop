@@ -1,10 +1,13 @@
 import {
 	Box,
 	Center,
+	DataList,
 	Heading,
+	HStack,
 	SimpleGrid,
 	Span,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import {
@@ -12,9 +15,11 @@ import {
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DECORATIVE } from '@client/theme';
+import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
+import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { formatShippingAddress } from '@common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
@@ -60,17 +65,92 @@ export const OrderPage = () => {
 				<Stack
 					maxW={1200}
 					w="100%"
+					py={10}
 					px={5}
-					py={8}
 					gap={5}
+					fontFamily={FONT_DISPLAY_SANS}
+					fontSize={20}
 				>
 					<Heading
-						fontSize={32}
+						fontSize={36}
 						fontFamily={FONT_DECORATIVE}
 					>
 						<Span fontWeight={400}>Order</Span>{' '}
 						{orderDetails.shortId}
 					</Heading>
+
+					<HStack
+						gap={10}
+						alignItems="start"
+					>
+						<Stack gap={1}>
+							<Text fontWeight={600}>Summary</Text>
+							<DataList.Root
+								orientation="horizontal"
+								gap={0}
+							>
+								{[
+									{
+										label: 'Subtotal',
+										value: formatCentsAsDollars(
+											orderDetails.subtotalCents,
+										),
+									},
+									{
+										label: 'Shipping',
+										value: formatCentsAsDollars(
+											orderDetails.shippingCents,
+										),
+									},
+									{
+										label: 'Tax',
+										value: formatCentsAsDollars(
+											orderDetails.taxCents,
+										),
+									},
+									{
+										label: 'Total',
+										value: formatCentsAsDollars(
+											orderDetails.subtotalCents +
+												orderDetails.shippingCents +
+												orderDetails.taxCents,
+										),
+									},
+								].map(({ label, value }) => (
+									<DataList.Item
+										key={label}
+										lineHeight={1.25}
+									>
+										<DataList.ItemLabel
+											minWidth={75}
+											fontSize={20}
+											color="black"
+										>
+											{label}
+										</DataList.ItemLabel>
+										<DataList.ItemValue
+											fontSize={20}
+										>
+											{value}
+										</DataList.ItemValue>
+									</DataList.Item>
+								))}
+							</DataList.Root>
+						</Stack>
+						<Stack gap={1}>
+							<Text fontWeight={600}>
+								Shipping Address
+							</Text>
+							<Text
+								whiteSpace="pre-wrap"
+								lineHeight={1.25}
+							>
+								{formatShippingAddress(
+									orderDetails.shippingAddress,
+								)}{' '}
+							</Text>
+						</Stack>
+					</HStack>
 
 					<SimpleGrid
 						gap={STANDARD_GRID_GAP}
