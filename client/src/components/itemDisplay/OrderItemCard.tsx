@@ -33,6 +33,7 @@ export const OrderItemCard = (props: Props) => {
 	return (
 		<Card.Root
 			variant="elevated"
+			maxWidth={400}
 			{...props.cardProps}
 		>
 			<Box position="relative">

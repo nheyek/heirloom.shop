@@ -7,10 +7,8 @@ import {
 	Link,
 	Stack,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/contract';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { FaRegShareFromSquare } from 'react-icons/fa6';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -18,8 +16,10 @@ import {
 import { useShareListing } from '@client/hooks/useShareListing';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
-import { MultiImage } from '@client/components/imageDisplay/MultiImage';
-import { PriceTag } from '@client/components/textDisplay/PriceTag';
+import { ListingCardData } from '@common/contract';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
+import { FaRegShareFromSquare } from 'react-icons/fa6';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 type Props = ListingCardData & {
 	minWidth?: number;
@@ -41,6 +41,7 @@ export const ListingCard = (props: Props) => {
 		<Card.Root
 			variant="elevated"
 			minWidth={props.minWidth}
+			maxWidth={400}
 		>
 			<MultiImage
 				onImageClick={() => {

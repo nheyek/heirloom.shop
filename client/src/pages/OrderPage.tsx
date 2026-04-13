@@ -2,18 +2,16 @@ import {
 	Box,
 	Center,
 	DataList,
-	GridItem,
 	Heading,
 	HStack,
-	SimpleGrid,
 	Skeleton,
 	Span,
 	Stack,
 	Text,
-	useBreakpointValue,
 	Wrap,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
@@ -30,9 +28,6 @@ export const OrderPage = () => {
 
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
-
-	const numColumns =
-		useBreakpointValue({ base: 1, md: 2, lg: 3, xl: 4 }) ?? 1;
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [orderDetails, setOrderDetails] =
@@ -163,21 +158,13 @@ export const OrderPage = () => {
 				</Stack>
 			</HStack>
 
-			<SimpleGrid
-				gap={STANDARD_GRID_GAP}
-				columns={Math.min(numColumns, order.items.length)}
-				alignItems="start"
-				width="fit-content"
-			>
-				{order.items.map((item, index) => (
-					<GridItem
-						maxW={350}
-						key={index}
-					>
-						<OrderItemCard item={item} />
-					</GridItem>
-				))}
-			</SimpleGrid>
+			<ItemGrid
+				items={order.items}
+				isLoading={false}
+				getItemKey={(_, index) => index}
+				columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
+				renderItem={(item) => <OrderItemCard item={item} />}
+			/>
 		</>
 	);
 
