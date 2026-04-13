@@ -36,13 +36,19 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	} = props;
 
 	const maxNumColumns = useBreakpointValue(columns) ?? 1;
-	const numColumns = isLoading || items.length === 0
+	const numColumns = isLoading
 		? maxNumColumns
 		: Math.min(maxNumColumns, items.length);
-	const placeholderCount = numPlaceholders ?? numColumns * 2;
+	const numSkeletons = numPlaceholders ?? numColumns * 2;
 
-	const animatedItem = (child: ReactNode, index: number, minWidth?: number) => (
+	const animatedItem = (
+		child: ReactNode,
+		key: React.Key,
+		index: number,
+		minWidth?: number,
+	) => (
 		<MotionBox
+			key={key}
 			minWidth={minWidth}
 			initial={{ opacity: 0, y: -16, rotateZ: -1 }}
 			animate={{ opacity: 1, y: 0, rotateZ: 0 }}
@@ -68,12 +74,23 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			>
 				{isLoading && (
 					<>
-						<Skeleton width={300} height={300} />
-						<Skeleton width={300} height={300} />
+						<Skeleton
+							width={300}
+							height={300}
+						/>
+						<Skeleton
+							width={300}
+							height={300}
+						/>
 					</>
 				)}
 				{items.map((item, index) =>
-					animatedItem(renderItem(item, true), index, 300),
+					animatedItem(
+						renderItem(item, true),
+						getItemKey(item, index),
+						index,
+						300,
+					),
 				)}
 			</HStack>
 		);
@@ -87,11 +104,19 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			width="fit-content"
 		>
 			{isLoading &&
-				Array.from({ length: placeholderCount }).map((_, i) => (
-					<Skeleton key={i} width={300} height={300} />
+				Array.from({ length: numSkeletons }).map((_, i) => (
+					<Skeleton
+						key={i}
+						width={300}
+						height={300}
+					/>
 				))}
 			{items.map((item, index) =>
-				animatedItem(renderItem(item, false), index),
+				animatedItem(
+					renderItem(item, false),
+					getItemKey(item, index),
+					index,
+				),
 			)}
 		</SimpleGrid>
 	);
