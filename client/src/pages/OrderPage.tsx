@@ -2,6 +2,7 @@ import {
 	Box,
 	Center,
 	DataList,
+	GridItem,
 	Heading,
 	HStack,
 	SimpleGrid,
@@ -9,12 +10,11 @@ import {
 	Span,
 	Stack,
 	Text,
+	useBreakpointValue,
+	Wrap,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
-import {
-	STANDARD_GRID_COLUMNS,
-	STANDARD_GRID_GAP,
-} from '@client/constants';
+import { STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -30,6 +30,9 @@ export const OrderPage = () => {
 
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
+
+	const numColumns =
+		useBreakpointValue({ base: 1, md: 2, lg: 3, xl: 4 }) ?? 1;
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [orderDetails, setOrderDetails] =
@@ -60,53 +63,45 @@ export const OrderPage = () => {
 	}, [shortId, key]);
 
 	return (
-		<Center>
+		<Center
+			py={{ base: 5, md: 10 }}
+			px={5}
+		>
 			{error && <Box>{error}</Box>}
 			{!error && isLoading && (
 				<Stack
+					w={{ base: '100%', md: 'fit-content' }}
 					maxW={1200}
-					w="100%"
-					py={10}
-					px={5}
 					gap={5}
 				>
 					<Skeleton
 						height={10}
-						width={300}
+						width={150}
 					/>
-					<HStack
-						gap={10}
-						alignItems="start"
-					>
-						<Skeleton
-							height={100}
-							width={200}
-						/>
-						<Skeleton
-							height={100}
-							width={200}
-						/>
-					</HStack>
-					<SimpleGrid
+
+					<Skeleton
+						height={100}
+						width={250}
+					/>
+
+					<Wrap
 						gap={STANDARD_GRID_GAP}
-						columns={STANDARD_GRID_COLUMNS}
 						alignItems="start"
 					>
 						{Array.from({ length: 3 }).map((_, i) => (
 							<Skeleton
 								key={i}
-								height={300}
+								width={350}
+								height={350}
 							/>
 						))}
-					</SimpleGrid>
+					</Wrap>
 				</Stack>
 			)}
 			{!error && orderDetails && (
 				<Stack
+					w={{ base: '100%', md: 'fit-content' }}
 					maxW={1200}
-					w="100%"
-					py={10}
-					px={5}
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
@@ -191,14 +186,23 @@ export const OrderPage = () => {
 
 					<SimpleGrid
 						gap={STANDARD_GRID_GAP}
-						columns={STANDARD_GRID_COLUMNS}
+						columns={Math.min(
+							numColumns,
+							orderDetails.items.length,
+						)}
 						alignItems="start"
+						width="fit-content"
 					>
 						{orderDetails.items.map((item, index) => (
-							<OrderItemCard
+							<GridItem
+								maxW={350}
 								key={index}
-								item={item}
-							/>
+							>
+								<OrderItemCard
+									key={index}
+									item={item}
+								/>
+							</GridItem>
 						))}
 					</SimpleGrid>
 				</Stack>
