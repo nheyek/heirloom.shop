@@ -47,6 +47,7 @@ export const orderRouter = s.router(ordersContract, {
 					status: 200 as const,
 					body: {
 						shortId: order.shortId,
+						createdAt: order.createdAt?.toISOString() ?? null,
 						orderStatus: order.orderStatus,
 						shippingAddress: order.shippingAddress,
 						items: order.appOrderItemCollection

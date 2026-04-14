@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Center, Heading, Stack } from '@chakra-ui/react';
+import { OrderSummaryCard } from '@client/components/itemDisplay/OrderSummaryItem';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
@@ -56,12 +57,18 @@ export const OrdersPage = () => {
 				fontFamily={FONT_DISPLAY_SANS}
 			>
 				<Heading
-					fontSize={32}
+					fontSize={36}
 					fontFamily={FONT_DECORATIVE}
 					fontWeight={500}
 				>
-					My Orders
+					Your Orders
 				</Heading>
+				{orders.map((order) => (
+					<OrderSummaryCard
+						key={order.shortId}
+						order={order}
+					/>
+				))}
 			</Stack>
 		</Center>
 	);

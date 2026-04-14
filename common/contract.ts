@@ -316,6 +316,7 @@ export const OrderItemDisplayDataSchema = z.object({
 
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
+	createdAt: z.string().nullable(),
 	orderStatus: z.enum(OrderStatus),
 	shippingAddress: ShippingAddressSchema,
 	items: z.array(OrderItemDisplayDataSchema),
