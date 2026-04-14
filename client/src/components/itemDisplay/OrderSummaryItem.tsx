@@ -31,8 +31,11 @@ const OFFSET_X = 4;
 const OFFSET_Y = 6;
 const ROTATIONS = [0, 2, -1.5, 1, -2];
 
+const MAX_STACK_CARDS = 3;
+
 const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
-	const n = items.length;
+	const visibleItems = items.slice(0, MAX_STACK_CARDS);
+	const n = visibleItems.length;
 	return (
 		<Box
 			position="relative"
@@ -44,7 +47,7 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 				CARD_HEIGHT + (n - 1) * OFFSET_Y * CHAKRA_SPACING_UNIT
 			}
 		>
-			{items.map((item, index) => (
+			{visibleItems.map((item, index) => (
 				<Box
 					key={index}
 					position="absolute"
