@@ -317,7 +317,7 @@ export const OrderItemDisplayDataSchema = z.object({
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
 	createdAt: z.string().nullable(),
-	orderStatus: z.enum(OrderStatus),
+	orderStatus: z.nativeEnum(OrderStatus),
 	shippingAddress: ShippingAddressSchema,
 	items: z.array(OrderItemDisplayDataSchema),
 	subtotalCents: z.number(),
@@ -331,7 +331,7 @@ export const ordersContract = c.router({
 		path: '/api/orders/:shortId/status',
 		pathParams: z.object({ shortId: z.string() }),
 		responses: {
-			200: z.object({ orderStatus: z.enum(OrderStatus) }),
+			200: z.object({ orderStatus: z.nativeEnum(OrderStatus) }),
 			404: ErrorSchema,
 		},
 	},

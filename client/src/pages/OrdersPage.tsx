@@ -6,7 +6,7 @@ import {
 	Stack,
 	Wrap,
 } from '@chakra-ui/react';
-import { OrderSummaryItem } from '@client/components/itemDisplay/OrderSummaryItem';
+import { OrderPreviewItem } from '@client/components/itemDisplay/OrderPreviewItem';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS } from '@client/theme';
@@ -90,7 +90,7 @@ export const OrdersPage = () => {
 								/>
 							))
 						: orders.map((order) => (
-								<OrderSummaryItem
+								<OrderPreviewItem
 									key={order.shortId}
 									order={order}
 								/>

@@ -25,7 +25,7 @@ import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 
-const CARD_WIDTH = 200;
+const CARD_WIDTH = 150;
 const CARD_HEIGHT = CARD_WIDTH / STANDARD_IMAGE_ASPECT_RATIO;
 const OFFSET_X = 4;
 const OFFSET_Y = 6;
@@ -59,7 +59,10 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 						transformOrigin: 'center center',
 					}}
 				>
-					<OrderItemPreviewCard item={item} />
+					<OrderItemPreviewCard
+						item={item}
+						width={CARD_WIDTH}
+					/>
 				</Box>
 			))}
 		</Box>
@@ -70,7 +73,7 @@ type Props = {
 	order: OrderResponse;
 };
 
-export const OrderSummaryItem = ({ order }: Props) => {
+export const OrderPreviewItem = ({ order }: Props) => {
 	const total =
 		order.subtotalCents + order.shippingCents + order.taxCents;
 	const formattedDate = order.createdAt
@@ -88,7 +91,9 @@ export const OrderSummaryItem = ({ order }: Props) => {
 		>
 			<Stack gap={3}>
 				<Link asChild>
-					<RouterLink to={`/${CLIENT_ROUTES.order}/${order.shortId}`}>
+					<RouterLink
+						to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+					>
 						<Heading
 							fontSize={28}
 							fontFamily={FONT_DECORATIVE}

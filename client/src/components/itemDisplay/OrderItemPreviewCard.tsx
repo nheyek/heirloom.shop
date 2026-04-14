@@ -5,17 +5,18 @@ import { OrderItemDisplayData } from '@common/contract';
 
 type Props = {
 	item: OrderItemDisplayData;
+	width: number;
 };
 
-export const OrderItemPreviewCard = ({ item }: Props) => {
-	const imageUrl = item.imageUuid
-		? `${process.env.LISTING_IMAGES_URL}/${item.imageUuid}.jpg`
+export const OrderItemPreviewCard = (props: Props) => {
+	const imageUrl = props.item.imageUuid
+		? `${process.env.LISTING_IMAGES_URL}/${props.item.imageUuid}.jpg`
 		: undefined;
 
 	return (
 		<Card.Root
 			variant="elevated"
-			width={200}
+			width={props.width}
 			flexShrink={0}
 		>
 			<Box>
