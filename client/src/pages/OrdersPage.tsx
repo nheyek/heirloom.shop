@@ -6,7 +6,7 @@ import {
 	Stack,
 	Wrap,
 } from '@chakra-ui/react';
-import { OrderItemPreviewImages } from '@client/components/itemDisplay/OrderItemPreviewImages';
+import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS } from '@client/theme';
@@ -79,7 +79,7 @@ export const OrdersPage = () => {
 				)}
 				<Wrap
 					gapY={8}
-					gapX={12}
+					gapX={16}
 				>
 					{loading
 						? Array.from({ length: 3 }).map((_, i) => (
@@ -90,7 +90,7 @@ export const OrdersPage = () => {
 								/>
 							))
 						: orders.map((order) => (
-								<OrderItemPreviewImages
+								<OrderItemPreview
 									key={order.shortId}
 									order={order}
 								/>
