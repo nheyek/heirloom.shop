@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { IoReceipt } from 'react-icons/io5';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -47,6 +48,13 @@ export const NavbarMenu = () => {
 							gapY={2}
 							animation="none"
 						>
+							<Link to={`/${CLIENT_ROUTES.orders}`}>
+								<MenuItem value="orders">
+									<IoReceipt />
+									<Text pl={1}>Orders</Text>
+								</MenuItem>
+							</Link>
+
 							<Link to={`/${CLIENT_ROUTES.favorites}`}>
 								<MenuItem value="saved">
 									<FaHeart />
