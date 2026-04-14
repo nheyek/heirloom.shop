@@ -14,7 +14,7 @@ import { ReactNode } from 'react';
 
 const MotionBox = motion.create(Box);
 
-const STAGGER_INTERVAL = 0.06;
+const STAGGER_INTERVAL = 0;
 
 type Props<T> = {
 	items: T[];
@@ -45,17 +45,16 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		child: ReactNode,
 		key: React.Key,
 		index: number,
-		minWidth?: number,
 	) => (
 		<MotionBox
 			key={key}
-			minWidth={minWidth}
-			initial={{ opacity: 0, y: -16, rotateZ: -1 }}
-			animate={{ opacity: 1, y: 0, rotateZ: 0 }}
+			minWidth={300}
+			maxWidth={400}
+			initial={{ opacity: 0, y: -10, scale: 0.95 }}
+			animate={{ opacity: 1, y: 0, scale: 1 }}
 			transition={{
-				type: 'spring',
-				stiffness: 300,
-				damping: 24,
+				duration: 0.25,
+				ease: 'easeOut',
 				delay: index * STAGGER_INTERVAL,
 			}}
 		>
@@ -89,7 +88,6 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 						renderItem(item, true),
 						getItemKey(item, index),
 						index,
-						300,
 					),
 				)}
 			</HStack>
@@ -101,23 +99,26 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			gap={STANDARD_GRID_GAP}
 			columns={numColumns}
 			alignItems="start"
-			width="fit-content"
+			width={isLoading ? '100%' : 'fit-content'}
 		>
 			{isLoading &&
 				Array.from({ length: numSkeletons }).map((_, i) => (
 					<Skeleton
 						key={i}
-						width={300}
+						width="100%"
+						minWidth={300}
+						maxWidth={400}
 						height={300}
 					/>
 				))}
-			{items.map((item, index) =>
-				animatedItem(
-					renderItem(item, false),
-					getItemKey(item, index),
-					index,
-				),
-			)}
+			{!isLoading &&
+				items.map((item, index) =>
+					animatedItem(
+						renderItem(item, false),
+						getItemKey(item, index),
+						index,
+					),
+				)}
 		</SimpleGrid>
 	);
 };

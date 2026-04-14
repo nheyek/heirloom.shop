@@ -22,7 +22,6 @@ import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 type Props = ListingCardData & {
-	minWidth?: number;
 	multiImage?: boolean;
 };
 
@@ -38,11 +37,7 @@ export const ListingCard = (props: Props) => {
 		`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
 
 	return (
-		<Card.Root
-			variant="elevated"
-			minWidth={props.minWidth}
-			maxWidth={400}
-		>
+		<Card.Root variant="elevated">
 			<MultiImage
 				onImageClick={() => {
 					navigate(listingUrl);
