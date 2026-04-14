@@ -7,7 +7,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { OrderItemPreviewCard } from '@client/components/itemDisplay/OrderItemPreviewCard';
+import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -59,7 +59,7 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 						transformOrigin: 'center center',
 					}}
 				>
-					<OrderItemPreviewCard
+					<OrderItemPreview
 						item={item}
 						width={CARD_WIDTH}
 					/>
@@ -73,7 +73,7 @@ type Props = {
 	order: OrderResponse;
 };
 
-export const OrderPreviewItem = ({ order }: Props) => {
+export const OrderItemPreviewImages = ({ order }: Props) => {
 	const total =
 		order.subtotalCents + order.shippingCents + order.taxCents;
 	const formattedDate = order.createdAt

@@ -8,7 +8,7 @@ type Props = {
 	width: number;
 };
 
-export const OrderItemPreviewCard = (props: Props) => {
+export const OrderItemPreview = (props: Props) => {
 	const imageUrl = props.item.imageUuid
 		? `${process.env.LISTING_IMAGES_URL}/${props.item.imageUuid}.jpg`
 		: undefined;
