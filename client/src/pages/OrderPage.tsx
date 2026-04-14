@@ -177,7 +177,7 @@ export const OrderPage = () => {
 				items={order.items}
 				isLoading={false}
 				getItemKey={(_, index) => index}
-				columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
+				columns={{ base: 1, md: 2, xl: 3 }}
 				maxItemWidth={300}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>

@@ -2,9 +2,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Center,
 	Heading,
+	SimpleGrid,
 	Skeleton,
 	Stack,
-	Wrap,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -13,6 +14,8 @@ import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
+
+const ITEM_MAX_W = 400;
 
 export const OrdersPage = () => {
 	const {
@@ -53,6 +56,10 @@ export const OrdersPage = () => {
 
 	const loading = isLoading || authIsLoading;
 
+	const maxColumns = useBreakpointValue({ base: 1, lg: 2, xl: 3 }) ?? 1;
+	const itemCount = loading ? 3 : orders.length;
+	const effectiveCols = Math.min(itemCount, maxColumns);
+
 	return (
 		<Center
 			py={{ base: 5, md: 10 }}
@@ -76,15 +83,17 @@ export const OrdersPage = () => {
 						Your Orders
 					</Heading>
 				)}
-				<Wrap
-					gapY={8}
-					gapX={16}
+				<SimpleGrid
+					columns={effectiveCols}
+					rowGap={8}
+					columnGap={16}
+					width="fit-content"
 				>
 					{loading
 						? Array.from({ length: 3 }).map((_, i) => (
 								<Skeleton
 									key={i}
-									width={400}
+									width={ITEM_MAX_W}
 									height={200}
 								/>
 							))
@@ -94,7 +103,7 @@ export const OrdersPage = () => {
 									order={order}
 								/>
 							))}
-				</Wrap>
+				</SimpleGrid>
 			</Stack>
 		</Center>
 	);
