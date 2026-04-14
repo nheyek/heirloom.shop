@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 
 export const COLOR_BRAND = '#121212';
+export const CHAKRA_SPACING_UNIT = 4;
 export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
@@ -111,6 +112,9 @@ export const config = defineConfig({
 	theme: {
 		breakpoints,
 		tokens: {
+			spacing: {
+				1: { value: `${CHAKRA_SPACING_UNIT}px` },
+			},
 			fonts: {
 				body: { value: FONT_DEFAULT },
 				heading: {

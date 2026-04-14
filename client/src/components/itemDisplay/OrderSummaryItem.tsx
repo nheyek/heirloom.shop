@@ -8,8 +8,15 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { OrderItemPreviewCard } from '@client/components/itemDisplay/OrderItemPreviewCard';
-import { CLIENT_ROUTES } from '@client/constants';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import {
+	CLIENT_ROUTES,
+	STANDARD_IMAGE_ASPECT_RATIO,
+} from '@client/constants';
+import {
+	CHAKRA_SPACING_UNIT,
+	FONT_DECORATIVE,
+	FONT_DISPLAY_SANS,
+} from '@client/theme';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
@@ -19,7 +26,7 @@ import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 
 const CARD_WIDTH = 200;
-const CARD_HEIGHT = 180;
+const CARD_HEIGHT = CARD_WIDTH / STANDARD_IMAGE_ASPECT_RATIO;
 const OFFSET_X = 4;
 const OFFSET_Y = 6;
 const ROTATIONS = [0, 2, -1.5, 1, -2];
@@ -30,8 +37,12 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 		<Box
 			position="relative"
 			flexShrink={0}
-			width={CARD_WIDTH + (n - 1) * OFFSET_X}
-			height={CARD_HEIGHT + (n - 1) * OFFSET_Y}
+			width={
+				CARD_WIDTH + (n - 1) * OFFSET_X * CHAKRA_SPACING_UNIT
+			}
+			height={
+				CARD_HEIGHT + (n - 1) * OFFSET_Y * CHAKRA_SPACING_UNIT
+			}
 		>
 			{items.map((item, index) => (
 				<Box

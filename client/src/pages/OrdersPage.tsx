@@ -57,7 +57,10 @@ export const OrdersPage = () => {
 				fontFamily={FONT_DISPLAY_SANS}
 			>
 				<Heading fontSize={36}>Your Orders</Heading>
-				<Wrap gap={5}>
+				<Wrap
+					gapX={16}
+					gapY={8}
+				>
 					{orders.map((order) => (
 						<OrderSummaryItem
 							key={order.shortId}
