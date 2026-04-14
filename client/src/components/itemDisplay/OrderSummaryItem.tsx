@@ -87,15 +87,17 @@ export const OrderSummaryItem = ({ order }: Props) => {
 			gap={10}
 		>
 			<Stack gap={3}>
-				<Link>
-					<Heading
-						fontSize={28}
-						fontFamily={FONT_DECORATIVE}
-						fontWeight={600}
-						lineHeight={1}
-					>
-						{order.shortId}
-					</Heading>
+				<Link asChild>
+					<RouterLink to={`/${CLIENT_ROUTES.order}/${order.shortId}`}>
+						<Heading
+							fontSize={28}
+							fontFamily={FONT_DECORATIVE}
+							fontWeight={600}
+							lineHeight={1}
+						>
+							{order.shortId}
+						</Heading>
+					</RouterLink>
 				</Link>
 				<Stack
 					gap={1.5}

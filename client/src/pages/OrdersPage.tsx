@@ -56,7 +56,12 @@ export const OrdersPage = () => {
 				gap={8}
 				fontFamily={FONT_DISPLAY_SANS}
 			>
-				<Heading fontSize={36}>Your Orders</Heading>
+				<Heading
+					fontSize={36}
+					fontWeight={400}
+				>
+					Your Orders
+				</Heading>
 				<Wrap
 					gapX={16}
 					gapY={8}

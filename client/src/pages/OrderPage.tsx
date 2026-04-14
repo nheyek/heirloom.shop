@@ -1,9 +1,11 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
 	Center,
 	DataList,
 	Heading,
 	HStack,
+	Link,
 	Skeleton,
 	Span,
 	Stack,
@@ -11,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { ItemGrid } from '@client/components/layout/ItemGrid';
+import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -18,11 +21,12 @@ import { OrderResponse } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { formatShippingAddress } from '@common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { Link as RouterLink, useParams, useSearchParams } from 'react-router-dom';
 
 export const OrderPage = () => {
 	const apiClient = useApiClient();
 	const { shortId } = useParams<{ shortId: string }>();
+	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
@@ -78,7 +82,19 @@ export const OrderPage = () => {
 				fontSize={32}
 				fontFamily={FONT_DECORATIVE}
 			>
-				<Span fontWeight={400}>Order</Span> {order.shortId}
+				{isAuthenticated ? (
+					<>
+						<Link asChild fontWeight={400}>
+							<RouterLink to={`/${CLIENT_ROUTES.orders}`}>
+								Orders
+							</RouterLink>
+						</Link>
+						{' / '}
+					</>
+				) : (
+					<Span fontWeight={400}>Order </Span>
+				)}
+				{order.shortId}
 			</Heading>
 
 			<HStack
@@ -171,7 +187,7 @@ export const OrderPage = () => {
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
-					{isLoading
+					{isLoading || authIsLoading
 						? renderSkeleton()
 						: renderContent(orderDetails!)}
 				</Stack>
