@@ -15,6 +15,7 @@ import { ListingPage } from './pages/ListingPage';
 import { ShopManager } from './pages/ShopManager';
 import { ShopPage } from './pages/ShopPage';
 import { OrderPage } from './pages/OrderPage';
+import { OrdersPage } from './pages/OrdersPage';
 import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
 
@@ -85,6 +86,10 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.order}/:shortId`}
 							element={<OrderPage />}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.orders}`}
+							element={<OrdersPage />}
 						/>
 
 						<Route
