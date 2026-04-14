@@ -1,6 +1,5 @@
 import {
 	Box,
-	Button,
 	Card,
 	Heading,
 	HStack,
@@ -13,17 +12,13 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import {
-	CHAKRA_SPACING_UNIT,
-	FONT_DECORATIVE,
-	FONT_DISPLAY_SANS,
-} from '@client/theme';
+import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
 } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
-import { IoReceipt } from 'react-icons/io5';
+import { FaAngleRight } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
 const CARD_WIDTH = 150;
@@ -41,12 +36,8 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 		<Box
 			position="relative"
 			flexShrink={0}
-			width={
-				CARD_WIDTH + (n - 1) * OFFSET_X * CHAKRA_SPACING_UNIT
-			}
-			height={
-				CARD_HEIGHT + (n - 1) * OFFSET_Y * CHAKRA_SPACING_UNIT
-			}
+			width={CARD_WIDTH}
+			height={CARD_HEIGHT}
 		>
 			{visibleItems.map((item, index) => (
 				<Box
@@ -65,20 +56,16 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 						width={CARD_WIDTH}
 						flexShrink={0}
 					>
-						<Box>
-							<MultiImage
-								aspectRatio={
-									STANDARD_IMAGE_ASPECT_RATIO
-								}
-								urls={
-									item.imageUuid
-										? [
-												`${process.env.LISTING_IMAGES_URL}/${item.imageUuid}.jpg`,
-											]
-										: []
-								}
-							/>
-						</Box>
+						<MultiImage
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							urls={
+								item.imageUuid
+									? [
+											`${process.env.LISTING_IMAGES_URL}/${item.imageUuid}.jpg`,
+										]
+									: []
+							}
+						/>
 					</Card.Root>
 				</Box>
 			))}
@@ -103,42 +90,41 @@ export const OrderItemPreview = ({ order }: Props) => {
 
 	return (
 		<HStack
-			alignItems="start"
+			alignItems="center"
+			gap={8}
 			justifyContent="space-between"
-			width={{ base: '100%', md: 400 }}
 		>
+			<CardStack items={order.items} />
+
 			<Stack gap={3}>
-				<Link asChild>
-					<RouterLink
-						to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
-					>
-						<Heading
-							fontSize={28}
-							fontFamily={FONT_DECORATIVE}
-							fontWeight={600}
-							lineHeight={1}
+				<HStack gap={3}>
+					<Link asChild>
+						<RouterLink
+							to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
 						>
-							{order.shortId}
-						</Heading>
-					</RouterLink>
-				</Link>
+							<Heading
+								fontSize={28}
+								fontFamily={FONT_DECORATIVE}
+								fontWeight={600}
+								lineHeight={1}
+							>
+								{order.shortId}
+							</Heading>
+						</RouterLink>
+					</Link>
+				</HStack>
+
 				<Stack
 					gap={1.5}
 					fontFamily={FONT_DISPLAY_SANS}
 					lineHeight={1}
+					fontSize={20}
 				>
-					{formattedDate && (
-						<Text fontSize={20}>{formattedDate}</Text>
-					)}
-					<Text
-						fontSize={20}
-						fontWeight={500}
-					>
-						{formatCentsAsDollars(total)}
-					</Text>
+					{formattedDate && <Text>{formattedDate}</Text>}
+					<Text>{formatCentsAsDollars(total)}</Text>
 				</Stack>
 
-				<RouterLink
+				{/* <RouterLink
 					to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
 				>
 					<Button
@@ -149,9 +135,9 @@ export const OrderItemPreview = ({ order }: Props) => {
 						<IoReceipt />
 						View details
 					</Button>
-				</RouterLink>
+				</RouterLink> */}
 			</Stack>
-			<CardStack items={order.items} />
+			<FaAngleRight size={24} />
 		</HStack>
 	);
 };

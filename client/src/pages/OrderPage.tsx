@@ -1,7 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
-	Center,
 	DataList,
 	Heading,
 	HStack,
@@ -83,7 +82,7 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<Heading
-				fontSize={36}
+				fontSize={40}
 				fontFamily={FONT_DECORATIVE}
 			>
 				{isAuthenticated ? (
@@ -185,8 +184,8 @@ export const OrderPage = () => {
 	);
 
 	return (
-		<Center
-			py={{ base: 5, md: 10 }}
+		<Box
+			py={10}
 			px={5}
 		>
 			{error && <Box>{error}</Box>}
@@ -202,6 +201,6 @@ export const OrderPage = () => {
 						: renderContent(orderDetails!)}
 				</Stack>
 			)}
-		</Center>
+		</Box>
 	);
 };

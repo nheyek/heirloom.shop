@@ -1,6 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-	Center,
 	Heading,
 	SimpleGrid,
 	Skeleton,
@@ -61,50 +60,47 @@ export const OrdersPage = () => {
 	const effectiveCols = Math.min(itemCount, maxColumns);
 
 	return (
-		<Center
+		<Stack
 			py={10}
 			px={5}
+			w={{ base: '100%', md: 'fit-content' }}
+			maxW={1200}
+			gap={8}
+			fontFamily={FONT_DISPLAY_SANS}
 		>
-			<Stack
-				w={{ base: '100%', md: 'fit-content' }}
-				maxW={1200}
-				gap={8}
-				fontFamily={FONT_DISPLAY_SANS}
-			>
-				{loading ? (
-					<Skeleton
-						height={10}
-						width={200}
-					/>
-				) : (
-					<Heading
-						fontSize={44}
-						fontWeight={400}
-					>
-						Your Orders
-					</Heading>
-				)}
-				<SimpleGrid
-					columns={effectiveCols}
-					rowGap={8}
-					columnGap={16}
+			{loading ? (
+				<Skeleton
+					height={10}
+					width={200}
+				/>
+			) : (
+				<Heading
+					fontSize={40}
+					fontWeight={400}
 				>
-					{loading
-						? Array.from({ length: 3 }).map((_, i) => (
-								<Skeleton
-									key={i}
-									width={ITEM_MAX_W}
-									height={200}
-								/>
-							))
-						: orders.map((order) => (
-								<OrderItemPreview
-									key={order.shortId}
-									order={order}
-								/>
-							))}
-				</SimpleGrid>
-			</Stack>
-		</Center>
+					Your Orders
+				</Heading>
+			)}
+			<SimpleGrid
+				columns={effectiveCols}
+				rowGap={8}
+				columnGap={16}
+			>
+				{loading
+					? Array.from({ length: 3 }).map((_, i) => (
+							<Skeleton
+								key={i}
+								width={ITEM_MAX_W}
+								height={200}
+							/>
+						))
+					: orders.map((order) => (
+							<OrderItemPreview
+								key={order.shortId}
+								order={order}
+							/>
+						))}
+			</SimpleGrid>
+		</Stack>
 	);
 };

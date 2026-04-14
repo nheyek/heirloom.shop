@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
+import { AccountLayout } from './components/layout/AccountLayout';
 import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
@@ -12,10 +13,10 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
-import { ShopManager } from './pages/ShopManager';
-import { ShopPage } from './pages/ShopPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
+import { ShopManager } from './pages/ShopManager';
+import { ShopPage } from './pages/ShopPage';
 import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
 
@@ -59,10 +60,20 @@ const App = () => {
 							path={`/${CLIENT_ROUTES.shopManager}`}
 							element={<ShopManager />}
 						/>
-						<Route
-							path={`/${CLIENT_ROUTES.favorites}`}
-							element={<FavoritesPage />}
-						/>
+						<Route element={<AccountLayout />}>
+							<Route
+								path={`/${CLIENT_ROUTES.favorites}`}
+								element={<FavoritesPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.orders}`}
+								element={<OrdersPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.order}/:shortId`}
+								element={<OrderPage />}
+							/>
+						</Route>
 						<Route
 							path={`/${CLIENT_ROUTES.category}/:id`}
 							element={<CategoryPage />}
@@ -82,14 +93,6 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.orderConfirmed}`}
 							element={<OrderSuccess />}
-						/>
-						<Route
-							path={`/${CLIENT_ROUTES.order}/:shortId`}
-							element={<OrderPage />}
-						/>
-						<Route
-							path={`/${CLIENT_ROUTES.orders}`}
-							element={<OrdersPage />}
 						/>
 
 						<Route
