@@ -49,7 +49,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		<MotionBox
 			key={key}
 			minWidth={300}
-			maxWidth={400}
+			maxWidth={350}
 			initial={{ y: -10, scale: 0.95 }}
 			animate={{ y: 0, scale: 1 }}
 			transition={{

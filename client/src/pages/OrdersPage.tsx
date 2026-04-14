@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Center, Heading, Stack, Wrap } from '@chakra-ui/react';
+import { Center, Heading, Skeleton, Stack, Wrap } from '@chakra-ui/react';
 import { OrderSummaryItem } from '@client/components/itemDisplay/OrderSummaryItem';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -45,6 +45,8 @@ export const OrdersPage = () => {
 		}
 	}, [authIsLoading]);
 
+	const loading = isLoading || authIsLoading;
+
 	return (
 		<Center
 			py={{ base: 5, md: 10 }}
@@ -56,22 +58,24 @@ export const OrdersPage = () => {
 				gap={8}
 				fontFamily={FONT_DISPLAY_SANS}
 			>
-				<Heading
-					fontSize={36}
-					fontWeight={400}
-				>
-					Your Orders
-				</Heading>
-				<Wrap
-					gapX={16}
-					gapY={8}
-				>
-					{orders.map((order) => (
-						<OrderSummaryItem
-							key={order.shortId}
-							order={order}
-						/>
-					))}
+				{loading ? (
+					<Skeleton height={10} width={200} />
+				) : (
+					<Heading fontSize={36} fontWeight={400}>
+						Your Orders
+					</Heading>
+				)}
+				<Wrap gapX={10} gapY={5}>
+					{loading
+						? Array.from({ length: 3 }).map((_, i) => (
+								<Skeleton key={i} width={400} height={200} />
+							))
+						: orders.map((order) => (
+								<OrderSummaryItem
+									key={order.shortId}
+									order={order}
+								/>
+							))}
 				</Wrap>
 			</Stack>
 		</Center>
