@@ -8,11 +8,9 @@ import {
 	Span,
 	Stack,
 	Text,
-	Wrap,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { ItemGrid } from '@client/components/layout/ItemGrid';
-import { STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -67,18 +65,10 @@ export const OrderPage = () => {
 				height={100}
 				width={250}
 			/>
-			<Wrap
-				gap={STANDARD_GRID_GAP}
-				alignItems="start"
-			>
-				{Array.from({ length: 3 }).map((_, i) => (
-					<Skeleton
-						key={i}
-						width={350}
-						height={350}
-					/>
-				))}
-			</Wrap>
+			<Skeleton
+				width={350}
+				height={350}
+			/>
 		</>
 	);
 
