@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Center, Heading, Stack } from '@chakra-ui/react';
-import { OrderSummaryCard } from '@client/components/itemDisplay/OrderSummaryItem';
+import { OrderSummaryItem } from '@client/components/itemDisplay/OrderSummaryItem';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
@@ -53,7 +53,7 @@ export const OrdersPage = () => {
 			<Stack
 				w={{ base: '100%', md: 'fit-content' }}
 				maxW={1200}
-				gap={5}
+				gap={10}
 				fontFamily={FONT_DISPLAY_SANS}
 			>
 				<Heading
@@ -64,7 +64,7 @@ export const OrdersPage = () => {
 					Your Orders
 				</Heading>
 				{orders.map((order) => (
-					<OrderSummaryCard
+					<OrderSummaryItem
 						key={order.shortId}
 						order={order}
 					/>

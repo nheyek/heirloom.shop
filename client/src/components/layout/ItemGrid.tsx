@@ -50,8 +50,8 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			key={key}
 			minWidth={300}
 			maxWidth={400}
-			initial={{ opacity: 0, y: -10, scale: 0.95 }}
-			animate={{ opacity: 1, y: 0, scale: 1 }}
+			initial={{ y: -10, scale: 0.95 }}
+			animate={{ y: 0, scale: 1 }}
 			transition={{
 				duration: 0.25,
 				ease: 'easeOut',
