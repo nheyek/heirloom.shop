@@ -76,7 +76,7 @@ export const getOrderByShortId = async (
 	return em.findOneOrFail(
 		AppOrder,
 		{ shortId },
-		{ populate: ['appOrderItemCollection'] },
+		{ populate: ['appOrderItemCollection', 'user'] },
 	);
 };
 
@@ -86,6 +86,20 @@ export const getOrderById = async (id: number): Promise<AppOrder> => {
 		AppOrder,
 		{ id },
 		{ populate: ['appOrderItemCollection'] },
+	);
+};
+
+export const getOrdersForUser = async (
+	userId: number,
+): Promise<AppOrder[]> => {
+	const em = getEm();
+	return em.find(
+		AppOrder,
+		{ user: { id: userId } },
+		{
+			populate: ['appOrderItemCollection'],
+			orderBy: { createdAt: 'DESC' },
+		},
 	);
 };
 

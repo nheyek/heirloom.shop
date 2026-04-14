@@ -366,6 +366,14 @@ export const meContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	getOrders: {
+		method: 'GET',
+		path: '/api/me/orders',
+		responses: {
+			200: z.array(OrderResponseSchema),
+			401: ErrorSchema,
+		},
+	},
 });
 
 export const appContract = c.router({
