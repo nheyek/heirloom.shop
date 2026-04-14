@@ -1,11 +1,13 @@
 import {
 	Box,
+	Button,
 	Card,
 	Heading,
 	HStack,
 	Link,
 	Stack,
 	Text,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import {
@@ -19,6 +21,7 @@ import {
 } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { FaAngleRight } from 'react-icons/fa6';
+import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 
 const CARD_WIDTH = 150;
@@ -78,6 +81,8 @@ type Props = {
 };
 
 export const OrderItemPreview = ({ order }: Props) => {
+	const isDesktop = useBreakpointValue({ base: false, md: true });
+
 	const total =
 		order.subtotalCents + order.shippingCents + order.taxCents;
 	const formattedDate = order.createdAt
@@ -88,6 +93,61 @@ export const OrderItemPreview = ({ order }: Props) => {
 			})
 		: null;
 
+	if (isDesktop) {
+		return (
+			<HStack
+				alignItems="center"
+				gap={8}
+				justifyContent="space-between"
+			>
+				<CardStack items={order.items} />
+
+				<HStack
+					align="start"
+					gap={8}
+				>
+					<Stack gap={3}>
+						<Link asChild>
+							<RouterLink
+								to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+							>
+								<Heading
+									fontSize={28}
+									fontFamily={FONT_DECORATIVE}
+									fontWeight={600}
+									lineHeight={1}
+								>
+									#{order.shortId}
+								</Heading>
+							</RouterLink>
+						</Link>
+						<RouterLink
+							to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+						>
+							<Button
+								variant="outline"
+								size="sm"
+								fontSize={18}
+							>
+								<IoReceipt />
+								View details
+							</Button>
+						</RouterLink>
+					</Stack>
+					<Stack
+						gap={1.5}
+						fontFamily={FONT_DISPLAY_SANS}
+						lineHeight={1}
+						fontSize={20}
+					>
+						{formattedDate && <Text>{formattedDate}</Text>}
+						<Text>{formatCentsAsDollars(total)}</Text>
+					</Stack>
+				</HStack>
+			</HStack>
+		);
+	}
+
 	return (
 		<HStack
 			alignItems="center"
@@ -97,23 +157,20 @@ export const OrderItemPreview = ({ order }: Props) => {
 			<CardStack items={order.items} />
 
 			<Stack gap={3}>
-				<HStack gap={3}>
-					<Link asChild>
-						<RouterLink
-							to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+				<Link asChild>
+					<RouterLink
+						to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+					>
+						<Heading
+							fontSize={28}
+							fontFamily={FONT_DECORATIVE}
+							fontWeight={600}
+							lineHeight={1}
 						>
-							<Heading
-								fontSize={28}
-								fontFamily={FONT_DECORATIVE}
-								fontWeight={600}
-								lineHeight={1}
-							>
-								{order.shortId}
-							</Heading>
-						</RouterLink>
-					</Link>
-				</HStack>
-
+							{order.shortId}
+						</Heading>
+					</RouterLink>
+				</Link>
 				<Stack
 					gap={1.5}
 					fontFamily={FONT_DISPLAY_SANS}
@@ -123,19 +180,6 @@ export const OrderItemPreview = ({ order }: Props) => {
 					{formattedDate && <Text>{formattedDate}</Text>}
 					<Text>{formatCentsAsDollars(total)}</Text>
 				</Stack>
-
-				{/* <RouterLink
-					to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
-				>
-					<Button
-						height={30}
-						fontSize={16}
-						padding={4}
-					>
-						<IoReceipt />
-						View details
-					</Button>
-				</RouterLink> */}
 			</Stack>
 			<FaAngleRight size={24} />
 		</HStack>

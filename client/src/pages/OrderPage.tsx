@@ -84,6 +84,7 @@ export const OrderPage = () => {
 			<Heading
 				fontSize={40}
 				fontFamily={FONT_DECORATIVE}
+				fontWeight={500}
 			>
 				{isAuthenticated ? (
 					<>
