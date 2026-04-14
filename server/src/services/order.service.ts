@@ -3,6 +3,7 @@ import { OrderStatus } from '@common/enums/OrderStatus';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
+import { AppUser } from '@server/entities/generated/AppUser';
 import { encodeId } from '@server/utils/hashids';
 import { randomBytes } from 'crypto';
 
@@ -13,6 +14,7 @@ export const createOrder = async (
 	shippingCents: number,
 	taxTotalCents: number,
 	email: string,
+	user?: AppUser,
 ): Promise<AppOrder> => {
 	const em = getEm();
 
@@ -31,6 +33,7 @@ export const createOrder = async (
 		taxTotal: taxTotalCents,
 		orderStatus: OrderStatus.PENDING,
 		email,
+		...(user && { user }),
 	});
 	await em.persistAndFlush(order);
 

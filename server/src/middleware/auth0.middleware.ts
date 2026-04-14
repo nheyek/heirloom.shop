@@ -33,3 +33,29 @@ export const authAndSetUser = (
 		next();
 	});
 };
+
+export const optionalAuthAndSetUser = (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	if (process.env.NODE_ENV === 'testing') {
+		if (req.headers.authorization) {
+			req.userClaims = { email: TEST_USER_EMAIL };
+		}
+		return next();
+	}
+
+	if (!req.headers.authorization) {
+		return next();
+	}
+
+	authenticate!(req, res, (err) => {
+		if (err) return next(err);
+
+		if (req.auth?.payload) {
+			req.userClaims = req.auth.payload;
+		}
+		next();
+	});
+};

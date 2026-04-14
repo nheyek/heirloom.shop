@@ -27,7 +27,7 @@ CREATE TABLE public.app_order (
     shipping_address jsonb NOT NULL,
     subtotal integer NOT NULL,
     tax_total integer NOT NULL,
-    order_status character varying(32) DEFAULT 'PENDING'::character varying NOT NULL,
+    order_status character varying(32) NOT NULL,
     payment_intent_id character varying(64),
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
@@ -35,6 +35,7 @@ CREATE TABLE public.app_order (
     short_id character varying(10) NOT NULL,
     email character varying(255) NOT NULL,
     access_key character varying(64) NOT NULL,
+    user_id integer,
     CONSTRAINT app_order_short_id_nonempty CHECK (((short_id)::text <> ''::text))
 );
 
@@ -805,6 +806,14 @@ ALTER TABLE ONLY public.app_order_item
 
 
 --
+-- Name: app_order app_order_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order
+    ADD CONSTRAINT app_order_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id);
+
+
+--
 -- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -988,4 +997,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260410000000'),
     ('20260410000001'),
     ('20260410000002'),
-    ('20260412000000');
+    ('20260412000000'),
+    ('20260412000001'),
+    ('20260414000000');

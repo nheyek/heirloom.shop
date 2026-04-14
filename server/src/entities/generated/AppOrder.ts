@@ -1,6 +1,6 @@
-import { Collection, Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/core';
 import { AppOrderItem } from './AppOrderItem';
-import { OrderStatus } from '@common/enums/OrderStatus';
+import { AppUser } from './AppUser';
 
 @Entity()
 export class AppOrder {
@@ -17,8 +17,8 @@ export class AppOrder {
   @Property()
   taxTotal!: number;
 
-  @Property({ type: 'string', length: 32 })
-  orderStatus!: OrderStatus;
+  @Property({ length: 32 })
+  orderStatus!: string;
 
   @Property({ length: 64, nullable: true })
   paymentIntentId?: string;
@@ -40,6 +40,9 @@ export class AppOrder {
 
   @Property({ length: 64 })
   accessKey!: string;
+
+  @ManyToOne({ entity: () => AppUser, nullable: true })
+  user?: AppUser;
 
   @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
   appOrderItemCollection = new Collection<AppOrderItem>(this);
