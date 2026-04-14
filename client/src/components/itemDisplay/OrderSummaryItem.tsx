@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	Heading,
 	HStack,
@@ -9,10 +10,47 @@ import {
 import { OrderItemPreviewCard } from '@client/components/itemDisplay/OrderItemPreviewCard';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
-import { OrderResponse } from '@common/contract';
+import {
+	OrderItemDisplayData,
+	OrderResponse,
+} from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
+
+const CARD_WIDTH = 200;
+const CARD_HEIGHT = 180;
+const OFFSET_X = 4;
+const OFFSET_Y = 6;
+const ROTATIONS = [0, 2, -1.5, 1, -2];
+
+const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
+	const n = items.length;
+	return (
+		<Box
+			position="relative"
+			flexShrink={0}
+			width={CARD_WIDTH + (n - 1) * OFFSET_X}
+			height={CARD_HEIGHT + (n - 1) * OFFSET_Y}
+		>
+			{items.map((item, index) => (
+				<Box
+					key={index}
+					position="absolute"
+					top={index * OFFSET_Y}
+					left={index * OFFSET_X}
+					zIndex={n - index}
+					style={{
+						transform: `rotate(${ROTATIONS[index % ROTATIONS.length]}deg)`,
+						transformOrigin: 'center center',
+					}}
+				>
+					<OrderItemPreviewCard item={item} />
+				</Box>
+			))}
+		</Box>
+	);
+};
 
 type Props = {
 	order: OrderResponse;
@@ -31,16 +69,15 @@ export const OrderSummaryItem = ({ order }: Props) => {
 
 	return (
 		<HStack
-			justifyContent="space-between"
 			alignItems="start"
-			gap={8}
+			gap={10}
 		>
 			<Stack gap={3}>
 				<Link>
 					<Heading
 						fontSize={28}
 						fontFamily={FONT_DECORATIVE}
-						fontWeight={500}
+						fontWeight={600}
 						lineHeight={1}
 					>
 						{order.shortId}
@@ -75,14 +112,7 @@ export const OrderSummaryItem = ({ order }: Props) => {
 					</Button>
 				</RouterLink>
 			</Stack>
-			<HStack gap={3}>
-				{order.items.map((item, index) => (
-					<OrderItemPreviewCard
-						key={index}
-						item={item}
-					/>
-				))}
-			</HStack>
+			<CardStack items={order.items} />
 		</HStack>
 	);
 };

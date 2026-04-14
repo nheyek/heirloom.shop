@@ -1,9 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Center, Heading, Stack } from '@chakra-ui/react';
+import { Center, Heading, Stack, Wrap } from '@chakra-ui/react';
 import { OrderSummaryItem } from '@client/components/itemDisplay/OrderSummaryItem';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
@@ -51,24 +51,20 @@ export const OrdersPage = () => {
 			px={5}
 		>
 			<Stack
-				w={{ base: '100%', md: 'fit-content' }}
+				w="100%"
 				maxW={1200}
-				gap={10}
+				gap={8}
 				fontFamily={FONT_DISPLAY_SANS}
 			>
-				<Heading
-					fontSize={36}
-					fontFamily={FONT_DECORATIVE}
-					fontWeight={500}
-				>
-					Your Orders
-				</Heading>
-				{orders.map((order) => (
-					<OrderSummaryItem
-						key={order.shortId}
-						order={order}
-					/>
-				))}
+				<Heading fontSize={36}>Your Orders</Heading>
+				<Wrap gap={5}>
+					{orders.map((order) => (
+						<OrderSummaryItem
+							key={order.shortId}
+							order={order}
+						/>
+					))}
+				</Wrap>
 			</Stack>
 		</Center>
 	);
