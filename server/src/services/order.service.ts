@@ -1,7 +1,7 @@
 import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { getEm } from '@server/db';
-import { AppOrder } from '@server/entities/generated/AppOrder';
+import { AppOrder } from '@server/entities/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { AppUser } from '@server/entities/generated/AppUser';
 import { encodeId } from '@server/utils/hashids';

@@ -26,11 +26,9 @@ const config = defineConfig({
 				},
 			},
 	entities: [
-		'dist/server/src/entities/*.js',
 		'dist/server/src/entities/generated/*.js',
 	],
 	entitiesTs: [
-		path.join(__dirname, 'entities/*.ts'),
 		path.join(__dirname, 'entities/generated/*.ts'),
 	],
 	metadataProvider: TsMorphMetadataProvider,

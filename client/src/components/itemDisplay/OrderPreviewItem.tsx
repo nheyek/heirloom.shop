@@ -87,7 +87,9 @@ export const OrderPreviewItem = ({ order }: Props) => {
 	return (
 		<HStack
 			alignItems="start"
-			gap={10}
+			justifyContent="space-between"
+			width="100%"
+			maxW={400}
 		>
 			<Stack gap={3}>
 				<Link asChild>
