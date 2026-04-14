@@ -56,16 +56,17 @@ export const OrdersPage = () => {
 
 	const loading = isLoading || authIsLoading;
 
-	const maxColumns = useBreakpointValue({ base: 1, lg: 2, xl: 3 }) ?? 1;
+	const maxColumns = useBreakpointValue({ base: 1, lg: 2 }) ?? 1;
 	const itemCount = loading ? 3 : orders.length;
 	const effectiveCols = Math.min(itemCount, maxColumns);
 
 	return (
 		<Center
-			py={{ base: 5, md: 10 }}
+			py={10}
 			px={5}
 		>
 			<Stack
+				w={{ base: '100%', md: 'fit-content' }}
 				maxW={1200}
 				gap={8}
 				fontFamily={FONT_DISPLAY_SANS}
@@ -87,7 +88,6 @@ export const OrdersPage = () => {
 					columns={effectiveCols}
 					rowGap={8}
 					columnGap={16}
-					width="fit-content"
 				>
 					{loading
 						? Array.from({ length: 3 }).map((_, i) => (

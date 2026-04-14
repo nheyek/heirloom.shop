@@ -83,7 +83,7 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<Heading
-				fontSize={40}
+				fontSize={36}
 				fontFamily={FONT_DECORATIVE}
 			>
 				{isAuthenticated ? (
@@ -177,7 +177,7 @@ export const OrderPage = () => {
 				items={order.items}
 				isLoading={false}
 				getItemKey={(_, index) => index}
-				columns={{ base: 1, md: 2, xl: 3 }}
+				columns={{ base: 1, sm: 2, lg: 3 }}
 				maxItemWidth={300}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
