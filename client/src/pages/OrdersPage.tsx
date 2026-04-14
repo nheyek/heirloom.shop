@@ -59,7 +59,6 @@ export const OrdersPage = () => {
 			px={5}
 		>
 			<Stack
-				w="100%"
 				maxW={1200}
 				gap={8}
 				fontFamily={FONT_DISPLAY_SANS}
@@ -71,7 +70,7 @@ export const OrdersPage = () => {
 					/>
 				) : (
 					<Heading
-						fontSize={36}
+						fontSize={44}
 						fontWeight={400}
 					>
 						Your Orders

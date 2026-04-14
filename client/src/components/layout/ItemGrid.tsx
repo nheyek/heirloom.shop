@@ -23,6 +23,7 @@ type Props<T> = {
 	isLoading: boolean;
 	numPlaceholders?: number;
 	columns?: Record<string, number>;
+	maxItemWidth?: number;
 };
 
 export const ItemGrid = <T,>(props: Props<T>) => {
@@ -41,6 +42,9 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		: Math.min(maxNumColumns, items.length);
 	const numSkeletons = numPlaceholders ?? numColumns * 2;
 
+	const minItemWidth = 300;
+	const maxItemWidth = props.maxItemWidth ?? 400;
+
 	const animatedItem = (
 		child: ReactNode,
 		key: React.Key,
@@ -48,8 +52,8 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	) => (
 		<MotionBox
 			key={key}
-			minWidth={300}
-			maxWidth={350}
+			minWidth={minItemWidth}
+			maxWidth={maxItemWidth}
 			initial={{ y: -10, scale: 0.95 }}
 			animate={{ y: 0, scale: 1 }}
 			transition={{
@@ -74,12 +78,12 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 				{isLoading && (
 					<>
 						<Skeleton
-							width={300}
-							height={300}
+							width={minItemWidth}
+							height={minItemWidth}
 						/>
 						<Skeleton
-							width={300}
-							height={300}
+							width={minItemWidth}
+							height={minItemWidth}
 						/>
 					</>
 				)}
@@ -106,9 +110,9 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					<Skeleton
 						key={i}
 						width="100%"
-						minWidth={300}
-						maxWidth={400}
-						height={300}
+						minWidth={minItemWidth}
+						maxWidth={maxItemWidth}
+						aspectRatio={1}
 					/>
 				))}
 			{!isLoading &&

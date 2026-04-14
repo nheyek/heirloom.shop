@@ -21,7 +21,11 @@ import { OrderResponse } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { formatShippingAddress } from '@common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
-import { Link as RouterLink, useParams, useSearchParams } from 'react-router-dom';
+import {
+	Link as RouterLink,
+	useParams,
+	useSearchParams,
+} from 'react-router-dom';
 
 export const OrderPage = () => {
 	const apiClient = useApiClient();
@@ -79,13 +83,18 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<Heading
-				fontSize={32}
+				fontSize={40}
 				fontFamily={FONT_DECORATIVE}
 			>
 				{isAuthenticated ? (
 					<>
-						<Link asChild fontWeight={400}>
-							<RouterLink to={`/${CLIENT_ROUTES.orders}`}>
+						<Link
+							asChild
+							fontWeight={400}
+						>
+							<RouterLink
+								to={`/${CLIENT_ROUTES.orders}`}
+							>
 								Orders
 							</RouterLink>
 						</Link>
@@ -102,7 +111,7 @@ export const OrderPage = () => {
 				alignItems="start"
 				fontSize={18}
 			>
-				<Stack gap={1}>
+				<Stack gap={0}>
 					<Text fontWeight={600}>Summary</Text>
 					<DataList.Root
 						orientation="horizontal"
@@ -153,7 +162,7 @@ export const OrderPage = () => {
 						))}
 					</DataList.Root>
 				</Stack>
-				<Stack gap={1}>
+				<Stack gap={0}>
 					<Text fontWeight={600}>Shipping to</Text>
 					<Text
 						whiteSpace="pre-wrap"
@@ -169,6 +178,7 @@ export const OrderPage = () => {
 				isLoading={false}
 				getItemKey={(_, index) => index}
 				columns={{ base: 1, md: 2, lg: 3, xl: 4 }}
+				maxItemWidth={300}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
 		</>
@@ -184,7 +194,7 @@ export const OrderPage = () => {
 				<Stack
 					w={{ base: '100%', md: 'fit-content' }}
 					maxW={1200}
-					gap={5}
+					gap={8}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
 					{isLoading || authIsLoading
