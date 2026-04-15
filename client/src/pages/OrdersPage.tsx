@@ -61,8 +61,8 @@ export const OrdersPage = () => {
 
 	return (
 		<Stack
-			py={10}
-			px={5}
+			py={8}
+			px={4}
 			w={{ base: '100%', md: 'fit-content' }}
 			maxW={1200}
 			gap={8}

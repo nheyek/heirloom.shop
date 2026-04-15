@@ -186,8 +186,8 @@ export const OrderPage = () => {
 
 	return (
 		<Box
-			py={10}
-			px={5}
+			py={8}
+			px={4}
 		>
 			{error && <Box>{error}</Box>}
 			{!error && (isLoading || orderDetails) && (

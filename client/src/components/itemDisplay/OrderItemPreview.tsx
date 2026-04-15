@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Card,
+	DataList,
 	Heading,
 	HStack,
 	Link,
@@ -103,46 +104,70 @@ export const OrderItemPreview = ({ order }: Props) => {
 				<CardStack items={order.items} />
 
 				<HStack
-					align="start"
+					align="center"
 					gap={8}
 				>
-					<Stack gap={3}>
-						<Link asChild>
-							<RouterLink
-								to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
-							>
-								<Heading
-									fontSize={28}
-									fontFamily={FONT_DECORATIVE}
-									fontWeight={600}
-									lineHeight={1}
-								>
-									#{order.shortId}
-								</Heading>
-							</RouterLink>
-						</Link>
+					<Stack gap={2}>
+						<Heading
+							fontSize={32}
+							fontWeight={400}
+							fontFamily={FONT_DECORATIVE}
+							lineHeight={1}
+						>
+							#{order.shortId}
+						</Heading>
 						<RouterLink
 							to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
 						>
 							<Button
-								variant="outline"
 								size="sm"
-								fontSize={18}
+								fontSize={16}
 							>
 								<IoReceipt />
 								View details
 							</Button>
 						</RouterLink>
 					</Stack>
-					<Stack
-						gap={1.5}
+					<DataList.Root
+						orientation="vertical"
+						gap={2}
 						fontFamily={FONT_DISPLAY_SANS}
-						lineHeight={1}
-						fontSize={20}
 					>
-						{formattedDate && <Text>{formattedDate}</Text>}
-						<Text>{formatCentsAsDollars(total)}</Text>
-					</Stack>
+						{formattedDate && (
+							<DataList.Item gap={0}>
+								<DataList.ItemLabel
+									fontSize={15}
+									color="black"
+									textTransform="uppercase"
+									letterSpacing="wide"
+								>
+									Placed
+								</DataList.ItemLabel>
+								<DataList.ItemValue
+									fontSize={20}
+									fontWeight={500}
+								>
+									{formattedDate}
+								</DataList.ItemValue>
+							</DataList.Item>
+						)}
+						<DataList.Item gap={0}>
+							<DataList.ItemLabel
+								fontSize={15}
+								color="black"
+								textTransform="uppercase"
+								letterSpacing="wide"
+							>
+								Total
+							</DataList.ItemLabel>
+							<DataList.ItemValue
+								fontSize={20}
+								fontWeight={500}
+							>
+								{formatCentsAsDollars(total)}
+							</DataList.ItemValue>
+						</DataList.Item>
+					</DataList.Root>
 				</HStack>
 			</HStack>
 		);
