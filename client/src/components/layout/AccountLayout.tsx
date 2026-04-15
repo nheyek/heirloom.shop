@@ -25,7 +25,7 @@ const Sidebar = () => {
 		<Stack
 			as="nav"
 			gap={2}
-			p={4}
+			p={3}
 			w={300}
 			display={{ base: 'none', md: 'flex' }}
 		>

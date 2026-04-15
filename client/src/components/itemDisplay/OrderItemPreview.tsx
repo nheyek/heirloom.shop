@@ -91,12 +91,12 @@ export const OrderItemPreview = ({ order }: Props) => {
 			alignItems="center"
 		>
 			<Stack
-				gap={2}
+				gap={1}
 				w={150}
 			>
 				<Heading
-					fontSize={30}
-					fontWeight={400}
+					fontSize={24}
+					fontWeight={500}
 					fontFamily={FONT_DECORATIVE}
 				>
 					{order.shortId}
@@ -146,7 +146,7 @@ export const OrderItemPreview = ({ order }: Props) => {
 						fontSize={16}
 						gap={2}
 						px={3}
-						mt={1}
+						mt={2}
 					>
 						<IoReceipt />
 						View details

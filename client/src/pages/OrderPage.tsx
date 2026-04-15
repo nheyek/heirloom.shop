@@ -192,7 +192,7 @@ export const OrderPage = () => {
 				<Stack
 					w={{ base: '100%', md: 'fit-content' }}
 					maxW={1000}
-					gap={6}
+					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
 					{isLoading || authIsLoading

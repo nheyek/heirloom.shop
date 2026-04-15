@@ -51,10 +51,10 @@ export const OrdersPage = () => {
 
 	return (
 		<Stack
-			py={{ base: 4, md: 8 }}
-			px={4}
+			px={5}
+			py={{ base: 5, md: 8 }}
 			w={{ base: '100%', md: 'fit-content' }}
-			maxW={1200}
+			maxW={1000}
 			gap={8}
 			fontFamily={FONT_DISPLAY_SANS}
 		>
@@ -68,7 +68,7 @@ export const OrdersPage = () => {
 					fontSize={36}
 					fontWeight={500}
 				>
-					Orders
+					Your Orders
 				</Heading>
 			)}
 			<Wrap
