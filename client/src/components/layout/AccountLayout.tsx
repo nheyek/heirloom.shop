@@ -26,8 +26,7 @@ const Sidebar = () => {
 			as="nav"
 			gap={2}
 			p={4}
-			minW={300}
-			alignSelf="stretch"
+			w={300}
 			display={{ base: 'none', md: 'flex' }}
 		>
 			{NAV_ITEMS.map(({ label, icon: Icon, route }) => {

@@ -5,7 +5,7 @@ import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { ListingImage } from '@server/entities/generated/ListingImage';
 import { ListingVariation } from '@server/entities/generated/ListingVariation';
 import { Shop } from '@server/entities/generated/Shop';
-import { encodeId } from '@server/utils/hashids';
+import { encodeShortId } from '@server/utils/hashids';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
@@ -84,7 +84,11 @@ export const findFullListingDataByShortId = async (
 };
 
 export const createListing = async (
-	profileApiRequest: { title: string; desc: string; categoryId: string },
+	profileApiRequest: {
+		title: string;
+		desc: string;
+		categoryId: string;
+	},
 	shopId: number,
 ) => {
 	const em = getEm();
@@ -96,11 +100,14 @@ export const createListing = async (
 
 	const listing = em.create(Listing, {
 		id: nextId,
-		shortId: encodeId(nextId),
+		shortId: encodeShortId(nextId),
 		title: profileApiRequest.title,
 		fullDescr: profileApiRequest.desc,
 		shop: em.getReference(Shop, shopId),
-		category: em.getReference(ListingCategory, profileApiRequest.categoryId),
+		category: em.getReference(
+			ListingCategory,
+			profileApiRequest.categoryId,
+		),
 	});
 	await em.persistAndFlush(listing);
 

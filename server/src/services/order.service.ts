@@ -1,10 +1,13 @@
-import { OrderItemDisplayData, ShippingAddress } from '@common/contract';
+import {
+	OrderItemDisplayData,
+	ShippingAddress,
+} from '@common/contract';
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { AppUser } from '@server/entities/generated/AppUser';
-import { encodeId } from '@server/utils/hashids';
+import { encodeShortId } from '@server/utils/hashids';
 import { randomBytes } from 'crypto';
 
 export const createOrder = async (
@@ -25,7 +28,7 @@ export const createOrder = async (
 
 	const order = em.create(AppOrder, {
 		id: nextId,
-		shortId: encodeId(nextId),
+		shortId: encodeShortId(nextId),
 		accessKey: randomBytes(16).toString('hex'),
 		shippingAddress,
 		subtotal: subtotalCents,

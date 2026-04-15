@@ -14,7 +14,7 @@ import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
@@ -82,8 +82,7 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<Heading
-				fontSize={40}
-				fontFamily={FONT_DECORATIVE}
+				fontSize={36}
 				fontWeight={500}
 			>
 				{isAuthenticated ? (
@@ -186,7 +185,7 @@ export const OrderPage = () => {
 
 	return (
 		<Box
-			py={8}
+			py={{ base: 4, md: 8 }}
 			px={4}
 		>
 			{error && <Box>{error}</Box>}

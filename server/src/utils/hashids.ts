@@ -1,18 +1,17 @@
 import Hashids from 'hashids';
 
 const SALT = 'heirloom';
-const MIN_LENGTH = 5;
+const SHORT_ID_MIN_LENGTH = 4;
+const NUMERIC_ID_MIN_LENGTH = 7;
 
-const hashids = new Hashids(SALT, MIN_LENGTH, 'ABCDEFGHJKM23456789');
+const SHORT_ID_ALPHABET = 'ABCDEFGHJKL23456789';
+const NUMERIC_ID_ALPHABET = '0123456789';
 
-export function encodeId(id: number): string {
-	return hashids.encode(id);
-}
+const shortHashIds = new Hashids(
+	SALT,
+	SHORT_ID_MIN_LENGTH,
+	SHORT_ID_ALPHABET,
+);
 
-export function decodeId(shortId: string): number | null {
-	const decoded = hashids.decode(shortId);
-	if (decoded.length === 0) {
-		return null;
-	}
-	return Number(decoded[0]);
-}
+export const encodeShortId = (id: number): string =>
+	shortHashIds.encode(id);
