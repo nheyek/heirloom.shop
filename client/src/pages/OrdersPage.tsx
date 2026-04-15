@@ -1,9 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Heading, Skeleton, Stack, Wrap } from '@chakra-ui/react';
+import { Skeleton, Wrap } from '@chakra-ui/react';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
@@ -50,31 +49,10 @@ export const OrdersPage = () => {
 	const loading = isLoading || authIsLoading;
 
 	return (
-		<Stack
-			px={5}
-			py={{ base: 5, md: 8 }}
-			w={{ base: '100%', md: 'fit-content' }}
-			maxW={1000}
-			gap={5}
-			fontFamily={FONT_DISPLAY_SANS}
+		<Wrap
+			gapY={10}
+			gapX={20}
 		>
-			{loading ? (
-				<Skeleton
-					height={10}
-					width={200}
-				/>
-			) : (
-				<Heading
-					fontSize={36}
-					fontWeight={500}
-				>
-					Your Orders
-				</Heading>
-			)}
-			<Wrap
-				gapY={10}
-				gapX={20}
-			>
 				{loading
 					? Array.from({ length: 3 }).map((_, i) => (
 							<Skeleton
@@ -89,7 +67,6 @@ export const OrdersPage = () => {
 								order={order}
 							/>
 						))}
-			</Wrap>
-		</Stack>
+		</Wrap>
 	);
 };

@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Heading, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import { ListingCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
 import { AppError } from '@client/components/feedback/AppError';
@@ -51,11 +51,7 @@ export const FavoritesPage = () => {
 	}
 
 	return (
-		<Stack
-			p={5}
-			gap={4}
-		>
-			<Heading fontSize={32}>Favorite Listings</Heading>
+		<Stack gap={4}>
 			{!isLoading && listings.length === 0 && (
 				<Text fontSize={18}>
 					You haven't favorited any listings yet. Click the

@@ -2,17 +2,13 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
 	DataList,
-	Heading,
 	HStack,
-	Link,
 	Skeleton,
-	Span,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { ItemGrid } from '@client/components/layout/ItemGrid';
-import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -20,16 +16,12 @@ import { OrderResponse } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { formatShippingAddress } from '@common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
-import {
-	Link as RouterLink,
-	useParams,
-	useSearchParams,
-} from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 export const OrderPage = () => {
 	const apiClient = useApiClient();
 	const { shortId } = useParams<{ shortId: string }>();
-	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
+	const { isLoading: authIsLoading } = useAuth0();
 
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
@@ -65,10 +57,6 @@ export const OrderPage = () => {
 	const renderSkeleton = () => (
 		<>
 			<Skeleton
-				height={10}
-				width={150}
-			/>
-			<Skeleton
 				height={100}
 				width={250}
 			/>
@@ -81,30 +69,6 @@ export const OrderPage = () => {
 
 	const renderContent = (order: OrderResponse) => (
 		<>
-			<Heading
-				fontSize={36}
-				fontWeight={500}
-			>
-				{isAuthenticated ? (
-					<>
-						<Link
-							asChild
-							fontWeight={400}
-						>
-							<RouterLink
-								to={`/${CLIENT_ROUTES.orders}`}
-							>
-								Orders
-							</RouterLink>
-						</Link>
-						{' / '}
-					</>
-				) : (
-					<Span fontWeight={400}>Order </Span>
-				)}
-				{order.shortId}
-			</Heading>
-
 			<HStack
 				gap={10}
 				alignItems="start"
@@ -183,10 +147,7 @@ export const OrderPage = () => {
 	);
 
 	return (
-		<Box
-			py={{ base: 5, md: 8 }}
-			px={5}
-		>
+		<>
 			{error && <Box>{error}</Box>}
 			{!error && (isLoading || orderDetails) && (
 				<Stack
@@ -200,6 +161,6 @@ export const OrderPage = () => {
 						: renderContent(orderDetails!)}
 				</Stack>
 			)}
-		</Box>
+		</>
 	);
 };

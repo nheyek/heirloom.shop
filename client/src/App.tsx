@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
-import { AccountLayout } from './components/layout/AccountLayout';
+import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
@@ -60,7 +60,7 @@ const App = () => {
 							path={`/${CLIENT_ROUTES.shopManager}`}
 							element={<ShopManager />}
 						/>
-						<Route element={<AccountLayout />}>
+						<Route element={<AccountPageLayout />}>
 							<Route
 								path={`/${CLIENT_ROUTES.favorites}`}
 								element={<FavoritesPage />}
