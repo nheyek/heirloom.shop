@@ -177,7 +177,6 @@ export const OrderPage = () => {
 				isLoading={false}
 				getItemKey={(_, index) => index}
 				columns={{ base: 1, sm: 2, lg: 3 }}
-				maxItemWidth={300}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
 		</>
@@ -192,8 +191,8 @@ export const OrderPage = () => {
 			{!error && (isLoading || orderDetails) && (
 				<Stack
 					w={{ base: '100%', md: 'fit-content' }}
-					maxW={1200}
-					gap={8}
+					maxW={1000}
+					gap={6}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
 					{isLoading || authIsLoading

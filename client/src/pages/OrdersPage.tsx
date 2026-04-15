@@ -68,7 +68,7 @@ export const OrdersPage = () => {
 					fontSize={36}
 					fontWeight={500}
 				>
-					Your Orders
+					Orders
 				</Heading>
 			)}
 			<Wrap
