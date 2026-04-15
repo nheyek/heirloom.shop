@@ -1,19 +1,18 @@
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
-import { ListingCardData } from '@common/contract';
-import { ShopCardData } from '@common/contract';
-import { useEffect, useState } from 'react';
 import { IntroCarousel } from '@client/components/branding/IntroCarousel';
 import { Logo } from '@client/components/branding/Logo';
 import { AppError } from '@client/components/feedback/AppError';
+import { ShopCard } from '@client/components/itemDisplay/ShopCard';
 import { CategoryGrid } from '@client/components/layout/CategoryGrid';
 import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { ListingGrid } from '@client/components/layout/ListingGrid';
-import { ShopCard } from '@client/components/itemDisplay/ShopCard';
 import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
+import { ListingCardData, ShopCardData } from '@common/contract';
+import { useEffect, useState } from 'react';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -81,8 +80,8 @@ export const LandingPage = () => {
 				>
 					<Text
 						fontFamily={FONT_DECORATIVE}
-						fontSize={{ base: 32, lg: 36 }}
-						fontWeight="normal"
+						fontSize={36}
+						fontWeight={400}
 						pr="7px"
 						flexShrink={0}
 					>

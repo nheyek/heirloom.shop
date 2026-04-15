@@ -55,7 +55,7 @@ export const OrdersPage = () => {
 			py={{ base: 5, md: 8 }}
 			w={{ base: '100%', md: 'fit-content' }}
 			maxW={1000}
-			gap={8}
+			gap={5}
 			fontFamily={FONT_DISPLAY_SANS}
 		>
 			{loading ? (

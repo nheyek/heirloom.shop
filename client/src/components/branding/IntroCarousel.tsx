@@ -5,12 +5,12 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { FONT_DECORATIVE } from '@client/theme';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
 import { FaHandshakeSimple } from 'react-icons/fa6';
-import { GiAnvil } from 'react-icons/gi';
 import { PiShieldCheckeredFill } from 'react-icons/pi';
-import { FONT_DISPLAY_SANS } from '@client/theme';
+import { TbLaurelWreath } from 'react-icons/tb';
 
 type IntroItem = {
 	Icon: IconType;
@@ -19,12 +19,12 @@ type IntroItem = {
 
 const introItems: IntroItem[] = [
 	{
-		Icon: GiAnvil,
+		Icon: TbLaurelWreath,
 		text: (
 			<>
 				An exhibition of
 				<br />
-				world-class craftsmanship
+				premier craftsmanship
 			</>
 		),
 	},
@@ -77,7 +77,7 @@ export const IntroCarousel = () => {
 							<Text
 								fontSize={22}
 								textAlign="center"
-								fontFamily={FONT_DISPLAY_SANS}
+								fontFamily={FONT_DECORATIVE}
 							>
 								{item.text}
 							</Text>

@@ -110,7 +110,7 @@ export const OrderPage = () => {
 				alignItems="start"
 				fontSize={18}
 			>
-				<Stack gap={0}>
+				<Stack gap={1}>
 					<Text fontWeight={600}>Summary</Text>
 					<DataList.Root
 						orientation="horizontal"
@@ -161,7 +161,7 @@ export const OrderPage = () => {
 						))}
 					</DataList.Root>
 				</Stack>
-				<Stack gap={0}>
+				<Stack gap={1}>
 					<Text fontWeight={600}>Shipping to</Text>
 					<Text
 						whiteSpace="pre-wrap"
@@ -184,8 +184,8 @@ export const OrderPage = () => {
 
 	return (
 		<Box
-			py={{ base: 4, md: 8 }}
-			px={4}
+			py={{ base: 5, md: 8 }}
+			px={5}
 		>
 			{error && <Box>{error}</Box>}
 			{!error && (isLoading || orderDetails) && (
