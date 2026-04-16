@@ -6,15 +6,15 @@ import {
 	GridItem,
 	IconButton,
 } from '@chakra-ui/react';
-import { FaShoppingCart } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { Logo } from '@client/components/branding/Logo';
-import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
-import { FadeInBox } from '@client/components/util/FadeInBox';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
+import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
+import { FadeInBox } from '@client/components/util/FadeInBox';
+import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FaShoppingCart } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 enum gridTemplateAreas {
 	LOGO = 'LOGO',
@@ -35,7 +35,6 @@ export const Navbar = () => {
 			boxShadow="md"
 			position="sticky"
 			top={0}
-			zIndex="sticky"
 		>
 			<Grid
 				gridTemplateAreas={{

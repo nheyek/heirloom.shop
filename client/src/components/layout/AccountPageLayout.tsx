@@ -162,10 +162,11 @@ export const AccountPageLayout = () => (
 		<Sidebar />
 		<Box
 			flex={1}
+			minW={0}
 			py={{ base: 5, md: 8 }}
-			px={5}
 		>
 			<Stack
+				px={5}
 				w={{ base: '100%', md: 'fit-content' }}
 				maxW={1000}
 				gap={5}
