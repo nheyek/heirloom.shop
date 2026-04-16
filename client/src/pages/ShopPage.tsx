@@ -6,19 +6,18 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ListingCardData } from '@common/contract';
-import { ShopCardData } from '@common/contract';
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { ListingGrid } from '@client/components/layout/ListingGrid';
-import { useApiClient } from '@client/hooks/useApiClient';
-import { callApi } from '@client/utils/apiUtils';
+import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE } from '@client/theme';
+import { callApi } from '@client/utils/apiUtils';
+import { ListingCardData, ShopCardData } from '@common/contract';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();

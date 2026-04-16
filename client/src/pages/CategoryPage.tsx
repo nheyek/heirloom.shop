@@ -6,6 +6,13 @@ import {
 	Skeleton,
 	Stack,
 } from '@chakra-ui/react';
+import { CategoryGrid } from '@client/components/collections/CategoryGrid';
+import { ListingGrid } from '@client/components/collections/ListingGrid';
+import { AppError } from '@client/components/feedback/AppError';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { useCategories } from '@client/providers/CategoriesProvider';
+import { FONT_DECORATIVE } from '@client/theme';
+import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@common/contract';
 import { Fragment, useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
@@ -14,13 +21,6 @@ import {
 	useNavigate,
 	useParams,
 } from 'react-router-dom';
-import { AppError } from '@client/components/feedback/AppError';
-import { CategoryGrid } from '@client/components/layout/CategoryGrid';
-import { ListingGrid } from '@client/components/layout/ListingGrid';
-import { useApiClient } from '@client/hooks/useApiClient';
-import { useCategories } from '@client/providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
-import { callApi } from '@client/utils/apiUtils';
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();

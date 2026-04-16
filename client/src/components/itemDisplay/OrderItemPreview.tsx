@@ -139,7 +139,7 @@ export const OrderItemPreview = ({ order }: Props) => {
 					</Stack>
 				</HStack>
 				<RouterLink
-					to={`/${CLIENT_ROUTES.order}/${order.shortId}`}
+					to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
 				>
 					<Button
 						size="xs"

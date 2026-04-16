@@ -58,29 +58,37 @@ const Sidebar = () => {
 							to={`/${route}`}
 							style={{ display: 'block' }}
 						>
-						<HStack
-							gap={3}
-							px={3}
-							py={2}
-							borderRadius="md"
-							bg={isActive ? 'gray.100' : 'transparent'}
-							_hover={{
-								bg: isActive ? 'gray.100' : 'gray.50',
-							}}
-							transition="background 0.15s"
-							fontFamily={FONT_DISPLAY_SANS}
-							fontSize={22}
-							fontWeight={isExact ? 500 : 400}
-							color={isActive ? 'black' : 'gray.700'}
-						>
-							<Box
-								fontSize={20}
-								flexShrink={0}
+							<HStack
+								gap={3}
+								px={3}
+								py={2}
+								borderRadius="md"
+								bg={
+									isActive
+										? 'gray.100'
+										: 'transparent'
+								}
+								_hover={{
+									bg: isActive
+										? 'gray.100'
+										: 'gray.50',
+								}}
+								transition="background 0.15s"
+								fontFamily={FONT_DISPLAY_SANS}
+								fontSize={22}
+								fontWeight={isExact ? 500 : 400}
+								color={
+									isActive ? 'black' : 'gray.700'
+								}
 							>
-								<Icon />
-							</Box>
-							<Text>{label}</Text>
-						</HStack>
+								<Box
+									fontSize={20}
+									flexShrink={0}
+								>
+									<Icon />
+								</Box>
+								<Text>{label}</Text>
+							</HStack>
 						</RouterLink>
 					</Link>
 				);

@@ -7,8 +7,8 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
-import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';

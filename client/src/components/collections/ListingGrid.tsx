@@ -1,5 +1,5 @@
+import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { ListingCard } from '@client/components/itemDisplay/ListingCard';
-import { ItemGrid } from '@client/components/layout/ItemGrid';
 import { ListingCardData } from '@common/contract';
 
 type Props = {

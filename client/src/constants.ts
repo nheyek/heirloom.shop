@@ -22,7 +22,7 @@ export const CLIENT_ROUTES = {
 	favorites: 'favorites',
 	checkout: 'checkout',
 	orderConfirmed: 'order-confirmed',
-	order: 'orders',
+	order: 'order',
 	orders: 'orders',
 };
 
