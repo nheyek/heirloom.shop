@@ -53,20 +53,20 @@ export const OrdersPage = () => {
 			gapY={10}
 			gapX={20}
 		>
-				{loading
-					? Array.from({ length: 3 }).map((_, i) => (
-							<Skeleton
-								key={i}
-								width={ITEM_MAX_W}
-								height={200}
-							/>
-						))
-					: orders.map((order) => (
-							<OrderItemPreview
-								key={order.shortId}
-								order={order}
-							/>
-						))}
+			{loading
+				? Array.from({ length: 3 }).map((_, i) => (
+						<Skeleton
+							key={i}
+							width={ITEM_MAX_W}
+							height={200}
+						/>
+					))
+				: orders.map((order) => (
+						<OrderItemPreview
+							key={order.shortId}
+							order={order}
+						/>
+					))}
 		</Wrap>
 	);
 };

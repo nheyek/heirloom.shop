@@ -13,7 +13,7 @@ export const formatDateShort = (date: string | Date): string =>
 	});
 
 export const formatDateCompact = (date: string | Date): string =>
-	new Date(date).toLocaleDateString('en-GB', {
+	new Date(date).toLocaleDateString('en-US', {
 		year: '2-digit',
 		month: '2-digit',
 		day: '2-digit',

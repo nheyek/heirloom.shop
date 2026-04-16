@@ -41,6 +41,10 @@ const Sidebar = () => {
 			p={3}
 			w={300}
 			display={{ base: 'none', md: 'flex' }}
+			position="sticky"
+			top={0}
+			height="100%"
+			overflowY="auto"
 		>
 			{NAV_ITEMS.map(({ label, icon: Icon, route }) => {
 				const isExact = pathname === `/${route}`;

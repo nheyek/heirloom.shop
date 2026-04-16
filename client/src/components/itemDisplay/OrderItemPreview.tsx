@@ -83,7 +83,7 @@ export const OrderItemPreview = ({ order }: Props) => {
 
 	return (
 		<HStack
-			width={{ base: '100%', md: 350 }}
+			width={{ base: '100%', md: 325 }}
 			justifyContent={{
 				base: 'space-around',
 				md: 'space-between',

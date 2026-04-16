@@ -33,6 +33,9 @@ export const Navbar = () => {
 			px={4}
 			py={2}
 			boxShadow="md"
+			position="sticky"
+			top={0}
+			zIndex="sticky"
 		>
 			<Grid
 				gridTemplateAreas={{
