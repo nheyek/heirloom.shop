@@ -168,7 +168,7 @@ export const AccountPageLayout = () => (
 			<Stack
 				px={5}
 				w={{ base: '100%', md: 'fit-content' }}
-				maxW={1000}
+				maxW={1100}
 				gap={5}
 				fontFamily={FONT_DISPLAY_SANS}
 			>

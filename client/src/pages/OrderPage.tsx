@@ -140,7 +140,7 @@ export const OrderPage = () => {
 				items={order.items}
 				isLoading={false}
 				getItemKey={(_, index) => index}
-				columns={{ base: 1, sm: 2, lg: 3 }}
+				columns={{ base: 1, lg: 2, xl: 3 }}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
 		</>
@@ -152,7 +152,6 @@ export const OrderPage = () => {
 			{!error && (isLoading || orderDetails) && (
 				<Stack
 					w={{ base: '100%', md: 'fit-content' }}
-					maxW={1000}
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>
