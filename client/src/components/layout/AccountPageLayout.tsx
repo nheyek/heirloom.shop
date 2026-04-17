@@ -7,7 +7,12 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import {
+	ACCOUNT_PAGE_PADDING,
+	FONT_DECORATIVE,
+	FONT_DISPLAY_SANS,
+	SIDEBAR_WIDTH_PX,
+} from '@client/theme';
 import { FaHeart } from 'react-icons/fa';
 import { IoReceipt } from 'react-icons/io5';
 import {
@@ -39,7 +44,7 @@ const Sidebar = () => {
 			as="nav"
 			gap={2}
 			p={3}
-			w={300}
+			w={SIDEBAR_WIDTH_PX}
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			top={0}
@@ -166,7 +171,7 @@ export const AccountPageLayout = () => (
 			py={{ base: 5, md: 8 }}
 		>
 			<Stack
-				px={5}
+				px={ACCOUNT_PAGE_PADDING}
 				w={{ base: '100%', md: 'fit-content' }}
 				maxW={1100}
 				gap={5}

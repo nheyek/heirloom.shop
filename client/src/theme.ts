@@ -12,12 +12,42 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
+export const SIDEBAR_WIDTH_PX = 300;
+export const ACCOUNT_PAGE_PADDING = 5; // Chakra spacing units
+const ACCOUNT_PAGE_PADDING_PX =
+	ACCOUNT_PAGE_PADDING * CHAKRA_SPACING_UNIT;
+const SIDEBAR_CONTENT_OFFSET_PX =
+	SIDEBAR_WIDTH_PX + 2 * ACCOUNT_PAGE_PADDING_PX;
+
+const BASE_BREAKPOINTS = {
+	sm: 480,
+	md: 768,
+	lg: 992,
+	xl: 1280,
+	'2xl': 1536,
+};
+
+export enum SidebarBreakpoint {
+	sm = 'sm_sb',
+	md = 'md_sb',
+	lg = 'lg_sb',
+	xl = 'xl_sb',
+	'2xl' = '2xl_sb',
+}
+
 export const breakpoints = {
-	sm: '480px',
-	md: '768px',
-	lg: '992px',
-	xl: '1280px',
-	'2xl': '1536px',
+	...Object.fromEntries(
+		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
+			key,
+			`${value}px`,
+		]),
+	),
+	...Object.fromEntries(
+		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
+			`${key}_sb`,
+			`${value + SIDEBAR_CONTENT_OFFSET_PX}px`,
+		]),
+	),
 };
 
 const inputRecipe = defineRecipe({
