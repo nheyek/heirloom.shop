@@ -6,7 +6,6 @@ import {
 	Image,
 	Skeleton,
 } from '@chakra-ui/react';
-import { HTMLMotionProps, motion } from 'framer-motion';
 import { ReactElement, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
@@ -37,9 +36,12 @@ export const MultiImage = (props: Props) => {
 				loop
 			>
 				<Carousel.Control>
-					{showArrows && (
+					{props.urls.length > 1 && (
 						<Carousel.PrevTrigger asChild>
-							<ActionButton insetStart={4}>
+							<ActionButton
+								insetStart={4}
+								visible={showArrows}
+							>
 								<FaArrowLeft />
 							</ActionButton>
 						</Carousel.PrevTrigger>
@@ -76,9 +78,12 @@ export const MultiImage = (props: Props) => {
 						))}
 					</Carousel.ItemGroup>
 
-					{showArrows && (
+					{props.urls.length > 1 && (
 						<Carousel.NextTrigger asChild>
-							<ActionButton insetEnd="4">
+							<ActionButton
+								insetEnd="4"
+								visible={showArrows}
+							>
 								<FaArrowRight />
 							</ActionButton>
 						</Carousel.NextTrigger>
@@ -105,21 +110,18 @@ export const MultiImage = (props: Props) => {
 	);
 };
 
-const MotionIconButton = motion.create(IconButton);
-type ActionButtonProps = Omit<
-	IconButtonProps,
-	keyof HTMLMotionProps<'button'>
-> & {
+type ActionButtonProps = IconButtonProps & {
 	children: ReactElement;
+	visible: boolean;
 };
-const ActionButton = (props: ActionButtonProps) => (
-	<MotionIconButton
+const ActionButton = ({ visible, ...props }: ActionButtonProps) => (
+	<IconButton
 		{...props}
 		size="2xs"
 		variant="surface"
 		position="absolute"
-		initial={{ opacity: 0 }}
-		animate={{ opacity: 1 }}
-		transition={{ duration: 0.5, ease: 'easeInOut' }}
+		opacity={visible ? 1 : 0}
+		pointerEvents={visible ? 'auto' : 'none'}
+		transition="opacity 0.3s ease-in-out"
 	/>
 );

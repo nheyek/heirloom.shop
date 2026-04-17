@@ -129,6 +129,7 @@ export const OrderPage = () => {
 					<Text fontWeight={600}>Shipping to</Text>
 					<Text
 						whiteSpace="pre-wrap"
+						wordBreak="break-all"
 						lineHeight={1.25}
 					>
 						{formatShippingAddress(order.shippingAddress)}
