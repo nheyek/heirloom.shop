@@ -27,13 +27,13 @@ const BASE_BREAKPOINTS = {
 	'2xl': 1536,
 };
 
-export enum SidebarBreakpoint {
-	sm = 'sm_sb',
-	md = 'md_sb',
-	lg = 'lg_sb',
-	xl = 'xl_sb',
-	'2xl' = '2xl_sb',
-}
+export const sidebarBreakpoint = {
+	sm: 'sm_sb',
+	md: 'md_sb',
+	lg: 'lg_sb',
+	xl: 'xl_sb',
+	'2xl': '2xl_sb',
+};
 
 export const breakpoints = {
 	...Object.fromEntries(

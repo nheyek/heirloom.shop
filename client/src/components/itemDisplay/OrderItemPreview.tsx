@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Card,
+	Center,
 	Heading,
 	HStack,
 	Stack,
@@ -83,11 +84,8 @@ export const OrderItemPreview = ({ order }: Props) => {
 
 	return (
 		<HStack
-			width={{ base: '100%', md: 325 }}
-			justifyContent={{
-				base: 'space-around',
-				md: 'space-between',
-			}}
+			width="100%"
+			maxW={{ base: undefined, md: 400 }}
 			alignItems="center"
 		>
 			<Stack
@@ -153,7 +151,9 @@ export const OrderItemPreview = ({ order }: Props) => {
 					</Button>
 				</RouterLink>
 			</Stack>
-			<CardStack items={order.items} />
+			<Center width="100%">
+				<CardStack items={order.items} />
+			</Center>
 		</HStack>
 	);
 };

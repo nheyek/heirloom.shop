@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Skeleton, Wrap } from '@chakra-ui/react';
+import { SimpleGrid, Skeleton } from '@chakra-ui/react';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
@@ -49,7 +50,16 @@ export const OrdersPage = () => {
 	const loading = isLoading || authIsLoading;
 
 	return (
-		<Wrap
+		<SimpleGrid
+			columns={{
+				base: 1,
+				[sidebarBreakpoint.md]: 2,
+				[sidebarBreakpoint.xl]: 3,
+			}}
+			maxW={{
+				[sidebarBreakpoint.md]: 800,
+				[sidebarBreakpoint.xl]: 1200,
+			}}
 			gapY={10}
 			gapX={20}
 		>
@@ -67,6 +77,6 @@ export const OrdersPage = () => {
 							order={order}
 						/>
 					))}
-		</Wrap>
+		</SimpleGrid>
 	);
 };
