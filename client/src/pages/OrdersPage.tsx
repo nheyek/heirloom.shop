@@ -8,8 +8,6 @@ import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { useEffect, useState } from 'react';
 
-const ITEM_MAX_W = 400;
-
 export const OrdersPage = () => {
 	const {
 		isAuthenticated,
@@ -60,15 +58,14 @@ export const OrdersPage = () => {
 				[sidebarBreakpoint.md]: 800,
 				[sidebarBreakpoint.xl]: 1200,
 			}}
-			gapY={10}
-			gapX={20}
+			gap={10}
 		>
 			{loading
 				? Array.from({ length: 3 }).map((_, i) => (
 						<Skeleton
 							key={i}
-							width={ITEM_MAX_W}
-							height={200}
+							width="100%"
+							height={150}
 						/>
 					))
 				: orders.map((order) => (

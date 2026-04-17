@@ -23,12 +23,12 @@ import { formatCentsAsDollars } from '@common/utils/priceDisplay';
 import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 
+const MAX_ORDER_ITEM_PREVIEW_WIDTH = 450;
 const CARD_WIDTH = 150;
 const CARD_HEIGHT = CARD_WIDTH / STANDARD_IMAGE_ASPECT_RATIO;
 const OFFSET_X = 3;
 const OFFSET_Y = 4;
 const ROTATIONS = [0, 2, -1.5, 1, -2];
-
 const MAX_STACK_CARDS = 3;
 
 const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
@@ -85,12 +85,15 @@ export const OrderItemPreview = ({ order }: Props) => {
 	return (
 		<HStack
 			width="100%"
-			maxW={{ base: undefined, md: 400 }}
+			maxW={{
+				base: undefined,
+				md: MAX_ORDER_ITEM_PREVIEW_WIDTH,
+			}}
 			alignItems="center"
 		>
 			<Stack
 				gap={1}
-				w={150}
+				pr={2}
 			>
 				<Heading
 					fontSize={24}
