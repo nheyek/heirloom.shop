@@ -6,13 +6,12 @@ import {
 	Portal,
 	Text,
 } from '@chakra-ui/react';
+import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { IoReceipt } from 'react-icons/io5';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
-import { CLIENT_ROUTES } from '@client/constants';
-import { FadeInBox } from '@client/components/util/FadeInBox';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
@@ -43,34 +42,32 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<FadeInBox display="flex">
-						<Menu.Content
-							gapY={2}
-							animation="none"
-						>
-							<Link to={`/${CLIENT_ROUTES.orders}`}>
-								<MenuItem value="orders">
-									<IoReceipt />
-									<Text pl={1}>Orders</Text>
-								</MenuItem>
-							</Link>
-
-							<Link to={`/${CLIENT_ROUTES.favorites}`}>
-								<MenuItem value="saved">
-									<FaHeart />
-									<Text pl={1}>Favorites</Text>
-								</MenuItem>
-							</Link>
-
-							<MenuItem
-								value="logout"
-								onClick={handleLogout}
-							>
-								<PiSignOutBold />
-								<Text pl={1}>Log Out</Text>
+					<Menu.Content
+						gapY={2}
+						_open={{ animation: 'fade-in 0.15s ease-out' }}
+					>
+						<Link to={`/${CLIENT_ROUTES.orders}`}>
+							<MenuItem value="orders">
+								<IoReceipt />
+								<Text pl={1}>Orders</Text>
 							</MenuItem>
-						</Menu.Content>
-					</FadeInBox>
+						</Link>
+
+						<Link to={`/${CLIENT_ROUTES.favorites}`}>
+							<MenuItem value="saved">
+								<FaHeart />
+								<Text pl={1}>Favorites</Text>
+							</MenuItem>
+						</Link>
+
+						<MenuItem
+							value="logout"
+							onClick={handleLogout}
+						>
+							<PiSignOutBold />
+							<Text pl={1}>Log Out</Text>
+						</MenuItem>
+					</Menu.Content>
 				</Menu.Positioner>
 			</Portal>
 		</Menu.Root>
