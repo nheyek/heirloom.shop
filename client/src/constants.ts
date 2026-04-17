@@ -11,6 +11,13 @@ export const STANDARD_GRID_COLUMNS = {
 	md: 3,
 	xl: 4,
 };
+
+export const STANDARD_GRID_COLUMNS_SIDEBAR = {
+	base: 1,
+	sm_sb: 2,
+	md_sb: 3,
+	xl_sb: 4,
+};
 export const STANDARD_GRID_GAP = 5;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 

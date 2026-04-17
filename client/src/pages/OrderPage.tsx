@@ -155,7 +155,7 @@ export const OrderPage = () => {
 			{error && <Box>{error}</Box>}
 			{!error && (isLoading || orderDetails) && (
 				<Stack
-					w={{ base: '100%', md: 'fit-content' }}
+					w="100%"
 					gap={5}
 					fontFamily={FONT_DISPLAY_SANS}
 				>

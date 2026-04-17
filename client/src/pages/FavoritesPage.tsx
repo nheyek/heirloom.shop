@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Stack, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { CLIENT_ROUTES } from '@client/constants';
+import { CLIENT_ROUTES, STANDARD_GRID_COLUMNS_SIDEBAR } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@common/contract';
@@ -62,6 +62,7 @@ export const FavoritesPage = () => {
 			<ListingGrid
 				listings={listings}
 				isLoading={isLoading}
+				columns={STANDARD_GRID_COLUMNS_SIDEBAR}
 			/>
 		</Stack>
 	);

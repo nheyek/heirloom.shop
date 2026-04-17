@@ -172,7 +172,7 @@ export const AccountPageLayout = () => (
 		>
 			<Stack
 				px={ACCOUNT_PAGE_PADDING}
-				w={{ base: '100%', md: 'fit-content' }}
+				w="100%"
 				maxW={1100}
 				gap={5}
 				fontFamily={FONT_DISPLAY_SANS}
