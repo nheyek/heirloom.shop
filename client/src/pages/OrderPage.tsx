@@ -10,7 +10,7 @@ import {
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DISPLAY_SANS, SidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@common/contract';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
@@ -140,7 +140,11 @@ export const OrderPage = () => {
 				items={order.items}
 				isLoading={false}
 				getItemKey={(_, index) => index}
-				columns={{ base: 1, sm: 2, lg: 3 }}
+				columns={{
+					base: 1,
+					[SidebarBreakpoint.md]: 2,
+					[SidebarBreakpoint.lg]: 3,
+				}}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
 		</>
