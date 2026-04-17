@@ -5,6 +5,7 @@ import {
 	GridItem,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { FONT_DEFAULT } from '@client/theme';
 import { useState } from 'react';
 import { FaImages } from 'react-icons/fa';
 import { AppImage } from './AppImage';
@@ -108,8 +109,8 @@ export const ImageCollage = (props: Props) => {
 							position="absolute"
 							right={3}
 							bottom={3}
-							fontWeight="bold"
 							onClick={() => setLightBoxPage(0)}
+							fontFamily={FONT_DEFAULT}
 						>
 							<FaImages />
 							{props.urls.length} images

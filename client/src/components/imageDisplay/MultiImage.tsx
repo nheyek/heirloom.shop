@@ -122,6 +122,6 @@ const ActionButton = ({ visible, ...props }: ActionButtonProps) => (
 		position="absolute"
 		opacity={visible ? 1 : 0}
 		pointerEvents={visible ? 'auto' : 'none'}
-		transition="opacity 0.3s ease-in-out"
+		transition="opacity 0.25s ease-in-out"
 	/>
 );

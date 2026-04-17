@@ -284,7 +284,7 @@ export const ListingPage = () => {
 			mx="auto"
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
-			transition={{ duration: 1, ease: 'easeInOut' }}
+			transition={{ duration: 0.25 }}
 		>
 			{layout === Layout.STANDARD && (
 				<Box
