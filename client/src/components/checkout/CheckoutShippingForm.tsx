@@ -235,7 +235,7 @@ export const CheckoutShippingForm = (props: Props) => {
 									top="100%"
 									left={0}
 									right={0}
-									zIndex={10}
+									zIndex="dropdown"
 									bg="white"
 									borderRadius="md"
 									boxShadow="md"

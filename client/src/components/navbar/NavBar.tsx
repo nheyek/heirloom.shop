@@ -35,6 +35,7 @@ export const Navbar = () => {
 			boxShadow="md"
 			position="sticky"
 			top={0}
+			zIndex="docked"
 		>
 			<Grid
 				gridTemplateAreas={{
