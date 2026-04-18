@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Stack, Text } from '@chakra-ui/react';
+import { HStack, Span, Stack, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -8,6 +8,7 @@ import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
+import { FaHeart } from 'react-icons/fa';
 
 export const FavoritesPage = () => {
 	const {
@@ -52,10 +53,19 @@ export const FavoritesPage = () => {
 	return (
 		<Stack gap={4}>
 			{!isLoading && listings.length === 0 && (
-				<Text fontSize={18}>
-					You haven't favorited any listings yet. Click the
-					heart icon on any listing to favorite it.
-				</Text>
+				<Stack gap={1}>
+					<Text fontSize={22}>
+						You haven't favorited any listings yet.
+					</Text>
+					<HStack
+						fontSize={20}
+						gap={1.5}
+					>
+						<Span>Click</Span>
+						<FaHeart />
+						<Span>on any listing to favorite it.</Span>
+					</HStack>
+				</Stack>
 			)}
 
 			<ListingGrid
