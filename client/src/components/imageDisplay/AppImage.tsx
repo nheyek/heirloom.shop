@@ -22,7 +22,6 @@ export const AppImage = (props: Props) => {
 			borderRadius={0}
 		>
 			<Image
-				height="100%"
 				width="100%"
 				objectFit="cover"
 				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
