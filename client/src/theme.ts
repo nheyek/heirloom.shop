@@ -12,6 +12,7 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
+export const NAVBAR_HEIGHT_SPACING_UINTS = 16;
 export const SIDEBAR_WIDTH_PX = 300;
 export const ACCOUNT_PAGE_PADDING = 5; // Chakra spacing units
 const ACCOUNT_PAGE_PADDING_PX =

@@ -13,6 +13,7 @@ import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { FadeInBox } from '@client/components/util/FadeInBox';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { NAVBAR_HEIGHT_SPACING_UINTS } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -32,6 +33,7 @@ export const Navbar = () => {
 			bg="brand"
 			px={4}
 			py={2}
+			h={{ md: NAVBAR_HEIGHT_SPACING_UINTS }}
 			boxShadow="md"
 			position="sticky"
 			top={0}

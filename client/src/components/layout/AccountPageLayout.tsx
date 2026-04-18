@@ -12,6 +12,7 @@ import {
 	ACCOUNT_PAGE_PADDING,
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
+	NAVBAR_HEIGHT_SPACING_UINTS,
 	SIDEBAR_WIDTH_PX,
 } from '@client/theme';
 import { FaHeart } from 'react-icons/fa';
@@ -42,14 +43,13 @@ const Sidebar = () => {
 
 	return (
 		<Stack
-			as="nav"
 			gap={2}
 			p={3}
 			w={SIDEBAR_WIDTH_PX}
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
-			top={0}
-			height="100%"
+			alignSelf="flex-start"
+			top={NAVBAR_HEIGHT_SPACING_UINTS}
 			overflowY="auto"
 		>
 			{NAV_ITEMS.map(({ label, icon: Icon, route }) => {

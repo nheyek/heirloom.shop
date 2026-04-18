@@ -5,7 +5,8 @@
 		"module": "ESNext",
 		"lib": ["DOM", "ESNext"],
 		"jsx": "react-jsx",
-		"moduleResolution": "bundler"
+		"moduleResolution": "bundler",
+		"types": ["node"]
 	},
 	"include": ["src", "../common"],
 	"exclude": ["**/*.test.ts"]
