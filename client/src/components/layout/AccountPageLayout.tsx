@@ -3,6 +3,7 @@ import {
 	Heading,
 	HStack,
 	Link,
+	Span,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -137,19 +138,13 @@ const PageHeading = () => {
 						{parentMatch.label}
 					</RouterLink>
 				</Link>
-				<Box
-					as="span"
+				<Span
 					fontWeight={400}
 					mx={2}
 				>
 					/
-				</Box>
-				<Box
-					as="span"
-					fontWeight={500}
-				>
-					{subId}
-				</Box>
+				</Span>
+				<Span fontWeight={500}>{subId}</Span>
 			</Heading>
 		);
 	}
