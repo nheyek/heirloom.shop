@@ -15,10 +15,10 @@ export class AppUser {
   @Property({ length: 128 })
   email!: string;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
   @OneToMany({ entity: () => AppOrder, mappedBy: 'user' })

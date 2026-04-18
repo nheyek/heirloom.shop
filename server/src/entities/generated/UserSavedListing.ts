@@ -32,7 +32,7 @@ export class UserSavedListing {
 	listing!: Listing;
 
 	@Property({
-		columnType: 'timestamp(6)',
+		columnType: 'timestamptz',
 		nullable: true,
 		defaultRaw: `CURRENT_TIMESTAMP`,
 	})

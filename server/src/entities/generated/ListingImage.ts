@@ -21,14 +21,14 @@ export class ListingImage {
 	imageUuid!: string;
 
 	@Property({
-		columnType: 'timestamp(6)',
+		columnType: 'timestamptz',
 		nullable: true,
 		defaultRaw: `CURRENT_TIMESTAMP`,
 	})
 	createdAt?: Date;
 
 	@Property({
-		columnType: 'timestamp(6)',
+		columnType: 'timestamptz',
 		nullable: true,
 		defaultRaw: `CURRENT_TIMESTAMP`,
 	})

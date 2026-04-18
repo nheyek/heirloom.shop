@@ -15,7 +15,7 @@ export class UserFavoriteListing {
   @ManyToOne({ entity: () => Listing, deleteRule: 'cascade', index: 'idx_user_favorite_listing_listing_id' })
   listing!: Listing;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
 }
