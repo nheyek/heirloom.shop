@@ -2,8 +2,9 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Stack, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { CLIENT_ROUTES, STANDARD_GRID_COLUMNS_SIDEBAR } from '@client/constants';
+import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@common/contract';
 import { useEffect, useState } from 'react';
@@ -24,15 +25,13 @@ export const FavoritesPage = () => {
 		setIsLoading(true);
 		setError(null);
 
-		setTimeout(async () => {
-			const result = await callApi(apiClient.me.getFavorites());
-			if (result.error !== null) {
-				setError('Failed to load favorites');
-			} else {
-				setListings(result.data);
-			}
-			setIsLoading(false);
-		}, 500);
+		const result = await callApi(apiClient.me.getFavorites());
+		if (result.error !== null) {
+			setError('Failed to load favorites');
+		} else {
+			setListings(result.data);
+		}
+		setIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -62,7 +61,11 @@ export const FavoritesPage = () => {
 			<ListingGrid
 				listings={listings}
 				isLoading={isLoading}
-				columns={STANDARD_GRID_COLUMNS_SIDEBAR}
+				columns={{
+					base: 1,
+					[sidebarBreakpoint.md]: 2,
+					[sidebarBreakpoint.xl]: 3,
+				}}
 			/>
 		</Stack>
 	);
