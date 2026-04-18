@@ -40,7 +40,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	const numColumns = isLoading
 		? maxNumColumns
 		: Math.min(maxNumColumns, items.length);
-	const numSkeletons = numPlaceholders ?? numColumns * 2;
+	const numSkeletons = numPlaceholders ?? numColumns;
 
 	const minItemWidth = 300;
 	const maxItemWidth = props.maxItemWidth ?? 400;

@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { SimpleGrid, Skeleton } from '@chakra-ui/react';
+import { SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -17,11 +17,11 @@ export const OrdersPage = () => {
 	const apiClient = useApiClient();
 
 	const [orders, setOrders] = useState<OrderResponse[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [dataIsLoading, setDataIsLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 
 	const loadOrders = async () => {
-		setIsLoading(true);
+		setDataIsLoading(true);
 		setError(null);
 		const result = await callApi(apiClient.me.getOrders());
 		if (result.error !== null) {
@@ -29,7 +29,7 @@ export const OrdersPage = () => {
 		} else {
 			setOrders(result.data);
 		}
-		setIsLoading(false);
+		setDataIsLoading(false);
 	};
 
 	useEffect(() => {
@@ -45,7 +45,7 @@ export const OrdersPage = () => {
 		}
 	}, [authIsLoading]);
 
-	const loading = isLoading || authIsLoading;
+	const isLoading = dataIsLoading || authIsLoading;
 
 	return (
 		<SimpleGrid
@@ -60,20 +60,27 @@ export const OrdersPage = () => {
 			}}
 			gap={10}
 		>
-			{loading
-				? Array.from({ length: 3 }).map((_, i) => (
-						<Skeleton
-							key={i}
-							width="100%"
-							height={150}
-						/>
-					))
-				: orders.map((order) => (
-						<OrderItemPreview
-							key={order.shortId}
-							order={order}
-						/>
-					))}
+			{isLoading &&
+				Array.from({ length: 3 }).map((_, i) => (
+					<Skeleton
+						key={i}
+						width="100%"
+						height={150}
+					/>
+				))}
+			{!isLoading && orders.length === 0 && (
+				<Text fontSize={22}>
+					You haven't placed any orders yet.
+				</Text>
+			)}
+			{!isLoading &&
+				orders.length > 0 &&
+				orders.map((order) => (
+					<OrderItemPreview
+						key={order.shortId}
+						order={order}
+					/>
+				))}
 		</SimpleGrid>
 	);
 };
