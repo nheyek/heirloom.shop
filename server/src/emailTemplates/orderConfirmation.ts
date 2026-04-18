@@ -37,7 +37,7 @@ export const orderConfirmation = (params: {
 	shippingCents: number;
 	taxCents: number;
 }) => {
-	const orderUrl = `${APP_URL}/orders/${params.orderId}?key=${params.accessKey}`;
+	const orderUrl = `${APP_URL}/order/${params.orderId}?key=${params.accessKey}`;
 	const totalCents =
 		params.subtotalCents + params.shippingCents + params.taxCents;
 
