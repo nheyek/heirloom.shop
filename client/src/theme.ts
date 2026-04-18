@@ -123,6 +123,7 @@ export const config = defineConfig({
 		'html, body': {
 			touchAction: 'pan-y',
 			height: '100vh',
+			paddingBottom: 'env(safe-area-inset-bottom)',
 		},
 		// Prevents outline on accordion section headers on mobile
 		'*:focus': {
