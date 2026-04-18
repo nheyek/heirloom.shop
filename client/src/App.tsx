@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { OrderPageIsolated } from '@client/pages/OrderPageIsolated';
+import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
@@ -77,7 +77,7 @@ const App = () => {
 						</Route>
 						<Route
 							path={`/${CLIENT_ROUTES.order}/:shortId`}
-							element={<OrderPageIsolated />}
+							element={<OrderIsolatedPage />}
 						/>
 						<Route
 							path={`/${CLIENT_ROUTES.category}/:id`}

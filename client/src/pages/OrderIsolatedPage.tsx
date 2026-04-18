@@ -3,7 +3,7 @@ import { OrderPage } from '@client/pages/OrderPage';
 import { FONT_DECORATIVE } from '@client/theme';
 import { useParams } from 'react-router-dom';
 
-export const OrderPageIsolated = () => {
+export const OrderIsolatedPage = () => {
 	const { shortId } = useParams<{ shortId: string }>();
 
 	return (
