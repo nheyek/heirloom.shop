@@ -47,7 +47,6 @@ const App = () => {
 					maxWidth={1600}
 					mx="auto"
 					position="relative"
-					paddingBottom="env(safe-area-inset-bottom)"
 				>
 					<Routes>
 						<Route
