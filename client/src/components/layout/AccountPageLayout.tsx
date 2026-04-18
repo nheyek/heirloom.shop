@@ -52,7 +52,6 @@ const Sidebar = () => {
 			overflowY="auto"
 		>
 			{NAV_ITEMS.map(({ label, icon: Icon, route }) => {
-				const isExact = pathname === `/${route}`;
 				const isActive = pathname.startsWith(`/${route}`);
 				return (
 					<Link
@@ -81,7 +80,7 @@ const Sidebar = () => {
 								transition="background 0.15s"
 								fontFamily={FONT_DISPLAY_SANS}
 								fontSize={22}
-								fontWeight={isExact ? 500 : 400}
+								fontWeight={isActive ? 500 : 400}
 								color={
 									isActive ? 'black' : 'gray.700'
 								}
