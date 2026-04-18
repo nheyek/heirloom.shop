@@ -1,6 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-	Box,
 	DataList,
 	HStack,
 	Skeleton,
@@ -9,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import { AppError } from '@client/components/feedback/AppError';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS, sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -153,7 +153,7 @@ export const OrderPage = () => {
 
 	return (
 		<>
-			{error && <Box>{error}</Box>}
+			{error && <AppError title="Failed to load order" content={error} />}
 			{!error && (isLoading || orderDetails) && (
 				<Stack
 					w="100%"

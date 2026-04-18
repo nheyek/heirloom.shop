@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
+import { AppError } from '@client/components/feedback/AppError';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -46,6 +47,10 @@ export const OrdersPage = () => {
 	}, [authIsLoading]);
 
 	const isLoading = dataIsLoading || authIsLoading;
+
+	if (error) {
+		return <AppError title={error} />;
+	}
 
 	return (
 		<SimpleGrid
