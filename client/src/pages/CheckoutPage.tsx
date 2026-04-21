@@ -10,13 +10,6 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { OrderStatus } from '@common/enums/OrderStatus';
-import { useElements, useStripe } from '@stripe/react-stripe-js';
-import { useEffect, useRef, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { FaCreditCard } from 'react-icons/fa6';
-import { RxDotFilled } from 'react-icons/rx';
-import { useNavigate } from 'react-router-dom';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
@@ -30,7 +23,14 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
+import { OrderStatus } from '@common/enums/OrderStatus';
 import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
+import { useEffect, useRef, useState } from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
+import { FaCreditCard } from 'react-icons/fa6';
+import { RxDotFilled } from 'react-icons/rx';
+import { useNavigate } from 'react-router-dom';
 
 const POLL_INTERVAL_MS = 2000;
 const POLL_MAX_ATTEMPTS = 30;
@@ -57,6 +57,7 @@ export const CheckoutPage = () => {
 
 	const [pendingValidation, setPendingValidation] = useState(false);
 	const [pendingSubmit, setPendingSubmit] = useState(false);
+	const shippingFormRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		return () => {
@@ -68,7 +69,10 @@ export const CheckoutPage = () => {
 	const orderTotal =
 		itemPriceTotal + shippingTotal + (taxTotal || 0);
 
-	const startPollingOrderStatus = (shortId: string, accessKey: string) => {
+	const startPollingOrderStatus = (
+		shortId: string,
+		accessKey: string,
+	) => {
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
@@ -97,7 +101,19 @@ export const CheckoutPage = () => {
 		const failedValidation = !(await validateCheckoutFields());
 		setPendingValidation(false);
 
-		if (failedValidation || !stripe || !elements) return;
+		if (failedValidation) {
+			if (
+				layout === Layout.COMPACT &&
+				shippingFormRef.current
+			) {
+				const top =
+					shippingFormRef.current.getBoundingClientRect()
+						.top;
+				window.scrollTo({ top, behavior: 'smooth' });
+			}
+			return;
+		}
+		if (!stripe || !elements) return;
 
 		setPendingSubmit(true);
 
@@ -122,7 +138,8 @@ export const CheckoutPage = () => {
 			return;
 		}
 
-		const { clientSecret, orderShortId, accessKey } = intentResult.data;
+		const { clientSecret, orderShortId, accessKey } =
+			intentResult.data;
 		const { error: confirmError } = await stripe.confirmPayment({
 			elements,
 			clientSecret,
@@ -199,6 +216,7 @@ export const CheckoutPage = () => {
 				<Stack
 					p={5}
 					gap={5}
+					ref={shippingFormRef}
 				>
 					<CheckoutShippingForm
 						layout={layout}
