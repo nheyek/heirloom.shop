@@ -397,6 +397,7 @@ export type ListingVariationData = z.infer<
 >;
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
+export type CheckoutRequest = z.infer<typeof CheckoutBodySchema>;
 export type CartItemData = z.infer<typeof CartItemDataSchema>;
 export type ShippingAddress = z.infer<typeof ShippingAddressSchema>;
 export type PaymentIntentResponse = z.infer<
