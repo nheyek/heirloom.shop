@@ -63,7 +63,8 @@ export const OrdersPage = () => {
 				[sidebarBreakpoint.md]: 800,
 				[sidebarBreakpoint.xl]: 1200,
 			}}
-			gap={10}
+			gapX={10}
+			gapY={5}
 		>
 			{isLoading &&
 				Array.from({ length: 3 }).map((_, i) => (

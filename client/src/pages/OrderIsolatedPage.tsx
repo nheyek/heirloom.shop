@@ -22,7 +22,7 @@ export const OrderIsolatedPage = () => {
 				>
 					Order <Span fontWeight={500}>{shortId}</Span>
 				</Heading>
-				<OrderPage />;
+				<OrderPage />
 			</Stack>
 		</Center>
 	);

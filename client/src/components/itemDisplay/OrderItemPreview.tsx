@@ -26,9 +26,12 @@ import { Link as RouterLink } from 'react-router-dom';
 const MAX_ORDER_ITEM_PREVIEW_WIDTH = 450;
 const CARD_WIDTH = 150;
 const CARD_HEIGHT = CARD_WIDTH / STANDARD_IMAGE_ASPECT_RATIO;
-const OFFSET_X = 3;
-const OFFSET_Y = 4;
 const ROTATIONS = [0, 2, -1.5, 1, -2];
+const OFFSETS = [
+	{ x: 0, y: 0 },
+	{ x: 3, y: 3 },
+	{ x: -3, y: -3 },
+];
 const MAX_STACK_CARDS = 3;
 
 const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
@@ -44,8 +47,8 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 				<Box
 					key={index}
 					position="absolute"
-					top={index * OFFSET_Y}
-					left={index * OFFSET_X}
+					top={OFFSETS[index % OFFSETS.length].y}
+					left={OFFSETS[index % OFFSETS.length].x}
 					zIndex={n - index}
 					style={{
 						transform: `rotate(${ROTATIONS[index % ROTATIONS.length]}deg)`,
