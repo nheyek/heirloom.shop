@@ -9,7 +9,7 @@ export const STANDARD_GRID_COLUMNS = {
 	base: 1,
 	sm: 2,
 	md: 3,
-	xl: 4,
+	lg: 4,
 };
 
 export const STANDARD_GRID_GAP = 5;

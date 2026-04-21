@@ -21,11 +21,10 @@ const SIDEBAR_CONTENT_OFFSET_PX =
 	SIDEBAR_WIDTH_PX + 2 * ACCOUNT_PAGE_PADDING_PX;
 
 const BASE_BREAKPOINTS = {
-	sm: 480,
-	md: 768,
-	lg: 992,
-	xl: 1280,
-	'2xl': 1536,
+	sm: 600,
+	md: 900,
+	lg: 1200,
+	xl: 1536,
 };
 
 export const sidebarBreakpoint = {

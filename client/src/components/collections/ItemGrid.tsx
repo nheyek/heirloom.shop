@@ -42,7 +42,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		: Math.min(maxNumColumns, items.length);
 	const numSkeletons = numPlaceholders ?? numColumns;
 
-	const minItemWidth = 300;
+	const minItemWidth = 275;
 	const maxItemWidth = props.maxItemWidth ?? 400;
 
 	const animatedItem = (
