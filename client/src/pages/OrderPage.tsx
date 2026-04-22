@@ -7,8 +7,8 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
-import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { AppError } from '@client/components/feedback/AppError';
+import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS, sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -146,6 +146,7 @@ export const OrderPage = () => {
 					[sidebarBreakpoint.md]: 2,
 					[sidebarBreakpoint.lg]: 3,
 				}}
+				maxItemWidth={350}
 				renderItem={(item) => <OrderItemCard item={item} />}
 			/>
 		</>
@@ -153,7 +154,12 @@ export const OrderPage = () => {
 
 	return (
 		<>
-			{error && <AppError title="Failed to load order" content={error} />}
+			{error && (
+				<AppError
+					title="Failed to load order"
+					content={error}
+				/>
+			)}
 			{!error && (isLoading || orderDetails) && (
 				<Stack
 					w="100%"
