@@ -1,5 +1,13 @@
 import { OrderStatus } from '@common/enums/OrderStatus';
 import { getEm } from '@server/db';
+
+jest.mock('@server/services/payment.service', () => ({
+	createPaymentIntent: jest.fn().mockResolvedValue({
+		id: 'pi_test_mock',
+		client_secret: 'pi_test_mock_secret',
+	}),
+}));
+
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingVariation } from '@server/entities/generated/ListingVariation';
@@ -310,14 +318,14 @@ describe('POST /api/checkout/submitOrder', () => {
 		const em = getEm();
 		const order = await em.findOne(AppOrder, {
 			shortId: res.body.orderShortId,
-		});
+		}, { populate: ['appOrderItemCollection'] });
 
 		expect(order!.subtotal).toBe(6100); // $25 + 2*($15+$3)
 		expect(order!.shippingPrice).toBe(1000); // 2*$5
 
-		const items = order!.items;
+		const items = order!.appOrderItemCollection.getItems();
 		expect(items).toHaveLength(2);
-		expect(items[0]).toMatchObject({
+		expect(items[0].snapshot).toMatchObject({
 			title: 'Handmade Bowl',
 			shopName: 'Artisan Workshop',
 			imageUuid: 'img-bowl-01',
@@ -325,7 +333,7 @@ describe('POST /api/checkout/submitOrder', () => {
 			quantity: 1,
 			variations: [],
 		});
-		expect(items[1]).toMatchObject({
+		expect(items[1].snapshot).toMatchObject({
 			title: 'Ceramic Mug',
 			unitPriceCents: 1800,
 			quantity: 2,

@@ -18,7 +18,7 @@ beforeAll(async () => {
 		id: 1001,
 		shortId: 'whk001',
 		email: 'customer@example.com',
-		items: [],
+
 		shippingAddress: {
 			firstName: 'John',
 			lastName: 'Doe',
@@ -31,6 +31,7 @@ beforeAll(async () => {
 		subtotal: 2500,
 		taxTotal: 250,
 		shippingPrice: 500,
+		accessKey: 'testkey1',
 		orderStatus: OrderStatus.PENDING,
 		paymentIntentId: 'pi_test123',
 	});
@@ -39,7 +40,7 @@ beforeAll(async () => {
 		id: 1002,
 		shortId: 'whk002',
 		email: 'another@example.com',
-		items: [],
+
 		shippingAddress: {
 			firstName: 'Jane',
 			lastName: 'Smith',
@@ -52,6 +53,7 @@ beforeAll(async () => {
 		subtotal: 5000,
 		taxTotal: 0,
 		shippingPrice: 800,
+		accessKey: 'testkey2',
 		orderStatus: OrderStatus.PENDING,
 		paymentIntentId: 'pi_test456',
 	});

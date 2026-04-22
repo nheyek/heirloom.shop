@@ -18,7 +18,6 @@ beforeAll(async () => {
 	const order1 = em.create(AppOrder, {
 		shortId: 'ord123',
 		email: 'customer@example.com',
-		items: [],
 		shippingAddress: {
 			firstName: 'John',
 			lastName: 'Doe',
@@ -31,13 +30,13 @@ beforeAll(async () => {
 		subtotal: 2500,
 		taxTotal: 250,
 		shippingPrice: 500,
+		accessKey: 'testkey1',
 		orderStatus: OrderStatus.PENDING,
 	});
 
 	const order2 = em.create(AppOrder, {
 		shortId: 'ord456',
 		email: 'another@example.com',
-		items: [],
 		shippingAddress: {
 			firstName: 'Jane',
 			lastName: 'Smith',
@@ -50,6 +49,7 @@ beforeAll(async () => {
 		subtotal: 5000,
 		taxTotal: 0,
 		shippingPrice: 800,
+		accessKey: 'testkey2',
 		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
 	});
 

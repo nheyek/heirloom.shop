@@ -13,8 +13,6 @@ export const handleStripeWebhook = async (
 	request: Request,
 	response: Response,
 ) => {
-	const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
-	const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 	const sig = request.headers['stripe-signature'];
 
 	let event: Stripe.Event;
@@ -24,6 +22,8 @@ export const handleStripeWebhook = async (
 			: JSON.stringify(request.body);
 		event = JSON.parse(raw) as Stripe.Event;
 	} else {
+		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+		const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 		try {
 			event = stripe.webhooks.constructEvent(
 				request.body,
