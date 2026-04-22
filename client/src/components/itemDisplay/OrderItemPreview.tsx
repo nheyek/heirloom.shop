@@ -34,6 +34,30 @@ const OFFSETS = [
 ];
 const MAX_STACK_CARDS = 3;
 
+const LabeledValue = ({
+	label,
+	value,
+}: {
+	label: string;
+	value: string;
+}) => (
+	<Stack gap={0}>
+		<Text
+			fontSize={14}
+			color="gray.600"
+			textTransform="uppercase"
+		>
+			{label}
+		</Text>
+		<Text
+			fontSize={20}
+			lineHeight={1}
+		>
+			{value}
+		</Text>
+	</Stack>
+);
+
 const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 	const visibleItems = items.slice(0, MAX_STACK_CARDS);
 	const n = visibleItems.length;
@@ -110,37 +134,15 @@ export const OrderItemPreview = ({ order }: Props) => {
 					fontFamily={FONT_DISPLAY_SANS}
 				>
 					{order.createdAt && (
-						<Stack gap={0}>
-							<Text
-								fontSize={14}
-								color="gray.600"
-								textTransform="uppercase"
-							>
-								Placed
-							</Text>
-							<Text
-								fontSize={20}
-								lineHeight={1}
-							>
-								{formatDateCompact(order.createdAt)}
-							</Text>
-						</Stack>
+						<LabeledValue
+							label="Placed"
+							value={formatDateCompact(order.createdAt)}
+						/>
 					)}
-					<Stack gap={0}>
-						<Text
-							fontSize={14}
-							color="gray.600"
-							textTransform="uppercase"
-						>
-							Total
-						</Text>
-						<Text
-							fontSize={20}
-							lineHeight={1}
-						>
-							{formatCentsAsDollars(total)}
-						</Text>
-					</Stack>
+					<LabeledValue
+						label="Total"
+						value={formatCentsAsDollars(total)}
+					/>
 				</HStack>
 				<RouterLink
 					to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
