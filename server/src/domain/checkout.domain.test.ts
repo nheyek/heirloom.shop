@@ -247,6 +247,7 @@ describe('createOrderItemSnapshots', () => {
 			shopName: 'Clay Co',
 			imageUuid: 'uuid-1',
 			unitPriceCents: 1000,
+			shippingPriceCents: 0,
 			quantity: 2,
 			estimatedDelivery: null,
 			variations: [],

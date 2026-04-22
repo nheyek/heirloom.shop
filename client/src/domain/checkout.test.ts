@@ -4,7 +4,7 @@ import {
 	simplifyCartItems,
 } from './checkout';
 import { ShippingAddress } from '@common/contract';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItem';
+import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
 
 const validAddress: ShippingAddress = {
 	firstName: 'John',
