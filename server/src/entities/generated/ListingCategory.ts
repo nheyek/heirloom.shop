@@ -1,12 +1,12 @@
-import { Collection, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing';
+import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Listing } from './Listing.js';
 
 export class ListingCategory {
   id!: string;
   title!: string;
   subtitle?: string;
   imageUuid?: string;
-  parent?: ListingCategory;
+  parent?: Rel<ListingCategory>;
   createdAt?: Date;
   updatedAt?: Date;
   listingCollection = new Collection<Listing>(this);

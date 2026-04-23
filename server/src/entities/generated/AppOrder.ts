@@ -1,6 +1,6 @@
-import { Collection, defineEntity, p } from '@mikro-orm/core';
-import { AppOrderItem } from './AppOrderItem';
-import { AppUser } from './AppUser';
+import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { AppOrderItem } from './AppOrderItem.js';
+import { AppUser } from './AppUser.js';
 
 export class AppOrder {
   id!: number;
@@ -15,7 +15,7 @@ export class AppOrder {
   shortId!: string;
   email!: string;
   accessKey!: string;
-  user?: AppUser;
+  user?: Rel<AppUser>;
   appOrderItemCollection = new Collection<AppOrderItem>(this);
 }
 

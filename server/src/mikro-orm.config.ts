@@ -20,6 +20,7 @@ const config = defineConfig({
 	entityGenerator: {
 		bidirectionalRelations: true,
 		identifiedReferences: false,
+		esmImport: true,
 		// The generator emits `p.type(string[])` for text-array columns, which is
 		// invalid TypeScript. Rewrite those properties so they generate `p.array()`.
 		onProcessedMetadata: (metadata) => {
