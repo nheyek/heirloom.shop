@@ -20,11 +20,11 @@ COPY client/package*.json ./client/
 
 # Install dependencies
 WORKDIR /app
-RUN npm install --omit=dev
+RUN npm install --legacy-peer-deps
 WORKDIR /app/server
-RUN npm install
+RUN npm install --legacy-peer-deps
 WORKDIR /app/client
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy the full source
 WORKDIR /app
