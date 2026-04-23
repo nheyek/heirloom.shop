@@ -3,8 +3,8 @@
 	"version": "1.0.0",
 	"type": "module",
 	"scripts": {
-		"test:unit": "node --experimental-vm-modules node_modules/.bin/jest --config jest.unit.config.js",
-		"test:integration": "node --experimental-vm-modules node_modules/.bin/jest --config jest.integration.config.js"
+		"test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.unit.config.js",
+		"test:integration": "NODE_OPTIONS=--experimental-vm-modules jest --config jest.integration.config.js"
 	},
 	"devDependencies": {
 		"@types/jest": "^29.5.12",
