@@ -30,7 +30,6 @@
 		"@mikro-orm/decorators": "^7.0.12",
 		"@mikro-orm/postgresql": "^7.0.12",
 		"@mikro-orm/reflection": "^7.0.12",
-		"@ts-rest/core": "^3.53.0-rc.1",
 		"@ts-rest/express": "^3.53.0-rc.1",
 		"dotenv-flow": "^4.1.0",
 		"express": "^5.2.1",
@@ -38,20 +37,13 @@
 		"hashids": "^2.3.0",
 		"mikro-orm": "^7.0.12",
 		"pg": "^8.20.0",
-		"reflect-metadata": "^0.2.2",
 		"resend": "^6.10.0",
-		"stripe": "^20.3.1",
-		"typeorm": "^0.3.25",
-		"zod": "^4.3.6"
+		"stripe": "^20.3.1"
 	},
 	"devDependencies": {
 		"@mikro-orm/entity-generator": "^7.0.12",
 		"@types/express": "^5.0.6",
-		"ts-node": "^10.9.2",
-		"ts-node-dev": "^2.0.0",
 		"tsc-alias": "^1.8.10",
-		"tsconfig-paths": "^4.2.0",
-		"tsx": "^4.21.0",
-		"typescript": "^6.0.3"
+		"tsx": "^4.21.0"
 	}
 }
