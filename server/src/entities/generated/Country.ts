@@ -1,7 +1,7 @@
 import { Collection, PrimaryKeyProp } from '@mikro-orm/core';
 import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing.js';
-import { Shop } from './Shop.js';
+import { Listing } from './Listing';
+import { Shop } from './Shop';
 
 @Entity()
 export class Country {

@@ -1,6 +1,6 @@
-import { Collection, type Rel } from '@mikro-orm/core';
+import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing.js';
+import { Listing } from './Listing';
 
 @Entity()
 export class ListingCategory {
@@ -18,7 +18,7 @@ export class ListingCategory {
   imageUuid?: string;
 
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', nullable: true })
-  parent?: Rel<ListingCategory>;
+  parent?: ListingCategory;
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;

@@ -1,7 +1,7 @@
-import { Collection, type Rel } from '@mikro-orm/core';
+import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing.js';
-import { Shop } from './Shop.js';
+import { Listing } from './Listing';
+import { Shop } from './Shop';
 
 @Entity()
 export class ShippingProfile {
@@ -28,7 +28,7 @@ export class ShippingProfile {
   updatedAt?: Date;
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade', nullable: true })
-  shop?: Rel<Shop>;
+  shop?: Shop;
 
   @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
   standardProfileKey?: string;

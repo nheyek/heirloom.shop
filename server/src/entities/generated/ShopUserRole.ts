@@ -1,7 +1,6 @@
-import { type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { AppUser } from './AppUser.js';
-import { Shop } from './Shop.js';
+import { AppUser } from './AppUser';
+import { Shop } from './Shop';
 
 @Entity()
 export class ShopUserRole {
@@ -10,10 +9,10 @@ export class ShopUserRole {
   id!: number;
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
-  shop!: Rel<Shop>;
+  shop!: Shop;
 
   @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'cascade' })
-  user!: Rel<AppUser>;
+  user!: AppUser;
 
   @Property({ length: 32 })
   shopRole!: string;

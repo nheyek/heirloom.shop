@@ -1,13 +1,13 @@
-import { Collection, type Opt, type Rel } from '@mikro-orm/core';
+import { Collection, type Opt } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Country } from './Country.js';
-import { ListingCategory } from './ListingCategory.js';
-import { ListingVariation } from './ListingVariation.js';
-import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
-import { ShippingOrigin } from './ShippingOrigin.js';
-import { ShippingProfile } from './ShippingProfile.js';
-import { Shop } from './Shop.js';
-import { UserFavoriteListing } from './UserFavoriteListing.js';
+import { Country } from './Country';
+import { ListingCategory } from './ListingCategory';
+import { ListingVariation } from './ListingVariation';
+import { ReturnExchangeProfile } from './ReturnExchangeProfile';
+import { ShippingOrigin } from './ShippingOrigin';
+import { ShippingProfile } from './ShippingProfile';
+import { Shop } from './Shop';
+import { UserFavoriteListing } from './UserFavoriteListing';
 
 @Entity()
 export class Listing {
@@ -25,7 +25,7 @@ export class Listing {
   updatedAt?: Date;
 
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', deleteRule: 'restrict' })
-  category!: Rel<ListingCategory>;
+  category!: ListingCategory;
 
   @Property({ length: 256, nullable: true })
   subtitle?: string;
@@ -34,19 +34,19 @@ export class Listing {
   priceCents: number & Opt = 0;
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
-  shop!: Rel<Shop>;
+  shop!: Shop;
 
   @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
-  country?: Rel<Country>;
+  country?: Country;
 
   @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
   imageUuids!: string[] & Opt;
 
   @ManyToOne({ entity: () => ShippingProfile, updateRule: 'no action', nullable: true })
-  shippingProfile?: Rel<ShippingProfile>;
+  shippingProfile?: ShippingProfile;
 
   @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
-  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
+  returnExchangeProfile?: ReturnExchangeProfile;
 
   @Property({ type: 'integer' })
   leadTimeDaysMin: number & Opt = 0;
@@ -55,7 +55,7 @@ export class Listing {
   leadTimeDaysMax: number & Opt = 0;
 
   @ManyToOne({ entity: () => ShippingOrigin, updateRule: 'no action', nullable: true })
-  shippingOrigin?: Rel<ShippingOrigin>;
+  shippingOrigin?: ShippingOrigin;
 
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;

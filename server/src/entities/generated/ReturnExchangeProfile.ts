@@ -1,6 +1,6 @@
 import { Collection, type Opt } from '@mikro-orm/core';
 import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing.js';
+import { Listing } from './Listing';
 
 @Entity()
 export class ReturnExchangeProfile {

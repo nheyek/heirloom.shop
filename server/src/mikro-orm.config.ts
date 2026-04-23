@@ -26,6 +26,7 @@ const config = defineConfig({
 		identifiedReferences: false,
 		entityDefinition: 'decorators',
 		decorators: 'es',
+		esmImport: false,
 	},
 	driverOptions: isDev
 		? {}

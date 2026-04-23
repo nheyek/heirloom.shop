@@ -1,8 +1,8 @@
 import { StorageKey } from '@client/constants';
 import {
-    getEmailFieldError,
-    getShippingAddressFieldErrors,
-    simplifyCartItems,
+	getEmailFieldError,
+	getShippingAddressFieldErrors,
+	simplifyCartItems,
 } from '@client/domain/checkout';
 import { calculateItemPrice } from '@client/domain/shoppingCart';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -10,18 +10,18 @@ import { usePersistedState } from '@client/hooks/usePersistedState';
 import { callApi } from '@client/utils/apiUtils';
 import { validateDeliverableAddress } from '@client/utils/googleMapsUtils';
 import {
-    CartItemData,
-    CheckoutItemData,
-    ShippingAddress,
+	CartItemData,
+	CheckoutItemData,
+	ShippingAddress,
 } from '@common/contract';
 import { ShippingAddressErrors } from '@common/types/ShippingAddressErrors';
 import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
 import {
-    createContext,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
 } from 'react';
 
 type PersistedCartItem = CheckoutItemData & { addedAt: number };
@@ -107,8 +107,7 @@ export const ShoppingCartProvider = (props: {
 		useState<boolean>(false);
 	const [taxTotal, setTaxTotal] = useState<number | null>(null);
 
-	const taxDebounceRef =
-		useRef<ReturnType<typeof setTimeout>>(undefined);
+	const taxDebounceRef = useRef<NodeJS.Timeout | null>(null);
 	const apiClient = useApiClient();
 
 	// Derive the full cart item list from the two sources — no duplication of
@@ -189,7 +188,10 @@ export const ShoppingCartProvider = (props: {
 		if (taxDebounceRef.current)
 			clearTimeout(taxDebounceRef.current);
 		taxDebounceRef.current = setTimeout(calculateTax, 300);
-		return () => clearTimeout(taxDebounceRef.current);
+		return () => {
+			taxDebounceRef.current &&
+				clearTimeout(taxDebounceRef.current);
+		};
 	}, [shippingAddress]);
 
 	const setShippingAddress = (address: ShippingAddress) => {
