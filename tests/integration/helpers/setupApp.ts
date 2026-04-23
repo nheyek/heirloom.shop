@@ -15,8 +15,13 @@ export function useApp() {
 	let app: any;
 
 	beforeAll(async () => {
-		const { createApp } = await import('../../../server/src/app');
-		app = await createApp();
+		try {
+			const { createApp } = await import('../../../server/src/app');
+			app = await createApp();
+		} catch (e) {
+			console.error('[setupApp] createApp() threw:', e);
+			throw e;
+		}
 	});
 
 	afterAll(async () => {

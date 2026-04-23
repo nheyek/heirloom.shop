@@ -21,8 +21,7 @@
 		"configPaths": [
 			"./src/mikro-orm.config.ts",
 			"./dist/server/src/mikro-orm.config.js"
-		],
-		"useTsNode": true
+		]
 	},
 	"dependencies": {
 		"@mikro-orm/cli": "^7.0.12",

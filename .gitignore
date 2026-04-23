@@ -5,3 +5,4 @@ coverage/
 terraform.tfstate
 terraform.tfstate.backup
 /.claude
+/temp

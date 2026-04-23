@@ -29,9 +29,15 @@ const config = defineConfig({
 					},
 				},
 			},
-	// Paths resolved from process.cwd() — works in both CJS (dev) and ESM (tests)
-	entities: ['dist/server/src/entities/generated/*.js'],
-	entitiesTs: ['server/src/entities/generated/*.ts'],
+	// In CJS/tsx (CLI/dev) context __dirname is available — use it for absolute paths
+	// so the config works regardless of cwd. In ESM (tests, cwd=repo root) fall back
+	// to repo-root-relative globs.
+	entities: process.env.NODE_ENV !== 'testing'
+		? [path.join(__dirname, '../../dist/server/src/entities/generated') + '/*.js']
+		: ['dist/server/src/entities/generated/*.js'],
+	entitiesTs: process.env.NODE_ENV !== 'testing'
+		? [path.join(__dirname, 'entities/generated') + '/*.ts']
+		: ['server/src/entities/generated/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
 	// require() is only available in CJS (dev/CLI) context, not in ESM (tests)
