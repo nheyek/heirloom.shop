@@ -19,13 +19,6 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 	);
 };
 
-export const findListingImages = async (
-	id: number,
-): Promise<ListingImage[]> => {
-	const em = getEm();
-	return em.find(ListingImage, { listing: { id } });
-};
-
 export const findListingsByCategory = async (
 	categoryId: string,
 ): Promise<Listing[]> => {
