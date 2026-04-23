@@ -38,7 +38,7 @@
 		"mikro-orm": "^7.0.12",
 		"pg": "^8.20.0",
 		"resend": "^6.10.0",
-		"stripe": "^20.3.1"
+		"stripe": "^22.0.2"
 	},
 	"devDependencies": {
 		"@mikro-orm/entity-generator": "^7.0.12",
