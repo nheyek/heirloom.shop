@@ -1,12 +1,15 @@
-const path = require('path');
-const webpack = require('webpack');
+import { fileURLToPath } from 'url';
+import path from 'path';
+import webpack from 'webpack';
+import dotenv from 'dotenv';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-require('dotenv').config();
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+dotenv.config();
 
-module.exports = (env, argv) => {
+export default (env, argv) => {
 	const isProd = argv.mode === 'production';
 
 	return {

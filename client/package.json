@@ -10,7 +10,7 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
-	"type": "commonjs",
+	"type": "module",
 	"dependencies": {
 		"@auth0/auth0-react": "^2.16.2",
 		"@chakra-ui/react": "^3.35.0",
