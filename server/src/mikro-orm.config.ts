@@ -34,8 +34,11 @@ const config = defineConfig({
 	entitiesTs: ['server/src/entities/generated/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
 	discovery: { warnWhenNoEntities: false },
-	// entity-generator is only used in CJS dev context; require() not available in ESM
-	extensions: [],
+	// require() is only available in CJS (dev/CLI) context, not in ESM (tests)
+	extensions:
+		typeof require !== 'undefined' && isDev
+			? [require('@mikro-orm/entity-generator').EntityGenerator]
+			: [],
 });
 
 export default config;

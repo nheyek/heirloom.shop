@@ -1,45 +1,32 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 import { Shop } from './Shop';
 
-@Entity()
 export class ShippingProfile {
-
-  @PrimaryKey()
   id!: number;
-
-  @Property({ length: 128 })
   profileName!: string;
-
-  @Property({ nullable: true })
   flatShippingRateCents?: number;
-
-  @Property({ nullable: true })
   shippingDaysMin?: number;
-
-  @Property({ nullable: true })
   shippingDaysMax?: number;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @ManyToOne({ entity: () => Shop, deleteRule: 'cascade', nullable: true })
-  shop?: Shop;
-
-  @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
+  shop?: Ref<Shop>;
   standardProfileKey?: string;
-
-  @OneToMany({ entity: () => Listing, mappedBy: 'shippingProfile' })
   listingCollection = new Collection<Listing>(this);
-
 }
+
+export const ShippingProfileSchema = defineEntity({
+  class: ShippingProfile,
+  properties: {
+    id: p.integer().primary(),
+    profileName: p.string().length(128),
+    flatShippingRateCents: p.integer().nullable(),
+    shippingDaysMin: p.integer().nullable(),
+    shippingDaysMax: p.integer().nullable(),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade').nullable(),
+    standardProfileKey: p.string().length(64).nullable().unique('unique_shop_standard_profile_key'),
+    listingCollection: () => p.oneToMany(Listing).mappedBy('shippingProfile'),
+  },
+});

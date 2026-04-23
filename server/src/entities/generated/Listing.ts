@@ -1,11 +1,4 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
-import { Collection, type Opt } from '@mikro-orm/core';
+import { Collection, type Opt, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
 import { ListingVariation } from './ListingVariation';
@@ -15,64 +8,49 @@ import { ShippingProfile } from './ShippingProfile';
 import { Shop } from './Shop';
 import { UserFavoriteListing } from './UserFavoriteListing';
 
-@Entity()
 export class Listing {
-
-  @PrimaryKey()
   id!: number;
-
-  @Property({ length: 128 })
   title!: string;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @ManyToOne({ entity: () => ListingCategory })
-  category!: ListingCategory;
-
-  @Property({ length: 256, nullable: true })
+  category!: Ref<ListingCategory>;
   subtitle?: string;
-
-  @Property({ type: 'integer' })
   priceCents: number & Opt = 0;
-
-  @ManyToOne({ entity: () => Shop, deleteRule: 'cascade' })
-  shop!: Shop;
-
-  @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
-  country?: Country;
-
-  @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
+  shop!: Ref<Shop>;
+  country?: Ref<Country>;
   imageUuids!: string[] & Opt;
-
-  @ManyToOne({ entity: () => ShippingProfile, deleteRule: 'set null', nullable: true })
-  shippingProfile?: ShippingProfile;
-
-  @ManyToOne({ entity: () => ReturnExchangeProfile, deleteRule: 'set null', nullable: true })
-  returnExchangeProfile?: ReturnExchangeProfile;
-
-  @Property({ type: 'integer' })
+  shippingProfile?: Ref<ShippingProfile>;
+  returnExchangeProfile?: Ref<ReturnExchangeProfile>;
   leadTimeDaysMin: number & Opt = 0;
-
-  @Property({ type: 'integer' })
   leadTimeDaysMax: number & Opt = 0;
-
-  @ManyToOne({ entity: () => ShippingOrigin, deleteRule: 'set null', nullable: true })
-  shippingOrigin?: ShippingOrigin;
-
-  @Property({ type: 'json', nullable: true })
+  shippingOrigin?: Ref<ShippingOrigin>;
   fullDescr?: any;
-
-  @Property({ length: 10, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
   shortId!: string;
-
-  @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);
-
-  @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
-
 }
+
+export const ListingSchema = defineEntity({
+  class: Listing,
+  properties: {
+    id: p.integer().primary(),
+    title: p.string().length(128),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    category: () => p.manyToOne(ListingCategory).ref().updateRule('no action').deleteRule('restrict'),
+    subtitle: p.string().length(256).nullable(),
+    priceCents: p.integer(),
+    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade'),
+    country: () => p.manyToOne(Country).ref().updateRule('no action').nullable(),
+    imageUuids: p.type(string[]).defaultRaw(`ARRAY[]::text[]`),
+    shippingProfile: () => p.manyToOne(ShippingProfile).ref().updateRule('no action').nullable(),
+    returnExchangeProfile: () => p.manyToOne(ReturnExchangeProfile).ref().updateRule('no action').nullable(),
+    leadTimeDaysMin: p.integer(),
+    leadTimeDaysMax: p.integer(),
+    shippingOrigin: () => p.manyToOne(ShippingOrigin).ref().updateRule('no action').nullable(),
+    fullDescr: p.json().nullable(),
+    shortId: p.string().length(10).index('idx_listing_short_id').unique('listing_short_id_key'),
+    listingVariationCollection: () => p.oneToMany(ListingVariation).mappedBy('listing'),
+    userFavoriteListingCollection: () => p.oneToMany(UserFavoriteListing).mappedBy('listing'),
+  },
+});

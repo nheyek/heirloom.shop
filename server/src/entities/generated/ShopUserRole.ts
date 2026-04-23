@@ -1,31 +1,24 @@
-import {
-	Entity,
-	ManyToOne,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
+import { type Ref, defineEntity, p } from '@mikro-orm/core';
 import { AppUser } from './AppUser';
 import { Shop } from './Shop';
 
-@Entity()
 export class ShopUserRole {
-
-  @PrimaryKey()
   id!: number;
-
-  @ManyToOne({ entity: () => Shop, deleteRule: 'cascade' })
-  shop!: Shop;
-
-  @ManyToOne({ entity: () => AppUser, deleteRule: 'cascade' })
-  user!: AppUser;
-
-  @Property({ length: 32 })
+  shop!: Ref<Shop>;
+  user!: Ref<AppUser>;
   shopRole!: string;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
 }
+
+export const ShopUserRoleSchema = defineEntity({
+  class: ShopUserRole,
+  properties: {
+    id: p.integer().primary(),
+    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade'),
+    user: () => p.manyToOne(AppUser).ref().updateRule('no action').deleteRule('cascade'),
+    shopRole: p.string().length(32),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+  },
+});

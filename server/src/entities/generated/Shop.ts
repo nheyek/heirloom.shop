@@ -1,63 +1,45 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { Country } from './Country';
 import { Listing } from './Listing';
 import { ShippingOrigin } from './ShippingOrigin';
 import { ShippingProfile } from './ShippingProfile';
 import { ShopUserRole } from './ShopUserRole';
 
-@Entity()
 export class Shop {
-
-  @PrimaryKey()
   id!: number;
-
-  @Property({ length: 128 })
   title!: string;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @Property({ type: 'text', nullable: true })
   profileRichText?: string;
-
-  @Property({ length: 36, nullable: true })
   profileImageUuid?: string;
-
-  @Property({ length: 64, nullable: true })
   shopLocation?: string;
-
-  @Property({ length: 32, nullable: true })
   classification?: string;
-
-  @ManyToOne({ entity: () => Country, deleteRule: 'set null', nullable: true })
-  country?: Country;
-
-  @Property({ length: 64, nullable: true })
+  country?: Ref<Country>;
   categoryIcon?: string;
-
-  @Property({ length: 10, nullable: true, index: 'idx_shop_short_id', unique: 'shop_short_id_key' })
   shortId?: string;
-
-  @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
   listingCollection = new Collection<Listing>(this);
-
-  @OneToMany({ entity: () => ShippingOrigin, mappedBy: 'shop' })
   shippingOriginCollection = new Collection<ShippingOrigin>(this);
-
-  @OneToMany({ entity: () => ShippingProfile, mappedBy: 'shop' })
   shippingProfileCollection = new Collection<ShippingProfile>(this);
-
-  @OneToMany({ entity: () => ShopUserRole, mappedBy: 'shop' })
   shopUserRoleCollection = new Collection<ShopUserRole>(this);
-
 }
+
+export const ShopSchema = defineEntity({
+  class: Shop,
+  properties: {
+    id: p.integer().primary(),
+    title: p.string().length(128),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    profileRichText: p.text().nullable(),
+    profileImageUuid: p.string().length(36).nullable(),
+    shopLocation: p.string().length(64).nullable(),
+    classification: p.string().length(32).nullable(),
+    country: () => p.manyToOne(Country).ref().updateRule('no action').nullable(),
+    categoryIcon: p.string().length(64).nullable(),
+    shortId: p.string().length(10).nullable().index('idx_shop_short_id').unique('shop_short_id_key'),
+    listingCollection: () => p.oneToMany(Listing).mappedBy('shop'),
+    shippingOriginCollection: () => p.oneToMany(ShippingOrigin).mappedBy('shop'),
+    shippingProfileCollection: () => p.oneToMany(ShippingProfile).mappedBy('shop'),
+    shopUserRoleCollection: () => p.oneToMany(ShopUserRole).mappedBy('shop'),
+  },
+});

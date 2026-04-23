@@ -1,38 +1,29 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryKey,
-	Property,
-	Unique,
-} from '@mikro-orm/decorators/legacy';
-import { Collection, type Opt } from '@mikro-orm/core';
+import { Collection, type Opt, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 import { ListingVariationOption } from './ListingVariationOption';
 
-@Entity()
-@Unique({ name: 'unique_name_per_listing', properties: ['listing', 'variationName'] })
 export class ListingVariation {
-
-  @PrimaryKey()
   id!: number;
-
-  @ManyToOne({ entity: () => Listing, deleteRule: 'cascade' })
-  listing!: Listing;
-
-  @Property({ length: 128 })
+  listing!: Ref<Listing>;
   variationName!: string;
-
-  @Property({ type: 'boolean' })
   pricesVary: boolean & Opt = false;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @OneToMany({ entity: () => ListingVariationOption, mappedBy: 'listingVariation' })
   listingVariationOptionCollection = new Collection<ListingVariationOption>(this);
-
 }
+
+export const ListingVariationSchema = defineEntity({
+  class: ListingVariation,
+  uniques: [
+    { name: 'unique_name_per_listing', properties: ['listing', 'variationName'] },
+  ],
+  properties: {
+    id: p.integer().primary(),
+    listing: () => p.manyToOne(Listing).ref().updateRule('no action').deleteRule('cascade'),
+    variationName: p.string().length(128),
+    pricesVary: p.boolean(),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    listingVariationOptionCollection: () => p.oneToMany(ListingVariationOption).mappedBy('listingVariation'),
+  },
+});

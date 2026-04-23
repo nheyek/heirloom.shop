@@ -1,43 +1,31 @@
-import {
-	Entity,
-	OneToMany,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
-import { Collection, type Opt } from '@mikro-orm/core';
+import { Collection, type Opt, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 
-@Entity()
 export class ReturnExchangeProfile {
-
-  @PrimaryKey()
   id!: number;
-
-  @Property({ length: 128 })
   profileName!: string;
-
-  @Property({ type: 'integer' })
   returnWindowDays: number & Opt = 30;
-
-  @Property({ type: 'text', nullable: true })
   additionalDetails?: string;
-
-  @Property({ type: 'boolean' })
   acceptReturns: boolean & Opt = false;
-
-  @Property({ type: 'boolean' })
   acceptExchanges: boolean & Opt = false;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @Property({ length: 64, nullable: true, unique: 'unique_standard_profile_key' })
   standardProfileKey?: string;
-
-  @OneToMany({ entity: () => Listing, mappedBy: 'returnExchangeProfile' })
   listingCollection = new Collection<Listing>(this);
-
 }
+
+export const ReturnExchangeProfileSchema = defineEntity({
+  class: ReturnExchangeProfile,
+  properties: {
+    id: p.integer().primary(),
+    profileName: p.string().length(128),
+    returnWindowDays: p.integer(),
+    additionalDetails: p.text().nullable(),
+    acceptReturns: p.boolean(),
+    acceptExchanges: p.boolean(),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    standardProfileKey: p.string().length(64).nullable().unique('unique_standard_profile_key'),
+    listingCollection: () => p.oneToMany(Listing).mappedBy('returnExchangeProfile'),
+  },
+});

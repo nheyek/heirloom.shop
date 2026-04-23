@@ -1,25 +1,19 @@
-import {
-	Entity,
-	ManyToOne,
-	PrimaryKey,
-	Property,
-} from '@mikro-orm/decorators/legacy';
-import { type Opt } from '@mikro-orm/core';
+import { type Opt, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { AppOrder } from './AppOrder';
 
-@Entity()
 export class AppOrderItem {
-
-  @PrimaryKey()
   id!: number;
-
-  @ManyToOne({ entity: () => AppOrder, deleteRule: 'cascade' })
-  order!: AppOrder;
-
-  @Property({ type: 'json' })
+  order!: Ref<AppOrder>;
   snapshot!: any;
-
-  @Property({ type: 'json' })
   fulfillment: any & Opt = '{}';
-
 }
+
+export const AppOrderItemSchema = defineEntity({
+  class: AppOrderItem,
+  properties: {
+    id: p.integer().primary(),
+    order: () => p.manyToOne(AppOrder).ref().updateRule('no action').deleteRule('cascade'),
+    snapshot: p.json(),
+    fulfillment: p.json(),
+  },
+});

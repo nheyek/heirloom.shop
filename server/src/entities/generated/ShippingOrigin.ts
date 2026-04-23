@@ -1,38 +1,27 @@
-import {
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryKey,
-	Property,
-	Unique,
-} from '@mikro-orm/decorators/legacy';
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 import { Shop } from './Shop';
 
-@Entity()
-@Unique({ name: 'unique_shop_origin_zip', properties: ['shop', 'originZip'] })
 export class ShippingOrigin {
-
-  @PrimaryKey()
   id!: number;
-
-  @Property({ length: 128 })
   locationName!: string;
-
-  @Property({ type: 'decimal', precision: 5, scale: 0 })
   originZip!: string;
-
-  @ManyToOne({ entity: () => Shop, deleteRule: 'cascade' })
-  shop!: Shop;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  shop!: Ref<Shop>;
   createdAt?: Date;
-
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
-
-  @OneToMany({ entity: () => Listing, mappedBy: 'shippingOrigin' })
   listingCollection = new Collection<Listing>(this);
-
 }
+
+export const ShippingOriginSchema = defineEntity({
+  class: ShippingOrigin,
+  uniques: [{ name: 'unique_shop_origin_zip', properties: ['shop', 'originZip'] }],
+  properties: {
+    id: p.integer().primary(),
+    locationName: p.string().length(128),
+    originZip: p.decimal(),
+    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade'),
+    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
+    listingCollection: () => p.oneToMany(Listing).mappedBy('shippingOrigin'),
+  },
+});
