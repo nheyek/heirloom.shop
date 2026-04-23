@@ -7,7 +7,7 @@ const TEST_DB = 'heirloomdb_test';
 
 export default async function globalSetup() {
 	dotenv.config({
-		path: path.join(__dirname, '../../server/.env.development'),
+		path: path.resolve('server/.env.development'),
 	});
 
 	// Override for test environment — set before workers spawn so they inherit
@@ -45,7 +45,7 @@ export default async function globalSetup() {
 	// Apply schema.sql directly — it is the authoritative full-state dump
 	// maintained by dbmate and is updated each time migrate.sh is run
 	const schema = fs.readFileSync(
-		path.join(__dirname, '../../db/schema.sql'),
+		path.resolve('db/schema.sql'),
 		'utf8',
 	);
 

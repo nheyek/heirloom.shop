@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
 	extensionsToTreatAsEsm: ['.ts'],
 	testEnvironment: 'node',
 	maxWorkers: 1,
@@ -11,7 +11,7 @@ module.exports = {
 		'^@client/(.*)$': '<rootDir>/client/src/$1',
 	},
 	transform: {
-		'^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json', useESM: true }],
+		'^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json', useESM: true }],
 	},
 	globalSetup: '<rootDir>/tests/integration/globalSetup.ts',
 	globalTeardown: '<rootDir>/tests/integration/globalTeardown.ts',

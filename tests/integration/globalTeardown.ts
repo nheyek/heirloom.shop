@@ -6,7 +6,7 @@ const TEST_DB = 'heirloomdb_test';
 
 export default async function globalTeardown() {
 	dotenv.config({
-		path: path.join(__dirname, '../../server/.env.development'),
+		path: path.resolve('server/.env.development'),
 	});
 
 	const {

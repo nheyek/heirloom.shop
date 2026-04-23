@@ -12,9 +12,10 @@
 	},
 	"license": "ISC",
 	"author": "Nick Heyek",
+	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"dev": "NODE_ENV=development ts-node-dev -r tsconfig-paths/register --respawn --transpile-only src/app.ts",
+		"dev": "NODE_ENV=development tsx watch src/app.ts",
 		"build": "tsc && tsc-alias"
 	},
 	"mikro-orm": {

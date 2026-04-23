@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'url';
 import { API_ROUTES } from '@common/constants';
 import {
 	categoryContract,
@@ -12,7 +13,6 @@ import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
 import path from 'path';
-import 'reflect-metadata';
 import { initORM } from './db';
 import { categoryRouter } from './routes/category.routes';
 import { checkoutRouter } from './routes/checkout.routes';
@@ -23,11 +23,9 @@ import { searchRouter } from './routes/search.routes';
 import { shopRouter } from './routes/shop.routes';
 import webhookRouter from './routes/webhook.routes';
 
-// __dirname is a CJS module variable. Guard all usages so they are dead code
-// when the file is loaded as ESM by ts-jest (test environment).
-if (process.env.NODE_ENV !== 'testing') {
-	dotenvFlow.config({ path: path.join(__dirname, '..') });
-}
+const __dirname = fileURLToPath(new URL('.', import.meta.url));
+
+dotenvFlow.config({ path: path.join(__dirname, '..') });
 
 export const createApp = async () => {
 	const app = express();
@@ -42,10 +40,7 @@ export const createApp = async () => {
 
 	app.use(express.json());
 
-	if (process.env.NODE_ENV !== 'testing') {
-		// Static file serving only needed in production; __dirname valid in CJS only.
-		app.use(express.static(path.join(__dirname, 'public')));
-	}
+	app.use(express.static(path.join(__dirname, 'public')));
 
 	createExpressEndpoints(listingsContract, listingRouter, app);
 	createExpressEndpoints(meContract, meRouter, app);
@@ -55,11 +50,9 @@ export const createApp = async () => {
 	createExpressEndpoints(searchContract, searchRouter, app);
 	createExpressEndpoints(ordersContract, orderRouter, app);
 
-	if (process.env.NODE_ENV !== 'testing') {
-		app.use((req, res, next) => {
-			res.sendFile(path.join(__dirname, 'public/index.html'));
-		});
-	}
+	app.use((_req, res) => {
+		res.sendFile(path.join(__dirname, 'public/index.html'));
+	});
 
 	return app;
 };
@@ -72,8 +65,8 @@ const main = async () => {
 	});
 };
 
-// require.main is CJS-only; guard so ESM (test) context doesn't break.
-if (typeof require !== 'undefined' && require.main === module) {
+// Only start the server when this file is run directly, not when imported by tests.
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
 	main().catch((e) => {
 		console.error(e);
 		process.exit(1);

@@ -1,5 +1,5 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
+export default {
 	extensionsToTreatAsEsm: ['.ts'],
 	testEnvironment: 'node',
 	testPathIgnorePatterns: ['/node_modules/', '<rootDir>/tests/integration/'],
@@ -10,6 +10,6 @@ module.exports = {
 		'^@client/(.*)$': '<rootDir>/client/src/$1',
 	},
 	transform: {
-		'^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json', useESM: true }],
+		'^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json', useESM: true }],
 	},
 };
