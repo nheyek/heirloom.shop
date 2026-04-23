@@ -7,7 +7,7 @@
 			"@server/*": ["./server/src/*"],
 			"@client/*": ["./client/src/*"]
 		},
-		"target": "es2020",
+		"target": "esnext",
 		"module": "ESNext",
 		"moduleResolution": "Bundler",
 		"esModuleInterop": true,
