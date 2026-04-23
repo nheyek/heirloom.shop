@@ -1,4 +1,4 @@
-import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 import { Shop } from './Shop';
 
@@ -10,7 +10,7 @@ export class ShippingProfile {
   shippingDaysMax?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  shop?: Ref<Shop>;
+  shop?: Shop;
   standardProfileKey?: string;
   listingCollection = new Collection<Listing>(this);
 }
@@ -25,7 +25,7 @@ export const ShippingProfileSchema = defineEntity({
     shippingDaysMax: p.integer().nullable(),
     createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
     updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade').nullable(),
+    shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade').nullable(),
     standardProfileKey: p.string().length(64).nullable().unique('unique_shop_standard_profile_key'),
     listingCollection: () => p.oneToMany(Listing).mappedBy('shippingProfile'),
   },

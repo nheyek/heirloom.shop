@@ -1,4 +1,4 @@
-import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
 import { AppOrderItem } from './AppOrderItem';
 import { AppUser } from './AppUser';
 
@@ -15,7 +15,7 @@ export class AppOrder {
   shortId!: string;
   email!: string;
   accessKey!: string;
-  user?: Ref<AppUser>;
+  user?: AppUser;
   appOrderItemCollection = new Collection<AppOrderItem>(this);
 }
 
@@ -34,7 +34,7 @@ export const AppOrderSchema = defineEntity({
     shortId: p.string().length(10).unique('app_order_short_id_key'),
     email: p.string(),
     accessKey: p.string().length(64),
-    user: () => p.manyToOne(AppUser).ref().updateRule('no action').deleteRule('no action').nullable(),
+    user: () => p.manyToOne(AppUser).updateRule('no action').deleteRule('no action').nullable(),
     appOrderItemCollection: () => p.oneToMany(AppOrderItem).mappedBy('order'),
   },
 });

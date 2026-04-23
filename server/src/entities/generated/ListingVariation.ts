@@ -1,10 +1,10 @@
-import { Collection, type Opt, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Opt, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 import { ListingVariationOption } from './ListingVariationOption';
 
 export class ListingVariation {
   id!: number;
-  listing!: Ref<Listing>;
+  listing!: Listing;
   variationName!: string;
   pricesVary: boolean & Opt = false;
   createdAt?: Date;
@@ -19,7 +19,7 @@ export const ListingVariationSchema = defineEntity({
   ],
   properties: {
     id: p.integer().primary(),
-    listing: () => p.manyToOne(Listing).ref().updateRule('no action').deleteRule('cascade'),
+    listing: () => p.manyToOne(Listing).updateRule('no action').deleteRule('cascade'),
     variationName: p.string().length(128),
     pricesVary: p.boolean(),
     createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),

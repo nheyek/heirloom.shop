@@ -19,6 +19,18 @@ const config = defineConfig({
 	port: Number(process.env.DB_PORT),
 	entityGenerator: {
 		bidirectionalRelations: true,
+		identifiedReferences: false,
+		// The generator emits `p.type(string[])` for text-array columns, which is
+		// invalid TypeScript. Rewrite those properties so they generate `p.array()`.
+		onProcessedMetadata: (metadata) => {
+			for (const meta of metadata) {
+				for (const prop of Object.values(meta.properties)) {
+					if (typeof prop.type === 'string' && prop.type.endsWith('[]')) {
+						prop.type = 'array';
+					}
+				}
+			}
+		},
 	},
 	driverOptions: isDev
 		? {}

@@ -1,4 +1,4 @@
-import { Collection, type Opt, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type IType, type Opt, defineEntity, p } from '@mikro-orm/core';
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
 import { ListingVariation } from './ListingVariation';
@@ -13,17 +13,17 @@ export class Listing {
   title!: string;
   createdAt?: Date;
   updatedAt?: Date;
-  category!: Ref<ListingCategory>;
+  category!: ListingCategory;
   subtitle?: string;
   priceCents: number & Opt = 0;
-  shop!: Ref<Shop>;
-  country?: Ref<Country>;
-  imageUuids!: string[] & Opt;
-  shippingProfile?: Ref<ShippingProfile>;
-  returnExchangeProfile?: Ref<ReturnExchangeProfile>;
+  shop!: Shop;
+  country?: Country;
+  imageUuids!: IType<string[], unknown> & Opt;
+  shippingProfile?: ShippingProfile;
+  returnExchangeProfile?: ReturnExchangeProfile;
   leadTimeDaysMin: number & Opt = 0;
   leadTimeDaysMax: number & Opt = 0;
-  shippingOrigin?: Ref<ShippingOrigin>;
+  shippingOrigin?: ShippingOrigin;
   fullDescr?: any;
   shortId!: string;
   listingVariationCollection = new Collection<ListingVariation>(this);
@@ -37,17 +37,17 @@ export const ListingSchema = defineEntity({
     title: p.string().length(128),
     createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
     updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    category: () => p.manyToOne(ListingCategory).ref().updateRule('no action').deleteRule('restrict'),
+    category: () => p.manyToOne(ListingCategory).updateRule('no action').deleteRule('restrict'),
     subtitle: p.string().length(256).nullable(),
     priceCents: p.integer(),
-    shop: () => p.manyToOne(Shop).ref().updateRule('no action').deleteRule('cascade'),
-    country: () => p.manyToOne(Country).ref().updateRule('no action').nullable(),
-    imageUuids: p.type(string[]).defaultRaw(`ARRAY[]::text[]`),
-    shippingProfile: () => p.manyToOne(ShippingProfile).ref().updateRule('no action').nullable(),
-    returnExchangeProfile: () => p.manyToOne(ReturnExchangeProfile).ref().updateRule('no action').nullable(),
+    shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade'),
+    country: () => p.manyToOne(Country).updateRule('no action').nullable(),
+    imageUuids: p.array().defaultRaw(`ARRAY[]::text[]`),
+    shippingProfile: () => p.manyToOne(ShippingProfile).updateRule('no action').nullable(),
+    returnExchangeProfile: () => p.manyToOne(ReturnExchangeProfile).updateRule('no action').nullable(),
     leadTimeDaysMin: p.integer(),
     leadTimeDaysMax: p.integer(),
-    shippingOrigin: () => p.manyToOne(ShippingOrigin).ref().updateRule('no action').nullable(),
+    shippingOrigin: () => p.manyToOne(ShippingOrigin).updateRule('no action').nullable(),
     fullDescr: p.json().nullable(),
     shortId: p.string().length(10).index('idx_listing_short_id').unique('listing_short_id_key'),
     listingVariationCollection: () => p.oneToMany(ListingVariation).mappedBy('listing'),

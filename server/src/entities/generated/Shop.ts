@@ -1,4 +1,4 @@
-import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
 import { Country } from './Country';
 import { Listing } from './Listing';
 import { ShippingOrigin } from './ShippingOrigin';
@@ -14,7 +14,7 @@ export class Shop {
   profileImageUuid?: string;
   shopLocation?: string;
   classification?: string;
-  country?: Ref<Country>;
+  country?: Country;
   categoryIcon?: string;
   shortId?: string;
   listingCollection = new Collection<Listing>(this);
@@ -34,7 +34,7 @@ export const ShopSchema = defineEntity({
     profileImageUuid: p.string().length(36).nullable(),
     shopLocation: p.string().length(64).nullable(),
     classification: p.string().length(32).nullable(),
-    country: () => p.manyToOne(Country).ref().updateRule('no action').nullable(),
+    country: () => p.manyToOne(Country).updateRule('no action').nullable(),
     categoryIcon: p.string().length(64).nullable(),
     shortId: p.string().length(10).nullable().index('idx_shop_short_id').unique('shop_short_id_key'),
     listingCollection: () => p.oneToMany(Listing).mappedBy('shop'),

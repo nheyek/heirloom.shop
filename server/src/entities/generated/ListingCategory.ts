@@ -1,4 +1,4 @@
-import { Collection, type Ref, defineEntity, p } from '@mikro-orm/core';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
 import { Listing } from './Listing';
 
 export class ListingCategory {
@@ -6,7 +6,7 @@ export class ListingCategory {
   title!: string;
   subtitle?: string;
   imageUuid?: string;
-  parent?: Ref<ListingCategory>;
+  parent?: ListingCategory;
   createdAt?: Date;
   updatedAt?: Date;
   listingCollection = new Collection<Listing>(this);
@@ -20,7 +20,7 @@ export const ListingCategorySchema = defineEntity({
     title: p.string().length(128),
     subtitle: p.string().length(256).nullable(),
     imageUuid: p.string().length(36).nullable(),
-    parent: () => p.manyToOne(ListingCategory).ref().updateRule('no action').nullable(),
+    parent: () => p.manyToOne(ListingCategory).updateRule('no action').nullable(),
     createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
     updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
     listingCollection: () => p.oneToMany(Listing).mappedBy('category'),
