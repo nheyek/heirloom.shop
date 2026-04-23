@@ -1,7 +1,7 @@
 import { Collection, defineEntity, p } from '@mikro-orm/core';
-import { AppOrder } from './AppOrder';
-import { ShopUserRole } from './ShopUserRole';
-import { UserFavoriteListing } from './UserFavoriteListing';
+import { AppOrder } from './AppOrder.js';
+import { ShopUserRole } from './ShopUserRole.js';
+import { UserFavoriteListing } from './UserFavoriteListing.js';
 
 export class AppUser {
   id!: number;

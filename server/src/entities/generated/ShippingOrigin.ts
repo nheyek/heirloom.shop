@@ -1,12 +1,12 @@
-import { Collection, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing';
-import { Shop } from './Shop';
+import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Listing } from './Listing.js';
+import { Shop } from './Shop.js';
 
 export class ShippingOrigin {
   id!: number;
   locationName!: string;
   originZip!: string;
-  shop!: Shop;
+  shop!: Rel<Shop>;
   createdAt?: Date;
   updatedAt?: Date;
   listingCollection = new Collection<Listing>(this);
@@ -18,7 +18,7 @@ export const ShippingOriginSchema = defineEntity({
   properties: {
     id: p.integer().primary(),
     locationName: p.string().length(128),
-    originZip: p.decimal(),
+    originZip: p.decimal().precision(5).scale(0),
     shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade'),
     createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
     updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),

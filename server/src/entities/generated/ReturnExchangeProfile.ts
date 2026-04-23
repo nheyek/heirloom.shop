@@ -1,5 +1,5 @@
 import { Collection, type Opt, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing';
+import { Listing } from './Listing.js';
 
 export class ReturnExchangeProfile {
   id!: number;

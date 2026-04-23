@@ -1,29 +1,30 @@
-import { Collection, type IType, type Opt, defineEntity, p } from '@mikro-orm/core';
-import { Country } from './Country';
-import { ListingCategory } from './ListingCategory';
-import { ListingVariation } from './ListingVariation';
-import { ReturnExchangeProfile } from './ReturnExchangeProfile';
-import { ShippingOrigin } from './ShippingOrigin';
-import { ShippingProfile } from './ShippingProfile';
-import { Shop } from './Shop';
-import { UserFavoriteListing } from './UserFavoriteListing';
+import { Collection, type Opt, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Country } from './Country.js';
+import { ListingCategory } from './ListingCategory.js';
+import { ListingVariation } from './ListingVariation.js';
+import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
+import { ShippingOrigin } from './ShippingOrigin.js';
+import { ShippingProfile } from './ShippingProfile.js';
+import { Shop } from './Shop.js';
+import { UserFavoriteListing } from './UserFavoriteListing.js';
+import { array } from './array.js';
 
 export class Listing {
   id!: number;
   title!: string;
   createdAt?: Date;
   updatedAt?: Date;
-  category!: ListingCategory;
+  category!: Rel<ListingCategory>;
   subtitle?: string;
   priceCents: number & Opt = 0;
-  shop!: Shop;
-  country?: Country;
-  imageUuids!: IType<string[], unknown> & Opt;
-  shippingProfile?: ShippingProfile;
-  returnExchangeProfile?: ReturnExchangeProfile;
+  shop!: Rel<Shop>;
+  country?: Rel<Country>;
+  imageUuids!: string[] & Opt;
+  shippingProfile?: Rel<ShippingProfile>;
+  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
   leadTimeDaysMin: number & Opt = 0;
   leadTimeDaysMax: number & Opt = 0;
-  shippingOrigin?: ShippingOrigin;
+  shippingOrigin?: Rel<ShippingOrigin>;
   fullDescr?: any;
   shortId!: string;
   listingVariationCollection = new Collection<ListingVariation>(this);
@@ -42,7 +43,7 @@ export const ListingSchema = defineEntity({
     priceCents: p.integer(),
     shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade'),
     country: () => p.manyToOne(Country).updateRule('no action').nullable(),
-    imageUuids: p.array().defaultRaw(`ARRAY[]::text[]`),
+    imageUuids: p.array().columnType('text[]').defaultRaw(`ARRAY[]::text[]`),
     shippingProfile: () => p.manyToOne(ShippingProfile).updateRule('no action').nullable(),
     returnExchangeProfile: () => p.manyToOne(ReturnExchangeProfile).updateRule('no action').nullable(),
     leadTimeDaysMin: p.integer(),

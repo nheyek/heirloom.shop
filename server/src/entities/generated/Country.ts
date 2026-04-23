@@ -1,6 +1,6 @@
 import { Collection, PrimaryKeyProp, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing';
-import { Shop } from './Shop';
+import { Listing } from './Listing.js';
+import { Shop } from './Shop.js';
 
 export class Country {
   [PrimaryKeyProp]?: 'code';

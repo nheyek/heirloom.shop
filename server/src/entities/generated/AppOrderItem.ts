@@ -1,9 +1,9 @@
-import { type Opt, defineEntity, p } from '@mikro-orm/core';
-import { AppOrder } from './AppOrder';
+import { type Opt, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { AppOrder } from './AppOrder.js';
 
 export class AppOrderItem {
   id!: number;
-  order!: AppOrder;
+  order!: Rel<AppOrder>;
   snapshot!: any;
   fulfillment: any & Opt = '{}';
 }

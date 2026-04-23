@@ -1,9 +1,9 @@
-import { type Opt, defineEntity, p } from '@mikro-orm/core';
-import { ListingVariation } from './ListingVariation';
+import { type Opt, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { ListingVariation } from './ListingVariation.js';
 
 export class ListingVariationOption {
   id!: number;
-  listingVariation!: ListingVariation;
+  listingVariation!: Rel<ListingVariation>;
   optionName!: string;
   additionalPriceCents: number & Opt = 0;
   createdAt?: Date;
