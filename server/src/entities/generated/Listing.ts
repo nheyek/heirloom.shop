@@ -1,4 +1,5 @@
-import { Collection, type Opt, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Opt, type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingVariation } from './ListingVariation.js';
@@ -7,51 +8,65 @@ import { ShippingOrigin } from './ShippingOrigin.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
-import { array } from './array.js';
 
+@Entity()
 export class Listing {
-  id!: number;
-  title!: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  category!: Rel<ListingCategory>;
-  subtitle?: string;
-  priceCents: number & Opt = 0;
-  shop!: Rel<Shop>;
-  country?: Rel<Country>;
-  imageUuids!: string[] & Opt;
-  shippingProfile?: Rel<ShippingProfile>;
-  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
-  leadTimeDaysMin: number & Opt = 0;
-  leadTimeDaysMax: number & Opt = 0;
-  shippingOrigin?: Rel<ShippingOrigin>;
-  fullDescr?: any;
-  shortId!: string;
-  listingVariationCollection = new Collection<ListingVariation>(this);
-  userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
-}
 
-export const ListingSchema = defineEntity({
-  class: Listing,
-  properties: {
-    id: p.integer().primary(),
-    title: p.string().length(128),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    category: () => p.manyToOne(ListingCategory).updateRule('no action').deleteRule('restrict'),
-    subtitle: p.string().length(256).nullable(),
-    priceCents: p.integer(),
-    shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade'),
-    country: () => p.manyToOne(Country).updateRule('no action').nullable(),
-    imageUuids: p.array().columnType('text[]').defaultRaw(`ARRAY[]::text[]`),
-    shippingProfile: () => p.manyToOne(ShippingProfile).updateRule('no action').nullable(),
-    returnExchangeProfile: () => p.manyToOne(ReturnExchangeProfile).updateRule('no action').nullable(),
-    leadTimeDaysMin: p.integer(),
-    leadTimeDaysMax: p.integer(),
-    shippingOrigin: () => p.manyToOne(ShippingOrigin).updateRule('no action').nullable(),
-    fullDescr: p.json().nullable(),
-    shortId: p.string().length(10).index('idx_listing_short_id').unique('listing_short_id_key'),
-    listingVariationCollection: () => p.oneToMany(ListingVariation).mappedBy('listing'),
-    userFavoriteListingCollection: () => p.oneToMany(UserFavoriteListing).mappedBy('listing'),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @Property({ length: 128 })
+  title!: string;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', deleteRule: 'restrict' })
+  category!: Rel<ListingCategory>;
+
+  @Property({ length: 256, nullable: true })
+  subtitle?: string;
+
+  @Property({ type: 'integer' })
+  priceCents: number & Opt = 0;
+
+  @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
+  shop!: Rel<Shop>;
+
+  @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
+  country?: Rel<Country>;
+
+  @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
+  imageUuids!: string[] & Opt;
+
+  @ManyToOne({ entity: () => ShippingProfile, updateRule: 'no action', nullable: true })
+  shippingProfile?: Rel<ShippingProfile>;
+
+  @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
+  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
+
+  @Property({ type: 'integer' })
+  leadTimeDaysMin: number & Opt = 0;
+
+  @Property({ type: 'integer' })
+  leadTimeDaysMax: number & Opt = 0;
+
+  @ManyToOne({ entity: () => ShippingOrigin, updateRule: 'no action', nullable: true })
+  shippingOrigin?: Rel<ShippingOrigin>;
+
+  @Property({ type: 'json', nullable: true })
+  fullDescr?: any;
+
+  @Property({ length: 10, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
+  shortId!: string;
+
+  @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
+  listingVariationCollection = new Collection<ListingVariation>(this);
+
+  @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
+  userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
+
+}

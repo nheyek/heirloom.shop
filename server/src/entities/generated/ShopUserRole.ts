@@ -1,24 +1,27 @@
-import { type Rel, defineEntity, p } from '@mikro-orm/core';
+import { type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppUser } from './AppUser.js';
 import { Shop } from './Shop.js';
 
+@Entity()
 export class ShopUserRole {
-  id!: number;
-  shop!: Rel<Shop>;
-  user!: Rel<AppUser>;
-  shopRole!: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
 
-export const ShopUserRoleSchema = defineEntity({
-  class: ShopUserRole,
-  properties: {
-    id: p.integer().primary(),
-    shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade'),
-    user: () => p.manyToOne(AppUser).updateRule('no action').deleteRule('cascade'),
-    shopRole: p.string().length(32),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
+  shop!: Rel<Shop>;
+
+  @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'cascade' })
+  user!: Rel<AppUser>;
+
+  @Property({ length: 32 })
+  shopRole!: string;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+}

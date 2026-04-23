@@ -1,40 +1,51 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrderItem } from './AppOrderItem.js';
 import { AppUser } from './AppUser.js';
 
+@Entity()
 export class AppOrder {
-  id!: number;
-  shippingAddress!: any;
-  subtotal!: number;
-  taxTotal!: number;
-  orderStatus!: string;
-  paymentIntentId?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  shippingPrice!: number;
-  shortId!: string;
-  email!: string;
-  accessKey!: string;
-  user?: Rel<AppUser>;
-  appOrderItemCollection = new Collection<AppOrderItem>(this);
-}
 
-export const AppOrderSchema = defineEntity({
-  class: AppOrder,
-  properties: {
-    id: p.integer().primary(),
-    shippingAddress: p.json(),
-    subtotal: p.integer(),
-    taxTotal: p.integer(),
-    orderStatus: p.string().length(32),
-    paymentIntentId: p.string().length(64).nullable(),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    shippingPrice: p.integer(),
-    shortId: p.string().length(10).unique('app_order_short_id_key'),
-    email: p.string(),
-    accessKey: p.string().length(64),
-    user: () => p.manyToOne(AppUser).updateRule('no action').deleteRule('no action').nullable(),
-    appOrderItemCollection: () => p.oneToMany(AppOrderItem).mappedBy('order'),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @Property({ type: 'json' })
+  shippingAddress!: any;
+
+  @Property()
+  subtotal!: number;
+
+  @Property()
+  taxTotal!: number;
+
+  @Property({ length: 32 })
+  orderStatus!: string;
+
+  @Property({ length: 64, nullable: true })
+  paymentIntentId?: string;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @Property()
+  shippingPrice!: number;
+
+  @Property({ length: 10, unique: 'app_order_short_id_key' })
+  shortId!: string;
+
+  @Property()
+  email!: string;
+
+  @Property({ length: 64 })
+  accessKey!: string;
+
+  @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'no action', nullable: true })
+  user?: Rel<AppUser>;
+
+  @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
+  appOrderItemCollection = new Collection<AppOrderItem>(this);
+
+}

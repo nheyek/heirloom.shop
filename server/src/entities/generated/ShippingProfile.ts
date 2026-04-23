@@ -1,32 +1,39 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 import { Shop } from './Shop.js';
 
+@Entity()
 export class ShippingProfile {
-  id!: number;
-  profileName!: string;
-  flatShippingRateCents?: number;
-  shippingDaysMin?: number;
-  shippingDaysMax?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  shop?: Rel<Shop>;
-  standardProfileKey?: string;
-  listingCollection = new Collection<Listing>(this);
-}
 
-export const ShippingProfileSchema = defineEntity({
-  class: ShippingProfile,
-  properties: {
-    id: p.integer().primary(),
-    profileName: p.string().length(128),
-    flatShippingRateCents: p.integer().nullable(),
-    shippingDaysMin: p.integer().nullable(),
-    shippingDaysMax: p.integer().nullable(),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    shop: () => p.manyToOne(Shop).updateRule('no action').deleteRule('cascade').nullable(),
-    standardProfileKey: p.string().length(64).nullable().unique('unique_shop_standard_profile_key'),
-    listingCollection: () => p.oneToMany(Listing).mappedBy('shippingProfile'),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @Property({ length: 128 })
+  profileName!: string;
+
+  @Property({ nullable: true })
+  flatShippingRateCents?: number;
+
+  @Property({ nullable: true })
+  shippingDaysMin?: number;
+
+  @Property({ nullable: true })
+  shippingDaysMax?: number;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade', nullable: true })
+  shop?: Rel<Shop>;
+
+  @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
+  standardProfileKey?: string;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'shippingProfile' })
+  listingCollection = new Collection<Listing>(this);
+
+}

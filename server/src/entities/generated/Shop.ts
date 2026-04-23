@@ -1,45 +1,57 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { Listing } from './Listing.js';
 import { ShippingOrigin } from './ShippingOrigin.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { ShopUserRole } from './ShopUserRole.js';
 
+@Entity()
 export class Shop {
-  id!: number;
-  title!: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  profileRichText?: string;
-  profileImageUuid?: string;
-  shopLocation?: string;
-  classification?: string;
-  country?: Rel<Country>;
-  categoryIcon?: string;
-  shortId?: string;
-  listingCollection = new Collection<Listing>(this);
-  shippingOriginCollection = new Collection<ShippingOrigin>(this);
-  shippingProfileCollection = new Collection<ShippingProfile>(this);
-  shopUserRoleCollection = new Collection<ShopUserRole>(this);
-}
 
-export const ShopSchema = defineEntity({
-  class: Shop,
-  properties: {
-    id: p.integer().primary(),
-    title: p.string().length(128),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    profileRichText: p.text().nullable(),
-    profileImageUuid: p.string().length(36).nullable(),
-    shopLocation: p.string().length(64).nullable(),
-    classification: p.string().length(32).nullable(),
-    country: () => p.manyToOne(Country).updateRule('no action').nullable(),
-    categoryIcon: p.string().length(64).nullable(),
-    shortId: p.string().length(10).nullable().index('idx_shop_short_id').unique('shop_short_id_key'),
-    listingCollection: () => p.oneToMany(Listing).mappedBy('shop'),
-    shippingOriginCollection: () => p.oneToMany(ShippingOrigin).mappedBy('shop'),
-    shippingProfileCollection: () => p.oneToMany(ShippingProfile).mappedBy('shop'),
-    shopUserRoleCollection: () => p.oneToMany(ShopUserRole).mappedBy('shop'),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @Property({ length: 128 })
+  title!: string;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @Property({ type: 'text', nullable: true })
+  profileRichText?: string;
+
+  @Property({ length: 36, nullable: true })
+  profileImageUuid?: string;
+
+  @Property({ length: 64, nullable: true })
+  shopLocation?: string;
+
+  @Property({ length: 32, nullable: true })
+  classification?: string;
+
+  @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
+  country?: Rel<Country>;
+
+  @Property({ length: 64, nullable: true })
+  categoryIcon?: string;
+
+  @Property({ length: 10, nullable: true, index: 'idx_shop_short_id', unique: 'shop_short_id_key' })
+  shortId?: string;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
+  listingCollection = new Collection<Listing>(this);
+
+  @OneToMany({ entity: () => ShippingOrigin, mappedBy: 'shop' })
+  shippingOriginCollection = new Collection<ShippingOrigin>(this);
+
+  @OneToMany({ entity: () => ShippingProfile, mappedBy: 'shop' })
+  shippingProfileCollection = new Collection<ShippingProfile>(this);
+
+  @OneToMany({ entity: () => ShopUserRole, mappedBy: 'shop' })
+  shopUserRoleCollection = new Collection<ShopUserRole>(this);
+
+}

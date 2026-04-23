@@ -1,13 +1,12 @@
-import { PrimaryKeyProp, defineEntity, p } from '@mikro-orm/core';
+import { PrimaryKeyProp } from '@mikro-orm/core';
+import { Entity, PrimaryKey } from '@mikro-orm/decorators/es';
 
+@Entity()
 export class SchemaMigrations {
-  [PrimaryKeyProp]?: 'version';
-  version!: string;
-}
 
-export const SchemaMigrationsSchema = defineEntity({
-  class: SchemaMigrations,
-  properties: {
-    version: p.string().primary().length(-1),
-  },
-});
+  [PrimaryKeyProp]?: 'version';
+
+  @PrimaryKey({ length: -1 })
+  version!: string;
+
+}

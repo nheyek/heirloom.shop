@@ -2,7 +2,6 @@ import { sql } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
-import { ListingImage } from '@server/entities/generated/ListingImage';
 import { ListingVariation } from '@server/entities/generated/ListingVariation';
 import { Shop } from '@server/entities/generated/Shop';
 import { encodeShortId } from '@server/utils/hashids';

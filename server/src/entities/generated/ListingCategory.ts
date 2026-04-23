@@ -1,29 +1,35 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 
+@Entity()
 export class ListingCategory {
-  id!: string;
-  title!: string;
-  subtitle?: string;
-  imageUuid?: string;
-  parent?: Rel<ListingCategory>;
-  createdAt?: Date;
-  updatedAt?: Date;
-  listingCollection = new Collection<Listing>(this);
-  listingCategoryCollection = new Collection<ListingCategory>(this);
-}
 
-export const ListingCategorySchema = defineEntity({
-  class: ListingCategory,
-  properties: {
-    id: p.string().primary().length(64),
-    title: p.string().length(128),
-    subtitle: p.string().length(256).nullable(),
-    imageUuid: p.string().length(36).nullable(),
-    parent: () => p.manyToOne(ListingCategory).updateRule('no action').nullable(),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    listingCollection: () => p.oneToMany(Listing).mappedBy('category'),
-    listingCategoryCollection: () => p.oneToMany(ListingCategory).mappedBy('parent'),
-  },
-});
+  @PrimaryKey({ length: 64 })
+  id!: string;
+
+  @Property({ length: 128 })
+  title!: string;
+
+  @Property({ length: 256, nullable: true })
+  subtitle?: string;
+
+  @Property({ length: 36, nullable: true })
+  imageUuid?: string;
+
+  @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', nullable: true })
+  parent?: Rel<ListingCategory>;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @OneToMany({ entity: () => Listing, mappedBy: 'category' })
+  listingCollection = new Collection<Listing>(this);
+
+  @OneToMany({ entity: () => ListingCategory, mappedBy: 'parent' })
+  listingCategoryCollection = new Collection<ListingCategory>(this);
+
+}

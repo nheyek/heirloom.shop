@@ -1,29 +1,34 @@
-import { Collection, defineEntity, p } from '@mikro-orm/core';
+import { Collection } from '@mikro-orm/core';
+import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrder } from './AppOrder.js';
 import { ShopUserRole } from './ShopUserRole.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
 
+@Entity()
 export class AppUser {
-  id!: number;
-  username!: string;
-  email!: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-  appOrderCollection = new Collection<AppOrder>(this);
-  shopUserRoleCollection = new Collection<ShopUserRole>(this);
-  userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
-}
 
-export const AppUserSchema = defineEntity({
-  class: AppUser,
-  properties: {
-    id: p.integer().primary(),
-    username: p.string().length(64).unique('unique_username'),
-    email: p.string().length(128),
-    createdAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    updatedAt: p.datetime().nullable().defaultRaw(`CURRENT_TIMESTAMP`),
-    appOrderCollection: () => p.oneToMany(AppOrder).mappedBy('user'),
-    shopUserRoleCollection: () => p.oneToMany(ShopUserRole).mappedBy('user'),
-    userFavoriteListingCollection: () => p.oneToMany(UserFavoriteListing).mappedBy('user'),
-  },
-});
+  @PrimaryKey()
+  id!: number;
+
+  @Property({ length: 64, unique: 'unique_username' })
+  username!: string;
+
+  @Property({ length: 128 })
+  email!: string;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt?: Date;
+
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt?: Date;
+
+  @OneToMany({ entity: () => AppOrder, mappedBy: 'user' })
+  appOrderCollection = new Collection<AppOrder>(this);
+
+  @OneToMany({ entity: () => ShopUserRole, mappedBy: 'user' })
+  shopUserRoleCollection = new Collection<ShopUserRole>(this);
+
+  @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'user' })
+  userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
+
+}
