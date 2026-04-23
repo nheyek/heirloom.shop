@@ -55,7 +55,7 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 	});
 
-	await em.persistAndFlush([shop, bowl, scarf, lamp]);
+	await em.persist([shop, bowl, scarf, lamp]).flush();
 });
 
 describe('POST /api/listings/:id/favorite', () => {

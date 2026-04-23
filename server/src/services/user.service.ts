@@ -14,7 +14,7 @@ export const findOrCreateUser = async (
 	const em = getEm();
 	try {
 		const user = em.create(AppUser, { username: email, email });
-		await em.persistAndFlush(user);
+		await em.persist(user).flush();
 		return user;
 	} catch {
 		// Another concurrent request inserted the user first — fetch it

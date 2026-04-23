@@ -58,7 +58,7 @@ beforeAll(async () => {
 		paymentIntentId: 'pi_test456',
 	});
 
-	await em.persistAndFlush([order1, order2]);
+	await em.persist([order1, order2]).flush();
 });
 
 describe('POST /api/webhooks/stripe', () => {

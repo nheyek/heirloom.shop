@@ -23,7 +23,11 @@ import { searchRouter } from './routes/search.routes';
 import { shopRouter } from './routes/shop.routes';
 import webhookRouter from './routes/webhook.routes';
 
-dotenvFlow.config({ path: path.join(__dirname, '..') });
+// __dirname is a CJS module variable. Guard all usages so they are dead code
+// when the file is loaded as ESM by ts-jest (test environment).
+if (process.env.NODE_ENV !== 'testing') {
+	dotenvFlow.config({ path: path.join(__dirname, '..') });
+}
 
 export const createApp = async () => {
 	const app = express();
@@ -37,7 +41,11 @@ export const createApp = async () => {
 	);
 
 	app.use(express.json());
-	app.use(express.static(path.join(__dirname, 'public')));
+
+	if (process.env.NODE_ENV !== 'testing') {
+		// Static file serving only needed in production; __dirname valid in CJS only.
+		app.use(express.static(path.join(__dirname, 'public')));
+	}
 
 	createExpressEndpoints(listingsContract, listingRouter, app);
 	createExpressEndpoints(meContract, meRouter, app);
@@ -47,9 +55,11 @@ export const createApp = async () => {
 	createExpressEndpoints(searchContract, searchRouter, app);
 	createExpressEndpoints(ordersContract, orderRouter, app);
 
-	app.use((req, res, next) => {
-		res.sendFile(path.join(__dirname, 'public/index.html'));
-	});
+	if (process.env.NODE_ENV !== 'testing') {
+		app.use((req, res, next) => {
+			res.sendFile(path.join(__dirname, 'public/index.html'));
+		});
+	}
 
 	return app;
 };
@@ -62,7 +72,8 @@ const main = async () => {
 	});
 };
 
-if (require.main === module) {
+// require.main is CJS-only; guard so ESM (test) context doesn't break.
+if (typeof require !== 'undefined' && require.main === module) {
 	main().catch((e) => {
 		console.error(e);
 		process.exit(1);

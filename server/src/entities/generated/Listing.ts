@@ -1,4 +1,11 @@
-import { Collection, Entity, ManyToOne, OneToMany, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+	Entity,
+	ManyToOne,
+	OneToMany,
+	PrimaryKey,
+	Property,
+} from '@mikro-orm/decorators/legacy';
+import { Collection, type Opt } from '@mikro-orm/core';
 import { Country } from './Country';
 import { ListingCategory } from './ListingCategory';
 import { ListingVariation } from './ListingVariation';

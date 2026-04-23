@@ -66,7 +66,7 @@ beforeAll(async () => {
 		shopRole: 'owner',
 	});
 
-	await em.persistAndFlush([woodworkers, glassStudio, table, bookshelf, ownerRole]);
+	await em.persist([woodworkers, glassStudio, table, bookshelf, ownerRole]).flush();
 });
 
 describe('GET /api/shops', () => {

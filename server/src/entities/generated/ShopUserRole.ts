@@ -1,4 +1,9 @@
-import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+	Entity,
+	ManyToOne,
+	PrimaryKey,
+	Property,
+} from '@mikro-orm/decorators/legacy';
 import { AppUser } from './AppUser';
 import { Shop } from './Shop';
 

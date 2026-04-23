@@ -1,4 +1,10 @@
-import { Entity, ManyToOne, type Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+	Entity,
+	ManyToOne,
+	PrimaryKey,
+	Property,
+} from '@mikro-orm/decorators/legacy';
+import { type Opt } from '@mikro-orm/core';
 import { AppOrder } from './AppOrder';
 
 @Entity()

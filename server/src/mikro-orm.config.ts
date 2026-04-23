@@ -3,7 +3,11 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import dotenvFlow from 'dotenv-flow';
 import path from 'path';
 
-dotenvFlow.config({ path: path.join(__dirname, '..') });
+// __dirname is a CJS module variable (undefined in ESM/test context).
+// Only reference it inside the guard below — it is dead code in test mode.
+if (process.env.NODE_ENV !== 'testing') {
+	dotenvFlow.config({ path: path.join(__dirname, '..') });
+}
 
 const isDev = process.env.NODE_ENV !== 'production';
 
@@ -25,23 +29,13 @@ const config = defineConfig({
 					},
 				},
 			},
-	entities: [
-		'dist/server/src/entities/generated/*.js',
-	],
-	entitiesTs: [
-		path.join(__dirname, 'entities/generated/*.ts'),
-	],
+	// Paths resolved from process.cwd() — works in both CJS (dev) and ESM (tests)
+	entities: ['dist/server/src/entities/generated/*.js'],
+	entitiesTs: ['server/src/entities/generated/*.ts'],
 	metadataProvider: TsMorphMetadataProvider,
-	metadataCache: { enabled: true, options: { cacheDir: path.join(__dirname, '../temp') } },
 	discovery: { warnWhenNoEntities: false },
-	extensions: [
-		...(isDev
-			? [
-					require('@mikro-orm/entity-generator')
-						.EntityGenerator,
-				]
-			: []),
-	],
+	// entity-generator is only used in CJS dev context; require() not available in ESM
+	extensions: [],
 });
 
 export default config;

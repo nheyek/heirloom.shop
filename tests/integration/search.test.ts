@@ -60,13 +60,13 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 	});
 
-	await em.persistAndFlush([
+	await em.persist([
 		artisanShop,
 		woodShop,
 		ceramicBowl,
 		cuttingBoard,
 		vase,
-	]);
+	]).flush();
 });
 
 describe('GET /api/search', () => {

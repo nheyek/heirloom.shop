@@ -38,7 +38,7 @@ export const createOrder = async (
 		email,
 		...(user && { user }),
 	});
-	await em.persistAndFlush(order);
+	await em.persist(order).flush();
 
 	for (const snapshot of snapshots) {
 		em.persist(

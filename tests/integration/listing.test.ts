@@ -100,7 +100,7 @@ beforeAll(async () => {
 		returnExchangeProfile: returnProfile,
 	});
 
-	await em.persistAndFlush([
+	await em.persist([
 		shop1,
 		shop2,
 		vase,
@@ -111,7 +111,7 @@ beforeAll(async () => {
 		shippingProfile,
 		returnProfile,
 		desk,
-	]);
+	]).flush();
 });
 
 describe('GET /api/listings', () => {

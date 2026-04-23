@@ -1,12 +1,17 @@
-import { OrderStatus } from '@common/enums/OrderStatus';
-import { getEm } from '@server/db';
+import { jest } from '@jest/globals';
 
-jest.mock('@server/services/payment.service', () => ({
-	createPaymentIntent: jest.fn().mockResolvedValue({
+// Must use unstable_mockModule in ESM mode — jest.mock() cannot be hoisted
+// before static imports the way it can in CJS. The app is lazy-loaded inside
+// beforeAll (via setupApp) so this mock is registered before payment.service loads.
+jest.unstable_mockModule('@server/services/payment.service', () => ({
+	createPaymentIntent: jest.fn<() => Promise<{ id: string; client_secret: string }>>().mockResolvedValue({
 		id: 'pi_test_mock',
 		client_secret: 'pi_test_mock_secret',
 	}),
 }));
+
+import { OrderStatus } from '@common/enums/OrderStatus';
+import { getEm } from '@server/db';
 
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
@@ -108,7 +113,7 @@ beforeAll(async () => {
 		imageUuids: ['img-board-01'],
 	});
 
-	await em.persistAndFlush([
+	await em.persist([
 		shop1,
 		shop2,
 		bowl,
@@ -119,7 +124,7 @@ beforeAll(async () => {
 		sizeLarge,
 		boardShipping,
 		cuttingBoard,
-	]);
+	]).flush();
 });
 
 describe('POST /api/checkout/calculateTax', () => {

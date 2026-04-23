@@ -53,7 +53,7 @@ beforeAll(async () => {
 		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
 	});
 
-	await em.persistAndFlush([order1, order2]);
+	await em.persist([order1, order2]).flush();
 });
 
 describe('GET /api/orders/:shortId/status', () => {

@@ -27,7 +27,7 @@ export const favoriteListing = async (
 		},
 	);
 
-	await em.persistAndFlush(favoritedListing);
+	await em.persist(favoritedListing).flush();
 };
 
 export const unfavoriteListing = async (
@@ -45,7 +45,7 @@ export const unfavoriteListing = async (
 	);
 
 	if (favoritedListing) {
-		await em.removeAndFlush(favoritedListing);
+		await em.remove(favoritedListing).flush();
 	}
 };
 

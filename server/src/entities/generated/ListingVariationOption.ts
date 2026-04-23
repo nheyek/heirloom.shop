@@ -1,4 +1,11 @@
-import { Entity, ManyToOne, type Opt, PrimaryKey, Property, Unique } from '@mikro-orm/core';
+import {
+	Entity,
+	ManyToOne,
+	PrimaryKey,
+	Property,
+	Unique,
+} from '@mikro-orm/decorators/legacy';
+import { type Opt } from '@mikro-orm/core';
 import { ListingVariation } from './ListingVariation';
 
 @Entity()

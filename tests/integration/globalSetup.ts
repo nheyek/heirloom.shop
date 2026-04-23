@@ -10,6 +10,10 @@ export default async function globalSetup() {
 		path: path.join(__dirname, '../../server/.env.development'),
 	});
 
+	// Override for test environment — set before workers spawn so they inherit
+	process.env.DB_NAME = 'heirloomdb_test';
+	process.env.NODE_ENV = 'testing';
+
 	const {
 		DB_HOST = 'localhost',
 		DB_PORT = '5432',

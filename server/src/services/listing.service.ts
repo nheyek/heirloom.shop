@@ -109,7 +109,7 @@ export const createListing = async (
 			profileApiRequest.categoryId,
 		),
 	});
-	await em.persistAndFlush(listing);
+	await em.persist(listing).flush();
 
 	return listing.id;
 };

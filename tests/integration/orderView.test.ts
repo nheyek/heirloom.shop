@@ -78,12 +78,12 @@ beforeAll(async () => {
 		user: otherUser,
 	});
 
-	await em.persistAndFlush([
+	await em.persist([
 		otherUser,
 		unownedOrder,
 		ownedOrder,
 		otherUserOrder,
-	]);
+	]).flush();
 });
 
 describe('GET /api/orders/:shortId', () => {

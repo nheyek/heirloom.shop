@@ -3,7 +3,7 @@ import {
 	ManyToOne,
 	PrimaryKey,
 	Property,
-} from '@mikro-orm/core';
+} from '@mikro-orm/decorators/legacy';
 import { Listing } from './Listing';
 
 @Entity()

@@ -1,4 +1,5 @@
-import { Entity, PrimaryKey, PrimaryKeyProp } from '@mikro-orm/core';
+import { Entity, PrimaryKey } from '@mikro-orm/decorators/legacy';
+import { PrimaryKeyProp } from '@mikro-orm/core';
 
 @Entity()
 export class SchemaMigrations {
