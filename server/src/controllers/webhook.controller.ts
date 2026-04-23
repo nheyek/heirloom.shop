@@ -22,7 +22,7 @@ export const handleStripeWebhook = async (
 			: JSON.stringify(request.body);
 		event = JSON.parse(raw) as Stripe.Event;
 	} else {
-		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
+		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: Stripe.API_VERSION });
 		const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 		try {
 			event = stripe.webhooks.constructEvent(
@@ -39,8 +39,7 @@ export const handleStripeWebhook = async (
 	}
 
 	if (event.type === 'payment_intent.succeeded') {
-		const paymentIntent = event.data
-			.object as Stripe.PaymentIntent;
+		const paymentIntent = event.data.object;
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
 			await updateOrderStatus(
