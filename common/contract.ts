@@ -339,9 +339,10 @@ export const ordersContract = c.router({
 		method: 'GET',
 		path: '/api/orders/:shortId',
 		pathParams: z.object({ shortId: z.string() }),
-		query: z.object({ key: z.string() }),
+		query: z.object({ key: z.string().optional() }),
 		responses: {
 			200: OrderResponseSchema,
+			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
 		},

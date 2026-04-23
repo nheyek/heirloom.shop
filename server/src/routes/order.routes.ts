@@ -38,10 +38,13 @@ export const orderRouter = s.router(ordersContract, {
 				const isOwner = currentUser && order.user?.id === currentUser.id;
 
 				if (!isOwner && order.accessKey !== key) {
-					return {
-						status: 403 as const,
-						body: { error: 'Forbidden' },
-					};
+					// No credentials at all → unauthenticated (401)
+					// Credentials provided but insufficient → forbidden (403)
+					const hasCredentials = currentUser || (key !== undefined && key !== '');
+					if (!hasCredentials) {
+						return { status: 401 as const, body: { error: 'Unauthorized' } };
+					}
+					return { status: 403 as const, body: { error: 'Forbidden' } };
 				}
 				return {
 					status: 200 as const,
