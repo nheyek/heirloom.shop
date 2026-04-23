@@ -6,28 +6,17 @@ ENV GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
 
 WORKDIR /app
 
-# Install global tools
-RUN npm install -g typescript
-
-# Include common types
-COPY common ./common
-COPY tsconfig.json ./
-
-# Copy package manifests
+# Copy package manifests for all workspaces
 COPY package*.json ./
 COPY server/package*.json ./server/
 COPY client/package*.json ./client/
 
-# Install dependencies
-WORKDIR /app
-RUN npm install
-WORKDIR /app/server
-RUN npm install
-WORKDIR /app/client
+# Single install from root resolves all workspaces
 RUN npm install
 
-# Copy the full source
-WORKDIR /app
+# Copy source
+COPY common ./common
+COPY tsconfig.json ./
 COPY server ./server
 COPY client ./client
 
@@ -44,8 +33,14 @@ FROM node:20-alpine AS runtime
 
 WORKDIR /app
 
-# Only copy built artifacts and production deps
-COPY server/package*.json .
+# Copy root and server manifests
+COPY package*.json ./
+COPY server/package*.json ./server/
+
+# Stub the client workspace so npm workspaces doesn't error on the missing directory
+RUN mkdir -p client && echo '{"name":"heirloom.shop-client","version":"1.0.0"}' > client/package.json
+
+# Install production deps only — root deps (zod, @ts-rest/core) are hoisted automatically
 RUN npm install --omit=dev
 
 # Copy server build output
@@ -56,8 +51,5 @@ COPY --from=builder /app/server/.env.production ./dist/server/
 # Copy client build output into server's public folder
 COPY --from=builder /app/client/dist ./dist/server/src/public
 
-# Expose the port App Platform will set
 EXPOSE 3000
-
-# Start the server (compiled JS entrypoint)
 CMD ["node", "dist/server/src/app.js"]
