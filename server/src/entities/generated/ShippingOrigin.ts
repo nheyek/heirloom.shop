@@ -1,12 +1,12 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing.js';
-import { Shop } from './Shop.js';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
+import { Listing } from './Listing';
+import { Shop } from './Shop';
 
 export class ShippingOrigin {
   id!: number;
   locationName!: string;
   originZip!: string;
-  shop!: Rel<Shop>;
+  shop!: Shop;
   createdAt?: Date;
   updatedAt?: Date;
   listingCollection = new Collection<Listing>(this);

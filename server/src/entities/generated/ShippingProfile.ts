@@ -1,6 +1,6 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
-import { Listing } from './Listing.js';
-import { Shop } from './Shop.js';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
+import { Listing } from './Listing';
+import { Shop } from './Shop';
 
 export class ShippingProfile {
   id!: number;
@@ -10,7 +10,7 @@ export class ShippingProfile {
   shippingDaysMax?: number;
   createdAt?: Date;
   updatedAt?: Date;
-  shop?: Rel<Shop>;
+  shop?: Shop;
   standardProfileKey?: string;
   listingCollection = new Collection<Listing>(this);
 }

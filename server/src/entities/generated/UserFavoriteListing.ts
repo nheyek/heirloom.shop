@@ -1,11 +1,11 @@
-import { type Rel, defineEntity, p } from '@mikro-orm/core';
-import { AppUser } from './AppUser.js';
-import { Listing } from './Listing.js';
+import { defineEntity, p } from '@mikro-orm/core';
+import { AppUser } from './AppUser';
+import { Listing } from './Listing';
 
 export class UserFavoriteListing {
   id!: number;
-  user!: Rel<AppUser>;
-  listing!: Rel<Listing>;
+  user!: AppUser;
+  listing!: Listing;
   createdAt?: Date;
 }
 

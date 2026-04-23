@@ -1,11 +1,11 @@
-import { type Rel, defineEntity, p } from '@mikro-orm/core';
-import { AppUser } from './AppUser.js';
-import { Shop } from './Shop.js';
+import { defineEntity, p } from '@mikro-orm/core';
+import { AppUser } from './AppUser';
+import { Shop } from './Shop';
 
 export class ShopUserRole {
   id!: number;
-  shop!: Rel<Shop>;
-  user!: Rel<AppUser>;
+  shop!: Shop;
+  user!: AppUser;
   shopRole!: string;
   createdAt?: Date;
   updatedAt?: Date;

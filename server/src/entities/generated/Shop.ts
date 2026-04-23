@@ -1,9 +1,9 @@
-import { Collection, type Rel, defineEntity, p } from '@mikro-orm/core';
-import { Country } from './Country.js';
-import { Listing } from './Listing.js';
-import { ShippingOrigin } from './ShippingOrigin.js';
-import { ShippingProfile } from './ShippingProfile.js';
-import { ShopUserRole } from './ShopUserRole.js';
+import { Collection, defineEntity, p } from '@mikro-orm/core';
+import { Country } from './Country';
+import { Listing } from './Listing';
+import { ShippingOrigin } from './ShippingOrigin';
+import { ShippingProfile } from './ShippingProfile';
+import { ShopUserRole } from './ShopUserRole';
 
 export class Shop {
   id!: number;
@@ -14,7 +14,7 @@ export class Shop {
   profileImageUuid?: string;
   shopLocation?: string;
   classification?: string;
-  country?: Rel<Country>;
+  country?: Country;
   categoryIcon?: string;
   shortId?: string;
   listingCollection = new Collection<Listing>(this);
