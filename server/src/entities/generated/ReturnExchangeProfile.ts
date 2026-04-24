@@ -23,10 +23,10 @@ export class ReturnExchangeProfile {
   @Property({ type: 'boolean' })
   acceptExchanges: boolean & Opt = false;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
   @Property({ length: 64, nullable: true, unique: 'unique_standard_profile_key' })

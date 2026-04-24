@@ -21,16 +21,18 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.app_order (
     id integer NOT NULL,
-    items jsonb NOT NULL,
     shipping_address jsonb NOT NULL,
     subtotal integer NOT NULL,
     tax_total integer NOT NULL,
-    order_status character varying(32) DEFAULT 'PENDING'::character varying NOT NULL,
+    order_status character varying(32) NOT NULL,
     payment_intent_id character varying(64),
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    shipping_price integer DEFAULT 0 NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    shipping_price integer NOT NULL,
     short_id character varying(10) NOT NULL,
+    email character varying(255) NOT NULL,
+    access_key character varying(64) NOT NULL,
+    user_id integer,
     CONSTRAINT app_order_short_id_nonempty CHECK (((short_id)::text <> ''::text))
 );
 
@@ -56,6 +58,38 @@ ALTER SEQUENCE public.app_order_id_seq OWNED BY public.app_order.id;
 
 
 --
+-- Name: app_order_item; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.app_order_item (
+    id integer NOT NULL,
+    order_id integer NOT NULL,
+    snapshot jsonb NOT NULL,
+    fulfillment jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+--
+-- Name: app_order_item_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.app_order_item_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: app_order_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.app_order_item_id_seq OWNED BY public.app_order_item.id;
+
+
+--
 -- Name: app_user; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -63,8 +97,8 @@ CREATE TABLE public.app_user (
     id integer NOT NULL,
     username character varying(64) NOT NULL,
     email character varying(128) NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -105,9 +139,9 @@ CREATE TABLE public.country (
 CREATE TABLE public.listing (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    category_id character varying(64),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    category_id character varying(64) NOT NULL,
     subtitle character varying(256),
     price_cents integer DEFAULT 0 NOT NULL,
     shop_id integer NOT NULL,
@@ -119,7 +153,7 @@ CREATE TABLE public.listing (
     lead_time_days_max integer DEFAULT 0 NOT NULL,
     shipping_origin_id integer,
     full_descr jsonb,
-    short_id character varying(10)
+    short_id character varying(10) NOT NULL
 );
 
 
@@ -133,9 +167,29 @@ CREATE TABLE public.listing_category (
     subtitle character varying(256),
     image_uuid character varying(36),
     parent_id character varying(64),
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
+
+
+--
+-- Name: listing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.listing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.listing_id_seq OWNED BY public.listing.id;
 
 
 --
@@ -147,8 +201,8 @@ CREATE TABLE public.listing_variation (
     listing_id integer NOT NULL,
     variation_name character varying(128) NOT NULL,
     prices_vary boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -181,8 +235,8 @@ CREATE TABLE public.listing_variation_option (
     listing_variation_id integer NOT NULL,
     option_name character varying(128) NOT NULL,
     additional_price_cents integer DEFAULT 0 NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -207,26 +261,6 @@ ALTER SEQUENCE public.listing_variation_option_id_seq OWNED BY public.listing_va
 
 
 --
--- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.product_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.product_id_seq OWNED BY public.listing.id;
-
-
---
 -- Name: return_exchange_profile; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -237,8 +271,8 @@ CREATE TABLE public.return_exchange_profile (
     additional_details text,
     accept_returns boolean DEFAULT false NOT NULL,
     accept_exchanges boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     standard_profile_key character varying(64)
 );
 
@@ -263,6 +297,8 @@ CREATE SEQUENCE public.return_exchange_profile_id_seq
 ALTER SEQUENCE public.return_exchange_profile_id_seq OWNED BY public.return_exchange_profile.id;
 
 
+
+
 --
 -- Name: shipping_origin; Type: TABLE; Schema: public; Owner: -
 --
@@ -272,8 +308,8 @@ CREATE TABLE public.shipping_origin (
     location_name character varying(128) NOT NULL,
     origin_zip numeric(5,0) NOT NULL,
     shop_id integer NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -307,8 +343,8 @@ CREATE TABLE public.shipping_profile (
     flat_shipping_rate_cents integer,
     shipping_days_min integer,
     shipping_days_max integer,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     shop_id integer,
     standard_profile_key character varying(64)
 );
@@ -341,8 +377,8 @@ ALTER SEQUENCE public.shipping_profile_id_seq OWNED BY public.shipping_profile.i
 CREATE TABLE public.shop (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     profile_rich_text text,
     profile_image_uuid character varying(36),
     shop_location character varying(64),
@@ -382,8 +418,8 @@ CREATE TABLE public.shop_user_role (
     shop_id integer NOT NULL,
     user_id integer NOT NULL,
     shop_role character varying(32) NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -415,7 +451,7 @@ CREATE TABLE public.user_favorite_listing (
     id integer NOT NULL,
     user_id integer NOT NULL,
     listing_id integer NOT NULL,
-    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
 
@@ -447,6 +483,13 @@ ALTER TABLE ONLY public.app_order ALTER COLUMN id SET DEFAULT nextval('public.ap
 
 
 --
+-- Name: app_order_item id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item ALTER COLUMN id SET DEFAULT nextval('public.app_order_item_id_seq'::regclass);
+
+
+--
 -- Name: app_user id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -457,7 +500,7 @@ ALTER TABLE ONLY public.app_user ALTER COLUMN id SET DEFAULT nextval('public.app
 -- Name: listing id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.product_id_seq'::regclass);
+ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.listing_id_seq'::regclass);
 
 
 --
@@ -514,6 +557,14 @@ ALTER TABLE ONLY public.shop_user_role ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.user_favorite_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
+
+
+--
+-- Name: app_order_item app_order_item_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item
+    ADD CONSTRAINT app_order_item_pkey PRIMARY KEY (id);
 
 
 --
@@ -594,6 +645,8 @@ ALTER TABLE ONLY public.listing
 
 ALTER TABLE ONLY public.return_exchange_profile
     ADD CONSTRAINT return_exchange_profile_pkey PRIMARY KEY (id);
+
+
 
 
 --
@@ -729,11 +782,27 @@ CREATE INDEX idx_user_favorite_listing_user_id ON public.user_favorite_listing U
 
 
 --
+-- Name: app_order_item app_order_item_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order_item
+    ADD CONSTRAINT app_order_item_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.app_order(id) ON DELETE CASCADE;
+
+
+--
+-- Name: app_order app_order_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.app_order
+    ADD CONSTRAINT app_order_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id);
+
+
+--
 -- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.listing_category(id) ON DELETE SET NULL;
+    ADD CONSTRAINT listing_category_id_fkey FOREIGN KEY (category_id) REFERENCES public.listing_category(id) ON DELETE RESTRICT;
 
 
 --
@@ -854,5 +923,6 @@ ALTER TABLE ONLY public.user_favorite_listing
 
 ALTER TABLE ONLY public.user_favorite_listing
     ADD CONSTRAINT user_saved_listing_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
 
 -- migrate:down

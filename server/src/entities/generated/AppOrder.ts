@@ -1,13 +1,14 @@
-import { Collection } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { AppOrderItem } from './AppOrderItem';
-import { AppUser } from './AppUser';
+import { type Opt } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 
 @Entity()
 export class AppOrder {
 
   @PrimaryKey()
   id!: number;
+
+  @Property({ type: 'json' })
+  items!: any;
 
   @Property({ type: 'json' })
   shippingAddress!: any;
@@ -18,34 +19,22 @@ export class AppOrder {
   @Property()
   taxTotal!: number;
 
-  @Property({ length: 32 })
-  orderStatus!: string;
+  @Property({ type: 'string', length: 32 })
+  orderStatus: string & Opt = 'PENDING';
 
   @Property({ length: 64, nullable: true })
   paymentIntentId?: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
-  @Property()
-  shippingPrice!: number;
+  @Property({ type: 'integer' })
+  shippingPrice: number & Opt = 0;
 
   @Property({ length: 10, unique: 'app_order_short_id_key' })
   shortId!: string;
-
-  @Property()
-  email!: string;
-
-  @Property({ length: 64 })
-  accessKey!: string;
-
-  @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'no action', nullable: true })
-  user?: AppUser;
-
-  @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
-  appOrderItemCollection = new Collection<AppOrderItem>(this);
 
 }

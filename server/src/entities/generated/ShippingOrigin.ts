@@ -19,10 +19,10 @@ export class ShippingOrigin {
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
   shop!: Shop;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'shippingOrigin' })

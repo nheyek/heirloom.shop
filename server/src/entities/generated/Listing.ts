@@ -18,14 +18,14 @@ export class Listing {
   @Property({ length: 128 })
   title!: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
-  @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', deleteRule: 'restrict' })
-  category!: ListingCategory;
+  @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', nullable: true })
+  category?: ListingCategory;
 
   @Property({ length: 256, nullable: true })
   subtitle?: string;
@@ -60,8 +60,8 @@ export class Listing {
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;
 
-  @Property({ length: 10, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
-  shortId!: string;
+  @Property({ length: 10, nullable: true, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
+  shortId?: string;
 
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);

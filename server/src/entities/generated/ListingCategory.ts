@@ -20,10 +20,10 @@ export class ListingCategory {
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', nullable: true })
   parent?: ListingCategory;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'category' })
