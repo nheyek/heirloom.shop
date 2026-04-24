@@ -4,6 +4,11 @@ locals {
     ? var.cdn_custom_domain
     : "${var.environment}.${var.cdn_custom_domain}"
   )
+
+  # The DO App Platform API uses short region codes ("nyc", "sfo") while other
+  # DO resources use the full slug ("nyc3", "sfo3"). Strip the trailing digit
+  # to avoid a perpetual diff on the app resource.
+  app_region = replace(var.region, "/[0-9]+$/", "")
 }
 
 terraform {
@@ -28,7 +33,7 @@ resource "digitalocean_container_registry" "heirloom" {
 resource "digitalocean_database_cluster" "db" {
   name       = "postgres-${var.environment}"
   engine     = "pg"
-  version    = "15"
+  version    = "18"
   size       = var.db_size
   region     = var.region
   node_count = 1
@@ -37,7 +42,7 @@ resource "digitalocean_database_cluster" "db" {
 resource "digitalocean_app" "heirloom" {
   spec {
     name   = "heirloom-${var.environment}"
-    region = var.region
+    region = local.app_region
 
     service {
       name               = "app-server"
@@ -47,6 +52,7 @@ resource "digitalocean_app" "heirloom" {
 
       image {
         registry_type = "DOCR"
+        registry      = digitalocean_container_registry.heirloom.name
         repository    = "node-app"
         tag           = "latest"
       }
@@ -116,6 +122,14 @@ resource "digitalocean_app" "heirloom" {
       name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"
       type = "PRIMARY"
     }
+  }
+
+  lifecycle {
+    # The DO API returns "***" for SECRET env vars, so Terraform always sees a
+    # diff on those fields. Ignore the entire env block to suppress the noise.
+    # To rotate a secret: update the value in the DO console, or temporarily
+    # remove this ignore_changes, apply, then restore it.
+    ignore_changes = [spec[0].service[0].env]
   }
 }
 
