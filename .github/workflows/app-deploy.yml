@@ -30,7 +30,7 @@ jobs:
 
                   while [ $ELAPSED -lt $TIMEOUT ]; do
                     PHASE=$(doctl apps get-deployment ${{ secrets.DEV_APP_ID }} $DEPLOYMENT_ID \
-                      --format Phase --no-header)
+                      --output json | jq -r '.[0].phase // "UNKNOWN"')
                     echo "[$ELAPSED s] Phase: $PHASE"
 
                     case $PHASE in
