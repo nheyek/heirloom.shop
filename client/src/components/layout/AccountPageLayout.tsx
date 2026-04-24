@@ -9,10 +9,10 @@ import {
 } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import {
-	ACCOUNT_PAGE_PADDING,
+	ACCOUNT_PAGE_PADDING_SPACING_UNITS,
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
-	NAVBAR_HEIGHT_SPACING_UINTS,
+	NAVBAR_HEIGHT_SPACING_UNITS,
 	SIDEBAR_WIDTH_PX,
 } from '@client/theme';
 import { FaHeart } from 'react-icons/fa';
@@ -49,7 +49,7 @@ const Sidebar = () => {
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={NAVBAR_HEIGHT_SPACING_UINTS}
+			top={NAVBAR_HEIGHT_SPACING_UNITS}
 			overflowY="auto"
 		>
 			{NAV_ITEMS.map(({ label, icon: Icon, route }) => {
@@ -165,7 +165,7 @@ export const AccountPageLayout = () => (
 			py={{ base: 5, md: 8 }}
 		>
 			<Stack
-				px={ACCOUNT_PAGE_PADDING}
+				px={ACCOUNT_PAGE_PADDING_SPACING_UNITS}
 				w="100%"
 				maxW={1100}
 				gap={5}

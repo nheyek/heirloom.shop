@@ -73,8 +73,9 @@ export const FavoritesPage = () => {
 				isLoading={isLoading}
 				columns={{
 					base: 1,
-					[sidebarBreakpoint.md]: 2,
-					[sidebarBreakpoint.xl]: 3,
+					[sidebarBreakpoint.sm]: 2,
+					[sidebarBreakpoint.md]: 3,
+					[sidebarBreakpoint.xl]: 4,
 				}}
 			/>
 		</Stack>

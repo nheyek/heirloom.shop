@@ -12,13 +12,9 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
-export const NAVBAR_HEIGHT_SPACING_UINTS = 16;
+export const NAVBAR_HEIGHT_SPACING_UNITS = 16;
 export const SIDEBAR_WIDTH_PX = 300;
-export const ACCOUNT_PAGE_PADDING = 5; // Chakra spacing units
-const ACCOUNT_PAGE_PADDING_PX =
-	ACCOUNT_PAGE_PADDING * CHAKRA_SPACING_UNIT;
-const SIDEBAR_CONTENT_OFFSET_PX =
-	SIDEBAR_WIDTH_PX + 2 * ACCOUNT_PAGE_PADDING_PX;
+export const ACCOUNT_PAGE_PADDING_SPACING_UNITS = 5;
 
 const BASE_BREAKPOINTS = {
 	sm: 600,
@@ -45,7 +41,7 @@ export const breakpoints = {
 	...Object.fromEntries(
 		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
 			`${key}_sb`,
-			`${value + SIDEBAR_CONTENT_OFFSET_PX}px`,
+			`${value + SIDEBAR_WIDTH_PX}px`,
 		]),
 	),
 };
