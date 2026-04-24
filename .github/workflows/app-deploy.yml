@@ -17,4 +17,36 @@ jobs:
                   token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
             - name: Deploy app
-              run: doctl apps create-deployment ${{ secrets.DEV_APP_ID }}
+              run: |
+                  DEPLOYMENT_ID=$(doctl apps create-deployment ${{ secrets.DEV_APP_ID }} \
+                    --format ID --no-header)
+                  echo "Deployment ID: $DEPLOYMENT_ID"
+
+                  # Poll until the deployment reaches a terminal phase.
+                  # Phases: PENDING_BUILD → BUILDING → PENDING_DEPLOY → DEPLOYING → ACTIVE | ERROR | CANCELED
+                  TIMEOUT=600  # 10 minutes
+                  ELAPSED=0
+                  POLL_INTERVAL=15
+
+                  while [ $ELAPSED -lt $TIMEOUT ]; do
+                    PHASE=$(doctl apps get-deployment ${{ secrets.DEV_APP_ID }} $DEPLOYMENT_ID \
+                      --format Phase --no-header)
+                    echo "[$ELAPSED s] Phase: $PHASE"
+
+                    case $PHASE in
+                      ACTIVE)
+                        echo "Deployment succeeded."
+                        exit 0
+                        ;;
+                      ERROR|CANCELED)
+                        echo "Deployment failed with phase: $PHASE"
+                        exit 1
+                        ;;
+                    esac
+
+                    sleep $POLL_INTERVAL
+                    ELAPSED=$((ELAPSED + POLL_INTERVAL))
+                  done
+
+                  echo "Timed out waiting for deployment after ${TIMEOUT}s"
+                  exit 1
