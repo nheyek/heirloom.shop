@@ -314,10 +314,11 @@ export const ListingPage = () => {
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={4}>
-							<Flex direction="column">
+							<Stack gap={1}>
 								<Heading
 									size="4xl"
 									mr={5}
+									lineHeight={1.1}
 								>
 									{listingData?.title}
 								</Heading>
@@ -336,7 +337,7 @@ export const ListingPage = () => {
 										{listingData?.shopTitle}
 									</Link>
 								</Heading>
-							</Flex>
+							</Stack>
 							<Stack
 								fontSize={20}
 								gap={1.5}
