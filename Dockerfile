@@ -43,13 +43,15 @@ RUN mkdir -p client && echo '{"name":"heirloom.shop-client","version":"1.0.0"}' 
 # Install production deps only — root deps (zod, @ts-rest/core) are hoisted automatically
 RUN npm install --omit=dev
 
-# Copy server build output
+# Copy server bundle
 COPY --from=builder /app/server/dist ./dist
-COPY --from=builder /app/server/.env ./dist/server/
-COPY --from=builder /app/server/.env.production ./dist/server/
 
-# Copy client build output into server's public folder
-COPY --from=builder /app/client/dist ./dist/server/src/public
+# .env files land next to the bundle — dotenv-flow looks in __dirname/.. = /app/
+COPY --from=builder /app/server/.env ./
+COPY --from=builder /app/server/.env.production ./
+
+# Copy client build output — server serves from __dirname/public = dist/public/
+COPY --from=builder /app/client/dist ./dist/public
 
 EXPOSE 3000
-CMD ["node", "dist/server/src/app.js"]
+CMD ["node", "dist/app.js"]

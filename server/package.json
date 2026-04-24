@@ -16,7 +16,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "NODE_ENV=development tsx watch src/app.ts",
-		"build": "tsc && tsc-alias"
+		"build": "tsc --noEmit && tsup"
 	},
 	"mikro-orm": {
 		"configPaths": [
@@ -43,7 +43,8 @@
 	"devDependencies": {
 		"@mikro-orm/entity-generator": "^7.0.12",
 		"@types/express": "^5.0.6",
-		"tsc-alias": "^1.8.10",
+
+		"tsup": "^8.5.1",
 		"tsx": "^4.21.0"
 	}
 }
