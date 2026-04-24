@@ -1,5 +1,5 @@
 # ---------- Base image for building ----------
-FROM node:20-alpine AS builder
+FROM node:24-alpine AS builder
 
 ARG GOOGLE_MAPS_API_KEY
 ENV GOOGLE_MAPS_API_KEY=$GOOGLE_MAPS_API_KEY
@@ -29,7 +29,7 @@ WORKDIR /app/server
 RUN npm run build
 
 # ---------- Runtime image ----------
-FROM node:20-alpine AS runtime
+FROM node:24-alpine AS runtime
 
 WORKDIR /app
 
