@@ -1,11 +1,11 @@
 import { meContract, OrderItemDisplayData } from '@common/contract';
-import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as favoriteListingService from '@server/services/favoriteListing.service';
 import { getOrdersForUser } from '@server/services/order.service';
 import * as userService from '@server/services/user.service';
+import { initServer } from '@ts-rest/express';
 
 const s = initServer();
 
@@ -14,9 +14,10 @@ export const meRouter = s.router(meContract, {
 		middleware: [authAndSetUser],
 		handler: async ({ req }) => {
 			try {
-				const currentUser = await userService.findOrCreateUser(
-					req.userClaims!.email,
-				);
+				const currentUser =
+					await userService.findOrCreateUser(
+						req.userClaims!.email,
+					);
 				const shopId = await userService.getShopIdForUser(
 					currentUser.id,
 				);
@@ -31,7 +32,9 @@ export const meRouter = s.router(meContract, {
 			} catch {
 				return {
 					status: 500 as const,
-					body: { error: 'Failed to auto-create user record' },
+					body: {
+						error: 'Failed to auto-create user record',
+					},
 				};
 			}
 		},
@@ -65,7 +68,10 @@ export const meRouter = s.router(meContract, {
 				req.userClaims!.email,
 			);
 			if (!user) {
-				return { status: 401 as const, body: { error: ERROR_MESSAGES.user.notFound } };
+				return {
+					status: 401 as const,
+					body: { error: ERROR_MESSAGES.user.notFound },
+				};
 			}
 			const orders = await getOrdersForUser(user.id);
 			return {
@@ -77,7 +83,10 @@ export const meRouter = s.router(meContract, {
 					shippingAddress: order.shippingAddress,
 					items: order.appOrderItemCollection
 						.getItems()
-						.map((item) => item.snapshot as OrderItemDisplayData),
+						.map(
+							(item) =>
+								item.snapshot as OrderItemDisplayData,
+						),
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,
 					taxCents: order.taxTotal,

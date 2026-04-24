@@ -19,10 +19,10 @@ export class ListingVariation {
   @Property({ type: 'boolean' })
   pricesVary: boolean & Opt = false;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
   @OneToMany({ entity: () => ListingVariationOption, mappedBy: 'listingVariation' })

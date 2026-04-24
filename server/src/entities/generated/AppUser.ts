@@ -1,5 +1,6 @@
 import { Collection } from '@mikro-orm/core';
 import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { AppOrder } from './AppOrder';
 import { ShopUserRole } from './ShopUserRole';
 import { UserFavoriteListing } from './UserFavoriteListing';
 
@@ -15,11 +16,14 @@ export class AppUser {
   @Property({ length: 128 })
   email!: string;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
-  @Property({ columnType: 'timestamp(6)', nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
+  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @OneToMany({ entity: () => AppOrder, mappedBy: 'user' })
+  appOrderCollection = new Collection<AppOrder>(this);
 
   @OneToMany({ entity: () => ShopUserRole, mappedBy: 'user' })
   shopUserRoleCollection = new Collection<ShopUserRole>(this);
