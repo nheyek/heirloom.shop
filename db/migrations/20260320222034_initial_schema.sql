@@ -264,15 +264,6 @@ ALTER SEQUENCE public.return_exchange_profile_id_seq OWNED BY public.return_exch
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.schema_migrations (
-    version character varying NOT NULL
-);
-
-
---
 -- Name: shipping_origin; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -603,14 +594,6 @@ ALTER TABLE ONLY public.listing
 
 ALTER TABLE ONLY public.return_exchange_profile
     ADD CONSTRAINT return_exchange_profile_pkey PRIMARY KEY (id);
-
-
---
--- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.schema_migrations
-    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
 
 
 --
