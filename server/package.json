@@ -15,7 +15,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "NODE_ENV=development tsx watch --conditions source src/app.ts",
-		"build": "tsc --build && tsc-alias -p tsconfig.json"
+		"build": "tsc --build && tsc-alias -p tsconfig.json --resolve-full-paths"
 	},
 	"mikro-orm": {
 		"configPaths": [
