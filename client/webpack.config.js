@@ -23,6 +23,9 @@ export default (env, argv) => {
 		},
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js'],
+			extensionAlias: {
+				'.js': ['.ts', '.tsx', '.js'],
+			},
 			alias: {
 				'@heirloom/common': path.resolve(__dirname, '../common'),
 				'@client': path.resolve(__dirname, 'src'),

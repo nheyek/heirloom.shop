@@ -7,6 +7,11 @@
 			"@server/*": ["./server/src/*"],
 			"@client/*": ["./client/src/*"]
 		},
+		"module": "ESNext",
+		// "Bundler" is the most permissive common denominator between server (NodeNext, .js
+		// extensions required) and client (extensionless imports). This tsconfig is read by
+		// ts-jest for unit tests, which span both worlds.
+		"moduleResolution": "Bundler",
 		"target": "ES2022",
 		"esModuleInterop": true,
 		"strict": true,
