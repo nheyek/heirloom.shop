@@ -1,4 +1,4 @@
-import { type Opt } from '@mikro-orm/core';
+import { type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrder } from './AppOrder.js';
 
@@ -9,7 +9,7 @@ export class AppOrderItem {
   id!: number;
 
   @ManyToOne({ entity: () => AppOrder, updateRule: 'no action', deleteRule: 'cascade' })
-  order!: AppOrder;
+  order!: Rel<AppOrder>;
 
   @Property({ type: 'json' })
   snapshot!: any;

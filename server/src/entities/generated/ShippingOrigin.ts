@@ -1,4 +1,4 @@
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 import { Shop } from './Shop.js';
@@ -17,7 +17,7 @@ export class ShippingOrigin {
   originZip!: string;
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
-  shop!: Shop;
+  shop!: Rel<Shop>;
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;

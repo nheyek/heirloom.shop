@@ -1,4 +1,4 @@
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { Listing } from './Listing.js';
@@ -34,7 +34,7 @@ export class Shop {
   classification?: string;
 
   @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
-  country?: Country;
+  country?: Rel<Country>;
 
   @Property({ length: 64, nullable: true })
   categoryIcon?: string;

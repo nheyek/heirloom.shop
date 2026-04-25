@@ -1,4 +1,4 @@
-import { type Opt } from '@mikro-orm/core';
+import { type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
 import { ListingVariation } from './ListingVariation.js';
 
@@ -10,7 +10,7 @@ export class ListingVariationOption {
   id!: number;
 
   @ManyToOne({ entity: () => ListingVariation, updateRule: 'no action', deleteRule: 'cascade' })
-  listingVariation!: ListingVariation;
+  listingVariation!: Rel<ListingVariation>;
 
   @Property({ length: 128 })
   optionName!: string;

@@ -1,4 +1,4 @@
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrderItem } from './AppOrderItem.js';
 import { AppUser } from './AppUser.js';
@@ -43,7 +43,7 @@ export class AppOrder {
   accessKey!: string;
 
   @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'no action', nullable: true })
-  user?: AppUser;
+  user?: Rel<AppUser>;
 
   @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
   appOrderItemCollection = new Collection<AppOrderItem>(this);

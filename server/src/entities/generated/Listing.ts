@@ -1,4 +1,4 @@
-import { Collection, type Opt } from '@mikro-orm/core';
+import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
@@ -25,7 +25,7 @@ export class Listing {
   updatedAt?: Date;
 
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', deleteRule: 'restrict' })
-  category!: ListingCategory;
+  category!: Rel<ListingCategory>;
 
   @Property({ length: 256, nullable: true })
   subtitle?: string;
@@ -34,19 +34,19 @@ export class Listing {
   priceCents: number & Opt = 0;
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
-  shop!: Shop;
+  shop!: Rel<Shop>;
 
   @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
-  country?: Country;
+  country?: Rel<Country>;
 
   @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
   imageUuids!: string[] & Opt;
 
   @ManyToOne({ entity: () => ShippingProfile, updateRule: 'no action', nullable: true })
-  shippingProfile?: ShippingProfile;
+  shippingProfile?: Rel<ShippingProfile>;
 
   @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
-  returnExchangeProfile?: ReturnExchangeProfile;
+  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
 
   @Property({ type: 'integer' })
   leadTimeDaysMin: number & Opt = 0;
@@ -55,7 +55,7 @@ export class Listing {
   leadTimeDaysMax: number & Opt = 0;
 
   @ManyToOne({ entity: () => ShippingOrigin, updateRule: 'no action', nullable: true })
-  shippingOrigin?: ShippingOrigin;
+  shippingOrigin?: Rel<ShippingOrigin>;
 
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;
