@@ -14,7 +14,7 @@
 	"author": "Nick Heyek",
 	"type": "module",
 	"scripts": {
-		"dev": "NODE_ENV=development tsx --conditions source watch src/app.ts",
+		"dev": "NODE_ENV=development tsx watch --conditions source src/app.ts",
 		"build": "tsc --build && tsc-alias -p tsconfig.json"
 	},
 	"mikro-orm": {
