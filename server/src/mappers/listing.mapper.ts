@@ -1,6 +1,6 @@
-import { ListingCardData } from '@common/contract';
-import { ListingPageData } from '@common/contract';
-import { ListingVariationData } from '@common/contract';
+import { ListingCardData } from '@heirloom/common/contract';
+import { ListingPageData } from '@heirloom/common/contract';
+import { ListingVariationData } from '@heirloom/common/contract';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingVariation } from '@server/entities/generated/ListingVariation';
 import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';

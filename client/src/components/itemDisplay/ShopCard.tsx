@@ -5,7 +5,7 @@ import {
 	SimpleGrid,
 	Text,
 } from '@chakra-ui/react';
-import { ShopCardData } from '@common/contract';
+import { ShopCardData } from '@heirloom/common/contract';
 import { Link as RouterLink } from 'react-router-dom';
 import {
 	CategoryIconCode,

@@ -1,6 +1,6 @@
-import { ShippingAddress } from '@common/contract';
-import { ShippingAddressErrors } from '@common/types/ShippingAddressErrors';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+import { ShippingAddress } from '@heirloom/common/contract';
+import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
+import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
 
 export const getShippingAddressFieldErrors = (
 	shippingAddress: ShippingAddress,

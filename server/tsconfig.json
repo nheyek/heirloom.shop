@@ -1,10 +1,16 @@
 {
 	"extends": "../tsconfig.json",
 	"compilerOptions": {
-		"rootDir": "..",
-		"outDir": "dist"
+		"rootDir": "src",
+		"outDir": "dist",
+		"module": "Node16",
+		"moduleResolution": "Node16",
+		"paths": {
+			"@server/*": ["./server/src/*.js"]
+		}
 	},
 	"include": ["src"],
 	"exclude": ["**/*.test.ts"],
-	"files": ["src/types/express.d.ts"]
+	"files": ["src/types/express.d.ts"],
+	"references": [{ "path": "../common" }]
 }

@@ -1,4 +1,4 @@
-import { CategoryTileData } from '@common/contract';
+import { CategoryTileData } from '@heirloom/common/contract';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 
 export const mapCategoryToApiResponseData = (

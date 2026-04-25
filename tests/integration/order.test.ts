@@ -1,4 +1,4 @@
-import { OrderStatus } from '@common/enums/OrderStatus';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';

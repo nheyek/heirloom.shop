@@ -1,4 +1,4 @@
-import { CategoryTileData } from '@common/contract';
+import { CategoryTileData } from '@heirloom/common/contract';
 import React, { useContext, useEffect, useState } from 'react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';

@@ -16,7 +16,7 @@ import {
 import { useShareListing } from '@client/hooks/useShareListing';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
-import { ListingCardData } from '@common/contract';
+import { ListingCardData } from '@heirloom/common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';

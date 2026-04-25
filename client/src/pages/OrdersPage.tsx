@@ -6,7 +6,7 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { OrderResponse } from '@common/contract';
+import { OrderResponse } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 
 export const OrdersPage = () => {

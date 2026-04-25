@@ -13,7 +13,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData } from '@common/contract';
+import { ListingCardData } from '@heirloom/common/contract';
 import { Fragment, useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import {

@@ -1,5 +1,5 @@
-import { OrderItemDisplayData } from '@common/contract';
-import { OrderStatus } from '@common/enums/OrderStatus';
+import { OrderItemDisplayData } from '@heirloom/common/contract';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import {

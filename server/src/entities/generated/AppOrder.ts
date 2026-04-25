@@ -1,7 +1,7 @@
 import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { AppOrderItem } from './AppOrderItem';
-import { AppUser } from './AppUser';
+import { AppOrderItem } from './AppOrderItem.js';
+import { AppUser } from './AppUser.js';
 
 @Entity()
 export class AppOrder {

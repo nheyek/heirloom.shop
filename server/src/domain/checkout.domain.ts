@@ -1,5 +1,5 @@
-import { CheckoutItemData, OrderItemDisplayData } from '@common/contract';
-import { calculateDeliveryEstimate } from '@common/utils';
+import { CheckoutItemData, OrderItemDisplayData } from '@heirloom/common/contract';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
 

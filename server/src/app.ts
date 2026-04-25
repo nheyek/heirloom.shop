@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'url';
-import { API_ROUTES } from '@common/constants';
+import { API_ROUTES } from '@heirloom/common/constants';
 import {
 	categoryContract,
 	checkoutContract,
@@ -8,20 +8,20 @@ import {
 	ordersContract,
 	searchContract,
 	shopsContract,
-} from '@common/contract';
+} from '@heirloom/common/contract';
 import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express from 'express';
 import path from 'path';
-import { initORM } from './db';
-import { categoryRouter } from './routes/category.routes';
-import { checkoutRouter } from './routes/checkout.routes';
-import { listingRouter } from './routes/listing.routes';
-import { meRouter } from './routes/me.routes';
-import { orderRouter } from './routes/order.routes';
-import { searchRouter } from './routes/search.routes';
-import { shopRouter } from './routes/shop.routes';
-import webhookRouter from './routes/webhook.routes';
+import { initORM } from './db.js';
+import { categoryRouter } from './routes/category.routes.js';
+import { checkoutRouter } from './routes/checkout.routes.js';
+import { listingRouter } from './routes/listing.routes.js';
+import { meRouter } from './routes/me.routes.js';
+import { orderRouter } from './routes/order.routes.js';
+import { searchRouter } from './routes/search.routes.js';
+import { shopRouter } from './routes/shop.routes.js';
+import webhookRouter from './routes/webhook.routes.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 

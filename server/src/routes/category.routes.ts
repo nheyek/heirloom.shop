@@ -1,4 +1,4 @@
-import { categoryContract } from '@common/contract';
+import { categoryContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapCategoryToApiResponseData } from '@server/mappers/category.mapper';

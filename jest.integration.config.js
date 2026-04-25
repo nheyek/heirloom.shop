@@ -5,7 +5,7 @@ export default {
 	maxWorkers: 1,
 	testMatch: ['<rootDir>/tests/integration/**/*.test.ts'],
 	moduleNameMapper: {
-		'^@common/(.*)$': '<rootDir>/common/$1',
+		'^@heirloom/common/(.*)$': '<rootDir>/common/$1',
 		'^@server/(.*)$': '<rootDir>/server/src/$1',
 		'^@client/(.*)$': '<rootDir>/client/src/$1',
 	},

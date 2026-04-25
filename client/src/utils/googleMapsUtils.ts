@@ -1,4 +1,4 @@
-import { ShippingAddress } from '@common/contract';
+import { ShippingAddress } from '@heirloom/common/contract';
 
 type AddressComponent = {
 	types: string[];

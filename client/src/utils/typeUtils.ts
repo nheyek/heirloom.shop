@@ -1,5 +1,5 @@
-import { CartItemData, ListingPageData } from '@common/contract';
-import { calculateDeliveryEstimate } from '@common/utils';
+import { CartItemData, ListingPageData } from '@heirloom/common/contract';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 
 export const getListingDataForCart = (
 	listing: ListingPageData,

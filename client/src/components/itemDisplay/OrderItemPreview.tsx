@@ -18,8 +18,8 @@ import { formatDateCompact } from '@client/utils/dateUtils';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
-} from '@common/contract';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+} from '@heirloom/common/contract';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 

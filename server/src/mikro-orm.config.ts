@@ -37,12 +37,7 @@ const config = defineConfig({
 					},
 				},
 			},
-	entities: [
-		path.join(
-			__dirname,
-			'../../dist/server/src/entities/generated',
-		) + '/*.js',
-	],
+	entities: [path.join(__dirname, 'entities/generated') + '/*.js'],
 	entitiesTs: [
 		path.join(__dirname, 'entities/generated') + '/*.ts',
 	],

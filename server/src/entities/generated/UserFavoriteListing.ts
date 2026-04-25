@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
-import { AppUser } from './AppUser';
-import { Listing } from './Listing';
+import { AppUser } from './AppUser.js';
+import { Listing } from './Listing.js';
 
 @Entity()
 @Unique({ name: 'user_favorite_listing_user_id_listing_id_key', properties: ['user', 'listing'] })

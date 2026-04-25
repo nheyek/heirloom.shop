@@ -15,16 +15,17 @@
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"dev": "NODE_ENV=development tsx watch src/app.ts",
-		"build": "tsc --noEmit && tsup"
+		"dev": "NODE_ENV=development tsx --conditions source watch src/app.ts",
+		"build": "tsc --build && tsc-alias -p tsconfig.json && NODE_ENV=development DB_NAME=dummy npx mikro-orm cache:generate --combined --ts && mv temp/metadata.json dist/orm-metadata.json"
 	},
 	"mikro-orm": {
 		"configPaths": [
 			"./src/mikro-orm.config.ts",
-			"./dist/server/src/mikro-orm.config.js"
+			"./dist/mikro-orm.config.js"
 		]
 	},
 	"dependencies": {
+		"@heirloom/common": "*",
 		"@mikro-orm/cli": "^7.0.12",
 		"@mikro-orm/core": "^7.0.12",
 		"@mikro-orm/decorators": "^7.0.12",
@@ -43,8 +44,7 @@
 	"devDependencies": {
 		"@mikro-orm/entity-generator": "^7.0.12",
 		"@types/express": "^5.0.6",
-
-		"tsup": "^8.5.1",
+		"tsc-alias": "^1.8.10",
 		"tsx": "^4.21.0"
 	}
 }

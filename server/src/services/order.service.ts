@@ -1,8 +1,8 @@
 import {
 	OrderItemDisplayData,
 	ShippingAddress,
-} from '@common/contract';
-import { OrderStatus } from '@common/enums/OrderStatus';
+} from '@heirloom/common/contract';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';

@@ -1,5 +1,5 @@
-import { listingsContract } from '@common/contract';
-import { calculateDeliveryEstimate } from '@common/utils';
+import { listingsContract } from '@heirloom/common/contract';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import * as favoriteListingService from '@server/services/favoriteListing.service';

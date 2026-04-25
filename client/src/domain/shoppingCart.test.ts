@@ -1,4 +1,4 @@
-import { CartItemData } from '@common/contract';
+import { CartItemData } from '@heirloom/common/contract';
 import { calculateItemPrice } from './shoppingCart';
 
 const baseListingData: CartItemData = {

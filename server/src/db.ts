@@ -1,4 +1,4 @@
-import mikroConfig from './mikro-orm.config';
+import mikroConfig from './mikro-orm.config.js';
 import { MikroORM } from '@mikro-orm/core';
 
 let orm: MikroORM;

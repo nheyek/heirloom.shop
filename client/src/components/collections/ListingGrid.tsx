@@ -1,7 +1,7 @@
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { ListingCard } from '@client/components/itemDisplay/ListingCard';
 import { STANDARD_GRID_COLUMNS } from '@client/constants';
-import { ListingCardData } from '@common/contract';
+import { ListingCardData } from '@heirloom/common/contract';
 
 type Props = {
 	listings: ListingCardData[];

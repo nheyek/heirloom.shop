@@ -3,8 +3,8 @@ import {
 	getEmailFieldError,
 	simplifyCartItems,
 } from './checkout';
-import { ShippingAddress } from '@common/contract';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+import { ShippingAddress } from '@heirloom/common/contract';
+import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
 
 const validAddress: ShippingAddress = {
 	firstName: 'John',

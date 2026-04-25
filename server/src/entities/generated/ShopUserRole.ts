@@ -1,6 +1,6 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { AppUser } from './AppUser';
-import { Shop } from './Shop';
+import { AppUser } from './AppUser.js';
+import { Shop } from './Shop.js';
 
 @Entity()
 export class ShopUserRole {

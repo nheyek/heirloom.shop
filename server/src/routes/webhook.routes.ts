@@ -1,4 +1,4 @@
-import { API_ROUTES } from '@common/constants';
+import { API_ROUTES } from '@heirloom/common/constants';
 import { Router } from 'express';
 import { handleStripeWebhook } from '@server/controllers/webhook.controller';
 

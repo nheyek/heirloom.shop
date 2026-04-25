@@ -12,6 +12,7 @@
 	"license": "ISC",
 	"type": "module",
 	"dependencies": {
+		"@heirloom/common": "*",
 		"@auth0/auth0-react": "^2.16.2",
 		"@chakra-ui/react": "^3.35.0",
 		"@chakra-ui/theme": "^3.4.6",

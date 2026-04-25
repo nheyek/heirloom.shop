@@ -13,9 +13,9 @@ import {
 	CartItemData,
 	CheckoutItemData,
 	ShippingAddress,
-} from '@common/contract';
-import { ShippingAddressErrors } from '@common/types/ShippingAddressErrors';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+} from '@heirloom/common/contract';
+import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
+import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
 import {
 	createContext,
 	useContext,

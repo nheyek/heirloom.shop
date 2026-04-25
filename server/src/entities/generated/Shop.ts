@@ -1,10 +1,10 @@
 import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Country } from './Country';
-import { Listing } from './Listing';
-import { ShippingOrigin } from './ShippingOrigin';
-import { ShippingProfile } from './ShippingProfile';
-import { ShopUserRole } from './ShopUserRole';
+import { Country } from './Country.js';
+import { Listing } from './Listing.js';
+import { ShippingOrigin } from './ShippingOrigin.js';
+import { ShippingProfile } from './ShippingProfile.js';
+import { ShopUserRole } from './ShopUserRole.js';
 
 @Entity()
 export class Shop {

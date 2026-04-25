@@ -14,7 +14,7 @@ import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData, ShopCardData } from '@common/contract';
+import { ListingCardData, ShopCardData } from '@heirloom/common/contract';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

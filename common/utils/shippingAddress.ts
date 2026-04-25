@@ -1,4 +1,4 @@
-import { ShippingAddress } from '@common/contract';
+import { ShippingAddress } from '../contract.js';
 
 export const formatShippingAddress = (address: ShippingAddress): string => {
 	const lines = [

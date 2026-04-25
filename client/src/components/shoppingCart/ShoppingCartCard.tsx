@@ -7,7 +7,7 @@ import {
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
 import { FaTrashAlt } from 'react-icons/fa';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 

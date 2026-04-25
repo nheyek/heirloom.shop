@@ -1,7 +1,7 @@
 import { Collection, type Opt } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing';
-import { ListingVariationOption } from './ListingVariationOption';
+import { Listing } from './Listing.js';
+import { ListingVariationOption } from './ListingVariationOption.js';
 
 @Entity()
 @Unique({ name: 'unique_name_per_listing', properties: ['listing', 'variationName'] })

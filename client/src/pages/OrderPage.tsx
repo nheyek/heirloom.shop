@@ -12,9 +12,9 @@ import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DISPLAY_SANS, sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { OrderResponse } from '@common/contract';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
-import { formatShippingAddress } from '@common/utils/shippingAddress';
+import { OrderResponse } from '@heirloom/common/contract';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 

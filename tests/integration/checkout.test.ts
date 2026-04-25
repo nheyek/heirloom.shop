@@ -10,7 +10,7 @@ jest.unstable_mockModule('@server/services/payment.service', () => ({
 	}),
 }));
 
-import { OrderStatus } from '@common/enums/OrderStatus';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { getEm } from '@server/db';
 
 import { AppOrder } from '@server/entities/generated/AppOrder';

@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { appContract } from '@common/contract';
+import { appContract } from '@heirloom/common/contract';
 import { initClient, tsRestFetchApi } from '@ts-rest/core';
 
 export const useApiClient = () => {

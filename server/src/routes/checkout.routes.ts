@@ -1,4 +1,4 @@
-import { checkoutContract } from '@common/contract';
+import { checkoutContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
 import {
 	calculateCheckoutTotals,

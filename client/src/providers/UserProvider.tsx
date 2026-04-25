@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { UserInfo } from '@common/contract';
+import { UserInfo } from '@heirloom/common/contract';
 import React, { useContext, useEffect, useState } from 'react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';

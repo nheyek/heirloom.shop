@@ -13,11 +13,11 @@ import { FaSearch } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { SEARCH_QUERY_LIMITS } from '@common/constants';
+import { SEARCH_QUERY_LIMITS } from '@heirloom/common/constants';
 import {
 	SearchResult,
 	SearchResultCollection,
-} from '@common/contract';
+} from '@heirloom/common/contract';
 import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '@client/constants';

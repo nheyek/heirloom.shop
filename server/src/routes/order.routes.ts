@@ -1,4 +1,4 @@
-import { ordersContract, OrderItemDisplayData } from '@common/contract';
+import { ordersContract, OrderItemDisplayData } from '@heirloom/common/contract';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import { optionalAuthAndSetUser } from '@server/middleware/auth0.middleware';

@@ -1,4 +1,4 @@
-import { CartItemData } from '@common/contract';
+import { CartItemData } from '../contract.js';
 
 export type ShoppingCartItem = {
 	listingData: CartItemData;

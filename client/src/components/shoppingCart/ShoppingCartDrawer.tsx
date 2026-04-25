@@ -15,7 +15,7 @@ import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCar
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '@client/theme';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';

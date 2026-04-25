@@ -1,13 +1,13 @@
 import { Collection, type Opt } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Country } from './Country';
-import { ListingCategory } from './ListingCategory';
-import { ListingVariation } from './ListingVariation';
-import { ReturnExchangeProfile } from './ReturnExchangeProfile';
-import { ShippingOrigin } from './ShippingOrigin';
-import { ShippingProfile } from './ShippingProfile';
-import { Shop } from './Shop';
-import { UserFavoriteListing } from './UserFavoriteListing';
+import { Country } from './Country.js';
+import { ListingCategory } from './ListingCategory.js';
+import { ListingVariation } from './ListingVariation.js';
+import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
+import { ShippingOrigin } from './ShippingOrigin.js';
+import { ShippingProfile } from './ShippingProfile.js';
+import { Shop } from './Shop.js';
+import { UserFavoriteListing } from './UserFavoriteListing.js';
 
 @Entity()
 export class Listing {

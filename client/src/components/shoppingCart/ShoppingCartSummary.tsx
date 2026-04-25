@@ -1,7 +1,7 @@
 import { DataList, Spinner } from '@chakra-ui/react';
 import { JSX } from 'react';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 
 type Props = {
 	pendingMessage: JSX.Element | string;

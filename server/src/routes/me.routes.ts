@@ -1,4 +1,4 @@
-import { meContract, OrderItemDisplayData } from '@common/contract';
+import { meContract, OrderItemDisplayData } from '@heirloom/common/contract';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';

@@ -1,6 +1,6 @@
 import { type Opt } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { AppOrder } from './AppOrder';
+import { AppOrder } from './AppOrder.js';
 
 @Entity()
 export class AppOrderItem {

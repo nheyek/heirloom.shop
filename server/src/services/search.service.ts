@@ -1,7 +1,7 @@
 import {
 	SearchResult,
 	SearchResultCollection,
-} from '@common/contract';
+} from '@heirloom/common/contract';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';

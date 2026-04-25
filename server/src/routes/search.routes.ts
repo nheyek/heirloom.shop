@@ -1,5 +1,5 @@
-import { searchContract } from '@common/contract';
-import { SEARCH_QUERY_LIMITS } from '@common/constants';
+import { searchContract } from '@heirloom/common/contract';
+import { SEARCH_QUERY_LIMITS } from '@heirloom/common/constants';
 import { initServer } from '@ts-rest/express';
 import * as searchService from '@server/services/search.service';
 import { sanitizeInputString } from '@server/utils/sanitize';

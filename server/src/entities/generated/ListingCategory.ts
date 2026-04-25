@@ -1,6 +1,6 @@
 import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing';
+import { Listing } from './Listing.js';
 
 @Entity()
 export class ListingCategory {

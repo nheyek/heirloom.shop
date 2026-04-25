@@ -1,7 +1,7 @@
 import { Collection } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing';
-import { Shop } from './Shop';
+import { Listing } from './Listing.js';
+import { Shop } from './Shop.js';
 
 @Entity()
 @Unique({ name: 'unique_shop_origin_zip', properties: ['shop', 'originZip'] })

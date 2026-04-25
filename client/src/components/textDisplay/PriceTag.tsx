@@ -1,6 +1,6 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FONT_DECORATIVE } from '@client/theme';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 
 type Props = {
 	priceCents: number;

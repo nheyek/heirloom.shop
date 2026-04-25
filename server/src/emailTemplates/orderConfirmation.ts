@@ -1,9 +1,9 @@
 import {
 	OrderItemDisplayData,
 	ShippingAddress,
-} from '@common/contract';
-import { formatCentsAsDollars } from '@common/utils/priceDisplay';
-import { formatShippingAddress } from '@common/utils/shippingAddress';
+} from '@heirloom/common/contract';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 
 const formatItem = (item: OrderItemDisplayData) => {
 	const variations =

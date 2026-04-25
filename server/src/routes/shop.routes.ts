@@ -1,4 +1,4 @@
-import { shopsContract } from '@common/contract';
+import { shopsContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';

@@ -1,5 +1,5 @@
-import { CartItemData, OrderItemDisplayData } from '@common/contract';
-import { ShoppingCartItem } from '@common/types/ShoppingCartItemData';
+import { CartItemData, OrderItemDisplayData } from '@heirloom/common/contract';
+import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
 
 export const getOrderItemDisplayData = (
 	item: ShoppingCartItem,

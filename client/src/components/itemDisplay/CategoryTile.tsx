@@ -1,5 +1,5 @@
 import { Box, Flex, Heading } from '@chakra-ui/react';
-import { CategoryTileData } from '@common/contract';
+import { CategoryTileData } from '@heirloom/common/contract';
 import { Link } from 'react-router-dom';
 import {
 	CLIENT_ROUTES,

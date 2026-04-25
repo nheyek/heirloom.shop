@@ -11,7 +11,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData, ShopCardData } from '@common/contract';
+import { ListingCardData, ShopCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 
 export const LandingPage = () => {
