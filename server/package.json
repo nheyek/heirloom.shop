@@ -13,10 +13,9 @@
 	"license": "ISC",
 	"author": "Nick Heyek",
 	"type": "module",
-	"main": "index.js",
 	"scripts": {
 		"dev": "NODE_ENV=development tsx --conditions source watch src/app.ts",
-		"build": "tsc --build && tsc-alias -p tsconfig.json && NODE_ENV=development DB_NAME=dummy npx mikro-orm cache:generate --combined --ts && mv temp/metadata.json dist/orm-metadata.json"
+		"build": "tsc --build && tsc-alias -p tsconfig.json"
 	},
 	"mikro-orm": {
 		"configPaths": [
