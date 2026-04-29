@@ -365,6 +365,7 @@ export const ShoppingCartProvider = (props: {
 				clearCart: () => {
 					setPersistedItems([]);
 					setCartListingData({});
+					setTaxTotal(null);
 				},
 				openDrawer,
 				closeDrawer,
