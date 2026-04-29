@@ -1,4 +1,5 @@
 export const EMAIL_FROM = 'Heirloom <support@heirloom.shop>';
+export const ERROR_ALERT_EMAIL = 'errors@heirloom.shop';
 
 export const ERROR_MESSAGES = {
 	category: {

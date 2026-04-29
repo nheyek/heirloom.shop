@@ -3,11 +3,11 @@ import { Resend } from 'resend';
 
 const env = process.env.NODE_ENV;
 
-export const sendEmail = async (params: {
+export const sendEmail = (params: {
 	to: string;
 	subject: string;
 	text: string;
-}) => {
+}): void => {
 	if (env === 'testing') return;
 
 	const resend = new Resend(process.env.RESEND_API_KEY);
@@ -16,10 +16,12 @@ export const sendEmail = async (params: {
 			? `[${env!.toUpperCase()}] ${params.subject}`
 			: params.subject;
 
-	return resend.emails.send({
-		to: params.to,
-		from: EMAIL_FROM,
-		subject,
-		text: params.text,
-	});
+	resend.emails
+		.send({
+			to: params.to,
+			from: EMAIL_FROM,
+			subject,
+			text: params.text,
+		})
+		.catch((e) => console.error('[emailer] Failed to send email:', e));
 };

@@ -49,7 +49,7 @@ export const handleStripeWebhook = async (
 
 			const order = await getOrderById(orderId);
 
-			const response = await sendEmail({
+			sendEmail({
 				to: order.email,
 				subject: `Order Confirmed: ${order.shortId}`,
 				text: orderConfirmation({
@@ -69,6 +69,7 @@ export const handleStripeWebhook = async (
 				}),
 			});
 		}
+
 	}
 
 	response.json({ received: true });
