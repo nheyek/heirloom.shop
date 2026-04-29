@@ -349,6 +349,22 @@ export const ordersContract = c.router({
 	},
 });
 
+const AdminPageDataSchema = z.object({
+	message: z.string(),
+});
+
+export const adminContract = c.router({
+	getPageData: {
+		method: 'GET',
+		path: '/api/admin',
+		responses: {
+			200: AdminPageDataSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+		},
+	},
+});
+
 export const meContract = c.router({
 	getMe: {
 		method: 'GET',
@@ -379,6 +395,7 @@ export const meContract = c.router({
 });
 
 export const appContract = c.router({
+	admin: adminContract,
 	categories: categoryContract,
 	checkout: checkoutContract,
 	listings: listingsContract,
@@ -415,3 +432,4 @@ export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema
 >;
+export type AdminPageData = z.infer<typeof AdminPageDataSchema>;

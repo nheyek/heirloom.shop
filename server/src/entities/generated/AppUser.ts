@@ -1,4 +1,4 @@
-import { Collection } from '@mikro-orm/core';
+import { Collection, type Opt } from '@mikro-orm/core';
 import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrder } from './AppOrder.js';
 import { ShopUserRole } from './ShopUserRole.js';
@@ -21,6 +21,9 @@ export class AppUser {
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @Property({ type: 'boolean' })
+  isAdmin: boolean & Opt = false;
 
   @OneToMany({ entity: () => AppOrder, mappedBy: 'user' })
   appOrderCollection = new Collection<AppOrder>(this);

@@ -1,4 +1,5 @@
 import { ordersContract, OrderItemDisplayData } from '@heirloom/common/contract';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import { optionalAuthAndSetUser } from '@server/middleware/auth0.middleware';
@@ -51,7 +52,7 @@ export const orderRouter = s.router(ordersContract, {
 					body: {
 						shortId: order.shortId,
 						createdAt: order.createdAt?.toISOString() ?? null,
-						orderStatus: order.orderStatus,
+						orderStatus: order.orderStatus as OrderStatus,
 						shippingAddress: order.shippingAddress,
 						items: order.appOrderItemCollection
 							.getItems()

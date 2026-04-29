@@ -74,11 +74,12 @@ BEGIN
 		parent_id = EXCLUDED.parent_id,
 		updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO app_user (username, email, created_at, updated_at)
+    INSERT INTO app_user (username, email, is_admin, created_at, updated_at)
     VALUES
-        (admin_user_1_username, admin_user_1_email, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (admin_user_1_username, admin_user_1_email, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (username) DO UPDATE SET
         email = EXCLUDED.email,
+        is_admin = EXCLUDED.is_admin,
         updated_at = CURRENT_TIMESTAMP;
 
     INSERT INTO country (code, name)

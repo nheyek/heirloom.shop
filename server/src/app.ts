@@ -1,6 +1,7 @@
 import { fileURLToPath } from 'url';
 import { API_ROUTES } from '@heirloom/common/constants';
 import {
+	adminContract,
 	categoryContract,
 	checkoutContract,
 	listingsContract,
@@ -15,6 +16,7 @@ import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
 import { initORM } from './db.js';
 import { logError } from './services/error-log.service.js';
+import { adminRouter } from './routes/admin.routes.js';
 import { categoryRouter } from './routes/category.routes.js';
 import { checkoutRouter } from './routes/checkout.routes.js';
 import { listingRouter } from './routes/listing.routes.js';
@@ -66,6 +68,7 @@ export const createApp = async () => {
 		next();
 	});
 
+	createExpressEndpoints(adminContract, adminRouter, app);
 	createExpressEndpoints(listingsContract, listingRouter, app);
 	createExpressEndpoints(meContract, meRouter, app);
 	createExpressEndpoints(shopsContract, shopRouter, app);

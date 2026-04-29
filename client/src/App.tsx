@@ -8,6 +8,7 @@ import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
+import { AdminPage } from './pages/AdminPage';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
 import { CheckoutPage } from './pages/CheckoutPage';
@@ -98,6 +99,11 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.orderConfirmed}`}
 							element={<OrderSuccess />}
+						/>
+
+						<Route
+							path={`/${CLIENT_ROUTES.admin}`}
+							element={<AdminPage />}
 						/>
 
 						<Route

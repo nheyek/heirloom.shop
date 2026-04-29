@@ -102,7 +102,8 @@ CREATE TABLE public.app_user (
     username character varying(64) NOT NULL,
     email character varying(128) NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    is_admin boolean DEFAULT false NOT NULL
 );
 
 
@@ -1007,4 +1008,5 @@ ALTER TABLE ONLY public.user_favorite_listing
 
 INSERT INTO public.schema_migrations (version) VALUES
     ('20260424000000'),
-    ('20260429000000');
+    ('20260429000000'),
+    ('20260430000000');

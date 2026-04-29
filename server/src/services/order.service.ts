@@ -4,7 +4,7 @@ import {
 } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { getEm } from '@server/db';
-import { AppOrder } from '@server/entities/AppOrder';
+import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { AppUser } from '@server/entities/generated/AppUser';
 import { encodeShortId } from '@server/utils/hashids';
@@ -69,7 +69,7 @@ export const getOrderStatus = async (
 ): Promise<OrderStatus> => {
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { shortId });
-	return order.orderStatus;
+	return order.orderStatus as OrderStatus;
 };
 
 export const getOrderByShortId = async (

@@ -1,5 +1,8 @@
 export const API_ROUTES = {
 	base: 'api',
+	admin: {
+		base: 'admin',
+	},
 	currentUser: {
 		base: 'me',
 		favorites: 'favorites',

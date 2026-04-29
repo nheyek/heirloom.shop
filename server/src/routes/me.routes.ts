@@ -1,4 +1,5 @@
 import { meContract, OrderItemDisplayData } from '@heirloom/common/contract';
+import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
@@ -79,7 +80,7 @@ export const meRouter = s.router(meContract, {
 				body: orders.map((order) => ({
 					shortId: order.shortId,
 					createdAt: order.createdAt?.toISOString() ?? null,
-					orderStatus: order.orderStatus,
+					orderStatus: order.orderStatus as OrderStatus,
 					shippingAddress: order.shippingAddress,
 					items: order.appOrderItemCollection
 						.getItems()

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
+import { findUserByEmail } from '@server/services/user.service';
 
 export const TEST_USER_EMAIL = 'test@heirloom.shop';
 
@@ -30,6 +31,22 @@ export const authAndSetUser = (
 		if (req.auth?.payload) {
 			req.userClaims = req.auth.payload;
 		}
+		next();
+	});
+};
+
+export const adminAuth = (
+	req: Request,
+	res: Response,
+	next: NextFunction,
+) => {
+	authAndSetUser(req, res, async (err?: unknown) => {
+		if (err) return next(err);
+		if (!req.userClaims?.email) return res.status(401).end();
+
+		const user = await findUserByEmail(req.userClaims.email);
+		if (!user?.isAdmin) return res.status(403).json({ error: 'Forbidden' });
+
 		next();
 	});
 };
