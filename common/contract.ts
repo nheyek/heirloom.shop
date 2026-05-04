@@ -173,6 +173,7 @@ const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
 const UserInfoSchema = z.object({
 	id: z.number(),
 	email: z.string(),
+	isAdmin: z.boolean(),
 	shopId: z.number().nullable(),
 });
 
@@ -427,7 +428,9 @@ export type TaxCalculationResponse = z.infer<
 export type ShopCardData = z.infer<typeof ShopCardDataSchema>;
 export type UserInfo = z.infer<typeof UserInfoSchema>;
 export type SearchResult = z.infer<typeof SearchResultSchema>;
-export type OrderItemDisplayData = z.infer<typeof OrderItemDisplayDataSchema>;
+export type OrderItemDisplayData = z.infer<
+	typeof OrderItemDisplayDataSchema
+>;
 export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema

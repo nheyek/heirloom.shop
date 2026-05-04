@@ -1,8 +1,8 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { UserInfo } from '@heirloom/common/contract';
-import React, { useContext, useEffect, useState } from 'react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
+import { UserInfo } from '@heirloom/common/contract';
+import React, { useContext, useEffect, useState } from 'react';
 
 type UserContextType = {
 	user: UserInfo | null;
@@ -19,13 +19,12 @@ export const UserProvider = (props: {
 	children: React.ReactNode;
 }) => {
 	const [user, setUser] = useState<UserInfo | null>(null);
-	const [loading, setLoading] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
 	const apiClient = useApiClient();
 	const { isAuthenticated } = useAuth0();
 
 	const loadUser = async () => {
-		setLoading(true);
 		setError(null);
 
 		const result = await callApi(apiClient.me.getMe());
