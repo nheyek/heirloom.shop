@@ -35,6 +35,7 @@ export const NavbarMenu = () => {
 					color="#FFF"
 					size="lg"
 					px={0}
+					gap={1.5}
 				>
 					<FaUserCircle />
 					<IoMdArrowDropdown />

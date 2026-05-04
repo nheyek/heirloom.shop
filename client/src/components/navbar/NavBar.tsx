@@ -4,6 +4,7 @@ import {
 	Flex,
 	Grid,
 	GridItem,
+	HStack,
 	IconButton,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
@@ -12,19 +13,22 @@ import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { FadeInBox } from '@client/components/util/FadeInBox';
+import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { useUserInfo } from '@client/providers/UserProvider';
 import { NAVBAR_HEIGHT_SPACING_UNITS } from '@client/theme';
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaCrown, FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 enum gridTemplateAreas {
 	LOGO = 'LOGO',
 	SEARCH = 'SEARCH',
-	LOGIN = 'LOGIN',
+	BUTTONS = 'LOGIN',
 }
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
+	const { user } = useUserInfo();
 
 	const shoppingCart = useShoppingCart();
 
@@ -41,9 +45,9 @@ export const Navbar = () => {
 		>
 			<Grid
 				gridTemplateAreas={{
-					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.LOGIN}" ". ${gridTemplateAreas.SEARCH} ."`,
-					sm: `". ${gridTemplateAreas.LOGO} ${gridTemplateAreas.LOGIN}" ". ${gridTemplateAreas.SEARCH} ."`,
-					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.LOGIN}"`,
+					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
+					sm: `". ${gridTemplateAreas.LOGO} ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
+					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
 				}}
 				templateColumns="150px 1fr 150px"
 				alignItems="center"
@@ -80,18 +84,25 @@ export const Navbar = () => {
 					<NavbarSearch />
 				</GridItem>
 				<GridItem
-					area={gridTemplateAreas.LOGIN}
+					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
 				>
-					<Flex
-						alignItems="center"
-						gap={2}
-					>
+					<HStack gap={7}>
+						{user?.isAdmin && (
+							<Link to={CLIENT_ROUTES.admin}>
+								<Box
+									color="white"
+									cursor="button"
+								>
+									<FaCrown size={24} />
+								</Box>
+							</Link>
+						)}
 						{!authIsLoading && (
 							<FadeInBox
 								display="flex"
 								alignItems="center"
-								gap={2}
+								gap={1.5}
 							>
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
@@ -134,7 +145,7 @@ export const Navbar = () => {
 							isOpen={shoppingCart.isDrawerOpen}
 							onClose={shoppingCart.closeDrawer}
 						/>
-					</Flex>
+					</HStack>
 				</GridItem>
 			</Grid>
 		</Box>

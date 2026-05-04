@@ -1,8 +1,5 @@
-import {
-	Skeleton,
-	Stack,
-	useBreakpointValue,
-} from '@chakra-ui/react';
+import { useBreakpointValue } from '@chakra-ui/react';
+import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { Layout } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { useNavigate } from 'react-router-dom';
@@ -21,17 +18,5 @@ export const AdminPage = () => {
 
 	const isLoading = userIsLoading;
 
-	return (
-		<Stack
-			gap={5}
-			m={5}
-		>
-			{isLoading && (
-				<Skeleton
-					h={10}
-					w="100%"
-				/>
-			)}
-		</Stack>
-	);
+	return <AdminPageLayout />;
 };
