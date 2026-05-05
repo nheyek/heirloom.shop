@@ -1,7 +1,7 @@
 import { Input, InputProps } from '@chakra-ui/react';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 
-export const TextInput = ({
+export const TextField = ({
 	invalid,
 	...rest
 }: InputProps & { invalid?: boolean }) => (
