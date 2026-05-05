@@ -1,4 +1,5 @@
 import { Button, Stack, Text } from '@chakra-ui/react';
+import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { ShopCard } from '@client/components/itemDisplay/ShopCard';
@@ -13,6 +14,7 @@ export const AdminPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
 	const [shopsError, setShopsError] = useState<string | null>(null);
+	const [createShopOpen, setCreateShopOpen] = useState(false);
 
 	const apiClient = useApiClient();
 	const loadShopData = async () => {
@@ -30,30 +32,38 @@ export const AdminPage = () => {
 	}, []);
 
 	return (
-		<Stack gap={5}>
-			<Button
-				size="lg"
-				width={175}
-			>
-				<FaPlusCircle />
-				<Text fontSize={22}>Create Shop</Text>
-			</Button>
-			{shopsError ? (
-				<AppError title="Failed to load makers" />
-			) : (
-				<ItemGrid
-					items={shops}
-					isLoading={shopsLoading}
-					getItemKey={(shop) => shop.id}
-					renderItem={(shop) => <ShopCard {...shop} />}
-					columns={{
-						base: 1,
-						[sidebarBreakpoint.sm]: 2,
-						[sidebarBreakpoint.md]: 3,
-						[sidebarBreakpoint.lg]: 3,
-					}}
-				/>
-			)}
-		</Stack>
+		<>
+			<Stack gap={5}>
+				<Button
+					size="lg"
+					width={160}
+					onClick={() => setCreateShopOpen(true)}
+				>
+					<FaPlusCircle />
+					<Text fontSize={20}>Create Shop</Text>
+				</Button>
+				{shopsError ? (
+					<AppError title="Failed to load makers" />
+				) : (
+					<ItemGrid
+						items={shops}
+						isLoading={shopsLoading}
+						getItemKey={(shop) => shop.id}
+						renderItem={(shop) => <ShopCard {...shop} />}
+						columns={{
+							base: 1,
+							[sidebarBreakpoint.sm]: 2,
+							[sidebarBreakpoint.md]: 3,
+							[sidebarBreakpoint.lg]: 3,
+						}}
+					/>
+				)}
+			</Stack>
+
+			<CreateShopDrawer
+				isOpen={createShopOpen}
+				onClose={() => setCreateShopOpen(false)}
+			/>
+		</>
 	);
 };
