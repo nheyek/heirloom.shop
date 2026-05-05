@@ -55,8 +55,9 @@ export const AdminPageLayout = () => {
 			>
 				<Center height="100%">
 					<Spinner
-						size="xl"
-						borderWidth={3}
+						height={100}
+						width={100}
+						borderWidth={5}
 					/>
 				</Center>
 			</Box>
