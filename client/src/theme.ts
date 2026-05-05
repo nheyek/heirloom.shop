@@ -7,6 +7,7 @@ import {
 } from '@chakra-ui/react';
 
 export const COLOR_BRAND = '#121212';
+export const FIELD_ERROR_COLOR = '#df1b41';
 export const CHAKRA_SPACING_UNIT = 4;
 export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
