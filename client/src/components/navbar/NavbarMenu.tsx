@@ -31,11 +31,10 @@ export const NavbarMenu = () => {
 				focusRing="none"
 			>
 				<Button
-					variant="plain"
 					color="#FFF"
 					size="lg"
-					px={0}
 					gap={1.5}
+					px={2}
 				>
 					<FaUserCircle />
 					<IoMdArrowDropdown />

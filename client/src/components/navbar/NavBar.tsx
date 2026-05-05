@@ -89,13 +89,10 @@ export const Navbar = () => {
 					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
 				>
-					<HStack gap={4}>
+					<HStack gap={2}>
 						{user?.isAdmin && (
 							<Link to={CLIENT_ROUTES.admin}>
-								<IconButton
-									variant="plain"
-									color="white"
-								>
+								<IconButton color="white">
 									<FaCrown />
 								</IconButton>
 							</Link>
@@ -104,13 +101,11 @@ export const Navbar = () => {
 							<FadeInBox
 								display="flex"
 								alignItems="center"
-								gap={1.5}
 							>
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
 								<Box position="relative">
 									<IconButton
-										variant="plain"
 										color="#FFF"
 										onClick={
 											shoppingCart.openDrawer
