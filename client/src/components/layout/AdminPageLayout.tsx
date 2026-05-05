@@ -33,17 +33,18 @@ const NAV_ITEMS: SidebarNavItem[] = [
 ];
 
 export const AdminPageLayout = () => {
-	const { user, isLoading: userIsLoading } = useUserInfo();
+	const { user } = useUserInfo();
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
-	const isLoading = authIsLoading || userIsLoading;
 
 	const navigate = useNavigate();
 
-	if (!isLoading && !user?.isAdmin) {
+	const unauthenticated = !isAuthenticated && !authIsLoading;
+	const authenticatedNonAdmin = user && !user.isAdmin;
+	if (unauthenticated || authenticatedNonAdmin) {
 		navigate('/');
 	}
 
-	if (isLoading) {
+	if (authIsLoading) {
 		return (
 			<Box
 				position="absolute"

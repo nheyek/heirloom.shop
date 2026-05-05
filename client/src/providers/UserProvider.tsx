@@ -19,12 +19,13 @@ export const UserProvider = (props: {
 	children: React.ReactNode;
 }) => {
 	const [user, setUser] = useState<UserInfo | null>(null);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 	const apiClient = useApiClient();
 	const { isAuthenticated } = useAuth0();
 
 	const loadUser = async () => {
+		setLoading(true);
 		setError(null);
 
 		const result = await callApi(apiClient.me.getMe());

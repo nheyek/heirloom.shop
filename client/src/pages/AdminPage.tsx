@@ -1,3 +1,5 @@
+import { Stack } from '@chakra-ui/react';
+
 export const AdminPage = () => {
-	return 'Admin page';
+	return <Stack></Stack>;
 };
