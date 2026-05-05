@@ -1,4 +1,5 @@
 import { Box } from '@chakra-ui/react';
+import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -100,11 +101,20 @@ const App = () => {
 							path={`/${CLIENT_ROUTES.orderConfirmed}`}
 							element={<OrderSuccess />}
 						/>
-
-						<Route
-							path={`/${CLIENT_ROUTES.admin}`}
-							element={<AdminPage />}
-						/>
+						<Route element={<AdminPageLayout />}>
+							<Route
+								path={`/${CLIENT_ROUTES.admin}`}
+								element={<AdminPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`}
+								element={null}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.numbers}`}
+								element={null}
+							/>
+						</Route>
 
 						<Route
 							path="*"

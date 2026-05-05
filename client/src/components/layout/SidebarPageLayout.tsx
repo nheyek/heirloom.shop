@@ -49,39 +49,34 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 			{navItems.map(({ label, icon: Icon, route }) => {
 				const isActive = pathname.startsWith(`/${route}`);
 				return (
-					<Link
-						key={route}
-						asChild
+					<RouterLink
+						to={`/${route}`}
+						style={{ display: 'block' }}
 					>
-						<RouterLink
-							to={`/${route}`}
-							style={{ display: 'block' }}
+						<HStack
+							gap={3}
+							px={3}
+							py={2}
+							borderRadius="md"
+							bg={isActive ? 'gray.100' : 'transparent'}
+							_hover={{
+								bg: isActive ? 'gray.100' : 'gray.50',
+							}}
+							transition="background 0.15s"
+							fontFamily={FONT_DISPLAY_SANS}
+							fontSize={22}
+							fontWeight={isActive ? 500 : 400}
+							color={isActive ? 'black' : 'gray.700'}
 						>
-							<HStack
-								gap={3}
-								px={3}
-								py={2}
-								borderRadius="md"
-								bg={isActive ? 'gray.100' : 'transparent'}
-								_hover={{
-									bg: isActive ? 'gray.100' : 'gray.50',
-								}}
-								transition="background 0.15s"
-								fontFamily={FONT_DISPLAY_SANS}
-								fontSize={22}
-								fontWeight={isActive ? 500 : 400}
-								color={isActive ? 'black' : 'gray.700'}
+							<Box
+								fontSize={20}
+								flexShrink={0}
 							>
-								<Box
-									fontSize={20}
-									flexShrink={0}
-								>
-									<Icon />
-								</Box>
-								<Text>{label}</Text>
-							</HStack>
-						</RouterLink>
-					</Link>
+								<Icon />
+							</Box>
+							<Text>{label}</Text>
+						</HStack>
+					</RouterLink>
 				);
 			})}
 		</Stack>
@@ -95,7 +90,9 @@ type PageHeadingProps = {
 const PageHeading = ({ navItems }: PageHeadingProps) => {
 	const { pathname } = useLocation();
 
-	const exactMatch = navItems.find(({ route }) => pathname === `/${route}`);
+	const exactMatch = navItems.find(
+		({ route }) => pathname === `/${route}`,
+	);
 	if (exactMatch) {
 		return (
 			<Heading
@@ -144,7 +141,9 @@ type SidebarPageLayoutProps = {
 	navItems: SidebarNavItem[];
 };
 
-export const SidebarPageLayout = ({ navItems }: SidebarPageLayoutProps) => (
+export const SidebarPageLayout = ({
+	navItems,
+}: SidebarPageLayoutProps) => (
 	<HStack
 		alignItems="stretch"
 		gap={0}

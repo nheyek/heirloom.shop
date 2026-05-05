@@ -17,7 +17,9 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { NAVBAR_HEIGHT_SPACING_UNITS } from '@client/theme';
-import { FaCrown, FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart } from 'react-icons/fa';
+import { FaCrown } from 'react-icons/fa6';
+
 import { Link } from 'react-router-dom';
 
 enum gridTemplateAreas {
@@ -87,15 +89,15 @@ export const Navbar = () => {
 					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
 				>
-					<HStack gap={7}>
+					<HStack gap={4}>
 						{user?.isAdmin && (
 							<Link to={CLIENT_ROUTES.admin}>
-								<Box
+								<IconButton
+									variant="plain"
 									color="white"
-									cursor="button"
 								>
-									<FaCrown size={24} />
-								</Box>
+									<FaCrown />
+								</IconButton>
 							</Link>
 						)}
 						{!authIsLoading && (

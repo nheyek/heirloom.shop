@@ -103,9 +103,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			gap={STANDARD_GRID_GAP}
 			columns={numColumns}
 			alignItems="start"
-			width={
-				isLoading ? numColumns * maxItemWidth : 'fit-content'
-			}
+			width={isLoading ? '100%' : 'fit-content'}
 		>
 			{isLoading &&
 				Array.from({ length: numSkeletons }).map((_, i) => (
