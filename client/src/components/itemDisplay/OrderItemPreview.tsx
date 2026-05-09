@@ -1,10 +1,10 @@
 import {
 	Box,
-	Button,
 	Card,
 	Center,
 	Heading,
 	HStack,
+	Link,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -20,7 +20,6 @@ import {
 	OrderResponse,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { IoReceipt } from 'react-icons/io5';
 import { Link as RouterLink } from 'react-router-dom';
 
 const MAX_ORDER_ITEM_PREVIEW_WIDTH = 450;
@@ -41,9 +40,9 @@ const LabeledValue = ({
 	label: string;
 	value: string;
 }) => (
-	<Stack gap={0}>
+	<Stack gap={0.5}>
 		<Text
-			fontSize={14}
+			fontSize={15}
 			color="gray.600"
 			textTransform="uppercase"
 		>
@@ -119,16 +118,22 @@ export const OrderItemPreview = ({ order }: Props) => {
 			alignItems="center"
 		>
 			<Stack
-				gap={1}
+				gap={2}
 				pr={2}
 			>
-				<Heading
-					fontSize={24}
-					fontWeight={500}
-					fontFamily={FONT_DECORATIVE}
-				>
-					{order.shortId}
-				</Heading>
+				<Link asChild>
+					<RouterLink
+						to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
+					>
+						<Heading
+							fontSize={24}
+							fontWeight={500}
+							fontFamily={FONT_DECORATIVE}
+						>
+							{order.shortId}
+						</Heading>
+					</RouterLink>
+				</Link>
 				<HStack
 					gap={4}
 					fontFamily={FONT_DISPLAY_SANS}
@@ -144,20 +149,6 @@ export const OrderItemPreview = ({ order }: Props) => {
 						value={formatCentsAsDollars(total)}
 					/>
 				</HStack>
-				<RouterLink
-					to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
-				>
-					<Button
-						size="xs"
-						fontSize={16}
-						gap={2}
-						px={3}
-						mt={2}
-					>
-						<IoReceipt />
-						View details
-					</Button>
-				</RouterLink>
 			</Stack>
 			<Center width="100%">
 				<CardStack items={order.items} />

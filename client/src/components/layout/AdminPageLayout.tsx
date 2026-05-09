@@ -2,8 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { FaGavel } from 'react-icons/fa';
-import { FaChartSimple } from 'react-icons/fa6';
+import { FaChartSimple, FaCrown } from 'react-icons/fa6';
 import { IoReceipt } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -15,7 +14,7 @@ const NAV_ITEMS: SidebarNavItem[] = [
 	{
 		label: 'Admin',
 		title: 'Administration',
-		icon: FaGavel,
+		icon: FaCrown,
 		route: CLIENT_ROUTES.admin,
 	},
 	{
@@ -25,10 +24,10 @@ const NAV_ITEMS: SidebarNavItem[] = [
 		route: `${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`,
 	},
 	{
-		label: 'Numbers',
-		title: 'Numbers',
+		label: 'Analytics',
+		title: 'Analytics',
 		icon: FaChartSimple,
-		route: `${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.numbers}`,
+		route: `${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.analytics}`,
 	},
 ];
 

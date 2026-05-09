@@ -26,7 +26,7 @@ export const CLIENT_ROUTES = {
 	orderConfirmed: 'order-confirmed',
 	order: 'order',
 	orders: 'orders',
-	numbers: 'numbers',
+	analytics: 'analytics',
 };
 
 export enum StorageKey {

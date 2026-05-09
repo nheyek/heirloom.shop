@@ -111,7 +111,7 @@ const App = () => {
 								element={null}
 							/>
 							<Route
-								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.numbers}`}
+								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.analytics}`}
 								element={null}
 							/>
 						</Route>

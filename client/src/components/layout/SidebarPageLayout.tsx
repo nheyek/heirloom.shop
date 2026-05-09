@@ -64,7 +64,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 							}}
 							transition="background 0.15s"
 							fontFamily={FONT_DISPLAY_SANS}
-							fontSize={22}
+							fontSize={20}
 							fontWeight={isActive ? 500 : 400}
 							color={isActive ? 'black' : 'gray.700'}
 						>
