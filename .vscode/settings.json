@@ -13,7 +13,8 @@
 		"**/dist": true,
 		"**/*.tsbuildinfo": true,
 		"**/package-lock.json": true,
-		"server/temp": true
+		"server/temp": true,
+		"**/*.pem": true
 	},
 	"search.exclude": {
 		"**/.git": true,
@@ -21,7 +22,8 @@
 		"**/dist": true,
 		"**/*.tsbuildinfo": true,
 		"**/package-lock.json": true,
-		"server/temp": true
+		"server/temp": true,
+		"**/*.pem": true
 	},
 	"[terraform]": {
 		"editor.formatOnSave": true,

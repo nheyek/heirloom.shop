@@ -1,9 +1,10 @@
-import { fileURLToPath } from 'url';
-import path from 'path';
-import webpack from 'webpack';
-import dotenv from 'dotenv';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import dotenv from 'dotenv';
+import fs from 'fs';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import webpack from 'webpack';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -27,15 +28,28 @@ export default (env, argv) => {
 				'.js': ['.ts', '.tsx', '.js'],
 			},
 			alias: {
-				'@heirloom/common': path.resolve(__dirname, '../common'),
+				'@heirloom/common': path.resolve(
+					__dirname,
+					'../common',
+				),
 				'@client': path.resolve(__dirname, 'src'),
 			},
 		},
-		devtool: isProd ? 'source-map' : 'eval-cheap-module-source-map',
+		devtool: isProd
+			? 'source-map'
+			: 'eval-cheap-module-source-map',
 		devServer: {
 			static: path.resolve(__dirname, 'public'),
 			historyApiFallback: true,
 			port: 8080,
+			server: {
+				type: 'https',
+				options: {
+					key: fs.readFileSync('./localhost+3-key.pem'),
+					cert: fs.readFileSync('./localhost+3.pem'),
+				},
+			},
+			allowedHosts: ['localhost', 'heirloom.local'],
 			proxy: [
 				{
 					context: ['/api'],

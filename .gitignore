@@ -7,3 +7,5 @@ terraform.tfstate.backup
 /.claude
 /temp
 /dist
+client/localhost+3.pem
+client/localhost+3-key.pem
