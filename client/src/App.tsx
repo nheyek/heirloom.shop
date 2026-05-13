@@ -9,7 +9,7 @@ import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { Navbar } from './components/navbar/NavBar';
 import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
-import { AdminPage } from './pages/AdminPage';
+import { AdminShopsPage } from './pages/Admin/AdminShopsPage';
 import { AuthCallback } from './pages/AuthCallback';
 import { CategoryPage } from './pages/CategoryPage';
 import { CheckoutPage } from './pages/CheckoutPage';
@@ -104,7 +104,7 @@ const App = () => {
 						<Route element={<AdminPageLayout />}>
 							<Route
 								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
-								element={<AdminPage />}
+								element={<AdminShopsPage />}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`}

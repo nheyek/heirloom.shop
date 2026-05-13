@@ -10,7 +10,7 @@ import { ShopCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 
-export const AdminPage = () => {
+export const AdminShopsPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
 	const [shopsError, setShopsError] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export const AdminPage = () => {
 	const loadShopData = async () => {
 		const result = await callApi(apiClient.shops.getAll());
 		if (result.error !== null) {
-			setShopsError('Failed to load makers');
+			setShopsError('Failed to load shops');
 		} else {
 			setShops(result.data);
 		}
