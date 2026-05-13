@@ -50,6 +50,9 @@ export default (env, argv) => {
 				},
 			},
 			allowedHosts: ['localhost', 'heirloom.local'],
+			client: {
+				webSocketURL: 'wss://heirloom.local:8080/ws',
+			},
 			proxy: [
 				{
 					context: ['/api'],
