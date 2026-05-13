@@ -35,15 +35,15 @@ export const AdminShopsPage = () => {
 		<>
 			<Stack gap={5}>
 				<Button
-					size="lg"
-					width={160}
+					size="md"
 					onClick={() => setCreateShopOpen(true)}
+					width={130}
 				>
 					<FaPlusCircle />
-					<Text fontSize={20}>Create Shop</Text>
+					<Text fontSize={20}>Add New</Text>
 				</Button>
 				{shopsError ? (
-					<AppError title="Failed to load makers" />
+					<AppError title="Failed to load shops" />
 				) : (
 					<ItemGrid
 						items={shops}
