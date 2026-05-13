@@ -6,6 +6,7 @@ import {
 	GridItem,
 	HStack,
 	IconButton,
+	Text,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { LoginButton } from '@client/components/navbar/LoginButton';
@@ -16,11 +17,14 @@ import { FadeInBox } from '@client/components/util/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { NAVBAR_HEIGHT_SPACING_UNITS } from '@client/theme';
+import {
+	FONT_DISPLAY_SANS,
+	NAVBAR_HEIGHT_SPACING_UNITS,
+} from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown } from 'react-icons/fa6';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 enum gridTemplateAreas {
 	LOGO = 'LOGO',
@@ -31,6 +35,10 @@ enum gridTemplateAreas {
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
 	const { user } = useUserInfo();
+	const { pathname } = useLocation();
+	const isAdminPage = pathname.startsWith(
+		`/${CLIENT_ROUTES.admin}`,
+	);
 
 	const shoppingCart = useShoppingCart();
 
@@ -51,7 +59,7 @@ export const Navbar = () => {
 					sm: `". ${gridTemplateAreas.LOGO} ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
 					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
 				}}
-				templateColumns="150px 1fr 150px"
+				templateColumns="250px 1fr 150px"
 				alignItems="center"
 				gapX={5}
 				gapY={1}
@@ -64,16 +72,30 @@ export const Navbar = () => {
 						md: 'start',
 					}}
 				>
-					<Link to="/">
-						<Box
-							flexShrink={0}
-							width={150}
-							mt={1}
-							cursor="button"
-						>
-							<Logo />
-						</Box>
-					</Link>
+					<HStack
+						gap={3}
+						alignItems="flex-end"
+					>
+						<Link to="/">
+							<Box
+								flexShrink={0}
+								width={150}
+								mt={1}
+								cursor="button"
+							>
+								<Logo />
+							</Box>
+						</Link>
+						{isAdminPage && (
+							<Text
+								color="white"
+								fontFamily={FONT_DISPLAY_SANS}
+								fontSize={24}
+							>
+								Admin
+							</Text>
+						)}
+					</HStack>
 				</GridItem>
 				<GridItem
 					area={gridTemplateAreas.SEARCH}
