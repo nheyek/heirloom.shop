@@ -103,7 +103,7 @@ const App = () => {
 						/>
 						<Route element={<AdminPageLayout />}>
 							<Route
-								path={`/${CLIENT_ROUTES.admin}`}
+								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
 								element={<AdminPage />}
 							/>
 							<Route

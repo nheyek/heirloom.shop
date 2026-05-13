@@ -2,7 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { FaChartSimple, FaCrown } from 'react-icons/fa6';
+import { FaChartSimple, FaShop } from 'react-icons/fa6';
 import { IoReceipt } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -12,10 +12,10 @@ import {
 
 const NAV_ITEMS: SidebarNavItem[] = [
 	{
-		label: 'Admin',
-		title: 'Administration',
-		icon: FaCrown,
-		route: CLIENT_ROUTES.admin,
+		label: 'Shops',
+		title: 'Shops',
+		icon: FaShop,
+		route: `${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`,
 	},
 	{
 		label: 'Orders',

@@ -91,7 +91,12 @@ export const Navbar = () => {
 				>
 					<HStack gap={2}>
 						{user?.isAdmin && (
-							<Link to={CLIENT_ROUTES.admin}>
+							<Link
+								to={[
+									CLIENT_ROUTES.admin,
+									CLIENT_ROUTES.shops,
+								].join('/')}
+							>
 								<IconButton color="white">
 									<FaCrown />
 								</IconButton>
