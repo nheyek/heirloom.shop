@@ -350,16 +350,20 @@ export const ordersContract = c.router({
 	},
 });
 
-const AdminPageDataSchema = z.object({
-	message: z.string(),
+const AdminShopListItemSchema = z.object({
+	id: z.number(),
+	title: z.string(),
+	createdAt: z.string().nullable(),
+	listingCount: z.number(),
+	directFulfillment: z.boolean(),
 });
 
 export const adminContract = c.router({
-	getPageData: {
+	getShops: {
 		method: 'GET',
-		path: '/api/admin',
+		path: '/api/admin/shops',
 		responses: {
-			200: AdminPageDataSchema,
+			200: z.array(AdminShopListItemSchema),
 			401: ErrorSchema,
 			403: ErrorSchema,
 		},
@@ -435,4 +439,4 @@ export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema
 >;
-export type AdminPageData = z.infer<typeof AdminPageDataSchema>;
+export type AdminShopListItem = z.infer<typeof AdminShopListItemSchema>;
