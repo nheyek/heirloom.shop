@@ -24,36 +24,21 @@ export const findShopByShortId = async (
 	);
 };
 
-type AdminShopRow = {
-	id: number;
-	title: string;
-	created_at: Date | null;
-	direct_fulfillment: boolean;
-	listing_count: number;
-};
-
 export const findShopsForAdmin = async (): Promise<AdminShopListItem[]> => {
 	const em = getEm();
 	const conn = em.getConnection();
-	const rows = await conn.execute<AdminShopRow[]>(`
+	return conn.execute<AdminShopListItem[]>(`
 		SELECT
 			s.id,
 			s.title,
-			s.created_at,
-			s.direct_fulfillment,
-			COUNT(l.id)::int AS listing_count
+			to_char(s.created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"') AS "createdAt",
+			s.direct_fulfillment AS "directFulfillment",
+			COUNT(l.id)::int AS "listingCount"
 		FROM shop s
 		LEFT JOIN listing l ON l.shop_id = s.id
 		GROUP BY s.id, s.title, s.created_at, s.direct_fulfillment
 		ORDER BY s.created_at DESC NULLS LAST
 	`);
-	return rows.map((row: AdminShopRow) => ({
-		id: row.id,
-		title: row.title,
-		createdAt: row.created_at?.toISOString() ?? null,
-		directFulfillment: row.direct_fulfillment,
-		listingCount: row.listing_count,
-	}));
 };
 
 export const authorizeShopAction = async (
