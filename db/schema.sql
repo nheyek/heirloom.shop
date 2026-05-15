@@ -434,7 +434,8 @@ CREATE TABLE public.shop (
     classification character varying(32),
     country_code character(2),
     category_icon character varying(64),
-    short_id character varying(10)
+    short_id character varying(10),
+    direct_fulfillment boolean DEFAULT true NOT NULL
 );
 
 
@@ -1009,4 +1010,5 @@ ALTER TABLE ONLY public.user_favorite_listing
 INSERT INTO public.schema_migrations (version) VALUES
     ('20260424000000'),
     ('20260429000000'),
-    ('20260430000000');
+    ('20260430000000'),
+    ('20260513000000');
