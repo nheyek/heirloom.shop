@@ -70,7 +70,12 @@ export default (env, argv) => {
 			rules: [
 				{
 					test: /\.tsx?$/,
-					use: 'ts-loader',
+					use: {
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: !isProd,
+						},
+					},
 					exclude: /node_modules/,
 				},
 				{
