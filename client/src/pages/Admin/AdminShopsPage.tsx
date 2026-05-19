@@ -1,4 +1,4 @@
-import { Button, Stack, Table, Text } from '@chakra-ui/react';
+import { Button, Link, Stack, Table, Text } from '@chakra-ui/react';
 import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { AppError } from '@client/components/feedback/AppError';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -30,10 +30,10 @@ export const AdminShopsPage = () => {
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
-					width={130}
+					width={120}
 				>
 					<FaPlusCircle />
-					<Text fontSize={20}>Add New</Text>
+					<Text fontSize={18}>Add New</Text>
 				</Button>
 				{shopsError ? (
 					<AppError title="Failed to load shops" />
@@ -42,6 +42,7 @@ export const AdminShopsPage = () => {
 						borderRadius="md"
 						border="1px solid"
 						borderColor="gray.200"
+						maxW={800}
 					>
 						<Table.Root
 							size="lg"
@@ -61,7 +62,10 @@ export const AdminShopsPage = () => {
 									<Table.ColumnHeader>
 										Fulfillment
 									</Table.ColumnHeader>
-									<Table.ColumnHeader textAlign="center">
+									<Table.ColumnHeader
+										textAlign="right"
+										width={50}
+									>
 										Listings
 									</Table.ColumnHeader>
 								</Table.Row>
@@ -70,7 +74,7 @@ export const AdminShopsPage = () => {
 								{shops.map((shop) => (
 									<Table.Row key={shop.id}>
 										<Table.Cell>
-											{shop.title}
+											<Link>{shop.title}</Link>
 										</Table.Cell>
 										<Table.Cell>
 											{shop.createdAt
@@ -84,7 +88,7 @@ export const AdminShopsPage = () => {
 												? 'Direct'
 												: 'Heirloom'}
 										</Table.Cell>
-										<Table.Cell textAlign="center">
+										<Table.Cell textAlign="right">
 											{shop.listingCount}
 										</Table.Cell>
 									</Table.Row>
