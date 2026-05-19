@@ -45,12 +45,14 @@ export const createApp = async () => {
 
 	app.use(express.static(path.join(__dirname, 'public')));
 
-	// Log all non-2XX responses. The finish event fires after the response is
-	// sent, so req.body is fully populated. The errorLogged flag prevents
-	// double-logging when the exception handler below already handled the request.
+	// Log unexpected error responses. 401/403 are expected auth failures and are
+	// not logged. The finish event fires after the response is sent, so req.body
+	// is fully populated. The errorLogged flag prevents double-logging when the
+	// exception handler below already handled the request.
 	app.use((req: Request, res: Response, next: NextFunction) => {
 		res.on('finish', () => {
-			if (res.statusCode >= 400 && !res.locals.errorLogged) {
+			const isAuthError = res.statusCode === 401 || res.statusCode === 403;
+			if (res.statusCode >= 400 && !isAuthError && !res.locals.errorLogged) {
 				logError({
 					statusCode: res.statusCode,
 					method: req.method,

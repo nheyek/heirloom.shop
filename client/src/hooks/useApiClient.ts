@@ -32,6 +32,8 @@ export const useApiClient = () => {
 				? await fetchWithToken(args, token)
 				: await tsRestFetchApi(args);
 
+			// A 401 here means the cached token was stale — force a fresh one
+			// and retry once.
 			if (response.status === 401 && token !== null) {
 				try {
 					const freshToken = await getAccessTokenSilently({

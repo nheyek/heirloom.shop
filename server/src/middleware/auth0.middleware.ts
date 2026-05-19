@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { auth } from 'express-oauth2-jwt-bearer';
+import { UnauthorizedError, auth } from 'express-oauth2-jwt-bearer';
 import { findUserByEmail } from '@server/services/user.service';
 
 export const TEST_USER_EMAIL = 'test@heirloom.shop';
@@ -26,6 +26,9 @@ export const authAndSetUser = (
 	}
 
 	authenticate!(req, res, (err) => {
+		// express-oauth2-jwt-bearer raises UnauthorizedError for expired/invalid
+		// tokens — that's a normal occurrence, not an application error.
+		if (err instanceof UnauthorizedError) return res.status(401).end();
 		if (err) return next(err);
 
 		if (req.auth?.payload) {
@@ -68,6 +71,7 @@ export const optionalAuthAndSetUser = (
 	}
 
 	authenticate!(req, res, (err) => {
+		if (err instanceof UnauthorizedError) return res.status(401).end();
 		if (err) return next(err);
 
 		if (req.auth?.payload) {
