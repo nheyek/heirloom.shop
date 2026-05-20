@@ -1,5 +1,3 @@
-import { fileURLToPath } from 'url';
-import { API_ROUTES } from '@heirloom/common/constants';
 import {
 	adminContract,
 	categoryContract,
@@ -14,8 +12,8 @@ import { createExpressEndpoints } from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { initORM } from './db.js';
-import { logError } from './services/error-log.service.js';
 import { adminRouter } from './routes/admin.routes.js';
 import { categoryRouter } from './routes/category.routes.js';
 import { checkoutRouter } from './routes/checkout.routes.js';
@@ -25,6 +23,7 @@ import { orderRouter } from './routes/order.routes.js';
 import { searchRouter } from './routes/search.routes.js';
 import { shopRouter } from './routes/shop.routes.js';
 import webhookRouter from './routes/webhook.routes.js';
+import { logError } from './services/error-log.service.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
@@ -36,7 +35,7 @@ export const createApp = async () => {
 	await initORM();
 
 	app.use(
-		`/${API_ROUTES.webhooks.base}`,
+		`/api/webhooks`,
 		express.raw({ type: 'application/json' }),
 		webhookRouter,
 	);
@@ -51,8 +50,13 @@ export const createApp = async () => {
 	// exception handler below already handled the request.
 	app.use((req: Request, res: Response, next: NextFunction) => {
 		res.on('finish', () => {
-			const isAuthError = res.statusCode === 401 || res.statusCode === 403;
-			if (res.statusCode >= 400 && !isAuthError && !res.locals.errorLogged) {
+			const isAuthError =
+				res.statusCode === 401 || res.statusCode === 403;
+			if (
+				res.statusCode >= 400 &&
+				!isAuthError &&
+				!res.locals.errorLogged
+			) {
 				logError({
 					statusCode: res.statusCode,
 					method: req.method,
@@ -86,22 +90,30 @@ export const createApp = async () => {
 	// Catch unhandled exceptions from route handlers. Express 5 forwards async
 	// errors automatically. Sets errorLogged so the finish listener above does
 	// not double-log this request.
-	app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
-		res.locals.errorLogged = true;
-		logError({
-			statusCode: 500,
-			method: req.method,
-			path: req.path,
-			message: err.message,
-			stack: err.stack,
-			requestBody:
-				typeof req.body === 'object' && !Buffer.isBuffer(req.body)
-					? req.body
-					: undefined,
-			requestQuery: req.query,
-		});
-		res.status(500).json({ error: 'Internal server error' });
-	});
+	app.use(
+		(
+			err: Error,
+			req: Request,
+			res: Response,
+			_next: NextFunction,
+		) => {
+			res.locals.errorLogged = true;
+			logError({
+				statusCode: 500,
+				method: req.method,
+				path: req.path,
+				message: err.message,
+				stack: err.stack,
+				requestBody:
+					typeof req.body === 'object' &&
+					!Buffer.isBuffer(req.body)
+						? req.body
+						: undefined,
+				requestQuery: req.query,
+			});
+			res.status(500).json({ error: 'Internal server error' });
+		},
+	);
 
 	return app;
 };
