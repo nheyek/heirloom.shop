@@ -12,6 +12,7 @@ import {
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
 import { CountryCode, FulfillmentType } from '@client/constants';
+import { isValidEmail } from '@client/utils/validationUtils';
 import { ReactNode, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
@@ -22,14 +23,19 @@ type Props = {
 
 const DrawerField = ({
 	label,
+	error,
 	children,
 }: {
 	label: string;
+	error: string | null;
 	children: ReactNode;
 }) => (
-	<Field.Root>
+	<Field.Root invalid={!!error}>
 		<Field.Label fontSize={18}>{label}</Field.Label>
 		{children}
+		{error && (
+			<Field.ErrorText fontSize={15}>{error}</Field.ErrorText>
+		)}
 	</Field.Root>
 );
 
@@ -79,6 +85,51 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 		useState<FulfillmentType>(FulfillmentType.HEIRLOOM);
 	const [ownerEmail, setOwnerEmail] = useState<string>('');
 
+	const [titleError, setTitleError] = useState<string | null>(null);
+	const [classificationError, setClassificationError] = useState<
+		string | null
+	>(null);
+	const [locationError, setLocationError] = useState<string | null>(
+		null,
+	);
+	const [ownerEmailError, setOwnerEmailError] = useState<
+		string | null
+	>(null);
+
+	const handleConfirm = () => {
+		let valid = true;
+
+		if (!title.trim()) {
+			setTitleError('Title is required.');
+			valid = false;
+		} else setTitleError(null);
+
+		if (!classification.trim()) {
+			setClassificationError('Classification is required.');
+			valid = false;
+		} else setClassificationError(null);
+
+		if (!location.trim()) {
+			setLocationError('Location is required.');
+			valid = false;
+		} else setLocationError(null);
+
+		if (fulfillmentType === FulfillmentType.DIRECT) {
+			if (!ownerEmail.trim()) {
+				setOwnerEmailError('Owner email is required.');
+				valid = false;
+			} else if (!isValidEmail(ownerEmail)) {
+				setOwnerEmailError('Email format is invalid.');
+				valid = false;
+			} else setOwnerEmailError(null);
+		} else {
+			setOwnerEmailError(null);
+		}
+
+		if (!valid) return;
+		// TODO: submit
+	};
+
 	return (
 		<AppDrawer
 			title="Create Shop"
@@ -92,7 +143,10 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 			>
 				<Stack gap={5}>
 					<Fieldset.Root size="lg">
-						<DrawerField label="Title">
+						<DrawerField
+							label="Title"
+							error={titleError}
+						>
 							<DrawerInput
 								value={title}
 								onChange={(e) =>
@@ -100,7 +154,10 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 								}
 							/>
 						</DrawerField>
-						<DrawerField label="Classification">
+						<DrawerField
+							label="Classification"
+							error={classificationError}
+						>
 							<DrawerInput
 								value={classification}
 								onChange={(e) =>
@@ -109,7 +166,10 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 								placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
 							/>
 						</DrawerField>
-						<DrawerField label="Location">
+						<DrawerField
+							label="Location"
+							error={locationError}
+						>
 							<HStack width="100%">
 								<CountrySelect
 									value={country}
@@ -154,7 +214,10 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 					</RadioCard.Root>
 					{fulfillmentType === FulfillmentType.DIRECT && (
 						<Fieldset.Root size="lg">
-							<DrawerField label="Owner">
+							<DrawerField
+								label="Owner"
+								error={ownerEmailError}
+							>
 								<DrawerInput
 									type="email"
 									value={ownerEmail}
@@ -171,6 +234,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 					size="xl"
 					fontSize={22}
 					width="100%"
+					onClick={handleConfirm}
 				>
 					<FaCheckCircle />
 					Confirm

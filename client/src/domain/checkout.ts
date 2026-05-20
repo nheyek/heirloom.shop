@@ -1,6 +1,13 @@
 import { ShippingAddress } from '@heirloom/common/contract';
 import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
 import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
+import { isValidEmail } from '@client/utils/validationUtils';
+
+export const getEmailFieldError = (email: string): string | null => {
+	if (!email.trim()) return 'Email is required.';
+	if (!isValidEmail(email)) return 'Email format is invalid.';
+	return null;
+};
 
 export const getShippingAddressFieldErrors = (
 	shippingAddress: ShippingAddress,
@@ -32,15 +39,6 @@ export const getShippingAddressFieldErrors = (
 	return errors;
 };
 
-export const getEmailFieldError = (email: string) => {
-	if (!email.trim()) {
-		return 'Email is required.';
-	} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-		return 'Email format is invalid.';
-	}
-
-	return null;
-};
 
 export const simplifyCartItems = (items: ShoppingCartItem[]) =>
 	items.map((item) => ({
