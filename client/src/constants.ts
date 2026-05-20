@@ -125,3 +125,8 @@ export const countryDisplayName = {
 	[CountryCode.CH]: 'Switzerland',
 	[CountryCode.PT]: 'Portugal',
 };
+
+export enum FulfillmentType {
+	DIRECT = 'DIRECT',
+	HEIRLOOM = 'HEIRLOOM',
+}

@@ -49,9 +49,9 @@ export default (env, argv) => {
 					cert: fs.readFileSync('./localhost+3.pem'),
 				},
 			},
-			allowedHosts: ['localhost', 'heirloom.local'],
+			allowedHosts: ['localhost', 'heirloom.test'],
 			client: {
-				webSocketURL: 'wss://heirloom.local:8080/ws',
+				webSocketURL: 'wss://heirloom.test:8080/ws',
 			},
 			proxy: [
 				{

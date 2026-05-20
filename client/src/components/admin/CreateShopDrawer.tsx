@@ -10,7 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
-import { CountryCode } from '@client/constants';
+import { CountryCode, FulfillmentType } from '@client/constants';
 import { useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
@@ -21,12 +21,13 @@ type Props = {
 
 export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 	const [title, setTitle] = useState<string>('');
-	const [subtitle, setSubtitle] = useState<string>('');
 	const [classification, setClassification] = useState<string>('');
 	const [country, setCountry] = useState<CountryCode>(
 		CountryCode.US,
 	);
 	const [location, setLocation] = useState<string>('');
+	const [fulfillmentType, setFulfillmentType] =
+		useState<FulfillmentType>(FulfillmentType.HEIRLOOM);
 
 	return (
 		<AppDrawer
@@ -92,7 +93,14 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 							</HStack>
 						</Field.Root>
 					</Fieldset.Root>
-					<RadioCard.Root>
+					<RadioCard.Root
+						value={fulfillmentType.toString()}
+						onValueChange={(e) =>
+							setFulfillmentType(
+								e.value as FulfillmentType,
+							)
+						}
+					>
 						<RadioCard.Label fontSize={18}>
 							Fulfillment
 						</RadioCard.Label>
@@ -101,8 +109,8 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 							orientation="vertical"
 						>
 							<RadioCard.Item
-								key={'Heirloom'}
-								value={'Heirloom'}
+								key={FulfillmentType.HEIRLOOM}
+								value={FulfillmentType.HEIRLOOM.toString()}
 								width="full"
 							>
 								<RadioCard.ItemHiddenInput />
@@ -121,8 +129,8 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 								</RadioCard.ItemControl>
 							</RadioCard.Item>
 							<RadioCard.Item
-								key={'Direct'}
-								value={'Direct'}
+								key={FulfillmentType.DIRECT}
+								value={FulfillmentType.DIRECT.toString()}
 								width="full"
 							>
 								<RadioCard.ItemHiddenInput />
@@ -144,12 +152,12 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 					</RadioCard.Root>
 				</Stack>
 				<Button
-					size="lg"
+					size="xl"
 					fontSize={22}
 					width="100%"
 				>
 					<FaCheckCircle />
-					Submit
+					Confirm
 				</Button>
 			</Stack>
 		</AppDrawer>
