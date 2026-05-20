@@ -28,6 +28,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 	const [location, setLocation] = useState<string>('');
 	const [fulfillmentType, setFulfillmentType] =
 		useState<FulfillmentType>(FulfillmentType.HEIRLOOM);
+	const [ownerEmail, setOwnerEmail] = useState<string>('');
 
 	return (
 		<AppDrawer
@@ -150,6 +151,26 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 							</RadioCard.Item>
 						</Group>
 					</RadioCard.Root>
+					{fulfillmentType === FulfillmentType.DIRECT && (
+						<Fieldset.Root size="lg">
+							<Field.Root>
+								<Field.Label fontSize={18}>
+									Owner
+								</Field.Label>
+								<Input
+									size="xl"
+									fontSize={18}
+									padding={3}
+									type="email"
+									value={ownerEmail}
+									onChange={(e) =>
+										setOwnerEmail(e.target.value)
+									}
+									placeholder="owner@example.com"
+								/>
+							</Field.Root>
+						</Fieldset.Root>
+					)}
 				</Stack>
 				<Button
 					size="xl"
