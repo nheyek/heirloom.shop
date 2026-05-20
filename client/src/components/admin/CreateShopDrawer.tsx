@@ -5,19 +5,68 @@ import {
 	Group,
 	HStack,
 	Input,
+	InputProps,
 	RadioCard,
 	Stack,
 } from '@chakra-ui/react';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
 import { CountryCode, FulfillmentType } from '@client/constants';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 };
+
+const DrawerField = ({
+	label,
+	children,
+}: {
+	label: string;
+	children: ReactNode;
+}) => (
+	<Field.Root>
+		<Field.Label fontSize={18}>{label}</Field.Label>
+		{children}
+	</Field.Root>
+);
+
+const DrawerInput = (props: InputProps) => (
+	<Input
+		size="xl"
+		fontSize={18}
+		padding={3}
+		{...props}
+	/>
+);
+
+const FulfillmentOption = ({
+	value,
+	label,
+	description,
+}: {
+	value: FulfillmentType;
+	label: string;
+	description: string;
+}) => (
+	<RadioCard.Item
+		value={value.toString()}
+		width="full"
+	>
+		<RadioCard.ItemHiddenInput />
+		<RadioCard.ItemControl>
+			<RadioCard.ItemIndicator />
+			<RadioCard.ItemContent>
+				<RadioCard.ItemText>{label}</RadioCard.ItemText>
+				<RadioCard.ItemDescription>
+					{description}
+				</RadioCard.ItemDescription>
+			</RadioCard.ItemContent>
+		</RadioCard.ItemControl>
+	</RadioCard.Item>
+);
 
 export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 	const [title, setTitle] = useState<string>('');
@@ -43,48 +92,30 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 			>
 				<Stack gap={5}>
 					<Fieldset.Root size="lg">
-						<Field.Root>
-							<Field.Label fontSize={18}>
-								Title
-							</Field.Label>
-							<Input
-								size="xl"
-								fontSize={18}
-								padding={3}
+						<DrawerField label="Title">
+							<DrawerInput
 								value={title}
 								onChange={(e) =>
 									setTitle(e.target.value)
 								}
 							/>
-						</Field.Root>
-						<Field.Root>
-							<Field.Label fontSize={18}>
-								Classification
-							</Field.Label>
-							<Input
-								size="xl"
-								fontSize={18}
-								padding={3}
+						</DrawerField>
+						<DrawerField label="Classification">
+							<DrawerInput
 								value={classification}
 								onChange={(e) =>
 									setClassification(e.target.value)
 								}
 								placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
 							/>
-						</Field.Root>
-						<Field.Root>
-							<Field.Label fontSize={18}>
-								Location
-							</Field.Label>
+						</DrawerField>
+						<DrawerField label="Location">
 							<HStack width="100%">
 								<CountrySelect
 									value={country}
 									onChange={setCountry}
 								/>
-								<Input
-									size="xl"
-									fontSize={18}
-									padding={3}
+								<DrawerInput
 									value={location}
 									onChange={(e) =>
 										setLocation(e.target.value)
@@ -92,7 +123,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 									placeholder="City or Region"
 								/>
 							</HStack>
-						</Field.Root>
+						</DrawerField>
 					</Fieldset.Root>
 					<RadioCard.Root
 						value={fulfillmentType.toString()}
@@ -109,58 +140,22 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 							attached
 							orientation="vertical"
 						>
-							<RadioCard.Item
-								key={FulfillmentType.HEIRLOOM}
-								value={FulfillmentType.HEIRLOOM.toString()}
-								width="full"
-							>
-								<RadioCard.ItemHiddenInput />
-								<RadioCard.ItemControl>
-									<RadioCard.ItemIndicator />
-									<RadioCard.ItemContent>
-										<RadioCard.ItemText>
-											{'Heirloom'}
-										</RadioCard.ItemText>
-										<RadioCard.ItemDescription>
-											{
-												'Fulfillment and support provided by shop with comission collected on sale.'
-											}
-										</RadioCard.ItemDescription>
-									</RadioCard.ItemContent>
-								</RadioCard.ItemControl>
-							</RadioCard.Item>
-							<RadioCard.Item
-								key={FulfillmentType.DIRECT}
-								value={FulfillmentType.DIRECT.toString()}
-								width="full"
-							>
-								<RadioCard.ItemHiddenInput />
-								<RadioCard.ItemControl>
-									<RadioCard.ItemIndicator />
-									<RadioCard.ItemContent>
-										<RadioCard.ItemText>
-											{'Direct'}
-										</RadioCard.ItemText>
-										<RadioCard.ItemDescription>
-											{
-												'Heirloom is the retailer and purchases inventory from the shop on a wholesale basis.'
-											}
-										</RadioCard.ItemDescription>
-									</RadioCard.ItemContent>
-								</RadioCard.ItemControl>
-							</RadioCard.Item>
+							<FulfillmentOption
+								value={FulfillmentType.HEIRLOOM}
+								label="Heirloom"
+								description="Fulfillment and support provided by shop with comission collected on sale."
+							/>
+							<FulfillmentOption
+								value={FulfillmentType.DIRECT}
+								label="Direct"
+								description="Heirloom is the retailer and purchases inventory from the shop on a wholesale basis."
+							/>
 						</Group>
 					</RadioCard.Root>
 					{fulfillmentType === FulfillmentType.DIRECT && (
 						<Fieldset.Root size="lg">
-							<Field.Root>
-								<Field.Label fontSize={18}>
-									Owner
-								</Field.Label>
-								<Input
-									size="xl"
-									fontSize={18}
-									padding={3}
+							<DrawerField label="Owner">
+								<DrawerInput
 									type="email"
 									value={ownerEmail}
 									onChange={(e) =>
@@ -168,7 +163,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 									}
 									placeholder="owner@example.com"
 								/>
-							</Field.Root>
+							</DrawerField>
 						</Fieldset.Root>
 					)}
 				</Stack>
