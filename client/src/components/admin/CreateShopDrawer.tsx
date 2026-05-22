@@ -13,6 +13,7 @@ import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
 import { CountryCode, FulfillmentType } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { isValidEmail } from '@client/utils/validationUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
@@ -166,7 +167,7 @@ export const CreateShopDrawer = ({
 		setIsSubmitting(false);
 
 		if (result.error !== null) {
-			// TODO: Toast
+			toastError('Failed to create shop. Please try again.');
 			return;
 		}
 

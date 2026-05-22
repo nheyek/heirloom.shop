@@ -1,5 +1,6 @@
 import { Flex, Toast, Toaster } from '@chakra-ui/react';
 import { FaCheck } from 'react-icons/fa6';
+import { MdErrorOutline } from 'react-icons/md';
 import { toaster } from '@client/toaster';
 
 export const AppToaster = () => {
@@ -14,10 +15,14 @@ export const AppToaster = () => {
 					background={
 						toast.type === 'success'
 							? 'green.success'
-							: 'white'
+							: toast.type === 'error'
+								? 'red.error'
+								: 'white'
 					}
 					color={
-						toast.type === 'success' ? 'white' : 'black'
+						toast.type === 'success' || toast.type === 'error'
+							? 'white'
+							: 'black'
 					}
 				>
 					<Flex
@@ -58,8 +63,7 @@ export const AppToaster = () => {
 };
 
 const renderIcon = (type: string) => {
-	const Icon = type == 'success' ? FaCheck : null;
-	if (!Icon) return null;
-
-	return <Icon size={20} />;
+	if (type === 'success') return <FaCheck size={20} />;
+	if (type === 'error') return <MdErrorOutline size={22} />;
+	return null;
 };
