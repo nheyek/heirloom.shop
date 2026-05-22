@@ -1,2 +1,1 @@
-export const isValidEmail = (email: string): boolean =>
-	/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+export { isValidEmail } from '@heirloom/common/utils/validationUtils';

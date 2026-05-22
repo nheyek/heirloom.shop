@@ -26,7 +26,7 @@ export const AdminShopsPage = () => {
 
 	return (
 		<>
-			<Stack gap={5}>
+			<Stack gap={3}>
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
@@ -42,7 +42,7 @@ export const AdminShopsPage = () => {
 						borderRadius="md"
 						border="1px solid"
 						borderColor="gray.200"
-						maxW={800}
+						maxW={1000}
 					>
 						<Table.Root
 							size="lg"
@@ -102,6 +102,10 @@ export const AdminShopsPage = () => {
 			<CreateShopDrawer
 				isOpen={createShopOpen}
 				onClose={() => setCreateShopOpen(false)}
+				onSuccess={(newShop) => {
+					setShops((prev) => [newShop, ...prev]);
+					setCreateShopOpen(false);
+				}}
 			/>
 		</>
 	);

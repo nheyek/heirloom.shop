@@ -12,13 +12,17 @@ import {
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
 import { CountryCode, FulfillmentType } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
 import { isValidEmail } from '@client/utils/validationUtils';
+import { AdminShopListItem } from '@heirloom/common/contract';
 import { ReactNode, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
 	isOpen: boolean;
 	onClose: () => void;
+	onSuccess: (shop: AdminShopListItem) => void;
 };
 
 const DrawerField = ({
@@ -74,7 +78,13 @@ const FulfillmentOption = ({
 	</RadioCard.Item>
 );
 
-export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
+export const CreateShopDrawer = ({
+	isOpen,
+	onClose,
+	onSuccess,
+}: Props) => {
+	const apiClient = useApiClient();
+
 	const [title, setTitle] = useState<string>('');
 	const [classification, setClassification] = useState<string>('');
 	const [country, setCountry] = useState<CountryCode>(
@@ -95,6 +105,8 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 	const [ownerEmailError, setOwnerEmailError] = useState<
 		string | null
 	>(null);
+
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleConfirm = () => {
 		let valid = true;
@@ -127,7 +139,38 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 		}
 
 		if (!valid) return;
-		// TODO: submit
+
+		submit();
+	};
+
+	const submit = async () => {
+		setIsSubmitting(true);
+
+		const result = await callApi(
+			apiClient.admin.createShop({
+				body: {
+					title,
+					classification,
+					location,
+					countryCode: country,
+					directFulfillment:
+						fulfillmentType === FulfillmentType.DIRECT,
+					ownerEmail:
+						fulfillmentType === FulfillmentType.DIRECT
+							? ownerEmail
+							: undefined,
+				},
+			}),
+		);
+
+		setIsSubmitting(false);
+
+		if (result.error !== null) {
+			// TODO: Toast
+			return;
+		}
+
+		onSuccess(result.data);
 	};
 
 	return (
@@ -152,6 +195,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 								onChange={(e) =>
 									setTitle(e.target.value)
 								}
+								disabled={isSubmitting}
 							/>
 						</DrawerField>
 						<DrawerField
@@ -164,6 +208,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 									setClassification(e.target.value)
 								}
 								placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
+								disabled={isSubmitting}
 							/>
 						</DrawerField>
 						<DrawerField
@@ -181,6 +226,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 										setLocation(e.target.value)
 									}
 									placeholder="City or Region"
+									disabled={isSubmitting}
 								/>
 							</HStack>
 						</DrawerField>
@@ -225,6 +271,7 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 										setOwnerEmail(e.target.value)
 									}
 									placeholder="owner@example.com"
+									disabled={isSubmitting}
 								/>
 							</DrawerField>
 						</Fieldset.Root>
@@ -235,6 +282,8 @@ export const CreateShopDrawer = ({ isOpen, onClose }: Props) => {
 					fontSize={22}
 					width="100%"
 					onClick={handleConfirm}
+					disabled={isSubmitting}
+					loading={isSubmitting}
 				>
 					<FaCheckCircle />
 					Confirm

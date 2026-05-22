@@ -273,6 +273,12 @@ BEGIN
         additional_price_cents = EXCLUDED.additional_price_cents,
         updated_at = CURRENT_TIMESTAMP;
 
+    -- Resync sequences for tables seeded with explicit IDs
+    PERFORM setval(pg_get_serial_sequence('shop', 'id'), COALESCE((SELECT MAX(id) FROM shop), 1));
+    PERFORM setval(pg_get_serial_sequence('shipping_origin', 'id'), COALESCE((SELECT MAX(id) FROM shipping_origin), 1));
+    PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
+    PERFORM setval(pg_get_serial_sequence('listing_variation', 'id'), COALESCE((SELECT MAX(id) FROM listing_variation), 1));
+
 COMMIT;
 
 END $$;

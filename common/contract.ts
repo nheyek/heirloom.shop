@@ -358,12 +358,32 @@ const AdminShopListItemSchema = z.object({
 	directFulfillment: z.boolean(),
 });
 
+const CreateShopBodySchema = z.object({
+	title: z.string().min(1),
+	classification: z.string().min(1),
+	location: z.string().min(1),
+	countryCode: z.string(),
+	directFulfillment: z.boolean(),
+	ownerEmail: z.string().optional(),
+});
+
 export const adminContract = c.router({
 	getShops: {
 		method: 'GET',
 		path: '/api/admin/shops',
 		responses: {
 			200: z.array(AdminShopListItemSchema),
+			401: ErrorSchema,
+			403: ErrorSchema,
+		},
+	},
+	createShop: {
+		method: 'POST',
+		path: '/api/admin/shops',
+		body: CreateShopBodySchema,
+		responses: {
+			201: AdminShopListItemSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 		},
@@ -440,3 +460,4 @@ export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema
 >;
 export type AdminShopListItem = z.infer<typeof AdminShopListItemSchema>;
+export type CreateShopBody = z.infer<typeof CreateShopBodySchema>;
