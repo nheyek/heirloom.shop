@@ -30,10 +30,10 @@ export const AdminShopsPage = () => {
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
-					width={120}
+					width={140}
 				>
 					<FaPlusCircle />
-					<Text fontSize={18}>Add New</Text>
+					<Text fontSize={18}>Create Shop</Text>
 				</Button>
 				{shopsError ? (
 					<AppError title="Failed to load shops" />
