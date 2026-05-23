@@ -52,6 +52,7 @@ export const ListingCard = (props: Props) => {
 
 			<Card.Body
 				p={3}
+				pb={2}
 				gap={1}
 			>
 				<Stack gap={0}>
