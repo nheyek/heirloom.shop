@@ -6,6 +6,7 @@ import {
 	IconButton,
 	Link,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
@@ -76,7 +77,7 @@ export const ListingCard = (props: Props) => {
 								<Heading
 									truncate
 									fontWeight="medium"
-									lineHeight={1.2}
+									lineHeight={1.1}
 									display="block"
 								>
 									{props.shopTitle}
@@ -91,14 +92,13 @@ export const ListingCard = (props: Props) => {
 					justifyContent="space-between"
 					flexGrow={1}
 				>
-					<Card.Description
+					<Text
 						lineClamp={2}
 						fontSize={18}
 						fontFamily={FONT_DISPLAY_SANS}
-						color="black"
 					>
 						{props.subtitle}
-					</Card.Description>
+					</Text>
 					<Flex
 						justifyContent="space-between"
 						alignItems="center"
