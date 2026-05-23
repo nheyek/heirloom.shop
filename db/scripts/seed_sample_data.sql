@@ -13,7 +13,6 @@ DECLARE
     sample_shop_1_location VARCHAR := 'Pittsburgh, PA';
     sample_shop_1_classification VARCHAR := 'Jewelry & Accessories';
     sample_shop_1_country_code CHAR(2) := 'US';
-    sample_shop_1_category_icon VARCHAR := 'RING';
     sample_shop_1_origin_zip NUMERIC(5, 0) := 15201;
 
     sample_shop_2_id INT := 2;
@@ -22,7 +21,6 @@ DECLARE
     sample_shop_2_location VARCHAR := 'Springdale, AR';
     sample_shop_2_classification VARCHAR := 'Hardwood Furniture';
     sample_shop_2_country_code CHAR(2) := 'US';
-    sample_shop_2_category_icon VARCHAR := 'CHAIR';
     sample_shop_2_origin_zip NUMERIC(5, 0) := 72764;
 
     sample_shop_3_id INT := 3;
@@ -31,7 +29,6 @@ DECLARE
     sample_shop_3_location VARCHAR := 'Hudson Valley, NY';
     sample_shop_3_classification VARCHAR := 'Furniture & Housewares';
     sample_shop_3_country_code CHAR(2) := 'US';
-    sample_shop_3_category_icon VARCHAR := 'CHAIR';
     sample_shop_3_origin_zip NUMERIC(5, 0) := 12534;
 
     sample_shop_4_id INT := 4;
@@ -40,7 +37,6 @@ DECLARE
     sample_shop_4_location VARCHAR := 'Lynnville, TN';
     sample_shop_4_classification VARCHAR := 'Traditional Leather Goods';
     sample_shop_4_country_code CHAR(2) := 'US';
-    sample_shop_4_category_icon VARCHAR := 'HANDBAG';
     sample_shop_4_origin_zip NUMERIC(5, 0) := 38472;
 
     sample_shop_5_id INT := 5;
@@ -49,7 +45,6 @@ DECLARE
     sample_shop_5_location VARCHAR := 'New York';
     sample_shop_5_classification VARCHAR := 'Botanical Jewelry';
     sample_shop_5_country_code CHAR(2) := 'US';
-    sample_shop_5_category_icon VARCHAR := 'EARRINGS';
     sample_shop_5_origin_zip NUMERIC(5, 0) := 03051;
 
     sample_shop_6_id INT := 6;

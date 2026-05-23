@@ -433,7 +433,6 @@ CREATE TABLE public.shop (
     shop_location character varying(64),
     classification character varying(32),
     country_code character(2),
-    category_icon character varying(64),
     short_id character varying(10),
     direct_fulfillment boolean DEFAULT true NOT NULL
 );
@@ -1020,4 +1019,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260429000000'),
     ('20260430000000'),
     ('20260513000000'),
-    ('20260523000000');
+    ('20260523000000'),
+    ('20260523000001');

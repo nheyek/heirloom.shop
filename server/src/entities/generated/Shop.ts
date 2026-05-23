@@ -36,9 +36,6 @@ export class Shop {
   @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
   country?: Rel<Country>;
 
-  @Property({ length: 64, nullable: true })
-  categoryIcon?: string;
-
   @Property({ length: 10, nullable: true, index: 'idx_shop_short_id', unique: 'shop_short_id_key' })
   shortId?: string;
 

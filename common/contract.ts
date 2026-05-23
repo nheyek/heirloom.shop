@@ -232,7 +232,6 @@ const ShopCardDataSchema = z.object({
 	classification: z.string().nullish(),
 	profileImageUuid: z.string().nullish(),
 	countryCode: z.string().nullable(),
-	categoryIcon: z.string().nullable(),
 });
 
 const ShopProfileSchema = z.object({
