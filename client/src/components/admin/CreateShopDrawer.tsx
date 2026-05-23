@@ -84,6 +84,9 @@ const FulfillmentOption = ({
 	</RadioCard.Item>
 );
 
+const MAX_IMAGE_SIZE_MB = 5;
+const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1_000_000;
+
 const hashFile = async (file: File): Promise<string> => {
 	const buffer = await file.arrayBuffer();
 	const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
@@ -222,10 +225,10 @@ export const CreateShopDrawer = ({
 							? ownerEmail
 							: undefined,
 					profileImageUuid: selectedHashRef.current
-							? uploadCache.current.get(
-									selectedHashRef.current,
-								)
-							: undefined,
+						? uploadCache.current.get(
+								selectedHashRef.current,
+							)
+						: undefined,
 				},
 			}),
 		);
@@ -234,7 +237,9 @@ export const CreateShopDrawer = ({
 
 		if (result.status === 409) {
 			setTitleError('A shop with this name already exists.');
-			titleFieldRef.current?.scrollIntoView({ behavior: 'smooth' });
+			titleFieldRef.current?.scrollIntoView({
+				behavior: 'smooth',
+			});
 			return;
 		}
 
@@ -276,7 +281,9 @@ export const CreateShopDrawer = ({
 						>
 							<DrawerInput
 								value={title}
-								onChange={(e) => setTitle(e.target.value)}
+								onChange={(e) =>
+									setTitle(e.target.value)
+								}
 								disabled={isConfirming}
 							/>
 						</DrawerField>
@@ -360,9 +367,20 @@ export const CreateShopDrawer = ({
 				<FileUpload.Root
 					accept="image/*"
 					maxFiles={1}
+					maxFileSize={MAX_IMAGE_SIZE_BYTES}
 					onFileChange={(details) => {
 						const file = details.acceptedFiles[0];
 						if (file) handleImageSelect(file);
+					}}
+					onFileReject={(details) => {
+						const isTooLarge = details.files.some((f) =>
+							f.errors.includes('FILE_TOO_LARGE'),
+						);
+						if (isTooLarge) {
+							toastError(
+								`Image must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`,
+							);
+						}
 					}}
 				>
 					<FileUpload.HiddenInput />

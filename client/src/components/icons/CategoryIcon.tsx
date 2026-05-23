@@ -1,4 +1,6 @@
+import { CategoryIconCode } from '@client/constants';
 import { IconType } from 'react-icons';
+import { BiSolidCategoryAlt } from 'react-icons/bi';
 import { BsHandbagFill } from 'react-icons/bs';
 import { FaChair } from 'react-icons/fa';
 import {
@@ -7,8 +9,6 @@ import {
 	GiPorcelainVase,
 	GiRing,
 } from 'react-icons/gi';
-import { MdCategory } from 'react-icons/md';
-import { CategoryIconCode } from '@client/constants';
 
 const iconMap: Record<CategoryIconCode, IconType> = {
 	[CategoryIconCode.RING]: GiRing,
@@ -26,6 +26,6 @@ type Props = {
 
 export const CategoryIcon = ({ iconCode, size }: Props) => {
 	const Icon =
-		(iconCode && iconMap[iconCode]) || MdCategory;
+		(iconCode && iconMap[iconCode]) || BiSolidCategoryAlt;
 	return <Icon size={size} />;
 };
