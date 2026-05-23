@@ -200,6 +200,18 @@ export const CountryFlagIcon = (props: {
 						/>
 					</>
 				)}
+				{props.countryCode === CountryCode.DK && (
+					<>
+						<path
+							fill="#d80027"
+							d="M0 0h512v512H0z"
+						/>
+						<path
+							fill="#eee"
+							d="M160 0h96v512h-96zM0 208h512v96H0z"
+						/>
+					</>
+				)}
 				{props.countryCode === CountryCode.PT && (
 					<>
 						<path

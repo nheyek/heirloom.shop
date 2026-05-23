@@ -239,164 +239,143 @@ export const CreateShopDrawer = ({
 			footer={confirmButton}
 		>
 			<Stack gap={5}>
+				<Fieldset.Root size="lg">
+					<DrawerField
+						label="Title"
+						error={titleError}
+					>
+						<DrawerInput
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+							disabled={isSubmitting}
+						/>
+					</DrawerField>
+					<DrawerField
+						label="Classification"
+						error={classificationError}
+					>
+						<DrawerInput
+							value={classification}
+							onChange={(e) =>
+								setClassification(e.target.value)
+							}
+							placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
+							disabled={isSubmitting}
+						/>
+					</DrawerField>
+					<DrawerField
+						label="Location"
+						error={locationError}
+					>
+						<HStack width="100%">
+							<CountrySelect
+								value={country}
+								onChange={setCountry}
+							/>
+							<DrawerInput
+								value={location}
+								onChange={(e) =>
+									setLocation(e.target.value)
+								}
+								placeholder="City or Region"
+								disabled={isSubmitting}
+							/>
+						</HStack>
+					</DrawerField>
+				</Fieldset.Root>
+				<RadioCard.Root
+					value={fulfillmentType.toString()}
+					onValueChange={(e) =>
+						setFulfillmentType(e.value as FulfillmentType)
+					}
+				>
+					<RadioCard.Label fontSize={18}>
+						Fulfillment
+					</RadioCard.Label>
+					<Group
+						attached
+						orientation="vertical"
+					>
+						<FulfillmentOption
+							value={FulfillmentType.HEIRLOOM}
+							label="Heirloom"
+							description="Fulfillment and support provided by Heirloom. Inventory purchased from the shop on a wholesale basis."
+						/>
+						<FulfillmentOption
+							value={FulfillmentType.DIRECT}
+							label="Direct"
+							description="Fulfillment and support provided by shop with comission collected on sale."
+						/>
+					</Group>
+				</RadioCard.Root>
+				{fulfillmentType === FulfillmentType.DIRECT && (
 					<Fieldset.Root size="lg">
 						<DrawerField
-							label="Title"
-							error={titleError}
+							label="Owner"
+							error={ownerEmailError}
 						>
 							<DrawerInput
-								value={title}
+								type="email"
+								value={ownerEmail}
 								onChange={(e) =>
-									setTitle(e.target.value)
+									setOwnerEmail(e.target.value)
 								}
+								placeholder="owner@example.com"
 								disabled={isSubmitting}
 							/>
-						</DrawerField>
-						<DrawerField
-							label="Classification"
-							error={classificationError}
-						>
-							<DrawerInput
-								value={classification}
-								onChange={(e) =>
-									setClassification(e.target.value)
-								}
-								placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
-								disabled={isSubmitting}
-							/>
-						</DrawerField>
-						<DrawerField
-							label="Location"
-							error={locationError}
-						>
-							<HStack width="100%">
-								<CountrySelect
-									value={country}
-									onChange={setCountry}
-								/>
-								<DrawerInput
-									value={location}
-									onChange={(e) =>
-										setLocation(e.target.value)
-									}
-									placeholder="City or Region"
-									disabled={isSubmitting}
-								/>
-							</HStack>
 						</DrawerField>
 					</Fieldset.Root>
-					<RadioCard.Root
-						value={fulfillmentType.toString()}
-						onValueChange={(e) =>
-							setFulfillmentType(
-								e.value as FulfillmentType,
-							)
-						}
-					>
-						<RadioCard.Label fontSize={18}>
-							Fulfillment
-						</RadioCard.Label>
-						<Group
-							attached
-							orientation="vertical"
+				)}
+				<FileUpload.Root
+					accept="image/*"
+					maxFiles={1}
+					onFileChange={(details) => {
+						const file = details.acceptedFiles[0];
+						if (file) handleImageSelect(file);
+					}}
+				>
+					<FileUpload.HiddenInput />
+					<FileUpload.Trigger asChild>
+						<Stack
+							gap={0}
+							cursor="pointer"
+							borderRadius="md"
+							overflow="hidden"
+							borderWidth={imagePreviewUrl ? 0 : 1}
+							borderStyle="dashed"
+							borderColor="gray.300"
+							alignItems="center"
+							justifyContent="center"
+							height={160}
+							width="100%"
+							position="relative"
+							_hover={{ borderColor: 'gray.400' }}
 						>
-							<FulfillmentOption
-								value={FulfillmentType.HEIRLOOM}
-								label="Heirloom"
-								description="Fulfillment and support provided by shop with comission collected on sale."
-							/>
-							<FulfillmentOption
-								value={FulfillmentType.DIRECT}
-								label="Direct"
-								description="Heirloom is the retailer and purchases inventory from the shop on a wholesale basis."
-							/>
-						</Group>
-					</RadioCard.Root>
-					{fulfillmentType === FulfillmentType.DIRECT && (
-						<Fieldset.Root size="lg">
-							<DrawerField
-								label="Owner"
-								error={ownerEmailError}
-							>
-								<DrawerInput
-									type="email"
-									value={ownerEmail}
-									onChange={(e) =>
-										setOwnerEmail(e.target.value)
+							{imagePreviewUrl ? (
+								<Image
+									src={imagePreviewUrl}
+									width="100%"
+									height="100%"
+									objectFit="cover"
+									opacity={
+										isUploadingImage ? 0.5 : 1
 									}
-									placeholder="owner@example.com"
-									disabled={isSubmitting}
 								/>
-							</DrawerField>
-						</Fieldset.Root>
-					)}
-					<FileUpload.Root
-						accept="image/*"
-						maxFiles={1}
-						onFileChange={(details) => {
-							const file = details.acceptedFiles[0];
-							if (file) handleImageSelect(file);
-						}}
-					>
-						<FileUpload.HiddenInput />
-						<FileUpload.Trigger asChild>
-							<Stack
-								gap={0}
-								cursor="pointer"
-								borderRadius="md"
-								overflow="hidden"
-								borderWidth={imagePreviewUrl ? 0 : 1}
-								borderStyle="dashed"
-								borderColor="gray.300"
-								alignItems="center"
-								justifyContent="center"
-								height={160}
-								width="100%"
-								position="relative"
-								_hover={{ borderColor: 'gray.400' }}
-							>
-								{imagePreviewUrl ? (
-									<Image
-										src={imagePreviewUrl}
-										alt="Banner preview"
-										width="100%"
-										height="100%"
-										objectFit="cover"
-										opacity={
-											isUploadingImage ? 0.5 : 1
-										}
-									/>
-								) : (
-									<Stack
-										alignItems="center"
-										gap={2}
-										color="gray.500"
-									>
-										<FaImage size={32} />
-										<Text fontSize={14}>
-											Click to upload banner
-											image
-										</Text>
-									</Stack>
-								)}
-								{isUploadingImage && (
-									<Stack
-										position="absolute"
-										inset={0}
-										alignItems="center"
-										justifyContent="center"
-									>
-										<Text
-											fontSize={13}
-											color="gray.600"
-										>
-											Uploading…
-										</Text>
-									</Stack>
-								)}
-							</Stack>
-						</FileUpload.Trigger>
-					</FileUpload.Root>
+							) : (
+								<Stack
+									alignItems="center"
+									gap={2}
+									color="gray.500"
+								>
+									<FaImage size={26} />
+									<Text fontSize={18}>
+										Upload banner image
+									</Text>
+								</Stack>
+							)}
+						</Stack>
+					</FileUpload.Trigger>
+				</FileUpload.Root>
 			</Stack>
 		</AppDrawer>
 	);
