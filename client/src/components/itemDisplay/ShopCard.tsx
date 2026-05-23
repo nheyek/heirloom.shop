@@ -35,6 +35,7 @@ export const ShopCard = (props: Props) => {
 			</RouterLink>
 			<Card.Body
 				p={3}
+				gap={1.5}
 				fontFamily={FONT_DECORATIVE}
 			>
 				<Stack gap={0}>
@@ -42,7 +43,7 @@ export const ShopCard = (props: Props) => {
 						<Link asChild>
 							<Heading
 								size="2xl"
-								fontWeight="semibold"
+								fontWeight={600}
 								truncate
 								display="block"
 							>
@@ -52,17 +53,19 @@ export const ShopCard = (props: Props) => {
 					</RouterLink>
 					<Text
 						truncate
-						fontSize={20}
+						fontSize={18}
+						fontWeight={500}
+						lineHeight={1}
 					>
 						{props.classification}
 					</Text>
 				</Stack>
-				<HStack>
+				<HStack gap={1.5}>
 					<CountryFlagIcon
 						countryCode={
 							props.countryCode as CountryCode | null
 						}
-						size={20}
+						size={18}
 					/>
 					<Text
 						fontSize={18}

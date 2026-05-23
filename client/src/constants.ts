@@ -35,15 +35,6 @@ export enum StorageKey {
 	PENDING_FAVORITE = 'pendingListingFavorite',
 }
 
-export enum CategoryIconCode {
-	RING = 'RING',
-	EARRINGS = 'EARRINGS',
-	HANDBAG = 'HANDBAG',
-	VASE = 'VASE',
-	CHAIR = 'CHAIR',
-	CANDLESTICK = 'CANDLESTICK',
-}
-
 export enum CountryCode {
 	US = 'US',
 	CA = 'CA',

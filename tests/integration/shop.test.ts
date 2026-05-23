@@ -90,7 +90,6 @@ describe('GET /api/shops', () => {
 			location: 'Portland, OR',
 			classification: 'Furniture',
 			countryCode: null,
-			categoryIcon: null,
 		});
 	});
 
@@ -99,7 +98,6 @@ describe('GET /api/shops', () => {
 		expect(glassStudio.location).toBeNull();
 		expect(glassStudio.classification).toBeNull();
 		expect(glassStudio.countryCode).toBeNull();
-		expect(glassStudio.categoryIcon).toBeNull();
 	});
 });
 

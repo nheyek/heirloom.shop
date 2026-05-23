@@ -53,7 +53,6 @@ DECLARE
     sample_shop_6_location VARCHAR := 'Brescia, Italy';
     sample_shop_6_classification VARCHAR := 'Italian Handmade Pewter';
     sample_shop_6_country_code CHAR(2) := 'IT';
-    sample_shop_6_category_icon VARCHAR := 'CANDLESTICK';
     sample_shop_6_origin_zip NUMERIC(5, 0) := 07310;
 
     sample_listing_1_id INT := 1;
@@ -189,14 +188,14 @@ DECLARE
 
 BEGIN
 
-    INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, category_icon, created_at, updated_at)
+    INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, created_at, updated_at)
     VALUES
-        (sample_shop_1_id, 'gB8K', sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, sample_shop_1_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_2_id, 'jR6k', sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, sample_shop_2_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_3_id, '0XNl', sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, sample_shop_3_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_4_id, 'yDvP', sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, sample_shop_4_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_5_id, 'Qa0Z', sample_shop_5_title, NULL, sample_shop_5_profile_image_uuid, sample_shop_5_location, sample_shop_5_classification, sample_shop_5_country_code, sample_shop_5_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_6_id, '8aOn', sample_shop_6_title, NULL, sample_shop_6_profile_image_uuid, sample_shop_6_location, sample_shop_6_classification, sample_shop_6_country_code, sample_shop_6_category_icon, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_shop_1_id, 'gB8K', sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, 'jR6k', sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, '0XNl', sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_4_id, 'yDvP', sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_5_id, 'Qa0Z', sample_shop_5_title, NULL, sample_shop_5_profile_image_uuid, sample_shop_5_location, sample_shop_5_classification, sample_shop_5_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_6_id, '8aOn', sample_shop_6_title, NULL, sample_shop_6_profile_image_uuid, sample_shop_6_location, sample_shop_6_classification, sample_shop_6_country_code, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         title = EXCLUDED.title,
@@ -205,7 +204,6 @@ BEGIN
         shop_location = EXCLUDED.shop_location,
         classification = EXCLUDED.classification,
         country_code = EXCLUDED.country_code,
-        category_icon = EXCLUDED.category_icon,
         updated_at = CURRENT_TIMESTAMP;
     
     INSERT INTO shipping_origin (id, shop_id, location_name, origin_zip, created_at, updated_at)
