@@ -1,21 +1,17 @@
 import {
 	Card,
 	Heading,
+	HStack,
 	Link,
-	SimpleGrid,
+	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ShopCardData } from '@heirloom/common/contract';
-import { Link as RouterLink } from 'react-router-dom';
-import {
-	CategoryIconCode,
-	CLIENT_ROUTES,
-	CountryCode,
-} from '@client/constants';
-import { FONT_DISPLAY_SANS } from '@client/theme';
-import { CategoryIcon } from '@client/components/icons/CategoryIcon';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { CLIENT_ROUTES, CountryCode } from '@client/constants';
+import { FONT_DECORATIVE } from '@client/theme';
+import { ShopCardData } from '@heirloom/common/contract';
+import { Link as RouterLink } from 'react-router-dom';
 
 type Props = ShopCardData & {
 	minWidth?: number;
@@ -39,43 +35,42 @@ export const ShopCard = (props: Props) => {
 			</RouterLink>
 			<Card.Body
 				p={3}
-				gap={1}
+				fontFamily={FONT_DECORATIVE}
 			>
-				<RouterLink to={shopUrl}>
-					<Link asChild>
-						<Heading
-							size="2xl"
-							fontWeight="semibold"
-							truncate
-							display="block"
-						>
-							{props.title}
-						</Heading>
-					</Link>
-				</RouterLink>
-
-				<SimpleGrid
-					columns={2}
-					gridTemplateColumns="30px 1fr"
-					fontSize={20}
-					fontFamily={FONT_DISPLAY_SANS}
-					alignItems="center"
-				>
-					<CategoryIcon
-						iconCode={
-							props.categoryIcon as CategoryIconCode | null
-						}
-						size={21}
-					/>
-					<Text truncate>{props.classification}</Text>
+				<Stack gap={0}>
+					<RouterLink to={shopUrl}>
+						<Link asChild>
+							<Heading
+								size="2xl"
+								fontWeight="semibold"
+								truncate
+								display="block"
+							>
+								{props.title}
+							</Heading>
+						</Link>
+					</RouterLink>
+					<Text
+						truncate
+						fontSize={20}
+					>
+						{props.classification}
+					</Text>
+				</Stack>
+				<HStack>
 					<CountryFlagIcon
 						countryCode={
 							props.countryCode as CountryCode | null
 						}
-						size={21}
+						size={20}
 					/>
-					<Text truncate>{props.location}</Text>
-				</SimpleGrid>
+					<Text
+						fontSize={18}
+						truncate
+					>
+						{props.location}
+					</Text>
+				</HStack>
 			</Card.Body>
 		</Card.Root>
 	);
