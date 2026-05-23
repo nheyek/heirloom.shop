@@ -12,6 +12,7 @@ type AppDrawerProps = {
 	isOpen: boolean;
 	onClose: () => void;
 	children?: ReactNode;
+	footer?: ReactNode;
 };
 
 export const AppDrawer = ({
@@ -19,6 +20,7 @@ export const AppDrawer = ({
 	isOpen,
 	onClose,
 	children,
+	footer,
 }: AppDrawerProps) => (
 	<Drawer.Root
 		open={isOpen}
@@ -60,6 +62,11 @@ export const AppDrawer = ({
 				>
 					{children}
 				</Drawer.Body>
+				{footer && (
+					<Drawer.Footer p={4}>
+						{footer}
+					</Drawer.Footer>
+				)}
 			</Drawer.Content>
 		</Drawer.Positioner>
 	</Drawer.Root>

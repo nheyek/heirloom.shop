@@ -217,83 +217,28 @@ export const CreateShopDrawer = ({
 		onSuccess(result.data);
 	};
 
+	const confirmButton = (
+		<Button
+			size="xl"
+			fontSize={22}
+			width="100%"
+			onClick={handleConfirm}
+			disabled={isSubmitting || isUploadingImage}
+			loading={isSubmitting || isUploadingImage}
+		>
+			<FaCheckCircle />
+			Confirm
+		</Button>
+	);
+
 	return (
 		<AppDrawer
 			title="Create Shop"
 			isOpen={isOpen}
 			onClose={onClose}
+			footer={confirmButton}
 		>
-			<Stack
-				justify="space-between"
-				height="100%"
-				gap={5}
-			>
-				<Stack gap={5}>
-					<FileUpload.Root
-						accept="image/*"
-						maxFiles={1}
-						onFileChange={(details) => {
-							const file = details.acceptedFiles[0];
-							if (file) handleImageSelect(file);
-						}}
-					>
-						<FileUpload.HiddenInput />
-						<FileUpload.Trigger asChild>
-							<Stack
-								gap={0}
-								cursor="pointer"
-								borderRadius="md"
-								overflow="hidden"
-								borderWidth={imagePreviewUrl ? 0 : 1}
-								borderStyle="dashed"
-								borderColor="gray.300"
-								alignItems="center"
-								justifyContent="center"
-								height={160}
-								width="100%"
-								position="relative"
-								_hover={{ borderColor: 'gray.400' }}
-							>
-								{imagePreviewUrl ? (
-									<Image
-										src={imagePreviewUrl}
-										alt="Banner preview"
-										width="100%"
-										height="100%"
-										objectFit="cover"
-										opacity={isUploadingImage ? 0.5 : 1}
-									/>
-								) : (
-									<Stack
-										alignItems="center"
-										gap={2}
-										color="gray.500"
-									>
-										<FaImage size={32} />
-										<Text fontSize={14}>
-											Click to upload banner image
-										</Text>
-									</Stack>
-								)}
-								{isUploadingImage && (
-									<Stack
-										position="absolute"
-										inset={0}
-										alignItems="center"
-										justifyContent="center"
-									>
-										<Text
-											fontSize={13}
-											color="gray.600"
-										>
-											Uploading…
-										</Text>
-									</Stack>
-								)}
-							</Stack>
-						</FileUpload.Trigger>
-					</FileUpload.Root>
-
+			<Stack gap={5}>
 					<Fieldset.Root size="lg">
 						<DrawerField
 							label="Title"
@@ -385,18 +330,73 @@ export const CreateShopDrawer = ({
 							</DrawerField>
 						</Fieldset.Root>
 					)}
-				</Stack>
-				<Button
-					size="xl"
-					fontSize={22}
-					width="100%"
-					onClick={handleConfirm}
-					disabled={isSubmitting || isUploadingImage}
-					loading={isSubmitting || isUploadingImage}
-				>
-					<FaCheckCircle />
-					Confirm
-				</Button>
+					<FileUpload.Root
+						accept="image/*"
+						maxFiles={1}
+						onFileChange={(details) => {
+							const file = details.acceptedFiles[0];
+							if (file) handleImageSelect(file);
+						}}
+					>
+						<FileUpload.HiddenInput />
+						<FileUpload.Trigger asChild>
+							<Stack
+								gap={0}
+								cursor="pointer"
+								borderRadius="md"
+								overflow="hidden"
+								borderWidth={imagePreviewUrl ? 0 : 1}
+								borderStyle="dashed"
+								borderColor="gray.300"
+								alignItems="center"
+								justifyContent="center"
+								height={160}
+								width="100%"
+								position="relative"
+								_hover={{ borderColor: 'gray.400' }}
+							>
+								{imagePreviewUrl ? (
+									<Image
+										src={imagePreviewUrl}
+										alt="Banner preview"
+										width="100%"
+										height="100%"
+										objectFit="cover"
+										opacity={
+											isUploadingImage ? 0.5 : 1
+										}
+									/>
+								) : (
+									<Stack
+										alignItems="center"
+										gap={2}
+										color="gray.500"
+									>
+										<FaImage size={32} />
+										<Text fontSize={14}>
+											Click to upload banner
+											image
+										</Text>
+									</Stack>
+								)}
+								{isUploadingImage && (
+									<Stack
+										position="absolute"
+										inset={0}
+										alignItems="center"
+										justifyContent="center"
+									>
+										<Text
+											fontSize={13}
+											color="gray.600"
+										>
+											Uploading…
+										</Text>
+									</Stack>
+								)}
+							</Stack>
+						</FileUpload.Trigger>
+					</FileUpload.Root>
 			</Stack>
 		</AppDrawer>
 	);
