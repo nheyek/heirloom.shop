@@ -2,6 +2,7 @@ import { adminContract } from '@heirloom/common/contract';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { adminAuth } from '@server/middleware/auth0.middleware';
 import { createShop, findShopsForAdmin } from '@server/services/shop.service';
+import { generateShopImageUploadUrl } from '@server/services/storage.service';
 import { initServer } from '@ts-rest/express';
 
 const s = initServer();
@@ -34,5 +35,12 @@ export const adminRouter = s.router(adminContract, {
 			const shop = await createShop(body);
 			return { status: 201 as const, body: shop };
 		},
+	},
+	getShopImageUploadUrl: {
+		middleware: [adminAuth],
+		handler: async () => ({
+			status: 200 as const,
+			body: await generateShopImageUploadUrl(),
+		}),
 	},
 });

@@ -55,3 +55,13 @@ variable "resend_api_key" {
   type      = string
   sensitive = true
 }
+
+variable "do_spaces_key" {
+  type      = string
+  sensitive = true
+}
+
+variable "do_spaces_secret" {
+  type      = string
+  sensitive = true
+}

@@ -56,6 +56,7 @@ export const createShop = async (
 		shopLocation: body.location,
 		country,
 		directFulfillment: body.directFulfillment,
+		profileImageUuid: body.profileImageUuid,
 	});
 	await em.persist(shop).flush();
 

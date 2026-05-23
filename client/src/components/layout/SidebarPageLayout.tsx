@@ -52,6 +52,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 					<RouterLink
 						to={`/${route}`}
 						style={{ display: 'block' }}
+						key={route}
 					>
 						<HStack
 							gap={3}

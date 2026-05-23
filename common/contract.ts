@@ -365,6 +365,7 @@ const CreateShopBodySchema = z.object({
 	countryCode: z.string(),
 	directFulfillment: z.boolean(),
 	ownerEmail: z.string().optional(),
+	profileImageUuid: z.string().uuid().optional(),
 });
 
 export const adminContract = c.router({
@@ -384,6 +385,16 @@ export const adminContract = c.router({
 		responses: {
 			201: AdminShopListItemSchema,
 			400: ErrorSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+		},
+	},
+	getShopImageUploadUrl: {
+		method: 'POST',
+		path: '/api/admin/shop-image-upload-url',
+		body: z.object({}),
+		responses: {
+			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
 			401: ErrorSchema,
 			403: ErrorSchema,
 		},

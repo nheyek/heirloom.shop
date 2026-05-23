@@ -7,7 +7,7 @@ trusted_ips = [
 ]
 domain_prefix = "dev"
 cors_allowed_origins = [
-  "http://localhost:8080",
+  "https://heirloom.test:8080",
   "http://localhost:3000",
   "https://dev.heirloom.shop",
 ]

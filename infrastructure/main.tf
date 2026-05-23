@@ -117,6 +117,20 @@ resource "digitalocean_app" "heirloom" {
         scope = "RUN_TIME"
         type  = "SECRET"
       }
+
+      env {
+        key   = "DO_SPACES_KEY"
+        value = var.do_spaces_key
+        scope = "RUN_TIME"
+        type  = "SECRET"
+      }
+
+      env {
+        key   = "DO_SPACES_SECRET"
+        value = var.do_spaces_secret
+        scope = "RUN_TIME"
+        type  = "SECRET"
+      }
     }
     domain {
       name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"

@@ -2,12 +2,15 @@ import {
 	Button,
 	Field,
 	Fieldset,
+	FileUpload,
 	Group,
 	HStack,
+	Image,
 	Input,
 	InputProps,
 	RadioCard,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
@@ -18,7 +21,7 @@ import { callApi } from '@client/utils/apiUtils';
 import { isValidEmail } from '@client/utils/validationUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
 import { ReactNode, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaImage } from 'react-icons/fa';
 
 type Props = {
 	isOpen: boolean;
@@ -107,7 +110,46 @@ export const CreateShopDrawer = ({
 		string | null
 	>(null);
 
+	const [imagePreviewUrl, setImagePreviewUrl] = useState<
+		string | null
+	>(null);
+	const [profileImageUuid, setProfileImageUuid] = useState<
+		string | null
+	>(null);
+	const [isUploadingImage, setIsUploadingImage] = useState(false);
+
 	const [isSubmitting, setIsSubmitting] = useState(false);
+
+	const handleImageSelect = async (file: File) => {
+		setImagePreviewUrl(URL.createObjectURL(file));
+		setProfileImageUuid(null);
+
+		setIsUploadingImage(true);
+		const result = await callApi(
+			apiClient.admin.getShopImageUploadUrl({ body: {} }),
+		);
+		if (result.error !== null) {
+			toastError('Failed to prepare image upload.');
+			setIsUploadingImage(false);
+			return;
+		}
+
+		const { uuid, uploadUrl } = result.data;
+		const uploadRes = await fetch(uploadUrl, {
+			method: 'PUT',
+			body: file,
+			headers: { 'Content-Type': 'image/jpeg' },
+		});
+
+		setIsUploadingImage(false);
+
+		if (!uploadRes.ok) {
+			toastError('Failed to upload image.');
+			return;
+		}
+
+		setProfileImageUuid(uuid);
+	};
 
 	const handleConfirm = () => {
 		let valid = true;
@@ -160,6 +202,7 @@ export const CreateShopDrawer = ({
 						fulfillmentType === FulfillmentType.DIRECT
 							? ownerEmail
 							: undefined,
+					profileImageUuid: profileImageUuid ?? undefined,
 				},
 			}),
 		);
@@ -186,6 +229,71 @@ export const CreateShopDrawer = ({
 				gap={5}
 			>
 				<Stack gap={5}>
+					<FileUpload.Root
+						accept="image/*"
+						maxFiles={1}
+						onFileChange={(details) => {
+							const file = details.acceptedFiles[0];
+							if (file) handleImageSelect(file);
+						}}
+					>
+						<FileUpload.HiddenInput />
+						<FileUpload.Trigger asChild>
+							<Stack
+								gap={0}
+								cursor="pointer"
+								borderRadius="md"
+								overflow="hidden"
+								borderWidth={imagePreviewUrl ? 0 : 1}
+								borderStyle="dashed"
+								borderColor="gray.300"
+								alignItems="center"
+								justifyContent="center"
+								height={160}
+								width="100%"
+								position="relative"
+								_hover={{ borderColor: 'gray.400' }}
+							>
+								{imagePreviewUrl ? (
+									<Image
+										src={imagePreviewUrl}
+										alt="Banner preview"
+										width="100%"
+										height="100%"
+										objectFit="cover"
+										opacity={isUploadingImage ? 0.5 : 1}
+									/>
+								) : (
+									<Stack
+										alignItems="center"
+										gap={2}
+										color="gray.500"
+									>
+										<FaImage size={32} />
+										<Text fontSize={14}>
+											Click to upload banner image
+										</Text>
+									</Stack>
+								)}
+								{isUploadingImage && (
+									<Stack
+										position="absolute"
+										inset={0}
+										alignItems="center"
+										justifyContent="center"
+									>
+										<Text
+											fontSize={13}
+											color="gray.600"
+										>
+											Uploading…
+										</Text>
+									</Stack>
+								)}
+							</Stack>
+						</FileUpload.Trigger>
+					</FileUpload.Root>
+
 					<Fieldset.Root size="lg">
 						<DrawerField
 							label="Title"
@@ -283,8 +391,8 @@ export const CreateShopDrawer = ({
 					fontSize={22}
 					width="100%"
 					onClick={handleConfirm}
-					disabled={isSubmitting}
-					loading={isSubmitting}
+					disabled={isSubmitting || isUploadingImage}
+					loading={isSubmitting || isUploadingImage}
 				>
 					<FaCheckCircle />
 					Confirm

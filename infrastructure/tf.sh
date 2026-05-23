@@ -4,6 +4,8 @@ set -euo pipefail
 [[ -n "${STRIPE_SECRET_KEY:-}"      ]] && export TF_VAR_stripe_secret_key="$STRIPE_SECRET_KEY"
 [[ -n "${STRIPE_WEBHOOK_SECRET:-}"  ]] && export TF_VAR_stripe_webhook_secret="$STRIPE_WEBHOOK_SECRET"
 [[ -n "${RESEND_API_KEY:-}"         ]] && export TF_VAR_resend_api_key="$RESEND_API_KEY"
+[[ -n "${DO_SPACES_KEY:-}"          ]] && export TF_VAR_do_spaces_key="$DO_SPACES_KEY"    && export SPACES_ACCESS_KEY_ID="$DO_SPACES_KEY"
+[[ -n "${DO_SPACES_SECRET:-}"       ]] && export TF_VAR_do_spaces_secret="$DO_SPACES_SECRET" && export SPACES_SECRET_ACCESS_KEY="$DO_SPACES_SECRET"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
