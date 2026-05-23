@@ -118,7 +118,7 @@ export const CreateShopDrawer = ({
 	>(null);
 	const [isUploadingImage, setIsUploadingImage] = useState(false);
 
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [isConfirming, setIsConfirming] = useState(false);
 
 	const handleImageSelect = async (file: File) => {
 		setImagePreviewUrl(URL.createObjectURL(file));
@@ -185,11 +185,11 @@ export const CreateShopDrawer = ({
 
 		if (!valid) return;
 
-		submit();
+		confirm();
 	};
 
-	const submit = async () => {
-		setIsSubmitting(true);
+	const confirm = async () => {
+		setIsConfirming(true);
 
 		const result = await callApi(
 			apiClient.admin.createShop({
@@ -209,7 +209,7 @@ export const CreateShopDrawer = ({
 			}),
 		);
 
-		setIsSubmitting(false);
+		setIsConfirming(false);
 
 		if (result.error !== null) {
 			toastError('Failed to create shop. Please try again.');
@@ -225,8 +225,8 @@ export const CreateShopDrawer = ({
 			fontSize={22}
 			width="100%"
 			onClick={handleConfirm}
-			disabled={isSubmitting || isUploadingImage}
-			loading={isSubmitting || isUploadingImage}
+			disabled={isConfirming || isUploadingImage}
+			loading={isConfirming || isUploadingImage}
 		>
 			<FaCheckCircle />
 			Confirm
@@ -249,7 +249,7 @@ export const CreateShopDrawer = ({
 						<DrawerInput
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							disabled={isSubmitting}
+							disabled={isConfirming}
 						/>
 					</DrawerField>
 					<DrawerField
@@ -262,7 +262,7 @@ export const CreateShopDrawer = ({
 								setClassification(e.target.value)
 							}
 							placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
-							disabled={isSubmitting}
+							disabled={isConfirming}
 						/>
 					</DrawerField>
 					<DrawerField
@@ -280,7 +280,7 @@ export const CreateShopDrawer = ({
 									setLocation(e.target.value)
 								}
 								placeholder="City or Region"
-								disabled={isSubmitting}
+								disabled={isConfirming}
 							/>
 						</HStack>
 					</DrawerField>
@@ -323,7 +323,7 @@ export const CreateShopDrawer = ({
 									setOwnerEmail(e.target.value)
 								}
 								placeholder="owner@example.com"
-								disabled={isSubmitting}
+								disabled={isConfirming}
 							/>
 						</DrawerField>
 					</Fieldset.Root>
