@@ -38,9 +38,9 @@ export const adminRouter = s.router(adminContract, {
 	},
 	getShopImageUploadUrl: {
 		middleware: [adminAuth],
-		handler: async () => ({
+		handler: async ({ body }) => ({
 			status: 200 as const,
-			body: await generateShopImageUploadUrl(),
+			body: await generateShopImageUploadUrl(body.contentType),
 		}),
 	},
 });

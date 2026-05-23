@@ -126,7 +126,9 @@ export const CreateShopDrawer = ({
 
 		setIsUploadingImage(true);
 		const result = await callApi(
-			apiClient.admin.getShopImageUploadUrl({ body: {} }),
+			apiClient.admin.getShopImageUploadUrl({
+				body: { contentType: file.type },
+			}),
 		);
 		if (result.error !== null) {
 			toastError('Failed to prepare image upload.');
@@ -138,7 +140,7 @@ export const CreateShopDrawer = ({
 		const uploadRes = await fetch(uploadUrl, {
 			method: 'PUT',
 			body: file,
-			headers: { 'Content-Type': 'image/jpeg' },
+			headers: { 'Content-Type': file.type },
 		});
 
 		setIsUploadingImage(false);

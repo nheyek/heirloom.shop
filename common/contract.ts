@@ -392,7 +392,7 @@ export const adminContract = c.router({
 	getShopImageUploadUrl: {
 		method: 'POST',
 		path: '/api/admin/shop-image-upload-url',
-		body: z.object({}),
+		body: z.object({ contentType: z.string() }),
 		responses: {
 			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
 			401: ErrorSchema,

@@ -12,17 +12,25 @@ const s3 = new S3Client({
 	forcePathStyle: false,
 });
 
-export const generateShopImageUploadUrl = async (): Promise<{
-	uuid: string;
-	uploadUrl: string;
-}> => {
+const CONTENT_TYPE_TO_EXT: Record<string, string> = {
+	'image/jpeg': 'jpg',
+	'image/png': 'png',
+	'image/webp': 'webp',
+	'image/gif': 'gif',
+	'image/avif': 'avif',
+};
+
+export const generateShopImageUploadUrl = async (
+	contentType: string,
+): Promise<{ uuid: string; uploadUrl: string }> => {
+	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
 	const uuid = randomUUID();
-	const key = `shop-profile-images/${uuid}.jpg`;
+	const key = `shop-profile-images/${uuid}.${ext}`;
 
 	const command = new PutObjectCommand({
 		Bucket: process.env.DO_SPACES_BUCKET!,
 		Key: key,
-		ContentType: 'image/jpeg',
+		ContentType: contentType,
 		ACL: 'public-read',
 	});
 
