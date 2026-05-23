@@ -387,6 +387,7 @@ export const adminContract = c.router({
 			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	getShopImageUploadUrl: {

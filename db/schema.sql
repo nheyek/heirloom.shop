@@ -753,6 +753,14 @@ ALTER TABLE ONLY public.shop
 
 
 --
+-- Name: shop shop_title_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shop
+    ADD CONSTRAINT shop_title_key UNIQUE (title);
+
+
+--
 -- Name: shop_user_role shop_user_role_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1011,4 +1019,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260424000000'),
     ('20260429000000'),
     ('20260430000000'),
-    ('20260513000000');
+    ('20260513000000'),
+    ('20260523000000');

@@ -1,7 +1,7 @@
 import { adminContract } from '@heirloom/common/contract';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { adminAuth } from '@server/middleware/auth0.middleware';
-import { createShop, findShopsForAdmin } from '@server/services/shop.service';
+import { createShop, DuplicateShopTitleError, findShopsForAdmin } from '@server/services/shop.service';
 import { generateShopImageUploadUrl } from '@server/services/storage.service';
 import { initServer } from '@ts-rest/express';
 
@@ -32,8 +32,18 @@ export const adminRouter = s.router(adminContract, {
 					};
 				}
 			}
-			const shop = await createShop(body);
-			return { status: 201 as const, body: shop };
+			try {
+				const shop = await createShop(body);
+				return { status: 201 as const, body: shop };
+			} catch (e) {
+				if (e instanceof DuplicateShopTitleError) {
+					return {
+						status: 409 as const,
+						body: { error: 'A shop with this name already exists.' },
+					};
+				}
+				throw e;
+			}
 		},
 	},
 	getShopImageUploadUrl: {

@@ -20,7 +20,7 @@ import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { isValidEmail } from '@client/utils/validationUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useRef, useState } from 'react';
 import { FaCheckCircle, FaImage } from 'react-icons/fa';
 
 type Props = {
@@ -73,7 +73,9 @@ const FulfillmentOption = ({
 		<RadioCard.ItemControl>
 			<RadioCard.ItemIndicator />
 			<RadioCard.ItemContent>
-				<RadioCard.ItemText>{label}</RadioCard.ItemText>
+				<RadioCard.ItemText fontSize={15}>
+					{label}
+				</RadioCard.ItemText>
 				<RadioCard.ItemDescription>
 					{description}
 				</RadioCard.ItemDescription>
@@ -119,6 +121,8 @@ export const CreateShopDrawer = ({
 	const [isUploadingImage, setIsUploadingImage] = useState(false);
 
 	const [isConfirming, setIsConfirming] = useState(false);
+
+	const titleFieldRef = useRef<HTMLDivElement>(null);
 
 	const handleImageSelect = async (file: File) => {
 		setImagePreviewUrl(URL.createObjectURL(file));
@@ -211,6 +215,12 @@ export const CreateShopDrawer = ({
 
 		setIsConfirming(false);
 
+		if (result.status === 409) {
+			setTitleError('A shop with this name already exists.');
+			titleFieldRef.current?.scrollIntoView({ behavior: 'smooth' });
+			return;
+		}
+
 		if (result.error !== null) {
 			toastError('Failed to create shop. Please try again.');
 			return;
@@ -242,16 +252,18 @@ export const CreateShopDrawer = ({
 		>
 			<Stack gap={5}>
 				<Fieldset.Root size="lg">
-					<DrawerField
-						label="Title"
-						error={titleError}
-					>
-						<DrawerInput
-							value={title}
-							onChange={(e) => setTitle(e.target.value)}
-							disabled={isConfirming}
-						/>
-					</DrawerField>
+					<div ref={titleFieldRef}>
+						<DrawerField
+							label="Title"
+							error={titleError}
+						>
+							<DrawerInput
+								value={title}
+								onChange={(e) => setTitle(e.target.value)}
+								disabled={isConfirming}
+							/>
+						</DrawerField>
+					</div>
 					<DrawerField
 						label="Classification"
 						error={classificationError}
@@ -306,7 +318,7 @@ export const CreateShopDrawer = ({
 						<FulfillmentOption
 							value={FulfillmentType.DIRECT}
 							label="Direct"
-							description="Fulfillment and support provided by shop with comission collected on sale."
+							description="Fulfillment and support provided by shop. A comission is collected on each sale."
 						/>
 					</Group>
 				</RadioCard.Root>

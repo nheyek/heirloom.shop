@@ -1,6 +1,9 @@
 import { AdminShopListItem, CreateShopBody } from '@heirloom/common/contract';
 import { ShopRole } from '@heirloom/common/enums/ShopRole';
+import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
+
+export class DuplicateShopTitleError extends Error {}
 import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
@@ -58,7 +61,14 @@ export const createShop = async (
 		directFulfillment: body.directFulfillment,
 		profileImageUuid: body.profileImageUuid,
 	});
-	await em.persist(shop).flush();
+	try {
+		await em.persist(shop).flush();
+	} catch (e) {
+		if (e instanceof UniqueConstraintViolationException) {
+			throw new DuplicateShopTitleError();
+		}
+		throw e;
+	}
 
 	if (body.directFulfillment && body.ownerEmail) {
 		const owner = await findOrCreateUser(body.ownerEmail.toLowerCase());

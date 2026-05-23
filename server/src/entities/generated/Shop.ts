@@ -12,7 +12,7 @@ export class Shop {
   @PrimaryKey()
   id!: number;
 
-  @Property({ length: 128 })
+  @Property({ length: 128, unique: 'shop_title_key' })
   title!: string;
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
