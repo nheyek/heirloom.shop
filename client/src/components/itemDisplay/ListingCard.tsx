@@ -54,7 +54,7 @@ export const ListingCard = (props: Props) => {
 			<Card.Body
 				p={3}
 				pb={2}
-				gap={1}
+				gap={1.5}
 			>
 				<Stack gap={0}>
 					<RouterLink to={listingUrl}>

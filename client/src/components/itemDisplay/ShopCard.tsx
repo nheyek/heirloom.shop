@@ -1,4 +1,11 @@
-import { Card, Heading, HStack, Link, Text } from '@chakra-ui/react';
+import {
+	Card,
+	Heading,
+	HStack,
+	Link,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
@@ -27,31 +34,33 @@ export const ShopCard = (props: Props) => {
 				/>
 			</RouterLink>
 			<Card.Body
-				px={3}
-				py={2}
-				gap={0.5}
+				p={3}
+				gap={1}
 				fontFamily={FONT_DECORATIVE}
 			>
-				<RouterLink to={shopUrl}>
-					<Link asChild>
-						<Heading
-							size="2xl"
-							fontWeight={600}
-							truncate
-							display="block"
-						>
-							{props.title}
-						</Heading>
-					</Link>
-				</RouterLink>
-				<Text
-					truncate
-					fontSize={18}
-					fontWeight={500}
-					lineHeight={1}
-				>
-					{props.classification}
-				</Text>
+				<Stack gap={0}>
+					<RouterLink to={shopUrl}>
+						<Link asChild>
+							<Heading
+								fontSize={22}
+								lineHeight={1.2}
+								fontWeight={600}
+								truncate
+								display="block"
+							>
+								{props.title}
+							</Heading>
+						</Link>
+					</RouterLink>
+					<Text
+						truncate
+						fontSize={18}
+						fontWeight={500}
+					>
+						{props.classification}
+					</Text>
+				</Stack>
+
 				<HStack gap={1.5}>
 					<CountryFlagIcon
 						countryCode={

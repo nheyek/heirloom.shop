@@ -343,7 +343,7 @@ export const ListingPage = () => {
 								gap={1.5}
 								fontFamily={FONT_DISPLAY_SANS}
 							>
-								{listingData?.subtitle}
+								<Text>{listingData?.subtitle}</Text>
 								{listingData?.countryCode && (
 									<HStack gap={2.5}>
 										<CountryFlagIcon

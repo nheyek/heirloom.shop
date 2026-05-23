@@ -35,8 +35,9 @@ export const PriceTag = (props: Props) => {
 				fontWeight={500}
 				fontFamily={FONT_DECORATIVE}
 				paddingLeft={6}
-				paddingRight={2.5}
-				paddingBottom="3px"
+				paddingRight="10px"
+				paddingTop="3px"
+				paddingBottom="5px"
 			>
 				{formatCentsAsDollars(props.priceCents)}
 				{props.quantity &&

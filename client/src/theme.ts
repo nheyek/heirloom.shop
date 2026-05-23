@@ -107,7 +107,7 @@ const fieldsetRecipe = defineSlotRecipe({
 
 const textRecipe = defineRecipe({
 	base: {
-		lineHeight: '1.2',
+		lineHeight: 1.2,
 	},
 });
 

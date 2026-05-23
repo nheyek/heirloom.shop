@@ -14,7 +14,10 @@ import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData, ShopCardData } from '@heirloom/common/contract';
+import {
+	ListingCardData,
+	ShopCardData,
+} from '@heirloom/common/contract';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -70,10 +73,8 @@ export const ShopPage = () => {
 		setListingsLoading(true);
 		setListingsError(null);
 
-		setTimeout(() => {
-			loadShopData();
-			loadListings();
-		}, 500);
+		loadShopData();
+		loadListings();
 	}, [id]);
 
 	const isLoading = shopDataLoading || listingsLoading;
@@ -119,7 +120,7 @@ export const ShopPage = () => {
 							/>
 						</Box>
 						<Stack
-							gap={{ base: 0, md: 0.5, lg: 1 }}
+							gap={{ base: 1, md: 3, lg: 4 }}
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
