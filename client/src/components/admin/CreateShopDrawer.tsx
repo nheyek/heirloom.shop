@@ -84,6 +84,14 @@ const FulfillmentOption = ({
 	</RadioCard.Item>
 );
 
+const hashFile = async (file: File): Promise<string> => {
+	const buffer = await file.arrayBuffer();
+	const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+	return Array.from(new Uint8Array(hashBuffer))
+		.map((b) => b.toString(16).padStart(2, '0'))
+		.join('');
+};
+
 export const CreateShopDrawer = ({
 	isOpen,
 	onClose,
@@ -115,10 +123,9 @@ export const CreateShopDrawer = ({
 	const [imagePreviewUrl, setImagePreviewUrl] = useState<
 		string | null
 	>(null);
-	const [profileImageUuid, setProfileImageUuid] = useState<
-		string | null
-	>(null);
 	const [isUploadingImage, setIsUploadingImage] = useState(false);
+	const uploadCache = useRef<Map<string, string>>(new Map());
+	const selectedHashRef = useRef<string | null>(null);
 
 	const [isConfirming, setIsConfirming] = useState(false);
 
@@ -126,7 +133,13 @@ export const CreateShopDrawer = ({
 
 	const handleImageSelect = async (file: File) => {
 		setImagePreviewUrl(URL.createObjectURL(file));
-		setProfileImageUuid(null);
+
+		const hash = await hashFile(file);
+		selectedHashRef.current = hash;
+
+		if (uploadCache.current.has(hash)) {
+			return;
+		}
 
 		setIsUploadingImage(true);
 		const result = await callApi(
@@ -154,7 +167,7 @@ export const CreateShopDrawer = ({
 			return;
 		}
 
-		setProfileImageUuid(uuid);
+		uploadCache.current.set(hash, uuid);
 	};
 
 	const handleConfirm = () => {
@@ -208,7 +221,11 @@ export const CreateShopDrawer = ({
 						fulfillmentType === FulfillmentType.DIRECT
 							? ownerEmail
 							: undefined,
-					profileImageUuid: profileImageUuid ?? undefined,
+					profileImageUuid: selectedHashRef.current
+							? uploadCache.current.get(
+									selectedHashRef.current,
+								)
+							: undefined,
 				},
 			}),
 		);
