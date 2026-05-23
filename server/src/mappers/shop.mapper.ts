@@ -5,7 +5,7 @@ export const mapShopToApiResponseData = (
 	shop: Shop,
 ): ShopCardData => ({
 	id: shop.id,
-	shortId: shop.shortId || '',
+	shortId: shop.shortId,
 	title: shop.title,
 	location: shop.shopLocation,
 	classification: shop.classification,

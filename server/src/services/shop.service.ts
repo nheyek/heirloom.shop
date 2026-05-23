@@ -8,6 +8,7 @@ import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { findOrCreateUser } from '@server/services/user.service';
+import { encodeShortId } from '@server/utils/hashids';
 
 export const findShops = async () => {
 	const em = getEm();
@@ -52,8 +53,15 @@ export const createShop = async (
 ): Promise<AdminShopListItem> => {
 	const em = getEm();
 
+	const [{ nextval }] = await em
+		.getConnection()
+		.execute("SELECT nextval('shop_id_seq')");
+	const nextId = Number(nextval);
+
 	const country = em.getReference(Country, body.countryCode);
 	const shop = em.create(Shop, {
+		id: nextId,
+		shortId: encodeShortId(nextId),
 		title: body.title,
 		classification: body.classification,
 		shopLocation: body.location,
