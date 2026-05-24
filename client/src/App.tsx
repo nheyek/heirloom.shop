@@ -22,13 +22,13 @@ import { OrdersPage } from './pages/OrdersPage';
 import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListingsPage';
 import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
-import { ShopManagerSettingsPage } from './pages/ShopManager/ShopManagerSettingsPage';
+import { ShopManagerConfigurePage } from './pages/ShopManager/ShopManagerConfigurePage';
 
 const ShopManagerDefaultRedirect = () => {
 	const { shortId } = useParams<{ shortId: string }>();
 	return (
 		<Navigate
-			to={`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
+			to={`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.configure}`}
 			replace
 		/>
 	);
@@ -79,8 +79,8 @@ const App = () => {
 								element={<ShopManagerDefaultRedirect />}
 							/>
 							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
-								element={<ShopManagerSettingsPage />}
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.configure}`}
+								element={<ShopManagerConfigurePage />}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}

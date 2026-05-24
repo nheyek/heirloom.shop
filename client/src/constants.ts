@@ -28,7 +28,7 @@ export const CLIENT_ROUTES = {
 	shops: 'shops',
 	analytics: 'analytics',
 	manage: 'manage',
-	settings: 'settings',
+	configure: 'configure',
 	listings: 'listings',
 	messages: 'messages',
 };

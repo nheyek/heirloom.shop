@@ -12,8 +12,8 @@ import {
 
 const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
-		label: 'Settings',
-		title: 'Settings',
+		label: 'Configure',
+		title: 'Configure',
 		icon: IoMdSettings,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`,
 	},
