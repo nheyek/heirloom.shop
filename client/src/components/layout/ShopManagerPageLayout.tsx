@@ -1,10 +1,12 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
-import { IoMdMail, IoMdSettings } from 'react-icons/io';
+import { IoMdMail } from 'react-icons/io';
 import { IoReceipt } from 'react-icons/io5';
 import { TbSquaresFilled } from 'react-icons/tb';
 import { Navigate, useParams } from 'react-router-dom';
+
+import { FaShop } from 'react-icons/fa6';
 import {
 	SidebarNavItem,
 	SidebarPageLayout,
@@ -12,10 +14,10 @@ import {
 
 const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
-		label: 'Configure',
-		title: 'Configure',
-		icon: IoMdSettings,
-		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`,
+		label: 'Information',
+		title: 'Shop Information',
+		icon: FaShop,
+		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`,
 	},
 	{
 		label: 'Listings',

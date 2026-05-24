@@ -19,23 +19,23 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
+import { ShopManagerInfoPage } from './pages/ShopManager/ShopManagerInfoPage';
 import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListingsPage';
 import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
-import { ShopManagerConfigurePage } from './pages/ShopManager/ShopManagerConfigurePage';
+import { ShopPage } from './pages/ShopPage';
+import { OrderSuccess } from './pages/SuccessPage';
+import { StripeProvider } from './providers/StripeProvider';
 
 const ShopManagerDefaultRedirect = () => {
 	const { shortId } = useParams<{ shortId: string }>();
 	return (
 		<Navigate
-			to={`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.configure}`}
+			to={`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`}
 			replace
 		/>
 	);
 };
-import { ShopPage } from './pages/ShopPage';
-import { OrderSuccess } from './pages/SuccessPage';
-import { StripeProvider } from './providers/StripeProvider';
 
 const App = () => {
 	const [mounted, setMounted] = useState(false);
@@ -76,11 +76,13 @@ const App = () => {
 						<Route element={<ShopManagerPageLayout />}>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}`}
-								element={<ShopManagerDefaultRedirect />}
+								element={
+									<ShopManagerDefaultRedirect />
+								}
 							/>
 							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.configure}`}
-								element={<ShopManagerConfigurePage />}
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`}
+								element={<ShopManagerInfoPage />}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}
