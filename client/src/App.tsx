@@ -3,7 +3,7 @@ import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
@@ -23,6 +23,16 @@ import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListings
 import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
 import { ShopManagerSettingsPage } from './pages/ShopManager/ShopManagerSettingsPage';
+
+const ShopManagerDefaultRedirect = () => {
+	const { shortId } = useParams<{ shortId: string }>();
+	return (
+		<Navigate
+			to={`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
+			replace
+		/>
+	);
+};
 import { ShopPage } from './pages/ShopPage';
 import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
@@ -64,6 +74,10 @@ const App = () => {
 							element={<AuthCallback />}
 						/>
 						<Route element={<ShopManagerPageLayout />}>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}`}
+								element={<ShopManagerDefaultRedirect />}
+							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
 								element={<ShopManagerSettingsPage />}
@@ -120,6 +134,15 @@ const App = () => {
 							element={<OrderSuccess />}
 						/>
 						<Route element={<AdminPageLayout />}>
+							<Route
+								path={`/${CLIENT_ROUTES.admin}`}
+								element={
+									<Navigate
+										to={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
+										replace
+									/>
+								}
+							/>
 							<Route
 								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
 								element={<AdminShopsPage />}

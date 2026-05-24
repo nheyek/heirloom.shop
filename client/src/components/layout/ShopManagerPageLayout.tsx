@@ -1,8 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
-import { FaEnvelope, FaGear, FaTag } from 'react-icons/fa6';
+import { IoMdMail, IoMdSettings } from 'react-icons/io';
 import { IoReceipt } from 'react-icons/io5';
+import { TbSquaresFilled } from 'react-icons/tb';
 import { Navigate, useParams } from 'react-router-dom';
 import {
 	SidebarNavItem,
@@ -13,13 +14,13 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
 		label: 'Settings',
 		title: 'Settings',
-		icon: FaGear,
+		icon: IoMdSettings,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`,
 	},
 	{
 		label: 'Listings',
 		title: 'Listings',
-		icon: FaTag,
+		icon: TbSquaresFilled,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`,
 	},
 	{
@@ -31,7 +32,7 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
 		label: 'Messages',
 		title: 'Messages',
-		icon: FaEnvelope,
+		icon: IoMdMail,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`,
 	},
 ];
