@@ -15,7 +15,7 @@ import {
 const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
 		label: 'Information',
-		title: 'Shop Information',
+		title: 'Information',
 		icon: FaShop,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`,
 	},

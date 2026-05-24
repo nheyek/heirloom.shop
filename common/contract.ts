@@ -351,6 +351,7 @@ export const ordersContract = c.router({
 
 const AdminShopListItemSchema = z.object({
 	id: z.number(),
+	shortId: z.string(),
 	title: z.string(),
 	createdAt: z.string().nullable(),
 	listingCount: z.number(),

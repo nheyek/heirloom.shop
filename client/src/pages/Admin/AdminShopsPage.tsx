@@ -9,10 +9,12 @@ import {
 import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { AppError } from '@client/components/feedback/AppError';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { CLIENT_ROUTES } from '@client/constants';
 import { callApi } from '@client/utils/apiUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const AdminShopsPage = () => {
 	const [shops, setShops] = useState<AdminShopListItem[]>([]);
@@ -110,8 +112,12 @@ export const AdminShopsPage = () => {
 									: shops.map((shop) => (
 											<Table.Row key={shop.id}>
 												<Table.Cell>
-													<Link>
-														{shop.title}
+													<Link asChild>
+														<RouterLink
+															to={`/${CLIENT_ROUTES.shop}/${shop.shortId}/${CLIENT_ROUTES.manage}`}
+														>
+															{shop.title}
+														</RouterLink>
 													</Link>
 												</Table.Cell>
 												<Table.Cell>
