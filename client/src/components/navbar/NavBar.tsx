@@ -39,6 +39,9 @@ export const Navbar = () => {
 	const isAdminPage = pathname.startsWith(
 		`/${CLIENT_ROUTES.admin}`,
 	);
+	const isShopManagerPage = new RegExp(
+		`/${CLIENT_ROUTES.shop}/[^/]+/${CLIENT_ROUTES.manage}`,
+	).test(pathname);
 
 	const shoppingCart = useShoppingCart();
 
@@ -78,14 +81,14 @@ export const Navbar = () => {
 								<Logo />
 							</Box>
 						</Link>
-						{isAdminPage && (
+						{(isAdminPage || isShopManagerPage) && (
 							<Text
 								color="white"
 								fontFamily={FONT_DISPLAY_SANS}
 								fontSize={24}
 								paddingTop={1}
 							>
-								Admin
+								{isShopManagerPage ? 'Manager' : 'Admin'}
 							</Text>
 						)}
 					</HStack>

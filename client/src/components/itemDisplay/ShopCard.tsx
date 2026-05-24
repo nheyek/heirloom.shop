@@ -42,7 +42,7 @@ export const ShopCard = (props: Props) => {
 					<RouterLink to={shopUrl}>
 						<Link asChild>
 							<Heading
-								fontSize={22}
+								fontSize={24}
 								lineHeight={1.2}
 								fontWeight={600}
 								truncate

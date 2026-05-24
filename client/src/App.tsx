@@ -1,5 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
+import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -18,7 +19,10 @@ import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
-import { ShopManager } from './pages/ShopManager';
+import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListingsPage';
+import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
+import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
+import { ShopManagerSettingsPage } from './pages/ShopManager/ShopManagerSettingsPage';
 import { ShopPage } from './pages/ShopPage';
 import { OrderSuccess } from './pages/SuccessPage';
 import { StripeProvider } from './providers/StripeProvider';
@@ -59,10 +63,24 @@ const App = () => {
 							path="/callback"
 							element={<AuthCallback />}
 						/>
-						<Route
-							path={`/${CLIENT_ROUTES.shopManager}`}
-							element={<ShopManager />}
-						/>
+						<Route element={<ShopManagerPageLayout />}>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
+								element={<ShopManagerSettingsPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}
+								element={<ShopManagerListingsPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}
+								element={<ShopManagerOrdersPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`}
+								element={<ShopManagerMessagesPage />}
+							/>
+						</Route>
 						<Route element={<AccountPageLayout />}>
 							<Route
 								path={`/${CLIENT_ROUTES.favorites}`}

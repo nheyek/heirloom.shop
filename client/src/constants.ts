@@ -20,7 +20,6 @@ export const CLIENT_ROUTES = {
 	category: 'category',
 	shop: 'shop',
 	listing: 'listing',
-	shopManager: 'shop-manager',
 	favorites: 'favorites',
 	checkout: 'checkout',
 	orderConfirmed: 'order-confirmed',
@@ -28,6 +27,10 @@ export const CLIENT_ROUTES = {
 	orders: 'orders',
 	shops: 'shops',
 	analytics: 'analytics',
+	manage: 'manage',
+	settings: 'settings',
+	listings: 'listings',
+	messages: 'messages',
 };
 
 export enum StorageKey {

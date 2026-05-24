@@ -35,7 +35,7 @@ export const AdminShopsPage = () => {
 
 	return (
 		<>
-			<Stack gap={3.5}>
+			<Stack gap={4}>
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
