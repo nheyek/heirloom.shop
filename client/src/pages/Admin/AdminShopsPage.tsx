@@ -1,4 +1,11 @@
-import { Button, Link, Stack, Table, Text } from '@chakra-ui/react';
+import {
+	Button,
+	Link,
+	Skeleton,
+	Stack,
+	Table,
+	Text,
+} from '@chakra-ui/react';
 import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { AppError } from '@client/components/feedback/AppError';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -10,6 +17,7 @@ import { FaPlusCircle } from 'react-icons/fa';
 export const AdminShopsPage = () => {
 	const [shops, setShops] = useState<AdminShopListItem[]>([]);
 	const [shopsError, setShopsError] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState(true);
 	const [createShopOpen, setCreateShopOpen] = useState(false);
 
 	const apiClient = useApiClient();
@@ -21,12 +29,13 @@ export const AdminShopsPage = () => {
 			} else {
 				setShops(result.data);
 			}
+			setIsLoading(false);
 		});
 	}, []);
 
 	return (
 		<>
-			<Stack gap={3}>
+			<Stack gap={3.5}>
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
@@ -71,28 +80,59 @@ export const AdminShopsPage = () => {
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
-								{shops.map((shop) => (
-									<Table.Row key={shop.id}>
-										<Table.Cell>
-											<Link>{shop.title}</Link>
-										</Table.Cell>
-										<Table.Cell>
-											{shop.createdAt
-												? new Date(
-														shop.createdAt,
-													).toLocaleDateString()
-												: '—'}
-										</Table.Cell>
-										<Table.Cell>
-											{shop.directFulfillment
-												? 'Direct'
-												: 'Heirloom'}
-										</Table.Cell>
-										<Table.Cell textAlign="right">
-											{shop.listingCount}
-										</Table.Cell>
-									</Table.Row>
-								))}
+								{isLoading
+									? Array.from({ length: 10 }).map(
+											(_, i) => (
+												<Table.Row key={i}>
+													<Table.Cell>
+														<Skeleton
+															height={4}
+														/>
+													</Table.Cell>
+													<Table.Cell>
+														<Skeleton
+															height={4}
+														/>
+													</Table.Cell>
+													<Table.Cell>
+														<Skeleton
+															height={4}
+														/>
+													</Table.Cell>
+													<Table.Cell>
+														<Skeleton
+															height={4}
+														/>
+													</Table.Cell>
+												</Table.Row>
+											),
+										)
+									: shops.map((shop) => (
+											<Table.Row key={shop.id}>
+												<Table.Cell>
+													<Link>
+														{shop.title}
+													</Link>
+												</Table.Cell>
+												<Table.Cell>
+													{shop.createdAt
+														? new Date(
+																shop.createdAt,
+															).toLocaleDateString()
+														: '—'}
+												</Table.Cell>
+												<Table.Cell>
+													{shop.directFulfillment
+														? 'Direct'
+														: 'Heirloom'}
+												</Table.Cell>
+												<Table.Cell textAlign="right">
+													{
+														shop.listingCount
+													}
+												</Table.Cell>
+											</Table.Row>
+										))}
 							</Table.Body>
 						</Table.Root>
 					</Table.ScrollArea>

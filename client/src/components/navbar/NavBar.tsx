@@ -56,7 +56,6 @@ export const Navbar = () => {
 			<Grid
 				gridTemplateAreas={{
 					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
-					sm: `". ${gridTemplateAreas.LOGO} ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
 					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
 				}}
 				templateColumns="250px 1fr 150px"
@@ -64,17 +63,10 @@ export const Navbar = () => {
 				gapX={5}
 				gapY={1}
 			>
-				<GridItem
-					area={gridTemplateAreas.LOGO}
-					justifySelf={{
-						base: 'start',
-						sm: 'center',
-						md: 'start',
-					}}
-				>
+				<GridItem area={gridTemplateAreas.LOGO}>
 					<HStack
 						gap={3}
-						alignItems="flex-end"
+						alignItems="center"
 					>
 						<Link to="/">
 							<Box
@@ -91,6 +83,7 @@ export const Navbar = () => {
 								color="white"
 								fontFamily={FONT_DISPLAY_SANS}
 								fontSize={24}
+								paddingTop={1}
 							>
 								Admin
 							</Text>
@@ -102,7 +95,7 @@ export const Navbar = () => {
 					justifySelf="center"
 					justifyContent="center"
 					w="100%"
-					maxW={550}
+					maxW={500}
 					colSpan={{ base: 3, md: 1 }}
 				>
 					<NavbarSearch />
