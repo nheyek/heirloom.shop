@@ -60,9 +60,8 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 		>
 			{/* Toolbar */}
 			<HStack
-				gap={0}
-				px={1}
-				py={1}
+				p={2}
+				gap={2}
 				borderBottomWidth={1}
 				borderColor="gray.200"
 			>
