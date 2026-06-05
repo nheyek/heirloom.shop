@@ -2,13 +2,8 @@ import { Box, HStack, IconButton } from '@chakra-ui/react';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import {
-	FaBold,
-	FaItalic,
-	FaListOl,
-	FaListUl,
-} from 'react-icons/fa';
-import { MdTitle } from 'react-icons/md';
+import { FaBold, FaListOl, FaListUl } from 'react-icons/fa';
+import { useReducer } from 'react';
 
 type Props = {
 	initialHtml?: string | null;
@@ -16,25 +11,19 @@ type Props = {
 };
 
 export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
+	const [, rerender] = useReducer(x => x + 1, 0);
+
 	const editor = useEditor({
-		extensions: [
-			StarterKit.configure({
-				heading: { levels: [1] },
-				// disable formats not in RichTextDisplay
-				blockquote: false,
-				code: false,
-				codeBlock: false,
-				horizontalRule: false,
-				strike: false,
-			}),
-		],
+		extensions: [StarterKit.configure({})],
 		content: initialHtml ?? '',
 		onUpdate: ({ editor }) => onChange(editor.getHTML()),
+		onSelectionUpdate: rerender,
+		onTransaction: rerender,
 	});
 
 	if (!editor) return null;
 
-	const btn = (
+	const MenuButton = (
 		active: boolean,
 		onClick: () => void,
 		icon: React.ReactNode,
@@ -68,37 +57,24 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 				borderBottomWidth={1}
 				borderColor="gray.200"
 			>
-				{btn(
-					editor.isActive('heading', { level: 1 }),
-					() =>
-						editor
-							.chain()
-							.focus()
-							.toggleHeading({ level: 1 })
-							.run(),
-					<MdTitle size={18} />,
-					'Heading',
-				)}
-				{btn(
+				{MenuButton(
 					editor.isActive('bold'),
 					() => editor.chain().focus().toggleBold().run(),
 					<FaBold size={13} />,
 					'Bold',
 				)}
-				{btn(
-					editor.isActive('italic'),
-					() => editor.chain().focus().toggleItalic().run(),
-					<FaItalic size={13} />,
-					'Italic',
-				)}
-				{btn(
+				{MenuButton(
 					editor.isActive('bulletList'),
 					() =>
-						editor.chain().focus().toggleBulletList().run(),
+						editor
+							.chain()
+							.focus()
+							.toggleBulletList()
+							.run(),
 					<FaListUl size={13} />,
 					'Bullet list',
 				)}
-				{btn(
+				{MenuButton(
 					editor.isActive('orderedList'),
 					() =>
 						editor
@@ -127,12 +103,6 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 						lineHeight: 'base',
 						marginBottom: 2,
 					},
-					'& .tiptap h1': {
-						fontSize: 22,
-						marginTop: 4,
-						marginBottom: 2,
-						fontWeight: 'bold',
-					},
 					'& .tiptap ul, & .tiptap ol': {
 						marginLeft: '1.5rem',
 						marginBottom: '1rem',
@@ -143,13 +113,6 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 					},
 					'& .tiptap ol': {
 						listStyleType: 'decimal',
-					},
-					'& .tiptap p.is-editor-empty:first-child::before': {
-						content: 'attr(data-placeholder)',
-						color: 'var(--chakra-colors-gray-400)',
-						pointerEvents: 'none',
-						float: 'left',
-						height: 0,
 					},
 				}}
 			>
