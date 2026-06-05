@@ -17,7 +17,15 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 	const editor = useEditor({
 		extensions: [StarterKit],
 		content: initialHtml ?? '',
-		onUpdate: ({ editor }) => onChange(editor.getHTML()),
+		onUpdate: ({ editor }) => {
+			onChange(editor.getHTML());
+			// After deleting all content (e.g. Ctrl+A + Delete), ProseMirror can
+			// leave the cursor at position 0 — outside any text block — which
+			// disables formatting commands. Snap it back inside the paragraph.
+			if (!editor.state.selection.$head.parent.isTextblock) {
+				editor.commands.focus('start');
+			}
+		},
 	});
 
 	const { isBold, isBulletList, isOrderedList } = useEditorState({
@@ -25,8 +33,7 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 		selector: (ctx) => ({
 			isBold: ctx.editor?.isActive('bold') ?? false,
 			isBulletList: ctx.editor?.isActive('bulletList') ?? false,
-			isOrderedList:
-				ctx.editor?.isActive('orderedList') ?? false,
+			isOrderedList: ctx.editor?.isActive('orderedList') ?? false,
 		}),
 	});
 
@@ -94,8 +101,6 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 					'Ordered list',
 				)}
 			</HStack>
-
-			{/* Editor area */}
 			<Box
 				css={{
 					'& .tiptap': {
