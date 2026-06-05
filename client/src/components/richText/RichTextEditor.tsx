@@ -1,9 +1,12 @@
 import { Box, HStack, IconButton } from '@chakra-ui/react';
 import { FONT_DISPLAY_SANS } from '@client/theme';
-import { EditorContent, useEditor } from '@tiptap/react';
+import {
+	EditorContent,
+	useEditor,
+	useEditorState,
+} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { FaBold, FaListOl, FaListUl } from 'react-icons/fa';
-import { useReducer } from 'react';
 
 type Props = {
 	initialHtml?: string | null;
@@ -11,14 +14,20 @@ type Props = {
 };
 
 export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
-	const [, rerender] = useReducer(x => x + 1, 0);
-
 	const editor = useEditor({
-		extensions: [StarterKit.configure({})],
+		extensions: [StarterKit],
 		content: initialHtml ?? '',
 		onUpdate: ({ editor }) => onChange(editor.getHTML()),
-		onSelectionUpdate: rerender,
-		onTransaction: rerender,
+	});
+
+	const { isBold, isBulletList, isOrderedList } = useEditorState({
+		editor,
+		selector: (ctx) => ({
+			isBold: ctx.editor?.isActive('bold') ?? false,
+			isBulletList: ctx.editor?.isActive('bulletList') ?? false,
+			isOrderedList:
+				ctx.editor?.isActive('orderedList') ?? false,
+		}),
 	});
 
 	if (!editor) return null;
@@ -58,13 +67,13 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 				borderColor="gray.200"
 			>
 				{MenuButton(
-					editor.isActive('bold'),
+					isBold,
 					() => editor.chain().focus().toggleBold().run(),
 					<FaBold size={13} />,
 					'Bold',
 				)}
 				{MenuButton(
-					editor.isActive('bulletList'),
+					isBulletList,
 					() =>
 						editor
 							.chain()
@@ -75,7 +84,7 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 					'Bullet list',
 				)}
 				{MenuButton(
-					editor.isActive('orderedList'),
+					isOrderedList,
 					() =>
 						editor
 							.chain()
@@ -91,25 +100,21 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 			<Box
 				css={{
 					'& .tiptap': {
-						outline: 'none',
-						padding: '12px 16px',
-						minHeight: '300px',
+						padding: 4,
+						minHeight: 300,
 						fontFamily: FONT_DISPLAY_SANS,
-						fontSize: '16px',
-						lineHeight: '1.6',
+						lineHeight: 1.25,
+						fontSize: 18,
 					},
 					'& .tiptap p': {
-						fontSize: 18,
-						lineHeight: 'base',
 						marginBottom: 2,
 					},
 					'& .tiptap ul, & .tiptap ol': {
-						marginLeft: '1.5rem',
-						marginBottom: '1rem',
+						marginLeft: 5,
 						listStyleType: 'disc',
 					},
 					'& .tiptap li': {
-						marginBottom: '0.5rem',
+						marginBottom: 0.5,
 					},
 					'& .tiptap ol': {
 						listStyleType: 'decimal',
