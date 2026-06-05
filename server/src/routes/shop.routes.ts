@@ -6,6 +6,7 @@ import { mapShopToApiResponseData } from '@server/mappers/shop.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as listingService from '@server/services/listing.service';
 import * as shopService from '@server/services/shop.service';
+import { DuplicateShopTitleError } from '@server/services/shop.service';
 
 const s = initServer();
 
@@ -37,6 +38,54 @@ export const shopRouter = s.router(shopsContract, {
 			status: 200 as const,
 			body: listings.map(mapListingToApiResponseData),
 		};
+	},
+	updateById: {
+		middleware: [authAndSetUser],
+		handler: async ({ params: { id }, body, req }) => {
+			const shop = await shopService.findShopByShortId(id);
+			if (!shop) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
+			}
+
+			try {
+				await shopService.authorizeShopAction(
+					shop.id,
+					req.userClaims!.email,
+				);
+			} catch {
+				return {
+					status: 403 as const,
+					body: { error: ERROR_MESSAGES.shop.forbidden },
+				};
+			}
+
+			try {
+				const updated = await shopService.updateShop(id, body);
+				if (!updated) {
+					return {
+						status: 404 as const,
+						body: { error: ERROR_MESSAGES.shop.notFound },
+					};
+				}
+				return {
+					status: 200 as const,
+					body: mapShopToApiResponseData(updated),
+				};
+			} catch (e) {
+				if (e instanceof DuplicateShopTitleError) {
+					return {
+						status: 409 as const,
+						body: {
+							error: 'A shop with this name already exists.',
+						},
+					};
+				}
+				throw e;
+			}
+		},
 	},
 	addListing: {
 		middleware: [authAndSetUser],

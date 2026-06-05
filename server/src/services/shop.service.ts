@@ -1,14 +1,19 @@
-import { AdminShopListItem, CreateShopBody } from '@heirloom/common/contract';
+import {
+	AdminShopListItem,
+	CreateShopBody,
+	UpdateShopBody,
+} from '@heirloom/common/contract';
 import { ShopRole } from '@heirloom/common/enums/ShopRole';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
-
-export class DuplicateShopTitleError extends Error {}
 import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
+import { AppUser } from '@server/entities/generated/AppUser';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { findOrCreateUser } from '@server/services/user.service';
 import { encodeShortId } from '@server/utils/hashids';
+
+export class DuplicateShopTitleError extends Error {}
 
 export const findShops = async () => {
 	const em = getEm();
@@ -20,18 +25,14 @@ export const findShopById = async (id: number) => {
 	return em.findOne(Shop, { id });
 };
 
-export const findShopByShortId = async (
-	shortId: string,
-) => {
+export const findShopByShortId = async (shortId: string) => {
 	const em = getEm();
-	return em.findOne(
-		Shop,
-		{ shortId },
-		{ populate: ['country'] },
-	);
+	return em.findOne(Shop, { shortId }, { populate: ['country'] });
 };
 
-export const findShopsForAdmin = async (): Promise<AdminShopListItem[]> => {
+export const findShopsForAdmin = async (): Promise<
+	AdminShopListItem[]
+> => {
 	const em = getEm();
 	const conn = em.getConnection();
 	return conn.execute<AdminShopListItem[]>(`
@@ -80,7 +81,9 @@ export const createShop = async (
 	}
 
 	if (body.directFulfillment && body.ownerEmail) {
-		const owner = await findOrCreateUser(body.ownerEmail.toLowerCase());
+		const owner = await findOrCreateUser(
+			body.ownerEmail.toLowerCase(),
+		);
 		const role = em.create(ShopUserRole, {
 			shop,
 			user: owner,
@@ -99,11 +102,48 @@ export const createShop = async (
 	};
 };
 
+export const updateShop = async (
+	shortId: string,
+	body: UpdateShopBody,
+): Promise<Shop | null> => {
+	const em = getEm();
+	const shop = await em.findOne(
+		Shop,
+		{ shortId },
+		{ populate: ['country'] },
+	);
+	if (!shop) return null;
+
+	const country = em.getReference(Country, body.countryCode);
+	shop.title = body.title;
+	shop.classification = body.classification;
+	shop.shopLocation = body.location;
+	shop.country = country;
+	if (body.profileImageUuid !== undefined) {
+		shop.profileImageUuid = body.profileImageUuid ?? undefined;
+	}
+
+	try {
+		await em.flush();
+	} catch (e) {
+		if (e instanceof UniqueConstraintViolationException) {
+			throw new DuplicateShopTitleError();
+		}
+		throw e;
+	}
+
+	return shop;
+};
+
 export const authorizeShopAction = async (
 	shopId: number,
 	userEmail: string,
 ) => {
 	const em = getEm();
+
+	const user = await em.findOne(AppUser, { email: userEmail });
+	if (user?.isAdmin) return;
+
 	const roleAssignment = await em.findOne(ShopUserRole, {
 		shop: { id: shopId },
 		user: { email: userEmail },

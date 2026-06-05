@@ -240,6 +240,14 @@ const ShopProfileSchema = z.object({
 	categoryId: z.string().optional(),
 });
 
+const UpdateShopBodySchema = z.object({
+	title: z.string().min(1),
+	classification: z.string().min(1),
+	location: z.string().min(1),
+	countryCode: z.string(),
+	profileImageUuid: z.string().uuid().optional().nullable(),
+});
+
 export const shopsContract = c.router({
 	getAll: {
 		method: 'GET',
@@ -253,6 +261,20 @@ export const shopsContract = c.router({
 		responses: {
 			200: ShopCardDataSchema,
 			404: ErrorSchema,
+		},
+	},
+	updateById: {
+		method: 'PATCH',
+		path: '/api/shops/:id',
+		pathParams: z.object({ id: z.string() }),
+		body: UpdateShopBodySchema,
+		responses: {
+			200: ShopCardDataSchema,
+			400: ErrorSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	getListings: {
@@ -473,3 +495,4 @@ export type SearchResultCollection = z.infer<
 >;
 export type AdminShopListItem = z.infer<typeof AdminShopListItemSchema>;
 export type CreateShopBody = z.infer<typeof CreateShopBodySchema>;
+export type UpdateShopBody = z.infer<typeof UpdateShopBodySchema>;

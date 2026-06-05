@@ -4,12 +4,11 @@ import {
 	Skeleton,
 	Stack,
 	Table,
-	Text,
 } from '@chakra-ui/react';
 import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { AppError } from '@client/components/feedback/AppError';
-import { useApiClient } from '@client/hooks/useApiClient';
 import { CLIENT_ROUTES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
@@ -41,10 +40,11 @@ export const AdminShopsPage = () => {
 				<Button
 					size="md"
 					onClick={() => setCreateShopOpen(true)}
-					width={140}
+					width={155}
+					fontSize={20}
 				>
 					<FaPlusCircle />
-					<Text fontSize={18}>Create Shop</Text>
+					Create Shop
 				</Button>
 				{shopsError ? (
 					<AppError title="Failed to load shops" />
@@ -116,7 +116,9 @@ export const AdminShopsPage = () => {
 														<RouterLink
 															to={`/${CLIENT_ROUTES.shop}/${shop.shortId}/${CLIENT_ROUTES.manage}`}
 														>
-															{shop.title}
+															{
+																shop.title
+															}
 														</RouterLink>
 													</Link>
 												</Table.Cell>

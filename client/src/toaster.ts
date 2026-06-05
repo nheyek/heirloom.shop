@@ -8,3 +8,7 @@ export const toaster = createToaster({
 export const toastError = (title: string, description?: string) => {
 	toaster.create({ type: 'error', title, description });
 };
+
+export const toastSuccess = (title: string) => {
+	toaster.create({ type: 'success', title });
+};

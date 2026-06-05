@@ -1,60 +1,25 @@
-import {
-	Button,
-	Field,
-	Fieldset,
-	FileUpload,
-	Group,
-	HStack,
-	Image,
-	Input,
-	InputProps,
-	RadioCard,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
-import { CountrySelect } from '@client/components/input/CountrySelect';
+import { Button, Group, RadioCard } from '@chakra-ui/react';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
-import { CountryCode, FulfillmentType } from '@client/constants';
+import {
+	ShopFormField,
+	ShopFormFields,
+	ShopFormInput,
+} from '@client/components/shop/ShopFormFields';
+import { FulfillmentType } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useShopForm } from '@client/hooks/useShopForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { isValidEmail } from '@client/utils/validationUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
-import { ReactNode, useRef, useState } from 'react';
-import { FaCheckCircle, FaImage } from 'react-icons/fa';
+import { useRef, useState } from 'react';
+import { FaCheckCircle } from 'react-icons/fa';
 
 type Props = {
 	isOpen: boolean;
 	onClose: () => void;
 	onSuccess: (shop: AdminShopListItem) => void;
 };
-
-const DrawerField = ({
-	label,
-	error,
-	children,
-}: {
-	label: string;
-	error: string | null;
-	children: ReactNode;
-}) => (
-	<Field.Root invalid={!!error}>
-		<Field.Label fontSize={18}>{label}</Field.Label>
-		{children}
-		{error && (
-			<Field.ErrorText fontSize={15}>{error}</Field.ErrorText>
-		)}
-	</Field.Root>
-);
-
-const DrawerInput = (props: InputProps) => (
-	<Input
-		size="xl"
-		fontSize={18}
-		padding={3}
-		{...props}
-	/>
-);
 
 const FulfillmentOption = ({
 	value,
@@ -84,17 +49,6 @@ const FulfillmentOption = ({
 	</RadioCard.Item>
 );
 
-const MAX_IMAGE_SIZE_MB = 5;
-const MAX_IMAGE_SIZE_BYTES = MAX_IMAGE_SIZE_MB * 1_000_000;
-
-const hashFile = async (file: File): Promise<string> => {
-	const buffer = await file.arrayBuffer();
-	const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-	return Array.from(new Uint8Array(hashBuffer))
-		.map((b) => b.toString(16).padStart(2, '0'))
-		.join('');
-};
-
 export const CreateShopDrawer = ({
 	isOpen,
 	onClose,
@@ -102,108 +56,54 @@ export const CreateShopDrawer = ({
 }: Props) => {
 	const apiClient = useApiClient();
 
-	const [title, setTitle] = useState<string>('');
-	const [classification, setClassification] = useState<string>('');
-	const [country, setCountry] = useState<CountryCode>(
-		CountryCode.US,
-	);
-	const [location, setLocation] = useState<string>('');
+	const {
+		title,
+		setTitle,
+		titleError,
+		setTitleError,
+		classification,
+		setClassification,
+		classificationError,
+		country,
+		setCountry,
+		location,
+		setLocation,
+		locationError,
+		imagePreviewUrl,
+		isUploadingImage,
+		handleImageSelect,
+		resolveImageUuid,
+		validateSharedFields,
+	} = useShopForm();
+
 	const [fulfillmentType, setFulfillmentType] =
 		useState<FulfillmentType>(FulfillmentType.HEIRLOOM);
 	const [ownerEmail, setOwnerEmail] = useState<string>('');
-
-	const [titleError, setTitleError] = useState<string | null>(null);
-	const [classificationError, setClassificationError] = useState<
-		string | null
-	>(null);
-	const [locationError, setLocationError] = useState<string | null>(
-		null,
-	);
 	const [ownerEmailError, setOwnerEmailError] = useState<
 		string | null
 	>(null);
-
-	const [imagePreviewUrl, setImagePreviewUrl] = useState<
-		string | null
-	>(null);
-	const [isUploadingImage, setIsUploadingImage] = useState(false);
-	const uploadCache = useRef<Map<string, string>>(new Map());
-	const selectedHashRef = useRef<string | null>(null);
 
 	const [isConfirming, setIsConfirming] = useState(false);
 
 	const titleFieldRef = useRef<HTMLDivElement>(null);
 
-	const handleImageSelect = async (file: File) => {
-		setImagePreviewUrl(URL.createObjectURL(file));
-
-		const hash = await hashFile(file);
-		selectedHashRef.current = hash;
-
-		if (uploadCache.current.has(hash)) {
-			return;
-		}
-
-		setIsUploadingImage(true);
-		const result = await callApi(
-			apiClient.admin.getShopImageUploadUrl({
-				body: { contentType: file.type },
-			}),
-		);
-		if (result.error !== null) {
-			toastError('Failed to prepare image upload.');
-			setIsUploadingImage(false);
-			return;
-		}
-
-		const { uuid, uploadUrl } = result.data;
-		const uploadRes = await fetch(uploadUrl, {
-			method: 'PUT',
-			body: file,
-			headers: { 'Content-Type': file.type },
-		});
-
-		setIsUploadingImage(false);
-
-		if (!uploadRes.ok) {
-			toastError('Failed to upload image.');
-			return;
-		}
-
-		uploadCache.current.set(hash, uuid);
-	};
-
 	const handleConfirm = () => {
-		let valid = true;
+		const sharedValid = validateSharedFields();
 
-		if (!title.trim()) {
-			setTitleError('Title is required.');
-			valid = false;
-		} else setTitleError(null);
-
-		if (!classification.trim()) {
-			setClassificationError('Classification is required.');
-			valid = false;
-		} else setClassificationError(null);
-
-		if (!location.trim()) {
-			setLocationError('Location is required.');
-			valid = false;
-		} else setLocationError(null);
-
+		let ownerValid = true;
 		if (fulfillmentType === FulfillmentType.DIRECT) {
 			if (!ownerEmail.trim()) {
 				setOwnerEmailError('Owner email is required.');
-				valid = false;
+				ownerValid = false;
 			} else if (!isValidEmail(ownerEmail)) {
 				setOwnerEmailError('Email format is invalid.');
-				valid = false;
+				ownerValid = false;
 			} else setOwnerEmailError(null);
 		} else {
 			setOwnerEmailError(null);
 		}
 
-		if (!valid) return;
+		if (!sharedValid || !ownerValid) return;
 
 		confirm();
 	};
@@ -224,11 +124,7 @@ export const CreateShopDrawer = ({
 						fulfillmentType === FulfillmentType.DIRECT
 							? ownerEmail
 							: undefined,
-					profileImageUuid: selectedHashRef.current
-						? uploadCache.current.get(
-								selectedHashRef.current,
-							)
-						: undefined,
+					profileImageUuid: resolveImageUuid(),
 				},
 			}),
 		);
@@ -272,160 +168,66 @@ export const CreateShopDrawer = ({
 			onClose={onClose}
 			footer={confirmButton}
 		>
-			<Stack gap={5}>
-				<Fieldset.Root size="lg">
-					<div ref={titleFieldRef}>
-						<DrawerField
-							label="Title"
-							error={titleError}
-						>
-							<DrawerInput
-								value={title}
-								onChange={(e) =>
-									setTitle(e.target.value)
-								}
-								disabled={isConfirming}
-							/>
-						</DrawerField>
-					</div>
-					<DrawerField
-						label="Classification"
-						error={classificationError}
-					>
-						<DrawerInput
-							value={classification}
-							onChange={(e) =>
-								setClassification(e.target.value)
-							}
-							placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
-							disabled={isConfirming}
-						/>
-					</DrawerField>
-					<DrawerField
-						label="Location"
-						error={locationError}
-					>
-						<HStack width="100%">
-							<CountrySelect
-								value={country}
-								onChange={setCountry}
-							/>
-							<DrawerInput
-								value={location}
-								onChange={(e) =>
-									setLocation(e.target.value)
-								}
-								placeholder="City or Region"
-								disabled={isConfirming}
-							/>
-						</HStack>
-					</DrawerField>
-				</Fieldset.Root>
-				<RadioCard.Root
-					value={fulfillmentType.toString()}
-					onValueChange={(e) =>
-						setFulfillmentType(e.value as FulfillmentType)
-					}
+			<ShopFormFields
+				title={title}
+				onTitleChange={setTitle}
+				titleError={titleError}
+				titleFieldRef={titleFieldRef}
+				classification={classification}
+				onClassificationChange={setClassification}
+				classificationError={classificationError}
+				country={country}
+				onCountryChange={setCountry}
+				location={location}
+				onLocationChange={setLocation}
+				locationError={locationError}
+				imagePreviewUrl={imagePreviewUrl}
+				isUploadingImage={isUploadingImage}
+				onImageSelect={handleImageSelect}
+				disabled={isConfirming}
+			/>
+			<RadioCard.Root
+				value={fulfillmentType.toString()}
+				onValueChange={(e) =>
+					setFulfillmentType(e.value as FulfillmentType)
+				}
+				mt={5}
+			>
+				<RadioCard.Label fontSize={18}>
+					Fulfillment
+				</RadioCard.Label>
+				<Group
+					attached
+					orientation="vertical"
 				>
-					<RadioCard.Label fontSize={18}>
-						Fulfillment
-					</RadioCard.Label>
-					<Group
-						attached
-						orientation="vertical"
-					>
-						<FulfillmentOption
-							value={FulfillmentType.HEIRLOOM}
-							label="Heirloom"
-							description="Fulfillment and support provided by Heirloom. Inventory purchased from the shop on a wholesale basis."
-						/>
-						<FulfillmentOption
-							value={FulfillmentType.DIRECT}
-							label="Direct"
-							description="Fulfillment and support provided by shop. A comission is collected on each sale."
-						/>
-					</Group>
-				</RadioCard.Root>
-				{fulfillmentType === FulfillmentType.DIRECT && (
-					<Fieldset.Root size="lg">
-						<DrawerField
-							label="Owner"
-							error={ownerEmailError}
-						>
-							<DrawerInput
-								type="email"
-								value={ownerEmail}
-								onChange={(e) =>
-									setOwnerEmail(e.target.value)
-								}
-								placeholder="owner@example.com"
-								disabled={isConfirming}
-							/>
-						</DrawerField>
-					</Fieldset.Root>
-				)}
-				<FileUpload.Root
-					accept="image/*"
-					maxFiles={1}
-					maxFileSize={MAX_IMAGE_SIZE_BYTES}
-					onFileChange={(details) => {
-						const file = details.acceptedFiles[0];
-						if (file) handleImageSelect(file);
-					}}
-					onFileReject={(details) => {
-						const isTooLarge = details.files.some((f) =>
-							f.errors.includes('FILE_TOO_LARGE'),
-						);
-						if (isTooLarge) {
-							toastError(
-								`Image must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`,
-							);
+					<FulfillmentOption
+						value={FulfillmentType.HEIRLOOM}
+						label="Heirloom"
+						description="Fulfillment and support provided by Heirloom. Inventory purchased from the shop on a wholesale basis."
+					/>
+					<FulfillmentOption
+						value={FulfillmentType.DIRECT}
+						label="Direct"
+						description="Fulfillment and support provided by shop. A comission is collected on each sale."
+					/>
+				</Group>
+			</RadioCard.Root>
+			{fulfillmentType === FulfillmentType.DIRECT && (
+				<ShopFormField
+					label="Owner"
+					error={ownerEmailError}
+				>
+					<ShopFormInput
+						type="email"
+						value={ownerEmail}
+						onChange={(e) =>
+							setOwnerEmail(e.target.value)
 						}
-					}}
-				>
-					<FileUpload.HiddenInput />
-					<FileUpload.Trigger asChild>
-						<Stack
-							gap={0}
-							cursor="pointer"
-							borderRadius="md"
-							overflow="hidden"
-							borderWidth={imagePreviewUrl ? 0 : 1}
-							borderStyle="dashed"
-							borderColor="gray.300"
-							alignItems="center"
-							justifyContent="center"
-							height={160}
-							width="100%"
-							position="relative"
-							_hover={{ borderColor: 'gray.400' }}
-						>
-							{imagePreviewUrl ? (
-								<Image
-									src={imagePreviewUrl}
-									width="100%"
-									height="100%"
-									objectFit="cover"
-									opacity={
-										isUploadingImage ? 0.5 : 1
-									}
-								/>
-							) : (
-								<Stack
-									alignItems="center"
-									gap={2}
-									color="gray.500"
-								>
-									<FaImage size={26} />
-									<Text fontSize={18}>
-										Upload banner image
-									</Text>
-								</Stack>
-							)}
-						</Stack>
-					</FileUpload.Trigger>
-				</FileUpload.Root>
-			</Stack>
+						placeholder="owner@example.com"
+						disabled={isConfirming}
+					/>
+				</ShopFormField>
+			)}
 		</AppDrawer>
 	);
 };
