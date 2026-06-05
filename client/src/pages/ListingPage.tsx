@@ -22,8 +22,8 @@ import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { IconText } from '@client/components/textDisplay/IconText';
-import { RichText } from '@client/components/textDisplay/RichText';
 import {
 	CLIENT_ROUTES,
 	CountryCode,
@@ -247,7 +247,7 @@ export const ListingPage = () => {
 								pt={0}
 								pb={2}
 							>
-								<RichText
+								<RichTextDisplay
 									htmlString={item.richText}
 								/>
 							</Accordion.ItemBody>
