@@ -38,7 +38,7 @@ export default (env, argv) => {
 		devtool: isProd
 			? 'source-map'
 			: 'eval-cheap-module-source-map',
-		devServer: {
+		devServer: isProd ? undefined : {
 			static: path.resolve(__dirname, 'public'),
 			historyApiFallback: true,
 			port: 8080,
