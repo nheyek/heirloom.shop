@@ -11,4 +11,5 @@ export const mapShopToApiResponseData = (
 	classification: shop.classification,
 	profileImageUuid: shop.profileImageUuid,
 	countryCode: shop.country?.code || null,
+	profileRichText: shop.profileRichText,
 });

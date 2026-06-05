@@ -1,20 +1,28 @@
-import { Button, Skeleton, Stack } from '@chakra-ui/react';
+import { Button, Skeleton, Stack, Wrap, WrapItem } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
+import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ShopFormFields } from '@client/components/shop/ShopFormFields';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShopForm } from '@client/hooks/useShopForm';
 import { toastError, toastSuccess } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { ShopCardData } from '@heirloom/common/contract';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 	const apiClient = useApiClient();
 	const [isSaving, setIsSaving] = useState(false);
+	const [richText, setRichText] = useState(
+		shopData.profileRichText ?? '',
+	);
 
 	const form = useShopForm({ initialData: shopData });
+
+	const handleRichTextChange = useCallback((html: string) => {
+		setRichText(html);
+	}, []);
 
 	const handleSave = async () => {
 		if (!form.validateSharedFields()) return;
@@ -29,6 +37,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 					location: form.location,
 					countryCode: form.country,
 					profileImageUuid: form.resolveImageUuid() ?? null,
+					profileRichText: richText || null,
 				},
 			}),
 		);
@@ -50,27 +59,45 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 	};
 
 	return (
-		<Stack
-			gap={5}
-			maxWidth={500}
-		>
-			<ShopFormFields
-				title={form.title}
-				onTitleChange={form.setTitle}
-				titleError={form.titleError}
-				classification={form.classification}
-				onClassificationChange={form.setClassification}
-				classificationError={form.classificationError}
-				country={form.country}
-				onCountryChange={form.setCountry}
-				location={form.location}
-				onLocationChange={form.setLocation}
-				locationError={form.locationError}
-				imagePreviewUrl={form.imagePreviewUrl}
-				isUploadingImage={form.isUploadingImage}
-				onImageSelect={form.handleImageSelect}
-				disabled={isSaving}
-			/>
+		<Stack gap={5}>
+			<Wrap
+				gap={6}
+				align="flex-start"
+			>
+				<WrapItem
+					flex="1"
+					minW="300px"
+					width="100%"
+				>
+					<ShopFormFields
+						title={form.title}
+						onTitleChange={form.setTitle}
+						titleError={form.titleError}
+						classification={form.classification}
+						onClassificationChange={form.setClassification}
+						classificationError={form.classificationError}
+						country={form.country}
+						onCountryChange={form.setCountry}
+						location={form.location}
+						onLocationChange={form.setLocation}
+						locationError={form.locationError}
+						imagePreviewUrl={form.imagePreviewUrl}
+						isUploadingImage={form.isUploadingImage}
+						onImageSelect={form.handleImageSelect}
+						disabled={isSaving}
+					/>
+				</WrapItem>
+				<WrapItem
+					flex="1"
+					minW="300px"
+					width="100%"
+				>
+					<RichTextEditor
+						initialHtml={shopData.profileRichText}
+						onChange={handleRichTextChange}
+					/>
+				</WrapItem>
+			</Wrap>
 			<Button
 				size="lg"
 				width={175}

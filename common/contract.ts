@@ -232,6 +232,7 @@ const ShopCardDataSchema = z.object({
 	classification: z.string().nullish(),
 	profileImageUuid: z.string().nullish(),
 	countryCode: z.string().nullable(),
+	profileRichText: z.string().nullish(),
 });
 
 const ShopProfileSchema = z.object({
@@ -246,6 +247,7 @@ const UpdateShopBodySchema = z.object({
 	location: z.string().min(1),
 	countryCode: z.string(),
 	profileImageUuid: z.string().uuid().optional().nullable(),
+	profileRichText: z.string().optional().nullable(),
 });
 
 export const shopsContract = c.router({

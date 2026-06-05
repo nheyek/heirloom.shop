@@ -122,6 +122,9 @@ export const updateShop = async (
 	if (body.profileImageUuid !== undefined) {
 		shop.profileImageUuid = body.profileImageUuid ?? undefined;
 	}
+	if (body.profileRichText !== undefined) {
+		shop.profileRichText = body.profileRichText ?? undefined;
+	}
 
 	try {
 		await em.flush();
