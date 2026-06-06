@@ -1,4 +1,11 @@
-import { Button, Skeleton, Stack, Wrap, WrapItem } from '@chakra-ui/react';
+import {
+	Button,
+	Field,
+	Skeleton,
+	Stack,
+	Wrap,
+	WrapItem,
+} from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ShopFormFields } from '@client/components/shop/ShopFormFields';
@@ -64,17 +71,15 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 				gap={6}
 				align="flex-start"
 			>
-				<WrapItem
-					flex="1"
-					minW="300px"
-					width="100%"
-				>
+				<WrapItem minW={300}>
 					<ShopFormFields
 						title={form.title}
 						onTitleChange={form.setTitle}
 						titleError={form.titleError}
 						classification={form.classification}
-						onClassificationChange={form.setClassification}
+						onClassificationChange={
+							form.setClassification
+						}
 						classificationError={form.classificationError}
 						country={form.country}
 						onCountryChange={form.setCountry}
@@ -88,14 +93,21 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 					/>
 				</WrapItem>
 				<WrapItem
-					flex="1"
-					minW="300px"
-					width="100%"
+					minW={300}
+					flex={1}
 				>
-					<RichTextEditor
-						initialHtml={shopData.profileRichText}
-						onChange={handleRichTextChange}
-					/>
+					<Field.Root width="100%">
+						<Field.Label
+							fontSize={18}
+							fontWeight={500}
+						>
+							About
+						</Field.Label>
+						<RichTextEditor
+							initialHtml={shopData.profileRichText}
+							onChange={handleRichTextChange}
+						/>
+					</Field.Root>
 				</WrapItem>
 			</Wrap>
 			<Button
