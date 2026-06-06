@@ -5,8 +5,9 @@ import {
 	useEditor,
 	useEditorState,
 } from '@tiptap/react';
+import Underline from '@tiptap/extension-underline';
 import StarterKit from '@tiptap/starter-kit';
-import { FaBold, FaListOl, FaListUl } from 'react-icons/fa';
+import { FaBold, FaItalic, FaListOl, FaListUl, FaUnderline } from 'react-icons/fa';
 
 type Props = {
 	initialHtml?: string | null;
@@ -15,7 +16,7 @@ type Props = {
 
 export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 	const editor = useEditor({
-		extensions: [StarterKit],
+		extensions: [StarterKit, Underline],
 		content: initialHtml ?? '',
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
@@ -28,10 +29,12 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 		},
 	});
 
-	const { isBold, isBulletList, isOrderedList } = useEditorState({
+	const { isBold, isItalic, isUnderline, isBulletList, isOrderedList } = useEditorState({
 		editor,
 		selector: (ctx) => ({
 			isBold: ctx.editor?.isActive('bold') ?? false,
+			isItalic: ctx.editor?.isActive('italic') ?? false,
+			isUnderline: ctx.editor?.isActive('underline') ?? false,
 			isBulletList: ctx.editor?.isActive('bulletList') ?? false,
 			isOrderedList: ctx.editor?.isActive('orderedList') ?? false,
 		}),
@@ -79,6 +82,18 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 					'Bold',
 				)}
 				{MenuButton(
+					isItalic,
+					() => editor.chain().focus().toggleItalic().run(),
+					<FaItalic size={13} />,
+					'Italic',
+				)}
+				{MenuButton(
+					isUnderline,
+					() => editor.chain().focus().toggleUnderline().run(),
+					<FaUnderline size={13} />,
+					'Underline',
+				)}
+				{MenuButton(
 					isBulletList,
 					() =>
 						editor
@@ -122,6 +137,12 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 					},
 					'& .tiptap ol': {
 						listStyleType: 'decimal',
+					},
+					'& .tiptap em': {
+						fontStyle: 'italic',
+					},
+					'& .tiptap u': {
+						textDecoration: 'underline',
 					},
 				}}
 			>

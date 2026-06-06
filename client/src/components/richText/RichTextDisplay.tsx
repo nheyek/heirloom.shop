@@ -28,6 +28,12 @@ export const RichTextDisplay = (props: Props) => {
 				'& li': {
 					marginBottom: '0.5rem',
 				},
+				'& em': {
+					fontStyle: 'italic',
+				},
+				'& u': {
+					textDecoration: 'underline',
+				},
 			}}
 			dangerouslySetInnerHTML={{
 				__html: props.htmlString,
