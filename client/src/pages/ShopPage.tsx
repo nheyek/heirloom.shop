@@ -1,7 +1,8 @@
 import {
 	AspectRatio,
 	Box,
-	Heading,
+	Button,
+	HStack,
 	Skeleton,
 	Stack,
 	Text,
@@ -20,7 +21,16 @@ import {
 } from '@heirloom/common/contract';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { IconType } from 'react-icons';
+import { FaHeart, FaInfoCircle } from 'react-icons/fa';
+import { IoChatbox } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
+
+const titleFontSize = {
+	base: 44,
+	md: 54,
+	lg: 64,
+};
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -120,67 +130,92 @@ export const ShopPage = () => {
 							/>
 						</Box>
 						<Stack
-							gap={{ base: 1, md: 3, lg: 4 }}
 							position="absolute"
 							bottom={[3, 5, 7]}
 							left={[4, 6, 8, 10]}
-							fontFamily={FONT_DECORATIVE}
-							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
-							color="#FFF"
+							gap={5}
+							alignItems="flex-start"
 						>
-							<Stack gap={{ base: 1, md: 4, lg: 6 }}>
-								<Heading
-									fontSize={{
-										base: '36px',
-										md: '48px',
-										lg: '64px',
-									}}
-									fontWeight="700"
+							{/* Text block */}
+							<Stack
+								gap={0}
+								fontFamily={FONT_DECORATIVE}
+								textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
+								color="#FFF"
+							>
+								<Text
+									display="block"
+									fontSize={titleFontSize}
+									fontWeight={700}
 									fontFamily={FONT_DECORATIVE}
+									lineHeight={1}
 								>
 									{shopData?.title}
-								</Heading>
-								<Heading
-									fontSize={{
-										base: '24px',
-										md: '32px',
-										lg: '36px',
-									}}
+								</Text>
+								<Text
+									display="block"
+									fontSize={Object.entries(
+										titleFontSize,
+									).reduce(
+										(acc, [key, value]) => ({
+											...acc,
+											[key]: (value * 2) / 3,
+										}),
+										{},
+									)}
 									fontWeight="600"
 								>
 									{shopData?.classification}
-								</Heading>
+								</Text>
+								<Box
+									display="flex"
+									alignItems="center"
+									gap={{ base: 2, lg: 3 }}
+								>
+									<Box width={[5, 6, 7, 8]}>
+										<CountryFlagIcon
+											countryCode={
+												shopData?.countryCode as CountryCode | null
+											}
+											svgProps={{
+												style: {
+													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+												},
+											}}
+										/>
+									</Box>
+									<Text
+										fontWeight={500}
+										fontSize={Object.entries(
+											titleFontSize,
+										).reduce(
+											(acc, [key, value]) => ({
+												...acc,
+												[key]: value / 2,
+											}),
+											{},
+										)}
+									>
+										{shopData?.location}
+									</Text>
+								</Box>
 							</Stack>
 
-							<Box
-								display="flex"
-								alignItems="center"
-								gap={{ base: 2, lg: 3 }}
-								fontWeight="600"
-							>
-								<Box width={[5, 6, 7, 8]}>
-									<CountryFlagIcon
-										countryCode={
-											shopData?.countryCode as CountryCode | null
-										}
-										svgProps={{
-											style: {
-												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-											},
-										}}
-									/>
-								</Box>
+							<HStack gap={2}>
+								<ActionButton
+									icon={FaInfoCircle}
+									label="About"
+								/>
 
-								<Text
-									fontSize={{
-										base: '20px',
-										md: '28px',
-										lg: '32px',
-									}}
-								>
-									{shopData?.location}
-								</Text>
-							</Box>
+								<ActionButton
+									icon={IoChatbox}
+									label="Message"
+								/>
+								<ActionButton
+									icon={FaHeart}
+									label="Favorite"
+								/>
+							</HStack>
 						</Stack>
 					</Box>
 				</motion.div>
@@ -205,3 +240,14 @@ export const ShopPage = () => {
 		</>
 	);
 };
+
+const ActionButton = (props: { icon: IconType; label: String }) => (
+	<Button
+		size={{ base: 'md', md: 'lg' }}
+		variant="subtle"
+		fontSize={18}
+	>
+		<props.icon />
+		{props.label}
+	</Button>
+);
