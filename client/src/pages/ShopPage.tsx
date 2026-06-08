@@ -235,7 +235,8 @@ export const ShopPage = () => {
 			<Dialog.Root
 				open={aboutOpen}
 				onOpenChange={(e) => setAboutOpen(e.open)}
-				size="lg"
+				scrollBehavior="inside"
+				size={{ base: 'full', md: 'lg' }}
 			>
 				<Portal>
 					<Dialog.Backdrop />
@@ -260,11 +261,7 @@ export const ShopPage = () => {
 									</IconButton>
 								</Dialog.CloseTrigger>
 							</Dialog.Header>
-							<Dialog.Body
-								pb={6}
-								overflowY="auto"
-								maxH="75vh"
-							>
+							<Dialog.Body>
 								{shopData?.profileRichText && (
 									<RichTextDisplay
 										htmlString={
