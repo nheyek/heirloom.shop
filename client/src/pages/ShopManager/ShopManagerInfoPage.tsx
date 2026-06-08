@@ -71,7 +71,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 				gap={6}
 				align="stretch"
 			>
-				<WrapItem minW={350}>
+				<WrapItem w={350}>
 					<ShopFormFields
 						title={form.title}
 						onTitleChange={form.setTitle}

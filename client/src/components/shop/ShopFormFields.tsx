@@ -165,6 +165,7 @@ export const ShopFormFields = ({
 				<Flex
 					cursor="pointer"
 					borderRadius="md"
+					overflow="hidden"
 					borderWidth={imagePreviewUrl ? 0 : 1}
 					borderStyle="dashed"
 					borderColor="gray.300"
