@@ -90,7 +90,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 								{shoppingCart.items
 									.sort(
 										(itemA, itemB) =>
-											itemB.addedAt - itemA.addedAt,
+											itemB.addedAt -
+											itemA.addedAt,
 									)
 									.map((item) => (
 										<ShoppingCartCard
@@ -110,6 +111,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							p={4}
 							gap={4}
 							background="brand"
+							mt={0.5}
 						>
 							<ShoppingCartSummary
 								pendingMessage="Calculated at checkout"
@@ -133,7 +135,9 @@ export const ShoppingCartDrawer = (props: Props) => {
 										<Text
 											fontSize={26}
 											fontWeight={600}
-											fontFamily={FONT_DECORATIVE}
+											fontFamily={
+												FONT_DECORATIVE
+											}
 											paddingBottom={1}
 										>
 											{formatCentsAsDollars(
