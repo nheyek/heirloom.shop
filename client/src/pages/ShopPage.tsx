@@ -27,7 +27,8 @@ import {
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FaHeart, FaInfoCircle } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
+import { FaShop } from 'react-icons/fa6';
 import { IoChatbox } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
@@ -211,7 +212,7 @@ export const ShopPage = () => {
 							<HStack gap={2}>
 								{shopData?.profileRichText && (
 									<ActionButton
-										icon={FaInfoCircle}
+										icon={FaShop}
 										label="About"
 										onClick={() =>
 											setAboutOpen(true)

@@ -2,6 +2,7 @@ import {
 	Field,
 	Fieldset,
 	FileUpload,
+	Flex,
 	HStack,
 	Image,
 	Input,
@@ -84,7 +85,10 @@ export const ShopFormFields = ({
 	onImageSelect,
 	disabled,
 }: ShopFormFieldsProps) => (
-	<Stack gap={3}>
+	<Stack
+		gap={3}
+		width="100%"
+	>
 		<Fieldset.Root size="lg">
 			<div ref={titleFieldRef}>
 				<ShopFormField
@@ -158,18 +162,16 @@ export const ShopFormFields = ({
 			</FileUpload.Label>
 			<FileUpload.HiddenInput />
 			<FileUpload.Trigger asChild>
-				<Stack
-					gap={0}
+				<Flex
 					cursor="pointer"
 					borderRadius="md"
-					overflow="hidden"
 					borderWidth={imagePreviewUrl ? 0 : 1}
 					borderStyle="dashed"
 					borderColor="gray.300"
 					alignItems="center"
 					justifyContent="center"
-					height={180}
 					width="100%"
+					aspectRatio={5 / 2}
 					position="relative"
 					_hover={{ borderColor: 'gray.400' }}
 				>
@@ -193,7 +195,7 @@ export const ShopFormFields = ({
 							</Text>
 						</Stack>
 					)}
-				</Stack>
+				</Flex>
 			</FileUpload.Trigger>
 		</FileUpload.Root>
 	</Stack>

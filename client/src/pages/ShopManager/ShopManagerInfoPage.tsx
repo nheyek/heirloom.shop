@@ -69,9 +69,9 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 		<Stack gap={5}>
 			<Wrap
 				gap={6}
-				align="flex-start"
+				align="stretch"
 			>
-				<WrapItem minW={300}>
+				<WrapItem minW={350}>
 					<ShopFormFields
 						title={form.title}
 						onTitleChange={form.setTitle}
@@ -93,10 +93,13 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 					/>
 				</WrapItem>
 				<WrapItem
-					minW={300}
+					minW={350}
 					flex={1}
 				>
-					<Field.Root width="100%">
+					<Field.Root
+						width="100%"
+						height="100%"
+					>
 						<Field.Label
 							fontSize={18}
 							fontWeight={500}
