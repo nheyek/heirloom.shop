@@ -2,7 +2,11 @@ import {
 	AspectRatio,
 	Box,
 	Button,
+	Dialog,
 	HStack,
+	Icon,
+	IconButton,
+	Portal,
 	Skeleton,
 	Stack,
 	Text,
@@ -11,6 +15,7 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { FONT_DECORATIVE } from '@client/theme';
@@ -24,6 +29,7 @@ import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FaHeart, FaInfoCircle } from 'react-icons/fa';
 import { IoChatbox } from 'react-icons/io5';
+import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
@@ -34,6 +40,7 @@ const titleFontSize = {
 
 export const ShopPage = () => {
 	const { id } = useParams<{ id: string }>();
+	const [aboutOpen, setAboutOpen] = useState(false);
 
 	const apiClient = useApiClient();
 
@@ -202,24 +209,74 @@ export const ShopPage = () => {
 							</Stack>
 
 							<HStack gap={2}>
-								<ActionButton
-									icon={FaInfoCircle}
-									label="About"
-								/>
-
-								<ActionButton
-									icon={IoChatbox}
-									label="Message"
-								/>
+								{shopData?.profileRichText && (
+									<ActionButton
+										icon={FaInfoCircle}
+										label="About"
+										onClick={() =>
+											setAboutOpen(true)
+										}
+									/>
+								)}
 								<ActionButton
 									icon={FaHeart}
 									label="Favorite"
+								/>
+								<ActionButton
+									icon={IoChatbox}
+									label="Message"
 								/>
 							</HStack>
 						</Stack>
 					</Box>
 				</motion.div>
 			)}
+
+			<Dialog.Root
+				open={aboutOpen}
+				onOpenChange={(e) => setAboutOpen(e.open)}
+				size="lg"
+			>
+				<Portal>
+					<Dialog.Backdrop />
+					<Dialog.Positioner>
+						<Dialog.Content>
+							<Dialog.Header>
+								<Dialog.Title>
+									About {shopData?.title}
+								</Dialog.Title>
+								<Dialog.CloseTrigger asChild>
+									<IconButton
+										variant="ghost"
+										w={10}
+										h={10}
+									>
+										<Icon
+											h={6}
+											w={6}
+										>
+											<MdClose />
+										</Icon>
+									</IconButton>
+								</Dialog.CloseTrigger>
+							</Dialog.Header>
+							<Dialog.Body
+								pb={6}
+								overflowY="auto"
+								maxH="75vh"
+							>
+								{shopData?.profileRichText && (
+									<RichTextDisplay
+										htmlString={
+											shopData.profileRichText
+										}
+									/>
+								)}
+							</Dialog.Body>
+						</Dialog.Content>
+					</Dialog.Positioner>
+				</Portal>
+			</Dialog.Root>
 
 			{listingsError ? (
 				<AppError
@@ -241,11 +298,16 @@ export const ShopPage = () => {
 	);
 };
 
-const ActionButton = (props: { icon: IconType; label: String }) => (
+const ActionButton = (props: {
+	icon: IconType;
+	label: String;
+	onClick?: () => void;
+}) => (
 	<Button
 		size={{ base: 'md', md: 'lg' }}
 		variant="subtle"
-		fontSize={18}
+		fontSize={{ base: 18, md: 20 }}
+		onClick={props.onClick}
 	>
 		<props.icon />
 		{props.label}
