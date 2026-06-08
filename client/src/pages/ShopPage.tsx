@@ -243,8 +243,8 @@ export const ShopPage = () => {
 					<Dialog.Positioner>
 						<Dialog.Content>
 							<Dialog.Header>
-								<Dialog.Title>
-									About {shopData?.title}
+								<Dialog.Title fontSize={20}>
+									{shopData?.title}
 								</Dialog.Title>
 								<Dialog.CloseTrigger asChild>
 									<IconButton
