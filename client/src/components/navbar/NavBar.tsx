@@ -7,6 +7,7 @@ import {
 	HStack,
 	IconButton,
 	Text,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { LoginButton } from '@client/components/navbar/LoginButton';
@@ -45,6 +46,8 @@ export const Navbar = () => {
 
 	const shoppingCart = useShoppingCart();
 
+	const isMobile = useBreakpointValue({ base: true, md: false });
+
 	return (
 		<Box
 			bg="brand"
@@ -61,7 +64,10 @@ export const Navbar = () => {
 					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
 					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
 				}}
-				templateColumns="250px 1fr 150px"
+				templateColumns={{
+					base: '150px 1fr 150px',
+					md: '250px 1fr 150px',
+				}}
 				alignItems="center"
 				gapX={5}
 				gapY={1}
@@ -81,16 +87,19 @@ export const Navbar = () => {
 								<Logo />
 							</Box>
 						</Link>
-						{(isAdminPage || isShopManagerPage) && (
-							<Text
-								color="white"
-								fontFamily={FONT_DISPLAY_SANS}
-								fontSize={24}
-								paddingTop={1}
-							>
-								{isShopManagerPage ? 'Manager' : 'Admin'}
-							</Text>
-						)}
+						{(isAdminPage || isShopManagerPage) &&
+							!isMobile && (
+								<Text
+									color="white"
+									fontFamily={FONT_DISPLAY_SANS}
+									fontSize={24}
+									paddingTop={1}
+								>
+									{isShopManagerPage
+										? 'Manager'
+										: 'Admin'}
+								</Text>
+							)}
 					</HStack>
 				</GridItem>
 				<GridItem
@@ -107,7 +116,7 @@ export const Navbar = () => {
 					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
 				>
-					<HStack gap={2}>
+					<HStack gap={1}>
 						{user?.isAdmin && (
 							<Link
 								to={[
