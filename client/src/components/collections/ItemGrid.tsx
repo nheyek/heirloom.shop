@@ -37,9 +37,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	} = props;
 
 	const maxNumColumns = useBreakpointValue(columns) ?? 1;
-	const numColumns = isLoading
-		? maxNumColumns
-		: Math.min(maxNumColumns, items.length);
+	const numColumns = maxNumColumns;
 	const numSkeletons = numPlaceholders ?? numColumns;
 
 	const minItemWidth = 275;
