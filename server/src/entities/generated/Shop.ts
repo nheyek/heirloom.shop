@@ -5,6 +5,7 @@ import { Listing } from './Listing.js';
 import { ShippingOrigin } from './ShippingOrigin.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { ShopUserRole } from './ShopUserRole.js';
+import { UserFavoriteShop } from './UserFavoriteShop.js';
 
 @Entity()
 export class Shop {
@@ -53,5 +54,8 @@ export class Shop {
 
   @OneToMany({ entity: () => ShopUserRole, mappedBy: 'shop' })
   shopUserRoleCollection = new Collection<ShopUserRole>(this);
+
+  @OneToMany({ entity: () => UserFavoriteShop, mappedBy: 'shop' })
+  userFavoriteShopCollection = new Collection<UserFavoriteShop>(this);
 
 }

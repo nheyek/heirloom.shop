@@ -67,10 +67,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 
 	return (
 		<Stack gap={5}>
-			<Wrap
-				gap={6}
-				align="stretch"
-			>
+			<Wrap gap={6}>
 				<WrapItem w={350}>
 					<ShopFormFields
 						title={form.title}
@@ -95,6 +92,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 				<WrapItem
 					minW={350}
 					flex={1}
+					alignSelf="stretch"
 				>
 					<Field.Root
 						width="100%"

@@ -3,6 +3,7 @@ import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/e
 import { AppOrder } from './AppOrder.js';
 import { ShopUserRole } from './ShopUserRole.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
+import { UserFavoriteShop } from './UserFavoriteShop.js';
 
 @Entity()
 export class AppUser {
@@ -33,5 +34,8 @@ export class AppUser {
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'user' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
+
+  @OneToMany({ entity: () => UserFavoriteShop, mappedBy: 'user' })
+  userFavoriteShopCollection = new Collection<UserFavoriteShop>(this);
 
 }

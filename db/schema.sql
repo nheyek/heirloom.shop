@@ -505,6 +505,38 @@ CREATE TABLE public.user_favorite_listing (
 
 
 --
+-- Name: user_favorite_shop; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_favorite_shop (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    shop_id integer NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: user_favorite_shop_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_favorite_shop_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_favorite_shop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_favorite_shop_id_seq OWNED BY public.user_favorite_shop.id;
+
+
+--
 -- Name: user_saved_listing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -613,6 +645,13 @@ ALTER TABLE ONLY public.shop_user_role ALTER COLUMN id SET DEFAULT nextval('publ
 --
 
 ALTER TABLE ONLY public.user_favorite_listing ALTER COLUMN id SET DEFAULT nextval('public.user_saved_listing_id_seq'::regclass);
+
+
+--
+-- Name: user_favorite_shop id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_shop ALTER COLUMN id SET DEFAULT nextval('public.user_favorite_shop_id_seq'::regclass);
 
 
 --
@@ -824,6 +863,22 @@ ALTER TABLE ONLY public.user_favorite_listing
 
 
 --
+-- Name: user_favorite_shop user_favorite_shop_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_shop
+    ADD CONSTRAINT user_favorite_shop_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_favorite_shop user_favorite_shop_user_id_shop_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_shop
+    ADD CONSTRAINT user_favorite_shop_user_id_shop_id_key UNIQUE (user_id, shop_id);
+
+
+--
 -- Name: user_favorite_listing user_saved_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -857,6 +912,13 @@ CREATE INDEX idx_user_favorite_listing_listing_id ON public.user_favorite_listin
 --
 
 CREATE INDEX idx_user_favorite_listing_user_id ON public.user_favorite_listing USING btree (user_id);
+
+
+--
+-- Name: user_favorite_shop_user_id_idx; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX user_favorite_shop_user_id_idx ON public.user_favorite_shop USING btree (user_id);
 
 
 --
@@ -988,6 +1050,22 @@ ALTER TABLE ONLY public.shop_user_role
 
 
 --
+-- Name: user_favorite_shop user_favorite_shop_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_shop
+    ADD CONSTRAINT user_favorite_shop_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_favorite_shop user_favorite_shop_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_favorite_shop
+    ADD CONSTRAINT user_favorite_shop_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.app_user(id) ON DELETE CASCADE;
+
+
+--
 -- Name: user_favorite_listing user_saved_listing_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1021,4 +1099,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260513000000'),
     ('20260523000000'),
     ('20260523000001'),
-    ('20260523000002');
+    ('20260523000002'),
+    ('20260608000000');
