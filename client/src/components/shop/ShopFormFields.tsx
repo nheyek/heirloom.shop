@@ -85,10 +85,7 @@ export const ShopFormFields = ({
 	onImageSelect,
 	disabled,
 }: ShopFormFieldsProps) => (
-	<Stack
-		gap={3}
-		width="100%"
-	>
+	<>
 		<Fieldset.Root size="lg">
 			<div ref={titleFieldRef}>
 				<ShopFormField
@@ -163,16 +160,16 @@ export const ShopFormFields = ({
 			<FileUpload.HiddenInput />
 			<FileUpload.Trigger asChild>
 				<Flex
+					alignItems="center"
+					justifyContent="center"
+					width="100%"
+					minHeight={175}
 					cursor="pointer"
 					borderRadius="md"
 					overflow="hidden"
 					borderWidth={imagePreviewUrl ? 0 : 1}
 					borderStyle="dashed"
 					borderColor="gray.300"
-					alignItems="center"
-					justifyContent="center"
-					width="100%"
-					aspectRatio={5 / 2}
 					position="relative"
 					_hover={{ borderColor: 'gray.400' }}
 				>
@@ -180,7 +177,7 @@ export const ShopFormFields = ({
 						<Image
 							src={imagePreviewUrl}
 							width="100%"
-							height="100%"
+							aspectRatio={5 / 2}
 							objectFit="cover"
 							opacity={isUploadingImage ? 0.5 : 1}
 						/>
@@ -199,5 +196,5 @@ export const ShopFormFields = ({
 				</Flex>
 			</FileUpload.Trigger>
 		</FileUpload.Root>
-	</Stack>
+	</>
 );

@@ -1,4 +1,4 @@
-import { Button, Group, RadioCard } from '@chakra-ui/react';
+import { Button, Group, RadioCard, Stack } from '@chakra-ui/react';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
 import {
 	ShopFormField,
@@ -168,24 +168,27 @@ export const CreateShopDrawer = ({
 			onClose={onClose}
 			footer={confirmButton}
 		>
-			<ShopFormFields
-				title={title}
-				onTitleChange={setTitle}
-				titleError={titleError}
-				titleFieldRef={titleFieldRef}
-				classification={classification}
-				onClassificationChange={setClassification}
-				classificationError={classificationError}
-				country={country}
-				onCountryChange={setCountry}
-				location={location}
-				onLocationChange={setLocation}
-				locationError={locationError}
-				imagePreviewUrl={imagePreviewUrl}
-				isUploadingImage={isUploadingImage}
-				onImageSelect={handleImageSelect}
-				disabled={isConfirming}
-			/>
+			<Stack gap={3}>
+				<ShopFormFields
+					title={title}
+					onTitleChange={setTitle}
+					titleError={titleError}
+					titleFieldRef={titleFieldRef}
+					classification={classification}
+					onClassificationChange={setClassification}
+					classificationError={classificationError}
+					country={country}
+					onCountryChange={setCountry}
+					location={location}
+					onLocationChange={setLocation}
+					locationError={locationError}
+					imagePreviewUrl={imagePreviewUrl}
+					isUploadingImage={isUploadingImage}
+					onImageSelect={handleImageSelect}
+					disabled={isConfirming}
+				/>
+			</Stack>
+
 			<RadioCard.Root
 				value={fulfillmentType.toString()}
 				onValueChange={(e) =>

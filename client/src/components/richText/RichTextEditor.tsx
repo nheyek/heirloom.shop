@@ -18,9 +18,14 @@ import {
 type Props = {
 	initialHtml?: string | null;
 	onChange: (html: string) => void;
+	maxHeight?: number | string;
 };
 
-export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
+export const RichTextEditor = ({
+	initialHtml,
+	onChange,
+	maxHeight,
+}: Props) => {
 	const editor = useEditor({
 		extensions: [StarterKit, Underline],
 		content: initialHtml ?? '',
@@ -78,7 +83,6 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
-			overflow="hidden"
 			width="100%"
 			fontFamily={FONT_DISPLAY_SANS}
 		>
@@ -136,10 +140,12 @@ export const RichTextEditor = ({ initialHtml, onChange }: Props) => {
 				)}
 			</HStack>
 			<Box
+				minHeight={150}
+				maxHeight={maxHeight}
+				overflow="scroll"
 				css={{
 					'& .tiptap': {
 						padding: 4,
-						minHeight: 300,
 						fontFamily: FONT_DISPLAY_SANS,
 						lineHeight: 1.25,
 						fontSize: 18,

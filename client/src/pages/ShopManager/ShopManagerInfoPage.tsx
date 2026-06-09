@@ -1,11 +1,4 @@
-import {
-	Button,
-	Field,
-	Skeleton,
-	Stack,
-	Wrap,
-	WrapItem,
-} from '@chakra-ui/react';
+import { Button, Field, Skeleton, Stack } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ShopFormFields } from '@client/components/shop/ShopFormFields';
@@ -66,51 +59,40 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 	};
 
 	return (
-		<Stack gap={5}>
-			<Wrap gap={6}>
-				<WrapItem w={350}>
-					<ShopFormFields
-						title={form.title}
-						onTitleChange={form.setTitle}
-						titleError={form.titleError}
-						classification={form.classification}
-						onClassificationChange={
-							form.setClassification
-						}
-						classificationError={form.classificationError}
-						country={form.country}
-						onCountryChange={form.setCountry}
-						location={form.location}
-						onLocationChange={form.setLocation}
-						locationError={form.locationError}
-						imagePreviewUrl={form.imagePreviewUrl}
-						isUploadingImage={form.isUploadingImage}
-						onImageSelect={form.handleImageSelect}
-						disabled={isSaving}
-					/>
-				</WrapItem>
-				<WrapItem
-					minW={350}
-					flex={1}
-					alignSelf="stretch"
+		<Stack
+			gap={5}
+			maxW={650}
+		>
+			<ShopFormFields
+				title={form.title}
+				onTitleChange={form.setTitle}
+				titleError={form.titleError}
+				classification={form.classification}
+				onClassificationChange={form.setClassification}
+				classificationError={form.classificationError}
+				country={form.country}
+				onCountryChange={form.setCountry}
+				location={form.location}
+				onLocationChange={form.setLocation}
+				locationError={form.locationError}
+				imagePreviewUrl={form.imagePreviewUrl}
+				isUploadingImage={form.isUploadingImage}
+				onImageSelect={form.handleImageSelect}
+				disabled={isSaving}
+			/>
+			<Field.Root>
+				<Field.Label
+					fontSize={18}
+					fontWeight={500}
 				>
-					<Field.Root
-						width="100%"
-						height="100%"
-					>
-						<Field.Label
-							fontSize={18}
-							fontWeight={500}
-						>
-							About
-						</Field.Label>
-						<RichTextEditor
-							initialHtml={shopData.profileRichText}
-							onChange={handleRichTextChange}
-						/>
-					</Field.Root>
-				</WrapItem>
-			</Wrap>
+					About
+				</Field.Label>
+				<RichTextEditor
+					initialHtml={shopData.profileRichText}
+					onChange={handleRichTextChange}
+					maxHeight={500}
+				/>
+			</Field.Root>
 			<Button
 				size="lg"
 				width={175}
