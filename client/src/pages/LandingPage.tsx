@@ -2,10 +2,9 @@ import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
 import { IntroCarousel } from '@client/components/branding/IntroCarousel';
 import { Logo } from '@client/components/branding/Logo';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
-import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
+import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { ShopCard } from '@client/components/itemDisplay/ShopCard';
 import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -120,11 +119,9 @@ export const LandingPage = () => {
 				>
 					<Heading fontSize={36}>Makers</Heading>
 
-					<ItemGrid
-						items={shops}
+					<ShopGrid
+						shops={shops}
 						isLoading={isLoading}
-						getItemKey={(shop) => shop.id}
-						renderItem={(shop) => <ShopCard {...shop} />}
 					/>
 				</Stack>
 			)}
