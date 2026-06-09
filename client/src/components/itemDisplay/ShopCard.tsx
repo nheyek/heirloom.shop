@@ -2,6 +2,7 @@ import {
 	Card,
 	Heading,
 	HStack,
+	IconButton,
 	Link,
 	Stack,
 	Text,
@@ -9,8 +10,10 @@ import {
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
+import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { ShopCardData } from '@heirloom/common/contract';
+import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
 type Props = ShopCardData & {
@@ -19,6 +22,7 @@ type Props = ShopCardData & {
 
 export const ShopCard = (props: Props) => {
 	const shopUrl = `/${CLIENT_ROUTES.shop}/${props.shortId}`;
+	const { isFavoritedShop, toggleFavoriteShop } = useFavorites();
 
 	return (
 		<Card.Root
@@ -56,12 +60,13 @@ export const ShopCard = (props: Props) => {
 						truncate
 						fontSize={18}
 						fontWeight={500}
+						marginRight={10} // Compensate for favorite icon
 					>
 						{props.classification}
 					</Text>
 				</Stack>
 
-				<HStack gap={1.5}>
+				<HStack gap={2}>
 					<CountryFlagIcon
 						countryCode={
 							props.countryCode as CountryCode | null
@@ -71,10 +76,34 @@ export const ShopCard = (props: Props) => {
 					<Text
 						fontSize={18}
 						truncate
+						flex={1}
+						marginRight={10} // Compensate for favorite icon
 					>
 						{props.location}
 					</Text>
 				</HStack>
+				<IconButton
+					position="absolute"
+					bottom={2}
+					right={2}
+					variant="ghost"
+					size="lg"
+					color={
+						isFavoritedShop(props.shortId)
+							? 'red.600'
+							: undefined
+					}
+					onClick={(e) => {
+						e.preventDefault();
+						toggleFavoriteShop(props);
+					}}
+				>
+					{isFavoritedShop(props.shortId) ? (
+						<FaHeart />
+					) : (
+						<FaRegHeart />
+					)}
+				</IconButton>
 			</Card.Body>
 		</Card.Root>
 	);
