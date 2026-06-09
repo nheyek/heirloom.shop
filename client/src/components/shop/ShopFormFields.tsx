@@ -85,7 +85,7 @@ export const ShopFormFields = ({
 	onImageSelect,
 	disabled,
 }: ShopFormFieldsProps) => (
-	<>
+	<Stack gap={3}>
 		<Fieldset.Root size="lg">
 			<div ref={titleFieldRef}>
 				<ShopFormField
@@ -196,5 +196,5 @@ export const ShopFormFields = ({
 				</Flex>
 			</FileUpload.Trigger>
 		</FileUpload.Root>
-	</>
+	</Stack>
 );
