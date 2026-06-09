@@ -7,6 +7,8 @@ import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as favoriteListingService from '@server/services/favoriteListing.service';
+import * as favoriteShopService from '@server/services/favoriteShop.service';
+import { mapShopToApiResponseData } from '@server/mappers/shop.mapper';
 import { getOrdersForUser } from '@server/services/order.service';
 import * as userService from '@server/services/user.service';
 import { initServer } from '@ts-rest/express';
@@ -63,6 +65,28 @@ export const meRouter = s.router(meContract, {
 			return {
 				status: 200 as const,
 				body: listings.map(mapListingToApiResponseData),
+			};
+		},
+	},
+	getFavoriteShops: {
+		middleware: [authAndSetUser],
+		handler: async ({ req }) => {
+			const user = await userService.findUserByEmail(
+				req.userClaims!.email,
+			);
+			if (!user) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.user.notFound },
+				};
+			}
+			const shops =
+				await favoriteShopService.getFavoritedShopsForUser(
+					user.id,
+				);
+			return {
+				status: 200 as const,
+				body: shops.map(mapShopToApiResponseData),
 			};
 		},
 	},

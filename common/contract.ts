@@ -300,6 +300,28 @@ export const shopsContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	favorite: {
+		method: 'POST',
+		path: '/api/shops/:id/favorite',
+		pathParams: z.object({ id: z.string() }),
+		body: z.object({}),
+		responses: {
+			200: FavoriteResponseSchema,
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	unfavorite: {
+		method: 'DELETE',
+		path: '/api/shops/:id/favorite',
+		pathParams: z.object({ id: z.string() }),
+		body: z.object({}),
+		responses: {
+			200: FavoriteResponseSchema,
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 });
 
 const SearchResultSchema = z.object({
@@ -441,6 +463,15 @@ export const meContract = c.router({
 		path: '/api/me/favorites',
 		responses: {
 			200: z.array(ListingCardDataSchema),
+			401: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	getFavoriteShops: {
+		method: 'GET',
+		path: '/api/me/favorite-shops',
+		responses: {
+			200: z.array(ShopCardDataSchema),
 			401: ErrorSchema,
 			404: ErrorSchema,
 		},

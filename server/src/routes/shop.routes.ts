@@ -4,9 +4,11 @@ import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { mapShopToApiResponseData } from '@server/mappers/shop.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
+import * as favoriteShopService from '@server/services/favoriteShop.service';
 import * as listingService from '@server/services/listing.service';
 import * as shopService from '@server/services/shop.service';
 import { DuplicateShopTitleError } from '@server/services/shop.service';
+import * as userService from '@server/services/user.service';
 
 const s = initServer();
 
@@ -115,6 +117,52 @@ export const shopRouter = s.router(shopsContract, {
 				shop.id,
 			);
 			return { status: 201 as const, body: { id: listingId } };
+		},
+	},
+	favorite: {
+		middleware: [authAndSetUser],
+		handler: async ({ params: { id }, req }) => {
+			const shop = await shopService.findShopByShortId(id);
+			if (!shop) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
+			}
+			const user = await userService.findUserByEmail(
+				req.userClaims!.email,
+			);
+			if (!user) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.user.notFound },
+				};
+			}
+			await favoriteShopService.favoriteShop(user.id, shop.id);
+			return { status: 200 as const, body: { favorited: true } };
+		},
+	},
+	unfavorite: {
+		middleware: [authAndSetUser],
+		handler: async ({ params: { id }, req }) => {
+			const shop = await shopService.findShopByShortId(id);
+			if (!shop) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
+			}
+			const user = await userService.findUserByEmail(
+				req.userClaims!.email,
+			);
+			if (!user) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.user.notFound },
+				};
+			}
+			await favoriteShopService.unfavoriteShop(user.id, shop.id);
+			return { status: 200 as const, body: { favorited: false } };
 		},
 	},
 });
