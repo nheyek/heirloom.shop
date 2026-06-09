@@ -18,6 +18,7 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
@@ -44,6 +45,7 @@ export const ShopPage = () => {
 	const [aboutOpen, setAboutOpen] = useState(false);
 
 	const apiClient = useApiClient();
+	const { isFavoritedShop, toggleFavoriteShop } = useFavorites();
 
 	const [shopData, setShopData] = useState<ShopCardData | null>(
 		null,
@@ -221,7 +223,26 @@ export const ShopPage = () => {
 								)}
 								<ActionButton
 									icon={FaHeart}
-									label="Favorite"
+									label={
+										shopData &&
+										isFavoritedShop(
+											shopData.shortId,
+										)
+											? 'Favorited'
+											: 'Favorite'
+									}
+									iconColor={
+										shopData &&
+										isFavoritedShop(
+											shopData.shortId,
+										)
+											? 'red.600'
+											: undefined
+									}
+									onClick={() =>
+										shopData &&
+										toggleFavoriteShop(shopData)
+									}
 								/>
 								<ActionButton
 									icon={IoChatbox}
@@ -299,6 +320,7 @@ export const ShopPage = () => {
 const ActionButton = (props: {
 	icon: IconType;
 	label: String;
+	iconColor?: string;
 	onClick?: () => void;
 }) => (
 	<Button
@@ -307,7 +329,9 @@ const ActionButton = (props: {
 		fontSize={{ base: 18, md: 20 }}
 		onClick={props.onClick}
 	>
-		<props.icon />
+		<Box color={props.iconColor}>
+			<props.icon />
+		</Box>
 		{props.label}
 	</Button>
 );

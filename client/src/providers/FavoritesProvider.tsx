@@ -1,16 +1,22 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { ListingCardData } from '@heirloom/common/contract';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CLIENT_ROUTES, StorageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toaster } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
+import {
+	ListingCardData,
+	ShopCardData,
+} from '@heirloom/common/contract';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type FavoritesContextType = {
 	favoriteIds: Set<string>;
 	isFavorited: (shortId: string) => boolean;
 	toggleFavorite: (listing: ListingCardData) => Promise<void>;
+	favoriteShopIds: Set<string>;
+	isFavoritedShop: (shortId: string) => boolean;
+	toggleFavoriteShop: (shop: ShopCardData) => Promise<void>;
 	isLoading: boolean;
 	error: string | null;
 };
@@ -25,6 +31,9 @@ export const FavoritesProvider = (props: {
 	const [favoriteIds, setFavoriteIds] = useState<Set<string>>(
 		new Set(),
 	);
+	const [favoriteShopIds, setFavoriteShopIds] = useState<
+		Set<string>
+	>(new Set());
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -54,14 +63,27 @@ export const FavoritesProvider = (props: {
 
 		await processPendingFavorite();
 
-		const result = await callApi(apiClient.me.getFavorites());
+		const [listingsResult, shopsResult] = await Promise.all([
+			callApi(apiClient.me.getFavorites()),
+			callApi(apiClient.me.getFavoriteShops()),
+		]);
 
-		if (result.error !== null) {
+		if (
+			listingsResult.error !== null ||
+			shopsResult.error !== null
+		) {
 			setError('Failed to fetch favorites');
 		} else {
 			setFavoriteIds(
 				new Set<string>(
-					result.data.map((listing) => listing.shortId),
+					listingsResult.data.map(
+						(listing) => listing.shortId,
+					),
+				),
+			);
+			setFavoriteShopIds(
+				new Set<string>(
+					shopsResult.data.map((shop) => shop.shortId),
 				),
 			);
 		}
@@ -78,6 +100,71 @@ export const FavoritesProvider = (props: {
 	}, [isAuthenticated]);
 
 	const isFavorited = (shortId: string) => favoriteIds.has(shortId);
+
+	const isFavoritedShop = (shortId: string) =>
+		favoriteShopIds.has(shortId);
+
+	const toggleFavoriteShop = async (shop: ShopCardData) => {
+		if (!isAuthenticated) {
+			loginWithRedirect({
+				appState: { returnTo: window.location.pathname },
+			});
+			return;
+		}
+
+		const wasFavorited = favoriteShopIds.has(shop.shortId);
+
+		setFavoriteShopIds((prev) => {
+			const next = new Set(prev);
+			if (wasFavorited) {
+				next.delete(shop.shortId);
+			} else {
+				next.add(shop.shortId);
+			}
+			return next;
+		});
+
+		const res = wasFavorited
+			? await callApi(
+					apiClient.shops.unfavorite({
+						params: { id: shop.shortId },
+						body: {},
+					}),
+				)
+			: await callApi(
+					apiClient.shops.favorite({
+						params: { id: shop.shortId },
+						body: {},
+					}),
+				);
+
+		if (res.error !== null) {
+			setFavoriteShopIds((prev) => {
+				const reverted = new Set(prev);
+				if (wasFavorited) {
+					reverted.add(shop.shortId);
+				} else {
+					reverted.delete(shop.shortId);
+				}
+				return reverted;
+			});
+		} else {
+			toaster.create({
+				title: wasFavorited
+					? 'Removed from favorites'
+					: 'Favorited',
+				description: shop.title,
+				type: wasFavorited ? 'info' : 'success',
+				action: wasFavorited
+					? undefined
+					: {
+							label: 'View',
+							onClick: () =>
+								navigate(CLIENT_ROUTES.favorites),
+						},
+			});
+		}
+	};
 
 	const toggleFavorite = async (listing: ListingCardData) => {
 		if (!isAuthenticated) {
@@ -151,6 +238,9 @@ export const FavoritesProvider = (props: {
 				favoriteIds,
 				isFavorited,
 				toggleFavorite,
+				favoriteShopIds,
+				isFavoritedShop,
+				toggleFavoriteShop,
 				isLoading,
 				error,
 			}}
