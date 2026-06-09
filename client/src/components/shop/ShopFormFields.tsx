@@ -64,6 +64,7 @@ type ShopFormFieldsProps = {
 	isUploadingImage: boolean;
 	onImageSelect: (file: File) => void;
 
+	gap?: number;
 	disabled?: boolean;
 };
 
@@ -83,10 +84,12 @@ export const ShopFormFields = ({
 	imagePreviewUrl,
 	isUploadingImage,
 	onImageSelect,
+	gap = 3,
 	disabled,
 }: ShopFormFieldsProps) => (
-	<Stack gap={3}>
-		<Fieldset.Root size="lg">
+	<Stack gap={gap}>
+		<Fieldset.Root>
+			<Stack gap={gap}>
 			<div ref={titleFieldRef}>
 				<ShopFormField
 					label="Shop Name"
@@ -133,6 +136,7 @@ export const ShopFormFields = ({
 					/>
 				</HStack>
 			</ShopFormField>
+			</Stack>
 		</Fieldset.Root>
 		<FileUpload.Root
 			accept="image/*"

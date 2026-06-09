@@ -78,6 +78,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 				imagePreviewUrl={form.imagePreviewUrl}
 				isUploadingImage={form.isUploadingImage}
 				onImageSelect={form.handleImageSelect}
+				gap={5}
 				disabled={isSaving}
 			/>
 			<Field.Root>
