@@ -24,7 +24,7 @@ const introItems: IntroItem[] = [
 			<>
 				An exhibition of
 				<br />
-				premier craftsmanship
+				world-class craftsmanship
 			</>
 		),
 	},
