@@ -24,7 +24,7 @@ const formatItem = (item: OrderItemDisplayData) => {
 
 const APP_URL =
 	process.env.NODE_ENV === 'development'
-		? 'http://localhost:8080'
+		? 'https://heirloom.test:8080'
 		: 'https://dev.heirloom.shop';
 
 export const orderConfirmation = (params: {
