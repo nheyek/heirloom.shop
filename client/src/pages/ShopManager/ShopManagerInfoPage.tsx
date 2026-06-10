@@ -59,10 +59,7 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 	};
 
 	return (
-		<Stack
-			gap={5}
-			maxW={650}
-		>
+		<>
 			<ShopFormFields
 				title={form.title}
 				onTitleChange={form.setTitle}
@@ -105,9 +102,34 @@ const ShopInfoForm = ({ shopData }: { shopData: ShopCardData }) => {
 				<FaCheckCircle />
 				Save Changes
 			</Button>
-		</Stack>
+		</>
 	);
 };
+
+const PageSkeleton = () => (
+	<>
+		<Skeleton
+			height={50}
+			borderRadius="md"
+		/>
+		<Skeleton
+			height={50}
+			borderRadius="md"
+		/>
+		<Skeleton
+			height={50}
+			borderRadius="md"
+		/>
+		<Skeleton
+			height={200}
+			borderRadius="md"
+		/>
+		<Skeleton
+			height={200}
+			borderRadius="md"
+		/>
+	</>
+);
 
 export const ShopManagerInfoPage = () => {
 	const { shortId } = useParams<{ shortId: string }>();
@@ -133,32 +155,18 @@ export const ShopManagerInfoPage = () => {
 		});
 	}, [shortId]);
 
-	if (isLoading) {
-		return (
-			<Stack gap={5}>
-				<Skeleton
-					height={15}
-					borderRadius="md"
-				/>
-				<Skeleton
-					height={15}
-					borderRadius="md"
-				/>
-				<Skeleton
-					height={15}
-					borderRadius="md"
-				/>
-				<Skeleton
-					height={30}
-					borderRadius="md"
-				/>
-			</Stack>
-		);
-	}
-
-	if (loadError || !shopData) {
-		return <AppError title="Failed to load shop info" />;
-	}
-
-	return <ShopInfoForm shopData={shopData} />;
+	return (
+		<Stack
+			gap={5}
+			maxW={650}
+		>
+			{isLoading && <PageSkeleton />}
+			{!isLoading && loadError && (
+				<AppError title="Failed to load shop info" />
+			)}
+			{!isLoading && shopData && (
+				<ShopInfoForm shopData={shopData} />
+			)}
+		</Stack>
+	);
 };
