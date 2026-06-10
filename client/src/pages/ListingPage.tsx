@@ -282,9 +282,6 @@ export const ListingPage = () => {
 			width="fit-content"
 			alignItems="center"
 			mx="auto"
-			initial={{ opacity: 0 }}
-			animate={{ opacity: 1 }}
-			transition={{ duration: 0.25 }}
 		>
 			{layout === Layout.STANDARD && (
 				<Box

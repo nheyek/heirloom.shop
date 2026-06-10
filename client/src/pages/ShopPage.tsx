@@ -25,7 +25,6 @@ import {
 	ListingCardData,
 	ShopCardData,
 } from '@heirloom/common/contract';
-import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FaHeart } from 'react-icons/fa';
@@ -118,140 +117,125 @@ export const ShopPage = () => {
 				</AspectRatio>
 			)}
 			{!isLoading && (
-				<motion.div
-					initial={{ opacity: 0 }}
-					animate={{ opacity: 1 }}
-					transition={{
-						duration: 0.25,
-						ease: 'easeInOut',
-					}}
+				<Box
+					position="relative"
+					boxShadow="md"
 				>
-					<Box
-						position="relative"
-						boxShadow="md"
+					<Box mx="auto">
+						<AppImage
+							imageProps={{
+								aspectRatio:
+									responsiveBannerAspectRatio,
+								src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`,
+							}}
+						/>
+					</Box>
+					<Stack
+						position="absolute"
+						bottom={[3, 5, 7]}
+						left={[4, 6, 8, 10]}
+						gap={5}
+						alignItems="flex-start"
 					>
-						<Box mx="auto">
-							<AppImage
-								imageProps={{
-									aspectRatio:
-										responsiveBannerAspectRatio,
-									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`,
-								}}
-							/>
-						</Box>
+						{/* Text block */}
 						<Stack
-							position="absolute"
-							bottom={[3, 5, 7]}
-							left={[4, 6, 8, 10]}
-							gap={5}
-							alignItems="flex-start"
+							gap={0}
+							fontFamily={FONT_DECORATIVE}
+							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
+							color="#FFF"
 						>
-							{/* Text block */}
-							<Stack
-								gap={0}
+							<Text
+								display="block"
+								fontSize={titleFontSize}
+								fontWeight={700}
 								fontFamily={FONT_DECORATIVE}
-								textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
-								color="#FFF"
+								lineHeight={1}
 							>
+								{shopData?.title}
+							</Text>
+							<Text
+								display="block"
+								fontSize={Object.entries(
+									titleFontSize,
+								).reduce(
+									(acc, [key, value]) => ({
+										...acc,
+										[key]: (value * 2) / 3,
+									}),
+									{},
+								)}
+								fontWeight="600"
+							>
+								{shopData?.classification}
+							</Text>
+							<Box
+								display="flex"
+								alignItems="center"
+								gap={{ base: 2, lg: 3 }}
+							>
+								<Box width={[5, 6, 7, 8]}>
+									<CountryFlagIcon
+										countryCode={
+											shopData?.countryCode as CountryCode | null
+										}
+										svgProps={{
+											style: {
+												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+											},
+										}}
+									/>
+								</Box>
 								<Text
-									display="block"
-									fontSize={titleFontSize}
-									fontWeight={700}
-									fontFamily={FONT_DECORATIVE}
-									lineHeight={1}
-								>
-									{shopData?.title}
-								</Text>
-								<Text
-									display="block"
+									fontWeight={500}
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: (value * 2) / 3,
+											[key]: value / 2,
 										}),
 										{},
 									)}
-									fontWeight="600"
 								>
-									{shopData?.classification}
+									{shopData?.location}
 								</Text>
-								<Box
-									display="flex"
-									alignItems="center"
-									gap={{ base: 2, lg: 3 }}
-								>
-									<Box width={[5, 6, 7, 8]}>
-										<CountryFlagIcon
-											countryCode={
-												shopData?.countryCode as CountryCode | null
-											}
-											svgProps={{
-												style: {
-													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-												},
-											}}
-										/>
-									</Box>
-									<Text
-										fontWeight={500}
-										fontSize={Object.entries(
-											titleFontSize,
-										).reduce(
-											(acc, [key, value]) => ({
-												...acc,
-												[key]: value / 2,
-											}),
-											{},
-										)}
-									>
-										{shopData?.location}
-									</Text>
-								</Box>
-							</Stack>
-
-							<HStack gap={2}>
-								{shopData?.profileRichText && (
-									<ActionButton
-										icon={FaShop}
-										label="About"
-										onClick={() =>
-											setAboutOpen(true)
-										}
-									/>
-								)}
-								<ActionButton
-									icon={FaHeart}
-									label={
-										shopData &&
-										isFavoritedShop(
-											shopData.shortId,
-										)
-											? 'Favorited'
-											: 'Favorite'
-									}
-									iconColor={
-										shopData &&
-										isFavoritedShop(
-											shopData.shortId,
-										)
-											? 'red.600'
-											: undefined
-									}
-									onClick={() =>
-										shopData &&
-										toggleFavoriteShop(shopData)
-									}
-								/>
-								<ActionButton
-									icon={IoChatbox}
-									label="Message"
-								/>
-							</HStack>
+							</Box>
 						</Stack>
-					</Box>
-				</motion.div>
+
+						<HStack gap={2}>
+							{shopData?.profileRichText && (
+								<ActionButton
+									icon={FaShop}
+									label="About"
+									onClick={() => setAboutOpen(true)}
+								/>
+							)}
+							<ActionButton
+								icon={FaHeart}
+								label={
+									shopData &&
+									isFavoritedShop(shopData.shortId)
+										? 'Favorited'
+										: 'Favorite'
+								}
+								iconColor={
+									shopData &&
+									isFavoritedShop(shopData.shortId)
+										? 'red.600'
+										: undefined
+								}
+								onClick={() =>
+									shopData &&
+									toggleFavoriteShop(shopData)
+								}
+							/>
+							<ActionButton
+								icon={IoChatbox}
+								label="Message"
+							/>
+						</HStack>
+					</Stack>
+				</Box>
 			)}
 
 			<Dialog.Root
