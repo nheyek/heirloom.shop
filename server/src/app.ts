@@ -68,6 +68,9 @@ export const createApp = async () => {
 							? req.body
 							: undefined,
 					requestQuery: req.query,
+					userEmail: req.userClaims?.email,
+					ipAddress: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ?? req.ip,
+					userAgent: req.headers['user-agent'],
 				});
 			}
 		});
@@ -110,6 +113,9 @@ export const createApp = async () => {
 						? req.body
 						: undefined,
 				requestQuery: req.query,
+				userEmail: req.userClaims?.email,
+				ipAddress: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ?? req.ip,
+				userAgent: req.headers['user-agent'],
 			});
 			res.status(500).json({ error: 'Internal server error' });
 		},

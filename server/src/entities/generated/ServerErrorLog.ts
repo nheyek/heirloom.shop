@@ -30,4 +30,13 @@ export class ServerErrorLog {
   @Property({ type: 'json', nullable: true })
   requestQuery?: any;
 
+  @Property({ type: 'text', nullable: true })
+  userEmail?: string;
+
+  @Property({ type: 'text', nullable: true })
+  ipAddress?: string;
+
+  @Property({ type: 'text', nullable: true })
+  userAgent?: string;
+
 }

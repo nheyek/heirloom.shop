@@ -12,6 +12,9 @@ export type ErrorLogParams = {
 	stack?: string;
 	requestBody?: unknown;
 	requestQuery?: unknown;
+	userEmail?: string;
+	ipAddress?: string;
+	userAgent?: string;
 };
 
 export const logError = (params: ErrorLogParams): void => {

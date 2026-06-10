@@ -324,7 +324,10 @@ CREATE TABLE public.server_error_log (
     message text,
     stack text,
     request_body jsonb,
-    request_query jsonb
+    request_query jsonb,
+    user_email text,
+    ip_address text,
+    user_agent text
 );
 
 
@@ -1100,4 +1103,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260523000000'),
     ('20260523000001'),
     ('20260523000002'),
-    ('20260608000000');
+    ('20260608000000'),
+    ('20260610000000');
