@@ -12,12 +12,12 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 		}),
 }));
 
-import request from 'supertest';
-import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import { getEm } from '@server/db';
 import { AppUser } from '@server/entities/generated/AppUser';
-import { useApp } from '../helpers/setupApp';
+import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
+import request from 'supertest';
 import { seedCountries } from '../helpers/seedData';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 
@@ -49,7 +49,9 @@ describe('GET /api/admin/shops', () => {
 	it('returns 200 for an admin user', async () => {
 		// Promote the test user to admin
 		const em = getEm();
-		const user = await em.findOneOrFail(AppUser, { email: TEST_USER_EMAIL });
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
 		user.isAdmin = true;
 		await em.flush();
 
@@ -70,7 +72,9 @@ describe('POST /api/admin/shops', () => {
 		// Ensure test user exists and is admin
 		await request(getApp()).get('/api/me').set(AUTH);
 		const em = getEm();
-		const user = await em.findOneOrFail(AppUser, { email: TEST_USER_EMAIL });
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
 		user.isAdmin = true;
 		await em.flush();
 		return user;
@@ -78,7 +82,9 @@ describe('POST /api/admin/shops', () => {
 
 	const adminTeardown = async () => {
 		const em = getEm();
-		const user = await em.findOneOrFail(AppUser, { email: TEST_USER_EMAIL });
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
 		user.isAdmin = false;
 		await em.flush();
 	};
@@ -112,9 +118,15 @@ describe('POST /api/admin/shops', () => {
 		const res = await request(getApp())
 			.post('/api/admin/shops')
 			.set(AUTH)
-			.send({ ...baseBody, title: 'Admin DF No Email', directFulfillment: true });
+			.send({
+				...baseBody,
+				title: 'Admin DF No Email',
+				directFulfillment: true,
+			});
 		expect(res.status).toBe(400);
-		expect(res.body).toMatchObject({ error: 'Owner email is required.' });
+		expect(res.body).toMatchObject({
+			error: 'Owner email is required.',
+		});
 		await adminTeardown();
 	});
 
@@ -123,9 +135,16 @@ describe('POST /api/admin/shops', () => {
 		const res = await request(getApp())
 			.post('/api/admin/shops')
 			.set(AUTH)
-			.send({ ...baseBody, title: 'Admin DF Bad Email', directFulfillment: true, ownerEmail: 'not-an-email' });
+			.send({
+				...baseBody,
+				title: 'Admin DF Bad Email',
+				directFulfillment: true,
+				ownerEmail: 'not-an-email',
+			});
 		expect(res.status).toBe(400);
-		expect(res.body).toMatchObject({ error: 'Email format is invalid.' });
+		expect(res.body).toMatchObject({
+			error: 'Email format is invalid.',
+		});
 		await adminTeardown();
 	});
 
@@ -142,7 +161,9 @@ describe('POST /api/admin/shops', () => {
 			.set(AUTH)
 			.send({ ...baseBody, title: 'Admin Duplicate Shop' });
 		expect(res.status).toBe(409);
-		expect(res.body).toMatchObject({ error: 'A shop with this name already exists.' });
+		expect(res.body).toMatchObject({
+			error: 'A shop with this name already exists.',
+		});
 		await adminTeardown();
 	});
 
@@ -151,7 +172,10 @@ describe('POST /api/admin/shops', () => {
 		const res = await request(getApp())
 			.post('/api/admin/shops')
 			.set(AUTH)
-			.send({ ...baseBody, title: 'Admin Created Shop Standard' });
+			.send({
+				...baseBody,
+				title: 'Admin Created Shop Standard',
+			});
 		expect(res.status).toBe(201);
 		expect(res.body).toMatchObject({
 			title: 'Admin Created Shop Standard',
@@ -188,7 +212,9 @@ describe('POST /api/admin/shop-image-upload-url', () => {
 	const adminSetup = async () => {
 		await request(getApp()).get('/api/me').set(AUTH);
 		const em = getEm();
-		const user = await em.findOneOrFail(AppUser, { email: TEST_USER_EMAIL });
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
 		user.isAdmin = true;
 		await em.flush();
 		return user;
@@ -196,7 +222,9 @@ describe('POST /api/admin/shop-image-upload-url', () => {
 
 	const adminTeardown = async () => {
 		const em = getEm();
-		const user = await em.findOneOrFail(AppUser, { email: TEST_USER_EMAIL });
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
 		user.isAdmin = false;
 		await em.flush();
 	};
