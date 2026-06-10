@@ -27,7 +27,7 @@ const getApp = useApp();
 
 /**
  * Sample data (IDs in the 300s to avoid conflicts with other test files):
- * Shop 30: "Artisan Workshop"
+ * Shop 30: "Checkout Artisan Workshop"
  *   - "Handmade Bowl" ($25, no shipping)  shortId="cbwl01"
  *   - "Ceramic Mug" ($15, $5 shipping)    shortId="cmug01"  with Size variation (Small +$0, Large +$3)
  * Shop 31: "Wood Crafts"
@@ -39,7 +39,7 @@ beforeAll(async () => {
 
 	const shop1 = em.create(Shop, {
 		id: 30,
-		title: 'Artisan Workshop',
+		title: 'Checkout Artisan Workshop',
 		shortId: 'shop30',
 	});
 
@@ -332,7 +332,7 @@ describe('POST /api/checkout/submitOrder', () => {
 		expect(items).toHaveLength(2);
 		expect(items[0].snapshot).toMatchObject({
 			title: 'Handmade Bowl',
-			shopName: 'Artisan Workshop',
+			shopName: 'Checkout Artisan Workshop',
 			imageUuid: 'img-bowl-01',
 			unitPriceCents: 2500,
 			quantity: 1,

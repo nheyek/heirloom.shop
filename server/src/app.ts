@@ -35,7 +35,7 @@ export const createApp = async () => {
 	await initORM();
 
 	app.use(
-		`/api/webhooks`,
+		`/webhooks`,
 		express.raw({ type: 'application/json' }),
 		webhookRouter,
 	);

@@ -61,7 +61,7 @@ beforeAll(async () => {
 	await em.persist([order1, order2]).flush();
 });
 
-describe('POST /api/webhooks/stripe', () => {
+describe('POST /webhooks/stripe', () => {
 	it('updates order status on payment_intent.succeeded event', async () => {
 		const webhookPayload = {
 			type: 'payment_intent.succeeded',

@@ -10,13 +10,13 @@ const getApp = useApp();
 /**
  * Sample data (IDs in the 400s to avoid conflicts with other test files):
  * Shops:
- *   - Shop 40: "Artisan Workshop"  shortId="shop40"
+ *   - Shop 40: "Search Artisan Workshop"  shortId="shop40"
  *   - Shop 41: "Woodcraft Studio"  shortId="shop41"
  *
  * Listings:
- *   - "Handmade Ceramic Bowl" (Artisan Workshop)  shortId="src_bwl"
+ *   - "Handmade Ceramic Bowl" (Search Artisan Workshop)  shortId="src_bwl"
  *   - "Wooden Cutting Board" (Woodcraft Studio)   shortId="src_brd"
- *   - "Ceramic Vase" (Artisan Workshop)           shortId="src_vse"
+ *   - "Ceramic Vase" (Search Artisan Workshop)           shortId="src_vse"
  *
  * Categories seeded via helper
  */
@@ -26,7 +26,7 @@ beforeAll(async () => {
 
 	const artisanShop = em.create(Shop, {
 		id: 40,
-		title: 'Artisan Workshop',
+		title: 'Search Artisan Workshop',
 		shortId: 'shop40',
 	});
 
@@ -80,8 +80,8 @@ describe('GET /api/search', () => {
 		const titles = res.body.listingResults.map((r: any) => r.label);
 		expect(titles).toEqual(
 			expect.arrayContaining([
-				'Handmade Ceramic Bowl (Artisan Workshop)',
-				'Ceramic Vase (Artisan Workshop)',
+				'Handmade Ceramic Bowl (Search Artisan Workshop)',
+				'Ceramic Vase (Search Artisan Workshop)',
 			]),
 		);
 	});

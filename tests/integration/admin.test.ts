@@ -6,9 +6,9 @@ import { useApp } from './helpers/setupApp';
 
 const getApp = useApp();
 
-describe('GET /api/admin', () => {
+describe('GET /api/admin/shops', () => {
 	it('returns 401 without auth', async () => {
-		const res = await request(getApp()).get('/api/admin');
+		const res = await request(getApp()).get('/api/admin/shops');
 		expect(res.status).toBe(401);
 	});
 
@@ -19,7 +19,7 @@ describe('GET /api/admin', () => {
 			.set('Authorization', 'Bearer test');
 
 		const res = await request(getApp())
-			.get('/api/admin')
+			.get('/api/admin/shops')
 			.set('Authorization', 'Bearer test');
 		expect(res.status).toBe(403);
 	});
@@ -32,10 +32,10 @@ describe('GET /api/admin', () => {
 		await em.flush();
 
 		const res = await request(getApp())
-			.get('/api/admin')
+			.get('/api/admin/shops')
 			.set('Authorization', 'Bearer test');
 		expect(res.status).toBe(200);
-		expect(typeof res.body.message).toBe('string');
+		expect(Array.isArray(res.body)).toBe(true);
 
 		// Reset so other tests are not affected
 		user.isAdmin = false;
