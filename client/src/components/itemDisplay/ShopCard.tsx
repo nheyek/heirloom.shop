@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
@@ -30,12 +31,16 @@ export const ShopCard = (props: Props) => {
 			minWidth={props.minWidth}
 		>
 			<RouterLink to={shopUrl}>
-				<AppImage
-					imageProps={{
-						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
-						cursor: 'button',
-					}}
-				/>
+				{props.profileImageUuid ? (
+					<AppImage
+						imageProps={{
+							src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+							cursor: 'button',
+						}}
+					/>
+				) : (
+					<ImagePlaceholder />
+				)}
 			</RouterLink>
 			<Card.Body
 				p={3}

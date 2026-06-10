@@ -15,6 +15,7 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -122,13 +123,19 @@ export const ShopPage = () => {
 					boxShadow="md"
 				>
 					<Box mx="auto">
-						<AppImage
-							imageProps={{
-								aspectRatio:
-									responsiveBannerAspectRatio,
-								src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData?.profileImageUuid}.jpg`,
-							}}
-						/>
+						{shopData?.profileImageUuid ? (
+							<AppImage
+								imageProps={{
+									aspectRatio:
+										responsiveBannerAspectRatio,
+									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData.profileImageUuid}.jpg`,
+								}}
+							/>
+						) : (
+							<ImagePlaceholder
+								aspectRatio={responsiveBannerAspectRatio}
+							/>
+						)}
 					</Box>
 					<Stack
 						position="absolute"
