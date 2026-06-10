@@ -322,6 +322,18 @@ export const shopsContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	getImageUploadUrl: {
+		method: 'POST',
+		path: '/api/shops/:id/image-upload-url',
+		pathParams: z.object({ id: z.string() }),
+		body: z.object({ contentType: z.string() }),
+		responses: {
+			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 });
 
 const SearchResultSchema = z.object({
