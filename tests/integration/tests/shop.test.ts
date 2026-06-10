@@ -6,8 +6,8 @@ import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import { findOrCreateUser } from '@server/services/user.service';
 import request from 'supertest';
-import { seedCategories } from './helpers/seedData';
-import { useApp } from './helpers/setupApp';
+import { seedCategories, seedCountries } from '../helpers/seedData';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 
@@ -60,12 +60,13 @@ beforeAll(async () => {
 	});
 
 	const ownerRole = em.create(ShopUserRole, {
-		id: 1,
+		id: 200,
 		shop: woodworkers,
 		user: testUser,
 		shopRole: 'owner',
 	});
 
+	await seedCountries(em);
 	await em.persist([woodworkers, glassStudio, table, bookshelf, ownerRole]).flush();
 });
 
@@ -180,5 +181,62 @@ describe('POST /api/shops/:id/listings', () => {
 			.send({ title: 'Cedar Shelf', desc: 'Hand-crafted cedar shelf', categoryId: 'CERAMICS' });
 		expect(res.status).toBe(201);
 		expect(typeof res.body.id).toBe('number');
+	});
+});
+
+describe('PATCH /api/shops/:id', () => {
+	const validUpdate = {
+		title: 'The Woodworkers Updated',
+		classification: 'Woodworking',
+		location: 'Seattle, WA',
+		countryCode: 'US',
+	};
+
+	it('returns 401 without auth', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/wood20')
+			.send(validUpdate);
+		expect(res.status).toBe(401);
+	});
+
+	it('returns 404 for an unknown shortId', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/unknown')
+			.set(AUTH)
+			.send(validUpdate);
+		expect(res.status).toBe(404);
+		expect(res.body).toMatchObject({ error: ERROR_MESSAGES.shop.notFound });
+	});
+
+	it('returns 403 for a user who does not own the shop', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/glas21')
+			.set(AUTH)
+			.send({ ...validUpdate, title: 'The Glass Studio' });
+		expect(res.status).toBe(403);
+		expect(res.body).toMatchObject({ error: ERROR_MESSAGES.shop.forbidden });
+	});
+
+	it('returns 409 when the new title conflicts with an existing shop', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/wood20')
+			.set(AUTH)
+			.send({ ...validUpdate, title: 'The Glass Studio' });
+		expect(res.status).toBe(409);
+	});
+
+	it('returns 200 and the updated shop on success', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/wood20')
+			.set(AUTH)
+			.send(validUpdate);
+		expect(res.status).toBe(200);
+		expect(res.body).toMatchObject({
+			shortId: 'wood20',
+			title: 'The Woodworkers Updated',
+			classification: 'Woodworking',
+			location: 'Seattle, WA',
+			countryCode: 'US',
+		});
 	});
 });

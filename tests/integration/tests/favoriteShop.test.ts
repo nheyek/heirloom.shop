@@ -2,7 +2,7 @@ import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
-import { useApp } from './helpers/setupApp';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 

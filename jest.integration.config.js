@@ -3,7 +3,7 @@ export default {
 	extensionsToTreatAsEsm: ['.ts'],
 	testEnvironment: 'node',
 	maxWorkers: 1,
-	testMatch: ['<rootDir>/tests/integration/**/*.test.ts'],
+	testMatch: ['<rootDir>/tests/integration/tests/**/*.test.ts'],
 	moduleNameMapper: {
 		'^@heirloom/common/(.*)$': '<rootDir>/common/$1',
 		'^@server/(.*)$': '<rootDir>/server/src/$1',

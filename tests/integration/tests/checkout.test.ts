@@ -20,8 +20,8 @@ import { ListingVariationOption } from '@server/entities/generated/ListingVariat
 import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
-import { seedCategories } from './helpers/seedData';
-import { useApp } from './helpers/setupApp';
+import { seedCategories } from '../helpers/seedData';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 

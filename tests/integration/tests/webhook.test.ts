@@ -2,7 +2,7 @@ import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import request from 'supertest';
-import { useApp } from './helpers/setupApp';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 

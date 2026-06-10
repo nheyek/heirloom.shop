@@ -4,7 +4,7 @@ import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppUser } from '@server/entities/generated/AppUser';
 import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import request from 'supertest';
-import { useApp } from './helpers/setupApp';
+import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 

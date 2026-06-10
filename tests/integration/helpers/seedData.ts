@@ -1,4 +1,5 @@
 import { getEm } from '@server/db';
+import { Country } from '@server/entities/generated/Country';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 
 /**
@@ -56,4 +57,8 @@ export async function seedCategories(em: ReturnType<typeof getEm>) {
 		id: 'CERAMICS',
 		title: 'Ceramics',
 	});
+}
+
+export async function seedCountries(em: ReturnType<typeof getEm>) {
+	await em.upsert(Country, { code: 'US', name: 'United States' });
 }
