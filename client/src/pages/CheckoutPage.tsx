@@ -1,11 +1,9 @@
 import {
 	Box,
 	Button,
-	Dialog,
 	GridItem,
 	Heading,
 	SimpleGrid,
-	Spinner,
 	Stack,
 	Text,
 	useBreakpointValue,
@@ -21,7 +19,7 @@ import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -161,38 +159,6 @@ export const CheckoutPage = () => {
 		md: Layout.STANDARD,
 	});
 
-	const submissionModal = (
-		<Dialog.Root
-			open={pendingSubmit}
-			placement="center"
-			closeOnInteractOutside={false}
-			closeOnEscape={false}
-		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Body py={12}>
-						<Stack
-							align="center"
-							gap={8}
-						>
-							<Spinner
-								size="xl"
-								borderWidth={3}
-							/>
-							<Text
-								fontSize={28}
-								fontFamily={FONT_DISPLAY_SANS}
-							>
-								Confirming your order...
-							</Text>
-						</Stack>
-					</Dialog.Body>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
-	);
-
 	if (itemQuantityTotal === 0) {
 		return (
 			<Box
@@ -212,7 +178,6 @@ export const CheckoutPage = () => {
 	if (layout === Layout.COMPACT) {
 		return (
 			<Stack gap={0}>
-				{submissionModal}
 				<Stack
 					p={5}
 					gap={5}
@@ -253,6 +218,8 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
+						disabled={pendingValidation || pendingSubmit}
+						loading={pendingSubmit}
 					>
 						<FaCheckCircle />
 						Pay Now
@@ -269,7 +236,6 @@ export const CheckoutPage = () => {
 			px={4}
 			mx="auto"
 		>
-			{submissionModal}
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}
@@ -279,7 +245,9 @@ export const CheckoutPage = () => {
 					<Stack gap={6}>
 						<CheckoutShippingForm
 							layout={layout}
-							disabled={pendingSubmit}
+							disabled={
+								pendingValidation || pendingSubmit
+							}
 						/>
 
 						<Stack gap={3}>
@@ -305,6 +273,10 @@ export const CheckoutPage = () => {
 							mb={10}
 							fontSize={22}
 							onClick={handleConfirmation}
+							disabled={
+								pendingValidation || pendingSubmit
+							}
+							loading={pendingSubmit}
 						>
 							<FaCheckCircle />
 							Pay Now

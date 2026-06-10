@@ -29,6 +29,13 @@ export const CheckoutPaymentForm = ({ disabled }: Props) => {
 					options={{ layout: 'tabs', readOnly: disabled }}
 					onReady={() => setReady(true)}
 				/>
+				{disabled && (
+					<Box
+						position="absolute"
+						inset={0}
+						cursor="not-allowed"
+					/>
+				)}
 			</Box>
 		</Box>
 	);
