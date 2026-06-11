@@ -1,5 +1,5 @@
 import { ListingCardData } from '@heirloom/common/contract';
-import { MdEdit } from 'react-icons/md';
+import { FaPencil } from 'react-icons/fa6';
 import { ListingCard } from './ListingCard';
 
 type Props = ListingCardData & {
@@ -12,7 +12,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => (
 		{...props}
 		iconMenu={[
 			{
-				icon: MdEdit,
+				icon: FaPencil,
 				onClick: onEdit,
 			},
 		]}

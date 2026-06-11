@@ -32,6 +32,13 @@ export const sidebarBreakpoint = {
 	'2xl': '2xl_sb',
 };
 
+export const SIDEBAR_GRID_COLUMNS = {
+	base: 1,
+	[sidebarBreakpoint.sm]: 2,
+	[sidebarBreakpoint.md]: 3,
+	[sidebarBreakpoint.xl]: 4,
+};
+
 export const breakpoints = {
 	...Object.fromEntries(
 		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [

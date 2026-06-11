@@ -5,7 +5,7 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { sidebarBreakpoint } from '@client/theme';
+import { SIDEBAR_GRID_COLUMNS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -63,12 +63,7 @@ export const FavoritesPage = () => {
 		return <AppError title={error} />;
 	}
 
-	const gridColumns = {
-		base: 1,
-		[sidebarBreakpoint.sm]: 2,
-		[sidebarBreakpoint.md]: 3,
-		[sidebarBreakpoint.xl]: 4,
-	};
+	const gridColumns = SIDEBAR_GRID_COLUMNS;
 
 	const isEmpty =
 		!isLoading && listings.length === 0 && shops.length === 0;
