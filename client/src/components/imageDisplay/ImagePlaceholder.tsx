@@ -4,19 +4,24 @@ type Props = {
 	aspectRatio?: number | number[];
 };
 
-const line = `rgba(0,0,0, 0.25)`;
+const S = '60px';
+const c1 = '#ffffff';
+const c2 = '#000000';
+
+const linkedSquaresBackground = [
+	`calc(.9*${S}) calc(.9*${S}) / calc(2*${S}) calc(2*${S}) conic-gradient(at 20% 20%, #0000 75%, ${c2} 0)`,
+	`calc(-.1*${S}) calc(-.1*${S}) / calc(2*${S}) calc(2*${S}) conic-gradient(at 20% 20%, #0000 75%, ${c2} 0)`,
+	`calc(.7*${S}) calc(.7*${S}) / calc(2*${S}) calc(2*${S}) conic-gradient(at 40% 40%, #0000 75%, ${c1} 0)`,
+	`calc(-.3*${S}) calc(-.3*${S}) / calc(2*${S}) calc(2*${S}) conic-gradient(at 40% 40%, #0000 75%, ${c1} 0)`,
+	`0 0 / ${S} ${S} conic-gradient(from 90deg at 20% 20%, ${c2} 25%, ${c1} 0)`,
+].join(', ');
 
 export const ImagePlaceholder = ({ aspectRatio = 3 / 2 }: Props) => (
 	<Box
 		width="100%"
 		aspectRatio={aspectRatio}
 		style={{
-			backgroundColor: `#FFF`,
-			backgroundImage: [
-				`repeating-linear-gradient(45deg, ${line} 0, ${line} 5px, transparent 0, transparent 50%)`,
-				`repeating-linear-gradient(-45deg, ${line} 0, ${line} 5px, transparent 0, transparent 50%)`,
-			].join(', '),
-			backgroundSize: '25px 25px',
+			background: linkedSquaresBackground,
 		}}
 	/>
 );
