@@ -117,7 +117,7 @@ export const LandingPage = () => {
 					px={5}
 					gap={3}
 				>
-					<Heading fontSize={36}>Makers</Heading>
+					<Heading fontSize={36}>Shops</Heading>
 
 					<ShopGrid
 						shops={shops}

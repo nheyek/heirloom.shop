@@ -81,6 +81,7 @@ const MenuItem = (props: MenuItemProps) => (
 		fontSize={20}
 		cursor="pointer"
 		p={2}
+		px={3}
 		gap={2}
 		{...props}
 	>

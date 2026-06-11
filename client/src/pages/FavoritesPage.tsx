@@ -1,11 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { HStack, Span, Stack, Text } from '@chakra-ui/react';
+import { HStack, Span, Stack, Tabs, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DECORATIVE, sidebarBreakpoint } from '@client/theme';
+import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -73,57 +73,74 @@ export const FavoritesPage = () => {
 	const isEmpty =
 		!isLoading && listings.length === 0 && shops.length === 0;
 
-	return (
-		<Stack gap={6}>
-			{isEmpty && (
-				<Stack gap={1}>
-					<Text fontSize={22}>
-						You haven't favorited anything yet.
-					</Text>
-					<HStack
-						fontSize={20}
-						gap={1.5}
-					>
-						<Span>Click</Span>
-						<FaHeart />
-						<Span>
-							on any listing or shop to favorite it.
-						</Span>
-					</HStack>
-				</Stack>
-			)}
+	if (isEmpty) {
+		return (
+			<Stack gap={1}>
+				<Text fontSize={22}>
+					You haven't favorited anything yet.
+				</Text>
+				<HStack
+					fontSize={20}
+					gap={1.5}
+				>
+					<Span>Click</Span>
+					<FaHeart />
+					<Span>
+						on any listing or shop to favorite it.
+					</Span>
+				</HStack>
+			</Stack>
+		);
+	}
 
-			{(isLoading || shops.length > 0) && (
-				<Stack gap={2}>
-					<GridTitle title="Makers" />
+	return (
+		<Tabs.Root
+			defaultValue="listings"
+			variant="subtle"
+			size="lg"
+		>
+			<Tabs.List>
+				<Tabs.Trigger
+					value="listings"
+					fontSize={20}
+				>
+					Listings
+				</Tabs.Trigger>
+				<Tabs.Trigger
+					value="makers"
+					fontSize={20}
+				>
+					Shops
+				</Tabs.Trigger>
+			</Tabs.List>
+
+			<Tabs.Content value="makers">
+				{!isLoading && shops.length === 0 ? (
+					<Text fontSize={20}>
+						You haven't favorited any shops yet.
+					</Text>
+				) : (
 					<ShopGrid
 						shops={shops}
 						isLoading={isLoading}
 						columns={gridColumns}
 					/>
-				</Stack>
-			)}
+				)}
+			</Tabs.Content>
 
-			{(isLoading || listings.length > 0) && (
-				<Stack gap={2}>
-					<GridTitle title="Listings" />
+			<Tabs.Content value="listings">
+				{!isLoading && listings.length === 0 ? (
+					<Text fontSize={20}>
+						You haven't favorited any listings yet.
+					</Text>
+				) : (
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}
 						columns={gridColumns}
 					/>
-				</Stack>
-			)}
-		</Stack>
+				)}
+			</Tabs.Content>
+		</Tabs.Root>
 	);
 };
-
-const GridTitle = ({ title }: { title: string }) => (
-	<Text
-		fontSize={28}
-		fontWeight={500}
-		fontFamily={FONT_DECORATIVE}
-	>
-		{title}
-	</Text>
-);
