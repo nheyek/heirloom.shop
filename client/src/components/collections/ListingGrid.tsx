@@ -1,5 +1,5 @@
 import { ItemGrid } from '@client/components/collections/ItemGrid';
-import { ListingCard } from '@client/components/itemDisplay/ListingCard';
+import { ListingDisplayCard } from '@client/components/itemDisplay/ListingDisplayCard';
 import { STANDARD_GRID_COLUMNS } from '@client/constants';
 import { ListingCardData } from '@heirloom/common/contract';
 
@@ -16,7 +16,7 @@ export const ListingGrid = (props: Props) => (
 		getItemKey={(listing) => listing.id}
 		columns={props.columns ?? STANDARD_GRID_COLUMNS}
 		renderItem={(listing, isMobile) => (
-			<ListingCard
+			<ListingDisplayCard
 				{...listing}
 				multiImage={!isMobile}
 			/>

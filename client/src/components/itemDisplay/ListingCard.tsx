@@ -14,24 +14,25 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { useShareListing } from '@client/hooks/useShareListing';
-import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { ListingCardData } from '@heirloom/common/contract';
-import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { FaRegShareFromSquare } from 'react-icons/fa6';
+import { IconType } from 'react-icons';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
+export type ListingCardIconMenuItem = {
+	icon: IconType;
+	onClick: () => void;
+	color?: string;
+};
 
 type Props = ListingCardData & {
 	multiImage?: boolean;
+	iconMenu?: ListingCardIconMenuItem[];
 };
 
 export const ListingCard = (props: Props) => {
-	const shareListing = useShareListing();
-	const { favoriteIds, toggleFavorite } = useFavorites();
 	const navigate = useNavigate();
 
-	const isSaved = favoriteIds.has(props.shortId);
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
 	const getImageUrl = (uuid: string) =>
@@ -104,30 +105,21 @@ export const ListingCard = (props: Props) => {
 						alignItems="center"
 					>
 						<PriceTag priceCents={props.priceCents} />
-						<Box>
-							<IconButton
-								variant="ghost"
-								size="lg"
-								onClick={() => shareListing(props)}
-							>
-								<FaRegShareFromSquare />
-							</IconButton>
-
-							<IconButton
-								variant="ghost"
-								size="lg"
-								onClick={() => toggleFavorite(props)}
-								color={
-									isSaved ? 'red.600' : undefined
-								}
-							>
-								{isSaved ? (
-									<FaHeart />
-								) : (
-									<FaRegHeart />
-								)}
-							</IconButton>
-						</Box>
+						{props.iconMenu && props.iconMenu.length > 0 && (
+							<Box>
+								{props.iconMenu.map((item, i) => (
+									<IconButton
+										key={i}
+										variant="ghost"
+										size="lg"
+										onClick={item.onClick}
+										color={item.color}
+									>
+										<item.icon />
+									</IconButton>
+								))}
+							</Box>
+						)}
 					</Flex>
 				</Stack>
 			</Card.Body>
