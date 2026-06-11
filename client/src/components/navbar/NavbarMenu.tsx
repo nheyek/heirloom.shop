@@ -25,7 +25,7 @@ export const NavbarMenu = () => {
 	};
 
 	return (
-		<Menu.Root>
+		<Menu.Root size="md">
 			<Menu.Trigger
 				asChild
 				focusRing="none"
@@ -78,9 +78,10 @@ export const NavbarMenu = () => {
 
 const MenuItem = (props: MenuItemProps) => (
 	<Menu.Item
-		fontSize={18}
+		fontSize={20}
 		cursor="pointer"
-		py={2}
+		p={2}
+		gap={2}
 		{...props}
 	>
 		{props.children}
