@@ -1,8 +1,11 @@
 import {
 	Box,
+	Button,
 	Heading,
 	HStack,
 	Link,
+	Menu,
+	Portal,
 	Span,
 	Stack,
 	Text,
@@ -15,10 +18,12 @@ import {
 	SIDEBAR_WIDTH_PX,
 } from '@client/theme';
 import { IconType } from 'react-icons';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import {
 	Outlet,
 	Link as RouterLink,
 	useLocation,
+	useNavigate,
 } from 'react-router-dom';
 
 export type SidebarNavItem = {
@@ -81,6 +86,84 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 				);
 			})}
 		</Stack>
+	);
+};
+
+type MobileNavProps = {
+	navItems: SidebarNavItem[];
+};
+
+const MobileNav = ({ navItems }: MobileNavProps) => {
+	const { pathname } = useLocation();
+	const navigate = useNavigate();
+
+	const current = navItems.find(({ route }) =>
+		pathname.startsWith(`/${route}`),
+	);
+
+	return (
+		<Box display={{ base: 'block', md: 'none' }}>
+			<Menu.Root
+				onSelect={(details) => navigate(`/${details.value}`)}
+			>
+				<Menu.Trigger asChild>
+					<Button
+						size="xl"
+						variant="subtle"
+						borderRadius="md"
+						justifyContent="space-between"
+						fontWeight={500}
+						fontSize={20}
+						fontFamily={FONT_DISPLAY_SANS}
+						w="100%"
+						px={4}
+						py={3}
+					>
+						<HStack gap={3}>
+							{current && (
+								<Box
+									fontSize={20}
+									flexShrink={0}
+								>
+									<current.icon />
+								</Box>
+							)}
+							<Text>{current?.label}</Text>
+						</HStack>
+						<IoMdArrowDropdown />
+					</Button>
+				</Menu.Trigger>
+				<Portal>
+					<Menu.Positioner>
+						<Menu.Content>
+							{navItems.map(
+								({ label, icon: Icon, route }) => (
+									<Menu.Item
+										key={route}
+										value={route}
+										cursor="pointer"
+										fontSize={20}
+										fontFamily={FONT_DISPLAY_SANS}
+										px={3}
+										py={2}
+									>
+										<HStack gap={3}>
+											<Box
+												fontSize={20}
+												flexShrink={0}
+											>
+												<Icon />
+											</Box>
+											<Text>{label}</Text>
+										</HStack>
+									</Menu.Item>
+								),
+							)}
+						</Menu.Content>
+					</Menu.Positioner>
+				</Portal>
+			</Menu.Root>
+		</Box>
 	);
 };
 
@@ -163,7 +246,10 @@ export const SidebarPageLayout = ({
 				gap={5}
 				fontFamily={FONT_DISPLAY_SANS}
 			>
-				<PageHeading navItems={navItems} />
+				<MobileNav navItems={navItems} />
+				<Box display={{ base: 'none', md: 'block' }}>
+					<PageHeading navItems={navItems} />
+				</Box>
 				<Outlet />
 			</Stack>
 		</Box>
