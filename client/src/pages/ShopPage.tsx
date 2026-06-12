@@ -35,8 +35,8 @@ import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
-	base: 44,
-	md: 54,
+	base: 36,
+	md: 48,
 	lg: 64,
 };
 
@@ -133,14 +133,16 @@ export const ShopPage = () => {
 							/>
 						) : (
 							<ImagePlaceholder
-								aspectRatio={responsiveBannerAspectRatio}
+								aspectRatio={
+									responsiveBannerAspectRatio
+								}
 							/>
 						)}
 					</Box>
 					<Stack
 						position="absolute"
-						bottom={[3, 5, 7]}
-						left={[4, 6, 8, 10]}
+						bottom={{ base: 5, lg: 10 }}
+						left={{ base: 5, lg: 10 }}
 						gap={5}
 						alignItems="flex-start"
 					>
@@ -160,53 +162,61 @@ export const ShopPage = () => {
 							>
 								{shopData?.title}
 							</Text>
-							<Text
-								display="block"
-								fontSize={Object.entries(
-									titleFontSize,
-								).reduce(
-									(acc, [key, value]) => ({
-										...acc,
-										[key]: (value * 2) / 3,
-									}),
-									{},
-								)}
-								fontWeight="600"
-							>
-								{shopData?.classification}
-							</Text>
-							<Box
-								display="flex"
-								alignItems="center"
-								gap={{ base: 2, lg: 3 }}
-							>
-								<Box width={[5, 6, 7, 8]}>
-									<CountryFlagIcon
-										countryCode={
-											shopData?.countryCode as CountryCode | null
-										}
-										svgProps={{
-											style: {
-												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-											},
-										}}
-									/>
-								</Box>
+							<Stack gap={1}>
 								<Text
-									fontWeight={500}
+									display="block"
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: value / 2,
+											[key]: (value * 2) / 3,
 										}),
 										{},
 									)}
+									fontWeight="600"
 								>
-									{shopData?.location}
+									{shopData?.classification}
 								</Text>
-							</Box>
+								<Box
+									display="flex"
+									alignItems="center"
+									gap={{ base: 2, lg: 3 }}
+								>
+									<Box
+										width={{
+											base: 6,
+											md: 7,
+											lg: 8,
+										}}
+									>
+										<CountryFlagIcon
+											countryCode={
+												shopData?.countryCode as CountryCode | null
+											}
+											svgProps={{
+												style: {
+													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+												},
+											}}
+										/>
+									</Box>
+									<Text
+										fontWeight={500}
+										fontSize={Object.entries(
+											titleFontSize,
+										).reduce(
+											(acc, [key, value]) => ({
+												...acc,
+												[key]: value / 2,
+											}),
+											{},
+										)}
+									>
+										{shopData?.location}
+									</Text>
+								</Box>
+							</Stack>
 						</Stack>
 
 						<HStack gap={2}>
@@ -315,9 +325,9 @@ const ActionButton = (props: {
 	onClick?: () => void;
 }) => (
 	<Button
-		size={{ base: 'md', md: 'lg' }}
+		size={{ base: 'sm', md: 'md', lg: 'lg' }}
 		variant="subtle"
-		fontSize={{ base: 18, md: 20 }}
+		fontSize={{ base: 16, md: 18, lg: 20 }}
 		onClick={props.onClick}
 	>
 		<Box color={props.iconColor}>
