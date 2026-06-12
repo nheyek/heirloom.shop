@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
+import { useUserInfo } from '@client/providers/UserProvider';
 import { IoMdMail } from 'react-icons/io';
 import { IoReceipt } from 'react-icons/io5';
 import { TbSquaresFilled } from 'react-icons/tb';
@@ -42,8 +43,9 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 export const ShopManagerPageLayout = () => {
 	const { shortId } = useParams<{ shortId: string }>();
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
+	const { user } = useUserInfo();
 
-	if (authIsLoading) {
+	if (authIsLoading || (isAuthenticated && user === null)) {
 		return (
 			<Box
 				position="absolute"
@@ -63,7 +65,13 @@ export const ShopManagerPageLayout = () => {
 		);
 	}
 
-	if (!isAuthenticated || !shortId) {
+	const isAuthorized =
+		isAuthenticated &&
+		!!shortId &&
+		!!user &&
+		(user.isAdmin || user.shopShortId === shortId);
+
+	if (!isAuthorized) {
 		return (
 			<Navigate
 				to="/"

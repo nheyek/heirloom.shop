@@ -22,10 +22,12 @@ export const findOrCreateUser = async (
 	}
 };
 
-export const getShopIdForUser = async (userId: number) => {
+export const getShopShortIdForUser = async (userId: number) => {
 	const em = getEm();
-	const shopRole = await em.findOne(ShopUserRole, {
-		user: { id: userId },
-	});
-	return shopRole?.shop.id || null;
+	const shopRole = await em.findOne(
+		ShopUserRole,
+		{ user: { id: userId } },
+		{ populate: ['shop'] },
+	);
+	return shopRole?.shop.shortId ?? null;
 };

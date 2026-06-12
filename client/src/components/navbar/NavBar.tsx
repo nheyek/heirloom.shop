@@ -23,7 +23,7 @@ import {
 	NAVBAR_HEIGHT_SPACING_UNITS,
 } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
-import { FaCrown } from 'react-icons/fa6';
+import { FaCrown, FaShop } from 'react-icons/fa6';
 
 import { Link, useLocation } from 'react-router-dom';
 
@@ -126,6 +126,20 @@ export const Navbar = () => {
 							>
 								<IconButton color="white">
 									<FaCrown />
+								</IconButton>
+							</Link>
+						)}
+						{!user?.isAdmin && user?.shopShortId && (
+							<Link
+								to={[
+									CLIENT_ROUTES.shop,
+									user.shopShortId,
+									CLIENT_ROUTES.manage,
+									CLIENT_ROUTES.info,
+								].join('/')}
+							>
+								<IconButton color="white">
+									<FaShop />
 								</IconButton>
 							</Link>
 						)}

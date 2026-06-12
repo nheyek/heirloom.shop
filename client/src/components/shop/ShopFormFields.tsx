@@ -7,6 +7,7 @@ import {
 	Image,
 	Input,
 	InputProps,
+	Skeleton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -90,52 +91,52 @@ export const ShopFormFields = ({
 	<Stack gap={gap}>
 		<Fieldset.Root>
 			<Stack gap={gap}>
-			<div ref={titleFieldRef}>
+				<div ref={titleFieldRef}>
+					<ShopFormField
+						label="Shop Name"
+						error={titleError}
+					>
+						<ShopFormInput
+							value={title}
+							onChange={(e) =>
+								onTitleChange(e.target.value)
+							}
+							disabled={disabled}
+						/>
+					</ShopFormField>
+				</div>
 				<ShopFormField
-					label="Shop Name"
-					error={titleError}
+					label="Classification"
+					error={classificationError}
 				>
 					<ShopFormInput
-						value={title}
+						value={classification}
 						onChange={(e) =>
-							onTitleChange(e.target.value)
+							onClassificationChange(e.target.value)
 						}
+						placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
 						disabled={disabled}
 					/>
 				</ShopFormField>
-			</div>
-			<ShopFormField
-				label="Classification"
-				error={classificationError}
-			>
-				<ShopFormInput
-					value={classification}
-					onChange={(e) =>
-						onClassificationChange(e.target.value)
-					}
-					placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
-					disabled={disabled}
-				/>
-			</ShopFormField>
-			<ShopFormField
-				label="Location"
-				error={locationError}
-			>
-				<HStack width="100%">
-					<CountrySelect
-						value={country}
-						onChange={onCountryChange}
-					/>
-					<ShopFormInput
-						value={location}
-						onChange={(e) =>
-							onLocationChange(e.target.value)
-						}
-						placeholder="City or Region"
-						disabled={disabled}
-					/>
-				</HStack>
-			</ShopFormField>
+				<ShopFormField
+					label="Location"
+					error={locationError}
+				>
+					<HStack width="100%">
+						<CountrySelect
+							value={country}
+							onChange={onCountryChange}
+						/>
+						<ShopFormInput
+							value={location}
+							onChange={(e) =>
+								onLocationChange(e.target.value)
+							}
+							placeholder="City or Region"
+							disabled={disabled}
+						/>
+					</HStack>
+				</ShopFormField>
 			</Stack>
 		</Fieldset.Root>
 		<FileUpload.Root
@@ -167,7 +168,6 @@ export const ShopFormFields = ({
 					alignItems="center"
 					justifyContent="center"
 					width="100%"
-					minHeight={175}
 					cursor="pointer"
 					borderRadius="md"
 					overflow="hidden"
@@ -178,18 +178,26 @@ export const ShopFormFields = ({
 					_hover={{ borderColor: 'gray.400' }}
 				>
 					{imagePreviewUrl ? (
-						<Image
-							src={imagePreviewUrl}
+						<Skeleton
+							loading={isUploadingImage}
 							width="100%"
 							aspectRatio={5 / 2}
-							objectFit="cover"
-							opacity={isUploadingImage ? 0.5 : 1}
-						/>
+							borderRadius={0}
+						>
+							<Image
+								src={imagePreviewUrl}
+								height="100%"
+								width="100%"
+								objectFit="cover"
+							/>
+						</Skeleton>
 					) : (
 						<Stack
 							alignItems="center"
+							justifyContent="center"
 							gap={2}
 							color="gray.500"
+							height={150}
 						>
 							<FaImage size={26} />
 							<Text fontSize={18}>

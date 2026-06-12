@@ -24,16 +24,17 @@ export const meRouter = s.router(meContract, {
 					await userService.findOrCreateUser(
 						req.userClaims!.email,
 					);
-				const shopId = await userService.getShopIdForUser(
-					currentUser.id,
-				);
+				const shopShortId =
+					await userService.getShopShortIdForUser(
+						currentUser.id,
+					);
 				return {
 					status: 200 as const,
 					body: {
 						id: currentUser.id,
 						email: currentUser.email,
 						isAdmin: currentUser.isAdmin,
-						shopId,
+						shopShortId,
 					},
 				};
 			} catch {

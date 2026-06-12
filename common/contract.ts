@@ -174,7 +174,7 @@ const UserInfoSchema = z.object({
 	id: z.number(),
 	email: z.string(),
 	isAdmin: z.boolean(),
-	shopId: z.number().nullable(),
+	shopShortId: z.string().nullable(),
 });
 
 export const listingsContract = c.router({

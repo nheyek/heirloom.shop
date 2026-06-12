@@ -121,7 +121,7 @@ const PageSkeleton = () => (
 			borderRadius="md"
 		/>
 		<Skeleton
-			height={200}
+			aspectRatio={5 / 2}
 			borderRadius="md"
 		/>
 		<Skeleton
