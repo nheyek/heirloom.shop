@@ -20,6 +20,8 @@ import { ListingPage } from './pages/ListingPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { ShopManagerInfoPage } from './pages/ShopManager/ShopManagerInfoPage';
+import { ShopManagerListingCreatePage } from './pages/ShopManager/ShopManagerListingCreatePage';
+import { ShopManagerListingEditPage } from './pages/ShopManager/ShopManagerListingEditPage';
 import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListingsPage';
 import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
@@ -87,6 +89,14 @@ const App = () => {
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}
 								element={<ShopManagerListingsPage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.create}`}
+								element={<ShopManagerListingCreatePage />}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/:listingShortId`}
+								element={<ShopManagerListingEditPage />}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}

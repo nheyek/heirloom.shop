@@ -80,7 +80,7 @@ const MenuItem = (props: MenuItemProps) => (
 	<Menu.Item
 		fontSize={20}
 		cursor="pointer"
-		p={2}
+		py={2}
 		px={3}
 		gap={2}
 		{...props}

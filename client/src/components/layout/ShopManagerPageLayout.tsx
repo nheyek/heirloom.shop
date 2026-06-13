@@ -25,6 +25,7 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 		title: 'Listings',
 		icon: TbSquaresFilled,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`,
+		subPathLabels: { [CLIENT_ROUTES.create]: 'New Listing' },
 	},
 	{
 		label: 'Orders',

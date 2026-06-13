@@ -31,6 +31,7 @@ export type SidebarNavItem = {
 	title: string;
 	icon: IconType;
 	route: string;
+	subPathLabels?: Record<string, string>;
 };
 
 type SidebarProps = {
@@ -194,6 +195,8 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	);
 	if (parentMatch) {
 		const subId = pathname.slice(`/${parentMatch.route}/`.length);
+		const subLabel =
+			parentMatch.subPathLabels?.[subId] ?? subId;
 		return (
 			<Heading
 				fontSize={36}
@@ -213,7 +216,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 				>
 					/
 				</Span>
-				<Span fontWeight={500}>{subId}</Span>
+				<Span fontWeight={500}>{subLabel}</Span>
 			</Heading>
 		);
 	}
