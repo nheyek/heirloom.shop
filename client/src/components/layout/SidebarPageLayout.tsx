@@ -26,13 +26,17 @@ import {
 	useNavigate,
 } from 'react-router-dom';
 
+export type SidebarNavChild = {
+	path: string;
+	label: string;
+};
+
 export type SidebarNavItem = {
 	label: string;
 	title: string;
 	icon: IconType;
 	route: string;
-	subPathLabels?: Record<string, string>;
-	subPathFallbackLabel?: string;
+	children?: SidebarNavChild[];
 };
 
 type SidebarProps = {
@@ -197,9 +201,9 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	if (parentMatch) {
 		const subId = pathname.slice(`/${parentMatch.route}/`.length);
 		const subLabel =
-			parentMatch.subPathLabels?.[subId] ??
-			parentMatch.subPathFallbackLabel ??
-			subId;
+			parentMatch.children?.find(({ path }) =>
+				path.startsWith(':') ? true : path === subId,
+			)?.label ?? subId;
 		return (
 			<Heading
 				fontSize={36}
