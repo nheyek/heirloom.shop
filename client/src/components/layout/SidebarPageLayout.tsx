@@ -186,7 +186,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	if (exactMatch) {
 		return (
 			<Heading
-				fontSize={36}
+				fontSize={32}
 				fontWeight={500}
 				fontFamily={FONT_DECORATIVE}
 			>
@@ -206,7 +206,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 			)?.label ?? subId;
 		return (
 			<Heading
-				fontSize={36}
+				fontSize={32}
 				fontFamily={FONT_DECORATIVE}
 			>
 				<Link

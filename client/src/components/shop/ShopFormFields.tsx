@@ -1,48 +1,20 @@
 import {
-	Field,
 	Fieldset,
 	FileUpload,
 	Flex,
 	HStack,
 	Image,
-	Input,
-	InputProps,
 	Skeleton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { FormField, FormInput } from '@client/components/input/FormField';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import { CountryCode, MAX_IMAGE_SIZE_MB } from '@client/constants';
 import { toastError } from '@client/toaster';
-import { ReactNode } from 'react';
 import { FaImage } from 'react-icons/fa';
 
-export const ShopFormField = ({
-	label,
-	error,
-	children,
-}: {
-	label: string;
-	error: string | null;
-	children: ReactNode;
-}) => (
-	<Field.Root invalid={!!error}>
-		<Field.Label fontSize={18}>{label}</Field.Label>
-		{children}
-		{error && (
-			<Field.ErrorText fontSize={15}>{error}</Field.ErrorText>
-		)}
-	</Field.Root>
-);
-
-export const ShopFormInput = (props: InputProps) => (
-	<Input
-		size="xl"
-		fontSize={18}
-		padding={3}
-		{...props}
-	/>
-);
+export { FormField as ShopFormField, FormInput as ShopFormInput };
 
 type ShopFormFieldsProps = {
 	title: string;
@@ -92,24 +64,24 @@ export const ShopFormFields = ({
 		<Fieldset.Root>
 			<Stack gap={gap}>
 				<div ref={titleFieldRef}>
-					<ShopFormField
+					<FormField
 						label="Shop Name"
 						error={titleError}
 					>
-						<ShopFormInput
+						<FormInput
 							value={title}
 							onChange={(e) =>
 								onTitleChange(e.target.value)
 							}
 							disabled={disabled}
 						/>
-					</ShopFormField>
+					</FormField>
 				</div>
-				<ShopFormField
+				<FormField
 					label="Classification"
 					error={classificationError}
 				>
-					<ShopFormInput
+					<FormInput
 						value={classification}
 						onChange={(e) =>
 							onClassificationChange(e.target.value)
@@ -117,8 +89,8 @@ export const ShopFormFields = ({
 						placeholder="e.g. Leather Bags, Cast Iron Cookware, etc."
 						disabled={disabled}
 					/>
-				</ShopFormField>
-				<ShopFormField
+				</FormField>
+				<FormField
 					label="Location"
 					error={locationError}
 				>
@@ -127,7 +99,7 @@ export const ShopFormFields = ({
 							value={country}
 							onChange={onCountryChange}
 						/>
-						<ShopFormInput
+						<FormInput
 							value={location}
 							onChange={(e) =>
 								onLocationChange(e.target.value)
@@ -136,7 +108,7 @@ export const ShopFormFields = ({
 							disabled={disabled}
 						/>
 					</HStack>
-				</ShopFormField>
+				</FormField>
 			</Stack>
 		</Fieldset.Root>
 		<FileUpload.Root
