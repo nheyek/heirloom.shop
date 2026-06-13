@@ -54,10 +54,10 @@ export const ShopManagerListingsPage = () => {
 					size="md"
 					onClick={() =>
 						navigate(
-							`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.create}`,
+							`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`,
 						)
 					}
-					width={175}
+					width={170}
 					fontSize={20}
 				>
 					<FaPlusCircle />

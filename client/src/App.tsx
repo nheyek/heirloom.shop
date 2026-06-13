@@ -91,12 +91,16 @@ const App = () => {
 								element={<ShopManagerListingsPage />}
 							/>
 							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.create}`}
-								element={<ShopManagerListingCreatePage />}
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`}
+								element={
+									<ShopManagerListingCreatePage />
+								}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/:listingShortId`}
-								element={<ShopManagerListingEditPage />}
+								element={
+									<ShopManagerListingEditPage />
+								}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}

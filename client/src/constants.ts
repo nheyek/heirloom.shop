@@ -33,7 +33,7 @@ export const CLIENT_ROUTES = {
 	info: 'info',
 	listings: 'listings',
 	messages: 'messages',
-	create: 'create',
+	new: 'new',
 };
 
 export enum StorageKey {
