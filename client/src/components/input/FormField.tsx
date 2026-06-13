@@ -1,4 +1,4 @@
-import { Field, Input, InputProps } from '@chakra-ui/react';
+import { Field, Input, InputProps, Textarea, TextareaProps } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -29,6 +29,16 @@ export const FormInput = (props: InputProps) => (
 		size="xl"
 		fontSize={18}
 		padding={3}
+		{...props}
+	/>
+);
+
+export const FormTextarea = (props: TextareaProps) => (
+	<Textarea
+		size="xl"
+		fontSize={18}
+		padding={3}
+		resize="none"
 		{...props}
 	/>
 );
