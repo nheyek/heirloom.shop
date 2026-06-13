@@ -1,4 +1,5 @@
 import { Fieldset, Stack } from '@chakra-ui/react';
+import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import { FormField, FormInput, FormTextarea } from '@client/components/input/FormField';
 import { ListingFormState } from '@client/hooks/useListingForm';
 
@@ -33,6 +34,19 @@ export const ListingFormFields = ({
 					onChange={(e) => form.setSubtitle(e.target.value)}
 					placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
 					rows={2}
+					disabled={disabled}
+				/>
+			</FormField>
+			<FormField
+				label="Category"
+				error={form.categoryError}
+			>
+				<CategoryCombobox
+					value={form.categoryId}
+					onChange={(v) => {
+						form.setCategoryId(v);
+						if (v) form.setCategoryError(null);
+					}}
 					disabled={disabled}
 				/>
 			</FormField>

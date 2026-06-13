@@ -10,22 +10,32 @@ export type ListingFormState = {
 	setSubtitle: (v: string) => void;
 	subtitleError: string | null;
 	setSubtitleError: (v: string | null) => void;
+
+	categoryId: string | null;
+	setCategoryId: (v: string | null) => void;
+	categoryError: string | null;
+	setCategoryError: (v: string | null) => void;
 };
 
 type UseListingFormOptions = {
 	initialTitle?: string;
 	initialSubtitle?: string;
+	initialCategoryId?: string | null;
 };
 
 export const useListingForm = ({
 	initialTitle = '',
 	initialSubtitle = '',
+	initialCategoryId = null,
 }: UseListingFormOptions = {}): ListingFormState => {
 	const [title, setTitle] = useState(initialTitle);
 	const [titleError, setTitleError] = useState<string | null>(null);
 
 	const [subtitle, setSubtitle] = useState(initialSubtitle);
 	const [subtitleError, setSubtitleError] = useState<string | null>(null);
+
+	const [categoryId, setCategoryId] = useState<string | null>(initialCategoryId);
+	const [categoryError, setCategoryError] = useState<string | null>(null);
 
 	return {
 		title,
@@ -36,5 +46,9 @@ export const useListingForm = ({
 		setSubtitle,
 		subtitleError,
 		setSubtitleError,
+		categoryId,
+		setCategoryId,
+		categoryError,
+		setCategoryError,
 	};
 };
