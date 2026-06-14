@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import {
 	MAX_IMAGE_SIZE_MB,
+	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { toastError } from '@client/toaster';
@@ -49,7 +50,7 @@ export const ListingImageUpload = ({
 	const fileUploadZone = (
 		<FileUpload.Root
 			accept="image/*"
-			maxFiles={20}
+			maxFiles={MAX_LISTING_IMAGES}
 			maxFileSize={MAX_IMAGE_SIZE_MB * 1_000_000}
 			onFileChange={(details) => {
 				if (details.acceptedFiles.length > 0) {

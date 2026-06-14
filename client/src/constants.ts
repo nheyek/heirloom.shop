@@ -16,6 +16,7 @@ export const STANDARD_GRID_GAP = 5;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 
 export const MAX_IMAGE_SIZE_MB = 5;
+export const MAX_LISTING_IMAGES = 20;
 
 export const CLIENT_ROUTES = {
 	admin: 'admin',
