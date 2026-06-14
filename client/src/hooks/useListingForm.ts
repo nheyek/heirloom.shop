@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export type ListingFormState = {
 	title: string;
@@ -15,6 +15,12 @@ export type ListingFormState = {
 	setCategoryId: (v: string | null) => void;
 	categoryError: string | null;
 	setCategoryError: (v: string | null) => void;
+
+	imageFiles: File[];
+	addImageFiles: (files: File[]) => void;
+	removeImageFile: (index: number) => void;
+	imageError: string | null;
+	setImageError: (v: string | null) => void;
 };
 
 type UseListingFormOptions = {
@@ -37,6 +43,18 @@ export const useListingForm = ({
 	const [categoryId, setCategoryId] = useState<string | null>(initialCategoryId);
 	const [categoryError, setCategoryError] = useState<string | null>(null);
 
+	const [imageFiles, setImageFiles] = useState<File[]>([]);
+	const [imageError, setImageError] = useState<string | null>(null);
+
+	const addImageFiles = useCallback((incoming: File[]) => {
+		setImageFiles((prev) => [...prev, ...incoming]);
+		setImageError(null);
+	}, []);
+
+	const removeImageFile = useCallback((index: number) => {
+		setImageFiles((prev) => prev.filter((_, i) => i !== index));
+	}, []);
+
 	return {
 		title,
 		setTitle,
@@ -50,5 +68,10 @@ export const useListingForm = ({
 		setCategoryId,
 		categoryError,
 		setCategoryError,
+		imageFiles,
+		addImageFiles,
+		removeImageFile,
+		imageError,
+		setImageError,
 	};
 };

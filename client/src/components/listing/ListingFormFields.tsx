@@ -1,6 +1,7 @@
 import { Fieldset, Stack } from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import { FormField, FormInput, FormTextarea } from '@client/components/input/FormField';
+import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
 import { ListingFormState } from '@client/hooks/useListingForm';
 
 type ListingFormFieldsProps = {
@@ -47,6 +48,17 @@ export const ListingFormFields = ({
 						form.setCategoryId(v);
 						if (v) form.setCategoryError(null);
 					}}
+					disabled={disabled}
+				/>
+			</FormField>
+			<FormField
+				label="Images"
+				error={form.imageError}
+			>
+				<ListingImageUpload
+					imageFiles={form.imageFiles}
+					onAdd={form.addImageFiles}
+					onRemove={form.removeImageFile}
 					disabled={disabled}
 				/>
 			</FormField>
