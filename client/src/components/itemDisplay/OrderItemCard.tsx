@@ -27,7 +27,7 @@ type Props = {
 
 export const OrderItemCard = (props: Props) => {
 	const imageUrl = props.item.imageUuid
-		? `${process.env.LISTING_IMAGES_URL}/${props.item.imageUuid}.jpg`
+		? `${process.env.LISTING_IMAGES_URL}/${props.item.shopShortId}/${props.item.imageUuid}.jpg`
 		: undefined;
 
 	return (

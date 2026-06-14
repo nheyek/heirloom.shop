@@ -159,7 +159,7 @@ export const ListingPage = () => {
 
 	const imageUrls =
 		listingData?.imageUuids.map(
-			(uuid) => `${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`,
+			(uuid) => `${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
 		) || [];
 
 	const variationCollections =

@@ -88,7 +88,7 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 							urls={
 								item.imageUuid
 									? [
-											`${process.env.LISTING_IMAGES_URL}/${item.imageUuid}.jpg`,
+											`${process.env.LISTING_IMAGES_URL}/${item.shopShortId}/${item.imageUuid}.jpg`,
 										]
 									: []
 							}

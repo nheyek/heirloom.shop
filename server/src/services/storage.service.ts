@@ -20,20 +20,34 @@ const CONTENT_TYPE_TO_EXT: Record<string, string> = {
 	'image/avif': 'avif',
 };
 
-export const generateShopImageUploadUrl = async (
+const generateUploadUrl = async (
+	key: string,
 	contentType: string,
 ): Promise<{ uuid: string; uploadUrl: string }> => {
-	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
-	const uuid = randomUUID();
-	const key = `shop-profile-images/${uuid}.${ext}`;
-
+	const uuid = key.split('/').pop()!.split('.')[0];
 	const command = new PutObjectCommand({
 		Bucket: process.env.DO_SPACES_BUCKET!,
 		Key: key,
 		ContentType: contentType,
 		ACL: 'public-read',
 	});
-
 	const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 300 });
 	return { uuid, uploadUrl };
+};
+
+export const generateShopImageUploadUrl = async (
+	contentType: string,
+): Promise<{ uuid: string; uploadUrl: string }> => {
+	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
+	const uuid = randomUUID();
+	return generateUploadUrl(`shop-profile-images/${uuid}.${ext}`, contentType);
+};
+
+export const generateListingImageUploadUrl = async (
+	shopShortId: string,
+	contentType: string,
+): Promise<{ uuid: string; uploadUrl: string }> => {
+	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
+	const uuid = randomUUID();
+	return generateUploadUrl(`listing-images/${shopShortId}/${uuid}.${ext}`, contentType);
 };

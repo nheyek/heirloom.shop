@@ -73,6 +73,7 @@ export const createOrderItemSnapshots = (
 		snapshots.push({
 			title: listing.title,
 			shopName: listing.shop.title,
+			shopShortId: listing.shop.shortId,
 			imageUuid: listing.imageUuids[0] ?? null,
 			unitPriceCents,
 			shippingPriceCents:

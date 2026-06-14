@@ -36,7 +36,7 @@ export const ListingCard = (props: Props) => {
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
 	const getImageUrl = (uuid: string) =>
-		`${process.env.LISTING_IMAGES_URL}/${uuid}.jpg`;
+		`${process.env.LISTING_IMAGES_URL}/${props.shopShortId}/${uuid}.jpg`;
 
 	return (
 		<Card.Root variant="elevated">

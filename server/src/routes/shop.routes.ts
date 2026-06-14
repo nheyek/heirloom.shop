@@ -8,7 +8,7 @@ import * as favoriteShopService from '@server/services/favoriteShop.service';
 import * as listingService from '@server/services/listing.service';
 import * as shopService from '@server/services/shop.service';
 import { DuplicateShopTitleError } from '@server/services/shop.service';
-import { generateShopImageUploadUrl } from '@server/services/storage.service';
+import { generateListingImageUploadUrl, generateShopImageUploadUrl } from '@server/services/storage.service';
 import * as userService from '@server/services/user.service';
 
 const s = initServer();
@@ -165,6 +165,31 @@ export const shopRouter = s.router(shopsContract, {
 				};
 			}
 			const result = await generateShopImageUploadUrl(body.contentType);
+			return { status: 200 as const, body: result };
+		},
+	},
+	getListingImageUploadUrl: {
+		middleware: [authAndSetUser],
+		handler: async ({ params: { id }, body, req }) => {
+			const shop = await shopService.findShopByShortId(id);
+			if (!shop) {
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
+			}
+			try {
+				await shopService.authorizeShopAction(
+					shop.id,
+					req.userClaims!.email,
+				);
+			} catch {
+				return {
+					status: 403 as const,
+					body: { error: ERROR_MESSAGES.shop.forbidden },
+				};
+			}
+			const result = await generateListingImageUploadUrl(id, body.contentType);
 			return { status: 200 as const, body: result };
 		},
 	},

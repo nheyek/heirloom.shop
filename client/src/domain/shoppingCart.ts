@@ -20,6 +20,7 @@ export const getOrderItemDisplayData = (
 	return {
 		title: item.listingData.title,
 		shopName: item.listingData.shopTitle ?? '',
+		shopShortId: item.listingData.shopShortId,
 		shippingPriceCents: item.listingData.shippingPrice ?? 0,
 		imageUuid: item.listingData.imageUuids[0] ?? null,
 		unitPriceCents: calculateItemPrice(
