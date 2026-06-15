@@ -18,7 +18,10 @@ export const ShopManagerListingEditPage = () => {
 	const isBlocked = form.isUploadingImages;
 
 	return (
-		<Stack gap={5} maxW={650}>
+		<Stack
+			gap={10}
+			maxW={650}
+		>
 			<ListingFormFields form={form} />
 			<Button
 				size="lg"

@@ -3,6 +3,12 @@ import { useImageUpload, ImageEntry } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
 import { useState } from 'react';
 
+export type DetailSection = {
+	id: string;
+	title: string;
+	richText: string;
+};
+
 export type { ImageEntry };
 
 export type ListingFormState = {
@@ -28,6 +34,12 @@ export type ListingFormState = {
 	uploadedUuids: string[];
 	imageError: string | null;
 	setImageError: (v: string | null) => void;
+
+	detailSections: DetailSection[];
+	addDetailSection: (section: Omit<DetailSection, 'id'>) => void;
+	updateDetailSection: (id: string, section: Omit<DetailSection, 'id'>) => void;
+	removeDetailSection: (id: string) => void;
+	reorderDetailSections: (sections: DetailSection[]) => void;
 };
 
 type UseListingFormOptions = {
@@ -55,6 +67,29 @@ export const useListingForm = ({
 	const [categoryError, setCategoryError] = useState<string | null>(null);
 
 	const [imageError, setImageError] = useState<string | null>(null);
+
+	const [detailSections, setDetailSections] = useState<DetailSection[]>([]);
+
+	const addDetailSection = (section: Omit<DetailSection, 'id'>) => {
+		setDetailSections((prev) => [
+			...prev,
+			{ ...section, id: crypto.randomUUID() },
+		]);
+	};
+
+	const updateDetailSection = (id: string, section: Omit<DetailSection, 'id'>) => {
+		setDetailSections((prev) =>
+			prev.map((s) => (s.id === id ? { ...section, id } : s)),
+		);
+	};
+
+	const removeDetailSection = (id: string) => {
+		setDetailSections((prev) => prev.filter((s) => s.id !== id));
+	};
+
+	const reorderDetailSections = (sections: DetailSection[]) => {
+		setDetailSections(sections);
+	};
 
 	const {
 		imageEntries,
@@ -92,5 +127,10 @@ export const useListingForm = ({
 		uploadedUuids: uuids,
 		imageError,
 		setImageError,
+		detailSections,
+		addDetailSection,
+		updateDetailSection,
+		removeDetailSection,
+		reorderDetailSections,
 	};
 };
