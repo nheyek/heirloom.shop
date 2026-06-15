@@ -56,9 +56,9 @@ export const ListingFormFields = ({
 				error={form.imageError}
 			>
 				<ListingImageUpload
-					imageFiles={form.imageFiles}
+					imageEntries={form.imageEntries}
 					onAdd={form.addImageFiles}
-					onRemove={form.removeImageFile}
+					onRemove={form.removeImage}
 					disabled={disabled}
 				/>
 			</FormField>

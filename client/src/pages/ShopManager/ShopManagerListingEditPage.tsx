@@ -5,24 +5,28 @@ import { FaCheckCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 export const ShopManagerListingEditPage = () => {
-	const { listingShortId } = useParams<{ listingShortId: string }>();
-	const form = useListingForm();
+	const { shortId: shopShortId, listingShortId } = useParams<{
+		shortId: string;
+		listingShortId: string;
+	}>();
+	const form = useListingForm({ shopShortId: shopShortId! });
 
 	const handleSave = () => {
 		// TODO: validate + call update API
 	};
 
+	const isBlocked = form.isUploadingImages;
+
 	return (
-		<Stack
-			gap={5}
-			maxW={650}
-		>
+		<Stack gap={5} maxW={650}>
 			<ListingFormFields form={form} />
 			<Button
 				size="lg"
 				width={175}
 				fontSize={20}
 				onClick={handleSave}
+				disabled={isBlocked}
+				loading={isBlocked}
 			>
 				<FaCheckCircle />
 				Save Changes

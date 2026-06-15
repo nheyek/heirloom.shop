@@ -4,6 +4,7 @@ import {
 	Flex,
 	IconButton,
 	Image,
+	Skeleton,
 	Stack,
 	Text,
 	Wrap,
@@ -13,18 +14,11 @@ import {
 	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
+import { ImageEntry } from '@client/hooks/useListingForm';
 import { toastError } from '@client/toaster';
-import { useMemo } from 'react';
 import { FaImage, FaTrashAlt } from 'react-icons/fa';
 
 const THUMBNAIL_WIDTH = 200;
-
-type ListingImageUploadProps = {
-	imageFiles: File[];
-	onAdd: (files: File[]) => void;
-	onRemove: (index: number) => void;
-	disabled?: boolean;
-};
 
 const fullDropZoneStyles = {
 	height: 200,
@@ -36,16 +30,20 @@ const minifiedDropZoneStyles = {
 	width: THUMBNAIL_WIDTH,
 };
 
+type ListingImageUploadProps = {
+	imageEntries: ImageEntry[];
+	onAdd: (files: File[]) => void;
+	onRemove: (index: number) => void;
+	disabled?: boolean;
+};
+
 export const ListingImageUpload = ({
-	imageFiles,
+	imageEntries,
 	onAdd,
 	onRemove,
 	disabled,
 }: ListingImageUploadProps) => {
-	const previewUrls = useMemo(
-		() => imageFiles.map((f) => URL.createObjectURL(f)),
-		[imageFiles],
-	);
+	const hasImages = imageEntries.length > 0;
 
 	const fileUploadZone = (
 		<FileUpload.Root
@@ -68,7 +66,7 @@ export const ListingImageUpload = ({
 				}
 			}}
 			disabled={disabled}
-			{...(imageFiles.length > 0 && { width: 'auto' })}
+			{...(hasImages && { width: 'auto' })}
 		>
 			<FileUpload.HiddenInput />
 			<FileUpload.Trigger asChild>
@@ -80,13 +78,9 @@ export const ListingImageUpload = ({
 					borderWidth={1}
 					borderStyle="dashed"
 					borderColor="gray.300"
-					_hover={
-						disabled ? {} : { borderColor: 'gray.400' }
-					}
-					{...(imageFiles.length === 0 &&
-						fullDropZoneStyles)}
-					{...(imageFiles.length > 0 &&
-						minifiedDropZoneStyles)}
+					_hover={disabled ? {} : { borderColor: 'gray.400' }}
+					{...(!hasImages && fullDropZoneStyles)}
+					{...(hasImages && minifiedDropZoneStyles)}
 				>
 					<Stack
 						alignItems="center"
@@ -96,7 +90,7 @@ export const ListingImageUpload = ({
 					>
 						<FaImage size={26} />
 						<Text fontSize={20}>
-							{imageFiles.length > 0
+							{hasImages
 								? 'Add images'
 								: 'Drop images or click to upload'}
 						</Text>
@@ -106,30 +100,33 @@ export const ListingImageUpload = ({
 		</FileUpload.Root>
 	);
 
-	if (imageFiles.length === 0) {
+	if (!hasImages) {
 		return fileUploadZone;
 	}
 
 	return (
-		<Wrap
-			gap={3}
-			alignItems="flex-start"
-		>
-			{previewUrls.map((url, i) => (
+		<Wrap gap={3} alignItems="flex-start">
+			{imageEntries.map((entry, i) => (
 				<Box
-					key={url}
+					key={entry.previewUrl}
 					position="relative"
 					w={THUMBNAIL_WIDTH}
 					flexShrink={0}
 				>
-					<Image
-						src={url}
-						w="100%"
-						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-						objectFit="cover"
+					<Skeleton
+						loading={entry.isUploading}
 						borderRadius="md"
-						display="block"
-					/>
+					>
+						<Image
+							src={entry.previewUrl}
+							w="100%"
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							objectFit="cover"
+							borderRadius="md"
+							display="block"
+							opacity={entry.uploadFailed ? 0.4 : 1}
+						/>
+					</Skeleton>
 					<IconButton
 						aria-label="Remove image"
 						size="xs"
@@ -138,7 +135,7 @@ export const ListingImageUpload = ({
 						top={2}
 						right={2}
 						onClick={() => onRemove(i)}
-						disabled={disabled}
+						disabled={disabled || entry.isUploading}
 					>
 						<FaTrashAlt />
 					</IconButton>

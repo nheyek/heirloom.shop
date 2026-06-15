@@ -1,4 +1,9 @@
-import { useCallback, useState } from 'react';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { useImageUpload, ImageEntry } from '@client/hooks/useImageUpload';
+import { callApi } from '@client/utils/apiUtils';
+import { useState } from 'react';
+
+export type { ImageEntry };
 
 export type ListingFormState = {
 	title: string;
@@ -16,24 +21,30 @@ export type ListingFormState = {
 	categoryError: string | null;
 	setCategoryError: (v: string | null) => void;
 
-	imageFiles: File[];
+	imageEntries: ImageEntry[];
 	addImageFiles: (files: File[]) => void;
-	removeImageFile: (index: number) => void;
+	removeImage: (index: number) => void;
+	isUploadingImages: boolean;
+	uploadedUuids: string[];
 	imageError: string | null;
 	setImageError: (v: string | null) => void;
 };
 
 type UseListingFormOptions = {
+	shopShortId: string;
 	initialTitle?: string;
 	initialSubtitle?: string;
 	initialCategoryId?: string | null;
 };
 
 export const useListingForm = ({
+	shopShortId,
 	initialTitle = '',
 	initialSubtitle = '',
 	initialCategoryId = null,
-}: UseListingFormOptions = {}): ListingFormState => {
+}: UseListingFormOptions): ListingFormState => {
+	const apiClient = useApiClient();
+
 	const [title, setTitle] = useState(initialTitle);
 	const [titleError, setTitleError] = useState<string | null>(null);
 
@@ -43,17 +54,23 @@ export const useListingForm = ({
 	const [categoryId, setCategoryId] = useState<string | null>(initialCategoryId);
 	const [categoryError, setCategoryError] = useState<string | null>(null);
 
-	const [imageFiles, setImageFiles] = useState<File[]>([]);
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const addImageFiles = useCallback((incoming: File[]) => {
-		setImageFiles((prev) => [...prev, ...incoming]);
-		setImageError(null);
-	}, []);
-
-	const removeImageFile = useCallback((index: number) => {
-		setImageFiles((prev) => prev.filter((_, i) => i !== index));
-	}, []);
+	const {
+		imageEntries,
+		addFiles,
+		removeImage,
+		isUploading,
+		uuids,
+	} = useImageUpload(async (contentType) => {
+		const result = await callApi(
+			apiClient.shops.getListingImageUploadUrl({
+				params: { id: shopShortId },
+				body: { contentType },
+			}),
+		);
+		return result.error !== null ? null : result.data;
+	});
 
 	return {
 		title,
@@ -68,9 +85,11 @@ export const useListingForm = ({
 		setCategoryId,
 		categoryError,
 		setCategoryError,
-		imageFiles,
-		addImageFiles,
-		removeImageFile,
+		imageEntries,
+		addImageFiles: addFiles,
+		removeImage,
+		isUploadingImages: isUploading,
+		uploadedUuids: uuids,
 		imageError,
 		setImageError,
 	};
