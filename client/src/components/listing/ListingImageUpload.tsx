@@ -21,7 +21,7 @@ import { FaImage, FaTrashAlt } from 'react-icons/fa';
 const THUMBNAIL_WIDTH = 200;
 
 const fullDropZoneStyles = {
-	height: 200,
+	height: 150,
 	width: '100%',
 };
 
@@ -78,7 +78,9 @@ export const ListingImageUpload = ({
 					borderWidth={1}
 					borderStyle="dashed"
 					borderColor="gray.300"
-					_hover={disabled ? {} : { borderColor: 'gray.400' }}
+					_hover={
+						disabled ? {} : { borderColor: 'gray.400' }
+					}
 					{...(!hasImages && fullDropZoneStyles)}
 					{...(hasImages && minifiedDropZoneStyles)}
 				>
@@ -105,7 +107,10 @@ export const ListingImageUpload = ({
 	}
 
 	return (
-		<Wrap gap={3} alignItems="flex-start">
+		<Wrap
+			gap={3}
+			alignItems="flex-start"
+		>
 			{imageEntries.map((entry, i) => (
 				<Box
 					key={entry.previewUrl}

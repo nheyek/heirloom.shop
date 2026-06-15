@@ -53,7 +53,7 @@ export const findListingsByShop = async (
 ): Promise<Listing[]> => {
 	const em = getEm();
 
-	return em.find(Listing, { shop: { id: shopId } });
+	return em.find(Listing, { shop: { id: shopId } }, { populate: ['shop', 'category'] });
 };
 
 export const findFullListingDataByShortId = async (
