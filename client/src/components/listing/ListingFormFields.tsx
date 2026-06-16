@@ -1,11 +1,18 @@
 import { Button, Fieldset, HStack, Stack } from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
-import { FormField, FormInput, FormTextarea } from '@client/components/input/FormField';
+import {
+	FormField,
+	FormInput,
+	FormTextarea,
+} from '@client/components/input/FormField';
 import { DetailSectionDialog } from '@client/components/listing/DetailSectionDialog';
 import { DetailSectionList } from '@client/components/listing/DetailSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
 import { MAX_DETAIL_SECTIONS } from '@client/constants';
-import { ListingDescrSection, ListingFormState } from '@client/hooks/useListingForm';
+import {
+	ListingDescrSection,
+	ListingFormState,
+} from '@client/hooks/useListingForm';
 import { useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 
@@ -14,9 +21,14 @@ type ListingFormFieldsProps = {
 	disabled?: boolean;
 };
 
-export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) => {
+export const ListingFormFields = ({
+	form,
+	disabled,
+}: ListingFormFieldsProps) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [editingIndex, setEditingIndex] = useState<number | null>(null);
+	const [editingIndex, setEditingIndex] = useState<number | null>(
+		null,
+	);
 
 	const openAdd = () => {
 		setEditingIndex(null);
@@ -36,30 +48,49 @@ export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) =>
 		}
 	};
 
-	const editingSection = editingIndex !== null ? form.detailSections[editingIndex] : null;
+	const editingSection =
+		editingIndex !== null
+			? form.detailSections[editingIndex]
+			: null;
+	const existingTitles = form.detailSections
+		.filter((_, i) => i !== editingIndex)
+		.map((s) => s.title);
 
 	return (
 		<>
 			<Fieldset.Root>
 				<Stack gap={5}>
-					<FormField label="Title" error={form.titleError}>
+					<FormField
+						label="Title"
+						error={form.titleError}
+					>
 						<FormInput
 							value={form.title}
-							onChange={(e) => form.setTitle(e.target.value)}
+							onChange={(e) =>
+								form.setTitle(e.target.value)
+							}
 							placeholder="e.g. Hand-stitched leather wallet"
 							disabled={disabled}
 						/>
 					</FormField>
-					<FormField label="Subtitle" error={form.subtitleError}>
+					<FormField
+						label="Subtitle"
+						error={form.subtitleError}
+					>
 						<FormTextarea
 							value={form.subtitle}
-							onChange={(e) => form.setSubtitle(e.target.value)}
+							onChange={(e) =>
+								form.setSubtitle(e.target.value)
+							}
 							placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
 							rows={2}
 							disabled={disabled}
 						/>
 					</FormField>
-					<FormField label="Category" error={form.categoryError}>
+					<FormField
+						label="Category"
+						error={form.categoryError}
+					>
 						<CategoryCombobox
 							value={form.categoryId}
 							onChange={(v) => {
@@ -69,7 +100,10 @@ export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) =>
 							disabled={disabled}
 						/>
 					</FormField>
-					<FormField label="Images" error={form.imageError}>
+					<FormField
+						label="Images"
+						error={form.imageError}
+					>
 						<ListingImageUpload
 							imageEntries={form.imageEntries}
 							onAdd={form.addImageFiles}
@@ -85,18 +119,23 @@ export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) =>
 									sections={form.detailSections}
 									ids={form.detailSectionIds}
 									onEdit={openEdit}
-									onDelete={form.removeDetailSection}
-									onReorder={form.reorderDetailSections}
+									onDelete={
+										form.removeDetailSection
+									}
+									onReorder={
+										form.reorderDetailSections
+									}
 								/>
 							)}
-							{form.detailSections.length < MAX_DETAIL_SECTIONS && (
+							{form.detailSections.length <
+								MAX_DETAIL_SECTIONS && (
 								<HStack>
 									<Button
 										size="md"
 										onClick={openAdd}
 										disabled={disabled}
 										fontSize={18}
-										variant="outline"
+										variant="subtle"
 									>
 										<FaPlus />
 										Add Section
@@ -111,6 +150,7 @@ export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) =>
 			<DetailSectionDialog
 				open={dialogOpen}
 				initial={editingSection}
+				existingTitles={existingTitles}
 				onClose={() => setDialogOpen(false)}
 				onConfirm={handleConfirm}
 			/>

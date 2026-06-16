@@ -118,6 +118,7 @@ const textRecipe = defineRecipe({
 	},
 });
 
+
 const selectRecipe = defineSlotRecipe({
 	slots: ['label', 'item'],
 	base: {

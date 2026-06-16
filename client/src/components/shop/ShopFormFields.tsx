@@ -2,11 +2,11 @@ import {
 	Box,
 	Button,
 	Fieldset,
-	Text,
 	HStack,
 	Image,
 	Skeleton,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
@@ -116,7 +116,11 @@ export const ShopFormFields = ({
 		</Fieldset.Root>
 		{imagePreviewUrl ? (
 			<Box>
-				<Text fontSize={18} fontWeight={500} mb={1.5}>
+				<Text
+					fontSize={18}
+					fontWeight={500}
+					mb={1.5}
+				>
 					Banner Image
 				</Text>
 				<Skeleton
@@ -139,7 +143,7 @@ export const ShopFormFields = ({
 						<Button
 							size="md"
 							fontSize={18}
-							variant="outline"
+							variant="subtle"
 							disabled={disabled}
 						>
 							<FaExchangeAlt />

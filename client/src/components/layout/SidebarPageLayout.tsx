@@ -247,7 +247,7 @@ export const SidebarPageLayout = ({
 		<Box
 			flex={1}
 			minW={0}
-			pt={{ base: 5, md: 8 }}
+			pt={ACCOUNT_PAGE_PADDING_SPACING_UNITS}
 		>
 			<Stack
 				px={ACCOUNT_PAGE_PADDING_SPACING_UNITS}

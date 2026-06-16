@@ -6,13 +6,13 @@ import {
 	Skeleton,
 	Wrap,
 } from '@chakra-ui/react';
+import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import {
 	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
-import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { ImageEntry } from '@client/hooks/useImageUpload';
 import {
 	DndContext,
@@ -39,7 +39,11 @@ type ThumbnailProps = {
 	disabled?: boolean;
 };
 
-const SortableThumbnail = ({ entry, onRemove, disabled }: ThumbnailProps) => {
+const SortableThumbnail = ({
+	entry,
+	onRemove,
+	disabled,
+}: ThumbnailProps) => {
 	const {
 		attributes,
 		listeners,
@@ -64,7 +68,10 @@ const SortableThumbnail = ({ entry, onRemove, disabled }: ThumbnailProps) => {
 			{...attributes}
 			{...listeners}
 		>
-			<Skeleton loading={entry.isUploading} borderRadius="md">
+			<Skeleton
+				loading={entry.isUploading}
+				borderRadius="md"
+			>
 				<Image
 					src={entry.previewUrl}
 					w="100%"
@@ -111,20 +118,35 @@ export const ListingImageUpload = ({
 	disabled,
 }: ListingImageUploadProps) => {
 	const sensors = useSensors(
-		useSensor(MouseSensor, { activationConstraint: { distance: 5 } }),
-		useSensor(TouchSensor, { activationConstraint: { delay: 150, tolerance: 5 } }),
+		useSensor(MouseSensor, {
+			activationConstraint: { distance: 5 },
+		}),
+		useSensor(TouchSensor, {
+			activationConstraint: { delay: 150, tolerance: 5 },
+		}),
 	);
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (!over || active.id === over.id) return;
-		const oldIndex = imageEntries.findIndex((e) => e.previewUrl === active.id);
-		const newIndex = imageEntries.findIndex((e) => e.previewUrl === over.id);
+		const oldIndex = imageEntries.findIndex(
+			(e) => e.previewUrl === active.id,
+		);
+		const newIndex = imageEntries.findIndex(
+			(e) => e.previewUrl === over.id,
+		);
 		onReorder(arrayMove(imageEntries, oldIndex, newIndex));
 	};
 
 	if (!imageEntries.length) {
-		return <ImageDropzone onAdd={onAdd} maxFiles={MAX_LISTING_IMAGES} disabled={disabled} width="100%" />;
+		return (
+			<ImageDropzone
+				onAdd={onAdd}
+				maxFiles={MAX_LISTING_IMAGES}
+				disabled={disabled}
+				width="100%"
+			/>
+		);
 	}
 
 	return (
@@ -138,7 +160,11 @@ export const ListingImageUpload = ({
 					items={imageEntries.map((e) => e.previewUrl)}
 					strategy={rectSortingStrategy}
 				>
-					<Wrap gap={THUMBNAIL_GAP} alignItems="flex-start" mb={3}>
+					<Wrap
+						gap={THUMBNAIL_GAP}
+						alignItems="flex-start"
+						mb={3}
+					>
 						{imageEntries.map((entry, i) => (
 							<SortableThumbnail
 								key={entry.previewUrl}
@@ -155,7 +181,12 @@ export const ListingImageUpload = ({
 				maxFiles={MAX_LISTING_IMAGES}
 				disabled={disabled}
 				trigger={
-					<Button size="md" disabled={disabled} fontSize={18} variant="outline">
+					<Button
+						size="md"
+						disabled={disabled}
+						fontSize={18}
+						variant="subtle"
+					>
 						<FaPlus />
 						Add Images
 					</Button>

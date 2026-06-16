@@ -13,9 +13,12 @@ import { useEffect, useRef, useState } from 'react';
 
 const EDITOR_KEY_NEW = 'new';
 
+const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '').trim();
+
 type Props = {
 	open: boolean;
 	initial?: ListingDescrSection | null;
+	existingTitles: string[];
 	onClose: () => void;
 	onConfirm: (section: ListingDescrSection) => void;
 };
@@ -23,10 +26,13 @@ type Props = {
 export const DetailSectionDialog = ({
 	open,
 	initial,
+	existingTitles,
 	onClose,
 	onConfirm,
 }: Props) => {
 	const [title, setTitle] = useState('');
+	const [titleError, setTitleError] = useState<string | null>(null);
+	const [bodyError, setBodyError] = useState<string | null>(null);
 	const richTextRef = useRef('');
 
 	const isDirty = () =>
@@ -41,7 +47,25 @@ export const DetailSectionDialog = ({
 	};
 
 	const handleConfirm = () => {
-		onConfirm({ title, richText: richTextRef.current });
+		let valid = true;
+		const trimmedTitle = title.trim();
+		if (!trimmedTitle) {
+			setTitleError('Title is required.');
+			valid = false;
+		} else if (existingTitles.some((t) => t.trim() === trimmedTitle)) {
+			setTitleError('A section with this title already exists.');
+			valid = false;
+		} else {
+			setTitleError(null);
+		}
+		if (!stripHtml(richTextRef.current)) {
+			setBodyError('Body is required.');
+			valid = false;
+		} else {
+			setBodyError(null);
+		}
+		if (!valid) return;
+		onConfirm({ title: trimmedTitle, richText: richTextRef.current });
 		onClose();
 	};
 
@@ -52,6 +76,8 @@ export const DetailSectionDialog = ({
 		} else {
 			setTitle('');
 			richTextRef.current = '';
+			setTitleError(null);
+			setBodyError(null);
 		}
 	}, [open]);
 
@@ -90,31 +116,29 @@ export const DetailSectionDialog = ({
 						pb={3}
 					>
 						<Stack gap={3}>
-							<Field.Root>
-								<Field.Label
-									fontSize={18}
-									fontWeight={500}
-								>
+							<Field.Root invalid={!!titleError}>
+								<Field.Label fontSize={18} fontWeight={500}>
 									Title
 								</Field.Label>
 								<Input
 									size="lg"
 									fontSize={18}
 									value={title}
-									onChange={(e) =>
-										setTitle(e.target.value)
-									}
+									onChange={(e) => {
+										setTitle(e.target.value);
+										const trimmed = e.target.value.trim();
+										if (trimmed && !existingTitles.some((t) => t.trim() === trimmed)) setTitleError(null);
+									}}
 									placeholder="e.g. Materials"
 								/>
+								{titleError && <Field.ErrorText fontSize={15}>{titleError}</Field.ErrorText>}
 							</Field.Root>
-							<Field.Root>
-								<Field.Label
-									fontSize={18}
-									fontWeight={500}
-								>
+							<Field.Root invalid={!!bodyError}>
+								<Field.Label fontSize={18} fontWeight={500}>
 									Body
 								</Field.Label>
 								<RichTextEditor
+									invalid={!!bodyError}
 									key={
 										open
 											? (initial?.title ?? EDITOR_KEY_NEW)
@@ -125,9 +149,11 @@ export const DetailSectionDialog = ({
 									}
 									onChange={(html) => {
 										richTextRef.current = html;
+										if (stripHtml(html)) setBodyError(null);
 									}}
 									maxHeight={300}
 								/>
+								{bodyError && <Field.ErrorText fontSize={15}>{bodyError}</Field.ErrorText>}
 							</Field.Root>
 						</Stack>
 					</Dialog.Body>
