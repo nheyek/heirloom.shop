@@ -16,18 +16,15 @@ type ListingFormFieldsProps = {
 
 export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
-	const [dialogKey, setDialogKey] = useState(0);
 	const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
 	const openAdd = () => {
 		setEditingIndex(null);
-		setDialogKey((k) => k + 1);
 		setDialogOpen(true);
 	};
 
 	const openEdit = (index: number) => {
 		setEditingIndex(index);
-		setDialogKey((k) => k + 1);
 		setDialogOpen(true);
 	};
 
@@ -112,7 +109,6 @@ export const ListingFormFields = ({ form, disabled }: ListingFormFieldsProps) =>
 			</Fieldset.Root>
 
 			<DetailSectionDialog
-				key={dialogKey}
 				open={dialogOpen}
 				initial={editingSection}
 				onClose={() => setDialogOpen(false)}
