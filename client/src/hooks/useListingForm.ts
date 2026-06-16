@@ -31,12 +31,12 @@ export type ListingFormState = {
 	imageError: string | null;
 	setImageError: (v: string | null) => void;
 
-	detailSections: ListingDescrSection[];
-	detailSectionIds: string[];
-	addDetailSection: (section: ListingDescrSection) => void;
-	updateDetailSection: (index: number, section: ListingDescrSection) => void;
-	removeDetailSection: (index: number) => void;
-	reorderDetailSections: (fromIndex: number, toIndex: number) => void;
+	descrSections: ListingDescrSection[];
+	descrSectionIds: string[];
+	addDescrSection: (section: ListingDescrSection) => void;
+	updateDescrSection: (index: number, section: ListingDescrSection) => void;
+	removeDescrSection: (index: number) => void;
+	reorderDescrSections: (fromIndex: number, toIndex: number) => void;
 };
 
 type UseListingFormOptions = {
@@ -65,32 +65,32 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const [detailSections, setDetailSections] = useState<ListingDescrSection[]>([]);
-	const [detailSectionIds, setDetailSectionIds] = useState<string[]>([]);
+	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>([]);
+	const [descrSectionIds, setDescrSectionIds] = useState<string[]>([]);
 
-	const addDetailSection = (section: ListingDescrSection) => {
-		setDetailSections((prev) => [...prev, section]);
-		setDetailSectionIds((prev) => [...prev, crypto.randomUUID()]);
+	const addDescrSection = (section: ListingDescrSection) => {
+		setDescrSections((prev) => [...prev, section]);
+		setDescrSectionIds((prev) => [...prev, crypto.randomUUID()]);
 	};
 
-	const updateDetailSection = (index: number, section: ListingDescrSection) => {
-		setDetailSections((prev) => prev.map((s, i) => (i === index ? section : s)));
+	const updateDescrSection = (index: number, section: ListingDescrSection) => {
+		setDescrSections((prev) => prev.map((s, i) => (i === index ? section : s)));
 	};
 
-	const removeDetailSection = (index: number) => {
-		setDetailSections((prev) => prev.filter((_, i) => i !== index));
-		setDetailSectionIds((prev) => prev.filter((_, i) => i !== index));
+	const removeDescrSection = (index: number) => {
+		setDescrSections((prev) => prev.filter((_, i) => i !== index));
+		setDescrSectionIds((prev) => prev.filter((_, i) => i !== index));
 	};
 
-	const reorderDetailSections = (fromIndex: number, toIndex: number) => {
+	const reorderDescrSections = (fromIndex: number, toIndex: number) => {
 		const move = <T,>(arr: T[]): T[] => {
 			const result = [...arr];
 			const [item] = result.splice(fromIndex, 1);
 			result.splice(toIndex, 0, item);
 			return result;
 		};
-		setDetailSections(move);
-		setDetailSectionIds(move);
+		setDescrSections(move);
+		setDescrSectionIds(move);
 	};
 
 	const {
@@ -131,11 +131,11 @@ export const useListingForm = ({
 		uploadedUuids: uuids,
 		imageError,
 		setImageError,
-		detailSections,
-		detailSectionIds,
-		addDetailSection,
-		updateDetailSection,
-		removeDetailSection,
-		reorderDetailSections,
+		descrSections,
+		descrSectionIds,
+		addDescrSection,
+		updateDescrSection,
+		removeDescrSection,
+		reorderDescrSections,
 	};
 };

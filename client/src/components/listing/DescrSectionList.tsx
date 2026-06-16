@@ -25,7 +25,7 @@ type ItemProps = {
 	onDelete: () => void;
 };
 
-const DetailSectionItem = ({ id, section, onEdit, onDelete }: ItemProps) => {
+const DescrSectionItem = ({ id, section, onEdit, onDelete }: ItemProps) => {
 	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
 		useSortable({ id });
 
@@ -79,7 +79,7 @@ type Props = {
 	onReorder: (fromIndex: number, toIndex: number) => void;
 };
 
-export const DetailSectionList = ({ sections, ids, onEdit, onDelete, onReorder }: Props) => {
+export const DescrSectionList = ({ sections, ids, onEdit, onDelete, onReorder }: Props) => {
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
@@ -98,7 +98,7 @@ export const DetailSectionList = ({ sections, ids, onEdit, onDelete, onReorder }
 			<SortableContext items={ids} strategy={verticalListSortingStrategy}>
 				<Flex direction="column" gap={2}>
 					{sections.map((section, i) => (
-						<DetailSectionItem
+						<DescrSectionItem
 							key={ids[i]}
 							id={ids[i]}
 							section={section}

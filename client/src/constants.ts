@@ -17,7 +17,7 @@ export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 
 export const MAX_IMAGE_SIZE_MB = 5;
 export const MAX_LISTING_IMAGES = 20;
-export const MAX_DETAIL_SECTIONS = 10;
+export const MAX_DESCR_SECTIONS = 10;
 
 export const THUMBNAIL_WIDTH = 225;
 export const THUMBNAIL_GAP = 3;

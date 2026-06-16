@@ -5,10 +5,10 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
-import { DetailSectionDialog } from '@client/components/listing/DetailSectionDialog';
-import { DetailSectionList } from '@client/components/listing/DetailSectionList';
+import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
+import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
-import { MAX_DETAIL_SECTIONS } from '@client/constants';
+import { MAX_DESCR_SECTIONS } from '@client/constants';
 import {
 	ListingDescrSection,
 	ListingFormState,
@@ -42,17 +42,17 @@ export const ListingFormFields = ({
 
 	const handleConfirm = (section: ListingDescrSection) => {
 		if (editingIndex !== null) {
-			form.updateDetailSection(editingIndex, section);
+			form.updateDescrSection(editingIndex, section);
 		} else {
-			form.addDetailSection(section);
+			form.addDescrSection(section);
 		}
 	};
 
 	const editingSection =
 		editingIndex !== null
-			? form.detailSections[editingIndex]
+			? form.descrSections[editingIndex]
 			: null;
-	const existingTitles = form.detailSections
+	const existingTitles = form.descrSections
 		.filter((_, i) => i !== editingIndex)
 		.map((s) => s.title);
 
@@ -114,21 +114,21 @@ export const ListingFormFields = ({
 					</FormField>
 					<FormField label="Description">
 						<Stack gap={3}>
-							{form.detailSections.length > 0 && (
-								<DetailSectionList
-									sections={form.detailSections}
-									ids={form.detailSectionIds}
+							{form.descrSections.length > 0 && (
+								<DescrSectionList
+									sections={form.descrSections}
+									ids={form.descrSectionIds}
 									onEdit={openEdit}
 									onDelete={
-										form.removeDetailSection
+										form.removeDescrSection
 									}
 									onReorder={
-										form.reorderDetailSections
+										form.reorderDescrSections
 									}
 								/>
 							)}
-							{form.detailSections.length <
-								MAX_DETAIL_SECTIONS && (
+							{form.descrSections.length <
+								MAX_DESCR_SECTIONS && (
 								<HStack>
 									<Button
 										size="md"
@@ -147,7 +147,7 @@ export const ListingFormFields = ({
 				</Stack>
 			</Fieldset.Root>
 
-			<DetailSectionDialog
+			<DescrSectionDialog
 				open={dialogOpen}
 				initial={editingSection}
 				existingTitles={existingTitles}

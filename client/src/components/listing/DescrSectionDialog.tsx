@@ -22,7 +22,7 @@ type Props = {
 	onConfirm: (section: ListingDescrSection) => void;
 };
 
-export const DetailSectionDialog = ({
+export const DescrSectionDialog = ({
 	open,
 	initial,
 	existingTitles,
