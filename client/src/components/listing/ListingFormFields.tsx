@@ -14,7 +14,7 @@ import {
 	ListingFormState,
 } from '@client/hooks/useListingForm';
 import { useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
 
 type ListingFormFieldsProps = {
 	form: ListingFormState;
@@ -101,6 +101,7 @@ export const ListingFormFields = ({
 							imageEntries={form.imageEntries}
 							onAdd={form.addImageFiles}
 							onRemove={form.removeImage}
+							onReorder={form.reorderImageEntries}
 							disabled={disabled}
 						/>
 					</FormField>
@@ -122,14 +123,15 @@ export const ListingFormFields = ({
 								MAX_DETAIL_SECTIONS && (
 								<HStack>
 									<Button
-										size="sm"
+										size="md"
 										onClick={
 											openAddDetailsSection
 										}
 										disabled={disabled}
-										fontSize={16}
+										fontSize={18}
+										variant="outline"
 									>
-										<FaPlusCircle />
+										<FaPlus />
 										Add Section
 									</Button>
 								</HStack>

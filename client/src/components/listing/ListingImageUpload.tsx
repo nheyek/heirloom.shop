@@ -1,76 +1,187 @@
 import {
 	Box,
+	Button,
 	FileUpload,
-	Flex,
 	IconButton,
 	Image,
 	Skeleton,
 	Stack,
-	Text,
 	Wrap,
 } from '@chakra-ui/react';
 import {
 	MAX_IMAGE_SIZE_MB,
 	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
+	THUMBNAIL_GAP,
+	THUMBNAIL_WIDTH,
 } from '@client/constants';
-import { ImageEntry } from '@client/hooks/useListingForm';
+import { ImageEntry } from '@client/hooks/useImageUpload';
 import { toastError } from '@client/toaster';
+import {
+	DndContext,
+	DragEndEvent,
+	MouseSensor,
+	TouchSensor,
+	closestCenter,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
+import {
+	SortableContext,
+	arrayMove,
+	rectSortingStrategy,
+	useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { FaImage, FaTrashAlt } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
 
-const THUMBNAIL_WIDTH = 200;
-
-const fullDropZoneStyles = {
-	height: 150,
-	width: '100%',
+type ThumbnailProps = {
+	entry: ImageEntry;
+	onRemove: () => void;
+	disabled?: boolean;
 };
 
-const minifiedDropZoneStyles = {
-	aspectRatio: STANDARD_IMAGE_ASPECT_RATIO,
-	width: THUMBNAIL_WIDTH,
+const SortableThumbnail = ({
+	entry,
+	onRemove,
+	disabled,
+}: ThumbnailProps) => {
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: entry.previewUrl });
+
+	return (
+		<Box
+			ref={setNodeRef}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : 1,
+			}}
+			position="relative"
+			w={THUMBNAIL_WIDTH}
+			flexShrink={0}
+			cursor={disabled ? 'default' : 'grab'}
+			{...attributes}
+			{...listeners}
+		>
+			<Skeleton
+				loading={entry.isUploading}
+				borderRadius="md"
+			>
+				<Image
+					src={entry.previewUrl}
+					w="100%"
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					objectFit="cover"
+					borderRadius="md"
+					display="block"
+					opacity={entry.uploadFailed ? 0.4 : 1}
+					draggable={false}
+				/>
+			</Skeleton>
+			<IconButton
+				aria-label="Remove image"
+				size="xs"
+				variant="subtle"
+				position="absolute"
+				top={2}
+				right={2}
+				onClick={(e) => {
+					e.stopPropagation();
+					onRemove();
+				}}
+				disabled={disabled || entry.isUploading}
+			>
+				<FaTrashAlt />
+			</IconButton>
+		</Box>
+	);
 };
 
 type ListingImageUploadProps = {
 	imageEntries: ImageEntry[];
 	onAdd: (files: File[]) => void;
 	onRemove: (index: number) => void;
+	onReorder: (entries: ImageEntry[]) => void;
 	disabled?: boolean;
 };
+
+const UploadRoot = ({
+	onAdd,
+	disabled,
+	children,
+}: {
+	onAdd: (files: File[]) => void;
+	disabled?: boolean;
+	children: React.ReactNode;
+}) => (
+	<FileUpload.Root
+		accept="image/*"
+		maxFiles={MAX_LISTING_IMAGES}
+		maxFileSize={MAX_IMAGE_SIZE_MB * 1_000_000}
+		onFileChange={(details) => {
+			if (details.acceptedFiles.length > 0)
+				onAdd(details.acceptedFiles);
+		}}
+		onFileReject={(details) => {
+			const isTooLarge = details.files.some((f) =>
+				f.errors.includes('FILE_TOO_LARGE'),
+			);
+			if (isTooLarge) {
+				toastError(
+					`Images must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`,
+				);
+			}
+		}}
+		disabled={disabled}
+	>
+		<FileUpload.HiddenInput />
+		{children}
+	</FileUpload.Root>
+);
 
 export const ListingImageUpload = ({
 	imageEntries,
 	onAdd,
 	onRemove,
+	onReorder,
 	disabled,
 }: ListingImageUploadProps) => {
-	const hasImages = imageEntries.length > 0;
+	const sensors = useSensors(
+		useSensor(MouseSensor, {
+			activationConstraint: { distance: 5 },
+		}),
+		useSensor(TouchSensor, {
+			activationConstraint: { delay: 150, tolerance: 5 },
+		}),
+	);
 
-	const fileUploadZone = (
-		<FileUpload.Root
-			accept="image/*"
-			maxFiles={MAX_LISTING_IMAGES}
-			maxFileSize={MAX_IMAGE_SIZE_MB * 1_000_000}
-			onFileChange={(details) => {
-				if (details.acceptedFiles.length > 0) {
-					onAdd(details.acceptedFiles);
-				}
-			}}
-			onFileReject={(details) => {
-				const isTooLarge = details.files.some((f) =>
-					f.errors.includes('FILE_TOO_LARGE'),
-				);
-				if (isTooLarge) {
-					toastError(
-						`Images must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`,
-					);
-				}
-			}}
-			disabled={disabled}
-			{...(hasImages && { width: 'auto' })}
-		>
-			<FileUpload.HiddenInput />
-			<FileUpload.Trigger asChild>
-				<Flex
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+		if (!over || active.id === over.id) return;
+		const oldIndex = imageEntries.findIndex(
+			(e) => e.previewUrl === active.id,
+		);
+		const newIndex = imageEntries.findIndex(
+			(e) => e.previewUrl === over.id,
+		);
+		onReorder(arrayMove(imageEntries, oldIndex, newIndex));
+	};
+
+	if (!imageEntries.length) {
+		return (
+			<UploadRoot
+				onAdd={onAdd}
+				disabled={disabled}
+			>
+				<FileUpload.Dropzone
 					alignItems="center"
 					justifyContent="center"
 					cursor={disabled ? 'not-allowed' : 'pointer'}
@@ -78,75 +189,69 @@ export const ListingImageUpload = ({
 					borderWidth={1}
 					borderStyle="dashed"
 					borderColor="gray.300"
+					width="100%"
 					_hover={
 						disabled ? {} : { borderColor: 'gray.400' }
 					}
-					{...(!hasImages && fullDropZoneStyles)}
-					{...(hasImages && minifiedDropZoneStyles)}
 				>
 					<Stack
 						alignItems="center"
 						justifyContent="center"
 						gap={2}
 						color="gray.500"
+						fontSize={18}
 					>
 						<FaImage size={26} />
-						<Text fontSize={20}>
-							{hasImages
-								? 'Add images'
-								: 'Drop images or click to upload'}
-						</Text>
+						Drop or click to upload
 					</Stack>
-				</Flex>
-			</FileUpload.Trigger>
-		</FileUpload.Root>
-	);
-
-	if (!hasImages) {
-		return fileUploadZone;
+				</FileUpload.Dropzone>
+			</UploadRoot>
+		);
 	}
 
 	return (
-		<Wrap
-			gap={3}
-			alignItems="flex-start"
-		>
-			{imageEntries.map((entry, i) => (
-				<Box
-					key={entry.previewUrl}
-					position="relative"
-					w={THUMBNAIL_WIDTH}
-					flexShrink={0}
+		<Box>
+			<DndContext
+				sensors={sensors}
+				collisionDetection={closestCenter}
+				onDragEnd={handleDragEnd}
+			>
+				<SortableContext
+					items={imageEntries.map((e) => e.previewUrl)}
+					strategy={rectSortingStrategy}
 				>
-					<Skeleton
-						loading={entry.isUploading}
-						borderRadius="md"
+					<Wrap
+						gap={THUMBNAIL_GAP}
+						alignItems="flex-start"
+						mb={3}
 					>
-						<Image
-							src={entry.previewUrl}
-							w="100%"
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-							objectFit="cover"
-							borderRadius="md"
-							display="block"
-							opacity={entry.uploadFailed ? 0.4 : 1}
-						/>
-					</Skeleton>
-					<IconButton
-						aria-label="Remove image"
-						size="xs"
-						variant="subtle"
-						position="absolute"
-						top={2}
-						right={2}
-						onClick={() => onRemove(i)}
-						disabled={disabled || entry.isUploading}
+						{imageEntries.map((entry, i) => (
+							<SortableThumbnail
+								key={entry.previewUrl}
+								entry={entry}
+								onRemove={() => onRemove(i)}
+								disabled={disabled}
+							/>
+						))}
+					</Wrap>
+				</SortableContext>
+			</DndContext>
+			<UploadRoot
+				onAdd={onAdd}
+				disabled={disabled}
+			>
+				<FileUpload.Trigger asChild>
+					<Button
+						size="md"
+						disabled={disabled}
+						fontSize={18}
+						variant="outline"
 					>
-						<FaTrashAlt />
-					</IconButton>
-				</Box>
-			))}
-			{fileUploadZone}
-		</Wrap>
+						<FaPlus />
+						Add Images
+					</Button>
+				</FileUpload.Trigger>
+			</UploadRoot>
+		</Box>
 	);
 };

@@ -30,6 +30,7 @@ export type ListingFormState = {
 	imageEntries: ImageEntry[];
 	addImageFiles: (files: File[]) => void;
 	removeImage: (index: number) => void;
+	reorderImageEntries: (entries: ImageEntry[]) => void;
 	isUploadingImages: boolean;
 	uploadedUuids: string[];
 	imageError: string | null;
@@ -95,6 +96,7 @@ export const useListingForm = ({
 		imageEntries,
 		addFiles,
 		removeImage,
+		reorderImages,
 		isUploading,
 		uuids,
 	} = useImageUpload(async (contentType) => {
@@ -123,6 +125,7 @@ export const useListingForm = ({
 		imageEntries,
 		addImageFiles: addFiles,
 		removeImage,
+		reorderImageEntries: reorderImages,
 		isUploadingImages: isUploading,
 		uploadedUuids: uuids,
 		imageError,

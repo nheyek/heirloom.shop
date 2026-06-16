@@ -107,10 +107,14 @@ export const useImageUpload = (getUploadUrl: GetUploadUrl) => {
 		});
 	}, []);
 
+	const reorderImages = useCallback((newEntries: ImageEntry[]) => {
+		setImageEntries(newEntries);
+	}, []);
+
 	const isUploading = imageEntries.some((e) => e.isUploading);
 	const uuids = imageEntries
 		.filter((e) => e.uuid !== null)
 		.map((e) => e.uuid!);
 
-	return { imageEntries, addFiles, removeImage, isUploading, uuids };
+	return { imageEntries, addFiles, removeImage, reorderImages, isUploading, uuids };
 };

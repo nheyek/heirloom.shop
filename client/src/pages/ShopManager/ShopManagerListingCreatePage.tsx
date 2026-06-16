@@ -1,5 +1,5 @@
-import { Button, HStack, Stack } from '@chakra-ui/react';
-import { ListingFormFields } from '@client/components/listing/ListingFormFields';
+import { Button, HStack } from '@chakra-ui/react';
+import { ListingFormLayout } from '@client/components/listing/ListingFormLayout';
 import { useListingForm } from '@client/hooks/useListingForm';
 import { FaCheckCircle, FaSave } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
@@ -15,36 +15,35 @@ export const ShopManagerListingCreatePage = () => {
 	const isBlocked = form.isUploadingImages;
 
 	return (
-		<Stack
-			gap={10}
-			maxW={650}
-		>
-			<ListingFormFields form={form} />
-			<HStack>
-				<Button
-					size="lg"
-					variant="outline"
-					width={150}
-					fontSize={20}
-					onClick={handleCreate}
-					disabled={isBlocked}
-					loading={isBlocked}
-				>
-					<FaSave />
-					Save Draft
-				</Button>
-				<Button
-					size="lg"
-					width={125}
-					fontSize={20}
-					onClick={handleCreate}
-					disabled={isBlocked}
-					loading={isBlocked}
-				>
-					<FaCheckCircle />
-					Publish
-				</Button>
-			</HStack>
-		</Stack>
+		<ListingFormLayout
+			form={form}
+			actions={
+				<HStack>
+					<Button
+						size="lg"
+						variant="outline"
+						width={150}
+						fontSize={20}
+						onClick={handleCreate}
+						disabled={isBlocked}
+						loading={isBlocked}
+					>
+						<FaSave />
+						Save Draft
+					</Button>
+					<Button
+						size="lg"
+						width={125}
+						fontSize={20}
+						onClick={handleCreate}
+						disabled={isBlocked}
+						loading={isBlocked}
+					>
+						<FaCheckCircle />
+						Publish
+					</Button>
+				</HStack>
+			}
+		/>
 	);
 };

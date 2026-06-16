@@ -97,6 +97,7 @@ export const DetailSectionDialog = ({
 								</Field.Label>
 								<Input
 									size="lg"
+									fontSize={18}
 									value={title}
 									onChange={(e) =>
 										setTitle(e.target.value)

@@ -1,11 +1,11 @@
-import { Button, Stack } from '@chakra-ui/react';
-import { ListingFormFields } from '@client/components/listing/ListingFormFields';
+import { Button } from '@chakra-ui/react';
+import { ListingFormLayout } from '@client/components/listing/ListingFormLayout';
 import { useListingForm } from '@client/hooks/useListingForm';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 export const ShopManagerListingEditPage = () => {
-	const { shortId: shopShortId, listingShortId } = useParams<{
+	const { shortId: shopShortId } = useParams<{
 		shortId: string;
 		listingShortId: string;
 	}>();
@@ -18,22 +18,21 @@ export const ShopManagerListingEditPage = () => {
 	const isBlocked = form.isUploadingImages;
 
 	return (
-		<Stack
-			gap={10}
-			maxW={650}
-		>
-			<ListingFormFields form={form} />
-			<Button
-				size="lg"
-				width={175}
-				fontSize={20}
-				onClick={handleSave}
-				disabled={isBlocked}
-				loading={isBlocked}
-			>
-				<FaCheckCircle />
-				Save Changes
-			</Button>
-		</Stack>
+		<ListingFormLayout
+			form={form}
+			actions={
+				<Button
+					size="lg"
+					width={175}
+					fontSize={20}
+					onClick={handleSave}
+					disabled={isBlocked}
+					loading={isBlocked}
+				>
+					<FaCheckCircle />
+					Save Changes
+				</Button>
+			}
+		/>
 	);
 };

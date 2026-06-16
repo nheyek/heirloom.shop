@@ -1,15 +1,17 @@
 import {
 	Fieldset,
 	FileUpload,
-	Flex,
 	HStack,
 	Image,
 	Skeleton,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { FormField, FormInput } from '@client/components/input/FormField';
 import { CountrySelect } from '@client/components/input/CountrySelect';
+import {
+	FormField,
+	FormInput,
+} from '@client/components/input/FormField';
 import { CountryCode, MAX_IMAGE_SIZE_MB } from '@client/constants';
 import { toastError } from '@client/toaster';
 import { FaImage } from 'react-icons/fa';
@@ -135,50 +137,47 @@ export const ShopFormFields = ({
 				Banner Image
 			</FileUpload.Label>
 			<FileUpload.HiddenInput />
-			<FileUpload.Trigger asChild>
-				<Flex
-					alignItems="center"
-					justifyContent="center"
-					width="100%"
-					cursor="pointer"
-					borderRadius="md"
-					overflow="hidden"
-					borderWidth={imagePreviewUrl ? 0 : 1}
-					borderStyle="dashed"
-					borderColor="gray.300"
-					position="relative"
-					_hover={{ borderColor: 'gray.400' }}
-				>
-					{imagePreviewUrl ? (
-						<Skeleton
-							loading={isUploadingImage}
+			<FileUpload.Dropzone
+				alignItems="center"
+				justifyContent="center"
+				width="100%"
+				cursor="pointer"
+				borderRadius="md"
+				overflow="hidden"
+				borderWidth={imagePreviewUrl ? 0 : 1}
+				borderStyle="dashed"
+				borderColor="gray.300"
+				position="relative"
+				_hover={{ borderColor: 'gray.400' }}
+			>
+				{imagePreviewUrl ? (
+					<Skeleton
+						loading={isUploadingImage}
+						width="100%"
+						aspectRatio={5 / 2}
+						borderRadius={0}
+					>
+						<Image
+							src={imagePreviewUrl}
+							height="100%"
 							width="100%"
-							aspectRatio={5 / 2}
-							borderRadius={0}
-						>
-							<Image
-								src={imagePreviewUrl}
-								height="100%"
-								width="100%"
-								objectFit="cover"
-							/>
-						</Skeleton>
-					) : (
-						<Stack
-							alignItems="center"
-							justifyContent="center"
-							gap={2}
-							color="gray.500"
-							height={150}
-						>
-							<FaImage size={26} />
-							<Text fontSize={18}>
-								Upload banner image
-							</Text>
-						</Stack>
-					)}
-				</Flex>
-			</FileUpload.Trigger>
+							objectFit="cover"
+						/>
+					</Skeleton>
+				) : (
+					<Stack
+						alignItems="center"
+						justifyContent="center"
+						gap={2}
+						color="gray.500"
+					>
+						<FaImage size={26} />
+						<Text fontSize={18}>
+							Drop or click to upload
+						</Text>
+					</Stack>
+				)}
+			</FileUpload.Dropzone>
 		</FileUpload.Root>
 	</Stack>
 );
