@@ -8,14 +8,16 @@ import {
 	Stack,
 } from '@chakra-ui/react';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
-import { DetailSection } from '@client/hooks/useListingForm';
+import { ListingDescrSection } from '@client/hooks/useListingForm';
 import { useEffect, useRef, useState } from 'react';
+
+const EDITOR_KEY_NEW = 'new';
 
 type Props = {
 	open: boolean;
-	initial?: DetailSection | null;
+	initial?: ListingDescrSection | null;
 	onClose: () => void;
-	onConfirm: (section: Omit<DetailSection, 'id'>) => void;
+	onConfirm: (section: ListingDescrSection) => void;
 };
 
 export const DetailSectionDialog = ({
@@ -115,7 +117,7 @@ export const DetailSectionDialog = ({
 								<RichTextEditor
 									key={
 										open
-											? (initial?.id ?? 'new')
+											? (initial?.title ?? EDITOR_KEY_NEW)
 											: 'closed'
 									}
 									initialHtml={

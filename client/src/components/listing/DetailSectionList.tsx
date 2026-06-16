@@ -1,5 +1,5 @@
 import { Flex, HStack, IconButton, Text } from '@chakra-ui/react';
-import { DetailSection } from '@client/hooks/useListingForm';
+import { ListingDescrSection } from '@client/hooks/useListingForm';
 import {
 	DndContext,
 	DragEndEvent,
@@ -11,46 +11,28 @@ import {
 } from '@dnd-kit/core';
 import {
 	SortableContext,
-	arrayMove,
 	sortableKeyboardCoordinates,
 	useSortable,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import {
-	FaGripVertical,
-	FaPencilAlt,
-	FaTrashAlt,
-} from 'react-icons/fa';
+import { FaGripVertical, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 
 type ItemProps = {
-	section: DetailSection;
+	id: string;
+	section: ListingDescrSection;
 	onEdit: () => void;
 	onDelete: () => void;
 };
 
-const DetailSectionItem = ({
-	section,
-	onEdit,
-	onDelete,
-}: ItemProps) => {
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id: section.id });
+const DetailSectionItem = ({ id, section, onEdit, onDelete }: ItemProps) => {
+	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
+		useSortable({ id });
 
 	return (
 		<Flex
 			ref={setNodeRef}
-			style={{
-				transform: CSS.Transform.toString(transform),
-				transition,
-				opacity: isDragging ? 0.5 : 1,
-			}}
+			style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
 			minWidth={325}
 			alignItems="center"
 			gap={3}
@@ -70,37 +52,18 @@ const DetailSectionItem = ({
 			>
 				<FaGripVertical />
 			</IconButton>
-			<Text
-				flex={1}
-				fontSize={18}
-				truncate
-			>
+			<Text flex={1} fontSize={18} truncate>
 				{section.title || (
-					<Text
-						as="span"
-						color="gray.400"
-						fontStyle="italic"
-					>
+					<Text as="span" color="gray.400" fontStyle="italic">
 						Untitled section
 					</Text>
 				)}
 			</Text>
 			<HStack gap={0}>
-				<IconButton
-					aria-label="Edit section"
-					size="sm"
-					variant="ghost"
-					onClick={onEdit}
-				>
+				<IconButton aria-label="Edit section" size="sm" variant="ghost" onClick={onEdit}>
 					<FaPencilAlt />
 				</IconButton>
-				<IconButton
-					aria-label="Delete section"
-					size="sm"
-					variant="ghost"
-					color="red.500"
-					onClick={onDelete}
-				>
+				<IconButton aria-label="Delete section" size="sm" variant="ghost" color="red.500" onClick={onDelete}>
 					<FaTrashAlt />
 				</IconButton>
 			</HStack>
@@ -109,55 +72,38 @@ const DetailSectionItem = ({
 };
 
 type Props = {
-	sections: DetailSection[];
-	onEdit: (id: string) => void;
-	onDelete: (id: string) => void;
-	onReorder: (sections: DetailSection[]) => void;
+	sections: ListingDescrSection[];
+	ids: string[];
+	onEdit: (index: number) => void;
+	onDelete: (index: number) => void;
+	onReorder: (fromIndex: number, toIndex: number) => void;
 };
 
-export const DetailSectionList = ({
-	sections,
-	onEdit,
-	onDelete,
-	onReorder,
-}: Props) => {
+export const DetailSectionList = ({ sections, ids, onEdit, onDelete, onReorder }: Props) => {
 	const sensors = useSensors(
 		useSensor(PointerSensor),
-		useSensor(KeyboardSensor, {
-			coordinateGetter: sortableKeyboardCoordinates,
-		}),
+		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
 	);
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 		if (!over || active.id === over.id) return;
-		const oldIndex = sections.findIndex(
-			(s) => s.id === active.id,
-		);
-		const newIndex = sections.findIndex((s) => s.id === over.id);
-		onReorder(arrayMove(sections, oldIndex, newIndex));
+		const fromIndex = ids.indexOf(active.id as string);
+		const toIndex = ids.indexOf(over.id as string);
+		onReorder(fromIndex, toIndex);
 	};
 
 	return (
-		<DndContext
-			sensors={sensors}
-			collisionDetection={closestCenter}
-			onDragEnd={handleDragEnd}
-		>
-			<SortableContext
-				items={sections.map((s) => s.id)}
-				strategy={verticalListSortingStrategy}
-			>
-				<Flex
-					direction="column"
-					gap={2}
-				>
-					{sections.map((section) => (
+		<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+			<SortableContext items={ids} strategy={verticalListSortingStrategy}>
+				<Flex direction="column" gap={2}>
+					{sections.map((section, i) => (
 						<DetailSectionItem
-							key={section.id}
+							key={ids[i]}
+							id={ids[i]}
 							section={section}
-							onEdit={() => onEdit(section.id)}
-							onDelete={() => onDelete(section.id)}
+							onEdit={() => onEdit(i)}
+							onDelete={() => onDelete(i)}
 						/>
 					))}
 				</Flex>

@@ -138,10 +138,10 @@ const ListingVariationSchema = z.object({
 	options: z.array(ListingVariationOptionSchema),
 });
 
+const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.string() });
+
 const ListingPageDataSchema = ListingCardDataSchema.extend({
-	fullDescr: z
-		.array(z.object({ title: z.string(), richText: z.string() }))
-		.optional(),
+	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	leadTimeDaysMin: z.number(),
 	leadTimeDaysMax: z.number(),
 	originZip: z.string().optional(),
@@ -530,6 +530,7 @@ export type ListingVariationOptionData = z.infer<
 export type ListingVariationData = z.infer<
 	typeof ListingVariationSchema
 >;
+export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
 export type CheckoutRequest = z.infer<typeof CheckoutBodySchema>;

@@ -1,15 +1,10 @@
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useImageUpload, ImageEntry } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
+import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
 
-export type DetailSection = {
-	id: string;
-	title: string;
-	richText: string;
-};
-
-export type { ImageEntry };
+export type { ImageEntry, ListingDescrSection };
 
 export type ListingFormState = {
 	title: string;
@@ -36,11 +31,12 @@ export type ListingFormState = {
 	imageError: string | null;
 	setImageError: (v: string | null) => void;
 
-	detailSections: DetailSection[];
-	addDetailSection: (section: Omit<DetailSection, 'id'>) => void;
-	updateDetailSection: (id: string, section: Omit<DetailSection, 'id'>) => void;
-	removeDetailSection: (id: string) => void;
-	reorderDetailSections: (sections: DetailSection[]) => void;
+	detailSections: ListingDescrSection[];
+	detailSectionIds: string[];
+	addDetailSection: (section: ListingDescrSection) => void;
+	updateDetailSection: (index: number, section: ListingDescrSection) => void;
+	removeDetailSection: (index: number) => void;
+	reorderDetailSections: (fromIndex: number, toIndex: number) => void;
 };
 
 type UseListingFormOptions = {
@@ -69,27 +65,32 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const [detailSections, setDetailSections] = useState<DetailSection[]>([]);
+	const [detailSections, setDetailSections] = useState<ListingDescrSection[]>([]);
+	const [detailSectionIds, setDetailSectionIds] = useState<string[]>([]);
 
-	const addDetailSection = (section: Omit<DetailSection, 'id'>) => {
-		setDetailSections((prev) => [
-			...prev,
-			{ ...section, id: crypto.randomUUID() },
-		]);
+	const addDetailSection = (section: ListingDescrSection) => {
+		setDetailSections((prev) => [...prev, section]);
+		setDetailSectionIds((prev) => [...prev, crypto.randomUUID()]);
 	};
 
-	const updateDetailSection = (id: string, section: Omit<DetailSection, 'id'>) => {
-		setDetailSections((prev) =>
-			prev.map((s) => (s.id === id ? { ...section, id } : s)),
-		);
+	const updateDetailSection = (index: number, section: ListingDescrSection) => {
+		setDetailSections((prev) => prev.map((s, i) => (i === index ? section : s)));
 	};
 
-	const removeDetailSection = (id: string) => {
-		setDetailSections((prev) => prev.filter((s) => s.id !== id));
+	const removeDetailSection = (index: number) => {
+		setDetailSections((prev) => prev.filter((_, i) => i !== index));
+		setDetailSectionIds((prev) => prev.filter((_, i) => i !== index));
 	};
 
-	const reorderDetailSections = (sections: DetailSection[]) => {
-		setDetailSections(sections);
+	const reorderDetailSections = (fromIndex: number, toIndex: number) => {
+		const move = <T,>(arr: T[]): T[] => {
+			const result = [...arr];
+			const [item] = result.splice(fromIndex, 1);
+			result.splice(toIndex, 0, item);
+			return result;
+		};
+		setDetailSections(move);
+		setDetailSectionIds(move);
 	};
 
 	const {
@@ -131,6 +132,7 @@ export const useListingForm = ({
 		imageError,
 		setImageError,
 		detailSections,
+		detailSectionIds,
 		addDetailSection,
 		updateDetailSection,
 		removeDetailSection,
