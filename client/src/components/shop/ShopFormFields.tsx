@@ -126,31 +126,34 @@ export const ShopFormFields = ({
 				<Skeleton
 					loading={isUploadingImage}
 					borderRadius="md"
-					mb={2}
 				>
-					<Image
-						src={imagePreviewUrl}
-						width="100%"
-						aspectRatio={5 / 2}
-						objectFit="cover"
-						borderRadius="md"
-						display="block"
-					/>
+					<Box position="relative">
+						<Image
+							src={imagePreviewUrl}
+							width="100%"
+							aspectRatio={5 / 2}
+							objectFit="cover"
+							borderRadius="md"
+							display="block"
+						/>
+						<Box position="absolute" bottom={2} left={2}>
+							<ImageDropzone
+								onAdd={([file]) => onImageSelect(file)}
+								trigger={
+									<Button
+										size="sm"
+										fontSize={15}
+										variant="subtle"
+										disabled={disabled}
+									>
+										<FaExchangeAlt />
+										Replace
+									</Button>
+								}
+							/>
+						</Box>
+					</Box>
 				</Skeleton>
-				<ImageDropzone
-					onAdd={([file]) => onImageSelect(file)}
-					trigger={
-						<Button
-							size="md"
-							fontSize={18}
-							variant="subtle"
-							disabled={disabled}
-						>
-							<FaExchangeAlt />
-							Replace
-						</Button>
-					}
-				/>
 			</Box>
 		) : (
 			<ImageDropzone

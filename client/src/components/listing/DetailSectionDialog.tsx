@@ -2,11 +2,10 @@ import {
 	Button,
 	CloseButton,
 	Dialog,
-	Field,
 	HStack,
-	Input,
 	Stack,
 } from '@chakra-ui/react';
+import { FormField, FormInput } from '@client/components/input/FormField';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ListingDescrSection } from '@client/hooks/useListingForm';
 import { useEffect, useRef, useState } from 'react';
@@ -116,13 +115,8 @@ export const DetailSectionDialog = ({
 						pb={3}
 					>
 						<Stack gap={3}>
-							<Field.Root invalid={!!titleError}>
-								<Field.Label fontSize={18} fontWeight={500}>
-									Title
-								</Field.Label>
-								<Input
-									size="lg"
-									fontSize={18}
+							<FormField label="Title" error={titleError}>
+								<FormInput
 									value={title}
 									onChange={(e) => {
 										setTitle(e.target.value);
@@ -131,30 +125,19 @@ export const DetailSectionDialog = ({
 									}}
 									placeholder="e.g. Materials"
 								/>
-								{titleError && <Field.ErrorText fontSize={15}>{titleError}</Field.ErrorText>}
-							</Field.Root>
-							<Field.Root invalid={!!bodyError}>
-								<Field.Label fontSize={18} fontWeight={500}>
-									Body
-								</Field.Label>
+							</FormField>
+							<FormField label="Body" error={bodyError}>
 								<RichTextEditor
 									invalid={!!bodyError}
-									key={
-										open
-											? (initial?.title ?? EDITOR_KEY_NEW)
-											: 'closed'
-									}
-									initialHtml={
-										initial?.richText ?? ''
-									}
+									key={open ? (initial?.title ?? EDITOR_KEY_NEW) : 'closed'}
+									initialHtml={initial?.richText ?? ''}
 									onChange={(html) => {
 										richTextRef.current = html;
 										if (stripHtml(html)) setBodyError(null);
 									}}
 									maxHeight={300}
 								/>
-								{bodyError && <Field.ErrorText fontSize={15}>{bodyError}</Field.ErrorText>}
-							</Field.Root>
+							</FormField>
 						</Stack>
 					</Dialog.Body>
 					<Dialog.Footer>
