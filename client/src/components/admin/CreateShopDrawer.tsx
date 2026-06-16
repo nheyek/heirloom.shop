@@ -193,7 +193,6 @@ export const CreateShopDrawer = ({
 					onValueChange={(e) =>
 						setFulfillmentType(e.value as FulfillmentType)
 					}
-					mt={5}
 				>
 					<RadioCard.Label fontSize={18}>
 						Fulfillment

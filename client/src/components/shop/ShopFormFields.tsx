@@ -1,20 +1,21 @@
 import {
+	Box,
+	Button,
 	Fieldset,
-	FileUpload,
+	Text,
 	HStack,
 	Image,
 	Skeleton,
 	Stack,
-	Text,
 } from '@chakra-ui/react';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
-import { CountryCode, MAX_IMAGE_SIZE_MB } from '@client/constants';
-import { toastError } from '@client/toaster';
-import { FaImage } from 'react-icons/fa';
+import { ImageDropzone } from '@client/components/input/ImageDropzone';
+import { CountryCode } from '@client/constants';
+import { FaExchangeAlt } from 'react-icons/fa';
 
 export { FormField as ShopFormField, FormInput as ShopFormInput };
 
@@ -113,71 +114,46 @@ export const ShopFormFields = ({
 				</FormField>
 			</Stack>
 		</Fieldset.Root>
-		<FileUpload.Root
-			accept="image/*"
-			maxFiles={1}
-			maxFileSize={MAX_IMAGE_SIZE_MB * 1_000_000}
-			onFileChange={(details) => {
-				const file = details.acceptedFiles[0];
-				if (file) onImageSelect(file);
-			}}
-			onFileReject={(details) => {
-				const isTooLarge = details.files.some((f) =>
-					f.errors.includes('FILE_TOO_LARGE'),
-				);
-				if (isTooLarge) {
-					toastError(
-						`Image must be ${MAX_IMAGE_SIZE_MB} MB or smaller.`,
-					);
-				}
-			}}
-			gap={1.5}
-		>
-			<FileUpload.Label fontSize={18}>
-				Banner Image
-			</FileUpload.Label>
-			<FileUpload.HiddenInput />
-			<FileUpload.Dropzone
-				alignItems="center"
-				justifyContent="center"
-				width="100%"
-				cursor="pointer"
-				borderRadius="md"
-				overflow="hidden"
-				borderWidth={imagePreviewUrl ? 0 : 1}
-				borderStyle="dashed"
-				borderColor="gray.300"
-				position="relative"
-				_hover={{ borderColor: 'gray.400' }}
-			>
-				{imagePreviewUrl ? (
-					<Skeleton
-						loading={isUploadingImage}
+		{imagePreviewUrl ? (
+			<Box>
+				<Text fontSize={18} fontWeight={500} mb={1.5}>
+					Banner Image
+				</Text>
+				<Skeleton
+					loading={isUploadingImage}
+					borderRadius="md"
+					mb={2}
+				>
+					<Image
+						src={imagePreviewUrl}
 						width="100%"
 						aspectRatio={5 / 2}
-						borderRadius={0}
-					>
-						<Image
-							src={imagePreviewUrl}
-							height="100%"
-							width="100%"
-							objectFit="cover"
-						/>
-					</Skeleton>
-				) : (
-					<Stack
-						alignItems="center"
-						justifyContent="center"
-						gap={2}
-						color="gray.500"
-					>
-						<FaImage size={26} />
-						<Text fontSize={18}>
-							Drop or click to upload
-						</Text>
-					</Stack>
-				)}
-			</FileUpload.Dropzone>
-		</FileUpload.Root>
+						objectFit="cover"
+						borderRadius="md"
+						display="block"
+					/>
+				</Skeleton>
+				<ImageDropzone
+					onAdd={([file]) => onImageSelect(file)}
+					trigger={
+						<Button
+							size="md"
+							fontSize={18}
+							variant="outline"
+							disabled={disabled}
+						>
+							<FaExchangeAlt />
+							Replace
+						</Button>
+					}
+				/>
+			</Box>
+		) : (
+			<ImageDropzone
+				onAdd={([file]) => onImageSelect(file)}
+				label="Banner Image"
+				width="100%"
+			/>
+		)}
 	</Stack>
 );
