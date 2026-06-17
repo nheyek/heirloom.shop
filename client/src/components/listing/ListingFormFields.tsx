@@ -1,20 +1,21 @@
-import { Button, Fieldset, HStack, Stack } from '@chakra-ui/react';
+import { Fieldset, HStack, Stack } from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import {
 	FormField,
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
+import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
+import { VariationDialog } from '@client/components/listing/VariationDialog';
 import { MAX_DESCR_SECTIONS } from '@client/constants';
 import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa6';
 
 type ListingFormFieldsProps = {
 	form: ListingFormState;
@@ -25,6 +26,8 @@ export const ListingFormFields = ({
 	form,
 	disabled,
 }: ListingFormFieldsProps) => {
+	const [variationDialogOpen, setVariationDialogOpen] = useState(false);
+
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [editingIndex, setEditingIndex] = useState<number | null>(
 		null,
@@ -130,22 +133,33 @@ export const ListingFormFields = ({
 							{form.descrSections.length <
 								MAX_DESCR_SECTIONS && (
 								<HStack>
-									<Button
-										size="md"
+									<AddFieldButton
 										onClick={openAdd}
 										disabled={disabled}
-										fontSize={18}
-										variant="subtle"
 									>
-										<FaPlus />
 										Add Section
-									</Button>
+									</AddFieldButton>
 								</HStack>
 							)}
 						</Stack>
 					</FormField>
+					<FormField label="Variations">
+						<HStack>
+							<AddFieldButton
+								onClick={() => setVariationDialogOpen(true)}
+								disabled={disabled}
+							>
+								Add Variation
+							</AddFieldButton>
+						</HStack>
+					</FormField>
 				</Stack>
 			</Fieldset.Root>
+
+			<VariationDialog
+				open={variationDialogOpen}
+				onClose={() => setVariationDialogOpen(false)}
+			/>
 
 			<DescrSectionDialog
 				open={dialogOpen}
