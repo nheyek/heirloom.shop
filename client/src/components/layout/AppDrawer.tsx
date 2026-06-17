@@ -1,8 +1,4 @@
-import {
-	Drawer,
-	Icon,
-	IconButton,
-} from '@chakra-ui/react';
+import { Drawer, Icon, IconButton } from '@chakra-ui/react';
 import { FONT_DECORATIVE } from '@client/theme';
 import { ReactNode } from 'react';
 import { MdClose } from 'react-icons/md';
@@ -58,14 +54,13 @@ export const AppDrawer = ({
 				<Drawer.Body
 					display="flex"
 					flexDir="column"
+					pt={0}
 					pb={5}
 				>
 					{children}
 				</Drawer.Body>
 				{footer && (
-					<Drawer.Footer p={4}>
-						{footer}
-					</Drawer.Footer>
+					<Drawer.Footer p={4}>{footer}</Drawer.Footer>
 				)}
 			</Drawer.Content>
 		</Drawer.Positioner>

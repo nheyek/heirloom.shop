@@ -136,13 +136,19 @@ export const ShopFormFields = ({
 							borderRadius="md"
 							display="block"
 						/>
-						<Box position="absolute" bottom={2} left={2}>
+						<Box
+							position="absolute"
+							bottom={3}
+							left={3}
+						>
 							<ImageDropzone
-								onAdd={([file]) => onImageSelect(file)}
+								onAdd={([file]) =>
+									onImageSelect(file)
+								}
 								trigger={
 									<Button
 										size="sm"
-										fontSize={15}
+										fontSize={16}
 										variant="subtle"
 										disabled={disabled}
 									>
