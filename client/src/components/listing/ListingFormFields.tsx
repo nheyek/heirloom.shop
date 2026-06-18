@@ -6,6 +6,7 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
+import { CombinationGrid } from '@client/components/listing/CombinationGrid';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
@@ -16,6 +17,7 @@ import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
+import { deriveCombinations } from '@client/utils/combinationUtils';
 import { useState } from 'react';
 
 type ListingFormFieldsProps = {
@@ -27,8 +29,11 @@ export const ListingFormFields = ({
 	form,
 	disabled,
 }: ListingFormFieldsProps) => {
-	const [variationDialogOpen, setVariationDialogOpen] = useState(false);
-	const [editingVariationId, setEditingVariationId] = useState<string | null>(null);
+	const [variationDialogOpen, setVariationDialogOpen] =
+		useState(false);
+	const [editingVariationId, setEditingVariationId] = useState<
+		string | null
+	>(null);
 
 	const openAddVariation = () => {
 		setEditingVariationId(null);
@@ -40,8 +45,9 @@ export const ListingFormFields = ({
 		setVariationDialogOpen(true);
 	};
 
-	const sortedVariations = Object.entries(form.variations)
-		.sort((a, b) => a[1].order - b[1].order);
+	const sortedVariations = Object.entries(form.variations).sort(
+		(a, b) => a[1].order - b[1].order,
+	);
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [editingIndex, setEditingIndex] = useState<number | null>(
@@ -156,11 +162,17 @@ export const ListingFormFields = ({
 							)}
 						</Stack>
 					</FormField>
+
 					<FormField label="Variations">
 						<Stack gap={2}>
 							{sortedVariations.length > 0 && (
 								<SortableFieldList
-									items={sortedVariations.map(([id, v]) => ({ id, label: v.name }))}
+									items={sortedVariations.map(
+										([id, v]) => ({
+											id,
+											label: v.name,
+										}),
+									)}
 									onEdit={openEditVariation}
 									onDelete={form.removeVariation}
 									onReorder={form.reorderVariations}
@@ -179,21 +191,14 @@ export const ListingFormFields = ({
 				</Stack>
 			</Fieldset.Root>
 
-			<VariationDialog
-				open={variationDialogOpen}
-				initial={editingVariationId ? form.variations[editingVariationId] : null}
-				onClose={() => setVariationDialogOpen(false)}
-				onConfirm={(variation) => {
-					if (editingVariationId) {
-						form.updateVariation(editingVariationId, variation);
-					} else {
-						form.addVariation({
-							...variation,
-							order: Object.keys(form.variations).length,
-						});
-					}
-				}}
-			/>
+			{deriveCombinations(form.variations).length > 0 && (
+				<CombinationGrid
+					variations={form.variations}
+					combinations={form.combinations}
+					onUpdate={form.setCombinationField}
+					disabled={disabled}
+				/>
+			)}
 
 			<DescrSectionDialog
 				open={dialogOpen}
@@ -201,6 +206,29 @@ export const ListingFormFields = ({
 				existingTitles={existingTitles}
 				onClose={() => setDialogOpen(false)}
 				onConfirm={handleConfirm}
+			/>
+			<VariationDialog
+				open={variationDialogOpen}
+				initial={
+					editingVariationId
+						? form.variations[editingVariationId]
+						: null
+				}
+				onClose={() => setVariationDialogOpen(false)}
+				onConfirm={(variation) => {
+					if (editingVariationId) {
+						form.updateVariation(
+							editingVariationId,
+							variation,
+						);
+					} else {
+						form.addVariation({
+							...variation,
+							order: Object.keys(form.variations)
+								.length,
+						});
+					}
+				}}
 			/>
 		</>
 	);

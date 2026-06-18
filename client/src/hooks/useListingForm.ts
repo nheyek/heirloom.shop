@@ -19,6 +19,13 @@ export type Variation = {
 	order: number;
 };
 
+export type CombinationEntry = {
+	imageUuid: string | null;
+	priceCents: number | null;
+	leadTimeProfileId: string | null;
+	disabled: boolean;
+};
+
 export type ListingFormState = {
 	title: string;
 	setTitle: (v: string) => void;
@@ -56,6 +63,9 @@ export type ListingFormState = {
 	removeVariation: (id: string) => void;
 	updateVariation: (id: string, variation: Variation) => void;
 	reorderVariations: (fromId: string, toId: string) => void;
+
+	combinations: Record<string, CombinationEntry>;
+	setCombinationField: (key: string, patch: Partial<CombinationEntry>) => void;
 };
 
 type UseListingFormOptions = {
@@ -84,7 +94,33 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const [variations, setVariations] = useState<Record<string, Variation>>({});
+	const [variations, setVariations] = useState<Record<string, Variation>>(() => {
+		const colorId = crypto.randomUUID();
+		const sizeId = crypto.randomUUID();
+		return {
+			[colorId]: {
+				name: 'Color',
+				pricesVary: false,
+				leadTimesVary: false,
+				order: 0,
+				options: {
+					[crypto.randomUUID()]: { name: 'Red', order: 0 },
+					[crypto.randomUUID()]: { name: 'Blue', order: 1 },
+				},
+			},
+			[sizeId]: {
+				name: 'Size',
+				pricesVary: true,
+				leadTimesVary: false,
+				order: 1,
+				options: {
+					[crypto.randomUUID()]: { name: 'S', order: 0 },
+					[crypto.randomUUID()]: { name: 'M', order: 1 },
+					[crypto.randomUUID()]: { name: 'L', order: 2 },
+				},
+			},
+		};
+	});
 
 	const addVariation = (variation: Variation) => {
 		setVariations((prev) => ({ ...prev, [crypto.randomUUID()]: variation }));
@@ -100,6 +136,15 @@ export const useListingForm = ({
 
 	const updateVariation = (id: string, variation: Variation) => {
 		setVariations((prev) => ({ ...prev, [id]: variation }));
+	};
+
+	const [combinations, setCombinations] = useState<Record<string, CombinationEntry>>({});
+
+	const setCombinationField = (key: string, patch: Partial<CombinationEntry>) => {
+		setCombinations((prev) => ({
+			...prev,
+			[key]: { ...{ imageUuid: null, priceCents: null, leadTimeProfileId: null, disabled: false }, ...prev[key], ...patch },
+		}));
 	};
 
 	const reorderVariations = (fromId: string, toId: string) => {
@@ -190,5 +235,7 @@ export const useListingForm = ({
 		removeVariation,
 		updateVariation,
 		reorderVariations,
+		combinations,
+		setCombinationField,
 	};
 };
