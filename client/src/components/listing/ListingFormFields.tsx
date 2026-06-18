@@ -26,7 +26,8 @@ export const ListingFormFields = ({
 	form,
 	disabled,
 }: ListingFormFieldsProps) => {
-	const [variationDialogOpen, setVariationDialogOpen] = useState(false);
+	const [variationDialogOpen, setVariationDialogOpen] =
+		useState(false);
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [editingIndex, setEditingIndex] = useState<number | null>(
@@ -116,15 +117,13 @@ export const ListingFormFields = ({
 						/>
 					</FormField>
 					<FormField label="Description">
-						<Stack gap={3}>
+						<Stack gap={2}>
 							{form.descrSections.length > 0 && (
 								<DescrSectionList
 									sections={form.descrSections}
 									ids={form.descrSectionIds}
 									onEdit={openEdit}
-									onDelete={
-										form.removeDescrSection
-									}
+									onDelete={form.removeDescrSection}
 									onReorder={
 										form.reorderDescrSections
 									}
@@ -146,7 +145,9 @@ export const ListingFormFields = ({
 					<FormField label="Variations">
 						<HStack>
 							<AddFieldButton
-								onClick={() => setVariationDialogOpen(true)}
+								onClick={() =>
+									setVariationDialogOpen(true)
+								}
 								disabled={disabled}
 							>
 								Add Variation

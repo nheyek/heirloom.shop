@@ -8,8 +8,8 @@ type Props = ButtonProps & {
 
 export const AddFieldButton = ({ children, ...props }: Props) => (
 	<Button
-		size="md"
-		fontSize={18}
+		size="sm"
+		fontSize={16}
 		variant="subtle"
 		{...props}
 	>

@@ -3,7 +3,10 @@ import {
 	Checkbox,
 	CloseButton,
 	Dialog,
+	Flex,
 	HStack,
+	IconButton,
+	Input,
 	Stack,
 } from '@chakra-ui/react';
 import {
@@ -11,7 +14,111 @@ import {
 	FormInput,
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
+import {
+	DndContext,
+	DragEndEvent,
+	KeyboardSensor,
+	PointerSensor,
+	closestCenter,
+	useSensor,
+	useSensors,
+} from '@dnd-kit/core';
+import {
+	SortableContext,
+	sortableKeyboardCoordinates,
+	useSortable,
+	verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useState } from 'react';
+import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
+
+type OptionRowProps = {
+	id: string;
+	value: string;
+	deletable: boolean;
+	onChange: (value: string) => void;
+	onDelete: () => void;
+};
+
+const OptionRow = ({
+	id,
+	value,
+	deletable,
+	onChange,
+	onDelete,
+}: OptionRowProps) => {
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id });
+
+	return (
+		<Flex
+			ref={setNodeRef}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : 1,
+			}}
+			alignItems="center"
+			gap={2}
+			borderWidth={1}
+			borderColor="gray.200"
+			borderRadius="md"
+			px={2}
+			py={1}
+			minWidth={250}
+		>
+			<IconButton
+				size="sm"
+				variant="ghost"
+				cursor="grab"
+				color="gray.400"
+				{...attributes}
+				{...listeners}
+			>
+				<FaGripVertical />
+			</IconButton>
+			<Input
+				flex={1}
+				size="sm"
+				fontSize={18}
+				variant="flushed"
+				value={value}
+				onChange={(e) => onChange(e.target.value)}
+				placeholder="Option name"
+				border="none"
+				_focus={{ border: 'none', boxShadow: 'none' }}
+			/>
+			{deletable ? (
+				<IconButton
+					aria-label="Delete option"
+					size="sm"
+					variant="ghost"
+					color="red.500"
+					onClick={onDelete}
+				>
+					<FaTrashAlt />
+				</IconButton>
+			) : (
+				<IconButton
+					size="sm"
+					variant="ghost"
+					opacity={0}
+					pointerEvents="none"
+					aria-hidden
+				>
+					<FaTrashAlt />
+				</IconButton>
+			)}
+		</Flex>
+	);
+};
 
 type Props = {
 	open: boolean;
@@ -23,6 +130,10 @@ export const VariationDialog = ({ open, onClose }: Props) => {
 	const [pricesVary, setPricesVary] = useState(false);
 	const [leadTimesVary, setLeadTimesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
+	const [options, setOptions] = useState<string[]>(['']);
+	const [optionIds, setOptionIds] = useState<string[]>(() => [
+		crypto.randomUUID(),
+	]);
 
 	useEffect(() => {
 		if (!open) {
@@ -30,8 +141,49 @@ export const VariationDialog = ({ open, onClose }: Props) => {
 			setPricesVary(false);
 			setLeadTimesVary(false);
 			setNameError(null);
+			const firstId = crypto.randomUUID();
+			setOptions(['']);
+			setOptionIds([firstId]);
 		}
 	}, [open]);
+
+	const addOption = () => {
+		setOptions((prev) => [...prev, '']);
+		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
+	};
+
+	const updateOption = (index: number, value: string) => {
+		setOptions((prev) =>
+			prev.map((o, i) => (i === index ? value : o)),
+		);
+	};
+
+	const removeOption = (index: number) => {
+		setOptions((prev) => prev.filter((_, i) => i !== index));
+		setOptionIds((prev) => prev.filter((_, i) => i !== index));
+	};
+
+	const sensors = useSensors(
+		useSensor(PointerSensor),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		}),
+	);
+
+	const handleDragEnd = (event: DragEndEvent) => {
+		const { active, over } = event;
+		if (!over || active.id === over.id) return;
+		const from = optionIds.indexOf(active.id as string);
+		const to = optionIds.indexOf(over.id as string);
+		const move = <T,>(arr: T[]): T[] => {
+			const result = [...arr];
+			const [item] = result.splice(from, 1);
+			result.splice(to, 0, item);
+			return result;
+		};
+		setOptions(move);
+		setOptionIds(move);
+	};
 
 	return (
 		<Dialog.Root
@@ -82,35 +234,78 @@ export const VariationDialog = ({ open, onClose }: Props) => {
 									placeholder="e.g. Size"
 								/>
 							</FormField>
-							<Checkbox.Root
-								checked={pricesVary}
-								onCheckedChange={(e) =>
-									setPricesVary(!!e.checked)
-								}
-							>
-								<Checkbox.HiddenInput />
-								<Checkbox.Control />
-								<Checkbox.Label fontSize={18}>
-									Prices vary
-								</Checkbox.Label>
-							</Checkbox.Root>
-							<Checkbox.Root
-								checked={leadTimesVary}
-								onCheckedChange={(e) =>
-									setLeadTimesVary(!!e.checked)
-								}
-							>
-								<Checkbox.HiddenInput />
-								<Checkbox.Control />
-								<Checkbox.Label fontSize={18}>
-									Lead times vary
-								</Checkbox.Label>
-							</Checkbox.Root>
-							<HStack>
-								<AddFieldButton onClick={() => {}}>
-									Add Options
-								</AddFieldButton>
-							</HStack>
+							<Stack gap={3}>
+								<Checkbox.Root
+									checked={pricesVary}
+									onCheckedChange={(e) =>
+										setPricesVary(!!e.checked)
+									}
+								>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label fontSize={17}>
+										Prices vary
+									</Checkbox.Label>
+								</Checkbox.Root>
+								<Checkbox.Root
+									checked={leadTimesVary}
+									onCheckedChange={(e) =>
+										setLeadTimesVary(!!e.checked)
+									}
+								>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label fontSize={17}>
+										Lead times vary
+									</Checkbox.Label>
+								</Checkbox.Root>
+							</Stack>
+
+							<FormField label="Options">
+								<Stack gap={2}>
+									<DndContext
+										sensors={sensors}
+										collisionDetection={
+											closestCenter
+										}
+										onDragEnd={handleDragEnd}
+									>
+										<SortableContext
+											items={optionIds}
+											strategy={
+												verticalListSortingStrategy
+											}
+										>
+											{options.map((opt, i) => (
+												<OptionRow
+													key={optionIds[i]}
+													id={optionIds[i]}
+													value={opt}
+													deletable={i > 0}
+													onChange={(v) =>
+														updateOption(
+															i,
+															v,
+														)
+													}
+													onDelete={() =>
+														removeOption(
+															i,
+														)
+													}
+												/>
+											))}
+										</SortableContext>
+									</DndContext>
+									<HStack>
+										<AddFieldButton
+											onClick={addOption}
+										>
+											Add Option
+										</AddFieldButton>
+									</HStack>
+								</Stack>
+							</FormField>
 						</Stack>
 					</Dialog.Body>
 					<Dialog.Footer>
