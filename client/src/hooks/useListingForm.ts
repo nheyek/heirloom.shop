@@ -6,6 +6,19 @@ import { useState } from 'react';
 
 export type { ImageEntry, ListingDescrSection };
 
+export type VariationOption = {
+	name: string;
+	order: number;
+};
+
+export type Variation = {
+	name: string;
+	pricesVary: boolean;
+	leadTimesVary: boolean;
+	options: Record<string, VariationOption>;
+	order: number;
+};
+
 export type ListingFormState = {
 	title: string;
 	setTitle: (v: string) => void;
@@ -37,6 +50,11 @@ export type ListingFormState = {
 	updateDescrSection: (index: number, section: ListingDescrSection) => void;
 	removeDescrSection: (index: number) => void;
 	reorderDescrSections: (fromIndex: number, toIndex: number) => void;
+
+	variations: Record<string, Variation>;
+	addVariation: (variation: Variation) => void;
+	removeVariation: (id: string) => void;
+	updateVariation: (id: string, variation: Variation) => void;
 };
 
 type UseListingFormOptions = {
@@ -64,6 +82,24 @@ export const useListingForm = ({
 	const [categoryError, setCategoryError] = useState<string | null>(null);
 
 	const [imageError, setImageError] = useState<string | null>(null);
+
+	const [variations, setVariations] = useState<Record<string, Variation>>({});
+
+	const addVariation = (variation: Variation) => {
+		setVariations((prev) => ({ ...prev, [crypto.randomUUID()]: variation }));
+	};
+
+	const removeVariation = (id: string) => {
+		setVariations((prev) => {
+			const next = { ...prev };
+			delete next[id];
+			return next;
+		});
+	};
+
+	const updateVariation = (id: string, variation: Variation) => {
+		setVariations((prev) => ({ ...prev, [id]: variation }));
+	};
 
 	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>([]);
 	const [descrSectionIds, setDescrSectionIds] = useState<string[]>([]);
@@ -137,5 +173,9 @@ export const useListingForm = ({
 		updateDescrSection,
 		removeDescrSection,
 		reorderDescrSections,
+		variations,
+		addVariation,
+		removeVariation,
+		updateVariation,
 	};
 };

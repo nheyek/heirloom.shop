@@ -14,6 +14,7 @@ import {
 	FormInput,
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
+import { Variation } from '@client/hooks/useListingForm';
 import {
 	DndContext,
 	DragEndEvent,
@@ -123,9 +124,10 @@ const OptionRow = ({
 type Props = {
 	open: boolean;
 	onClose: () => void;
+	onConfirm: (variation: Variation) => void;
 };
 
-export const VariationDialog = ({ open, onClose }: Props) => {
+export const VariationDialog = ({ open, onClose, onConfirm }: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
 	const [leadTimesVary, setLeadTimesVary] = useState(false);
@@ -161,6 +163,24 @@ export const VariationDialog = ({ open, onClose }: Props) => {
 	const removeOption = (index: number) => {
 		setOptions((prev) => prev.filter((_, i) => i !== index));
 		setOptionIds((prev) => prev.filter((_, i) => i !== index));
+	};
+
+	const handleConfirm = () => {
+		if (!name.trim()) {
+			setNameError('Name is required.');
+			return;
+		}
+		const optionsRecord = Object.fromEntries(
+			optionIds.map((id, i) => [id, { name: options[i], order: i }]),
+		);
+		onConfirm({
+			name: name.trim(),
+			pricesVary,
+			leadTimesVary,
+			options: optionsRecord,
+			order: 0,
+		});
+		onClose();
 	};
 
 	const sensors = useSensors(
@@ -321,7 +341,7 @@ export const VariationDialog = ({ open, onClose }: Props) => {
 							<Button
 								size="md"
 								fontSize={18}
-								onClick={() => {}}
+								onClick={handleConfirm}
 							>
 								Add
 							</Button>

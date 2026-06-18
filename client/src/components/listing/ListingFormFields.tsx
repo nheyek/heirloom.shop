@@ -160,6 +160,12 @@ export const ListingFormFields = ({
 			<VariationDialog
 				open={variationDialogOpen}
 				onClose={() => setVariationDialogOpen(false)}
+				onConfirm={(variation) => {
+					form.addVariation({
+						...variation,
+						order: Object.keys(form.variations).length,
+					});
+				}}
 			/>
 
 			<DescrSectionDialog
