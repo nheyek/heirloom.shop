@@ -123,29 +123,38 @@ const OptionRow = ({
 
 type Props = {
 	open: boolean;
+	initial?: Variation | null;
 	onClose: () => void;
 	onConfirm: (variation: Variation) => void;
 };
 
-export const VariationDialog = ({ open, onClose, onConfirm }: Props) => {
+export const VariationDialog = ({ open, initial, onClose, onConfirm }: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
 	const [leadTimesVary, setLeadTimesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<string[]>(['']);
-	const [optionIds, setOptionIds] = useState<string[]>(() => [
-		crypto.randomUUID(),
-	]);
+	const [optionIds, setOptionIds] = useState<string[]>(() => [crypto.randomUUID()]);
 
 	useEffect(() => {
-		if (!open) {
-			setName('');
-			setPricesVary(false);
-			setLeadTimesVary(false);
+		if (open) {
+			if (initial) {
+				const sorted = Object.entries(initial.options).sort((a, b) => a[1].order - b[1].order);
+				setName(initial.name);
+				setPricesVary(initial.pricesVary);
+				setLeadTimesVary(initial.leadTimesVary);
+				setOptions(sorted.map(([, o]) => o.name));
+				setOptionIds(sorted.map(([id]) => id));
+			} else {
+				setName('');
+				setPricesVary(false);
+				setLeadTimesVary(false);
+				setNameError(null);
+				setOptions(['']);
+				setOptionIds([crypto.randomUUID()]);
+			}
+		} else {
 			setNameError(null);
-			const firstId = crypto.randomUUID();
-			setOptions(['']);
-			setOptionIds([firstId]);
 		}
 	}, [open]);
 
@@ -178,7 +187,7 @@ export const VariationDialog = ({ open, onClose, onConfirm }: Props) => {
 			pricesVary,
 			leadTimesVary,
 			options: optionsRecord,
-			order: 0,
+			order: initial?.order ?? 0,
 		});
 		onClose();
 	};
@@ -226,7 +235,7 @@ export const VariationDialog = ({ open, onClose, onConfirm }: Props) => {
 							fontSize={24}
 							fontWeight={500}
 						>
-							Add Variation
+							{initial ? 'Edit Variation' : 'Add Variation'}
 						</Dialog.Title>
 						<CloseButton
 							position="absolute"
@@ -343,7 +352,7 @@ export const VariationDialog = ({ open, onClose, onConfirm }: Props) => {
 								fontSize={18}
 								onClick={handleConfirm}
 							>
-								Add
+								{initial ? 'Save' : 'Add'}
 							</Button>
 						</HStack>
 					</Dialog.Footer>

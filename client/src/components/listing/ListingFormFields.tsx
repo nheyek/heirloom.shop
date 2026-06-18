@@ -9,6 +9,7 @@ import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
+import { SortableFieldList } from '@client/components/listing/SortableFieldList';
 import { VariationDialog } from '@client/components/listing/VariationDialog';
 import { MAX_DESCR_SECTIONS } from '@client/constants';
 import {
@@ -26,8 +27,21 @@ export const ListingFormFields = ({
 	form,
 	disabled,
 }: ListingFormFieldsProps) => {
-	const [variationDialogOpen, setVariationDialogOpen] =
-		useState(false);
+	const [variationDialogOpen, setVariationDialogOpen] = useState(false);
+	const [editingVariationId, setEditingVariationId] = useState<string | null>(null);
+
+	const openAddVariation = () => {
+		setEditingVariationId(null);
+		setVariationDialogOpen(true);
+	};
+
+	const openEditVariation = (id: string) => {
+		setEditingVariationId(id);
+		setVariationDialogOpen(true);
+	};
+
+	const sortedVariations = Object.entries(form.variations)
+		.sort((a, b) => a[1].order - b[1].order);
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [editingIndex, setEditingIndex] = useState<number | null>(
@@ -143,28 +157,41 @@ export const ListingFormFields = ({
 						</Stack>
 					</FormField>
 					<FormField label="Variations">
-						<HStack>
-							<AddFieldButton
-								onClick={() =>
-									setVariationDialogOpen(true)
-								}
-								disabled={disabled}
-							>
-								Add Variation
-							</AddFieldButton>
-						</HStack>
+						<Stack gap={2}>
+							{sortedVariations.length > 0 && (
+								<SortableFieldList
+									items={sortedVariations.map(([id, v]) => ({ id, label: v.name }))}
+									onEdit={openEditVariation}
+									onDelete={form.removeVariation}
+									onReorder={form.reorderVariations}
+								/>
+							)}
+							<HStack>
+								<AddFieldButton
+									onClick={openAddVariation}
+									disabled={disabled}
+								>
+									Add Variation
+								</AddFieldButton>
+							</HStack>
+						</Stack>
 					</FormField>
 				</Stack>
 			</Fieldset.Root>
 
 			<VariationDialog
 				open={variationDialogOpen}
+				initial={editingVariationId ? form.variations[editingVariationId] : null}
 				onClose={() => setVariationDialogOpen(false)}
 				onConfirm={(variation) => {
-					form.addVariation({
-						...variation,
-						order: Object.keys(form.variations).length,
-					});
+					if (editingVariationId) {
+						form.updateVariation(editingVariationId, variation);
+					} else {
+						form.addVariation({
+							...variation,
+							order: Object.keys(form.variations).length,
+						});
+					}
 				}}
 			/>
 

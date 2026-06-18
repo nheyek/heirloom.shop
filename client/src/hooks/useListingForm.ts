@@ -55,6 +55,7 @@ export type ListingFormState = {
 	addVariation: (variation: Variation) => void;
 	removeVariation: (id: string) => void;
 	updateVariation: (id: string, variation: Variation) => void;
+	reorderVariations: (fromId: string, toId: string) => void;
 };
 
 type UseListingFormOptions = {
@@ -99,6 +100,17 @@ export const useListingForm = ({
 
 	const updateVariation = (id: string, variation: Variation) => {
 		setVariations((prev) => ({ ...prev, [id]: variation }));
+	};
+
+	const reorderVariations = (fromId: string, toId: string) => {
+		setVariations((prev) => {
+			const sorted = Object.entries(prev).sort((a, b) => a[1].order - b[1].order);
+			const fromIndex = sorted.findIndex(([id]) => id === fromId);
+			const toIndex = sorted.findIndex(([id]) => id === toId);
+			const [item] = sorted.splice(fromIndex, 1);
+			sorted.splice(toIndex, 0, item);
+			return Object.fromEntries(sorted.map(([id, v], i) => [id, { ...v, order: i }]));
+		});
 	};
 
 	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>([]);
@@ -177,5 +189,6 @@ export const useListingForm = ({
 		addVariation,
 		removeVariation,
 		updateVariation,
+		reorderVariations,
 	};
 };
