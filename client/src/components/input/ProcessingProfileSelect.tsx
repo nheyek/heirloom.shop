@@ -12,12 +12,12 @@ const COLLECTION = createListCollection({
 
 const SIZE_CONFIG = {
 	[InputSize.Md]: {
-		w: 200,
+		w: 150,
 		chakraSize: 'md' as const,
 		fontSize: 16,
 	},
 	[InputSize.Lg]: {
-		w: 300,
+		w: 250,
 		chakraSize: 'lg' as const,
 		fontSize: 18,
 	},

@@ -101,7 +101,8 @@ export const ListingFormFields = ({
 			<Fieldset.Root>
 				<Stack gap={5}>
 					<Wrap
-						gap={8}
+						columnGap={8}
+						rowGap={5}
 						align="start"
 					>
 						<WrapItem
