@@ -1,4 +1,11 @@
-import { Fieldset, HStack, Stack } from '@chakra-ui/react';
+import {
+	Box,
+	Fieldset,
+	HStack,
+	Stack,
+	Wrap,
+	WrapItem,
+} from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import {
 	FormField,
@@ -11,12 +18,20 @@ import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
 import { SortableFieldList } from '@client/components/listing/SortableFieldList';
 import { VariationDialog } from '@client/components/listing/VariationDialog';
-import { MAX_DESCR_SECTIONS } from '@client/constants';
+import {
+	MAX_DESCR_SECTIONS,
+	THUMBNAIL_GAP,
+	THUMBNAIL_WIDTH,
+} from '@client/constants';
 import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
+import { CHAKRA_SPACING_UNIT } from '@client/theme';
 import { useState } from 'react';
+
+const IMAGES_W =
+	3 * THUMBNAIL_WIDTH + 2 * (CHAKRA_SPACING_UNIT * THUMBNAIL_GAP);
 
 type ListingFormFieldsProps = {
 	form: ListingFormState;
@@ -82,83 +97,119 @@ export const ListingFormFields = ({
 		<>
 			<Fieldset.Root>
 				<Stack gap={5}>
-					<FormField
-						label="Title"
-						error={form.titleError}
+					<Wrap
+						gap={8}
+						align="start"
 					>
-						<FormInput
-							value={form.title}
-							onChange={(e) =>
-								form.setTitle(e.target.value)
-							}
-							placeholder="e.g. Hand-stitched leather wallet"
-							disabled={disabled}
-						/>
-					</FormField>
-					<FormField
-						label="Subtitle"
-						error={form.subtitleError}
-					>
-						<FormTextarea
-							value={form.subtitle}
-							onChange={(e) =>
-								form.setSubtitle(e.target.value)
-							}
-							placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
-							rows={2}
-							disabled={disabled}
-						/>
-					</FormField>
-					<FormField
-						label="Category"
-						error={form.categoryError}
-					>
-						<CategoryCombobox
-							value={form.categoryId}
-							onChange={(v) => {
-								form.setCategoryId(v);
-								if (v) form.setCategoryError(null);
-							}}
-							disabled={disabled}
-						/>
-					</FormField>
+						<WrapItem
+							w={500}
+							flexShrink={0}
+						>
+							<Stack
+								gap={5}
+								w="full"
+							>
+								<FormField
+									label="Title"
+									error={form.titleError}
+								>
+									<FormInput
+										value={form.title}
+										onChange={(e) =>
+											form.setTitle(
+												e.target.value,
+											)
+										}
+										placeholder="e.g. Hand-stitched leather wallet"
+										disabled={disabled}
+									/>
+								</FormField>
+								<FormField
+									label="Subtitle"
+									error={form.subtitleError}
+								>
+									<FormTextarea
+										value={form.subtitle}
+										onChange={(e) =>
+											form.setSubtitle(
+												e.target.value,
+											)
+										}
+										placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
+										rows={2}
+										disabled={disabled}
+									/>
+								</FormField>
+								<FormField
+									label="Category"
+									error={form.categoryError}
+								>
+									<CategoryCombobox
+										value={form.categoryId}
+										onChange={(v) => {
+											form.setCategoryId(v);
+											if (v)
+												form.setCategoryError(
+													null,
+												);
+										}}
+										disabled={disabled}
+									/>
+								</FormField>
+							</Stack>
+						</WrapItem>
+
+						<WrapItem
+							minW={280}
+							flex="1"
+						>
+							<FormField label="Description">
+								<Stack gap={2}>
+									{form.descrSections.length >
+										0 && (
+										<DescrSectionList
+											sections={
+												form.descrSections
+											}
+											ids={form.descrSectionIds}
+											onEdit={openEdit}
+											onDelete={
+												form.removeDescrSection
+											}
+											onReorder={
+												form.reorderDescrSections
+											}
+										/>
+									)}
+									{form.descrSections.length <
+										MAX_DESCR_SECTIONS && (
+										<HStack>
+											<AddFieldButton
+												onClick={openAdd}
+												disabled={disabled}
+											>
+												Add Section
+											</AddFieldButton>
+										</HStack>
+									)}
+								</Stack>
+							</FormField>
+						</WrapItem>
+					</Wrap>
+
 					<FormField
 						label="Images"
 						error={form.imageError}
 					>
-						<ListingImageUpload
-							imageEntries={form.imageEntries}
-							onAdd={form.addImageFiles}
-							onRemove={form.removeImage}
-							onReorder={form.reorderImageEntries}
-							disabled={disabled}
-						/>
-					</FormField>
-					<FormField label="Description">
-						<Stack gap={2}>
-							{form.descrSections.length > 0 && (
-								<DescrSectionList
-									sections={form.descrSections}
-									ids={form.descrSectionIds}
-									onEdit={openEdit}
-									onDelete={form.removeDescrSection}
-									onReorder={
-										form.reorderDescrSections
-									}
-								/>
-							)}
-							{form.descrSections.length <
-								MAX_DESCR_SECTIONS && (
-								<HStack>
-									<AddFieldButton
-										onClick={openAdd}
-										disabled={disabled}
-									>
-										Add Section
-									</AddFieldButton>
-								</HStack>
-							)}
-						</Stack>
+						<Box w={IMAGES_W}>
+							<ListingImageUpload
+								imageEntries={form.imageEntries}
+								onAdd={form.addImageFiles}
+								onRemove={form.removeImage}
+								onReorder={form.reorderImageEntries}
+								disabled={disabled}
+							/>
+						</Box>
 					</FormField>
 
 					<FormField label="Variations">

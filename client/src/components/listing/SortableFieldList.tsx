@@ -15,7 +15,11 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { FaGripVertical, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import {
+	FaGripVertical,
+	FaPencilAlt,
+	FaTrashAlt,
+} from 'react-icons/fa';
 
 export type SortableFieldItem = {
 	id: string;
@@ -29,21 +33,30 @@ type ItemProps = {
 };
 
 const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
-	const { attributes, listeners, setNodeRef, transform, transition, isDragging } =
-		useSortable({ id: item.id });
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: item.id });
 
 	return (
 		<Flex
 			ref={setNodeRef}
-			style={{ transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1 }}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.5 : 1,
+			}}
 			minWidth={325}
 			alignItems="center"
 			gap={3}
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
-			px={3}
-			py={2}
+			p={1}
 		>
 			<IconButton
 				size="sm"
@@ -55,18 +68,37 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 			>
 				<FaGripVertical />
 			</IconButton>
-			<Text flex={1} fontSize={18} truncate>
+			<Text
+				flex={1}
+				fontSize={18}
+				truncate
+			>
 				{item.label || (
-					<Text as="span" color="gray.400" fontStyle="italic">
+					<Text
+						as="span"
+						color="gray.400"
+						fontStyle="italic"
+					>
 						Untitled
 					</Text>
 				)}
 			</Text>
 			<HStack gap={0}>
-				<IconButton aria-label="Edit" size="sm" variant="ghost" onClick={onEdit}>
+				<IconButton
+					aria-label="Edit"
+					size="sm"
+					variant="ghost"
+					onClick={onEdit}
+				>
 					<FaPencilAlt />
 				</IconButton>
-				<IconButton aria-label="Delete" size="sm" variant="ghost" color="red.500" onClick={onDelete}>
+				<IconButton
+					aria-label="Delete"
+					size="sm"
+					variant="ghost"
+					color="red.500"
+					onClick={onDelete}
+				>
 					<FaTrashAlt />
 				</IconButton>
 			</HStack>
@@ -81,10 +113,17 @@ type Props = {
 	onReorder: (fromId: string, toId: string) => void;
 };
 
-export const SortableFieldList = ({ items, onEdit, onDelete, onReorder }: Props) => {
+export const SortableFieldList = ({
+	items,
+	onEdit,
+	onDelete,
+	onReorder,
+}: Props) => {
 	const sensors = useSensors(
 		useSensor(PointerSensor),
-		useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }),
+		useSensor(KeyboardSensor, {
+			coordinateGetter: sortableKeyboardCoordinates,
+		}),
 	);
 
 	const handleDragEnd = (event: DragEndEvent) => {
@@ -96,9 +135,19 @@ export const SortableFieldList = ({ items, onEdit, onDelete, onReorder }: Props)
 	const ids = items.map((i) => i.id);
 
 	return (
-		<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-			<SortableContext items={ids} strategy={verticalListSortingStrategy}>
-				<Flex direction="column" gap={2}>
+		<DndContext
+			sensors={sensors}
+			collisionDetection={closestCenter}
+			onDragEnd={handleDragEnd}
+		>
+			<SortableContext
+				items={ids}
+				strategy={verticalListSortingStrategy}
+			>
+				<Flex
+					direction="column"
+					gap={2}
+				>
 					{items.map((item) => (
 						<SortableFieldItem
 							key={item.id}

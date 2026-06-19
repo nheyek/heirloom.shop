@@ -59,7 +59,6 @@ export const CombinationGrid = ({
 	return (
 		<Box
 			overflowX="auto"
-			width="fit-content"
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
@@ -68,6 +67,7 @@ export const CombinationGrid = ({
 				variant="outline"
 				size="md"
 				fontSize={16}
+				minWidth="max-content"
 			>
 				<Table.Header fontSize={15}>
 					<Table.Row>
@@ -171,7 +171,7 @@ export const CombinationGrid = ({
 									<Table.Cell key={varId}>
 										<Text
 											fontSize={16}
-											truncate
+											maxW={150}
 										>
 											{optionName(
 												varId,

@@ -1,5 +1,8 @@
 import { useApiClient } from '@client/hooks/useApiClient';
-import { useImageUpload, ImageEntry } from '@client/hooks/useImageUpload';
+import {
+	ImageEntry,
+	useImageUpload,
+} from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
@@ -54,9 +57,15 @@ export type ListingFormState = {
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
 	addDescrSection: (section: ListingDescrSection) => void;
-	updateDescrSection: (index: number, section: ListingDescrSection) => void;
+	updateDescrSection: (
+		index: number,
+		section: ListingDescrSection,
+	) => void;
 	removeDescrSection: (index: number) => void;
-	reorderDescrSections: (fromIndex: number, toIndex: number) => void;
+	reorderDescrSections: (
+		fromIndex: number,
+		toIndex: number,
+	) => void;
 
 	variations: Record<string, Variation>;
 	addVariation: (variation: Variation) => void;
@@ -65,7 +74,10 @@ export type ListingFormState = {
 	reorderVariations: (fromId: string, toId: string) => void;
 
 	combinations: Record<string, CombinationEntry>;
-	setCombinationField: (key: string, patch: Partial<CombinationEntry>) => void;
+	setCombinationField: (
+		key: string,
+		patch: Partial<CombinationEntry>,
+	) => void;
 };
 
 type UseListingFormOptions = {
@@ -87,14 +99,22 @@ export const useListingForm = ({
 	const [titleError, setTitleError] = useState<string | null>(null);
 
 	const [subtitle, setSubtitle] = useState(initialSubtitle);
-	const [subtitleError, setSubtitleError] = useState<string | null>(null);
+	const [subtitleError, setSubtitleError] = useState<string | null>(
+		null,
+	);
 
-	const [categoryId, setCategoryId] = useState<string | null>(initialCategoryId);
-	const [categoryError, setCategoryError] = useState<string | null>(null);
+	const [categoryId, setCategoryId] = useState<string | null>(
+		initialCategoryId,
+	);
+	const [categoryError, setCategoryError] = useState<string | null>(
+		null,
+	);
 
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const [variations, setVariations] = useState<Record<string, Variation>>(() => ({
+	const [variations, setVariations] = useState<
+		Record<string, Variation>
+	>(() => ({
 		[crypto.randomUUID()]: {
 			name: 'Color',
 			pricesVary: false,
@@ -102,8 +122,14 @@ export const useListingForm = ({
 			order: 0,
 			options: {
 				[crypto.randomUUID()]: { name: 'Red', order: 0 },
-				[crypto.randomUUID()]: { name: 'Forest Green', order: 1 },
-				[crypto.randomUUID()]: { name: 'Midnight Blue', order: 2 },
+				[crypto.randomUUID()]: {
+					name: 'Forest Green',
+					order: 1,
+				},
+				[crypto.randomUUID()]: {
+					name: 'Midnight Blue Midnight Blue Midnight Blue Midnight Blue Midnight Blue Midnight Blue',
+					order: 2,
+				},
 			},
 		},
 		[crypto.randomUUID()]: {
@@ -115,7 +141,10 @@ export const useListingForm = ({
 				[crypto.randomUUID()]: { name: 'Small', order: 0 },
 				[crypto.randomUUID()]: { name: 'Medium', order: 1 },
 				[crypto.randomUUID()]: { name: 'Large', order: 2 },
-				[crypto.randomUUID()]: { name: 'Extra Large', order: 3 },
+				[crypto.randomUUID()]: {
+					name: 'Extra Large',
+					order: 3,
+				},
 			},
 		},
 		[crypto.randomUUID()]: {
@@ -125,13 +154,19 @@ export const useListingForm = ({
 			order: 2,
 			options: {
 				[crypto.randomUUID()]: { name: 'Cotton', order: 0 },
-				[crypto.randomUUID()]: { name: 'Merino Wool', order: 1 },
+				[crypto.randomUUID()]: {
+					name: 'Merino Wool',
+					order: 1,
+				},
 			},
 		},
 	}));
 
 	const addVariation = (variation: Variation) => {
-		setVariations((prev) => ({ ...prev, [crypto.randomUUID()]: variation }));
+		setVariations((prev) => ({
+			...prev,
+			[crypto.randomUUID()]: variation,
+		}));
 	};
 
 	const removeVariation = (id: string) => {
@@ -146,45 +181,81 @@ export const useListingForm = ({
 		setVariations((prev) => ({ ...prev, [id]: variation }));
 	};
 
-	const [combinations, setCombinations] = useState<Record<string, CombinationEntry>>({});
+	const [combinations, setCombinations] = useState<
+		Record<string, CombinationEntry>
+	>({});
 
-	const setCombinationField = (key: string, patch: Partial<CombinationEntry>) => {
+	const setCombinationField = (
+		key: string,
+		patch: Partial<CombinationEntry>,
+	) => {
 		setCombinations((prev) => ({
 			...prev,
-			[key]: { ...{ imageUuid: null, priceCents: null, leadTimeProfileId: null, disabled: false }, ...prev[key], ...patch },
+			[key]: {
+				...{
+					imageUuid: null,
+					priceCents: null,
+					leadTimeProfileId: null,
+					disabled: false,
+				},
+				...prev[key],
+				...patch,
+			},
 		}));
 	};
 
 	const reorderVariations = (fromId: string, toId: string) => {
 		setVariations((prev) => {
-			const sorted = Object.entries(prev).sort((a, b) => a[1].order - b[1].order);
-			const fromIndex = sorted.findIndex(([id]) => id === fromId);
+			const sorted = Object.entries(prev).sort(
+				(a, b) => a[1].order - b[1].order,
+			);
+			const fromIndex = sorted.findIndex(
+				([id]) => id === fromId,
+			);
 			const toIndex = sorted.findIndex(([id]) => id === toId);
 			const [item] = sorted.splice(fromIndex, 1);
 			sorted.splice(toIndex, 0, item);
-			return Object.fromEntries(sorted.map(([id, v], i) => [id, { ...v, order: i }]));
+			return Object.fromEntries(
+				sorted.map(([id, v], i) => [id, { ...v, order: i }]),
+			);
 		});
 	};
 
-	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>([]);
-	const [descrSectionIds, setDescrSectionIds] = useState<string[]>([]);
+	const [descrSections, setDescrSections] = useState<
+		ListingDescrSection[]
+	>([]);
+	const [descrSectionIds, setDescrSectionIds] = useState<string[]>(
+		[],
+	);
 
 	const addDescrSection = (section: ListingDescrSection) => {
 		setDescrSections((prev) => [...prev, section]);
 		setDescrSectionIds((prev) => [...prev, crypto.randomUUID()]);
 	};
 
-	const updateDescrSection = (index: number, section: ListingDescrSection) => {
-		setDescrSections((prev) => prev.map((s, i) => (i === index ? section : s)));
+	const updateDescrSection = (
+		index: number,
+		section: ListingDescrSection,
+	) => {
+		setDescrSections((prev) =>
+			prev.map((s, i) => (i === index ? section : s)),
+		);
 	};
 
 	const removeDescrSection = (index: number) => {
-		setDescrSections((prev) => prev.filter((_, i) => i !== index));
-		setDescrSectionIds((prev) => prev.filter((_, i) => i !== index));
+		setDescrSections((prev) =>
+			prev.filter((_, i) => i !== index),
+		);
+		setDescrSectionIds((prev) =>
+			prev.filter((_, i) => i !== index),
+		);
 	};
 
-	const reorderDescrSections = (fromIndex: number, toIndex: number) => {
-		const move = <T,>(arr: T[]): T[] => {
+	const reorderDescrSections = (
+		fromIndex: number,
+		toIndex: number,
+	) => {
+		const move = <T>(arr: T[]): T[] => {
 			const result = [...arr];
 			const [item] = result.splice(fromIndex, 1);
 			result.splice(toIndex, 0, item);
