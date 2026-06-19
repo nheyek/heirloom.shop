@@ -70,7 +70,7 @@ export const CombinationGrid = ({
 				size="md"
 				fontSize={16}
 			>
-				<Table.Header>
+				<Table.Header fontSize={15}>
 					<Table.Row>
 						<Table.ColumnHeader w={100}>
 							Image

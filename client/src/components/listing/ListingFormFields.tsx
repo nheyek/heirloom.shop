@@ -188,17 +188,17 @@ export const ListingFormFields = ({
 							</HStack>
 						</Stack>
 					</FormField>
+					{deriveCombinations(form.variations).length >
+						0 && (
+						<CombinationGrid
+							variations={form.variations}
+							combinations={form.combinations}
+							onUpdate={form.setCombinationField}
+							disabled={disabled}
+						/>
+					)}
 				</Stack>
 			</Fieldset.Root>
-
-			{deriveCombinations(form.variations).length > 0 && (
-				<CombinationGrid
-					variations={form.variations}
-					combinations={form.combinations}
-					onUpdate={form.setCombinationField}
-					disabled={disabled}
-				/>
-			)}
 
 			<DescrSectionDialog
 				open={dialogOpen}
