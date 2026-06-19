@@ -6,12 +6,9 @@ import {
 	Table,
 	Text,
 } from '@chakra-ui/react';
+import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
-import {
-	PriceInput,
-	PriceInputSize,
-} from '@client/components/input/PriceInput';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { InputSize, STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import {
 	CombinationEntry,
 	Variation,
@@ -22,7 +19,6 @@ import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 import { FaUpload } from 'react-icons/fa6';
 
 const THUMB_WIDTH = 100;
-
 
 type Props = {
 	variations: Record<string, Variation>;
@@ -197,7 +193,7 @@ export const CombinationGrid = ({
 											disabled={
 												disabled || isDisabled
 											}
-											size={PriceInputSize.Md}
+											size={InputSize.Md}
 										/>
 									</Table.Cell>
 								)}
@@ -213,6 +209,7 @@ export const CombinationGrid = ({
 												})
 											}
 											disabled={disabled || isDisabled}
+											size={InputSize.Md}
 										/>
 									</Table.Cell>
 								)}

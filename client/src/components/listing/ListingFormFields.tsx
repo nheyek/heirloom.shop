@@ -12,10 +12,7 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
-import {
-	PriceInput,
-	PriceInputSize,
-} from '@client/components/input/PriceInput';
+import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
@@ -24,6 +21,7 @@ import { ListingImageUpload } from '@client/components/listing/ListingImageUploa
 import { SortableFieldList } from '@client/components/listing/SortableFieldList';
 import { VariationDialog } from '@client/components/listing/VariationDialog';
 import {
+	InputSize,
 	MAX_DESCR_SECTIONS,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
@@ -248,7 +246,7 @@ export const ListingFormFields = ({
 					) && (
 						<FormField label="Price">
 							<PriceInput
-								size={PriceInputSize.Lg}
+								size={InputSize.Lg}
 								value={form.priceCents}
 								onChange={form.setPriceCents}
 								disabled={disabled}
@@ -264,6 +262,7 @@ export const ListingFormFields = ({
 								value={form.processingProfileId}
 								onChange={form.setProcessingProfileId}
 								disabled={disabled}
+								size={InputSize.Lg}
 							/>
 						</FormField>
 					)}

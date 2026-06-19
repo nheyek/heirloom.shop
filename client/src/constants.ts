@@ -1,5 +1,10 @@
 export const NUM_TOP_LEVEL_CATEGORIES = 4;
 
+export enum InputSize {
+	Md,
+	Lg,
+}
+
 export enum Layout {
 	COMPACT,
 	STANDARD,

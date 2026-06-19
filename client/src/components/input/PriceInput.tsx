@@ -1,16 +1,19 @@
 import { Input, InputGroup } from '@chakra-ui/react';
+import { InputSize } from '@client/constants';
 import { useState } from 'react';
 import { FaDollarSign } from 'react-icons/fa6';
 
-export enum PriceInputSize {
-	Md,
-	Lg,
-}
+export { InputSize as PriceInputSize };
+
+const SIZE_CONFIG = {
+	[InputSize.Md]: { fontSize: 18, w: 120, h: 10, iconSize: 13 },
+	[InputSize.Lg]: { fontSize: 22, w: 135, h: 12, iconSize: 15 },
+};
 
 type Props = {
 	value: number | null;
 	onChange: (cents: number | null) => void;
-	size?: PriceInputSize;
+	size?: InputSize;
 	disabled?: boolean;
 };
 
@@ -33,11 +36,12 @@ const formatWhileTyping = (str: string): string => {
 export const PriceInput = ({
 	value,
 	onChange,
-	size = PriceInputSize.Md,
+	size = InputSize.Md,
 	disabled,
 }: Props) => {
 	const [localValue, setLocalValue] = useState('');
 	const [focused, setFocused] = useState(false);
+	const { fontSize, w, h, iconSize } = SIZE_CONFIG[size];
 
 	const displayValue = focused
 		? localValue
@@ -46,15 +50,11 @@ export const PriceInput = ({
 			: '';
 
 	return (
-		<InputGroup
-			startElement={
-				<FaDollarSign size={PriceInputSize.Md ? 13 : 15} />
-			}
-		>
+		<InputGroup startElement={<FaDollarSign size={iconSize} />}>
 			<Input
-				fontSize={size === PriceInputSize.Md ? 18 : 22}
-				w={size === PriceInputSize.Md ? 120 : 135}
-				h={size === PriceInputSize.Md ? 10 : 12}
+				fontSize={fontSize}
+				w={w}
+				h={h}
 				value={displayValue}
 				disabled={disabled}
 				onChange={(e) => {
@@ -74,10 +74,14 @@ export const PriceInput = ({
 					if (value != null) {
 						const dollars = value / 100;
 						const intPart = Math.floor(dollars);
-						const decPart = Math.round((dollars - intPart) * 100);
+						const decPart = Math.round(
+							(dollars - intPart) * 100,
+						);
 						setLocalValue(
 							decPart > 0
-								? dollars.toLocaleString(undefined, { maximumFractionDigits: 2 })
+								? dollars.toLocaleString(undefined, {
+										maximumFractionDigits: 2,
+									})
 								: intPart.toLocaleString(),
 						);
 					} else {
