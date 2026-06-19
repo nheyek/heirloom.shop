@@ -20,6 +20,16 @@ const formatCents = (cents: number) =>
 		maximumFractionDigits: 2,
 	});
 
+const formatWhileTyping = (str: string): string => {
+	const clean = str.replace(/[^0-9.]/g, '');
+	const dotIndex = clean.indexOf('.');
+	const intRaw = dotIndex >= 0 ? clean.slice(0, dotIndex) : clean;
+	const decRaw = dotIndex >= 0 ? clean.slice(dotIndex + 1) : null;
+	const intFormatted =
+		intRaw === '' ? '' : Number(intRaw).toLocaleString();
+	return decRaw !== null ? intFormatted + '.' + decRaw : intFormatted;
+};
+
 export const PriceInput = ({
 	value,
 	onChange,
@@ -48,22 +58,31 @@ export const PriceInput = ({
 				value={displayValue}
 				disabled={disabled}
 				onChange={(e) => {
-					const str = e.target.value;
-					setLocalValue(str);
+					const formatted = formatWhileTyping(e.target.value);
+					setLocalValue(formatted);
 					const raw = parseFloat(
-						str.replace(/[^0-9.-]/g, ''),
+						formatted.replace(/[^0-9.-]/g, ''),
 					);
 					onChange(
-						str === '' || isNaN(raw)
+						formatted === '' || isNaN(raw)
 							? null
 							: Math.round(raw * 100),
 					);
 				}}
 				onFocus={() => {
 					setFocused(true);
-					setLocalValue(
-						value != null ? String(value / 100) : '',
-					);
+					if (value != null) {
+						const dollars = value / 100;
+						const intPart = Math.floor(dollars);
+						const decPart = Math.round((dollars - intPart) * 100);
+						setLocalValue(
+							decPart > 0
+								? dollars.toLocaleString(undefined, { maximumFractionDigits: 2 })
+								: intPart.toLocaleString(),
+						);
+					} else {
+						setLocalValue('');
+					}
 				}}
 				onBlur={() => setFocused(false)}
 				placeholder="0.00"
