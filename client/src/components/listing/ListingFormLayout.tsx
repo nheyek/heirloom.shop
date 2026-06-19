@@ -19,6 +19,6 @@ export const ListingFormLayout = ({ form, actions }: Props) => (
 				onUpdate={form.setCombinationField}
 			/>
 		)}
-		<Stack mt={5}>{actions}</Stack>
+		<Stack mt={2.5}>{actions}</Stack>
 	</Stack>
 );

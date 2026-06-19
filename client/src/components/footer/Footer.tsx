@@ -1,7 +1,7 @@
 import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import { CLIENT_ROUTES } from '@client/constants';
 import { RxDotFilled } from 'react-icons/rx';
 import { useLocation } from 'react-router-dom';
-import { CLIENT_ROUTES } from '@client/constants';
 
 const hideFooterPages = [CLIENT_ROUTES.checkout];
 
@@ -22,7 +22,7 @@ export const Footer = () => {
 			height={75}
 			background="brand"
 			color="#FFF"
-			mt={10}
+			mt={{ base: 5, md: 10 }}
 		>
 			<Center height="100%">
 				<Flex

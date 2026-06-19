@@ -106,7 +106,7 @@ export const ListingFormFields = ({
 						align="start"
 					>
 						<WrapItem
-							w={500}
+							w={{ base: '100%', md: 500 }}
 							flexShrink={0}
 						>
 							<Stack
@@ -205,7 +205,7 @@ export const ListingFormFields = ({
 						label="Images"
 						error={form.imageError}
 					>
-						<Box w={IMAGES_W}>
+						<Box w={{ base: '100%', md: IMAGES_W }}>
 							<ListingImageUpload
 								imageEntries={form.imageEntries}
 								onAdd={form.addImageFiles}
@@ -216,32 +216,6 @@ export const ListingFormFields = ({
 						</Box>
 					</FormField>
 
-					<FormField label="Variations">
-						<Stack gap={2}>
-							{sortedVariations.length > 0 && (
-								<SortableFieldList
-									items={sortedVariations.map(
-										([id, v]) => ({
-											id,
-											label: v.name,
-										}),
-									)}
-									onEdit={openEditVariation}
-									onDelete={form.removeVariation}
-									onReorder={form.reorderVariations}
-								/>
-							)}
-							<HStack>
-								<AddFieldButton
-									onClick={openAddVariation}
-									disabled={disabled}
-								>
-									Add Variation
-								</AddFieldButton>
-							</HStack>
-						</Stack>
-					</FormField>
-
 					{(!sortedVariations.some(
 						([, v]) => v.pricesVary,
 					) ||
@@ -249,8 +223,7 @@ export const ListingFormFields = ({
 							([, v]) => v.leadTimesVary,
 						)) && (
 						<Wrap
-							columnGap={8}
-							rowGap={5}
+							gap={5}
 							align="start"
 						>
 							{!sortedVariations.some(
@@ -289,6 +262,32 @@ export const ListingFormFields = ({
 							)}
 						</Wrap>
 					)}
+
+					<FormField label="Variations">
+						<Stack gap={2}>
+							{sortedVariations.length > 0 && (
+								<SortableFieldList
+									items={sortedVariations.map(
+										([id, v]) => ({
+											id,
+											label: v.name,
+										}),
+									)}
+									onEdit={openEditVariation}
+									onDelete={form.removeVariation}
+									onReorder={form.reorderVariations}
+								/>
+							)}
+							<HStack>
+								<AddFieldButton
+									onClick={openAddVariation}
+									disabled={disabled}
+								>
+									Add Variation
+								</AddFieldButton>
+							</HStack>
+						</Stack>
+					</FormField>
 				</Stack>
 			</Fieldset.Root>
 
