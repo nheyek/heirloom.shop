@@ -67,7 +67,7 @@ export const CombinationGrid = ({
 				variant="outline"
 				size="md"
 				fontSize={16}
-				minWidth="max-content"
+				width="fit-content"
 			>
 				<Table.Header fontSize={15}>
 					<Table.Row>
