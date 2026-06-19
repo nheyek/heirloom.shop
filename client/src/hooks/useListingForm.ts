@@ -57,6 +57,9 @@ export type ListingFormState = {
 	priceCents: number | null;
 	setPriceCents: (v: number | null) => void;
 
+	processingProfileId: string | null;
+	setProcessingProfileId: (v: string | null) => void;
+
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
 	addDescrSection: (section: ListingDescrSection) => void;
@@ -115,6 +118,7 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(null);
+	const [processingProfileId, setProcessingProfileId] = useState<string | null>(null);
 
 	const [variations, setVariations] = useState<Record<string, Variation>>({});
 
@@ -261,6 +265,8 @@ export const useListingForm = ({
 		setImageError,
 		priceCents,
 		setPriceCents,
+		processingProfileId,
+		setProcessingProfileId,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,

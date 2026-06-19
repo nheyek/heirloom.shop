@@ -16,6 +16,7 @@ import {
 	PriceInput,
 	PriceInputSize,
 } from '@client/components/input/PriceInput';
+import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
@@ -250,6 +251,18 @@ export const ListingFormFields = ({
 								size={PriceInputSize.Lg}
 								value={form.priceCents}
 								onChange={form.setPriceCents}
+								disabled={disabled}
+							/>
+						</FormField>
+					)}
+
+					{!sortedVariations.some(
+						([, v]) => v.leadTimesVary,
+					) && (
+						<FormField label="Processing Profile">
+							<ProcessingProfileSelect
+								value={form.processingProfileId}
+								onChange={form.setProcessingProfileId}
 								disabled={disabled}
 							/>
 						</FormField>

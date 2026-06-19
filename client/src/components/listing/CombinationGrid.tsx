@@ -3,12 +3,10 @@ import {
 	FileUpload,
 	IconButton,
 	Image,
-	Portal,
-	Select,
 	Table,
 	Text,
-	createListCollection,
 } from '@chakra-ui/react';
+import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
 import {
 	PriceInput,
 	PriceInputSize,
@@ -25,9 +23,6 @@ import { FaUpload } from 'react-icons/fa6';
 
 const THUMB_WIDTH = 100;
 
-const LEAD_TIME_COLLECTION = createListCollection({
-	items: [{ label: 'Default Default Default Default', value: '' }],
-});
 
 type Props = {
 	variations: Record<string, Variation>;
@@ -207,79 +202,18 @@ export const CombinationGrid = ({
 									</Table.Cell>
 								)}
 
-								{/* Lead time (placeholder) */}
+								{/* Lead time */}
 								{showLeadTime && (
 									<Table.Cell>
-										<Select.Root
-											size="md"
-											collection={
-												LEAD_TIME_COLLECTION
-											}
-											value={[
-												entry.leadTimeProfileId ??
-													'',
-											]}
-											onValueChange={(e) =>
+										<ProcessingProfileSelect
+											value={entry.leadTimeProfileId}
+											onChange={(v) =>
 												onUpdate(key, {
-													leadTimeProfileId:
-														e.value[0] ||
-														null,
+													leadTimeProfileId: v,
 												})
 											}
-											disabled={
-												disabled || isDisabled
-											}
-										>
-											<Select.HiddenSelect />
-											<Select.Control>
-												<Select.Trigger
-													minW={100}
-													maxW={180}
-												>
-													<Select.ValueText
-														fontSize={16}
-														truncate
-													/>
-													<Select.IndicatorGroup>
-														<Select.Indicator />
-													</Select.IndicatorGroup>
-												</Select.Trigger>
-											</Select.Control>
-											<Portal>
-												<Select.Positioner>
-													<Select.Content
-														minW={100}
-													>
-														{LEAD_TIME_COLLECTION.items.map(
-															(
-																item,
-															) => (
-																<Select.Item
-																	key={
-																		item.value
-																	}
-																	item={
-																		item
-																	}
-																>
-																	<Text
-																		truncate
-																		maxW={
-																			180
-																		}
-																	>
-																		{
-																			item.label
-																		}
-																	</Text>
-																	<Select.ItemIndicator />
-																</Select.Item>
-															),
-														)}
-													</Select.Content>
-												</Select.Positioner>
-											</Portal>
-										</Select.Root>
+											disabled={disabled || isDisabled}
+										/>
 									</Table.Cell>
 								)}
 
