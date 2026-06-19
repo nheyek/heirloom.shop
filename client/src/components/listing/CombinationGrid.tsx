@@ -1,17 +1,18 @@
 import {
 	Box,
 	FileUpload,
-	HStack,
 	IconButton,
 	Image,
-	InputGroup,
-	NumberInput,
 	Portal,
 	Select,
 	Table,
 	Text,
 	createListCollection,
 } from '@chakra-ui/react';
+import {
+	PriceInput,
+	PriceInputSize,
+} from '@client/components/input/PriceInput';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import {
 	CombinationEntry,
@@ -20,12 +21,12 @@ import {
 import { COLOR_BRAND } from '@client/theme';
 import { deriveCombinations } from '@client/utils/combinationUtils';
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
-import { FaDollarSign, FaUpload } from 'react-icons/fa6';
+import { FaUpload } from 'react-icons/fa6';
 
 const THUMB_WIDTH = 100;
 
 const LEAD_TIME_COLLECTION = createListCollection({
-	items: [{ label: 'Default', value: '' }],
+	items: [{ label: 'Default Default Default Default', value: '' }],
 });
 
 type Props = {
@@ -68,10 +69,14 @@ export const CombinationGrid = ({
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
+			display="inline-block"
+			maxW="100%"
+			alignSelf="flex-start"
 		>
 			<Table.Root
 				variant="outline"
 				size="md"
+				width="fit-content"
 			>
 				<Table.Header fontSize={15}>
 					<Table.Row>
@@ -187,63 +192,18 @@ export const CombinationGrid = ({
 								{/* Price */}
 								{showPrice && (
 									<Table.Cell>
-										<HStack gap={1}>
-											<NumberInput.Root
-												value={
-													entry.priceCents
-														? (
-																entry.priceCents /
-																100
-															).toLocaleString()
-														: ''
-												}
-												onValueChange={(
-													details,
-												) => {
-													const val =
-														details.value ===
-														''
-															? null
-															: parseFloat(
-																	details.value.replace(
-																		/[^0-9.-]/g,
-																		'',
-																	),
-																) *
-																100;
-													onUpdate(key, {
-														priceCents:
-															isNaN(
-																val as number,
-															)
-																? null
-																: val,
-													});
-												}}
-												min={0}
-												step={0.01}
-												formatOptions={{
-													minimumFractionDigits: 0,
-													maximumFractionDigits: 2,
-												}}
-												disabled={
-													disabled ||
-													isDisabled
-												}
-											>
-												<InputGroup
-													startElement={
-														<FaDollarSign />
-													}
-												>
-													<NumberInput.Input
-														fontSize={18}
-														placeholder="00.00"
-														w={115}
-													/>
-												</InputGroup>
-											</NumberInput.Root>
-										</HStack>
+										<PriceInput
+											value={entry.priceCents}
+											onChange={(cents) =>
+												onUpdate(key, {
+													priceCents: cents,
+												})
+											}
+											disabled={
+												disabled || isDisabled
+											}
+											size={PriceInputSize.Md}
+										/>
 									</Table.Cell>
 								)}
 

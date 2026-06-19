@@ -12,6 +12,10 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
+import {
+	PriceInput,
+	PriceInputSize,
+} from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
@@ -237,6 +241,19 @@ export const ListingFormFields = ({
 							</HStack>
 						</Stack>
 					</FormField>
+
+					{!sortedVariations.some(
+						([, v]) => v.pricesVary,
+					) && (
+						<FormField label="Price">
+							<PriceInput
+								size={PriceInputSize.Lg}
+								value={form.priceCents}
+								onChange={form.setPriceCents}
+								disabled={disabled}
+							/>
+						</FormField>
+					)}
 				</Stack>
 			</Fieldset.Root>
 

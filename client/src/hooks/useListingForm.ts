@@ -54,6 +54,9 @@ export type ListingFormState = {
 	imageError: string | null;
 	setImageError: (v: string | null) => void;
 
+	priceCents: number | null;
+	setPriceCents: (v: number | null) => void;
+
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
 	addDescrSection: (section: ListingDescrSection) => void;
@@ -111,6 +114,7 @@ export const useListingForm = ({
 	);
 
 	const [imageError, setImageError] = useState<string | null>(null);
+	const [priceCents, setPriceCents] = useState<number | null>(null);
 
 	const [variations, setVariations] = useState<Record<string, Variation>>({});
 
@@ -255,6 +259,8 @@ export const useListingForm = ({
 		uploadedUuids: uuids,
 		imageError,
 		setImageError,
+		priceCents,
+		setPriceCents,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,
