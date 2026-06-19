@@ -1,13 +1,12 @@
 import {
 	Box,
-	Grid,
-	GridItem,
 	HStack,
 	IconButton,
 	Image,
 	InputGroup,
 	NativeSelect,
 	NumberInput,
+	Table,
 	Text,
 } from '@chakra-ui/react';
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
@@ -59,297 +58,252 @@ export const CombinationGrid = ({
 		variations[varId]?.options[optId]?.name ?? '';
 
 	return (
-		<Box overflowX="auto">
-			<Grid
-				width="fit-content"
-				gapX={2}
-				gapY={5}
-				templateColumns={[
-					'100px',
-					...sortedVariations.map(() => 'minmax(100px, 1fr)'),
-					...(showPrice ? ['125px'] : []),
-					...(showLeadTime ? ['minmax(100px, 1fr)'] : []),
-					'36px',
-				].join(' ')}
+		<Box
+			overflowX="auto"
+			width="fit-content"
+			borderWidth={1}
+			borderColor="gray.200"
+			borderRadius="md"
+		>
+			<Table.Root
+				variant="outline"
+				size="md"
+				fontSize={16}
 			>
-				{/* Header */}
-				<Text
-					fontSize={16}
-					fontWeight={500}
-					color="gray.500"
-					px={1}
-				>
-					Image
-				</Text>
-				{sortedVariations.map(([varId, v]) => (
-					<GridItem
-						key={varId}
-						display="flex"
-						alignItems="flex-end"
-					>
-						<Text
-							fontSize={16}
-							fontWeight={500}
-							color="gray.500"
-							px={1}
-						>
-							{v.name}
-						</Text>
-					</GridItem>
-				))}
-				{showPrice && (
-					<GridItem
-						display="flex"
-						alignItems="flex-end"
-					>
-						<Text
-							fontSize={16}
-							fontWeight={500}
-							color="gray.500"
-						>
-							Price
-						</Text>
-					</GridItem>
-				)}
-				{showLeadTime && (
-					<GridItem
-						display="flex"
-						alignItems="flex-end"
-					>
-						<Text
-							fontSize={16}
-							fontWeight={500}
-							color="gray.500"
-						>
-							Lead Time
-						</Text>
-					</GridItem>
-				)}
-				<GridItem />
-				{/* Rows */}
-				{combos.map(({ key, optionIdsByVariationId }) => {
-					const entry = combinations[key] ?? DEFAULT_ENTRY;
-					const isDisabled = entry.disabled;
-
-					return (
-						<>
-							{/* Image — first column */}
-							<GridItem
-								display="flex"
-								alignItems="center"
-								opacity={isDisabled ? 0.4 : 1}
-								w={100}
+				<Table.Header>
+					<Table.Row>
+						<Table.ColumnHeader w={100}>
+							Image
+						</Table.ColumnHeader>
+						{sortedVariations.map(([varId, v]) => (
+							<Table.ColumnHeader
+								key={varId}
+								minW={100}
 							>
-								<ImageDropzone
-									onAdd={([file]) => {
-										onUpdate(key, {
-											imageUuid:
-												URL.createObjectURL(
-													file,
-												),
-										});
-									}}
-									maxFiles={1}
-									disabled={disabled || isDisabled}
-									trigger={
-										entry.imageUuid ? (
-											<Box
-												as="button"
-												width={`${THUMB_WIDTH}px`}
-												height={`${THUMB_HEIGHT}px`}
-												borderRadius="md"
-												overflow="hidden"
-												borderWidth={1}
-												borderColor="gray.200"
-												cursor="pointer"
-												flexShrink={0}
-											>
-												<Image
-													src={
-														entry.imageUuid
-													}
-													width="100%"
-													height="100%"
-													objectFit="cover"
+								{v.name}
+							</Table.ColumnHeader>
+						))}
+						{showPrice && (
+							<Table.ColumnHeader>
+								Price
+							</Table.ColumnHeader>
+						)}
+						{showLeadTime && (
+							<Table.ColumnHeader minW={100}>
+								Lead Time
+							</Table.ColumnHeader>
+						)}
+						<Table.ColumnHeader />
+					</Table.Row>
+				</Table.Header>
+				<Table.Body>
+					{combos.map(({ key, optionIdsByVariationId }) => {
+						const entry =
+							combinations[key] ?? DEFAULT_ENTRY;
+						const isDisabled = entry.disabled;
+
+						return (
+							<Table.Row
+								key={key}
+								opacity={isDisabled ? 0.6 : 1}
+							>
+								{/* Image */}
+								<Table.Cell>
+									<ImageDropzone
+										onAdd={([file]) => {
+											onUpdate(key, {
+												imageUuid:
+													URL.createObjectURL(
+														file,
+													),
+											});
+										}}
+										maxFiles={1}
+										disabled={
+											disabled || isDisabled
+										}
+										trigger={
+											entry.imageUuid ? (
+												<Box
+													as="button"
+													width={`${THUMB_WIDTH}px`}
+													height={`${THUMB_HEIGHT}px`}
+													borderRadius="md"
+													overflow="hidden"
+													borderWidth={1}
+													borderColor="gray.200"
+													cursor="pointer"
+													flexShrink={0}
+												>
+													<Image
+														src={
+															entry.imageUuid
+														}
+														width="100%"
+														height="100%"
+														objectFit="cover"
+													/>
+												</Box>
+											) : (
+												<Box
+													as="button"
+													width={`${THUMB_WIDTH}px`}
+													height={`${THUMB_HEIGHT}px`}
+													borderRadius="md"
+													bg="gray.100"
+													borderWidth={1}
+													borderColor="gray.200"
+													cursor="pointer"
+													flexShrink={0}
 												/>
-											</Box>
-										) : (
-											<Box
-												as="button"
-												width={`${THUMB_WIDTH}px`}
-												height={`${THUMB_HEIGHT}px`}
-												borderRadius="md"
-												bg="gray.100"
-												borderWidth={1}
-												borderColor="gray.200"
-												cursor="pointer"
-												flexShrink={0}
-											/>
-										)
-									}
-								/>
-							</GridItem>
+											)
+										}
+									/>
+								</Table.Cell>
 
-							{/* Variation option labels */}
-							{sortedVariations.map(([varId]) => (
-								<GridItem
-									key={varId}
-									display="flex"
-									alignItems="center"
-									opacity={isDisabled ? 0.4 : 1}
-								>
-									<Text
-										fontSize={16}
-										px={1}
-										truncate
-									>
-										{optionName(
-											varId,
-											optionIdsByVariationId[
-												varId
-											],
-										)}
-									</Text>
-								</GridItem>
-							))}
+								{/* Variation option labels */}
+								{sortedVariations.map(([varId]) => (
+									<Table.Cell key={varId}>
+										<Text
+											fontSize={16}
+											truncate
+										>
+											{optionName(
+												varId,
+												optionIdsByVariationId[
+													varId
+												],
+											)}
+										</Text>
+									</Table.Cell>
+								))}
 
-							{/* Price */}
-							{showPrice && (
-								<GridItem
-									display="flex"
-									alignItems="center"
-									opacity={isDisabled ? 0.4 : 1}
-									w={125}
-								>
-									<HStack gap={1}>
-										<NumberInput.Root
-											value={
-												entry.priceCents
-													? (
-															entry.priceCents /
-															100
-														).toLocaleString()
-													: ''
-											}
-											onValueChange={(
-												details,
-											) => {
-												const val =
-													details.value ===
-													''
-														? null
-														: parseFloat(
-																details.value.replace(
-																	/[^0-9.-]/g,
-																	'',
-																),
-															) * 100;
-												onUpdate(key, {
-													priceCents: isNaN(
-														val as number,
-													)
-														? null
-														: val,
-												});
-											}}
-											min={0}
-											step={0.01}
-											formatOptions={{
-												minimumFractionDigits: 0,
-												maximumFractionDigits: 2,
-											}}
+								{/* Price */}
+								{showPrice && (
+									<Table.Cell>
+										<HStack gap={1}>
+											<NumberInput.Root
+												value={
+													entry.priceCents
+														? (
+																entry.priceCents /
+																100
+															).toLocaleString()
+														: ''
+												}
+												onValueChange={(
+													details,
+												) => {
+													const val =
+														details.value ===
+														''
+															? null
+															: parseFloat(
+																	details.value.replace(
+																		/[^0-9.-]/g,
+																		'',
+																	),
+																) *
+																100;
+													onUpdate(key, {
+														priceCents:
+															isNaN(
+																val as number,
+															)
+																? null
+																: val,
+													});
+												}}
+												min={0}
+												step={0.01}
+												formatOptions={{
+													minimumFractionDigits: 0,
+													maximumFractionDigits: 2,
+												}}
+												disabled={
+													disabled ||
+													isDisabled
+												}
+											>
+												<InputGroup
+													startElement={
+														<FaDollarSign />
+													}
+												>
+													<NumberInput.Input
+														fontSize={18}
+														placeholder="00.00"
+														w={115}
+													/>
+												</InputGroup>
+											</NumberInput.Root>
+										</HStack>
+									</Table.Cell>
+								)}
+
+								{/* Lead time (placeholder) */}
+								{showLeadTime && (
+									<Table.Cell>
+										<NativeSelect.Root
+											size="sm"
+											width="120px"
 											disabled={
 												disabled || isDisabled
 											}
 										>
-											<InputGroup
-												startElement={
-													<FaDollarSign />
+											<NativeSelect.Field
+												fontSize={15}
+												value={
+													entry.leadTimeProfileId ??
+													''
+												}
+												onChange={(e) =>
+													onUpdate(key, {
+														leadTimeProfileId:
+															e.target
+																.value ||
+															null,
+													})
 												}
 											>
-												<NumberInput.Input
-													fontSize={18}
-													placeholder="00.00"
-													fieldSizing="content"
-													minW={100}
-													maxW={125}
-												/>
-											</InputGroup>
-										</NumberInput.Root>
-									</HStack>
-								</GridItem>
-							)}
+												<option value="">
+													Default
+												</option>
+											</NativeSelect.Field>
+											<NativeSelect.Indicator />
+										</NativeSelect.Root>
+									</Table.Cell>
+								)}
 
-							{/* Lead time (placeholder) */}
-							{showLeadTime && (
-								<GridItem
-									display="flex"
-									alignItems="center"
-									opacity={isDisabled ? 0.4 : 1}
+								{/* Disable toggle */}
+								<Table.Cell
+									pl={0}
+									pr={3}
+									textAlign="center"
 								>
-									<NativeSelect.Root
+									<IconButton
 										size="sm"
-										width="120px"
-										disabled={
-											disabled || isDisabled
+										variant="ghost"
+										color={COLOR_BRAND}
+										disabled={disabled}
+										onClick={() =>
+											onUpdate(key, {
+												disabled: !isDisabled,
+											})
 										}
 									>
-										<NativeSelect.Field
-											fontSize={15}
-											value={
-												entry.leadTimeProfileId ??
-												''
-											}
-											onChange={(e) =>
-												onUpdate(key, {
-													leadTimeProfileId:
-														e.target
-															.value ||
-														null,
-												})
-											}
-										>
-											<option value="">
-												Default
-											</option>
-										</NativeSelect.Field>
-										<NativeSelect.Indicator />
-									</NativeSelect.Root>
-								</GridItem>
-							)}
-
-							{/* Disable toggle */}
-							<GridItem
-								display="flex"
-								alignItems="center"
-							>
-								<IconButton
-									aria-label={
-										isDisabled
-											? 'Enable combination'
-											: 'Disable combination'
-									}
-									size="sm"
-									variant="ghost"
-									color={COLOR_BRAND}
-									disabled={disabled}
-									onClick={() =>
-										onUpdate(key, {
-											disabled: !isDisabled,
-										})
-									}
-								>
-									{isDisabled ? (
-										<FaPlusCircle />
-									) : (
-										<FaMinusCircle />
-									)}
-								</IconButton>
-							</GridItem>
-						</>
-					);
-				})}
-			</Grid>
+										{isDisabled ? (
+											<FaPlusCircle />
+										) : (
+											<FaMinusCircle />
+										)}
+									</IconButton>
+								</Table.Cell>
+							</Table.Row>
+						);
+					})}
+				</Table.Body>
+			</Table.Root>
 		</Box>
 	);
 };
