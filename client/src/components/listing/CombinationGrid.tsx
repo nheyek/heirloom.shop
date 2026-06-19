@@ -5,10 +5,12 @@ import {
 	IconButton,
 	Image,
 	InputGroup,
-	NativeSelect,
 	NumberInput,
+	Portal,
+	Select,
 	Table,
 	Text,
+	createListCollection,
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import {
@@ -21,6 +23,10 @@ import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 import { FaDollarSign, FaUpload } from 'react-icons/fa6';
 
 const THUMB_WIDTH = 100;
+
+const LEAD_TIME_COLLECTION = createListCollection({
+	items: [{ label: 'Default', value: '' }],
+});
 
 type Props = {
 	variations: Record<string, Variation>;
@@ -66,8 +72,6 @@ export const CombinationGrid = ({
 			<Table.Root
 				variant="outline"
 				size="md"
-				fontSize={16}
-				width="fit-content"
 			>
 				<Table.Header fontSize={15}>
 					<Table.Row>
@@ -169,10 +173,7 @@ export const CombinationGrid = ({
 								{/* Variation option labels */}
 								{sortedVariations.map(([varId]) => (
 									<Table.Cell key={varId}>
-										<Text
-											fontSize={16}
-											maxW={150}
-										>
+										<Text fontSize={16}>
 											{optionName(
 												varId,
 												optionIdsByVariationId[
@@ -249,34 +250,76 @@ export const CombinationGrid = ({
 								{/* Lead time (placeholder) */}
 								{showLeadTime && (
 									<Table.Cell>
-										<NativeSelect.Root
-											size="sm"
-											width="120px"
+										<Select.Root
+											size="md"
+											collection={
+												LEAD_TIME_COLLECTION
+											}
+											value={[
+												entry.leadTimeProfileId ??
+													'',
+											]}
+											onValueChange={(e) =>
+												onUpdate(key, {
+													leadTimeProfileId:
+														e.value[0] ||
+														null,
+												})
+											}
 											disabled={
 												disabled || isDisabled
 											}
 										>
-											<NativeSelect.Field
-												fontSize={15}
-												value={
-													entry.leadTimeProfileId ??
-													''
-												}
-												onChange={(e) =>
-													onUpdate(key, {
-														leadTimeProfileId:
-															e.target
-																.value ||
-															null,
-													})
-												}
-											>
-												<option value="">
-													Default
-												</option>
-											</NativeSelect.Field>
-											<NativeSelect.Indicator />
-										</NativeSelect.Root>
+											<Select.HiddenSelect />
+											<Select.Control>
+												<Select.Trigger
+													minW={100}
+													maxW={180}
+												>
+													<Select.ValueText
+														fontSize={16}
+														truncate
+													/>
+													<Select.IndicatorGroup>
+														<Select.Indicator />
+													</Select.IndicatorGroup>
+												</Select.Trigger>
+											</Select.Control>
+											<Portal>
+												<Select.Positioner>
+													<Select.Content
+														minW={100}
+													>
+														{LEAD_TIME_COLLECTION.items.map(
+															(
+																item,
+															) => (
+																<Select.Item
+																	key={
+																		item.value
+																	}
+																	item={
+																		item
+																	}
+																>
+																	<Text
+																		truncate
+																		maxW={
+																			180
+																		}
+																	>
+																		{
+																			item.label
+																		}
+																	</Text>
+																	<Select.ItemIndicator />
+																</Select.Item>
+															),
+														)}
+													</Select.Content>
+												</Select.Positioner>
+											</Portal>
+										</Select.Root>
 									</Table.Cell>
 								)}
 
