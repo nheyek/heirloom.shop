@@ -1,5 +1,6 @@
 import {
 	Box,
+	FileUpload,
 	HStack,
 	IconButton,
 	Image,
@@ -9,7 +10,6 @@ import {
 	Table,
 	Text,
 } from '@chakra-ui/react';
-import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import {
 	CombinationEntry,
@@ -18,10 +18,9 @@ import {
 import { COLOR_BRAND } from '@client/theme';
 import { deriveCombinations } from '@client/utils/combinationUtils';
 import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
-import { FaDollarSign } from 'react-icons/fa6';
+import { FaDollarSign, FaUpload } from 'react-icons/fa6';
 
-const THUMB_HEIGHT = 60;
-const THUMB_WIDTH = THUMB_HEIGHT * STANDARD_IMAGE_ASPECT_RATIO;
+const THUMB_WIDTH = 100;
 
 type Props = {
 	variations: Record<string, Variation>;
@@ -109,32 +108,45 @@ export const CombinationGrid = ({
 							>
 								{/* Image */}
 								<Table.Cell>
-									<ImageDropzone
-										onAdd={([file]) => {
-											onUpdate(key, {
-												imageUuid:
-													URL.createObjectURL(
-														file,
-													),
-											});
-										}}
+									<FileUpload.Root
+										accept="image/*"
 										maxFiles={1}
 										disabled={
 											disabled || isDisabled
 										}
-										trigger={
-											entry.imageUuid ? (
-												<Box
-													as="button"
-													width={`${THUMB_WIDTH}px`}
-													height={`${THUMB_HEIGHT}px`}
-													borderRadius="md"
-													overflow="hidden"
-													borderWidth={1}
-													borderColor="gray.200"
-													cursor="pointer"
-													flexShrink={0}
-												>
+										onFileChange={(details) => {
+											const file =
+												details
+													.acceptedFiles[0];
+											if (file)
+												onUpdate(key, {
+													imageUuid:
+														URL.createObjectURL(
+															file,
+														),
+												});
+										}}
+									>
+										<FileUpload.HiddenInput />
+										<FileUpload.Trigger asChild>
+											<Box
+												as="button"
+												width={THUMB_WIDTH}
+												aspectRatio={
+													STANDARD_IMAGE_ASPECT_RATIO
+												}
+												borderRadius="md"
+												borderWidth={1}
+												borderColor="gray.200"
+												overflow="hidden"
+												cursor="pointer"
+												flexShrink={0}
+												display="flex"
+												alignItems="center"
+												justifyContent="center"
+												bg="gray.50"
+											>
+												{entry.imageUuid ? (
 													<Image
 														src={
 															entry.imageUuid
@@ -143,22 +155,15 @@ export const CombinationGrid = ({
 														height="100%"
 														objectFit="cover"
 													/>
-												</Box>
-											) : (
-												<Box
-													as="button"
-													width={`${THUMB_WIDTH}px`}
-													height={`${THUMB_HEIGHT}px`}
-													borderRadius="md"
-													bg="gray.100"
-													borderWidth={1}
-													borderColor="gray.200"
-													cursor="pointer"
-													flexShrink={0}
-												/>
-											)
-										}
-									/>
+												) : (
+													<FaUpload
+														color="gray"
+														size={14}
+													/>
+												)}
+											</Box>
+										</FileUpload.Trigger>
+									</FileUpload.Root>
 								</Table.Cell>
 
 								{/* Variation option labels */}
