@@ -8,7 +8,10 @@ import {
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
-import { InputSize, STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import {
+	InputSize,
+	STANDARD_IMAGE_ASPECT_RATIO,
+} from '@client/constants';
 import {
 	CombinationEntry,
 	Variation,
@@ -44,7 +47,7 @@ export const CombinationGrid = ({
 		(a, b) => a[1].order - b[1].order,
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
-	const showLeadTime = sortedVariations.some(
+	const showProcessingProfile = sortedVariations.some(
 		([, v]) => v.leadTimesVary,
 	);
 
@@ -87,9 +90,9 @@ export const CombinationGrid = ({
 								Price
 							</Table.ColumnHeader>
 						)}
-						{showLeadTime && (
+						{showProcessingProfile && (
 							<Table.ColumnHeader minW={100}>
-								Lead Time
+								Processing
 							</Table.ColumnHeader>
 						)}
 						<Table.ColumnHeader />
@@ -198,17 +201,21 @@ export const CombinationGrid = ({
 									</Table.Cell>
 								)}
 
-								{/* Lead time */}
-								{showLeadTime && (
+								{showProcessingProfile && (
 									<Table.Cell>
 										<ProcessingProfileSelect
-											value={entry.leadTimeProfileId}
+											value={
+												entry.leadTimeProfileId
+											}
 											onChange={(v) =>
 												onUpdate(key, {
-													leadTimeProfileId: v,
+													leadTimeProfileId:
+														v,
 												})
 											}
-											disabled={disabled || isDisabled}
+											disabled={
+												disabled || isDisabled
+											}
 											size={InputSize.Md}
 										/>
 									</Table.Cell>

@@ -20,10 +20,9 @@ export const ShopManagerListingCreatePage = () => {
 			actions={
 				<HStack>
 					<Button
-						size="lg"
+						size="xl"
 						variant="outline"
-						width={150}
-						fontSize={20}
+						fontSize={22}
 						onClick={handleCreate}
 						disabled={isBlocked}
 						loading={isBlocked}
@@ -32,9 +31,8 @@ export const ShopManagerListingCreatePage = () => {
 						Save Draft
 					</Button>
 					<Button
-						size="lg"
-						width={125}
-						fontSize={20}
+						size="xl"
+						fontSize={22}
 						onClick={handleCreate}
 						disabled={isBlocked}
 						loading={isBlocked}

@@ -128,18 +128,27 @@ type Props = {
 	onConfirm: (variation: Variation) => void;
 };
 
-export const VariationDialog = ({ open, initial, onClose, onConfirm }: Props) => {
+export const VariationDialog = ({
+	open,
+	initial,
+	onClose,
+	onConfirm,
+}: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
 	const [leadTimesVary, setLeadTimesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<string[]>(['']);
-	const [optionIds, setOptionIds] = useState<string[]>(() => [crypto.randomUUID()]);
+	const [optionIds, setOptionIds] = useState<string[]>(() => [
+		crypto.randomUUID(),
+	]);
 
 	useEffect(() => {
 		if (open) {
 			if (initial) {
-				const sorted = Object.entries(initial.options).sort((a, b) => a[1].order - b[1].order);
+				const sorted = Object.entries(initial.options).sort(
+					(a, b) => a[1].order - b[1].order,
+				);
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
 				setLeadTimesVary(initial.leadTimesVary);
@@ -180,7 +189,10 @@ export const VariationDialog = ({ open, initial, onClose, onConfirm }: Props) =>
 			return;
 		}
 		const optionsRecord = Object.fromEntries(
-			optionIds.map((id, i) => [id, { name: options[i], order: i }]),
+			optionIds.map((id, i) => [
+				id,
+				{ name: options[i], order: i },
+			]),
 		);
 		onConfirm({
 			name: name.trim(),
@@ -235,7 +247,9 @@ export const VariationDialog = ({ open, initial, onClose, onConfirm }: Props) =>
 							fontSize={24}
 							fontWeight={500}
 						>
-							{initial ? 'Edit Variation' : 'Add Variation'}
+							{initial
+								? 'Edit Variation'
+								: 'Add Variation'}
 						</Dialog.Title>
 						<CloseButton
 							position="absolute"
@@ -285,7 +299,7 @@ export const VariationDialog = ({ open, initial, onClose, onConfirm }: Props) =>
 									<Checkbox.HiddenInput />
 									<Checkbox.Control />
 									<Checkbox.Label fontSize={17}>
-										Lead times vary
+										Processing varies
 									</Checkbox.Label>
 								</Checkbox.Root>
 							</Stack>

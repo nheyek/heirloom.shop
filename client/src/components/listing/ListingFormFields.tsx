@@ -242,30 +242,52 @@ export const ListingFormFields = ({
 						</Stack>
 					</FormField>
 
-					{!sortedVariations.some(
+					{(!sortedVariations.some(
 						([, v]) => v.pricesVary,
-					) && (
-						<FormField label="Price">
-							<PriceInput
-								size={InputSize.Lg}
-								value={form.priceCents}
-								onChange={form.setPriceCents}
-								disabled={disabled}
-							/>
-						</FormField>
-					)}
-
-					{!sortedVariations.some(
-						([, v]) => v.leadTimesVary,
-					) && (
-						<FormField label="Processing Profile">
-							<ProcessingProfileSelect
-								value={form.processingProfileId}
-								onChange={form.setProcessingProfileId}
-								disabled={disabled}
-								size={InputSize.Lg}
-							/>
-						</FormField>
+					) ||
+						!sortedVariations.some(
+							([, v]) => v.leadTimesVary,
+						)) && (
+						<Wrap
+							columnGap={8}
+							rowGap={5}
+							align="start"
+						>
+							{!sortedVariations.some(
+								([, v]) => v.pricesVary,
+							) && (
+								<WrapItem>
+									<FormField label="Price">
+										<PriceInput
+											size={InputSize.Lg}
+											value={form.priceCents}
+											onChange={
+												form.setPriceCents
+											}
+											disabled={disabled}
+										/>
+									</FormField>
+								</WrapItem>
+							)}
+							{!sortedVariations.some(
+								([, v]) => v.leadTimesVary,
+							) && (
+								<WrapItem>
+									<FormField label="Processing">
+										<ProcessingProfileSelect
+											value={
+												form.processingProfileId
+											}
+											onChange={
+												form.setProcessingProfileId
+											}
+											disabled={disabled}
+											size={InputSize.Lg}
+										/>
+									</FormField>
+								</WrapItem>
+							)}
+						</Wrap>
 					)}
 				</Stack>
 			</Fieldset.Root>

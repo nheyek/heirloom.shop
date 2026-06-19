@@ -22,9 +22,8 @@ export const ShopManagerListingEditPage = () => {
 			form={form}
 			actions={
 				<Button
-					size="lg"
-					width={175}
-					fontSize={20}
+					size="xl"
+					fontSize={22}
 					onClick={handleSave}
 					disabled={isBlocked}
 					loading={isBlocked}
