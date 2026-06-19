@@ -112,55 +112,7 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 
-	const [variations, setVariations] = useState<
-		Record<string, Variation>
-	>(() => ({
-		[crypto.randomUUID()]: {
-			name: 'Color',
-			pricesVary: false,
-			leadTimesVary: false,
-			order: 0,
-			options: {
-				[crypto.randomUUID()]: { name: 'Red', order: 0 },
-				[crypto.randomUUID()]: {
-					name: 'Forest Green',
-					order: 1,
-				},
-				[crypto.randomUUID()]: {
-					name: 'Midnight Blue Midnight Blue Midnight Blue Midnight Blue Midnight Blue Midnight Blue',
-					order: 2,
-				},
-			},
-		},
-		[crypto.randomUUID()]: {
-			name: 'Size',
-			pricesVary: true,
-			leadTimesVary: false,
-			order: 1,
-			options: {
-				[crypto.randomUUID()]: { name: 'Small', order: 0 },
-				[crypto.randomUUID()]: { name: 'Medium', order: 1 },
-				[crypto.randomUUID()]: { name: 'Large', order: 2 },
-				[crypto.randomUUID()]: {
-					name: 'Extra Large',
-					order: 3,
-				},
-			},
-		},
-		[crypto.randomUUID()]: {
-			name: 'Material',
-			pricesVary: false,
-			leadTimesVary: true,
-			order: 2,
-			options: {
-				[crypto.randomUUID()]: { name: 'Cotton', order: 0 },
-				[crypto.randomUUID()]: {
-					name: 'Merino Wool',
-					order: 1,
-				},
-			},
-		},
-	}));
+	const [variations, setVariations] = useState<Record<string, Variation>>({});
 
 	const addVariation = (variation: Variation) => {
 		setVariations((prev) => ({
