@@ -6,7 +6,6 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
-import { CombinationGrid } from '@client/components/listing/CombinationGrid';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
@@ -17,7 +16,6 @@ import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
-import { deriveCombinations } from '@client/utils/combinationUtils';
 import { useState } from 'react';
 
 type ListingFormFieldsProps = {
@@ -188,15 +186,6 @@ export const ListingFormFields = ({
 							</HStack>
 						</Stack>
 					</FormField>
-					{deriveCombinations(form.variations).length >
-						0 && (
-						<CombinationGrid
-							variations={form.variations}
-							combinations={form.combinations}
-							onUpdate={form.setCombinationField}
-							disabled={disabled}
-						/>
-					)}
 				</Stack>
 			</Fieldset.Root>
 
