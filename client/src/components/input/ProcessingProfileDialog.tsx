@@ -15,6 +15,22 @@ import { FONT_DEFAULT } from '@client/theme';
 import { useEffect, useState } from 'react';
 import { FaMinus } from 'react-icons/fa6';
 
+type DayInputProps = {
+	value: string;
+	onChange: (value: string) => void;
+};
+
+const DayInput = ({ value, onChange }: DayInputProps) => (
+	<Input
+		size="lg"
+		w={16}
+		fontSize={16}
+		fontFamily={FONT_DEFAULT}
+		value={value}
+		onChange={(e) => onChange(e.target.value.replace(/\D/g, ''))}
+	/>
+);
+
 export type ProcessingProfile = {
 	name: string;
 	minDays: number;
@@ -130,39 +146,14 @@ export const ProcessingProfileDialog = ({
 									gap={3}
 									align="center"
 								>
-									<Input
-										size="lg"
-										w={16}
-										fontSize={16}
-										fontFamily={FONT_DEFAULT}
+									<DayInput
 										value={minDays}
-										onChange={(e) => {
-											setMinDays(
-												e.target.value.replace(
-													/\D/g,
-													'',
-												),
-											);
-											setDaysError(null);
-										}}
+										onChange={(v) => { setMinDays(v); setDaysError(null); }}
 									/>
-
 									<FaMinus />
-									<Input
-										size="lg"
-										w={16}
-										fontSize={16}
-										fontFamily={FONT_DEFAULT}
+									<DayInput
 										value={maxDays}
-										onChange={(e) => {
-											setMaxDays(
-												e.target.value.replace(
-													/\D/g,
-													'',
-												),
-											);
-											setDaysError(null);
-										}}
+										onChange={(v) => { setMaxDays(v); setDaysError(null); }}
 									/>
 									<Text fontSize={18}>Days</Text>
 								</HStack>
