@@ -19,7 +19,7 @@ const SIZE_CONFIG = {
 		fontSize: 16,
 	},
 	[InputSize.Lg]: {
-		w: 250,
+		w: 200,
 		chakraSize: 'lg' as const,
 		fontSize: 18,
 	},
@@ -80,7 +80,10 @@ export const ProcessingProfileSelect = ({
 	}
 
 	const collection = createListCollection({
-		items: profiles.map((p) => ({ value: p.id, label: p.name })),
+		items: profiles.map((p) => ({
+			value: p.id,
+			label: p.name,
+		})),
 	});
 
 	return (

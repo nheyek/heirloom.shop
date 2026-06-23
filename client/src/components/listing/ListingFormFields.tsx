@@ -223,7 +223,7 @@ export const ListingFormFields = ({
 							([, v]) => v.leadTimesVary,
 						)) && (
 						<Wrap
-							gap={10}
+							gap={8}
 							align="start"
 						>
 							{!sortedVariations.some(
