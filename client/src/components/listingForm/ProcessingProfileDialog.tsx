@@ -12,7 +12,7 @@ import {
 import {
 	DayRangeInput,
 	validateDayRange,
-} from '@client/components/input/DayRangeInput';
+} from '@client/components/listingForm/DayRangeInput';
 import { useEffect, useState } from 'react';
 
 export type NewProcessingProfile = {

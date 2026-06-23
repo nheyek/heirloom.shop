@@ -13,14 +13,14 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
-import { ShippingProfileSelect } from '@client/components/input/ShippingProfileSelect';
-import { AddFieldButton } from '@client/components/listing/AddFieldButton';
-import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
-import { DescrSectionList } from '@client/components/listing/DescrSectionList';
-import { ListingImageUpload } from '@client/components/listing/ListingImageUpload';
-import { SortableFieldList } from '@client/components/listing/SortableFieldList';
-import { VariationDialog } from '@client/components/listing/VariationDialog';
+import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
+import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
+import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
+import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
+import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
+import { ListingImageUpload } from '@client/components/listingForm/ListingImageUpload';
+import { SortableFieldList } from '@client/components/listingForm/SortableFieldList';
+import { VariationDialog } from '@client/components/listingForm/VariationDialog';
 import {
 	InputSize,
 	MAX_DESCR_SECTIONS,

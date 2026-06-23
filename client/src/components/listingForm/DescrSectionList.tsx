@@ -1,5 +1,5 @@
 import { ListingDescrSection } from '@client/hooks/useListingForm';
-import { SortableFieldList } from '@client/components/listing/SortableFieldList';
+import { SortableFieldList } from '@client/components/listingForm/SortableFieldList';
 
 type Props = {
 	sections: ListingDescrSection[];

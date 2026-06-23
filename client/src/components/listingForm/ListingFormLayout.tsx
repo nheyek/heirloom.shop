@@ -1,6 +1,6 @@
 import { Stack } from '@chakra-ui/react';
-import { CombinationGrid } from '@client/components/listing/CombinationGrid';
-import { ListingFormFields } from '@client/components/listing/ListingFormFields';
+import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
+import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
 import { ListingFormState } from '@client/hooks/useListingForm';
 import { deriveCombinations } from '@client/utils/combinationUtils';
 

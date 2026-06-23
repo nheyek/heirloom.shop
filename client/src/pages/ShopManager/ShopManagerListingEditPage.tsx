@@ -1,5 +1,5 @@
 import { Button } from '@chakra-ui/react';
-import { ListingFormLayout } from '@client/components/listing/ListingFormLayout';
+import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { useListingForm } from '@client/hooks/useListingForm';
 import { FaCheckCircle } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';

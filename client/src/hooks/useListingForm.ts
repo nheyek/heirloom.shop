@@ -3,7 +3,7 @@ import {
 	ImageEntry,
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
-import { ShippingCostType } from '@client/components/input/ShippingProfileDialog';
+import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';

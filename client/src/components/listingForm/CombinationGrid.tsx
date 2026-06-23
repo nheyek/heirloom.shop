@@ -7,7 +7,7 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
+import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,

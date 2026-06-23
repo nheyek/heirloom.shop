@@ -1,19 +1,19 @@
-import { ProfileSelect } from '@client/components/input/ProfileSelect';
-import { ShippingProfileDialog } from '@client/components/input/ShippingProfileDialog';
+import { ProcessingProfileDialog } from '@client/components/listingForm/ProcessingProfileDialog';
+import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
 import { InputSize } from '@client/constants';
-import { ShippingProfile } from '@client/hooks/useListingForm';
+import { ProcessingProfile } from '@client/hooks/useListingForm';
 import { useState } from 'react';
 
 type Props = {
-	profiles: ShippingProfile[];
-	onAddProfile: (profile: ShippingProfile) => void;
+	profiles: ProcessingProfile[];
+	onAddProfile: (profile: ProcessingProfile) => void;
 	value: string | null;
 	onChange: (v: string | null) => void;
 	disabled?: boolean;
 	size?: InputSize;
 };
 
-export const ShippingProfileSelect = ({
+export const ProcessingProfileSelect = ({
 	profiles,
 	onAddProfile,
 	value,
@@ -36,7 +36,7 @@ export const ShippingProfileSelect = ({
 				disabled={disabled}
 				size={size}
 			/>
-			<ShippingProfileDialog
+			<ProcessingProfileDialog
 				open={dialogOpen}
 				onClose={() => setDialogOpen(false)}
 				onConfirm={(p) => {

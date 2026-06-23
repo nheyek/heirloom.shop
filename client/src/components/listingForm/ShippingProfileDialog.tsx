@@ -10,7 +10,7 @@ import {
 import {
 	DayRangeInput,
 	validateDayRange,
-} from '@client/components/input/DayRangeInput';
+} from '@client/components/listingForm/DayRangeInput';
 import {
 	FormField,
 	FormInput,
