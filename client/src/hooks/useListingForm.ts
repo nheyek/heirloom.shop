@@ -3,6 +3,7 @@ import {
 	ImageEntry,
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
+import { ShippingCostType } from '@client/components/input/ShippingProfileDialog';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
@@ -10,6 +11,17 @@ import { useState } from 'react';
 export type ProcessingProfile = {
 	id: string;
 	name: string;
+	minDays: number;
+	maxDays: number;
+};
+
+export type ShippingProfile = {
+	id: string;
+	name: string;
+	originZip: string;
+	cost:
+		| { type: ShippingCostType.Free }
+		| { type: ShippingCostType.FlatRate; cents: number };
 	minDays: number;
 	maxDays: number;
 };
@@ -68,6 +80,11 @@ export type ListingFormState = {
 	addProcessingProfile: (profile: ProcessingProfile) => void;
 	processingProfileId: string | null;
 	setProcessingProfileId: (v: string | null) => void;
+
+	shippingProfiles: ShippingProfile[];
+	addShippingProfile: (profile: ShippingProfile) => void;
+	shippingProfileId: string | null;
+	setShippingProfileId: (v: string | null) => void;
 
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
@@ -133,6 +150,15 @@ export const useListingForm = ({
 	const addProcessingProfile = (profile: ProcessingProfile) =>
 		setProcessingProfiles((prev) => [...prev, profile]);
 	const [processingProfileId, setProcessingProfileId] = useState<
+		string | null
+	>(null);
+
+	const [shippingProfiles, setShippingProfiles] = useState<
+		ShippingProfile[]
+	>([]);
+	const addShippingProfile = (profile: ShippingProfile) =>
+		setShippingProfiles((prev) => [...prev, profile]);
+	const [shippingProfileId, setShippingProfileId] = useState<
 		string | null
 	>(null);
 
@@ -287,6 +313,10 @@ export const useListingForm = ({
 		addProcessingProfile,
 		processingProfileId,
 		setProcessingProfileId,
+		shippingProfiles,
+		addShippingProfile,
+		shippingProfileId,
+		setShippingProfileId,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,

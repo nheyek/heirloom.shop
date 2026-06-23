@@ -14,6 +14,7 @@ import {
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/input/ProcessingProfileSelect';
+import { ShippingProfileSelect } from '@client/components/input/ShippingProfileSelect';
 import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listing/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listing/DescrSectionList';
@@ -223,7 +224,7 @@ export const ListingFormFields = ({
 							([, v]) => v.leadTimesVary,
 						)) && (
 						<Wrap
-							gap={8}
+							gap={10}
 							align="start"
 						>
 							{!sortedVariations.some(
@@ -232,7 +233,7 @@ export const ListingFormFields = ({
 								<WrapItem>
 									<FormField label="Price">
 										<PriceInput
-											size={InputSize.Lg}
+											size={InputSize.Md}
 											value={form.priceCents}
 											onChange={
 												form.setPriceCents
@@ -266,6 +267,24 @@ export const ListingFormFields = ({
 									</FormField>
 								</WrapItem>
 							)}
+							<WrapItem>
+								<FormField label="Shipping">
+									<ShippingProfileSelect
+										profiles={
+											form.shippingProfiles
+										}
+										onAddProfile={
+											form.addShippingProfile
+										}
+										value={form.shippingProfileId}
+										onChange={
+											form.setShippingProfileId
+										}
+										disabled={disabled}
+										size={InputSize.Lg}
+									/>
+								</FormField>
+							</WrapItem>
 						</Wrap>
 					)}
 

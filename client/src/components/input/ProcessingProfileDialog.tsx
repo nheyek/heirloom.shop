@@ -3,33 +3,17 @@ import {
 	CloseButton,
 	Dialog,
 	HStack,
-	Input,
 	Stack,
-	Text,
 } from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
-import { FONT_DEFAULT } from '@client/theme';
+import {
+	DayRangeInput,
+	validateDayRange,
+} from '@client/components/input/DayRangeInput';
 import { useEffect, useState } from 'react';
-import { FaMinus } from 'react-icons/fa6';
-
-type DayInputProps = {
-	value: string;
-	onChange: (value: string) => void;
-};
-
-const DayInput = ({ value, onChange }: DayInputProps) => (
-	<Input
-		size="lg"
-		w={16}
-		fontSize={16}
-		fontFamily={FONT_DEFAULT}
-		value={value}
-		onChange={(e) => onChange(e.target.value.replace(/\D/g, ''))}
-	/>
-);
 
 export type NewProcessingProfile = {
 	name: string;
@@ -73,25 +57,15 @@ export const ProcessingProfileDialog = ({
 		} else {
 			setNameError(null);
 		}
-		const min = parseInt(minDays, 10);
-		const max = parseInt(maxDays, 10);
-		if (
-			!minDays ||
-			!maxDays ||
-			isNaN(min) ||
-			isNaN(max) ||
-			min < 1 ||
-			max < min
-		) {
-			setDaysError(
-				'Enter a valid range (min ≤ max, both ≥ 1).',
-			);
+		const days = validateDayRange(minDays, maxDays);
+		if (!days) {
+			setDaysError('Enter a valid range (min ≤ max, both ≥ 1).');
 			valid = false;
 		} else {
 			setDaysError(null);
 		}
 		if (!valid) return;
-		onConfirm({ name: trimmedName, minDays: min, maxDays: max });
+		onConfirm({ name: trimmedName, minDays: days!.min, maxDays: days!.max });
 		onClose();
 	};
 
@@ -106,10 +80,7 @@ export const ProcessingProfileDialog = ({
 			<Dialog.Positioner>
 				<Dialog.Content>
 					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-						>
+						<Dialog.Title fontSize={22} fontWeight={500}>
 							New Processing Profile
 						</Dialog.Title>
 						<CloseButton
@@ -119,15 +90,9 @@ export const ProcessingProfileDialog = ({
 							onClick={onClose}
 						/>
 					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
-					>
+					<Dialog.Body pt={0} pb={3}>
 						<Stack gap={4}>
-							<FormField
-								label="Name"
-								error={nameError}
-							>
+							<FormField label="Name" error={nameError}>
 								<FormInput
 									value={name}
 									onChange={(e) => {
@@ -138,25 +103,13 @@ export const ProcessingProfileDialog = ({
 									placeholder="e.g. Default"
 								/>
 							</FormField>
-							<FormField
-								label="Lead Time"
-								error={daysError}
-							>
-								<HStack
-									gap={3}
-									align="center"
-								>
-									<DayInput
-										value={minDays}
-										onChange={(v) => { setMinDays(v); setDaysError(null); }}
-									/>
-									<FaMinus />
-									<DayInput
-										value={maxDays}
-										onChange={(v) => { setMaxDays(v); setDaysError(null); }}
-									/>
-									<Text fontSize={18}>Days</Text>
-								</HStack>
+							<FormField label="Lead Time" error={daysError}>
+								<DayRangeInput
+									minDays={minDays}
+									maxDays={maxDays}
+									onChangeMin={(v) => { setMinDays(v); setDaysError(null); }}
+									onChangeMax={(v) => { setMaxDays(v); setDaysError(null); }}
+								/>
 							</FormField>
 						</Stack>
 					</Dialog.Body>
