@@ -233,7 +233,7 @@ export const ListingFormFields = ({
 								<WrapItem>
 									<FormField label="Price">
 										<PriceInput
-											size={InputSize.Md}
+											size={InputSize.Lg}
 											value={form.priceCents}
 											onChange={
 												form.setPriceCents
