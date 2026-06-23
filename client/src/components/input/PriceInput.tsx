@@ -1,13 +1,14 @@
 import { Input, InputGroup } from '@chakra-ui/react';
 import { InputSize } from '@client/constants';
+import { FONT_DEFAULT } from '@client/theme';
 import { useState } from 'react';
 import { FaDollarSign } from 'react-icons/fa6';
 
 export { InputSize as PriceInputSize };
 
 const SIZE_CONFIG = {
-	[InputSize.Md]: { fontSize: 18, w: 120, h: 10, iconSize: 13 },
-	[InputSize.Lg]: { fontSize: 22, w: 135, h: 12, iconSize: 15 },
+	[InputSize.Md]: { fontSize: 15, w: 125, h: 10, iconSize: 14 },
+	[InputSize.Lg]: { fontSize: 17, w: 135, h: 12, iconSize: 16 },
 };
 
 type Props = {
@@ -30,7 +31,9 @@ const formatWhileTyping = (str: string): string => {
 	const decRaw = dotIndex >= 0 ? clean.slice(dotIndex + 1) : null;
 	const intFormatted =
 		intRaw === '' ? '' : Number(intRaw).toLocaleString();
-	return decRaw !== null ? intFormatted + '.' + decRaw : intFormatted;
+	return decRaw !== null
+		? intFormatted + '.' + decRaw
+		: intFormatted;
 };
 
 export const PriceInput = ({
@@ -52,13 +55,16 @@ export const PriceInput = ({
 	return (
 		<InputGroup startElement={<FaDollarSign size={iconSize} />}>
 			<Input
+				fontFamily={FONT_DEFAULT}
 				fontSize={fontSize}
 				w={w}
 				h={h}
 				value={displayValue}
 				disabled={disabled}
 				onChange={(e) => {
-					const formatted = formatWhileTyping(e.target.value);
+					const formatted = formatWhileTyping(
+						e.target.value,
+					);
 					setLocalValue(formatted);
 					const raw = parseFloat(
 						formatted.replace(/[^0-9.-]/g, ''),

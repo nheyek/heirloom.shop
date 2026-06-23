@@ -72,7 +72,7 @@ export const CombinationGrid = ({
 				size="md"
 				width="fit-content"
 			>
-				<Table.Header fontSize={15}>
+				<Table.Header fontSize={16}>
 					<Table.Row>
 						<Table.ColumnHeader w={100}>
 							Image
@@ -172,7 +172,7 @@ export const CombinationGrid = ({
 								{/* Variation option labels */}
 								{sortedVariations.map(([varId]) => (
 									<Table.Cell key={varId}>
-										<Text fontSize={16}>
+										<Text fontSize={18}>
 											{optionName(
 												varId,
 												optionIdsByVariationId[

@@ -98,7 +98,6 @@ const OptionRow = ({
 			/>
 			{deletable ? (
 				<IconButton
-					aria-label="Delete option"
 					size="sm"
 					variant="ghost"
 					color="red.500"

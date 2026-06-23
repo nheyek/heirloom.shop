@@ -84,7 +84,6 @@ const SortableThumbnail = ({
 				/>
 			</Skeleton>
 			<IconButton
-				aria-label="Remove image"
 				size="xs"
 				variant="subtle"
 				position="absolute"

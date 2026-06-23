@@ -52,11 +52,11 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 			}}
 			minWidth={325}
 			alignItems="center"
+			p={2}
 			gap={3}
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
-			p={1}
 		>
 			<IconButton
 				size="sm"
@@ -75,7 +75,6 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 			>
 				{item.label || (
 					<Text
-						as="span"
 						color="gray.400"
 						fontStyle="italic"
 					>
@@ -85,7 +84,6 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 			</Text>
 			<HStack gap={0}>
 				<IconButton
-					aria-label="Edit"
 					size="sm"
 					variant="ghost"
 					onClick={onEdit}
@@ -93,7 +91,6 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 					<FaPencilAlt />
 				</IconButton>
 				<IconButton
-					aria-label="Delete"
 					size="sm"
 					variant="ghost"
 					color="red.500"

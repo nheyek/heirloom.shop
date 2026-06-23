@@ -70,7 +70,6 @@ export const RichTextEditor = ({
 	) => (
 		<IconButton
 			key={label}
-			aria-label={label}
 			size="sm"
 			variant={active ? 'solid' : 'ghost'}
 			onClick={onClick}
