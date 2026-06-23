@@ -6,11 +6,11 @@ import {
 	createListCollection,
 } from '@chakra-ui/react';
 import { ProcessingProfileDialog } from '@client/components/input/ProcessingProfileDialog';
+import { AddFieldButton } from '@client/components/listing/AddFieldButton';
 import { InputSize } from '@client/constants';
-import { useState } from 'react';
+import { ProcessingProfile } from '@client/hooks/useListingForm';
+import { useEffect, useState } from 'react';
 import { FaPlus } from 'react-icons/fa6';
-
-const STATIC_ITEMS = [{ label: 'Default', value: '' }];
 
 const SIZE_CONFIG = {
 	[InputSize.Md]: {
@@ -26,6 +26,8 @@ const SIZE_CONFIG = {
 };
 
 type Props = {
+	profiles: ProcessingProfile[];
+	onAddProfile: (profile: ProcessingProfile) => void;
 	value: string | null;
 	onChange: (v: string | null) => void;
 	disabled?: boolean;
@@ -33,6 +35,8 @@ type Props = {
 };
 
 export const ProcessingProfileSelect = ({
+	profiles,
+	onAddProfile,
 	value,
 	onChange,
 	disabled,
@@ -41,7 +45,43 @@ export const ProcessingProfileSelect = ({
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const { w, chakraSize, fontSize } = SIZE_CONFIG[size];
 
-	const collection = createListCollection({ items: STATIC_ITEMS });
+	useEffect(() => {
+		if (profiles.length > 0 && value === null)
+			onChange(profiles[0].id);
+	}, [profiles, value]);
+
+	const dialog = (
+		<ProcessingProfileDialog
+			open={dialogOpen}
+			onClose={() => setDialogOpen(false)}
+			onConfirm={(p) => {
+				const profile = {
+					id: crypto.randomUUID(),
+					...p,
+				};
+				onAddProfile(profile);
+				onChange(profile.id);
+			}}
+		/>
+	);
+
+	if (profiles.length === 0) {
+		return (
+			<>
+				<AddFieldButton
+					onClick={() => setDialogOpen(true)}
+					disabled={disabled}
+				>
+					Add Profile
+				</AddFieldButton>
+				{dialog}
+			</>
+		);
+	}
+
+	const collection = createListCollection({
+		items: profiles.map((p) => ({ value: p.id, label: p.name })),
+	});
 
 	return (
 		<>
@@ -76,6 +116,7 @@ export const ProcessingProfileSelect = ({
 									<Select.Item
 										key={item.value}
 										item={item}
+										fontSize={fontSize - 2}
 									>
 										{item.label}
 										<Select.ItemIndicator />
@@ -87,6 +128,7 @@ export const ProcessingProfileSelect = ({
 									w="full"
 									justifyContent="flex-start"
 									px={2}
+									pt={1}
 									borderRadius={0}
 									fontSize={fontSize}
 									fontWeight={400}
@@ -104,15 +146,7 @@ export const ProcessingProfileSelect = ({
 					</Portal>
 				</Select.Root>
 			</Box>
-
-			<ProcessingProfileDialog
-				open={dialogOpen}
-				onClose={() => setDialogOpen(false)}
-				onConfirm={(profile) => {
-					// TODO: persist profile and select it
-					console.log('new profile', profile);
-				}}
-			/>
+			{dialog}
 		</>
 	);
 };

@@ -31,7 +31,7 @@ const DayInput = ({ value, onChange }: DayInputProps) => (
 	/>
 );
 
-export type ProcessingProfile = {
+export type NewProcessingProfile = {
 	name: string;
 	minDays: number;
 	maxDays: number;
@@ -40,7 +40,7 @@ export type ProcessingProfile = {
 type Props = {
 	open: boolean;
 	onClose: () => void;
-	onConfirm: (profile: ProcessingProfile) => void;
+	onConfirm: (profile: NewProcessingProfile) => void;
 };
 
 export const ProcessingProfileDialog = ({

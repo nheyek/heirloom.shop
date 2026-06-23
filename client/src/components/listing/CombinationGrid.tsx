@@ -14,6 +14,7 @@ import {
 } from '@client/constants';
 import {
 	CombinationEntry,
+	ProcessingProfile,
 	Variation,
 } from '@client/hooks/useListingForm';
 import { COLOR_BRAND } from '@client/theme';
@@ -26,6 +27,8 @@ type Props = {
 	variations: Record<string, Variation>;
 	combinations: Record<string, CombinationEntry>;
 	onUpdate: (key: string, patch: Partial<CombinationEntry>) => void;
+	processingProfiles: ProcessingProfile[];
+	onAddProcessingProfile: (profile: ProcessingProfile) => void;
 	disabled?: boolean;
 };
 
@@ -40,6 +43,8 @@ export const CombinationGrid = ({
 	variations,
 	combinations,
 	onUpdate,
+	processingProfiles,
+	onAddProcessingProfile,
 	disabled,
 }: Props) => {
 	const sortedVariations = Object.entries(variations).sort(
@@ -203,6 +208,8 @@ export const CombinationGrid = ({
 								{showProcessingProfile && (
 									<Table.Cell>
 										<ProcessingProfileSelect
+											profiles={processingProfiles}
+											onAddProfile={onAddProcessingProfile}
 											value={
 												entry.leadTimeProfileId
 											}

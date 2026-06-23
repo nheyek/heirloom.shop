@@ -223,7 +223,7 @@ export const ListingFormFields = ({
 							([, v]) => v.leadTimesVary,
 						)) && (
 						<Wrap
-							gap={5}
+							gap={10}
 							align="start"
 						>
 							{!sortedVariations.some(
@@ -248,6 +248,12 @@ export const ListingFormFields = ({
 								<WrapItem>
 									<FormField label="Processing">
 										<ProcessingProfileSelect
+											profiles={
+												form.processingProfiles
+											}
+											onAddProfile={
+												form.addProcessingProfile
+											}
 											value={
 												form.processingProfileId
 											}

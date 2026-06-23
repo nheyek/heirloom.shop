@@ -7,6 +7,13 @@ import { callApi } from '@client/utils/apiUtils';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
 
+export type ProcessingProfile = {
+	id: string;
+	name: string;
+	minDays: number;
+	maxDays: number;
+};
+
 export type { ImageEntry, ListingDescrSection };
 
 export type VariationOption = {
@@ -57,6 +64,8 @@ export type ListingFormState = {
 	priceCents: number | null;
 	setPriceCents: (v: number | null) => void;
 
+	processingProfiles: ProcessingProfile[];
+	addProcessingProfile: (profile: ProcessingProfile) => void;
 	processingProfileId: string | null;
 	setProcessingProfileId: (v: string | null) => void;
 
@@ -118,9 +127,18 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(null);
-	const [processingProfileId, setProcessingProfileId] = useState<string | null>(null);
+	const [processingProfiles, setProcessingProfiles] = useState<
+		ProcessingProfile[]
+	>([]);
+	const addProcessingProfile = (profile: ProcessingProfile) =>
+		setProcessingProfiles((prev) => [...prev, profile]);
+	const [processingProfileId, setProcessingProfileId] = useState<
+		string | null
+	>(null);
 
-	const [variations, setVariations] = useState<Record<string, Variation>>({});
+	const [variations, setVariations] = useState<
+		Record<string, Variation>
+	>({});
 
 	const addVariation = (variation: Variation) => {
 		setVariations((prev) => ({
@@ -265,6 +283,8 @@ export const useListingForm = ({
 		setImageError,
 		priceCents,
 		setPriceCents,
+		processingProfiles,
+		addProcessingProfile,
 		processingProfileId,
 		setProcessingProfileId,
 		descrSections,

@@ -17,6 +17,8 @@ export const ListingFormLayout = ({ form, actions }: Props) => (
 				variations={form.variations}
 				combinations={form.combinations}
 				onUpdate={form.setCombinationField}
+				processingProfiles={form.processingProfiles}
+				onAddProcessingProfile={form.addProcessingProfile}
 			/>
 		)}
 		<Stack mt={2.5}>{actions}</Stack>
