@@ -3,7 +3,7 @@ import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { IoMdMail } from 'react-icons/io';
-import { IoReceipt } from 'react-icons/io5';
+import { IoReceipt, IoSettingsSharp } from 'react-icons/io5';
 import { TbSquaresFilled } from 'react-icons/tb';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -41,6 +41,12 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 		title: 'Messages',
 		icon: IoMdMail,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`,
+	},
+	{
+		label: 'Settings',
+		title: 'Settings',
+		icon: IoSettingsSharp,
+		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`,
 	},
 ];
 

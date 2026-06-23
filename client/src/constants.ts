@@ -44,6 +44,7 @@ export const CLIENT_ROUTES = {
 	listings: 'listings',
 	messages: 'messages',
 	new: 'new',
+	settings: 'settings',
 };
 
 export enum StorageKey {

@@ -110,6 +110,10 @@ const App = () => {
 								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`}
 								element={<ShopManagerMessagesPage />}
 							/>
+							<Route
+								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
+								element={null}
+							/>
 						</Route>
 						<Route element={<AccountPageLayout />}>
 							<Route

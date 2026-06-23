@@ -18,8 +18,7 @@ import {
 } from '@client/hooks/useListingForm';
 import { COLOR_BRAND } from '@client/theme';
 import { deriveCombinations } from '@client/utils/combinationUtils';
-import { FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
-import { FaUpload } from 'react-icons/fa6';
+import { FaImage, FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 
 const THUMB_WIDTH = 100;
 
@@ -159,9 +158,9 @@ export const CombinationGrid = ({
 														objectFit="cover"
 													/>
 												) : (
-													<FaUpload
+													<FaImage
 														color="gray"
-														size={14}
+														size={18}
 													/>
 												)}
 											</Box>
