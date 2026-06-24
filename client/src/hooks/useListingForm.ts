@@ -8,6 +8,7 @@ import {
 import { callApi } from '@client/utils/apiUtils';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
+import { deriveCombinations } from '@client/utils/combinationUtils';
 import { useState } from 'react';
 
 export type ProcessingProfile = {
@@ -86,6 +87,10 @@ export type ListingFormState = {
 
 	priceCents: number | null;
 	setPriceCents: (v: number | null) => void;
+	priceError: string | null;
+	setPriceError: (v: string | null) => void;
+	combinationPriceErrors: Record<string, boolean>;
+	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
 
 	processingProfiles: ProcessingProfile[];
 	addProcessingProfile: (profile: ProcessingProfile) => void;
@@ -162,6 +167,8 @@ export const useListingForm = ({
 
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(null);
+	const [priceError, setPriceError] = useState<string | null>(null);
+	const [combinationPriceErrors, setCombinationPriceErrors] = useState<Record<string, boolean>>({});
 	const [processingProfiles, setProcessingProfiles] = useState<
 		ProcessingProfile[]
 	>([]);
@@ -332,6 +339,39 @@ export const useListingForm = ({
 		} else {
 			setSubtitleError(null);
 		}
+		if (!categoryId) {
+			setCategoryError('Category is required.');
+			valid = false;
+		} else {
+			setCategoryError(null);
+		}
+		const pricesVaryExists = Object.values(variations).some(
+			(v) => v.pricesVary,
+		);
+		if (pricesVaryExists) {
+			const allCombos = deriveCombinations(variations);
+			const errors: Record<string, boolean> = {};
+			for (const { key } of allCombos) {
+				const entry = combinations[key];
+				if (!entry?.disabled && !(entry?.priceCents ?? 0 > 0)) {
+					errors[key] = true;
+				}
+			}
+			if (Object.keys(errors).length > 0) {
+				setCombinationPriceErrors(errors);
+				valid = false;
+			} else {
+				setCombinationPriceErrors({});
+			}
+		} else {
+			setCombinationPriceErrors({});
+			if (!priceCents || priceCents <= 0) {
+				setPriceError('Price is required.');
+				valid = false;
+			} else {
+				setPriceError(null);
+			}
+		}
 		return valid;
 	};
 
@@ -358,6 +398,10 @@ export const useListingForm = ({
 		setImageError,
 		priceCents,
 		setPriceCents,
+		priceError,
+		setPriceError,
+		combinationPriceErrors,
+		setCombinationPriceErrors,
 		processingProfiles,
 		addProcessingProfile,
 		processingProfileId,

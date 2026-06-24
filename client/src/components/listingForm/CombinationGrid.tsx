@@ -3,9 +3,11 @@ import {
 	FileUpload,
 	IconButton,
 	Image,
+	Stack,
 	Table,
 	Text,
 } from '@chakra-ui/react';
+import { FieldError } from '@client/components/input/FieldError';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import {
@@ -29,6 +31,7 @@ type Props = {
 	onUpdate: (key: string, patch: Partial<CombinationEntry>) => void;
 	processingProfiles: ProcessingProfile[];
 	onAddProcessingProfile: (profile: ProcessingProfile) => void;
+	combinationPriceErrors?: Record<string, boolean>;
 	disabled?: boolean;
 };
 
@@ -45,6 +48,7 @@ export const CombinationGrid = ({
 	onUpdate,
 	processingProfiles,
 	onAddProcessingProfile,
+	combinationPriceErrors = {},
 	disabled,
 }: Props) => {
 	const sortedVariations = Object.entries(variations).sort(
@@ -190,26 +194,46 @@ export const CombinationGrid = ({
 								{/* Price */}
 								{showPrice && (
 									<Table.Cell>
-										<PriceInput
-											value={entry.priceCents}
-											onChange={(cents) =>
-												onUpdate(key, {
-													priceCents: cents,
-												})
-											}
-											disabled={
-												disabled || isDisabled
-											}
-											size={InputSize.Md}
-										/>
+										<Stack gap={1.5}>
+											<PriceInput
+												value={
+													entry.priceCents
+												}
+												onChange={(cents) => {
+													onUpdate(key, {
+														priceCents:
+															cents,
+													});
+												}}
+												invalid={
+													!!combinationPriceErrors[
+														key
+													]
+												}
+												disabled={
+													disabled ||
+													isDisabled
+												}
+												size={InputSize.Md}
+											/>
+											{combinationPriceErrors[
+												key
+											] && (
+												<FieldError error="Price is required." />
+											)}
+										</Stack>
 									</Table.Cell>
 								)}
 
 								{showProcessingProfile && (
 									<Table.Cell>
 										<ProcessingProfileSelect
-											profiles={processingProfiles}
-											onAddProfile={onAddProcessingProfile}
+											profiles={
+												processingProfiles
+											}
+											onAddProfile={
+												onAddProcessingProfile
+											}
 											value={
 												entry.leadTimeProfileId
 											}

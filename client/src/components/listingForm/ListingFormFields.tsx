@@ -221,11 +221,15 @@ export const ListingFormFields = ({
 					{!sortedVariations.some(
 						([, v]) => v.pricesVary,
 					) && (
-						<FormField label="Price">
+						<FormField label="Price" error={form.priceError}>
 							<PriceInput
 								size={InputSize.Lg}
 								value={form.priceCents}
-								onChange={form.setPriceCents}
+								onChange={(v) => {
+									form.setPriceCents(v);
+									if (v && v > 0) form.setPriceError(null);
+								}}
+								invalid={!!form.priceError}
 								disabled={disabled}
 							/>
 						</FormField>

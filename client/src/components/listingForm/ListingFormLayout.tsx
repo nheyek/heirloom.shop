@@ -18,9 +18,17 @@ export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
 			<CombinationGrid
 				variations={form.variations}
 				combinations={form.combinations}
-				onUpdate={form.setCombinationField}
+				onUpdate={(key, patch) => {
+					form.setCombinationField(key, patch);
+					if (patch.priceCents && patch.priceCents > 0 && form.combinationPriceErrors[key]) {
+						const next = { ...form.combinationPriceErrors };
+						delete next[key];
+						form.setCombinationPriceErrors(next);
+					}
+				}}
 				processingProfiles={form.processingProfiles}
 				onAddProcessingProfile={form.addProcessingProfile}
+				combinationPriceErrors={form.combinationPriceErrors}
 			/>
 		)}
 		<Stack mt={2.5}>{actions}</Stack>
