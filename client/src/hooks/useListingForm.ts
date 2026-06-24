@@ -6,9 +6,9 @@ import {
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
+import { deriveCombinations } from '@client/utils/combinationUtils';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
-import { deriveCombinations } from '@client/utils/combinationUtils';
 import { useState } from 'react';
 
 export type ProcessingProfile = {
@@ -92,7 +92,11 @@ export type ListingFormState = {
 	combinationPriceErrors: Record<string, boolean>;
 	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
 	combinationProcessingErrors: Record<string, boolean>;
-	setCombinationProcessingErrors: (v: Record<string, boolean>) => void;
+	setCombinationProcessingErrors: (
+		v: Record<string, boolean>,
+	) => void;
+	combinationActiveError: string | null;
+	setCombinationActiveError: (v: string | null) => void;
 
 	processingProfiles: ProcessingProfile[];
 	addProcessingProfile: (profile: ProcessingProfile) => void;
@@ -176,8 +180,14 @@ export const useListingForm = ({
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(null);
 	const [priceError, setPriceError] = useState<string | null>(null);
-	const [combinationPriceErrors, setCombinationPriceErrors] = useState<Record<string, boolean>>({});
-	const [combinationProcessingErrors, setCombinationProcessingErrors] = useState<Record<string, boolean>>({});
+	const [combinationPriceErrors, setCombinationPriceErrors] =
+		useState<Record<string, boolean>>({});
+	const [
+		combinationProcessingErrors,
+		setCombinationProcessingErrors,
+	] = useState<Record<string, boolean>>({});
+	const [combinationActiveError, setCombinationActiveError] =
+		useState<string | null>(null);
 	const [processingProfiles, setProcessingProfiles] = useState<
 		ProcessingProfile[]
 	>([]);
@@ -197,8 +207,9 @@ export const useListingForm = ({
 	const [shippingProfileId, setShippingProfileId] = useState<
 		string | null
 	>(null);
-	const [shippingProfileError, setShippingProfileError] =
-		useState<string | null>(null);
+	const [shippingProfileError, setShippingProfileError] = useState<
+		string | null
+	>(null);
 
 	const [returnProfiles, setReturnProfiles] = useState<
 		ReturnProfile[]
@@ -208,8 +219,9 @@ export const useListingForm = ({
 	const [returnProfileId, setReturnProfileId] = useState<
 		string | null
 	>(null);
-	const [returnProfileError, setReturnProfileError] =
-		useState<string | null>(null);
+	const [returnProfileError, setReturnProfileError] = useState<
+		string | null
+	>(null);
 
 	const [variations, setVariations] = useState<
 		Record<string, Variation>
@@ -341,15 +353,23 @@ export const useListingForm = ({
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
-		} else if (trimmedTitle.length > LISTING_LIMITS.maxTitleLength) {
-			setTitleError(`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`);
+		} else if (
+			trimmedTitle.length > LISTING_LIMITS.maxTitleLength
+		) {
+			setTitleError(
+				`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setTitleError(null);
 		}
 		const trimmedSubtitle = subtitle.trim();
-		if (trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength) {
-			setSubtitleError(`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`);
+		if (
+			trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength
+		) {
+			setSubtitleError(
+				`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setSubtitleError(null);
@@ -373,9 +393,9 @@ export const useListingForm = ({
 			setCombinationProcessingErrors({});
 		} else {
 			setProcessingProfileError(null);
-			const allCombos = deriveCombinations(variations);
+			const allCombinations = deriveCombinations(variations);
 			const processingErrors: Record<string, boolean> = {};
-			for (const { key } of allCombos) {
+			for (const { key } of allCombinations) {
 				const entry = combinations[key];
 				if (!entry?.disabled && !entry?.leadTimeProfileId) {
 					processingErrors[key] = true;
@@ -404,11 +424,14 @@ export const useListingForm = ({
 			(v) => v.pricesVary,
 		);
 		if (pricesVaryExists) {
-			const allCombos = deriveCombinations(variations);
+			const allCombinations = deriveCombinations(variations);
 			const errors: Record<string, boolean> = {};
-			for (const { key } of allCombos) {
+			for (const { key } of allCombinations) {
 				const entry = combinations[key];
-				if (!entry?.disabled && !(entry?.priceCents ?? 0 > 0)) {
+				if (
+					!entry?.disabled &&
+					!(entry?.priceCents ?? 0 > 0)
+				) {
 					errors[key] = true;
 				}
 			}
@@ -426,6 +449,22 @@ export const useListingForm = ({
 			} else {
 				setPriceError(null);
 			}
+		}
+		const allCombinations = deriveCombinations(variations);
+		if (allCombinations.length > 0) {
+			const hasActive = allCombinations.some(
+				({ key }) => !combinations[key]?.disabled,
+			);
+			if (!hasActive) {
+				setCombinationActiveError(
+					'At least one combination must be active.',
+				);
+				valid = false;
+			} else {
+				setCombinationActiveError(null);
+			}
+		} else {
+			setCombinationActiveError(null);
 		}
 		return valid;
 	};
@@ -459,6 +498,8 @@ export const useListingForm = ({
 		setCombinationPriceErrors,
 		combinationProcessingErrors,
 		setCombinationProcessingErrors,
+		combinationActiveError,
+		setCombinationActiveError,
 		processingProfiles,
 		addProcessingProfile,
 		processingProfileId,

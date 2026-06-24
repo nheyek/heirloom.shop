@@ -19,7 +19,7 @@ import {
 	ProcessingProfile,
 	Variation,
 } from '@client/hooks/useListingForm';
-import { COLOR_BRAND } from '@client/theme';
+import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
 import { deriveCombinations } from '@client/utils/combinationUtils';
 import { FaImage, FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 
@@ -33,6 +33,7 @@ type Props = {
 	onAddProcessingProfile: (profile: ProcessingProfile) => void;
 	combinationPriceErrors?: Record<string, boolean>;
 	combinationProcessingErrors?: Record<string, boolean>;
+	invalid?: boolean;
 	disabled?: boolean;
 };
 
@@ -51,6 +52,7 @@ export const CombinationGrid = ({
 	onAddProcessingProfile,
 	combinationPriceErrors = {},
 	combinationProcessingErrors = {},
+	invalid,
 	disabled,
 }: Props) => {
 	const sortedVariations = Object.entries(variations).sort(
@@ -71,7 +73,7 @@ export const CombinationGrid = ({
 		<Box
 			overflowX="auto"
 			borderWidth={1}
-			borderColor="gray.200"
+			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
 			borderRadius="md"
 			display="inline-block"
 			maxW="100%"

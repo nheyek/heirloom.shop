@@ -229,7 +229,7 @@ export const VariationDialog = ({
 		const trimmedOptions = options.map((o) => o.trim());
 		const filledOptions = trimmedOptions.filter(Boolean);
 
-		if (filledOptions.length < 2) {
+		if (options.length < 2) {
 			setOptionsCountError(
 				'At least two options are required.',
 			);
