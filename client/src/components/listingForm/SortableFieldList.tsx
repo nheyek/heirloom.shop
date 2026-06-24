@@ -50,16 +50,16 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 				transition,
 				opacity: isDragging ? 0.5 : 1,
 			}}
-			minWidth={325}
+			minWidth={300}
 			alignItems="center"
-			p={2}
+			p={1.5}
 			gap={3}
 			borderWidth={1}
 			borderColor="gray.200"
 			borderRadius="md"
 		>
 			<IconButton
-				size="sm"
+				size="xs"
 				variant="ghost"
 				cursor="grab"
 				color="gray.400"
@@ -82,16 +82,16 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 					</Text>
 				)}
 			</Text>
-			<HStack gap={0}>
+			<HStack gap={1}>
 				<IconButton
-					size="sm"
+					size="xs"
 					variant="ghost"
 					onClick={onEdit}
 				>
 					<FaPencilAlt />
 				</IconButton>
 				<IconButton
-					size="sm"
+					size="xs"
 					variant="ghost"
 					color="red.500"
 					onClick={onDelete}

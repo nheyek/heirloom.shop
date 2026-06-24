@@ -16,7 +16,6 @@ import {
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/hooks/useListingForm';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	DndContext,
 	DragEndEvent,
@@ -33,6 +32,7 @@ import {
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
 
@@ -74,12 +74,12 @@ const OptionRow = ({
 				borderWidth={1}
 				borderColor={error ? 'red.500' : 'gray.200'}
 				borderRadius="md"
-				px={2}
-				py={1}
+				px={1}
+				py={0.5}
 				minWidth={250}
 			>
 				<IconButton
-					size="sm"
+					size="xs"
 					variant="ghost"
 					cursor="grab"
 					color="gray.400"
@@ -100,7 +100,7 @@ const OptionRow = ({
 					_focus={{ border: 'none', boxShadow: 'none' }}
 				/>
 				<IconButton
-					size="sm"
+					size="xs"
 					variant="ghost"
 					color="red.500"
 					onClick={onDelete}
@@ -177,7 +177,8 @@ export const VariationDialog = ({
 	}, [open]);
 
 	const addOption = () => {
-		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation) return;
+		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation)
+			return;
 		setOptions((prev) => [...prev, '']);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
@@ -206,15 +207,21 @@ export const VariationDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
-		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
-			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+		} else if (
+			trimmedName.length > LISTING_LIMITS.maxNameLength
+		) {
+			setNameError(
+				`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`,
+			);
 			valid = false;
 		} else if (
 			existingNames.some(
 				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
 			)
 		) {
-			setNameError('A variation with this name already exists.');
+			setNameError(
+				'A variation with this name already exists.',
+			);
 			valid = false;
 		} else {
 			setNameError(null);
@@ -224,7 +231,9 @@ export const VariationDialog = ({
 		const filledOptions = trimmedOptions.filter(Boolean);
 
 		if (filledOptions.length < 2) {
-			setOptionsCountError('At least two options are required.');
+			setOptionsCountError(
+				'At least two options are required.',
+			);
 			valid = false;
 		} else {
 			setOptionsCountError(null);
@@ -407,7 +416,8 @@ export const VariationDialog = ({
 											))}
 										</SortableContext>
 									</DndContext>
-									{options.length < LISTING_LIMITS.maxOptionsPerVariation && (
+									{options.length <
+										LISTING_LIMITS.maxOptionsPerVariation && (
 										<HStack>
 											<AddFieldButton
 												onClick={addOption}
