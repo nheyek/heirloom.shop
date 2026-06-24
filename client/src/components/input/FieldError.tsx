@@ -5,7 +5,11 @@ type Props = {
 };
 
 export const FieldError = ({ error }: Props) => (
-	<Text fontSize={15} fontWeight={500} color="red.500" mt={1}>
+	<Text
+		fontSize={15}
+		fontWeight={500}
+		color="red.500"
+	>
 		{error}
 	</Text>
 );

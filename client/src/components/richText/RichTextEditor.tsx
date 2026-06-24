@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton } from '@chakra-ui/react';
+import { Box, HStack, IconButton, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { FIELD_ERROR_COLOR, FONT_DISPLAY_SANS } from '@client/theme';
 import Underline from '@tiptap/extension-underline';
@@ -82,106 +82,115 @@ export const RichTextEditor = ({
 	);
 
 	return (
-		<>
-		<Box
-			flex={1}
-			borderWidth={1}
-			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
-			borderRadius="md"
+		<Stack
+			gap={1.5}
 			width="100%"
-			fontFamily={FONT_DISPLAY_SANS}
 		>
-			{/* Toolbar */}
-			<HStack
-				p={2}
-				gap={2}
-				borderBottomWidth={1}
-				borderColor="gray.200"
-			>
-				{MenuButton(
-					isBold,
-					() => editor.chain().focus().toggleBold().run(),
-					<FaBold size={13} />,
-					'Bold',
-				)}
-				{MenuButton(
-					isItalic,
-					() => editor.chain().focus().toggleItalic().run(),
-					<FaItalic size={13} />,
-					'Italic',
-				)}
-				{MenuButton(
-					isUnderline,
-					() =>
-						editor
-							.chain()
-							.focus()
-							.toggleUnderline()
-							.run(),
-					<FaUnderline size={13} />,
-					'Underline',
-				)}
-				{MenuButton(
-					isBulletList,
-					() =>
-						editor
-							.chain()
-							.focus()
-							.toggleBulletList()
-							.run(),
-					<FaListUl size={13} />,
-					'Bullet list',
-				)}
-				{MenuButton(
-					isOrderedList,
-					() =>
-						editor
-							.chain()
-							.focus()
-							.toggleOrderedList()
-							.run(),
-					<FaListOl size={13} />,
-					'Ordered list',
-				)}
-			</HStack>
 			<Box
-				minHeight={150}
-				maxHeight={maxHeight}
-				overflow="scroll"
-				cursor="text"
-				onClick={() => editor.commands.focus()}
-				css={{
-					'& .tiptap': {
-						padding: 4,
-						fontFamily: FONT_DISPLAY_SANS,
-						lineHeight: 1.25,
-						fontSize: 18,
-					},
-					'& .tiptap p': {
-						marginBottom: 2,
-					},
-					'& .tiptap ul, & .tiptap ol': {
-						marginLeft: 5,
-						listStyleType: 'disc',
-					},
-					'& .tiptap li': {
-						marginBottom: 0.5,
-					},
-					'& .tiptap ol': {
-						listStyleType: 'decimal',
-					},
-					'& .tiptap em': {
-						fontStyle: 'italic',
-					},
-					'& .tiptap u': {
-						textDecoration: 'underline',
-					},
-				}}
+				flex={1}
+				borderWidth={1}
+				borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
+				borderRadius="md"
+				width="100%"
+				fontFamily={FONT_DISPLAY_SANS}
 			>
-				<EditorContent editor={editor} />
+				{/* Toolbar */}
+				<HStack
+					p={2}
+					gap={2}
+					borderBottomWidth={1}
+					borderColor="gray.200"
+				>
+					{MenuButton(
+						isBold,
+						() =>
+							editor.chain().focus().toggleBold().run(),
+						<FaBold size={13} />,
+						'Bold',
+					)}
+					{MenuButton(
+						isItalic,
+						() =>
+							editor
+								.chain()
+								.focus()
+								.toggleItalic()
+								.run(),
+						<FaItalic size={13} />,
+						'Italic',
+					)}
+					{MenuButton(
+						isUnderline,
+						() =>
+							editor
+								.chain()
+								.focus()
+								.toggleUnderline()
+								.run(),
+						<FaUnderline size={13} />,
+						'Underline',
+					)}
+					{MenuButton(
+						isBulletList,
+						() =>
+							editor
+								.chain()
+								.focus()
+								.toggleBulletList()
+								.run(),
+						<FaListUl size={13} />,
+						'Bullet list',
+					)}
+					{MenuButton(
+						isOrderedList,
+						() =>
+							editor
+								.chain()
+								.focus()
+								.toggleOrderedList()
+								.run(),
+						<FaListOl size={13} />,
+						'Ordered list',
+					)}
+				</HStack>
+				<Box
+					minHeight={150}
+					maxHeight={maxHeight}
+					overflow="scroll"
+					cursor="text"
+					onClick={() => editor.commands.focus()}
+					css={{
+						'& .tiptap': {
+							padding: 4,
+							fontFamily: FONT_DISPLAY_SANS,
+							lineHeight: 1.25,
+							fontSize: 18,
+						},
+						'& .tiptap p': {
+							marginBottom: 2,
+						},
+						'& .tiptap ul, & .tiptap ol': {
+							marginLeft: 5,
+							listStyleType: 'disc',
+						},
+						'& .tiptap li': {
+							marginBottom: 0.5,
+						},
+						'& .tiptap ol': {
+							listStyleType: 'decimal',
+						},
+						'& .tiptap em': {
+							fontStyle: 'italic',
+						},
+						'& .tiptap u': {
+							textDecoration: 'underline',
+						},
+					}}
+				>
+					<EditorContent editor={editor} />
+				</Box>
 			</Box>
-		</Box>
-		{error && <FieldError error={error} />}
-		</>
+			{error && <FieldError error={error} />}
+		</Stack>
 	);
 };

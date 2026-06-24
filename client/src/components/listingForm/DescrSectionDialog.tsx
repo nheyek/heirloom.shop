@@ -5,14 +5,18 @@ import {
 	HStack,
 	Stack,
 } from '@chakra-ui/react';
-import { FormField, FormInput } from '@client/components/input/FormField';
+import {
+	FormField,
+	FormInput,
+} from '@client/components/input/FormField';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ListingDescrSection } from '@client/hooks/useListingForm';
 import { useEffect, useRef, useState } from 'react';
 
 const EDITOR_KEY_NEW = 'new';
 
-const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '').trim();
+const stripHtml = (html: string) =>
+	html.replace(/<[^>]*>/g, '').trim();
 
 type Props = {
 	open: boolean;
@@ -51,8 +55,12 @@ export const DescrSectionDialog = ({
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
-		} else if (existingTitles.some((t) => t.trim() === trimmedTitle)) {
-			setTitleError('A section with this title already exists.');
+		} else if (
+			existingTitles.some((t) => t.trim() === trimmedTitle)
+		) {
+			setTitleError(
+				'A section with this title already exists.',
+			);
 			valid = false;
 		} else {
 			setTitleError(null);
@@ -64,7 +72,10 @@ export const DescrSectionDialog = ({
 			setBodyError(null);
 		}
 		if (!valid) return;
-		onConfirm({ title: trimmedTitle, richText: richTextRef.current });
+		onConfirm({
+			title: trimmedTitle,
+			richText: richTextRef.current,
+		});
 		onClose();
 	};
 
@@ -115,25 +126,49 @@ export const DescrSectionDialog = ({
 						pb={3}
 					>
 						<Stack gap={3}>
-							<FormField label="Title" error={titleError}>
+							<FormField
+								label="Title"
+								error={titleError}
+							>
 								<FormInput
 									value={title}
 									onChange={(e) => {
 										setTitle(e.target.value);
-										const trimmed = e.target.value.trim();
-										if (trimmed && !existingTitles.some((t) => t.trim() === trimmed)) setTitleError(null);
+										const trimmed =
+											e.target.value.trim();
+										if (
+											trimmed &&
+											!existingTitles.some(
+												(t) =>
+													t.trim() ===
+													trimmed,
+											)
+										)
+											setTitleError(null);
 									}}
 									placeholder="e.g. Materials"
+									maxW={300}
 								/>
 							</FormField>
-							<FormField label="Body" error={bodyError}>
+							<FormField
+								label="Body"
+								error={bodyError}
+							>
 								<RichTextEditor
 									invalid={!!bodyError}
-									key={open ? (initial?.title ?? EDITOR_KEY_NEW) : 'closed'}
-									initialHtml={initial?.richText ?? ''}
+									key={
+										open
+											? (initial?.title ??
+												EDITOR_KEY_NEW)
+											: 'closed'
+									}
+									initialHtml={
+										initial?.richText ?? ''
+									}
 									onChange={(html) => {
 										richTextRef.current = html;
-										if (stripHtml(html)) setBodyError(null);
+										if (stripHtml(html))
+											setBodyError(null);
 									}}
 									maxHeight={300}
 								/>

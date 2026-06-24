@@ -91,7 +91,7 @@ export const ReturnProfileDialog = ({
 		}
 		const days = parseInt(windowDays, 10);
 		if (!windowDays || isNaN(days) || days < 1) {
-			setWindowError('Enter a valid number of days.');
+			setWindowError('Window is required.');
 			valid = false;
 		} else {
 			setWindowError(null);
@@ -166,12 +166,12 @@ export const ReturnProfileDialog = ({
 							</FormField>
 							<HStack
 								align="start"
-								gap={8}
+								gap={0}
 							>
 								<FormField
 									label="Window"
 									error={windowError}
-									width="auto"
+									width={150}
 								>
 									<HStack
 										gap={3}
