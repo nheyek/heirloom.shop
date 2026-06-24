@@ -96,16 +96,22 @@ export type ListingFormState = {
 	addProcessingProfile: (profile: ProcessingProfile) => void;
 	processingProfileId: string | null;
 	setProcessingProfileId: (v: string | null) => void;
+	processingProfileError: string | null;
+	setProcessingProfileError: (v: string | null) => void;
 
 	shippingProfiles: ShippingProfile[];
 	addShippingProfile: (profile: ShippingProfile) => void;
 	shippingProfileId: string | null;
 	setShippingProfileId: (v: string | null) => void;
+	shippingProfileError: string | null;
+	setShippingProfileError: (v: string | null) => void;
 
 	returnProfiles: ReturnProfile[];
 	addReturnProfile: (profile: ReturnProfile) => void;
 	returnProfileId: string | null;
 	setReturnProfileId: (v: string | null) => void;
+	returnProfileError: string | null;
+	setReturnProfileError: (v: string | null) => void;
 
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
@@ -177,6 +183,8 @@ export const useListingForm = ({
 	const [processingProfileId, setProcessingProfileId] = useState<
 		string | null
 	>(null);
+	const [processingProfileError, setProcessingProfileError] =
+		useState<string | null>(null);
 
 	const [shippingProfiles, setShippingProfiles] = useState<
 		ShippingProfile[]
@@ -186,6 +194,8 @@ export const useListingForm = ({
 	const [shippingProfileId, setShippingProfileId] = useState<
 		string | null
 	>(null);
+	const [shippingProfileError, setShippingProfileError] =
+		useState<string | null>(null);
 
 	const [returnProfiles, setReturnProfiles] = useState<
 		ReturnProfile[]
@@ -195,6 +205,8 @@ export const useListingForm = ({
 	const [returnProfileId, setReturnProfileId] = useState<
 		string | null
 	>(null);
+	const [returnProfileError, setReturnProfileError] =
+		useState<string | null>(null);
 
 	const [variations, setVariations] = useState<
 		Record<string, Variation>
@@ -345,6 +357,31 @@ export const useListingForm = ({
 		} else {
 			setCategoryError(null);
 		}
+		const leadTimesVaryExists = Object.values(variations).some(
+			(v) => v.leadTimesVary,
+		);
+		if (!leadTimesVaryExists) {
+			if (!processingProfileId) {
+				setProcessingProfileError('Processing profile is required.');
+				valid = false;
+			} else {
+				setProcessingProfileError(null);
+			}
+		} else {
+			setProcessingProfileError(null);
+		}
+		if (!shippingProfileId) {
+			setShippingProfileError('Shipping profile is required.');
+			valid = false;
+		} else {
+			setShippingProfileError(null);
+		}
+		if (!returnProfileId) {
+			setReturnProfileError('Returns profile is required.');
+			valid = false;
+		} else {
+			setReturnProfileError(null);
+		}
 		const pricesVaryExists = Object.values(variations).some(
 			(v) => v.pricesVary,
 		);
@@ -406,14 +443,20 @@ export const useListingForm = ({
 		addProcessingProfile,
 		processingProfileId,
 		setProcessingProfileId,
+		processingProfileError,
+		setProcessingProfileError,
 		shippingProfiles,
 		addShippingProfile,
 		shippingProfileId,
 		setShippingProfileId,
+		shippingProfileError,
+		setShippingProfileError,
 		returnProfiles,
 		addReturnProfile,
 		returnProfileId,
 		setReturnProfileId,
+		returnProfileError,
+		setReturnProfileError,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,

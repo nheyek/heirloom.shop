@@ -243,7 +243,7 @@ export const ListingFormFields = ({
 							([, v]) => v.leadTimesVary,
 						) && (
 							<WrapItem>
-								<FormField label="Processing">
+								<FormField label="Processing" error={form.processingProfileError}>
 									<ProcessingProfileSelect
 										profiles={
 											form.processingProfiles
@@ -254,9 +254,10 @@ export const ListingFormFields = ({
 										value={
 											form.processingProfileId
 										}
-										onChange={
-											form.setProcessingProfileId
-										}
+										onChange={(v) => {
+											form.setProcessingProfileId(v);
+											if (v) form.setProcessingProfileError(null);
+										}}
 										disabled={disabled}
 										size={InputSize.Lg}
 									/>
@@ -264,7 +265,7 @@ export const ListingFormFields = ({
 							</WrapItem>
 						)}
 						<WrapItem>
-							<FormField label="Shipping">
+							<FormField label="Shipping" error={form.shippingProfileError}>
 								<ShippingProfileSelect
 									profiles={
 										form.shippingProfiles
@@ -273,25 +274,27 @@ export const ListingFormFields = ({
 										form.addShippingProfile
 									}
 									value={form.shippingProfileId}
-									onChange={
-										form.setShippingProfileId
-									}
+									onChange={(v) => {
+										form.setShippingProfileId(v);
+										if (v) form.setShippingProfileError(null);
+									}}
 									disabled={disabled}
 									size={InputSize.Lg}
 								/>
 							</FormField>
 						</WrapItem>
 						<WrapItem>
-							<FormField label="Returns">
+							<FormField label="Returns" error={form.returnProfileError}>
 								<ReturnProfileSelect
 									profiles={form.returnProfiles}
 									onAddProfile={
 										form.addReturnProfile
 									}
 									value={form.returnProfileId}
-									onChange={
-										form.setReturnProfileId
-									}
+									onChange={(v) => {
+										form.setReturnProfileId(v);
+										if (v) form.setReturnProfileError(null);
+									}}
 									disabled={disabled}
 									size={InputSize.Lg}
 								/>
