@@ -76,7 +76,6 @@ const OptionRow = ({
 				borderRadius="md"
 				px={1}
 				py={0.5}
-				minWidth={250}
 			>
 				<IconButton
 					size="xs"
@@ -306,7 +305,7 @@ export const VariationDialog = ({
 				e.preventDefault();
 				onClose();
 			}}
-			size="md"
+			size="xs"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
@@ -377,7 +376,10 @@ export const VariationDialog = ({
 								label="Options"
 								error={optionsCountError}
 							>
-								<Stack gap={2}>
+								<Stack
+									gap={2}
+									w="100%"
+								>
 									<DndContext
 										sensors={sensors}
 										collisionDetection={
