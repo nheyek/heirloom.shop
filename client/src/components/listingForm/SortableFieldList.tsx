@@ -52,7 +52,8 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 			}}
 			minWidth={300}
 			alignItems="center"
-			p={1.5}
+			px={2}
+			h={12}
 			gap={3}
 			borderWidth={1}
 			borderColor="gray.200"
