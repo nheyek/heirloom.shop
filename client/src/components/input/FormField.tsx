@@ -1,16 +1,27 @@
-import { Field, Input, InputProps, Textarea, TextareaProps } from '@chakra-ui/react';
+import {
+	Field,
+	FieldRootProps,
+	Input,
+	InputProps,
+	Textarea,
+	TextareaProps,
+} from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 export const FormField = ({
 	label,
 	error,
 	children,
-}: {
+	...rest
+}: FieldRootProps & {
 	label: string;
 	error?: string | null;
 	children: ReactNode;
 }) => (
-	<Field.Root invalid={!!error}>
+	<Field.Root
+		invalid={!!error}
+		{...rest}
+	>
 		<Field.Label
 			fontSize={18}
 			fontWeight={500}

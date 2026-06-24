@@ -8,14 +8,14 @@ import {
 	Stack,
 } from '@chakra-ui/react';
 import {
-	DayRangeInput,
-	validateDayRange,
-} from '@client/components/listingForm/DayRangeInput';
-import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
+import {
+	DayRangeInput,
+	validateDayRange,
+} from '@client/components/listingForm/DayRangeInput';
 import { InputSize } from '@client/constants';
 import { useEffect, useState } from 'react';
 
@@ -184,6 +184,7 @@ export const ShippingProfileDialog = ({
 										)
 									}
 									size="sm"
+									alignSelf="stretch"
 								>
 									<HStack
 										gap={3}
@@ -193,7 +194,6 @@ export const ShippingProfileDialog = ({
 											value={
 												ShippingCostType.Free
 											}
-											width={100}
 										>
 											<RadioCard.ItemHiddenInput />
 											<RadioCard.ItemControl alignItems="center">
@@ -209,7 +209,6 @@ export const ShippingProfileDialog = ({
 											value={
 												ShippingCostType.FlatRate
 											}
-											width={175}
 										>
 											<RadioCard.ItemHiddenInput />
 											<RadioCard.ItemControl>
@@ -233,13 +232,27 @@ export const ShippingProfileDialog = ({
 													{costType ===
 														ShippingCostType.FlatRate && (
 														<Box
-															onPointerDown={(e) => e.stopPropagation()}
-															onClick={(e) => e.stopPropagation()}
+															onPointerDown={(
+																e,
+															) =>
+																e.stopPropagation()
+															}
+															onClick={(
+																e,
+															) =>
+																e.stopPropagation()
+															}
 														>
 															<PriceInput
-																size={InputSize.Md}
-																value={flatRateCents}
-																onChange={setFlatRateCents}
+																size={
+																	InputSize.Md
+																}
+																value={
+																	flatRateCents
+																}
+																onChange={
+																	setFlatRateCents
+																}
 															/>
 														</Box>
 													)}

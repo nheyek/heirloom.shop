@@ -1,9 +1,10 @@
+import { ReturnPolicyType } from '@client/components/listingForm/ReturnProfileDialog';
+import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import {
 	ImageEntry,
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
-import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
@@ -13,6 +14,15 @@ export type ProcessingProfile = {
 	name: string;
 	minDays: number;
 	maxDays: number;
+};
+
+export type ReturnProfile = {
+	id: string;
+	name: string;
+	windowDays: number;
+	policy:
+		| { type: ReturnPolicyType.Standard; text: string }
+		| { type: ReturnPolicyType.Custom; text: string };
 };
 
 export type ShippingProfile = {
@@ -85,6 +95,11 @@ export type ListingFormState = {
 	addShippingProfile: (profile: ShippingProfile) => void;
 	shippingProfileId: string | null;
 	setShippingProfileId: (v: string | null) => void;
+
+	returnProfiles: ReturnProfile[];
+	addReturnProfile: (profile: ReturnProfile) => void;
+	returnProfileId: string | null;
+	setReturnProfileId: (v: string | null) => void;
 
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
@@ -159,6 +174,15 @@ export const useListingForm = ({
 	const addShippingProfile = (profile: ShippingProfile) =>
 		setShippingProfiles((prev) => [...prev, profile]);
 	const [shippingProfileId, setShippingProfileId] = useState<
+		string | null
+	>(null);
+
+	const [returnProfiles, setReturnProfiles] = useState<
+		ReturnProfile[]
+	>([]);
+	const addReturnProfile = (profile: ReturnProfile) =>
+		setReturnProfiles((prev) => [...prev, profile]);
+	const [returnProfileId, setReturnProfileId] = useState<
 		string | null
 	>(null);
 
@@ -317,6 +341,10 @@ export const useListingForm = ({
 		addShippingProfile,
 		shippingProfileId,
 		setShippingProfileId,
+		returnProfiles,
+		addReturnProfile,
+		returnProfileId,
+		setReturnProfileId,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,

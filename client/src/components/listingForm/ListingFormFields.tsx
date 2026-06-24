@@ -15,6 +15,7 @@ import {
 import { PriceInput } from '@client/components/input/PriceInput';
 import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
+import { ReturnProfileSelect } from '@client/components/listingForm/ReturnProfileSelect';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
@@ -279,6 +280,22 @@ export const ListingFormFields = ({
 										value={form.shippingProfileId}
 										onChange={
 											form.setShippingProfileId
+										}
+										disabled={disabled}
+										size={InputSize.Lg}
+									/>
+								</FormField>
+							</WrapItem>
+							<WrapItem>
+								<FormField label="Returns">
+									<ReturnProfileSelect
+										profiles={form.returnProfiles}
+										onAddProfile={
+											form.addReturnProfile
+										}
+										value={form.returnProfileId}
+										onChange={
+											form.setReturnProfileId
 										}
 										disabled={disabled}
 										size={InputSize.Lg}
