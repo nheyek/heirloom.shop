@@ -142,8 +142,7 @@ const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.stri
 
 const ListingPageDataSchema = ListingCardDataSchema.extend({
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
-	leadTimeDaysMin: z.number(),
-	leadTimeDaysMax: z.number(),
+	processingProfile: z.object({ minDays: z.number(), maxDays: z.number() }).optional(),
 	originZip: z.string().optional(),
 	shippingDetails: z
 		.object({

@@ -18,8 +18,8 @@ export const getListingDataForCart = (
 	variations: listing.variations,
 	shippingPrice: Number(listing.shippingDetails?.shippingRate || 0),
 	deliveryEstimate: calculateDeliveryEstimate(
-		listing.leadTimeDaysMin,
-		listing.leadTimeDaysMax,
+		listing.processingProfile?.minDays ?? 0,
+		listing.processingProfile?.maxDays ?? 0,
 		listing.shippingDetails,
 	),
 });

@@ -57,8 +57,12 @@ export const ProcessingProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
-		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
-			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+		} else if (
+			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
+		) {
+			setNameError(
+				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
+			);
 			valid = false;
 		} else if (
 			existingNames.some(
@@ -72,13 +76,19 @@ export const ProcessingProfileDialog = ({
 		}
 		const days = validateDayRange(minDays, maxDays);
 		if (!days) {
-			setDaysError('Enter a valid range (min ≤ max, both ≥ 1).');
+			setDaysError(
+				'Enter a valid range (min ≤ max, both ≥ 1).',
+			);
 			valid = false;
 		} else {
 			setDaysError(null);
 		}
 		if (!valid) return;
-		onConfirm({ name: trimmedName, minDays: days!.min, maxDays: days!.max });
+		onConfirm({
+			name: trimmedName,
+			minDays: days!.min,
+			maxDays: days!.max,
+		});
 		onClose();
 	};
 
@@ -87,13 +97,16 @@ export const ProcessingProfileDialog = ({
 			open={open}
 			onInteractOutside={onClose}
 			onEscapeKeyDown={onClose}
-			size="sm"
+			size="xs"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
 				<Dialog.Content>
 					<Dialog.Header>
-						<Dialog.Title fontSize={22} fontWeight={500}>
+						<Dialog.Title
+							fontSize={22}
+							fontWeight={500}
+						>
 							New Processing Profile
 						</Dialog.Title>
 						<CloseButton
@@ -103,9 +116,15 @@ export const ProcessingProfileDialog = ({
 							onClick={onClose}
 						/>
 					</Dialog.Header>
-					<Dialog.Body pt={0} pb={3}>
+					<Dialog.Body
+						pt={0}
+						pb={3}
+					>
 						<Stack gap={4}>
-							<FormField label="Name" error={nameError}>
+							<FormField
+								label="Name"
+								error={nameError}
+							>
 								<FormInput
 									value={name}
 									onChange={(e) => {
@@ -116,12 +135,21 @@ export const ProcessingProfileDialog = ({
 									placeholder="e.g. Default"
 								/>
 							</FormField>
-							<FormField label="Lead Time" error={daysError}>
+							<FormField
+								label="Lead Time"
+								error={daysError}
+							>
 								<DayRangeInput
 									minDays={minDays}
 									maxDays={maxDays}
-									onChangeMin={(v) => { setMinDays(v); setDaysError(null); }}
-									onChangeMax={(v) => { setMaxDays(v); setDaysError(null); }}
+									onChangeMin={(v) => {
+										setMinDays(v);
+										setDaysError(null);
+									}}
+									onChangeMax={(v) => {
+										setMaxDays(v);
+										setDaysError(null);
+									}}
 								/>
 							</FormField>
 						</Stack>

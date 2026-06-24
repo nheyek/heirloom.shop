@@ -187,8 +187,8 @@ export const ListingPage = () => {
 
 	const deliveryEstimate = listingData
 		? calculateDeliveryEstimate(
-				listingData.leadTimeDaysMin,
-				listingData.leadTimeDaysMax,
+				listingData.processingProfile?.minDays ?? 0,
+				listingData.processingProfile?.maxDays ?? 0,
 				listingData.shippingDetails,
 			)
 		: null;

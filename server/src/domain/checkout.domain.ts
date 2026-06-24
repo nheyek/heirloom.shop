@@ -80,8 +80,8 @@ export const createOrderItemSnapshots = (
 				listing.shippingProfile?.flatShippingRateCents ?? 0,
 			quantity: item.quantity,
 			estimatedDelivery: calculateDeliveryEstimate(
-				listing.leadTimeDaysMin,
-				listing.leadTimeDaysMax,
+				listing.processingProfile?.minDays ?? 0,
+				listing.processingProfile?.maxDays ?? 0,
 				listing.shippingProfile
 					? {
 							shipTimeDaysMin:

@@ -2,6 +2,7 @@ import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { Listing } from './Listing.js';
+import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ShippingOrigin } from './ShippingOrigin.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { ShopUserRole } from './ShopUserRole.js';
@@ -45,6 +46,9 @@ export class Shop {
 
   @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
   listingCollection = new Collection<Listing>(this);
+
+  @OneToMany({ entity: () => ListingProcessingProfile, mappedBy: 'shop' })
+  listingProcessingProfileCollection = new Collection<ListingProcessingProfile>(this);
 
   @OneToMany({ entity: () => ShippingOrigin, mappedBy: 'shop' })
   shippingOriginCollection = new Collection<ShippingOrigin>(this);

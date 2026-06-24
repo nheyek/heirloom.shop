@@ -27,8 +27,9 @@ export const mapListingToCompleteApiResponseData = (
 ): ListingPageData => ({
 	...mapListingToApiResponseData(listing),
 	fullDescr: listing.fullDescr,
-	leadTimeDaysMin: listing.leadTimeDaysMin,
-	leadTimeDaysMax: listing.leadTimeDaysMax,
+	processingProfile: listing.processingProfile
+		? { minDays: listing.processingProfile.minDays, maxDays: listing.processingProfile.maxDays }
+		: undefined,
 	originZip: listing.shippingOrigin?.originZip,
 	shippingDetails: listing.shippingProfile
 		? {

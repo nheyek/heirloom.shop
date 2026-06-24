@@ -13,8 +13,8 @@ const makeListing = (
 		flatShippingRateCents: number;
 		shippingDaysMin: number;
 		shippingDaysMax: number;
-		leadTimeDaysMin: number;
-		leadTimeDaysMax: number;
+		processingMinDays: number;
+		processingMaxDays: number;
 		title: string;
 		shopTitle: string;
 		imageUuids: string[];
@@ -26,8 +26,10 @@ const makeListing = (
 		title: overrides.title ?? 'Test Listing',
 		shop: { title: overrides.shopTitle ?? 'Test Shop' },
 		imageUuids: overrides.imageUuids ?? [],
-		leadTimeDaysMin: overrides.leadTimeDaysMin ?? 0,
-		leadTimeDaysMax: overrides.leadTimeDaysMax ?? 0,
+		processingProfile:
+			overrides.processingMinDays !== undefined || overrides.processingMaxDays !== undefined
+				? { minDays: overrides.processingMinDays ?? 0, maxDays: overrides.processingMaxDays ?? 0 }
+				: undefined,
 		shippingProfile:
 			overrides.flatShippingRateCents !== undefined
 				? {
@@ -284,8 +286,8 @@ describe('createOrderItemSnapshots', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					flatShippingRateCents: 500,
-					leadTimeDaysMin: 3,
-					leadTimeDaysMax: 5,
+					processingMinDays: 3,
+					processingMaxDays: 5,
 					shippingDaysMin: 2,
 					shippingDaysMax: 4,
 				}),

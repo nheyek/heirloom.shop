@@ -99,8 +99,12 @@ DECLARE
     sample_listing_5_price_cents INT := 296700;
     sample_listing_5_country_code CHAR(2) := 'US';
     sample_listing_5_image_uuids text[] := '{"8D236EB4-62F3-48D8-A468-4A46DEE32003", "5561CDF1-343A-4AA7-AE24-D099BD97157E", "140D5892-CF55-4611-8BC8-FEDCFFE4614C", "DC7B2D50-361B-4573-A9C8-8AEDB7FC0C7A"}';
-    sample_listing_5_lead_time_days_min INT := 42;
-    sample_listing_5_lead_time_days_max INT := 56;
+    sample_shop_1_processing_profile_id INT;
+    sample_shop_2_processing_profile_id INT;
+    sample_shop_3_processing_profile_id INT;
+    sample_shop_4_processing_profile_id INT;
+    sample_shop_5_processing_profile_id INT;
+    sample_shop_6_processing_profile_id INT;
     sample_listing_5_full_descr JSONB := '[
         {
             "title": "Details",
@@ -128,8 +132,6 @@ DECLARE
     sample_listing_6_price_cents INT := 206100;
     sample_listing_6_country_code CHAR(2) := 'US';
     sample_listing_6_image_uuids text[] := '{"9C5A0A04-14A6-4415-B273-9317DFAB20E4"}';
-    sample_listing_6_lead_time_days_min INT := 28;
-    sample_listing_6_lead_time_days_max INT := 42;
 
     sample_listing_7_id INT := 7;
     sample_listing_7_shop_id INT := sample_shop_3_id;
@@ -139,8 +141,6 @@ DECLARE
     sample_listing_7_price_cents INT := 39000;
     sample_listing_7_country_code CHAR(2) := 'US';
     sample_listing_7_image_uuids text[] := '{"E2C0607B-160B-41A6-9258-E1EA6AEBC2AB"}';
-    sample_listing_7_lead_time_days_min INT := 14;
-    sample_listing_7_lead_time_days_max INT := 21;
 
     sample_listing_8_id INT := 8;
     sample_listing_8_shop_id INT := sample_shop_4_id;
@@ -206,6 +206,23 @@ BEGIN
         country_code = EXCLUDED.country_code,
         updated_at = CURRENT_TIMESTAMP;
     
+    INSERT INTO listing_processing_profile (name, shop_id, min_days, max_days, created_at, updated_at)
+    VALUES
+        ('Standard', sample_shop_1_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_2_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_3_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_4_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_5_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_6_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT DO NOTHING;
+
+    sample_shop_1_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard');
+    sample_shop_2_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard');
+    sample_shop_3_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard');
+    sample_shop_4_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard');
+    sample_shop_5_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
+    sample_shop_6_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
+
     INSERT INTO shipping_origin (id, shop_id, location_name, origin_zip, created_at, updated_at)
     VALUES
         (sample_shop_1_id, sample_shop_1_id, default_shipping_origin_location_name, sample_shop_1_origin_zip,  CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -218,18 +235,18 @@ BEGIN
         location_name = EXCLUDED.location_name,
         updated_at = CURRENT_TIMESTAMP;
     
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids, lead_time_days_min, lead_time_days_max)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_origin_id, shipping_profile_id, return_exchange_profile_id, image_uuids, processing_profile_id)
     VALUES
-        (sample_listing_1_id, 'gB8K', sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, null, sample_listing_1_price_cents, sample_listing_1_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids, 0, 0),
-        (sample_listing_2_id, 'jR6k', sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, null,sample_listing_2_price_cents, sample_listing_2_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids, 0, 0),
-        (sample_listing_3_id, '0XNl', sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, null,sample_listing_3_price_cents, sample_listing_3_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids, 0, 0),
-        (sample_listing_4_id, 'yDvP', sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, null,sample_listing_4_price_cents, sample_listing_4_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids, 0, 0),
-        (sample_listing_5_id, 'Qa0Z', sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr,sample_listing_5_price_cents, sample_listing_5_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids, sample_listing_5_lead_time_days_min, sample_listing_5_lead_time_days_max),
-        (sample_listing_6_id, '8aOn', sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, null,sample_listing_6_price_cents, sample_listing_6_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids, sample_listing_6_lead_time_days_min, sample_listing_6_lead_time_days_max),
-        (sample_listing_7_id, 'La9m', sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, null,sample_listing_7_price_cents, sample_listing_7_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids, sample_listing_7_lead_time_days_min, sample_listing_7_lead_time_days_max),
-        (sample_listing_8_id, 'vmb5', sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, null,sample_listing_8_price_cents, sample_listing_8_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids, 0, 0),
-        (sample_listing_9_id, '4p1J', sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, null,sample_listing_9_price_cents, sample_listing_9_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids, 0, 0),
-        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null, sample_listing_10_price_cents, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids, 0, 0)
+        (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_listing_1_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id),
+        (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_listing_2_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id),
+        (sample_listing_3_id,  '0XNl', sample_listing_3_shop_id,  sample_listing_3_category_id,  sample_listing_3_title,  sample_listing_3_subtitle,  null,                        sample_listing_3_price_cents,  sample_listing_3_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_3_image_uuids,  sample_shop_1_processing_profile_id),
+        (sample_listing_4_id,  'yDvP', sample_listing_4_shop_id,  sample_listing_4_category_id,  sample_listing_4_title,  sample_listing_4_subtitle,  null,                        sample_listing_4_price_cents,  sample_listing_4_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_4_image_uuids,  sample_shop_1_processing_profile_id),
+        (sample_listing_5_id,  'Qa0Z', sample_listing_5_shop_id,  sample_listing_5_category_id,  sample_listing_5_title,  sample_listing_5_subtitle,  sample_listing_5_full_descr, sample_listing_5_price_cents,  sample_listing_5_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_5_image_uuids,  sample_shop_2_processing_profile_id),
+        (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_listing_6_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id),
+        (sample_listing_7_id,  'La9m', sample_listing_7_shop_id,  sample_listing_7_category_id,  sample_listing_7_title,  sample_listing_7_subtitle,  null,                        sample_listing_7_price_cents,  sample_listing_7_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_7_image_uuids,  sample_shop_3_processing_profile_id),
+        (sample_listing_8_id,  'vmb5', sample_listing_8_shop_id,  sample_listing_8_category_id,  sample_listing_8_title,  sample_listing_8_subtitle,  null,                        sample_listing_8_price_cents,  sample_listing_8_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_8_image_uuids,  sample_shop_4_processing_profile_id),
+        (sample_listing_9_id,  '4p1J', sample_listing_9_shop_id,  sample_listing_9_category_id,  sample_listing_9_title,  sample_listing_9_subtitle,  null,                        sample_listing_9_price_cents,  sample_listing_9_shop_id,  default_shipping_profile_id, default_return_profile_id, sample_listing_9_image_uuids,  sample_shop_4_processing_profile_id),
+        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null,                        sample_listing_10_price_cents, sample_listing_10_shop_id, default_shipping_profile_id, default_return_profile_id, sample_listing_10_image_uuids, sample_shop_6_processing_profile_id)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -242,8 +259,7 @@ BEGIN
         shipping_profile_id = EXCLUDED.shipping_profile_id,
         return_exchange_profile_id = EXCLUDED.return_exchange_profile_id,
         image_uuids = EXCLUDED.image_uuids,
-        lead_time_days_min = EXCLUDED.lead_time_days_min,
-        lead_time_days_max = EXCLUDED.lead_time_days_max,
+        processing_profile_id = EXCLUDED.processing_profile_id,
         updated_at = CURRENT_TIMESTAMP;
     
     INSERT INTO listing_variation (id, listing_id, variation_name, prices_vary, created_at, updated_at)
@@ -270,6 +286,7 @@ BEGIN
     PERFORM setval(pg_get_serial_sequence('shop', 'id'), COALESCE((SELECT MAX(id) FROM shop), 1));
     PERFORM setval(pg_get_serial_sequence('shipping_origin', 'id'), COALESCE((SELECT MAX(id) FROM shipping_origin), 1));
     PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
+    PERFORM setval(pg_get_serial_sequence('listing_processing_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_processing_profile), 1));
     PERFORM setval(pg_get_serial_sequence('listing_variation', 'id'), COALESCE((SELECT MAX(id) FROM listing_variation), 1));
 
 COMMIT;

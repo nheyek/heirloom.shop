@@ -164,8 +164,7 @@ describe('GET /api/listings/:id', () => {
 			categoryId: 'MENS_SHIRTS',
 			shopId: 1,
 			shopTitle: 'Artisan Workshop',
-			leadTimeDaysMin: 0,
-			leadTimeDaysMax: 0,
+			processingProfile: undefined,
 			variations: [],
 		});
 	});

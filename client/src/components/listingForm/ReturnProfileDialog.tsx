@@ -80,8 +80,8 @@ export const ReturnProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
-		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
-			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+		} else if (trimmedName.length > LISTING_LIMITS.maxProfileNameLength) {
+			setNameError(`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`);
 			valid = false;
 		} else if (
 			existingNames.some(

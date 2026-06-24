@@ -8,8 +8,9 @@ export const LISTING_LIMITS = {
 	maxTitleLength: 128,
 	maxSubtitleLength: 256,
 
-	// Name lengths (variations, profiles, options, etc.)
-	maxNameLength: 60,
+	// Name lengths
+	maxNameLength: 60,        // variations, options, etc.
+	maxProfileNameLength: 64, // processing/shipping/return profile names
 
 	// Price bounds (in cents)
 	minPriceCents: 1,           // $0.01

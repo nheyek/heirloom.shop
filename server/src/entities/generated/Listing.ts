@@ -2,6 +2,7 @@ import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
+import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingVariation } from './ListingVariation.js';
 import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
 import { ShippingOrigin } from './ShippingOrigin.js';
@@ -48,12 +49,6 @@ export class Listing {
   @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
   returnExchangeProfile?: Rel<ReturnExchangeProfile>;
 
-  @Property({ type: 'integer' })
-  leadTimeDaysMin: number & Opt = 0;
-
-  @Property({ type: 'integer' })
-  leadTimeDaysMax: number & Opt = 0;
-
   @ManyToOne({ entity: () => ShippingOrigin, updateRule: 'no action', nullable: true })
   shippingOrigin?: Rel<ShippingOrigin>;
 
@@ -62,6 +57,9 @@ export class Listing {
 
   @Property({ length: 10, index: 'idx_listing_short_id', unique: 'listing_short_id_key' })
   shortId!: string;
+
+  @ManyToOne({ entity: () => ListingProcessingProfile, updateRule: 'no action', nullable: true })
+  processingProfile?: Rel<ListingProcessingProfile>;
 
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);

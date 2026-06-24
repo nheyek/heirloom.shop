@@ -34,8 +34,8 @@ export const listingRouter = s.router(listingsContract, {
 					variations: pageData.variations,
 					shippingPrice: Number(pageData.shippingDetails?.shippingRate || 0),
 					deliveryEstimate: calculateDeliveryEstimate(
-						pageData.leadTimeDaysMin,
-						pageData.leadTimeDaysMax,
+						pageData.processingProfile?.minDays ?? 0,
+						pageData.processingProfile?.maxDays ?? 0,
 						pageData.shippingDetails,
 					),
 				};
