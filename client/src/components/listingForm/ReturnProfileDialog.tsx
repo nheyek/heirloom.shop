@@ -253,37 +253,16 @@ export const ReturnProfileDialog = ({
 
 							{policyType ===
 								ReturnPolicyType.Custom && (
-								<Box>
-									<RichTextEditor
-										onChange={(html) => {
-											customHtmlRef.current =
-												html;
-											if (
-												html
-													.replace(
-														/<[^>]*>/g,
-														'',
-													)
-													.trim()
-											)
-												setCustomTextError(
-													null,
-												);
-										}}
-										invalid={!!customTextError}
-										maxHeight={250}
-									/>
-									{customTextError && (
-										<Text
-											fontSize={15}
-											fontWeight={500}
-											color="red.500"
-											mt={1}
-										>
-											{customTextError}
-										</Text>
-									)}
-								</Box>
+								<RichTextEditor
+									onChange={(html) => {
+										customHtmlRef.current = html;
+										if (html.replace(/<[^>]*>/g, '').trim())
+											setCustomTextError(null);
+									}}
+									invalid={!!customTextError}
+									error={customTextError}
+									maxHeight={250}
+								/>
 							)}
 						</Stack>
 					</Dialog.Body>

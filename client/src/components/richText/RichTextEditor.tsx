@@ -1,4 +1,4 @@
-import { Box, HStack, IconButton } from '@chakra-ui/react';
+import { Box, HStack, IconButton, Text } from '@chakra-ui/react';
 import { FIELD_ERROR_COLOR, FONT_DISPLAY_SANS } from '@client/theme';
 import Underline from '@tiptap/extension-underline';
 import {
@@ -20,6 +20,7 @@ type Props = {
 	onChange: (html: string) => void;
 	maxHeight?: number | string;
 	invalid?: boolean;
+	error?: string | null;
 };
 
 export const RichTextEditor = ({
@@ -27,6 +28,7 @@ export const RichTextEditor = ({
 	onChange,
 	maxHeight,
 	invalid,
+	error,
 }: Props) => {
 	const editor = useEditor({
 		extensions: [StarterKit, Underline],
@@ -79,6 +81,7 @@ export const RichTextEditor = ({
 	);
 
 	return (
+		<>
 		<Box
 			flex={1}
 			borderWidth={1}
@@ -177,5 +180,11 @@ export const RichTextEditor = ({
 				<EditorContent editor={editor} />
 			</Box>
 		</Box>
+		{error && (
+			<Text fontSize={15} fontWeight={500} color="red.500" mt={1}>
+				{error}
+			</Text>
+		)}
+		</>
 	);
 };
