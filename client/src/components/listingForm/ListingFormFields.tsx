@@ -218,92 +218,82 @@ export const ListingFormFields = ({
 						</Box>
 					</FormField>
 
-					{(!sortedVariations.some(
+					{!sortedVariations.some(
 						([, v]) => v.pricesVary,
-					) ||
-						!sortedVariations.some(
-							([, v]) => v.leadTimesVary,
-						)) && (
-						<Wrap
-							gap={10}
-							align="start"
-						>
-							{!sortedVariations.some(
-								([, v]) => v.pricesVary,
-							) && (
-								<WrapItem>
-									<FormField label="Price">
-										<PriceInput
-											size={InputSize.Lg}
-											value={form.priceCents}
-											onChange={
-												form.setPriceCents
-											}
-											disabled={disabled}
-										/>
-									</FormField>
-								</WrapItem>
-							)}
-							{!sortedVariations.some(
-								([, v]) => v.leadTimesVary,
-							) && (
-								<WrapItem>
-									<FormField label="Processing">
-										<ProcessingProfileSelect
-											profiles={
-												form.processingProfiles
-											}
-											onAddProfile={
-												form.addProcessingProfile
-											}
-											value={
-												form.processingProfileId
-											}
-											onChange={
-												form.setProcessingProfileId
-											}
-											disabled={disabled}
-											size={InputSize.Lg}
-										/>
-									</FormField>
-								</WrapItem>
-							)}
-							<WrapItem>
-								<FormField label="Shipping">
-									<ShippingProfileSelect
-										profiles={
-											form.shippingProfiles
-										}
-										onAddProfile={
-											form.addShippingProfile
-										}
-										value={form.shippingProfileId}
-										onChange={
-											form.setShippingProfileId
-										}
-										disabled={disabled}
-										size={InputSize.Lg}
-									/>
-								</FormField>
-							</WrapItem>
-							<WrapItem>
-								<FormField label="Returns">
-									<ReturnProfileSelect
-										profiles={form.returnProfiles}
-										onAddProfile={
-											form.addReturnProfile
-										}
-										value={form.returnProfileId}
-										onChange={
-											form.setReturnProfileId
-										}
-										disabled={disabled}
-										size={InputSize.Lg}
-									/>
-								</FormField>
-							</WrapItem>
-						</Wrap>
+					) && (
+						<FormField label="Price">
+							<PriceInput
+								size={InputSize.Lg}
+								value={form.priceCents}
+								onChange={form.setPriceCents}
+								disabled={disabled}
+							/>
+						</FormField>
 					)}
+
+					<Wrap
+						gap={10}
+						align="start"
+					>
+						{!sortedVariations.some(
+							([, v]) => v.leadTimesVary,
+						) && (
+							<WrapItem>
+								<FormField label="Processing">
+									<ProcessingProfileSelect
+										profiles={
+											form.processingProfiles
+										}
+										onAddProfile={
+											form.addProcessingProfile
+										}
+										value={
+											form.processingProfileId
+										}
+										onChange={
+											form.setProcessingProfileId
+										}
+										disabled={disabled}
+										size={InputSize.Lg}
+									/>
+								</FormField>
+							</WrapItem>
+						)}
+						<WrapItem>
+							<FormField label="Shipping">
+								<ShippingProfileSelect
+									profiles={
+										form.shippingProfiles
+									}
+									onAddProfile={
+										form.addShippingProfile
+									}
+									value={form.shippingProfileId}
+									onChange={
+										form.setShippingProfileId
+									}
+									disabled={disabled}
+									size={InputSize.Lg}
+								/>
+							</FormField>
+						</WrapItem>
+						<WrapItem>
+							<FormField label="Returns">
+								<ReturnProfileSelect
+									profiles={form.returnProfiles}
+									onAddProfile={
+										form.addReturnProfile
+									}
+									value={form.returnProfileId}
+									onChange={
+										form.setReturnProfileId
+									}
+									disabled={disabled}
+									size={InputSize.Lg}
+								/>
+							</FormField>
+						</WrapItem>
+					</Wrap>
 
 					<FormField label="Variations">
 						<Stack gap={2}>

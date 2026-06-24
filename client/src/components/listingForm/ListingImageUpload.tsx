@@ -1,12 +1,12 @@
 import {
 	Box,
-	Button,
 	IconButton,
 	Image,
 	Skeleton,
 	Wrap,
 } from '@chakra-ui/react';
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
+import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import {
 	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -31,7 +31,6 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { FaTrashAlt } from 'react-icons/fa';
-import { FaPlus } from 'react-icons/fa6';
 
 type ThumbnailProps = {
 	entry: ImageEntry;
@@ -179,17 +178,7 @@ export const ListingImageUpload = ({
 				onAdd={onAdd}
 				maxFiles={MAX_LISTING_IMAGES}
 				disabled={disabled}
-				trigger={
-					<Button
-						size="md"
-						disabled={disabled}
-						fontSize={18}
-						variant="subtle"
-					>
-						<FaPlus />
-						Add Images
-					</Button>
-				}
+				trigger={<AddFieldButton>Add Images</AddFieldButton>}
 			/>
 		</Box>
 	);

@@ -25,12 +25,14 @@ type Props = {
 	open: boolean;
 	onClose: () => void;
 	onConfirm: (profile: NewProcessingProfile) => void;
+	existingNames?: string[];
 };
 
 export const ProcessingProfileDialog = ({
 	open,
 	onClose,
 	onConfirm,
+	existingNames = [],
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -53,6 +55,13 @@ export const ProcessingProfileDialog = ({
 		const trimmedName = name.trim();
 		if (!trimmedName) {
 			setNameError('Name is required.');
+			valid = false;
+		} else if (
+			existingNames.some(
+				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
+			)
+		) {
+			setNameError('A profile with this name already exists.');
 			valid = false;
 		} else {
 			setNameError(null);

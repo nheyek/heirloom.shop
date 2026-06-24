@@ -6,6 +6,7 @@ import {
 	Textarea,
 	TextareaProps,
 } from '@chakra-ui/react';
+import { FieldError } from '@client/components/input/FieldError';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -29,9 +30,7 @@ export const FormField = ({
 			{label}
 		</Field.Label>
 		{children}
-		{error && (
-			<Field.ErrorText fontSize={15}>{error}</Field.ErrorText>
-		)}
+		{error && <FieldError error={error} />}
 	</Field.Root>
 );
 

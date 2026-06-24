@@ -38,12 +38,14 @@ type Props = {
 	open: boolean;
 	onClose: () => void;
 	onConfirm: (profile: NewReturnProfile) => void;
+	existingNames?: string[];
 };
 
 export const ReturnProfileDialog = ({
 	open,
 	onClose,
 	onConfirm,
+	existingNames = [],
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -76,6 +78,13 @@ export const ReturnProfileDialog = ({
 		const trimmedName = name.trim();
 		if (!trimmedName) {
 			setNameError('Name is required.');
+			valid = false;
+		} else if (
+			existingNames.some(
+				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
+			)
+		) {
+			setNameError('A profile with this name already exists.');
 			valid = false;
 		} else {
 			setNameError(null);
@@ -152,11 +161,12 @@ export const ReturnProfileDialog = ({
 											setNameError(null);
 									}}
 									placeholder="e.g. Standard Returns"
+									maxW={300}
 								/>
 							</FormField>
 							<HStack
 								align="start"
-								gap={10}
+								gap={8}
 							>
 								<FormField
 									label="Window"
@@ -256,7 +266,14 @@ export const ReturnProfileDialog = ({
 								<RichTextEditor
 									onChange={(html) => {
 										customHtmlRef.current = html;
-										if (html.replace(/<[^>]*>/g, '').trim())
+										if (
+											html
+												.replace(
+													/<[^>]*>/g,
+													'',
+												)
+												.trim()
+										)
 											setCustomTextError(null);
 									}}
 									invalid={!!customTextError}

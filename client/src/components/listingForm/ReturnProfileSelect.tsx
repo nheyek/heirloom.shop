@@ -39,6 +39,7 @@ export const ReturnProfileSelect = ({
 			<ReturnProfileDialog
 				open={dialogOpen}
 				onClose={() => setDialogOpen(false)}
+				existingNames={profiles.map((p) => p.name)}
 				onConfirm={(p) => {
 					const profile = { id: crypto.randomUUID(), ...p };
 					onAddProfile(profile);

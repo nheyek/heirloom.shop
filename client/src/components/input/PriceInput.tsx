@@ -1,6 +1,6 @@
 import { Input, InputGroup } from '@chakra-ui/react';
 import { InputSize } from '@client/constants';
-import { FONT_DEFAULT } from '@client/theme';
+import { FIELD_ERROR_COLOR, FONT_DEFAULT } from '@client/theme';
 import { useState } from 'react';
 import { FaDollarSign } from 'react-icons/fa6';
 
@@ -16,6 +16,7 @@ type Props = {
 	onChange: (cents: number | null) => void;
 	size?: InputSize;
 	disabled?: boolean;
+	invalid?: boolean;
 };
 
 const formatCents = (cents: number) =>
@@ -41,6 +42,7 @@ export const PriceInput = ({
 	onChange,
 	size = InputSize.Md,
 	disabled,
+	invalid,
 }: Props) => {
 	const [localValue, setLocalValue] = useState('');
 	const [focused, setFocused] = useState(false);
@@ -61,6 +63,7 @@ export const PriceInput = ({
 				h={h}
 				value={displayValue}
 				disabled={disabled}
+				borderColor={invalid ? FIELD_ERROR_COLOR : undefined}
 				onChange={(e) => {
 					const formatted = formatWhileTyping(
 						e.target.value,

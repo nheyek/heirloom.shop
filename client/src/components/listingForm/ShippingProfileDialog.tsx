@@ -7,6 +7,7 @@ import {
 	RadioCard,
 	Stack,
 } from '@chakra-ui/react';
+import { FieldError } from '@client/components/input/FieldError';
 import {
 	FormField,
 	FormInput,
@@ -38,12 +39,14 @@ type Props = {
 	open: boolean;
 	onClose: () => void;
 	onConfirm: (profile: NewShippingProfile) => void;
+	existingNames?: string[];
 };
 
 export const ShippingProfileDialog = ({
 	open,
 	onClose,
 	onConfirm,
+	existingNames = [],
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -53,6 +56,7 @@ export const ShippingProfileDialog = ({
 	const [flatRateCents, setFlatRateCents] = useState<number | null>(
 		null,
 	);
+	const [flatRateError, setFlatRateError] = useState<string | null>(null);
 	const [minDays, setMinDays] = useState('');
 	const [maxDays, setMaxDays] = useState('');
 	const [daysError, setDaysError] = useState<string | null>(null);
@@ -65,6 +69,7 @@ export const ShippingProfileDialog = ({
 			setZipError(null);
 			setCostType(ShippingCostType.Free);
 			setFlatRateCents(null);
+			setFlatRateError(null);
 			setMinDays('');
 			setMaxDays('');
 			setDaysError(null);
@@ -77,6 +82,13 @@ export const ShippingProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
+		} else if (
+			existingNames.some(
+				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
+			)
+		) {
+			setNameError('A profile with this name already exists.');
+			valid = false;
 		} else {
 			setNameError(null);
 		}
@@ -86,6 +98,15 @@ export const ShippingProfileDialog = ({
 			valid = false;
 		} else {
 			setZipError(null);
+		}
+		if (
+			costType === ShippingCostType.FlatRate &&
+			(flatRateCents === null || flatRateCents <= 0)
+		) {
+			setFlatRateError('Price is required.');
+			valid = false;
+		} else {
+			setFlatRateError(null);
 		}
 		const days = validateDayRange(minDays, maxDays);
 		if (!days) {
@@ -250,10 +271,13 @@ export const ShippingProfileDialog = ({
 																value={
 																	flatRateCents
 																}
-																onChange={
-																	setFlatRateCents
-																}
+																onChange={(v) => {
+																	setFlatRateCents(v);
+																	if (v && v > 0) setFlatRateError(null);
+																}}
+																invalid={!!flatRateError}
 															/>
+															{flatRateError && <FieldError error={flatRateError} />}
 														</Box>
 													)}
 												</Stack>

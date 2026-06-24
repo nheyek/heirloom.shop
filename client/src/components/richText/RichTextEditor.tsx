@@ -1,4 +1,5 @@
-import { Box, HStack, IconButton, Text } from '@chakra-ui/react';
+import { Box, HStack, IconButton } from '@chakra-ui/react';
+import { FieldError } from '@client/components/input/FieldError';
 import { FIELD_ERROR_COLOR, FONT_DISPLAY_SANS } from '@client/theme';
 import Underline from '@tiptap/extension-underline';
 import {
@@ -180,11 +181,7 @@ export const RichTextEditor = ({
 				<EditorContent editor={editor} />
 			</Box>
 		</Box>
-		{error && (
-			<Text fontSize={15} fontWeight={500} color="red.500" mt={1}>
-				{error}
-			</Text>
-		)}
+		{error && <FieldError error={error} />}
 		</>
 	);
 };
