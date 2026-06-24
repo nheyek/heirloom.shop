@@ -349,100 +349,64 @@ export const useListingForm = ({
 
 	const validate = (): boolean => {
 		let valid = true;
+
 		const trimmedTitle = title.trim();
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
-		} else if (
-			trimmedTitle.length > LISTING_LIMITS.maxTitleLength
-		) {
-			setTitleError(
-				`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`,
-			);
+		} else if (trimmedTitle.length > LISTING_LIMITS.maxTitleLength) {
+			setTitleError(`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`);
 			valid = false;
 		} else {
 			setTitleError(null);
 		}
+
 		const trimmedSubtitle = subtitle.trim();
-		if (
-			trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength
-		) {
-			setSubtitleError(
-				`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`,
-			);
+		if (trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength) {
+			setSubtitleError(`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`);
 			valid = false;
 		} else {
 			setSubtitleError(null);
 		}
+
 		if (!categoryId) {
 			setCategoryError('Category is required.');
 			valid = false;
 		} else {
 			setCategoryError(null);
 		}
-		const leadTimesVaryExists = Object.values(variations).some(
-			(v) => v.leadTimesVary,
-		);
-		if (!leadTimesVaryExists) {
-			if (!processingProfileId) {
-				setProcessingProfileError('Profile is required.');
-				valid = false;
-			} else {
-				setProcessingProfileError(null);
-			}
-			setCombinationProcessingErrors({});
-		} else {
-			setProcessingProfileError(null);
-			const allCombinations = deriveCombinations(variations);
-			const processingErrors: Record<string, boolean> = {};
-			for (const { key } of allCombinations) {
-				const entry = combinations[key];
-				if (!entry?.disabled && !entry?.leadTimeProfileId) {
-					processingErrors[key] = true;
-				}
-			}
-			if (Object.keys(processingErrors).length > 0) {
-				setCombinationProcessingErrors(processingErrors);
-				valid = false;
-			} else {
-				setCombinationProcessingErrors({});
-			}
-		}
+
 		if (!shippingProfileId) {
 			setShippingProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setShippingProfileError(null);
 		}
+
 		if (!returnProfileId) {
 			setReturnProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setReturnProfileError(null);
 		}
-		const pricesVaryExists = Object.values(variations).some(
-			(v) => v.pricesVary,
-		);
-		if (pricesVaryExists) {
-			const allCombinations = deriveCombinations(variations);
-			const errors: Record<string, boolean> = {};
-			for (const { key } of allCombinations) {
-				const entry = combinations[key];
-				if (
-					!entry?.disabled &&
-					!(entry?.priceCents ?? 0 > 0)
-				) {
-					errors[key] = true;
-				}
-			}
-			if (Object.keys(errors).length > 0) {
-				setCombinationPriceErrors(errors);
+
+		const allCombinations = deriveCombinations(variations);
+		const variationValues = Object.values(variations);
+		const pricesVary = variationValues.some((v) => v.pricesVary);
+		const leadTimesVary = variationValues.some((v) => v.leadTimesVary);
+
+		if (!leadTimesVary) {
+			if (!processingProfileId) {
+				setProcessingProfileError('Profile is required.');
 				valid = false;
 			} else {
-				setCombinationPriceErrors({});
+				setProcessingProfileError(null);
 			}
 		} else {
-			setCombinationPriceErrors({});
+			setProcessingProfileError(null);
+		}
+
+		if (!pricesVary) {
 			if (!priceCents || priceCents <= 0) {
 				setPriceError('Price is required.');
 				valid = false;
@@ -450,22 +414,36 @@ export const useListingForm = ({
 				setPriceError(null);
 			}
 		}
-		const allCombinations = deriveCombinations(variations);
-		if (allCombinations.length > 0) {
-			const hasActive = allCombinations.some(
-				({ key }) => !combinations[key]?.disabled,
-			);
-			if (!hasActive) {
-				setCombinationActiveError(
-					'At least one combination must be active.',
-				);
-				valid = false;
-			} else {
-				setCombinationActiveError(null);
+
+		const priceErrors: Record<string, boolean> = {};
+		const processingErrors: Record<string, boolean> = {};
+		let hasActive = allCombinations.length === 0;
+
+		for (const { key } of allCombinations) {
+			const entry = combinations[key];
+			if (entry?.disabled) continue;
+			hasActive = true;
+			if (pricesVary && !(entry?.priceCents && entry.priceCents > 0)) {
+				priceErrors[key] = true;
 			}
+			if (leadTimesVary && !entry?.leadTimeProfileId) {
+				processingErrors[key] = true;
+			}
+		}
+
+		setCombinationPriceErrors(pricesVary ? priceErrors : {});
+		setCombinationProcessingErrors(leadTimesVary ? processingErrors : {});
+
+		if (Object.keys(priceErrors).length > 0) valid = false;
+		if (Object.keys(processingErrors).length > 0) valid = false;
+
+		if (allCombinations.length > 0 && !hasActive) {
+			setCombinationActiveError('At least one combination must be active.');
+			valid = false;
 		} else {
 			setCombinationActiveError(null);
 		}
+
 		return valid;
 	};
 
