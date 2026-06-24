@@ -4,6 +4,10 @@ export const LISTING_LIMITS = {
 	maxOptionsPerVariation: 10,
 	maxDescrSections: 5,
 
+	// Listing title / subtitle
+	maxTitleLength: 128,
+	maxSubtitleLength: 256,
+
 	// Name lengths (variations, profiles, options, etc.)
 	maxNameLength: 60,
 

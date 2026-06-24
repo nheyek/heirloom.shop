@@ -121,11 +121,11 @@ export const ListingFormFields = ({
 								>
 									<FormInput
 										value={form.title}
-										onChange={(e) =>
-											form.setTitle(
-												e.target.value,
-											)
-										}
+										onChange={(e) => {
+											form.setTitle(e.target.value);
+											if (form.titleError)
+												form.setTitleError(null);
+										}}
 										placeholder="e.g. Hand-stitched leather wallet"
 										disabled={disabled}
 									/>
@@ -136,11 +136,11 @@ export const ListingFormFields = ({
 								>
 									<FormTextarea
 										value={form.subtitle}
-										onChange={(e) =>
-											form.setSubtitle(
-												e.target.value,
-											)
-										}
+										onChange={(e) => {
+											form.setSubtitle(e.target.value);
+											if (form.subtitleError)
+												form.setSubtitleError(null);
+										}}
 										placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
 										rows={2}
 										disabled={disabled}

@@ -6,6 +6,7 @@ import {
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import { useState } from 'react';
 
@@ -125,6 +126,8 @@ export type ListingFormState = {
 		key: string,
 		patch: Partial<CombinationEntry>,
 	) => void;
+
+	validate: () => boolean;
 };
 
 type UseListingFormOptions = {
@@ -310,6 +313,28 @@ export const useListingForm = ({
 		return result.error !== null ? null : result.data;
 	});
 
+	const validate = (): boolean => {
+		let valid = true;
+		const trimmedTitle = title.trim();
+		if (!trimmedTitle) {
+			setTitleError('Title is required.');
+			valid = false;
+		} else if (trimmedTitle.length > LISTING_LIMITS.maxTitleLength) {
+			setTitleError(`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`);
+			valid = false;
+		} else {
+			setTitleError(null);
+		}
+		const trimmedSubtitle = subtitle.trim();
+		if (trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength) {
+			setSubtitleError(`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`);
+			valid = false;
+		} else {
+			setSubtitleError(null);
+		}
+		return valid;
+	};
+
 	return {
 		title,
 		setTitle,
@@ -358,5 +383,6 @@ export const useListingForm = ({
 		reorderVariations,
 		combinations,
 		setCombinationField,
+		validate,
 	};
 };

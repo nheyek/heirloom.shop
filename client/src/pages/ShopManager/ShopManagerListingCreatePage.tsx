@@ -2,14 +2,24 @@ import { Button, HStack } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { useListingForm } from '@client/hooks/useListingForm';
 import { FaCheckCircle, FaSave } from 'react-icons/fa';
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const ShopManagerListingCreatePage = () => {
 	const { shortId: shopShortId } = useParams<{ shortId: string }>();
 	const form = useListingForm({ shopShortId: shopShortId! });
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	const handleCreate = () => {
-		// TODO: validate + call create API
+		if (!form.validate()) {
+			requestAnimationFrame(() => {
+				containerRef.current
+					?.querySelector('[data-invalid]')
+					?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			});
+			return;
+		}
+		// TODO: call create API
 	};
 
 	const isBlocked = form.isUploadingImages;
@@ -17,6 +27,7 @@ export const ShopManagerListingCreatePage = () => {
 	return (
 		<ListingFormLayout
 			form={form}
+			containerRef={containerRef}
 			actions={
 				<HStack>
 					<Button

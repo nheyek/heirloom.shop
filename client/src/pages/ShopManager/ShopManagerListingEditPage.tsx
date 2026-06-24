@@ -2,6 +2,7 @@ import { Button } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { useListingForm } from '@client/hooks/useListingForm';
 import { FaCheckCircle } from 'react-icons/fa';
+import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const ShopManagerListingEditPage = () => {
@@ -10,9 +11,18 @@ export const ShopManagerListingEditPage = () => {
 		listingShortId: string;
 	}>();
 	const form = useListingForm({ shopShortId: shopShortId! });
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	const handleSave = () => {
-		// TODO: validate + call update API
+		if (!form.validate()) {
+			requestAnimationFrame(() => {
+				containerRef.current
+					?.querySelector('[data-invalid]')
+					?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			});
+			return;
+		}
+		// TODO: call update API
 	};
 
 	const isBlocked = form.isUploadingImages;
@@ -20,6 +30,7 @@ export const ShopManagerListingEditPage = () => {
 	return (
 		<ListingFormLayout
 			form={form}
+			containerRef={containerRef}
 			actions={
 				<Button
 					size="xl"
