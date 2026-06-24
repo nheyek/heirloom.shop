@@ -24,10 +24,10 @@ import { SortableFieldList } from '@client/components/listingForm/SortableFieldL
 import { VariationDialog } from '@client/components/listingForm/VariationDialog';
 import {
 	InputSize,
-	MAX_DESCR_SECTIONS,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	ListingDescrSection,
 	ListingFormState,
@@ -188,7 +188,7 @@ export const ListingFormFields = ({
 										/>
 									)}
 									{form.descrSections.length <
-										MAX_DESCR_SECTIONS && (
+										LISTING_LIMITS.maxDescrSections && (
 										<HStack>
 											<AddFieldButton
 												onClick={openAdd}
@@ -310,14 +310,16 @@ export const ListingFormFields = ({
 									onReorder={form.reorderVariations}
 								/>
 							)}
-							<HStack>
-								<AddFieldButton
-									onClick={openAddVariation}
-									disabled={disabled}
-								>
-									Add Variation
-								</AddFieldButton>
-							</HStack>
+							{sortedVariations.length < LISTING_LIMITS.maxVariations && (
+								<HStack>
+									<AddFieldButton
+										onClick={openAddVariation}
+										disabled={disabled}
+									>
+										Add Variation
+									</AddFieldButton>
+								</HStack>
+							)}
 						</Stack>
 					</FormField>
 				</Stack>

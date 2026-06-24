@@ -11,6 +11,7 @@ import {
 } from '@client/components/input/FormField';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { ListingDescrSection } from '@client/hooks/useListingForm';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 
 const EDITOR_KEY_NEW = 'new';
@@ -55,18 +56,23 @@ export const DescrSectionDialog = ({
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
+		} else if (trimmedTitle.length > LISTING_LIMITS.maxNameLength) {
+			setTitleError(`Title must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+			valid = false;
 		} else if (
 			existingTitles.some((t) => t.trim() === trimmedTitle)
 		) {
-			setTitleError(
-				'A section with this title already exists.',
-			);
+			setTitleError('A section with this title already exists.');
 			valid = false;
 		} else {
 			setTitleError(null);
 		}
-		if (!stripHtml(richTextRef.current)) {
+		const strippedBody = stripHtml(richTextRef.current);
+		if (!strippedBody) {
 			setBodyError('Body is required.');
+			valid = false;
+		} else if (strippedBody.length > LISTING_LIMITS.maxDescrSectionBodyChars) {
+			setBodyError(`Body must be ${LISTING_LIMITS.maxDescrSectionBodyChars.toLocaleString()} characters or fewer.`);
 			valid = false;
 		} else {
 			setBodyError(null);

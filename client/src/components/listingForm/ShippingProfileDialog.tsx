@@ -18,6 +18,7 @@ import {
 	validateDayRange,
 } from '@client/components/listingForm/DayRangeInput';
 import { InputSize } from '@client/constants';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 
 export enum ShippingCostType {
@@ -81,6 +82,9 @@ export const ShippingProfileDialog = ({
 		const trimmedName = name.trim();
 		if (!trimmedName) {
 			setNameError('Name is required.');
+			valid = false;
+		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
+			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
 			valid = false;
 		} else if (
 			existingNames.some(

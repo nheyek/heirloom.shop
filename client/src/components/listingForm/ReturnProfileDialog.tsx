@@ -16,6 +16,7 @@ import {
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { FONT_DEFAULT } from '@client/theme';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 
 export enum ReturnPolicyType {
@@ -79,6 +80,9 @@ export const ReturnProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
+		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
+			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+			valid = false;
 		} else if (
 			existingNames.some(
 				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
@@ -101,6 +105,12 @@ export const ReturnProfileDialog = ({
 			.trim();
 		if (policyType === ReturnPolicyType.Custom && !strippedHtml) {
 			setCustomTextError('Policy text is required.');
+			valid = false;
+		} else if (
+			policyType === ReturnPolicyType.Custom &&
+			strippedHtml.length > LISTING_LIMITS.maxReturnPolicyChars
+		) {
+			setCustomTextError(`Policy must be ${LISTING_LIMITS.maxReturnPolicyChars.toLocaleString()} characters or fewer.`);
 			valid = false;
 		} else {
 			setCustomTextError(null);

@@ -16,6 +16,7 @@ import {
 } from '@client/components/input/FormField';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/hooks/useListingForm';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	DndContext,
 	DragEndEvent,
@@ -176,6 +177,7 @@ export const VariationDialog = ({
 	}, [open]);
 
 	const addOption = () => {
+		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation) return;
 		setOptions((prev) => [...prev, '']);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
@@ -204,14 +206,15 @@ export const VariationDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
+		} else if (trimmedName.length > LISTING_LIMITS.maxNameLength) {
+			setNameError(`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+			valid = false;
 		} else if (
 			existingNames.some(
 				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
 			)
 		) {
-			setNameError(
-				'A variation with this name already exists.',
-			);
+			setNameError('A variation with this name already exists.');
 			valid = false;
 		} else {
 			setNameError(null);
@@ -221,9 +224,7 @@ export const VariationDialog = ({
 		const filledOptions = trimmedOptions.filter(Boolean);
 
 		if (filledOptions.length < 2) {
-			setOptionsCountError(
-				'At least two options are required.',
-			);
+			setOptionsCountError('At least two options are required.');
 			valid = false;
 		} else {
 			setOptionsCountError(null);
@@ -232,6 +233,8 @@ export const VariationDialog = ({
 		const seen = new Set<string>();
 		const newOptionErrors = trimmedOptions.map((opt) => {
 			if (!opt) return 'Option name is required.';
+			if (opt.length > LISTING_LIMITS.maxNameLength)
+				return `Option name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
 			const key = opt.toLowerCase();
 			if (seen.has(key)) return 'Duplicate option name.';
 			seen.add(key);
@@ -404,13 +407,15 @@ export const VariationDialog = ({
 											))}
 										</SortableContext>
 									</DndContext>
-									<HStack>
-										<AddFieldButton
-											onClick={addOption}
-										>
-											Add Option
-										</AddFieldButton>
-									</HStack>
+									{options.length < LISTING_LIMITS.maxOptionsPerVariation && (
+										<HStack>
+											<AddFieldButton
+												onClick={addOption}
+											>
+												Add Option
+											</AddFieldButton>
+										</HStack>
+									)}
 								</Stack>
 							</FormField>
 						</Stack>
