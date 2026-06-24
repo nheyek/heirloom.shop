@@ -30,7 +30,7 @@ export const FormField = ({
 			{label}
 		</Field.Label>
 		{children}
-		{error && <FieldError error={error} />}
+		{error && <FieldError>{error}</FieldError>}
 	</Field.Root>
 );
 

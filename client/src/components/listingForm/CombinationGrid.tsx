@@ -32,6 +32,7 @@ type Props = {
 	processingProfiles: ProcessingProfile[];
 	onAddProcessingProfile: (profile: ProcessingProfile) => void;
 	combinationPriceErrors?: Record<string, boolean>;
+	combinationProcessingErrors?: Record<string, boolean>;
 	disabled?: boolean;
 };
 
@@ -49,6 +50,7 @@ export const CombinationGrid = ({
 	processingProfiles,
 	onAddProcessingProfile,
 	combinationPriceErrors = {},
+	combinationProcessingErrors = {},
 	disabled,
 }: Props) => {
 	const sortedVariations = Object.entries(variations).sort(
@@ -219,7 +221,7 @@ export const CombinationGrid = ({
 											{combinationPriceErrors[
 												key
 											] && (
-												<FieldError error="Price is required." />
+												<FieldError fontSize={14}>Price is required.</FieldError>
 											)}
 										</Stack>
 									</Table.Cell>
@@ -227,27 +229,32 @@ export const CombinationGrid = ({
 
 								{showProcessingProfile && (
 									<Table.Cell>
-										<ProcessingProfileSelect
-											profiles={
-												processingProfiles
-											}
-											onAddProfile={
-												onAddProcessingProfile
-											}
-											value={
-												entry.leadTimeProfileId
-											}
-											onChange={(v) =>
-												onUpdate(key, {
-													leadTimeProfileId:
-														v,
-												})
-											}
-											disabled={
-												disabled || isDisabled
-											}
-											size={InputSize.Md}
-										/>
+										<Stack gap={1.5}>
+											<ProcessingProfileSelect
+												profiles={
+													processingProfiles
+												}
+												onAddProfile={
+													onAddProcessingProfile
+												}
+												value={
+													entry.leadTimeProfileId
+												}
+												onChange={(v) =>
+													onUpdate(key, {
+														leadTimeProfileId:
+															v,
+													})
+												}
+												disabled={
+													disabled || isDisabled
+												}
+												size={InputSize.Md}
+											/>
+											{combinationProcessingErrors[key] && (
+												<FieldError fontSize={14}>Profile is required.</FieldError>
+											)}
+										</Stack>
 									</Table.Cell>
 								)}
 

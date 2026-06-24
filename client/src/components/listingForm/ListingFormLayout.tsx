@@ -20,15 +20,33 @@ export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
 				combinations={form.combinations}
 				onUpdate={(key, patch) => {
 					form.setCombinationField(key, patch);
+					if (patch.disabled) {
+						if (form.combinationPriceErrors[key]) {
+							const next = { ...form.combinationPriceErrors };
+							delete next[key];
+							form.setCombinationPriceErrors(next);
+						}
+						if (form.combinationProcessingErrors[key]) {
+							const next = { ...form.combinationProcessingErrors };
+							delete next[key];
+							form.setCombinationProcessingErrors(next);
+						}
+					}
 					if (patch.priceCents && patch.priceCents > 0 && form.combinationPriceErrors[key]) {
 						const next = { ...form.combinationPriceErrors };
 						delete next[key];
 						form.setCombinationPriceErrors(next);
 					}
+					if (patch.leadTimeProfileId && form.combinationProcessingErrors[key]) {
+						const next = { ...form.combinationProcessingErrors };
+						delete next[key];
+						form.setCombinationProcessingErrors(next);
+					}
 				}}
 				processingProfiles={form.processingProfiles}
 				onAddProcessingProfile={form.addProcessingProfile}
 				combinationPriceErrors={form.combinationPriceErrors}
+				combinationProcessingErrors={form.combinationProcessingErrors}
 			/>
 		)}
 		<Stack mt={2.5}>{actions}</Stack>

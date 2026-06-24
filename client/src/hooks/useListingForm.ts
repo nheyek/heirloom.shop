@@ -91,6 +91,8 @@ export type ListingFormState = {
 	setPriceError: (v: string | null) => void;
 	combinationPriceErrors: Record<string, boolean>;
 	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
+	combinationProcessingErrors: Record<string, boolean>;
+	setCombinationProcessingErrors: (v: Record<string, boolean>) => void;
 
 	processingProfiles: ProcessingProfile[];
 	addProcessingProfile: (profile: ProcessingProfile) => void;
@@ -175,6 +177,7 @@ export const useListingForm = ({
 	const [priceCents, setPriceCents] = useState<number | null>(null);
 	const [priceError, setPriceError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] = useState<Record<string, boolean>>({});
+	const [combinationProcessingErrors, setCombinationProcessingErrors] = useState<Record<string, boolean>>({});
 	const [processingProfiles, setProcessingProfiles] = useState<
 		ProcessingProfile[]
 	>([]);
@@ -362,22 +365,37 @@ export const useListingForm = ({
 		);
 		if (!leadTimesVaryExists) {
 			if (!processingProfileId) {
-				setProcessingProfileError('Processing profile is required.');
+				setProcessingProfileError('Profile is required.');
 				valid = false;
 			} else {
 				setProcessingProfileError(null);
 			}
+			setCombinationProcessingErrors({});
 		} else {
 			setProcessingProfileError(null);
+			const allCombos = deriveCombinations(variations);
+			const processingErrors: Record<string, boolean> = {};
+			for (const { key } of allCombos) {
+				const entry = combinations[key];
+				if (!entry?.disabled && !entry?.leadTimeProfileId) {
+					processingErrors[key] = true;
+				}
+			}
+			if (Object.keys(processingErrors).length > 0) {
+				setCombinationProcessingErrors(processingErrors);
+				valid = false;
+			} else {
+				setCombinationProcessingErrors({});
+			}
 		}
 		if (!shippingProfileId) {
-			setShippingProfileError('Shipping profile is required.');
+			setShippingProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setShippingProfileError(null);
 		}
 		if (!returnProfileId) {
-			setReturnProfileError('Returns profile is required.');
+			setReturnProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setReturnProfileError(null);
@@ -439,6 +457,8 @@ export const useListingForm = ({
 		setPriceError,
 		combinationPriceErrors,
 		setCombinationPriceErrors,
+		combinationProcessingErrors,
+		setCombinationProcessingErrors,
 		processingProfiles,
 		addProcessingProfile,
 		processingProfileId,

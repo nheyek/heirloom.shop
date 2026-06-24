@@ -107,7 +107,7 @@ const OptionRow = ({
 					<FaTrashAlt />
 				</IconButton>
 			</Flex>
-			{error && <FieldError error={error} />}
+			{error && <FieldError>{error}</FieldError>}
 		</Stack>
 	);
 };

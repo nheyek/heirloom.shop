@@ -1,16 +1,16 @@
 import { Text } from '@chakra-ui/react';
 import { FIELD_ERROR_COLOR } from '@client/theme';
+import { ComponentProps } from 'react';
 
-type Props = {
-	error: string;
-};
+type Props = ComponentProps<typeof Text>;
 
-export const FieldError = ({ error }: Props) => (
+export const FieldError = ({ fontSize = 15, children, ...rest }: Props) => (
 	<Text
-		fontSize={15}
+		fontSize={fontSize}
 		fontWeight={500}
 		color={FIELD_ERROR_COLOR}
+		{...rest}
 	>
-		{error}
+		{children}
 	</Text>
 );

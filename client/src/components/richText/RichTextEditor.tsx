@@ -190,7 +190,7 @@ export const RichTextEditor = ({
 					<EditorContent editor={editor} />
 				</Box>
 			</Box>
-			{error && <FieldError error={error} />}
+			{error && <FieldError>{error}</FieldError>}
 		</Stack>
 	);
 };
