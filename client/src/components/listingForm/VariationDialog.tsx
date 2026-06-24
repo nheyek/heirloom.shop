@@ -9,6 +9,7 @@ import {
 	Input,
 	Stack,
 } from '@chakra-ui/react';
+import { FieldError } from '@client/components/input/FieldError';
 import {
 	FormField,
 	FormInput,
@@ -37,7 +38,7 @@ import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
 type OptionRowProps = {
 	id: string;
 	value: string;
-	deletable: boolean;
+	error?: string | null;
 	onChange: (value: string) => void;
 	onDelete: () => void;
 };
@@ -45,7 +46,7 @@ type OptionRowProps = {
 const OptionRow = ({
 	id,
 	value,
-	deletable,
+	error,
 	onChange,
 	onDelete,
 }: OptionRowProps) => {
@@ -59,44 +60,44 @@ const OptionRow = ({
 	} = useSortable({ id });
 
 	return (
-		<Flex
-			ref={setNodeRef}
-			style={{
-				transform: CSS.Transform.toString(transform),
-				transition,
-				opacity: isDragging ? 0.5 : 1,
-			}}
-			alignItems="center"
-			gap={2}
-			borderWidth={1}
-			borderColor="gray.200"
-			borderRadius="md"
-			px={2}
-			py={1}
-			minWidth={250}
-		>
-			<IconButton
-				size="sm"
-				variant="ghost"
-				cursor="grab"
-				color="gray.400"
-				{...attributes}
-				{...listeners}
+		<Stack gap={1.5}>
+			<Flex
+				ref={setNodeRef}
+				style={{
+					transform: CSS.Transform.toString(transform),
+					transition,
+					opacity: isDragging ? 0.5 : 1,
+				}}
+				alignItems="center"
+				gap={2}
+				borderWidth={1}
+				borderColor={error ? 'red.500' : 'gray.200'}
+				borderRadius="md"
+				px={2}
+				py={1}
+				minWidth={250}
 			>
-				<FaGripVertical />
-			</IconButton>
-			<Input
-				flex={1}
-				size="sm"
-				fontSize={18}
-				variant="flushed"
-				value={value}
-				onChange={(e) => onChange(e.target.value)}
-				placeholder="Option name"
-				border="none"
-				_focus={{ border: 'none', boxShadow: 'none' }}
-			/>
-			{deletable ? (
+				<IconButton
+					size="sm"
+					variant="ghost"
+					cursor="grab"
+					color="gray.400"
+					{...attributes}
+					{...listeners}
+				>
+					<FaGripVertical />
+				</IconButton>
+				<Input
+					flex={1}
+					size="sm"
+					fontSize={18}
+					variant="flushed"
+					value={value}
+					onChange={(e) => onChange(e.target.value)}
+					placeholder="Option name"
+					border="none"
+					_focus={{ border: 'none', boxShadow: 'none' }}
+				/>
 				<IconButton
 					size="sm"
 					variant="ghost"
@@ -105,24 +106,16 @@ const OptionRow = ({
 				>
 					<FaTrashAlt />
 				</IconButton>
-			) : (
-				<IconButton
-					size="sm"
-					variant="ghost"
-					opacity={0}
-					pointerEvents="none"
-					aria-hidden
-				>
-					<FaTrashAlt />
-				</IconButton>
-			)}
-		</Flex>
+			</Flex>
+			{error && <FieldError error={error} />}
+		</Stack>
 	);
 };
 
 type Props = {
 	open: boolean;
 	initial?: Variation | null;
+	existingNames?: string[];
 	onClose: () => void;
 	onConfirm: (variation: Variation) => void;
 };
@@ -130,6 +123,7 @@ type Props = {
 export const VariationDialog = ({
 	open,
 	initial,
+	existingNames = [],
 	onClose,
 	onConfirm,
 }: Props) => {
@@ -137,10 +131,17 @@ export const VariationDialog = ({
 	const [pricesVary, setPricesVary] = useState(false);
 	const [leadTimesVary, setLeadTimesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
-	const [options, setOptions] = useState<string[]>(['']);
+	const [options, setOptions] = useState<string[]>(['', '']);
 	const [optionIds, setOptionIds] = useState<string[]>(() => [
 		crypto.randomUUID(),
+		crypto.randomUUID(),
 	]);
+	const [optionErrors, setOptionErrors] = useState<
+		(string | null)[]
+	>([null, null]);
+	const [optionsCountError, setOptionsCountError] = useState<
+		string | null
+	>(null);
 
 	useEffect(() => {
 		if (open) {
@@ -153,48 +154,104 @@ export const VariationDialog = ({
 				setLeadTimesVary(initial.leadTimesVary);
 				setOptions(sorted.map(([, o]) => o.name));
 				setOptionIds(sorted.map(([id]) => id));
+				setOptionErrors(sorted.map(() => null));
 			} else {
 				setName('');
 				setPricesVary(false);
 				setLeadTimesVary(false);
 				setNameError(null);
-				setOptions(['']);
-				setOptionIds([crypto.randomUUID()]);
+				setOptions(['', '']);
+				setOptionIds([
+					crypto.randomUUID(),
+					crypto.randomUUID(),
+				]);
+				setOptionErrors([null, null]);
 			}
+			setOptionsCountError(null);
 		} else {
 			setNameError(null);
+			setOptionErrors([]);
+			setOptionsCountError(null);
 		}
 	}, [open]);
 
 	const addOption = () => {
 		setOptions((prev) => [...prev, '']);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
+		setOptionErrors((prev) => [...prev, null]);
+		setOptionsCountError(null);
 	};
 
 	const updateOption = (index: number, value: string) => {
 		setOptions((prev) =>
 			prev.map((o, i) => (i === index ? value : o)),
 		);
+		setOptionErrors((prev) =>
+			prev.map((e, i) => (i === index ? null : e)),
+		);
 	};
 
 	const removeOption = (index: number) => {
 		setOptions((prev) => prev.filter((_, i) => i !== index));
 		setOptionIds((prev) => prev.filter((_, i) => i !== index));
+		setOptionErrors((prev) => prev.filter((_, i) => i !== index));
 	};
 
 	const handleConfirm = () => {
-		if (!name.trim()) {
+		let valid = true;
+
+		const trimmedName = name.trim();
+		if (!trimmedName) {
 			setNameError('Name is required.');
-			return;
+			valid = false;
+		} else if (
+			existingNames.some(
+				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
+			)
+		) {
+			setNameError(
+				'A variation with this name already exists.',
+			);
+			valid = false;
+		} else {
+			setNameError(null);
 		}
+
+		const trimmedOptions = options.map((o) => o.trim());
+		const filledOptions = trimmedOptions.filter(Boolean);
+
+		if (filledOptions.length < 2) {
+			setOptionsCountError(
+				'At least two options are required.',
+			);
+			valid = false;
+		} else {
+			setOptionsCountError(null);
+		}
+
+		const seen = new Set<string>();
+		const newOptionErrors = trimmedOptions.map((opt) => {
+			if (!opt) return 'Option name is required.';
+			const key = opt.toLowerCase();
+			if (seen.has(key)) return 'Duplicate option name.';
+			seen.add(key);
+			return null;
+		});
+		if (newOptionErrors.some(Boolean)) {
+			setOptionErrors(newOptionErrors);
+			valid = false;
+		}
+
+		if (!valid) return;
+
 		const optionsRecord = Object.fromEntries(
 			optionIds.map((id, i) => [
 				id,
-				{ name: options[i], order: i },
+				{ name: trimmedOptions[i], order: i },
 			]),
 		);
 		onConfirm({
-			name: name.trim(),
+			name: trimmedName,
 			pricesVary,
 			leadTimesVary,
 			options: optionsRecord,
@@ -223,6 +280,7 @@ export const VariationDialog = ({
 		};
 		setOptions(move);
 		setOptionIds(move);
+		setOptionErrors(move);
 	};
 
 	return (
@@ -303,7 +361,10 @@ export const VariationDialog = ({
 								</Checkbox.Root>
 							</Stack>
 
-							<FormField label="Options">
+							<FormField
+								label="Options"
+								error={optionsCountError}
+							>
 								<Stack gap={2}>
 									<DndContext
 										sensors={sensors}
@@ -323,7 +384,11 @@ export const VariationDialog = ({
 													key={optionIds[i]}
 													id={optionIds[i]}
 													value={opt}
-													deletable={i > 0}
+													error={
+														optionErrors[
+															i
+														]
+													}
 													onChange={(v) =>
 														updateOption(
 															i,

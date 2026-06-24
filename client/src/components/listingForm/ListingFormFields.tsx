@@ -337,6 +337,9 @@ export const ListingFormFields = ({
 						? form.variations[editingVariationId]
 						: null
 				}
+				existingNames={Object.entries(form.variations)
+					.filter(([id]) => id !== editingVariationId)
+					.map(([, v]) => v.name)}
 				onClose={() => setVariationDialogOpen(false)}
 				onConfirm={(variation) => {
 					if (editingVariationId) {
