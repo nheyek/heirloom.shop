@@ -28,6 +28,7 @@ export const FormField = ({
 			fontWeight={500}
 		>
 			{label}
+			<Field.RequiredIndicator />
 		</Field.Label>
 		{children}
 		{error && <FieldError>{error}</FieldError>}

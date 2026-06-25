@@ -119,6 +119,7 @@ export const ListingFormFields = ({
 								<FormField
 									label="Title"
 									error={form.titleError}
+										required
 								>
 									<FormInput
 										value={form.title}
@@ -158,6 +159,7 @@ export const ListingFormFields = ({
 								<FormField
 									label="Category"
 									error={form.categoryError}
+										required
 								>
 									<CategoryCombobox
 										value={form.categoryId}
@@ -215,6 +217,7 @@ export const ListingFormFields = ({
 					<FormField
 						label="Images"
 						error={form.imageError}
+						required
 					>
 						<Box w={{ base: '100%', md: IMAGES_W }}>
 							<ListingImageUpload
@@ -238,6 +241,7 @@ export const ListingFormFields = ({
 								<FormField
 									label="Price"
 									error={form.priceError}
+									required
 								>
 									<PriceInput
 										size={InputSize.Lg}
@@ -283,6 +287,7 @@ export const ListingFormFields = ({
 							<FormField
 								label="Processing"
 								error={form.processingProfileError}
+								required
 							>
 								<ProcessingProfileSelect
 									profiles={form.processingProfiles}
@@ -307,6 +312,7 @@ export const ListingFormFields = ({
 							<FormField
 								label="Shipping"
 								error={form.shippingProfileError}
+								required
 							>
 								<ShippingProfileSelect
 									profiles={form.shippingProfiles}
@@ -329,6 +335,7 @@ export const ListingFormFields = ({
 							<FormField
 								label="Returns"
 								error={form.returnProfileError}
+								required
 							>
 								<ReturnProfileSelect
 									profiles={form.returnProfiles}
