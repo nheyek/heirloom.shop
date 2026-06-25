@@ -1,7 +1,7 @@
 import { ShippingAddress } from '@heirloom/common/contract';
 import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
 import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
-import { isValidEmail } from '@client/utils/validationUtils';
+import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 
 export const getEmailFieldError = (email: string): string | null => {
 	if (!email.trim()) return 'Email is required.';
@@ -38,7 +38,6 @@ export const getShippingAddressFieldErrors = (
 
 	return errors;
 };
-
 
 export const simplifyCartItems = (items: ShoppingCartItem[]) =>
 	items.map((item) => ({

@@ -294,7 +294,6 @@ export const ListingFormFields = ({
 											);
 									}}
 									disabled={disabled}
-									size={InputSize.Lg}
 								/>
 							</FormField>
 						</WrapItem>
@@ -317,7 +316,6 @@ export const ListingFormFields = ({
 											);
 									}}
 									disabled={disabled}
-									size={InputSize.Lg}
 								/>
 							</FormField>
 						</WrapItem>

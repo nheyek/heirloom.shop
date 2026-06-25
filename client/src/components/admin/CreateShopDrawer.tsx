@@ -10,8 +10,8 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useShopForm } from '@client/hooks/useShopForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
-import { isValidEmail } from '@client/utils/validationUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
+import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { useRef, useState } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 
