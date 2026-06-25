@@ -193,27 +193,10 @@ export const ListingPage = () => {
 			)
 		: null;
 
-	const returnPolicy = listingData?.returnExchangePolicy;
-	let returnPolicyText = 'No returns or exchanges';
-	if (
-		returnPolicy &&
-		(returnPolicy.exchangesAccepted ||
-			returnPolicy.returnsAccepted) &&
-		returnPolicy.returnWindowDays > 0
-	) {
-		let preface;
-		if (
-			returnPolicy.returnsAccepted &&
-			returnPolicy.exchangesAccepted
-		) {
-			preface = 'Returns & exchanges';
-		} else if (returnPolicy.returnsAccepted) {
-			preface = 'Returns accepted';
-		} else {
-			preface = 'Exchanges accepted';
-		}
-
-		returnPolicyText = `${preface} within ${returnPolicy.returnWindowDays} days`;
+	const returnPolicy = listingData?.returnPolicy;
+	let returnPolicyText = 'No returns';
+	if (returnPolicy?.returnsAccepted && returnPolicy.returnWindowDays > 0) {
+		returnPolicyText = `Returns accepted within ${returnPolicy.returnWindowDays} days`;
 	}
 
 	const renderFullDescription = () => (

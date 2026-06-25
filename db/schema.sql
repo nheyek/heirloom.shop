@@ -153,10 +153,10 @@ CREATE TABLE public.listing (
     country_code character(2),
     image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL,
     shipping_profile_id integer,
-    return_exchange_profile_id integer,
     full_descr jsonb,
     short_id character varying(10) NOT NULL,
-    processing_profile_id integer
+    processing_profile_id integer,
+    return_profile_id integer
 );
 
 
@@ -228,6 +228,43 @@ CREATE SEQUENCE public.listing_processing_profile_id_seq
 --
 
 ALTER SEQUENCE public.listing_processing_profile_id_seq OWNED BY public.listing_processing_profile.id;
+
+
+--
+-- Name: listing_return_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.listing_return_profile (
+    id integer NOT NULL,
+    name character varying(64) NOT NULL,
+    shop_id integer NOT NULL,
+    return_window_days smallint NOT NULL,
+    policy_descr_rich_text text,
+    accept_returns boolean DEFAULT false NOT NULL,
+    is_standard_policy boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: listing_return_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.listing_return_profile_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_return_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.listing_return_profile_id_seq OWNED BY public.listing_return_profile.id;
 
 
 --
@@ -594,6 +631,13 @@ ALTER TABLE ONLY public.listing_processing_profile ALTER COLUMN id SET DEFAULT n
 
 
 --
+-- Name: listing_return_profile id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_return_profile ALTER COLUMN id SET DEFAULT nextval('public.listing_return_profile_id_seq'::regclass);
+
+
+--
 -- Name: listing_variation id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -710,6 +754,14 @@ ALTER TABLE ONLY public.listing_category
 
 ALTER TABLE ONLY public.listing_processing_profile
     ADD CONSTRAINT listing_processing_profile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing_return_profile listing_return_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_return_profile
+    ADD CONSTRAINT listing_return_profile_pkey PRIMARY KEY (id);
 
 
 --
@@ -964,11 +1016,19 @@ ALTER TABLE ONLY public.listing_processing_profile
 
 
 --
--- Name: listing listing_return_exchange_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: listing listing_return_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_return_exchange_profile_id_fkey FOREIGN KEY (return_exchange_profile_id) REFERENCES public.return_exchange_profile(id) ON DELETE SET NULL;
+    ADD CONSTRAINT listing_return_profile_id_fkey FOREIGN KEY (return_profile_id) REFERENCES public.listing_return_profile(id) ON DELETE SET NULL;
+
+
+--
+-- Name: listing_return_profile listing_return_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_return_profile
+    ADD CONSTRAINT listing_return_profile_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
 
 
 --
@@ -1089,4 +1149,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260608000000'),
     ('20260610000000'),
     ('20260624000000'),
-    ('20260624000001');
+    ('20260624000001'),
+    ('20260624000002');

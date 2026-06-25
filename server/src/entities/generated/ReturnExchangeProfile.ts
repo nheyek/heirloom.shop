@@ -1,6 +1,5 @@
-import { Collection, type Opt } from '@mikro-orm/core';
-import { Entity, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Listing } from './Listing.js';
+import { type Opt } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 
 @Entity()
 export class ReturnExchangeProfile {
@@ -31,8 +30,5 @@ export class ReturnExchangeProfile {
 
   @Property({ length: 64, nullable: true, unique: 'unique_standard_profile_key' })
   standardProfileKey?: string;
-
-  @OneToMany({ entity: () => Listing, mappedBy: 'returnExchangeProfile' })
-  listingCollection = new Collection<Listing>(this);
 
 }

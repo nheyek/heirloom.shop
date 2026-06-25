@@ -44,10 +44,6 @@ DECLARE
     housewares_category_name CONSTANT VARCHAR := 'Housewares';
     houseware_image_uuid CONSTANT VARCHAR := '4C479374-B58F-46CB-AEAD-191336294E78';
 
-    return_exchange_30_day_policy_standard_profile_key CONSTANT VARCHAR := '30DAY_RETURN_EXCHANGE';
-    return_exchange_30_day_policy_standard_profile_name CONSTANT VARCHAR := '30 Day Return/Exchange';
-    return_exchange_30_day_policy_standard_profile_days CONSTANT INT := 30;
-
 BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
@@ -93,16 +89,6 @@ BEGIN
         ('DK', 'Denmark')
     ON CONFLICT (code) DO UPDATE SET
         name = EXCLUDED.name;
-
-    INSERT INTO return_exchange_profile (standard_profile_key, profile_name, return_window_days, accept_returns, accept_exchanges, created_at, updated_at)
-    VALUES
-        (return_exchange_30_day_policy_standard_profile_key, return_exchange_30_day_policy_standard_profile_name, return_exchange_30_day_policy_standard_profile_days, TRUE, TRUE, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT (standard_profile_key) DO UPDATE SET
-        profile_name = EXCLUDED.profile_name,
-        return_window_days = EXCLUDED.return_window_days,
-        accept_returns = EXCLUDED.accept_returns,
-        accept_exchanges = EXCLUDED.accept_exchanges,
-        updated_at = CURRENT_TIMESTAMP;
 
 COMMIT;
 

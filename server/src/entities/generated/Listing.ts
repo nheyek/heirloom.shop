@@ -3,8 +3,8 @@ import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/d
 import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
+import { ListingReturnProfile } from './ListingReturnProfile.js';
 import { ListingVariation } from './ListingVariation.js';
-import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
@@ -45,9 +45,6 @@ export class Listing {
   @ManyToOne({ entity: () => ShippingProfile, updateRule: 'no action', nullable: true })
   shippingProfile?: Rel<ShippingProfile>;
 
-  @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
-  returnExchangeProfile?: Rel<ReturnExchangeProfile>;
-
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;
 
@@ -56,6 +53,9 @@ export class Listing {
 
   @ManyToOne({ entity: () => ListingProcessingProfile, updateRule: 'no action', nullable: true })
   processingProfile?: Rel<ListingProcessingProfile>;
+
+  @ManyToOne({ entity: () => ListingReturnProfile, updateRule: 'no action', nullable: true })
+  returnProfile?: Rel<ListingReturnProfile>;
 
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);

@@ -68,7 +68,7 @@ export const findFullListingDataByShortId = async (
 				'shop',
 				'country',
 				'shippingProfile',
-				'returnExchangeProfile',
+				'returnProfile',
 			],
 		},
 	);

@@ -151,10 +151,9 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 			shippingRate: z.number(),
 		})
 		.optional(),
-	returnExchangePolicy: z
+	returnPolicy: z
 		.object({
 			returnsAccepted: z.boolean(),
-			exchangesAccepted: z.boolean(),
 			returnWindowDays: z.number(),
 		})
 		.optional(),

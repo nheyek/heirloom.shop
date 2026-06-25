@@ -1,7 +1,7 @@
 import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
-import { ReturnExchangeProfile } from '@server/entities/generated/ReturnExchangeProfile';
+import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
@@ -84,11 +84,11 @@ beforeAll(async () => {
 		originZip: '15201',
 		shop: shop2,
 	});
-	const returnProfile = em.create(ReturnExchangeProfile, {
+	const returnProfile = em.create(ListingReturnProfile, {
 		id: 1,
 		name: 'Standard Returns',
+		shop: shop2,
 		acceptReturns: true,
-		acceptExchanges: true,
 		returnWindowDays: 30,
 	});
 	const desk = em.create(Listing, {
@@ -98,7 +98,7 @@ beforeAll(async () => {
 		shop: shop2,
 		category: 'FURNITURE',
 		shippingProfile,
-		returnExchangeProfile: returnProfile,
+		returnProfile,
 	});
 
 	await em.persist([
@@ -113,6 +113,7 @@ beforeAll(async () => {
 		returnProfile,
 		desk,
 	]).flush();
+
 });
 
 describe('GET /api/listings', () => {
@@ -170,14 +171,14 @@ describe('GET /api/listings/:id', () => {
 		});
 	});
 
-	it('returns undefined shippingDetails and returnExchangePolicy when not configured', async () => {
+	it('returns undefined shippingDetails and returnPolicy when not configured', async () => {
 		const res = await request(getApp()).get('/api/listings/drss01');
 		expect(res.status).toBe(200);
 		expect(res.body.shippingDetails).toBeUndefined();
-		expect(res.body.returnExchangePolicy).toBeUndefined();
+		expect(res.body.returnPolicy).toBeUndefined();
 	});
 
-	it('returns shippingDetails and returnExchangePolicy when configured', async () => {
+	it('returns shippingDetails and returnPolicy when configured', async () => {
 		const res = await request(getApp()).get('/api/listings/desk01');
 		expect(res.status).toBe(200);
 		expect(res.body.shippingDetails).toMatchObject({
@@ -185,9 +186,8 @@ describe('GET /api/listings/:id', () => {
 			shipTimeDaysMin: 3,
 			shipTimeDaysMax: 7,
 		});
-		expect(res.body.returnExchangePolicy).toMatchObject({
+		expect(res.body.returnPolicy).toMatchObject({
 			returnsAccepted: true,
-			exchangesAccepted: true,
 			returnWindowDays: 30,
 		});
 	});

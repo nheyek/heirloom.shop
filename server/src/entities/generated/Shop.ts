@@ -3,6 +3,7 @@ import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/d
 import { Country } from './Country.js';
 import { Listing } from './Listing.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
+import { ListingReturnProfile } from './ListingReturnProfile.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { ShopUserRole } from './ShopUserRole.js';
 import { UserFavoriteShop } from './UserFavoriteShop.js';
@@ -48,6 +49,9 @@ export class Shop {
 
   @OneToMany({ entity: () => ListingProcessingProfile, mappedBy: 'shop' })
   listingProcessingProfileCollection = new Collection<ListingProcessingProfile>(this);
+
+  @OneToMany({ entity: () => ListingReturnProfile, mappedBy: 'shop' })
+  listingReturnProfileCollection = new Collection<ListingReturnProfile>(this);
 
   @OneToMany({ entity: () => ShippingProfile, mappedBy: 'shop' })
   shippingProfileCollection = new Collection<ShippingProfile>(this);

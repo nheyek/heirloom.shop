@@ -40,14 +40,10 @@ export const mapListingToCompleteApiResponseData = (
 					0,
 			}
 		: undefined,
-	returnExchangePolicy: listing.returnExchangeProfile
+	returnPolicy: listing.returnProfile
 		? {
-				returnsAccepted:
-					listing.returnExchangeProfile.acceptReturns,
-				exchangesAccepted:
-					listing.returnExchangeProfile.acceptExchanges,
-				returnWindowDays:
-					listing.returnExchangeProfile.returnWindowDays,
+				returnsAccepted: listing.returnProfile.acceptReturns,
+				returnWindowDays: listing.returnProfile.returnWindowDays,
 			}
 		: undefined,
 	variations: variations.map(mapVariationToApiResponseData),
