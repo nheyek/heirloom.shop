@@ -1,6 +1,5 @@
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
 import { ReturnProfileDialog } from '@client/components/listingForm/ReturnProfileDialog';
-import { InputSize } from '@client/constants';
 import { ReturnProfile } from '@client/hooks/useListingForm';
 import { useState } from 'react';
 
@@ -10,7 +9,6 @@ type Props = {
 	value: string | null;
 	onChange: (v: string | null) => void;
 	disabled?: boolean;
-	size?: InputSize;
 };
 
 export const ReturnProfileSelect = ({
@@ -19,7 +17,6 @@ export const ReturnProfileSelect = ({
 	value,
 	onChange,
 	disabled,
-	size,
 }: Props) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -34,7 +31,6 @@ export const ReturnProfileSelect = ({
 				onChange={onChange}
 				onClickAdd={() => setDialogOpen(true)}
 				disabled={disabled}
-				size={size}
 			/>
 			<ReturnProfileDialog
 				open={dialogOpen}

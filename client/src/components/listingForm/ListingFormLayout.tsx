@@ -28,11 +28,6 @@ export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
 								delete next[key];
 								form.setCombinationPriceErrors(next);
 							}
-							if (form.combinationProcessingErrors[key]) {
-								const next = { ...form.combinationProcessingErrors };
-								delete next[key];
-								form.setCombinationProcessingErrors(next);
-							}
 						}
 						if (patch.disabled === false && form.combinationActiveError) {
 							form.setCombinationActiveError(null);
@@ -42,16 +37,8 @@ export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
 							delete next[key];
 							form.setCombinationPriceErrors(next);
 						}
-						if (patch.leadTimeProfileId && form.combinationProcessingErrors[key]) {
-							const next = { ...form.combinationProcessingErrors };
-							delete next[key];
-							form.setCombinationProcessingErrors(next);
-						}
 					}}
-					processingProfiles={form.processingProfiles}
-					onAddProcessingProfile={form.addProcessingProfile}
 					combinationPriceErrors={form.combinationPriceErrors}
-					combinationProcessingErrors={form.combinationProcessingErrors}
 					invalid={!!form.combinationActiveError}
 				/>
 				{form.combinationActiveError && (

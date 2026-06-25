@@ -13,13 +13,13 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
-import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
-import { ReturnProfileSelect } from '@client/components/listingForm/ReturnProfileSelect';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listingForm/ListingImageUpload';
+import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
+import { ReturnProfileSelect } from '@client/components/listingForm/ReturnProfileSelect';
+import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
 import { SortableFieldList } from '@client/components/listingForm/SortableFieldList';
 import { VariationDialog } from '@client/components/listingForm/VariationDialog';
 import {
@@ -27,12 +27,12 @@ import {
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
 import { CHAKRA_SPACING_UNIT } from '@client/theme';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useState } from 'react';
 
 const IMAGES_W =
@@ -122,9 +122,13 @@ export const ListingFormFields = ({
 									<FormInput
 										value={form.title}
 										onChange={(e) => {
-											form.setTitle(e.target.value);
+											form.setTitle(
+												e.target.value,
+											);
 											if (form.titleError)
-												form.setTitleError(null);
+												form.setTitleError(
+													null,
+												);
 										}}
 										placeholder="e.g. Hand-stitched leather wallet"
 										disabled={disabled}
@@ -137,9 +141,13 @@ export const ListingFormFields = ({
 									<FormTextarea
 										value={form.subtitle}
 										onChange={(e) => {
-											form.setSubtitle(e.target.value);
+											form.setSubtitle(
+												e.target.value,
+											);
 											if (form.subtitleError)
-												form.setSubtitleError(null);
+												form.setSubtitleError(
+													null,
+												);
 										}}
 										placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
 										rows={2}
@@ -221,13 +229,17 @@ export const ListingFormFields = ({
 					{!sortedVariations.some(
 						([, v]) => v.pricesVary,
 					) && (
-						<FormField label="Price" error={form.priceError}>
+						<FormField
+							label="Price"
+							error={form.priceError}
+						>
 							<PriceInput
 								size={InputSize.Lg}
 								value={form.priceCents}
 								onChange={(v) => {
 									form.setPriceCents(v);
-									if (v && v > 0) form.setPriceError(null);
+									if (v && v > 0)
+										form.setPriceError(null);
 								}}
 								invalid={!!form.priceError}
 								disabled={disabled}
@@ -239,44 +251,47 @@ export const ListingFormFields = ({
 						gap={10}
 						align="start"
 					>
-						{!sortedVariations.some(
-							([, v]) => v.leadTimesVary,
-						) && (
-							<WrapItem>
-								<FormField label="Processing" error={form.processingProfileError}>
-									<ProcessingProfileSelect
-										profiles={
-											form.processingProfiles
-										}
-										onAddProfile={
-											form.addProcessingProfile
-										}
-										value={
-											form.processingProfileId
-										}
-										onChange={(v) => {
-											form.setProcessingProfileId(v);
-											if (v) form.setProcessingProfileError(null);
-										}}
-										disabled={disabled}
-										size={InputSize.Lg}
-									/>
-								</FormField>
-							</WrapItem>
-						)}
 						<WrapItem>
-							<FormField label="Shipping" error={form.shippingProfileError}>
-								<ShippingProfileSelect
-									profiles={
-										form.shippingProfiles
+							<FormField
+								label="Processing"
+								error={form.processingProfileError}
+							>
+								<ProcessingProfileSelect
+									profiles={form.processingProfiles}
+									onAddProfile={
+										form.addProcessingProfile
 									}
+									value={form.processingProfileId}
+									onChange={(v) => {
+										form.setProcessingProfileId(
+											v,
+										);
+										if (v)
+											form.setProcessingProfileError(
+												null,
+											);
+									}}
+									disabled={disabled}
+								/>
+							</FormField>
+						</WrapItem>
+						<WrapItem>
+							<FormField
+								label="Shipping"
+								error={form.shippingProfileError}
+							>
+								<ShippingProfileSelect
+									profiles={form.shippingProfiles}
 									onAddProfile={
 										form.addShippingProfile
 									}
 									value={form.shippingProfileId}
 									onChange={(v) => {
 										form.setShippingProfileId(v);
-										if (v) form.setShippingProfileError(null);
+										if (v)
+											form.setShippingProfileError(
+												null,
+											);
 									}}
 									disabled={disabled}
 									size={InputSize.Lg}
@@ -284,7 +299,10 @@ export const ListingFormFields = ({
 							</FormField>
 						</WrapItem>
 						<WrapItem>
-							<FormField label="Returns" error={form.returnProfileError}>
+							<FormField
+								label="Returns"
+								error={form.returnProfileError}
+							>
 								<ReturnProfileSelect
 									profiles={form.returnProfiles}
 									onAddProfile={
@@ -293,7 +311,10 @@ export const ListingFormFields = ({
 									value={form.returnProfileId}
 									onChange={(v) => {
 										form.setReturnProfileId(v);
-										if (v) form.setReturnProfileError(null);
+										if (v)
+											form.setReturnProfileError(
+												null,
+											);
 									}}
 									disabled={disabled}
 									size={InputSize.Lg}
@@ -317,7 +338,8 @@ export const ListingFormFields = ({
 									onReorder={form.reorderVariations}
 								/>
 							)}
-							{sortedVariations.length < LISTING_LIMITS.maxVariations && (
+							{sortedVariations.length <
+								LISTING_LIMITS.maxVariations && (
 								<HStack>
 									<AddFieldButton
 										onClick={openAddVariation}

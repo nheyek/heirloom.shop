@@ -9,14 +9,12 @@ import {
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import {
 	CombinationEntry,
-	ProcessingProfile,
 	Variation,
 } from '@client/hooks/useListingForm';
 import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
@@ -29,10 +27,7 @@ type Props = {
 	variations: Record<string, Variation>;
 	combinations: Record<string, CombinationEntry>;
 	onUpdate: (key: string, patch: Partial<CombinationEntry>) => void;
-	processingProfiles: ProcessingProfile[];
-	onAddProcessingProfile: (profile: ProcessingProfile) => void;
 	combinationPriceErrors?: Record<string, boolean>;
-	combinationProcessingErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
 };
@@ -40,7 +35,6 @@ type Props = {
 const DEFAULT_ENTRY: CombinationEntry = {
 	imageUuid: null,
 	priceCents: null,
-	leadTimeProfileId: null,
 	disabled: false,
 };
 
@@ -48,10 +42,7 @@ export const CombinationGrid = ({
 	variations,
 	combinations,
 	onUpdate,
-	processingProfiles,
-	onAddProcessingProfile,
 	combinationPriceErrors = {},
-	combinationProcessingErrors = {},
 	invalid,
 	disabled,
 }: Props) => {
@@ -59,9 +50,6 @@ export const CombinationGrid = ({
 		(a, b) => a[1].order - b[1].order,
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
-	const showProcessingProfile = sortedVariations.some(
-		([, v]) => v.leadTimesVary,
-	);
 
 	const combos = deriveCombinations(variations);
 	if (combos.length === 0) return null;
@@ -100,11 +88,6 @@ export const CombinationGrid = ({
 						{showPrice && (
 							<Table.ColumnHeader>
 								Price
-							</Table.ColumnHeader>
-						)}
-						{showProcessingProfile && (
-							<Table.ColumnHeader minW={100}>
-								Processing
 							</Table.ColumnHeader>
 						)}
 						<Table.ColumnHeader />
@@ -229,36 +212,6 @@ export const CombinationGrid = ({
 									</Table.Cell>
 								)}
 
-								{showProcessingProfile && (
-									<Table.Cell>
-										<Stack gap={1.5}>
-											<ProcessingProfileSelect
-												profiles={
-													processingProfiles
-												}
-												onAddProfile={
-													onAddProcessingProfile
-												}
-												value={
-													entry.leadTimeProfileId
-												}
-												onChange={(v) =>
-													onUpdate(key, {
-														leadTimeProfileId:
-															v,
-													})
-												}
-												disabled={
-													disabled || isDisabled
-												}
-												size={InputSize.Md}
-											/>
-											{combinationProcessingErrors[key] && (
-												<FieldError fontSize={14}>Profile is required.</FieldError>
-											)}
-										</Stack>
-									</Table.Cell>
-								)}
 
 								{/* Disable toggle */}
 								<Table.Cell

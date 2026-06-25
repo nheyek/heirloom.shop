@@ -48,7 +48,6 @@ export type VariationOption = {
 export type Variation = {
 	name: string;
 	pricesVary: boolean;
-	leadTimesVary: boolean;
 	options: Record<string, VariationOption>;
 	order: number;
 };
@@ -56,7 +55,6 @@ export type Variation = {
 export type CombinationEntry = {
 	imageUuid: string | null;
 	priceCents: number | null;
-	leadTimeProfileId: string | null;
 	disabled: boolean;
 };
 
@@ -91,10 +89,6 @@ export type ListingFormState = {
 	setPriceError: (v: string | null) => void;
 	combinationPriceErrors: Record<string, boolean>;
 	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
-	combinationProcessingErrors: Record<string, boolean>;
-	setCombinationProcessingErrors: (
-		v: Record<string, boolean>,
-	) => void;
 	combinationActiveError: string | null;
 	setCombinationActiveError: (v: string | null) => void;
 
@@ -182,10 +176,6 @@ export const useListingForm = ({
 	const [priceError, setPriceError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] =
 		useState<Record<string, boolean>>({});
-	const [
-		combinationProcessingErrors,
-		setCombinationProcessingErrors,
-	] = useState<Record<string, boolean>>({});
 	const [combinationActiveError, setCombinationActiveError] =
 		useState<string | null>(null);
 	const [processingProfiles, setProcessingProfiles] = useState<
@@ -260,7 +250,6 @@ export const useListingForm = ({
 				...{
 					imageUuid: null,
 					priceCents: null,
-					leadTimeProfileId: null,
 					disabled: false,
 				},
 				...prev[key],
@@ -390,21 +379,16 @@ export const useListingForm = ({
 			setReturnProfileError(null);
 		}
 
-		const allCombinations = deriveCombinations(variations);
-		const variationValues = Object.values(variations);
-		const pricesVary = variationValues.some((v) => v.pricesVary);
-		const leadTimesVary = variationValues.some((v) => v.leadTimesVary);
-
-		if (!leadTimesVary) {
-			if (!processingProfileId) {
-				setProcessingProfileError('Profile is required.');
-				valid = false;
-			} else {
-				setProcessingProfileError(null);
-			}
+		if (!processingProfileId) {
+			setProcessingProfileError('Profile is required.');
+			valid = false;
 		} else {
 			setProcessingProfileError(null);
 		}
+
+		const allCombinations = deriveCombinations(variations);
+		const variationValues = Object.values(variations);
+		const pricesVary = variationValues.some((v) => v.pricesVary);
 
 		if (!pricesVary) {
 			if (!priceCents || priceCents <= 0) {
@@ -416,7 +400,6 @@ export const useListingForm = ({
 		}
 
 		const priceErrors: Record<string, boolean> = {};
-		const processingErrors: Record<string, boolean> = {};
 		let hasActive = allCombinations.length === 0;
 
 		for (const { key } of allCombinations) {
@@ -426,16 +409,11 @@ export const useListingForm = ({
 			if (pricesVary && !(entry?.priceCents && entry.priceCents > 0)) {
 				priceErrors[key] = true;
 			}
-			if (leadTimesVary && !entry?.leadTimeProfileId) {
-				processingErrors[key] = true;
-			}
 		}
 
 		setCombinationPriceErrors(pricesVary ? priceErrors : {});
-		setCombinationProcessingErrors(leadTimesVary ? processingErrors : {});
 
 		if (Object.keys(priceErrors).length > 0) valid = false;
-		if (Object.keys(processingErrors).length > 0) valid = false;
 
 		if (allCombinations.length > 0 && !hasActive) {
 			setCombinationActiveError('At least one combination must be active.');
@@ -474,8 +452,6 @@ export const useListingForm = ({
 		setPriceError,
 		combinationPriceErrors,
 		setCombinationPriceErrors,
-		combinationProcessingErrors,
-		setCombinationProcessingErrors,
 		combinationActiveError,
 		setCombinationActiveError,
 		processingProfiles,

@@ -1,6 +1,5 @@
 import { ProcessingProfileDialog } from '@client/components/listingForm/ProcessingProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
-import { InputSize } from '@client/constants';
 import { ProcessingProfile } from '@client/hooks/useListingForm';
 import { useState } from 'react';
 
@@ -10,7 +9,6 @@ type Props = {
 	value: string | null;
 	onChange: (v: string | null) => void;
 	disabled?: boolean;
-	size?: InputSize;
 };
 
 export const ProcessingProfileSelect = ({
@@ -19,7 +17,6 @@ export const ProcessingProfileSelect = ({
 	value,
 	onChange,
 	disabled,
-	size,
 }: Props) => {
 	const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -34,7 +31,6 @@ export const ProcessingProfileSelect = ({
 				onChange={onChange}
 				onClickAdd={() => setDialogOpen(true)}
 				disabled={disabled}
-				size={size}
 			/>
 			<ProcessingProfileDialog
 				open={dialogOpen}

@@ -6,14 +6,8 @@ import {
 	createListCollection,
 } from '@chakra-ui/react';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
-import { InputSize } from '@client/constants';
 import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa6';
-
-const SIZE_CONFIG = {
-	[InputSize.Md]: { w: 150, chakraSize: 'md' as const, fontSize: 16 },
-	[InputSize.Lg]: { w: 200, chakraSize: 'lg' as const, fontSize: 18 },
-};
 
 type Props = {
 	items: { value: string; label: string }[];
@@ -21,7 +15,6 @@ type Props = {
 	onChange: (v: string | null) => void;
 	onClickAdd: () => void;
 	disabled?: boolean;
-	size?: InputSize;
 };
 
 export const ProfileSelect = ({
@@ -30,10 +23,7 @@ export const ProfileSelect = ({
 	onChange,
 	onClickAdd,
 	disabled,
-	size = InputSize.Md,
 }: Props) => {
-	const { w, chakraSize, fontSize } = SIZE_CONFIG[size];
-
 	useEffect(() => {
 		if (items.length > 0 && value === null)
 			onChange(items[0].value);
@@ -41,7 +31,10 @@ export const ProfileSelect = ({
 
 	if (items.length === 0) {
 		return (
-			<AddFieldButton onClick={onClickAdd} disabled={disabled}>
+			<AddFieldButton
+				onClick={onClickAdd}
+				disabled={disabled}
+			>
 				Add Profile
 			</AddFieldButton>
 		);
@@ -50,9 +43,9 @@ export const ProfileSelect = ({
 	const collection = createListCollection({ items });
 
 	return (
-		<Box w={w}>
+		<Box w={200}>
 			<Select.Root
-				size={chakraSize}
+				size="lg"
 				collection={collection}
 				value={[value ?? '']}
 				onValueChange={(e) => onChange(e.value[0] || null)}
@@ -61,7 +54,11 @@ export const ProfileSelect = ({
 			>
 				<Select.HiddenSelect />
 				<Select.Control>
-					<Select.Trigger px={3} py={2} fontSize={fontSize}>
+					<Select.Trigger
+						px={3}
+						py={2}
+						fontSize={18}
+					>
 						<Select.ValueText truncate />
 						<Select.IndicatorGroup>
 							<Select.Indicator />
@@ -75,7 +72,7 @@ export const ProfileSelect = ({
 								<Select.Item
 									key={item.value}
 									item={item}
-									fontSize={fontSize - 2}
+									fontSize={16}
 								>
 									{item.label}
 									<Select.ItemIndicator />
@@ -89,7 +86,7 @@ export const ProfileSelect = ({
 								px={2}
 								pt={1}
 								borderRadius={0}
-								fontSize={fontSize}
+								fontSize={18}
 								fontWeight={400}
 								onPointerDown={(e) => {
 									e.preventDefault();

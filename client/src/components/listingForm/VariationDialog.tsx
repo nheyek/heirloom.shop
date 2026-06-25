@@ -129,7 +129,6 @@ export const VariationDialog = ({
 }: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
-	const [leadTimesVary, setLeadTimesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<string[]>(['', '']);
 	const [optionIds, setOptionIds] = useState<string[]>(() => [
@@ -151,14 +150,12 @@ export const VariationDialog = ({
 				);
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
-				setLeadTimesVary(initial.leadTimesVary);
 				setOptions(sorted.map(([, o]) => o.name));
 				setOptionIds(sorted.map(([id]) => id));
 				setOptionErrors(sorted.map(() => null));
 			} else {
 				setName('');
 				setPricesVary(false);
-				setLeadTimesVary(false);
 				setNameError(null);
 				setOptions(['', '']);
 				setOptionIds([
@@ -264,7 +261,6 @@ export const VariationDialog = ({
 		onConfirm({
 			name: trimmedName,
 			pricesVary,
-			leadTimesVary,
 			options: optionsRecord,
 			order: initial?.order ?? 0,
 		});
@@ -345,32 +341,19 @@ export const VariationDialog = ({
 									placeholder="e.g. Size"
 								/>
 							</FormField>
-							<Stack gap={3}>
-								<Checkbox.Root
-									checked={pricesVary}
-									onCheckedChange={(e) =>
-										setPricesVary(!!e.checked)
-									}
-								>
-									<Checkbox.HiddenInput />
-									<Checkbox.Control />
-									<Checkbox.Label fontSize={17}>
-										Prices vary
-									</Checkbox.Label>
-								</Checkbox.Root>
-								<Checkbox.Root
-									checked={leadTimesVary}
-									onCheckedChange={(e) =>
-										setLeadTimesVary(!!e.checked)
-									}
-								>
-									<Checkbox.HiddenInput />
-									<Checkbox.Control />
-									<Checkbox.Label fontSize={17}>
-										Processing varies
-									</Checkbox.Label>
-								</Checkbox.Root>
-							</Stack>
+							<Checkbox.Root
+								checked={pricesVary}
+								onCheckedChange={(e) =>
+									setPricesVary(!!e.checked)
+								}
+								size="lg"
+							>
+								<Checkbox.HiddenInput />
+								<Checkbox.Control />
+								<Checkbox.Label fontSize={18}>
+									Prices vary
+								</Checkbox.Label>
+							</Checkbox.Root>
 
 							<FormField
 								label="Options"
