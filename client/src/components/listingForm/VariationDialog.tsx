@@ -33,23 +33,27 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
 
 type OptionRowProps = {
 	id: string;
 	value: string;
 	error?: string | null;
+	inputRef?: React.RefObject<HTMLInputElement | null>;
 	onChange: (value: string) => void;
 	onDelete: () => void;
+	onTabKey?: () => void;
 };
 
 const OptionRow = ({
 	id,
 	value,
 	error,
+	inputRef,
 	onChange,
 	onDelete,
+	onTabKey,
 }: OptionRowProps) => {
 	const {
 		attributes,
@@ -88,12 +92,19 @@ const OptionRow = ({
 					<FaGripVertical />
 				</IconButton>
 				<Input
+					ref={inputRef}
 					flex={1}
 					size="sm"
 					fontSize={18}
 					variant="flushed"
 					value={value}
 					onChange={(e) => onChange(e.target.value)}
+					onKeyDown={(e) => {
+						if (e.key === 'Tab' && !e.shiftKey && onTabKey) {
+							e.preventDefault();
+							onTabKey();
+						}
+					}}
 					placeholder="Option name"
 					border="none"
 					_focus={{ border: 'none', boxShadow: 'none' }}
@@ -135,6 +146,8 @@ export const VariationDialog = ({
 		crypto.randomUUID(),
 		crypto.randomUUID(),
 	]);
+	const inputRefs = useRef<React.RefObject<HTMLInputElement | null>[]>([]);
+	const pendingFocusIndex = useRef<number | null>(null);
 	const [optionErrors, setOptionErrors] = useState<
 		(string | null)[]
 	>([null, null]);
@@ -172,13 +185,29 @@ export const VariationDialog = ({
 		}
 	}, [open]);
 
+	useEffect(() => {
+		if (pendingFocusIndex.current !== null) {
+			inputRefs.current[pendingFocusIndex.current]?.current?.focus();
+			pendingFocusIndex.current = null;
+		}
+	});
+
 	const addOption = () => {
 		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation)
 			return;
+		pendingFocusIndex.current = options.length;
 		setOptions((prev) => [...prev, '']);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
 		setOptionsCountError(null);
+	};
+
+	const handleTabOnOption = (index: number) => {
+		if (index < options.length - 1) {
+			inputRefs.current[index + 1]?.current?.focus();
+		} else if (options.length < LISTING_LIMITS.maxOptionsPerVariation) {
+			addOption();
+		}
 	};
 
 	const updateOption = (index: number, value: string) => {
@@ -376,29 +405,23 @@ export const VariationDialog = ({
 												verticalListSortingStrategy
 											}
 										>
-											{options.map((opt, i) => (
-												<OptionRow
-													key={optionIds[i]}
-													id={optionIds[i]}
-													value={opt}
-													error={
-														optionErrors[
-															i
-														]
-													}
-													onChange={(v) =>
-														updateOption(
-															i,
-															v,
-														)
-													}
-													onDelete={() =>
-														removeOption(
-															i,
-														)
-													}
-												/>
-											))}
+											{options.map((opt, i) => {
+												if (!inputRefs.current[i]) {
+													inputRefs.current[i] = { current: null };
+												}
+												return (
+													<OptionRow
+														key={optionIds[i]}
+														id={optionIds[i]}
+														value={opt}
+														error={optionErrors[i]}
+														inputRef={inputRefs.current[i]}
+														onChange={(v) => updateOption(i, v)}
+														onDelete={() => removeOption(i)}
+														onTabKey={() => handleTabOnOption(i)}
+													/>
+												);
+											})}
 										</SortableContext>
 									</DndContext>
 									{options.length <
