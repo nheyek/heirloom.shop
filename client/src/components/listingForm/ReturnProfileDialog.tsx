@@ -15,14 +15,8 @@ import {
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { FONT_DEFAULT } from '@client/theme';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { LISTING_LIMITS, ReturnPolicyType } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
-
-export enum ReturnPolicyType {
-	Standard = 'standard',
-	Custom = 'custom',
-	NoReturns = 'no_returns',
-}
 
 const STANDARD_POLICY_HTML =
 	'<ul><li>Customer is responsible for return shipping costs.</li><li>Refunds applied to the original payment method within 7 days of return delivery.</li><li>Exchanges can be discussed with the seller on a case-by-case basis.</li></ul>';
@@ -31,9 +25,9 @@ export type NewReturnProfile = {
 	name: string;
 	windowDays?: number;
 	policy:
-		| { type: ReturnPolicyType.Standard; text: string }
-		| { type: ReturnPolicyType.Custom; text: string }
-		| { type: ReturnPolicyType.NoReturns };
+		| { type: ReturnPolicyType.STANDARD; text: string }
+		| { type: ReturnPolicyType.CUSTOM; text: string }
+		| { type: ReturnPolicyType.NO_RETURNS };
 };
 
 type Props = {
@@ -56,7 +50,7 @@ export const ReturnProfileDialog = ({
 		null,
 	);
 	const [policyType, setPolicyType] = useState(
-		ReturnPolicyType.Standard,
+		ReturnPolicyType.STANDARD,
 	);
 	const customHtmlRef = useRef('');
 	const [customTextError, setCustomTextError] = useState<
@@ -69,7 +63,7 @@ export const ReturnProfileDialog = ({
 			setNameError(null);
 			setWindowDays('');
 			setWindowError(null);
-			setPolicyType(ReturnPolicyType.Standard);
+			setPolicyType(ReturnPolicyType.STANDARD);
 			customHtmlRef.current = '';
 			setCustomTextError(null);
 		}
@@ -99,7 +93,7 @@ export const ReturnProfileDialog = ({
 			setNameError(null);
 		}
 		let days: number | undefined;
-		if (policyType !== ReturnPolicyType.NoReturns) {
+		if (policyType !== ReturnPolicyType.NO_RETURNS) {
 			const parsed = parseInt(windowDays, 10);
 			if (!windowDays || isNaN(parsed) || parsed < 1) {
 				setWindowError('Window is required.');
@@ -114,11 +108,11 @@ export const ReturnProfileDialog = ({
 		const strippedHtml = customHtmlRef.current
 			.replace(/<[^>]*>/g, '')
 			.trim();
-		if (policyType === ReturnPolicyType.Custom && !strippedHtml) {
+		if (policyType === ReturnPolicyType.CUSTOM && !strippedHtml) {
 			setCustomTextError('Policy details are required.');
 			valid = false;
 		} else if (
-			policyType === ReturnPolicyType.Custom &&
+			policyType === ReturnPolicyType.CUSTOM &&
 			strippedHtml.length > LISTING_LIMITS.maxReturnPolicyChars
 		) {
 			setCustomTextError(
@@ -130,15 +124,15 @@ export const ReturnProfileDialog = ({
 		}
 		if (!valid) return;
 		const policy =
-			policyType === ReturnPolicyType.NoReturns
-				? ({ type: ReturnPolicyType.NoReturns } as const)
-				: policyType === ReturnPolicyType.Standard
+			policyType === ReturnPolicyType.NO_RETURNS
+				? ({ type: ReturnPolicyType.NO_RETURNS } as const)
+				: policyType === ReturnPolicyType.STANDARD
 					? ({
-							type: ReturnPolicyType.Standard,
+							type: ReturnPolicyType.STANDARD,
 							text: STANDARD_POLICY_HTML,
 						} as const)
 					: ({
-							type: ReturnPolicyType.Custom,
+							type: ReturnPolicyType.CUSTOM,
 							text: customHtmlRef.current,
 						} as const);
 		onConfirm({ name: trimmedName, windowDays: days, policy });
@@ -207,7 +201,7 @@ export const ReturnProfileDialog = ({
 										<HStack gap={3}>
 											<RadioCard.Item
 												value={
-													ReturnPolicyType.Standard
+													ReturnPolicyType.STANDARD
 												}
 											>
 												<RadioCard.ItemHiddenInput />
@@ -222,7 +216,7 @@ export const ReturnProfileDialog = ({
 											</RadioCard.Item>
 											<RadioCard.Item
 												value={
-													ReturnPolicyType.Custom
+													ReturnPolicyType.CUSTOM
 												}
 											>
 												<RadioCard.ItemHiddenInput />
@@ -237,7 +231,7 @@ export const ReturnProfileDialog = ({
 											</RadioCard.Item>
 											<RadioCard.Item
 												value={
-													ReturnPolicyType.NoReturns
+													ReturnPolicyType.NO_RETURNS
 												}
 											>
 												<RadioCard.ItemHiddenInput />
@@ -255,7 +249,7 @@ export const ReturnProfileDialog = ({
 								</FormField>
 							</HStack>
 							{policyType !==
-								ReturnPolicyType.NoReturns && (
+								ReturnPolicyType.NO_RETURNS && (
 								<FormField
 									label="Window"
 									error={windowError}
@@ -292,7 +286,7 @@ export const ReturnProfileDialog = ({
 							)}
 
 							{policyType ===
-								ReturnPolicyType.Standard && (
+								ReturnPolicyType.STANDARD && (
 								<RichTextDisplay
 									htmlString={STANDARD_POLICY_HTML}
 									fontSize={18}
@@ -300,7 +294,7 @@ export const ReturnProfileDialog = ({
 							)}
 
 							{policyType ===
-								ReturnPolicyType.Custom && (
+								ReturnPolicyType.CUSTOM && (
 								<FormField
 									label="Details"
 									required

@@ -42,7 +42,7 @@ export const mapListingToCompleteApiResponseData = (
 		: undefined,
 	returnPolicy: listing.returnProfile
 		? {
-				returnsAccepted: listing.returnProfile.acceptReturns,
+				policyType: listing.returnProfile.policyType,
 				returnWindowDays: listing.returnProfile.returnWindowDays,
 			}
 		: undefined,

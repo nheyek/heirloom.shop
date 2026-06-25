@@ -34,3 +34,9 @@ export enum OrderStatus {
 export enum ShopRole {
 	OWNER = 'owner',
 }
+
+export enum ReturnPolicyType {
+	STANDARD = 'standard',
+	CUSTOM = 'custom',
+	NO_RETURNS = 'no_returns',
+}

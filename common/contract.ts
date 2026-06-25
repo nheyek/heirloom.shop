@@ -153,8 +153,8 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 		.optional(),
 	returnPolicy: z
 		.object({
-			returnsAccepted: z.boolean(),
-			returnWindowDays: z.number(),
+			policyType: z.string(),
+			returnWindowDays: z.number().optional(),
 		})
 		.optional(),
 	upc: z.string().max(12).optional(),

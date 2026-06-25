@@ -1,4 +1,4 @@
-import { ReturnPolicyType } from '@client/components/listingForm/ReturnProfileDialog';
+import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import {
@@ -34,9 +34,9 @@ export type ReturnProfile = {
 	name: string;
 	windowDays?: number;
 	policy:
-		| { type: ReturnPolicyType.Standard; text: string }
-		| { type: ReturnPolicyType.Custom; text: string }
-		| { type: ReturnPolicyType.NoReturns };
+		| { type: ReturnPolicyType.STANDARD; text: string }
+		| { type: ReturnPolicyType.CUSTOM; text: string }
+		| { type: ReturnPolicyType.NO_RETURNS };
 };
 
 export type ShippingProfile = {

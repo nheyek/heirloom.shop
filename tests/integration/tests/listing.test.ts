@@ -88,7 +88,7 @@ beforeAll(async () => {
 		id: 1,
 		name: 'Standard Returns',
 		shop: shop2,
-		acceptReturns: true,
+		policyType: 'standard',
 		returnWindowDays: 30,
 	});
 	const desk = em.create(Listing, {
@@ -187,7 +187,7 @@ describe('GET /api/listings/:id', () => {
 			shipTimeDaysMax: 7,
 		});
 		expect(res.body.returnPolicy).toMatchObject({
-			returnsAccepted: true,
+			policyType: 'standard',
 			returnWindowDays: 30,
 		});
 	});

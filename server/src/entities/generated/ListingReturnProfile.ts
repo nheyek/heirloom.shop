@@ -15,17 +15,14 @@ export class ListingReturnProfile {
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
   shop!: Rel<Shop>;
 
-  @Property({ type: 'smallint' })
-  returnWindowDays!: number;
+  @Property({ type: 'smallint', nullable: true })
+  returnWindowDays?: number;
 
   @Property({ type: 'text', nullable: true })
   policyDescrRichText?: string;
 
-  @Property({ type: 'boolean' })
-  acceptReturns: boolean & Opt = false;
-
-  @Property({ type: 'boolean' })
-  isStandardPolicy: boolean & Opt = false;
+  @Property({ length: 16 })
+  policyType: string & Opt = 'standard';
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;

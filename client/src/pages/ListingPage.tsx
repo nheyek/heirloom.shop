@@ -39,6 +39,7 @@ import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { toaster } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
+import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -195,7 +196,7 @@ export const ListingPage = () => {
 
 	const returnPolicy = listingData?.returnPolicy;
 	let returnPolicyText = 'No returns';
-	if (returnPolicy?.returnsAccepted && returnPolicy.returnWindowDays > 0) {
+	if (returnPolicy && returnPolicy.policyType !== ReturnPolicyType.NO_RETURNS && (returnPolicy.returnWindowDays ?? 0) > 0) {
 		returnPolicyText = `Returns accepted within ${returnPolicy.returnWindowDays} days`;
 	}
 

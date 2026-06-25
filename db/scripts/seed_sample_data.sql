@@ -3,6 +3,8 @@ DO $$
 DECLARE
     admin_user_1_username CONSTANT VARCHAR := 'nick@heyek.com';
 
+    return_policy_type_standard CONSTANT VARCHAR := return_policy_type_standard;
+
     sample_shop_1_return_profile_id INT;
     sample_shop_2_return_profile_id INT;
     sample_shop_3_return_profile_id INT;
@@ -250,14 +252,14 @@ BEGIN
     sample_shop_5_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
     sample_shop_6_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
 
-    INSERT INTO listing_return_profile (name, shop_id, return_window_days, accept_returns, is_standard_policy, created_at, updated_at)
+    INSERT INTO listing_return_profile (name, shop_id, return_window_days, policy_type, created_at, updated_at)
     VALUES
-        ('Standard', sample_shop_1_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_2_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_3_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_4_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_5_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_6_id, 30, true, true, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        ('Standard', sample_shop_1_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_2_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_3_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_4_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_5_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_6_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT DO NOTHING;
 
     sample_shop_1_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard');
