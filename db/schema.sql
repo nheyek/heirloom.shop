@@ -156,7 +156,8 @@ CREATE TABLE public.listing (
     full_descr jsonb,
     short_id character varying(10) NOT NULL,
     processing_profile_id integer,
-    return_profile_id integer
+    return_profile_id integer,
+    upc character varying(12)
 );
 
 
@@ -1150,4 +1151,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260610000000'),
     ('20260624000000'),
     ('20260624000001'),
-    ('20260624000002');
+    ('20260624000002'),
+    ('20260625000000');

@@ -157,6 +157,7 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 			returnWindowDays: z.number(),
 		})
 		.optional(),
+	upc: z.string().max(12).optional(),
 	variations: z.array(ListingVariationSchema),
 });
 

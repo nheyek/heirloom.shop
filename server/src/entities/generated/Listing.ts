@@ -57,6 +57,9 @@ export class Listing {
   @ManyToOne({ entity: () => ListingReturnProfile, updateRule: 'no action', nullable: true })
   returnProfile?: Rel<ListingReturnProfile>;
 
+  @Property({ length: 12, nullable: true })
+  upc?: string;
+
   @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
   listingVariationCollection = new Collection<ListingVariation>(this);
 
