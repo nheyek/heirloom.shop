@@ -135,6 +135,7 @@ export const DescrSectionDialog = ({
 							<FormField
 								label="Title"
 								error={titleError}
+								required
 							>
 								<FormInput
 									value={title}
@@ -153,12 +154,12 @@ export const DescrSectionDialog = ({
 											setTitleError(null);
 									}}
 									placeholder="e.g. Materials"
-									maxW={300}
 								/>
 							</FormField>
 							<FormField
 								label="Body"
 								error={bodyError}
+								required
 							>
 								<RichTextEditor
 									invalid={!!bodyError}

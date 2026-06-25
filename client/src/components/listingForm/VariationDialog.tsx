@@ -359,6 +359,7 @@ export const VariationDialog = ({
 							<FormField
 								label="Name"
 								error={nameError}
+								required
 							>
 								<FormInput
 									value={name}
@@ -387,6 +388,7 @@ export const VariationDialog = ({
 							<FormField
 								label="Options"
 								error={optionsCountError}
+								required
 							>
 								<Stack
 									gap={2}

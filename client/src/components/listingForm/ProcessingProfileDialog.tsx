@@ -124,6 +124,7 @@ export const ProcessingProfileDialog = ({
 							<FormField
 								label="Name"
 								error={nameError}
+								required
 							>
 								<FormInput
 									value={name}
@@ -138,6 +139,7 @@ export const ProcessingProfileDialog = ({
 							<FormField
 								label="Lead Time"
 								error={daysError}
+								required
 							>
 								<DayRangeInput
 									minDays={minDays}

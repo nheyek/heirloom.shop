@@ -171,6 +171,7 @@ export const ShippingProfileDialog = ({
 							<FormField
 								label="Name"
 								error={nameError}
+								required
 							>
 								<FormInput
 									value={name}
@@ -185,6 +186,7 @@ export const ShippingProfileDialog = ({
 							<FormField
 								label="Origin zip code"
 								error={zipError}
+								required
 							>
 								<FormInput
 									w={32}
@@ -293,6 +295,7 @@ export const ShippingProfileDialog = ({
 							<FormField
 								label="Delivery"
 								error={daysError}
+								required
 							>
 								<DayRangeInput
 									minDays={minDays}
