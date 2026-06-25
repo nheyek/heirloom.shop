@@ -1,4 +1,5 @@
 import { CartItemData } from '@heirloom/common/contract';
+import { combinationKey } from '@heirloom/common/domain/listing';
 import { calculateItemPrice } from './shoppingCart';
 
 const baseListingData: CartItemData = {
@@ -12,105 +13,61 @@ const baseListingData: CartItemData = {
 	shopShortId: 'shop1',
 	shopTitle: 'Test Shop',
 	imageUuids: [],
-	variations: [],
+	variations: {},
+	combinations: {},
 	shippingPrice: 500,
 };
 
 describe('calculateItemPrice', () => {
-	it('returns the base price when there are no variations', () => {
+	it('returns the base price when there are no selected options', () => {
 		expect(calculateItemPrice(baseListingData, {})).toBe(1000);
 	});
 
-	it('adds additional price for selected options when pricesVary is true', () => {
+	it('returns the combination price when a matching combination exists', () => {
+		const varId = 'var-uuid-1';
+		const optId = 'opt-uuid-2';
+		const key = combinationKey({ [varId]: optId });
 		const listingData: CartItemData = {
 			...baseListingData,
-			variations: [
-				{
-					id: 10,
-					name: 'Size',
-					pricesVary: true,
-					options: [
-						{ id: 1, name: 'Small', additionalPriceCents: 0 },
-						{ id: 2, name: 'Large', additionalPriceCents: 500 },
-					],
-				},
-			],
+			combinations: {
+				[key]: { priceCents: 1500, upc: '', imageUuid: null, disabled: false },
+			},
 		};
 
-		expect(calculateItemPrice(listingData, { 10: 2 })).toBe(1500);
+		expect(calculateItemPrice(listingData, { [varId]: optId })).toBe(1500);
 	});
 
-	it('does not add price for options when pricesVary is false', () => {
-		const listingData: CartItemData = {
-			...baseListingData,
-			variations: [
-				{
-					id: 10,
-					name: 'Color',
-					pricesVary: false,
-					options: [{ id: 1, name: 'Red', additionalPriceCents: 300 }],
-				},
-			],
-		};
-
-		expect(calculateItemPrice(listingData, { 10: 1 })).toBe(1000);
+	it('falls back to base priceCents when no matching combination exists', () => {
+		expect(calculateItemPrice(baseListingData, { 'var-uuid-1': 'opt-uuid-x' })).toBe(1000);
 	});
 
-	it('throws when a selected variation does not exist on the listing', () => {
+	it('falls back to base priceCents when combination priceCents is null', () => {
+		const varId = 'var-uuid-1';
+		const optId = 'opt-uuid-2';
+		const key = combinationKey({ [varId]: optId });
 		const listingData: CartItemData = {
 			...baseListingData,
-			variations: [
-				{
-					id: 10,
-					name: 'Size',
-					pricesVary: true,
-					options: [{ id: 1, name: 'Small', additionalPriceCents: 0 }],
-				},
-			],
+			combinations: {
+				[key]: { priceCents: null, upc: '', imageUuid: null, disabled: false },
+			},
 		};
 
-		expect(() => calculateItemPrice(listingData, { 99: 1 })).toThrow(
-			'Variation with ID 99 not found for listing abc123',
-		);
+		expect(calculateItemPrice(listingData, { [varId]: optId })).toBe(1000);
 	});
 
-	it('throws when a selected option does not exist on the variation', () => {
+	it('resolves the correct combination across multiple variations', () => {
+		const varId1 = 'var-uuid-size';
+		const varId2 = 'var-uuid-material';
+		const optId1 = 'opt-uuid-large';
+		const optId2 = 'opt-uuid-gold';
+		const key = combinationKey({ [varId1]: optId1, [varId2]: optId2 });
 		const listingData: CartItemData = {
 			...baseListingData,
-			variations: [
-				{
-					id: 10,
-					name: 'Size',
-					pricesVary: true,
-					options: [{ id: 1, name: 'Small', additionalPriceCents: 0 }],
-				},
-			],
+			combinations: {
+				[key]: { priceCents: 3500, upc: '', imageUuid: null, disabled: false },
+			},
 		};
 
-		expect(() => calculateItemPrice(listingData, { 10: 99 })).toThrow(
-			'Option with ID 99 not found for variation 10 in listing abc123',
-		);
-	});
-
-	it('accumulates price across multiple variations', () => {
-		const listingData: CartItemData = {
-			...baseListingData,
-			variations: [
-				{
-					id: 10,
-					name: 'Size',
-					pricesVary: true,
-					options: [{ id: 1, name: 'Large', additionalPriceCents: 500 }],
-				},
-				{
-					id: 20,
-					name: 'Material',
-					pricesVary: true,
-					options: [{ id: 2, name: 'Gold', additionalPriceCents: 2000 }],
-				},
-			],
-		};
-
-		expect(calculateItemPrice(listingData, { 10: 1, 20: 2 })).toBe(3500);
+		expect(calculateItemPrice(listingData, { [varId1]: optId1, [varId2]: optId2 })).toBe(3500);
 	});
 });

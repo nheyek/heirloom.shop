@@ -8,6 +8,7 @@ import * as userService from '@server/services/user.service';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import {
 	mapListingToApiResponseData,
+	mapListingToCartItemData,
 	mapListingToCompleteApiResponseData,
 } from '@server/mappers/listing.mapper';
 
@@ -22,23 +23,28 @@ export const listingRouter = s.router(listingsContract, {
 		};
 	},
 	getCartData: async ({ body }) => {
-		const shortIds = [...new Set(body.items.map((i) => i.listingShortId))];
+		const itemsByShortId = new Map<string, Array<Record<string, string>>>();
+		for (const item of body.items) {
+			const existing = itemsByShortId.get(item.listingShortId) ?? [];
+			existing.push(item.selectedOptions);
+			itemsByShortId.set(item.listingShortId, existing);
+		}
 		const results = await Promise.all(
-			shortIds.map(async (shortId) => {
+			[...itemsByShortId.entries()].map(async ([shortId, selectedOptionSets]) => {
 				const listing = await listingService.findFullListingDataByShortId(shortId);
 				if (!listing) return null;
-				const variations = await listingService.findListingVariations(listing.id);
-				const pageData = mapListingToCompleteApiResponseData(listing, variations);
-				return {
-					...mapListingToApiResponseData(listing),
-					variations: pageData.variations,
-					shippingPrice: Number(pageData.shippingDetails?.shippingRate || 0),
-					deliveryEstimate: calculateDeliveryEstimate(
-						pageData.processingProfile?.minDays ?? 0,
-						pageData.processingProfile?.maxDays ?? 0,
-						pageData.shippingDetails,
-					),
-				};
+				const shippingPrice = Number(listing.shippingProfile?.flatShippingRateCents || 0);
+				const deliveryEstimate = calculateDeliveryEstimate(
+					listing.processingProfile?.minDays ?? 0,
+					listing.processingProfile?.maxDays ?? 0,
+					listing.shippingProfile
+						? {
+								shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
+								shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
+							}
+						: undefined,
+				);
+				return mapListingToCartItemData(listing, selectedOptionSets, shippingPrice, deliveryEstimate);
 			}),
 		);
 		return {
@@ -47,36 +53,29 @@ export const listingRouter = s.router(listingsContract, {
 		};
 	},
 	getById: async ({ params: { id } }) => {
-		const listing =
-			await listingService.findFullListingDataByShortId(id);
+		const listing = await listingService.findFullListingDataByShortId(id);
 		if (!listing) {
 			return {
 				status: 404 as const,
 				body: { error: ERROR_MESSAGES.listing.notFound },
 			};
 		}
-		const variations = await listingService.findListingVariations(
-			listing.id,
-		);
 		return {
 			status: 200 as const,
-			body: mapListingToCompleteApiResponseData(listing, variations),
+			body: mapListingToCompleteApiResponseData(listing),
 		};
 	},
 	favorite: {
 		middleware: [authAndSetUser],
 		handler: async ({ params: { id }, req }) => {
-			const listing =
-				await listingService.findFullListingDataByShortId(id);
+			const listing = await listingService.findFullListingDataByShortId(id);
 			if (!listing) {
 				return {
 					status: 404 as const,
 					body: { error: ERROR_MESSAGES.listing.favoriteNotFound },
 				};
 			}
-			const user = await userService.findUserByEmail(
-				req.userClaims!.email,
-			);
+			const user = await userService.findUserByEmail(req.userClaims!.email);
 			if (!user) {
 				return {
 					status: 404 as const,
@@ -90,27 +89,21 @@ export const listingRouter = s.router(listingsContract, {
 	unfavorite: {
 		middleware: [authAndSetUser],
 		handler: async ({ params: { id }, req }) => {
-			const listing =
-				await listingService.findFullListingDataByShortId(id);
+			const listing = await listingService.findFullListingDataByShortId(id);
 			if (!listing) {
 				return {
 					status: 404 as const,
 					body: { error: ERROR_MESSAGES.listing.favoriteNotFound },
 				};
 			}
-			const user = await userService.findUserByEmail(
-				req.userClaims!.email,
-			);
+			const user = await userService.findUserByEmail(req.userClaims!.email);
 			if (!user) {
 				return {
 					status: 404 as const,
 					body: { error: ERROR_MESSAGES.user.notFound },
 				};
 			}
-			await favoriteListingService.unfavoriteListing(
-				user.id,
-				listing.id,
-			);
+			await favoriteListingService.unfavoriteListing(user.id, listing.id);
 			return { status: 200 as const, body: { favorited: false } };
 		},
 	},

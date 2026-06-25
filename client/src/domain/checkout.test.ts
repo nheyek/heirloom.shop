@@ -103,10 +103,11 @@ describe('simplifyCartItems', () => {
 			shopShortId: 'shop1',
 			shopTitle: 'Test Shop',
 			imageUuids: [],
-			variations: [],
+			variations: {},
+			combinations: {},
 			shippingPrice: 500,
 		},
-		selectedOptions: { 1: 2 },
+		selectedOptions: { 'var-uuid-1': 'opt-uuid-2' },
 		quantity,
 		addedAt: Date.now(),
 	});
@@ -114,8 +115,8 @@ describe('simplifyCartItems', () => {
 	it('maps items to simple cart items', () => {
 		const result = simplifyCartItems([makeItem('abc', 2), makeItem('xyz', 1)]);
 		expect(result).toEqual([
-			{ listingShortId: 'abc', selectedOptions: { 1: 2 }, quantity: 2 },
-			{ listingShortId: 'xyz', selectedOptions: { 1: 2 }, quantity: 1 },
+			{ listingShortId: 'abc', selectedOptions: { 'var-uuid-1': 'opt-uuid-2' }, quantity: 2 },
+			{ listingShortId: 'xyz', selectedOptions: { 'var-uuid-1': 'opt-uuid-2' }, quantity: 1 },
 		]);
 	});
 

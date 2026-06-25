@@ -167,7 +167,7 @@ describe('GET /api/listings/:id', () => {
 			shopId: 1,
 			shopTitle: 'Artisan Workshop',
 			processingProfile: undefined,
-			variations: [],
+			variations: {},
 		});
 	});
 

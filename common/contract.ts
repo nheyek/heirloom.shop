@@ -39,7 +39,7 @@ const ShippingAddressSchema = z.object({
 
 const CheckoutItemSchema = z.object({
 	listingShortId: z.string(),
-	selectedOptions: z.record(z.string(), z.number()),
+	selectedOptions: z.record(z.string(), z.string()),
 	quantity: z.number(),
 });
 
@@ -125,18 +125,28 @@ export const categoryContract = c.router({
 	},
 });
 
-const ListingVariationOptionSchema = z.object({
-	id: z.number(),
+const VariationOptionSchema = z.object({
 	name: z.string(),
-	additionalPriceCents: z.number(),
+	order: z.number(),
 });
 
-const ListingVariationSchema = z.object({
-	id: z.number(),
+const VariationSchema = z.object({
 	name: z.string(),
 	pricesVary: z.boolean(),
-	options: z.array(ListingVariationOptionSchema),
+	options: z.record(z.string(), VariationOptionSchema),
+	order: z.number(),
 });
+
+const VariationsSchema = z.record(z.string(), VariationSchema);
+
+const CombinationSchema = z.object({
+	priceCents: z.number().nullable(),
+	upc: z.string(),
+	imageUuid: z.string().nullable(),
+	disabled: z.boolean(),
+});
+
+const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
 const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.string() });
 
@@ -158,13 +168,15 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 		})
 		.optional(),
 	upc: z.string().max(12).optional(),
-	variations: z.array(ListingVariationSchema),
+	variations: VariationsSchema,
+	combinations: CombinationsSchema,
 });
 
 const CartItemDataSchema = ListingCardDataSchema.extend({
-	variations: z.array(ListingVariationSchema),
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
+	variations: VariationsSchema,
+	combinations: CombinationsSchema,
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
@@ -523,12 +535,6 @@ export const appContract = c.router({
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
-export type ListingVariationOptionData = z.infer<
-	typeof ListingVariationOptionSchema
->;
-export type ListingVariationData = z.infer<
-	typeof ListingVariationSchema
->;
 export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;

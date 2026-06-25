@@ -79,9 +79,7 @@ export const ListingPage = () => {
 	>(null);
 
 	const [selectedVariationOptions, setSelectedVariationOptions] =
-		useState<{
-			[variationId: number]: number;
-		}>({});
+		useState<Record<string, string>>({});
 
 	const apiClient = useApiClient();
 	const shareListing = useShareListing();
@@ -131,60 +129,19 @@ export const ListingPage = () => {
 
 	useEffect(() => {
 		if (listingData) {
-			setSelectedVariationOptions(
-				listingData.variations.reduce(
-					(acc, variation) => {
-						if (variation.options.length > 0) {
-							acc[variation.id] =
-								variation.options[0].id;
-						}
-						return acc;
-					},
-					{} as { [variationId: number]: number },
-				),
-			);
+			setSelectedVariationOptions({});
 		}
 	}, [listingData]);
 
-	let totalPriceCents = listingData?.priceCents || 0;
-	for (const variation of listingData?.variations || []) {
-		const selectedOptionId =
-			selectedVariationOptions[variation.id];
-		const selectedOption = variation.options.find(
-			(option) => option.id === selectedOptionId,
-		);
-		if (variation.pricesVary && selectedOption) {
-			totalPriceCents += selectedOption.additionalPriceCents;
-		}
-	}
+	const totalPriceCents = listingData?.priceCents || 0;
 
 	const imageUrls =
 		listingData?.imageUuids.map(
 			(uuid) => `${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
 		) || [];
 
-	const variationCollections =
-		listingData?.variations.map((variation) => ({
-			id: variation.id,
-			name: variation.name,
-			pricesVary: variation.pricesVary,
-			collection: createListCollection({
-				items: variation.options
-					.sort(
-						(optionA, optionB) =>
-							optionA.additionalPriceCents -
-							optionB.additionalPriceCents,
-					)
-					.map((option) => ({
-						label:
-							variation.pricesVary &&
-							option.additionalPriceCents > 0
-								? `${option.name} (+${formatCentsAsDollars(option.additionalPriceCents)})`
-								: option.name,
-						value: option.id.toString(),
-					})),
-			}),
-		})) || [];
+	type VariationCollectionItem = { value: string; label: string };
+	const variationCollections: Array<{ id: string; name: string; collection: ReturnType<typeof createListCollection<VariationCollectionItem>> }> = [];
 
 	const deliveryEstimate = listingData
 		? calculateDeliveryEstimate(
@@ -365,21 +322,18 @@ export const ListingPage = () => {
 													variation.collection
 												}
 												size="lg"
-												value={[
-													selectedVariationOptions[
-														variation.id
-													]?.toString(),
-												]}
+												value={
+													selectedVariationOptions[variation.id] != null
+														? [selectedVariationOptions[variation.id]]
+														: []
+												}
 												onValueChange={(
 													e,
 												) => {
 													setSelectedVariationOptions(
 														{
 															...selectedVariationOptions,
-															[variation.id]:
-																Number(
-																	e.value,
-																),
+															[variation.id]: e.value[0] ?? '',
 														},
 													);
 												}}

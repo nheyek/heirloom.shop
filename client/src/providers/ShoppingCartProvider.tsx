@@ -44,15 +44,15 @@ type ShoppingCartContext = {
 	shippingAddressUndeliverable: boolean;
 	addToCart: (
 		listing: CartItemData,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 	) => void;
 	removeFromCart: (
 		listingId: string,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 	) => void;
 	updateQuantity: (
 		listingId: string,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 		quantity: number,
 	) => void;
 	setCheckoutEmail: (email: string) => void;
@@ -205,7 +205,7 @@ export const ShoppingCartProvider = (props: {
 
 	const addToCart = (
 		listing: CartItemData,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 	) => {
 		const itemKey = getItemKey(listing.shortId, selectedOptions);
 
@@ -246,7 +246,7 @@ export const ShoppingCartProvider = (props: {
 
 	const removeFromCart = (
 		listingId: string,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 	) => {
 		const itemKey = getItemKey(listingId, selectedOptions);
 		setPersistedItems((prev) =>
@@ -262,7 +262,7 @@ export const ShoppingCartProvider = (props: {
 
 	const updateQuantity = (
 		listingId: string,
-		selectedOptions: { [variationId: number]: number },
+		selectedOptions: Record<string, string>,
 		quantity: number,
 	) => {
 		if (quantity === 0) {
@@ -389,14 +389,11 @@ export const useShoppingCart = () => {
 
 const getItemKey = (
 	listingId: string,
-	selectedOptions: { [variationId: number]: number },
+	selectedOptions: Record<string, string>,
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
-		.sort((a, b) => Number(a) - Number(b))
-		.map(
-			(variationId) =>
-				`${variationId}:${selectedOptions[Number(variationId)]}`,
-		)
+		.sort()
+		.map((variationId) => `${variationId}:${selectedOptions[variationId]}`)
 		.join('|');
 	return `${listingId}__${optionsString}`;
 };

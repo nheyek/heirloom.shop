@@ -2,7 +2,6 @@ import { sql } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
-import { ListingVariation } from '@server/entities/generated/ListingVariation';
 import { Shop } from '@server/entities/generated/Shop';
 import { encodeShortId } from '@server/utils/hashids';
 
@@ -103,17 +102,6 @@ export const createListing = async (
 	await em.persist(listing).flush();
 
 	return listing.id;
-};
-
-export const findListingVariations = async (
-	listingId: number,
-): Promise<ListingVariation[]> => {
-	const em = getEm();
-	return em.find(
-		ListingVariation,
-		{ listing: { id: listingId } },
-		{ populate: ['listingVariationOptionCollection'] },
-	);
 };
 
 export const findListingsByShortIds = async (

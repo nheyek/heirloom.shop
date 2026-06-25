@@ -27,7 +27,7 @@ export const DEFAULT_COMBINATION: Combination = {
 	disabled: false,
 };
 
-export const combinationKey = (
+export const getCombinationKey = (
 	optionMap: Record<string, string>,
 ): string =>
 	Object.entries(optionMap)
@@ -72,7 +72,7 @@ export const deriveCombinationsList = (
 	}
 
 	return optionMaps.map((optionMap) => ({
-		key: combinationKey(optionMap),
+		key: getCombinationKey(optionMap),
 		optionMap,
 	}));
 };
@@ -86,7 +86,7 @@ export const addVariationToCombinations = (
 	if (existing.length === 0) {
 		return Object.fromEntries(
 			newOptionIds.map((optId) => [
-				combinationKey({ [newVarId]: optId }),
+				getCombinationKey({ [newVarId]: optId }),
 				{ ...DEFAULT_COMBINATION },
 			]),
 		);
@@ -96,7 +96,7 @@ export const addVariationToCombinations = (
 		const optionMap = parseCombinationKey(key);
 		for (const optId of newOptionIds) {
 			result[
-				combinationKey({ ...optionMap, [newVarId]: optId })
+				getCombinationKey({ ...optionMap, [newVarId]: optId })
 			] = { ...data };
 		}
 	}
@@ -111,7 +111,7 @@ export const removeVariationFromCombinations = (
 	for (const [key, data] of Object.entries(combinations)) {
 		const optionMap = parseCombinationKey(key);
 		delete optionMap[varId];
-		const newKey = combinationKey(optionMap);
+		const newKey = getCombinationKey(optionMap);
 		result[newKey] =
 			newKey in result ? { ...DEFAULT_COMBINATION } : data;
 	}
@@ -126,7 +126,7 @@ export const addOptionToCombinations = (
 	const result = { ...combinations };
 	const seen = new Set<string>();
 	for (const key of Object.keys(combinations)) {
-		const newKey = combinationKey({
+		const newKey = getCombinationKey({
 			...parseCombinationKey(key),
 			[varId]: newOptId,
 		});

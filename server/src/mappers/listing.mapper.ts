@@ -1,9 +1,10 @@
-import { ListingCardData } from '@heirloom/common/contract';
-import { ListingPageData } from '@heirloom/common/contract';
-import { ListingVariationData } from '@heirloom/common/contract';
+import {
+	CartItemData,
+	ListingCardData,
+	ListingPageData,
+} from '@heirloom/common/contract';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
-import { ListingVariation } from '@server/entities/generated/ListingVariation';
-import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
 
 export const mapListingToApiResponseData = (
 	listing: Listing,
@@ -23,18 +24,22 @@ export const mapListingToApiResponseData = (
 
 export const mapListingToCompleteApiResponseData = (
 	listing: Listing,
-	variations: ListingVariation[],
 ): ListingPageData => ({
 	...mapListingToApiResponseData(listing),
 	fullDescr: listing.fullDescr,
 	processingProfile: listing.processingProfile
-		? { minDays: listing.processingProfile.minDays, maxDays: listing.processingProfile.maxDays }
+		? {
+				minDays: listing.processingProfile.minDays,
+				maxDays: listing.processingProfile.maxDays,
+			}
 		: undefined,
 	originZip: listing.shippingProfile?.originZip,
 	shippingDetails: listing.shippingProfile
 		? {
-				shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
-				shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
+				shipTimeDaysMin:
+					listing.shippingProfile.shippingDaysMin,
+				shipTimeDaysMax:
+					listing.shippingProfile.shippingDaysMax,
 				shippingRate:
 					listing.shippingProfile.flatShippingRateCents ||
 					0,
@@ -43,24 +48,39 @@ export const mapListingToCompleteApiResponseData = (
 	returnPolicy: listing.returnProfile
 		? {
 				policyType: listing.returnProfile.policyType,
-				returnWindowDays: listing.returnProfile.returnWindowDays,
+				returnWindowDays:
+					listing.returnProfile.returnWindowDays,
 			}
 		: undefined,
 	upc: listing.upc,
-	variations: variations.map(mapVariationToApiResponseData),
+	variations: (listing.variations ??
+		{}) as ListingPageData['variations'],
+	combinations: (listing.combinations ??
+		{}) as ListingPageData['combinations'],
 });
 
-export const mapVariationToApiResponseData = (
-	variation: ListingVariation,
-): ListingVariationData => ({
-	id: variation.id,
-	name: variation.variationName,
-	pricesVary: variation.pricesVary,
-	options: variation.listingVariationOptionCollection
-		.getItems()
-		.map((option: ListingVariationOption) => ({
-			id: option.id,
-			name: option.optionName,
-			additionalPriceCents: option.additionalPriceCents || 0,
-		})),
-});
+export const mapListingToCartItemData = (
+	listing: Listing,
+	selectedOptionSets: Array<Record<string, string>>,
+	shippingPrice: number,
+	deliveryEstimate: string | null | undefined,
+): CartItemData => {
+	const allCombinations = (listing.combinations ??
+		{}) as CartItemData['combinations'];
+	const neededKeys = new Set(
+		selectedOptionSets.map(getCombinationKey),
+	);
+	const combinations = Object.fromEntries(
+		[...neededKeys]
+			.filter((key) => key in allCombinations)
+			.map((key) => [key, allCombinations[key]]),
+	);
+	return {
+		...mapListingToApiResponseData(listing),
+		shippingPrice,
+		deliveryEstimate,
+		variations: (listing.variations ??
+			{}) as CartItemData['variations'],
+		combinations,
+	};
+};

@@ -4,7 +4,6 @@ import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingReturnProfile } from './ListingReturnProfile.js';
-import { ListingVariation } from './ListingVariation.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
@@ -60,8 +59,11 @@ export class Listing {
   @Property({ length: 12, nullable: true })
   upc?: string;
 
-  @OneToMany({ entity: () => ListingVariation, mappedBy: 'listing' })
-  listingVariationCollection = new Collection<ListingVariation>(this);
+  @Property({ type: 'json', nullable: true })
+  variations?: Record<string, unknown>;
+
+  @Property({ type: 'json', nullable: true })
+  combinations?: Record<string, unknown>;
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);

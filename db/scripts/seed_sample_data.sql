@@ -181,22 +181,10 @@ DECLARE
     sample_listing_10_country_code CHAR(2) := 'IT';
     sample_listing_10_image_uuids text[] := '{"52EC9AC7-82EC-4BE8-ABF0-E49A5C71FB31"}';
 
-    sample_listing_variation_1_id INT := 1;
-    sample_listing_variation_1_listing_id INT := sample_listing_5_id;
-    sample_listing_variation_1_name VARCHAR := 'Size';
-    sample_listing_variation_1_prices_vary BOOLEAN := TRUE;
-
-    sample_variation_option_1_variation_id INT := sample_listing_variation_1_id;
-    sample_variation_option_1_name VARCHAR := '72" x 48"';
-    sample_variation_option_1_additional_price_cents INT := 0;
-
-    sample_variation_option_2_variation_id INT := sample_listing_variation_1_id;
-    sample_variation_option_2_name VARCHAR := '96" x 56"';
-    sample_variation_option_2_additional_price_cents INT := 40000;
-
-    sample_variation_option_3_variation_id INT := sample_listing_variation_1_id;
-    sample_variation_option_3_name VARCHAR := '120" x 60"';
-    sample_variation_option_3_additional_price_cents INT := 80000;
+    sample_listing_5_variation_id VARCHAR;
+    sample_listing_5_option_1_id VARCHAR;
+    sample_listing_5_option_2_id VARCHAR;
+    sample_listing_5_option_3_id VARCHAR;
 
 BEGIN
 
@@ -269,18 +257,44 @@ BEGIN
     sample_shop_5_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
     sample_shop_6_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, upc)
+    sample_listing_5_variation_id := gen_random_uuid()::VARCHAR;
+    sample_listing_5_option_1_id  := gen_random_uuid()::VARCHAR;
+    sample_listing_5_option_2_id  := gen_random_uuid()::VARCHAR;
+    sample_listing_5_option_3_id  := gen_random_uuid()::VARCHAR;
+
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, upc, variations, combinations)
     VALUES
-        (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id, null),
-        (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id, null),
-        (sample_listing_3_id,  '0XNl', sample_listing_3_shop_id,  sample_listing_3_category_id,  sample_listing_3_title,  sample_listing_3_subtitle,  null,                        sample_listing_3_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_3_image_uuids,  sample_shop_1_processing_profile_id, null),
-        (sample_listing_4_id,  'yDvP', sample_listing_4_shop_id,  sample_listing_4_category_id,  sample_listing_4_title,  sample_listing_4_subtitle,  null,                        sample_listing_4_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_4_image_uuids,  sample_shop_1_processing_profile_id, null),
-        (sample_listing_5_id,  'Qa0Z', sample_listing_5_shop_id,  sample_listing_5_category_id,  sample_listing_5_title,  sample_listing_5_subtitle,  sample_listing_5_full_descr, sample_listing_5_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_5_image_uuids,  sample_shop_2_processing_profile_id, null),
-        (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id, null),
-        (sample_listing_7_id,  'La9m', sample_listing_7_shop_id,  sample_listing_7_category_id,  sample_listing_7_title,  sample_listing_7_subtitle,  null,                        sample_listing_7_price_cents,  sample_shop_3_shipping_profile_id, sample_shop_3_return_profile_id, sample_listing_7_image_uuids,  sample_shop_3_processing_profile_id, null),
-        (sample_listing_8_id,  'vmb5', sample_listing_8_shop_id,  sample_listing_8_category_id,  sample_listing_8_title,  sample_listing_8_subtitle,  null,                        sample_listing_8_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_8_image_uuids,  sample_shop_4_processing_profile_id, null),
-        (sample_listing_9_id,  '4p1J', sample_listing_9_shop_id,  sample_listing_9_category_id,  sample_listing_9_title,  sample_listing_9_subtitle,  null,                        sample_listing_9_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_9_image_uuids,  sample_shop_4_processing_profile_id, null),
-        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null,                        sample_listing_10_price_cents, sample_shop_6_shipping_profile_id, sample_shop_6_return_profile_id, sample_listing_10_image_uuids, sample_shop_6_processing_profile_id, null)
+        (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id, null, null, null),
+        (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id, null, null, null),
+        (sample_listing_3_id,  '0XNl', sample_listing_3_shop_id,  sample_listing_3_category_id,  sample_listing_3_title,  sample_listing_3_subtitle,  null,                        sample_listing_3_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_3_image_uuids,  sample_shop_1_processing_profile_id, null, null, null),
+        (sample_listing_4_id,  'yDvP', sample_listing_4_shop_id,  sample_listing_4_category_id,  sample_listing_4_title,  sample_listing_4_subtitle,  null,                        sample_listing_4_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_4_image_uuids,  sample_shop_1_processing_profile_id, null, null, null),
+        (sample_listing_5_id,  'Qa0Z', sample_listing_5_shop_id,  sample_listing_5_category_id,  sample_listing_5_title,  sample_listing_5_subtitle,  sample_listing_5_full_descr, sample_listing_5_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_5_image_uuids,  sample_shop_2_processing_profile_id, null,
+            jsonb_build_object(
+                sample_listing_5_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        sample_listing_5_option_1_id, jsonb_build_object('name', '72" x 48"',   'order', 0),
+                        sample_listing_5_option_2_id, jsonb_build_object('name', '96" x 56"',   'order', 1),
+                        sample_listing_5_option_3_id, jsonb_build_object('name', '120" x 60"',  'order', 2)
+                    )
+                )
+            ),
+            jsonb_build_object(
+                sample_listing_5_variation_id || ':' || sample_listing_5_option_1_id,
+                    jsonb_build_object('priceCents', 296700, 'upc', '', 'imageUuid', null, 'disabled', false),
+                sample_listing_5_variation_id || ':' || sample_listing_5_option_2_id,
+                    jsonb_build_object('priceCents', 349900, 'upc', '', 'imageUuid', null, 'disabled', false),
+                sample_listing_5_variation_id || ':' || sample_listing_5_option_3_id,
+                    jsonb_build_object('priceCents', 429900, 'upc', '', 'imageUuid', null, 'disabled', false)
+            )
+        ),
+        (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id, null, null, null),
+        (sample_listing_7_id,  'La9m', sample_listing_7_shop_id,  sample_listing_7_category_id,  sample_listing_7_title,  sample_listing_7_subtitle,  null,                        sample_listing_7_price_cents,  sample_shop_3_shipping_profile_id, sample_shop_3_return_profile_id, sample_listing_7_image_uuids,  sample_shop_3_processing_profile_id, null, null, null),
+        (sample_listing_8_id,  'vmb5', sample_listing_8_shop_id,  sample_listing_8_category_id,  sample_listing_8_title,  sample_listing_8_subtitle,  null,                        sample_listing_8_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_8_image_uuids,  sample_shop_4_processing_profile_id, null, null, null),
+        (sample_listing_9_id,  '4p1J', sample_listing_9_shop_id,  sample_listing_9_category_id,  sample_listing_9_title,  sample_listing_9_subtitle,  null,                        sample_listing_9_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_9_image_uuids,  sample_shop_4_processing_profile_id, null, null, null),
+        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null,                        sample_listing_10_price_cents, sample_shop_6_shipping_profile_id, sample_shop_6_return_profile_id, sample_listing_10_image_uuids, sample_shop_6_processing_profile_id, null, null, null)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -294,26 +308,8 @@ BEGIN
         image_uuids = EXCLUDED.image_uuids,
         processing_profile_id = EXCLUDED.processing_profile_id,
         upc = EXCLUDED.upc,
-        updated_at = CURRENT_TIMESTAMP;
-    
-    INSERT INTO listing_variation (id, listing_id, variation_name, prices_vary, created_at, updated_at)
-    VALUES
-        (sample_listing_variation_1_id, sample_listing_variation_1_listing_id, sample_listing_variation_1_name, sample_listing_variation_1_prices_vary, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT (id) DO UPDATE SET
-        listing_id = EXCLUDED.listing_id,
-        variation_name = EXCLUDED.variation_name,
-        prices_vary = EXCLUDED.prices_vary,
-        updated_at = CURRENT_TIMESTAMP;
-    
-    INSERT INTO listing_variation_option (listing_variation_id, option_name, additional_price_cents, created_at, updated_at)
-    VALUES
-        (sample_variation_option_1_variation_id, sample_variation_option_1_name, sample_variation_option_1_additional_price_cents, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),      
-        (sample_variation_option_2_variation_id, sample_variation_option_2_name, sample_variation_option_2_additional_price_cents, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_variation_option_3_variation_id, sample_variation_option_3_name, sample_variation_option_3_additional_price_cents, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT (listing_variation_id, option_name) DO UPDATE SET
-        listing_variation_id = EXCLUDED.listing_variation_id,
-        option_name = EXCLUDED.option_name,
-        additional_price_cents = EXCLUDED.additional_price_cents,
+        variations = EXCLUDED.variations,
+        combinations = EXCLUDED.combinations,
         updated_at = CURRENT_TIMESTAMP;
 
     -- Resync sequences for tables seeded with explicit IDs
@@ -321,7 +317,6 @@ BEGIN
 PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
     PERFORM setval(pg_get_serial_sequence('listing_processing_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_processing_profile), 1));
     PERFORM setval(pg_get_serial_sequence('listing_return_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_return_profile), 1));
-    PERFORM setval(pg_get_serial_sequence('listing_variation', 'id'), COALESCE((SELECT MAX(id) FROM listing_variation), 1));
 
 COMMIT;
 

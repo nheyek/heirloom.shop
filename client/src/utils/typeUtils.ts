@@ -15,11 +15,12 @@ export const getListingDataForCart = (
 	shopShortId: listing.shopShortId,
 	shopTitle: listing.shopTitle,
 	imageUuids: listing.imageUuids,
-	variations: listing.variations,
 	shippingPrice: Number(listing.shippingDetails?.shippingRate || 0),
 	deliveryEstimate: calculateDeliveryEstimate(
 		listing.processingProfile?.minDays ?? 0,
 		listing.processingProfile?.maxDays ?? 0,
 		listing.shippingDetails,
 	),
+	variations: listing.variations,
+	combinations: listing.combinations,
 });
