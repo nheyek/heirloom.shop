@@ -1,5 +1,5 @@
 import { ordersContract, OrderItemDisplayData } from '@heirloom/common/contract';
-import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
+import { OrderStatus } from '@heirloom/common/constants';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import { optionalAuthAndSetUser } from '@server/middleware/auth0.middleware';

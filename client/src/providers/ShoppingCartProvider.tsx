@@ -2,6 +2,7 @@ import { StorageKey } from '@client/constants';
 import {
 	getEmailFieldError,
 	getShippingAddressFieldErrors,
+	ShippingAddressErrors,
 	simplifyCartItems,
 } from '@client/domain/checkout';
 import { calculateItemPrice } from '@client/domain/shoppingCart';
@@ -14,8 +15,8 @@ import {
 	CheckoutItemData,
 	ShippingAddress,
 } from '@heirloom/common/contract';
-import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
-import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
+
+import { ShoppingCartItem } from '@client/domain/shoppingCart';
 import {
 	createContext,
 	useContext,

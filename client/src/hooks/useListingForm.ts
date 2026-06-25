@@ -6,9 +6,20 @@ import {
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
-import { deriveCombinations } from '@client/utils/combinationUtils';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
+import {
+	addVariationToCombinations,
+	DEFAULT_COMBINATION,
+	deriveCombinationsList,
+	ListingVariation,
+	ListingVariationCombination,
+	ListingVariationCombinations,
+	ListingVariationOption,
+	ListingVariations,
+	removeVariationFromCombinations,
+	syncVariationOptions,
+} from '@heirloom/common/domain/listing';
 import { useState } from 'react';
 
 export type ProcessingProfile = {
@@ -38,24 +49,14 @@ export type ShippingProfile = {
 	maxDays: number;
 };
 
-export type { ImageEntry, ListingDescrSection };
-
-export type VariationOption = {
-	name: string;
-	order: number;
-};
-
-export type Variation = {
-	name: string;
-	pricesVary: boolean;
-	options: Record<string, VariationOption>;
-	order: number;
-};
-
-export type CombinationEntry = {
-	imageUuid: string | null;
-	priceCents: number | null;
-	disabled: boolean;
+export type {
+	ListingVariationCombination as CombinationEntry,
+	ListingVariationCombinations as Combinations,
+	ImageEntry,
+	ListingDescrSection,
+	ListingVariation as Variation,
+	ListingVariationOption as VariationOption,
+	ListingVariations as Variations,
 };
 
 export type ListingFormState = {
@@ -126,16 +127,19 @@ export type ListingFormState = {
 		toIndex: number,
 	) => void;
 
-	variations: Record<string, Variation>;
-	addVariation: (variation: Variation) => void;
+	variations: Record<string, ListingVariation>;
+	addVariation: (variation: ListingVariation) => void;
 	removeVariation: (id: string) => void;
-	updateVariation: (id: string, variation: Variation) => void;
+	updateVariation: (
+		id: string,
+		variation: ListingVariation,
+	) => void;
 	reorderVariations: (fromId: string, toId: string) => void;
 
-	combinations: Record<string, CombinationEntry>;
+	combinations: ListingVariationCombinations;
 	setCombinationField: (
 		key: string,
-		patch: Partial<CombinationEntry>,
+		patch: Partial<ListingVariationCombination>,
 	) => void;
 
 	validate: () => boolean;
@@ -213,15 +217,17 @@ export const useListingForm = ({
 		string | null
 	>(null);
 
-	const [variations, setVariations] = useState<
-		Record<string, Variation>
-	>({});
+	const [variations, setVariations] = useState<ListingVariations>(
+		{},
+	);
 
-	const addVariation = (variation: Variation) => {
-		setVariations((prev) => ({
-			...prev,
-			[crypto.randomUUID()]: variation,
-		}));
+	const addVariation = (variation: ListingVariation) => {
+		const newId = crypto.randomUUID();
+		const optionIds = Object.keys(variation.options);
+		setVariations((prev) => ({ ...prev, [newId]: variation }));
+		setCombinations((prev) =>
+			addVariationToCombinations(prev, newId, optionIds),
+		);
 	};
 
 	const removeVariation = (id: string) => {
@@ -230,31 +236,40 @@ export const useListingForm = ({
 			delete next[id];
 			return next;
 		});
+		setCombinations((prev) =>
+			removeVariationFromCombinations(prev, id),
+		);
 	};
 
-	const updateVariation = (id: string, variation: Variation) => {
-		setVariations((prev) => ({ ...prev, [id]: variation }));
+	const updateVariation = (
+		id: string,
+		variation: ListingVariation,
+	) => {
+		setVariations((prev) => {
+			const oldOptionIds = Object.keys(prev[id]?.options ?? {});
+			const newOptionIds = Object.keys(variation.options);
+			setCombinations((prev) =>
+				syncVariationOptions(
+					prev,
+					id,
+					oldOptionIds,
+					newOptionIds,
+				),
+			);
+			return { ...prev, [id]: variation };
+		});
 	};
 
-	const [combinations, setCombinations] = useState<
-		Record<string, CombinationEntry>
-	>({});
+	const [combinations, setCombinations] =
+		useState<ListingVariationCombinations>({});
 
 	const setCombinationField = (
 		key: string,
-		patch: Partial<CombinationEntry>,
+		patch: Partial<ListingVariationCombination>,
 	) => {
 		setCombinations((prev) => ({
 			...prev,
-			[key]: {
-				...{
-					imageUuid: null,
-					priceCents: null,
-					disabled: false,
-				},
-				...prev[key],
-				...patch,
-			},
+			[key]: { ...DEFAULT_COMBINATION, ...prev[key], ...patch },
 		}));
 	};
 
@@ -343,16 +358,24 @@ export const useListingForm = ({
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
-		} else if (trimmedTitle.length > LISTING_LIMITS.maxTitleLength) {
-			setTitleError(`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`);
+		} else if (
+			trimmedTitle.length > LISTING_LIMITS.maxTitleLength
+		) {
+			setTitleError(
+				`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setTitleError(null);
 		}
 
 		const trimmedSubtitle = subtitle.trim();
-		if (trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength) {
-			setSubtitleError(`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`);
+		if (
+			trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength
+		) {
+			setSubtitleError(
+				`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setSubtitleError(null);
@@ -386,7 +409,7 @@ export const useListingForm = ({
 			setProcessingProfileError(null);
 		}
 
-		const allCombinations = deriveCombinations(variations);
+		const allCombinations = deriveCombinationsList(variations);
 		const variationValues = Object.values(variations);
 		const pricesVary = variationValues.some((v) => v.pricesVary);
 
@@ -406,7 +429,10 @@ export const useListingForm = ({
 			const entry = combinations[key];
 			if (entry?.disabled) continue;
 			hasActive = true;
-			if (pricesVary && !(entry?.priceCents && entry.priceCents > 0)) {
+			if (
+				pricesVary &&
+				!(entry?.priceCents && entry.priceCents > 0)
+			) {
 				priceErrors[key] = true;
 			}
 		}
@@ -416,7 +442,9 @@ export const useListingForm = ({
 		if (Object.keys(priceErrors).length > 0) valid = false;
 
 		if (allCombinations.length > 0 && !hasActive) {
-			setCombinationActiveError('At least one combination must be active.');
+			setCombinationActiveError(
+				'At least one combination must be active.',
+			);
 			valid = false;
 		} else {
 			setCombinationActiveError(null);

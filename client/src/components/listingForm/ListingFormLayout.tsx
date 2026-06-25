@@ -3,7 +3,7 @@ import { FieldError } from '@client/components/input/FieldError';
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
 import { ListingFormState } from '@client/hooks/useListingForm';
-import { deriveCombinations } from '@client/utils/combinationUtils';
+import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { RefObject } from 'react';
 
 type Props = {
@@ -12,10 +12,17 @@ type Props = {
 	containerRef?: RefObject<HTMLDivElement | null>;
 };
 
-export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
-	<Stack gap={5} ref={containerRef}>
+export const ListingFormLayout = ({
+	form,
+	actions,
+	containerRef,
+}: Props) => (
+	<Stack
+		gap={5}
+		ref={containerRef}
+	>
 		<ListingFormFields form={form} />
-		{deriveCombinations(form.variations).length > 0 && (
+		{deriveCombinationsList(form.variations).length > 0 && (
 			<Stack gap={1.5}>
 				<CombinationGrid
 					variations={form.variations}
@@ -24,25 +31,40 @@ export const ListingFormLayout = ({ form, actions, containerRef }: Props) => (
 						form.setCombinationField(key, patch);
 						if (patch.disabled) {
 							if (form.combinationPriceErrors[key]) {
-								const next = { ...form.combinationPriceErrors };
+								const next = {
+									...form.combinationPriceErrors,
+								};
 								delete next[key];
 								form.setCombinationPriceErrors(next);
 							}
 						}
-						if (patch.disabled === false && form.combinationActiveError) {
+						if (
+							patch.disabled === false &&
+							form.combinationActiveError
+						) {
 							form.setCombinationActiveError(null);
 						}
-						if (patch.priceCents && patch.priceCents > 0 && form.combinationPriceErrors[key]) {
-							const next = { ...form.combinationPriceErrors };
+						if (
+							patch.priceCents &&
+							patch.priceCents > 0 &&
+							form.combinationPriceErrors[key]
+						) {
+							const next = {
+								...form.combinationPriceErrors,
+							};
 							delete next[key];
 							form.setCombinationPriceErrors(next);
 						}
 					}}
-					combinationPriceErrors={form.combinationPriceErrors}
+					combinationPriceErrors={
+						form.combinationPriceErrors
+					}
 					invalid={!!form.combinationActiveError}
 				/>
 				{form.combinationActiveError && (
-					<FieldError>{form.combinationActiveError}</FieldError>
+					<FieldError>
+						{form.combinationActiveError}
+					</FieldError>
 				)}
 			</Stack>
 		)}

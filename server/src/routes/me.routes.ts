@@ -2,7 +2,7 @@ import {
 	meContract,
 	OrderItemDisplayData,
 } from '@heirloom/common/contract';
-import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
+import { OrderStatus } from '@heirloom/common/constants';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';

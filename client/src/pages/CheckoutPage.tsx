@@ -21,7 +21,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { OrderStatus } from '@heirloom/common/enums/OrderStatus';
+import { OrderStatus } from '@heirloom/common/constants';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';

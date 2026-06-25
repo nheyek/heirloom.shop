@@ -26,6 +26,11 @@ export const SEARCH_QUERY_LIMITS = {
 	maxChars: 48,
 };
 
-export const SHOP_ROLE = {
-	OWNER: 'OWNER',
-};
+export enum OrderStatus {
+	PENDING = 'PENDING',
+	PAYMENT_SUCCEEDED = 'PAYMENT_SUCCEEDED',
+}
+
+export enum ShopRole {
+	OWNER = 'owner',
+}

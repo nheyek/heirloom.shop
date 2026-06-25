@@ -1,5 +1,11 @@
 import { CartItemData, OrderItemDisplayData } from '@heirloom/common/contract';
-import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
+
+export type ShoppingCartItem = {
+	listingData: CartItemData;
+	selectedOptions: Record<string, number>;
+	quantity: number;
+	addedAt: number;
+};
 
 export const getOrderItemDisplayData = (
 	item: ShoppingCartItem,

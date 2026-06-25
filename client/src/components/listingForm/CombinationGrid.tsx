@@ -18,7 +18,7 @@ import {
 	Variation,
 } from '@client/hooks/useListingForm';
 import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
-import { deriveCombinations } from '@client/utils/combinationUtils';
+import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { FaImage, FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 
 const THUMB_WIDTH = 100;
@@ -51,7 +51,7 @@ export const CombinationGrid = ({
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
 
-	const combos = deriveCombinations(variations);
+	const combos = deriveCombinationsList(variations);
 	if (combos.length === 0) return null;
 
 	const optionName = (varId: string, optId: string) =>
@@ -94,7 +94,7 @@ export const CombinationGrid = ({
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{combos.map(({ key, optionIdsByVariationId }) => {
+					{combos.map(({ key, optionMap }) => {
 						const entry =
 							combinations[key] ?? DEFAULT_ENTRY;
 						const isDisabled = entry.disabled;
@@ -170,9 +170,7 @@ export const CombinationGrid = ({
 										<Text fontSize={18}>
 											{optionName(
 												varId,
-												optionIdsByVariationId[
-													varId
-												],
+												optionMap[varId],
 											)}
 										</Text>
 									</Table.Cell>
@@ -206,12 +204,15 @@ export const CombinationGrid = ({
 											{combinationPriceErrors[
 												key
 											] && (
-												<FieldError fontSize={14}>Price is required.</FieldError>
+												<FieldError
+													fontSize={14}
+												>
+													Price is required.
+												</FieldError>
 											)}
 										</Stack>
 									</Table.Cell>
 								)}
-
 
 								{/* Disable toggle */}
 								<Table.Cell

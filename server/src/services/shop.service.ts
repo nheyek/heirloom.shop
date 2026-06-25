@@ -3,7 +3,7 @@ import {
 	CreateShopBody,
 	UpdateShopBody,
 } from '@heirloom/common/contract';
-import { ShopRole } from '@heirloom/common/enums/ShopRole';
+import { ShopRole } from '@heirloom/common/constants';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { Country } from '@server/entities/generated/Country';

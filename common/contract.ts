@@ -1,6 +1,6 @@
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
-import { OrderStatus } from './enums/OrderStatus.js';
+import { OrderStatus } from './constants.js';
 
 const c = initContract();
 

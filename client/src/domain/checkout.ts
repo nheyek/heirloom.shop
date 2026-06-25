@@ -1,6 +1,7 @@
 import { ShippingAddress } from '@heirloom/common/contract';
-import { ShippingAddressErrors } from '@heirloom/common/types/ShippingAddressErrors';
-import { ShoppingCartItem } from '@heirloom/common/types/ShoppingCartItemData';
+import { ShoppingCartItem } from '@client/domain/shoppingCart';
+
+export type ShippingAddressErrors = { [K in keyof ShippingAddress]?: string };
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 
 export const getEmailFieldError = (email: string): string | null => {
