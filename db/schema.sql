@@ -239,12 +239,11 @@ CREATE TABLE public.listing_return_profile (
     id integer NOT NULL,
     name character varying(64) NOT NULL,
     shop_id integer NOT NULL,
-    return_window_days smallint NOT NULL,
+    return_window_days smallint,
     policy_descr_rich_text text,
-    accept_returns boolean DEFAULT false NOT NULL,
-    is_standard_policy boolean DEFAULT false NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    policy_type character varying(16) DEFAULT 'standard'::character varying NOT NULL
 );
 
 
@@ -1152,4 +1151,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260624000000'),
     ('20260624000001'),
     ('20260624000002'),
-    ('20260625000000');
+    ('20260625000000'),
+    ('20260625000001');

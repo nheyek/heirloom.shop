@@ -21,14 +21,14 @@ export class ListingReturnProfile {
   @Property({ type: 'text', nullable: true })
   policyDescrRichText?: string;
 
-  @Property({ length: 16 })
-  policyType: string & Opt = 'standard';
-
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
+
+  @Property({ type: 'string', length: 16 })
+  policyType: string & Opt = 'standard';
 
   @OneToMany({ entity: () => Listing, mappedBy: 'returnProfile' })
   listingCollection = new Collection<Listing>(this);
