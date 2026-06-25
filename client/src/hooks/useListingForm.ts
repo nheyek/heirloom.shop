@@ -10,15 +10,15 @@ import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import {
 	addVariationToCombinations,
+	Combination,
+	Combinations,
 	DEFAULT_COMBINATION,
 	deriveCombinationsList,
-	ListingVariation,
-	ListingVariationCombination,
-	ListingVariationCombinations,
-	ListingVariationOption,
-	ListingVariations,
 	removeVariationFromCombinations,
 	syncVariationOptions,
+	Variation,
+	VariationOption,
+	Variations,
 } from '@heirloom/common/domain/listing';
 import { useState } from 'react';
 
@@ -32,10 +32,11 @@ export type ProcessingProfile = {
 export type ReturnProfile = {
 	id: string;
 	name: string;
-	windowDays: number;
+	windowDays?: number;
 	policy:
 		| { type: ReturnPolicyType.Standard; text: string }
-		| { type: ReturnPolicyType.Custom; text: string };
+		| { type: ReturnPolicyType.Custom; text: string }
+		| { type: ReturnPolicyType.NoReturns };
 };
 
 export type ShippingProfile = {
@@ -50,13 +51,13 @@ export type ShippingProfile = {
 };
 
 export type {
-	ListingVariationCombination as CombinationEntry,
-	ListingVariationCombinations as Combinations,
+	Combination,
+	Combinations,
 	ImageEntry,
 	ListingDescrSection,
-	ListingVariation as Variation,
-	ListingVariationOption as VariationOption,
-	ListingVariations as Variations,
+	Variation,
+	VariationOption,
+	Variations,
 };
 
 export type ListingFormState = {
@@ -133,19 +134,19 @@ export type ListingFormState = {
 		toIndex: number,
 	) => void;
 
-	variations: Record<string, ListingVariation>;
-	addVariation: (variation: ListingVariation) => void;
+	variations: Record<string, Variation>;
+	addVariation: (variation: Variation) => void;
 	removeVariation: (id: string) => void;
 	updateVariation: (
 		id: string,
-		variation: ListingVariation,
+		variation: Variation,
 	) => void;
 	reorderVariations: (fromId: string, toId: string) => void;
 
-	combinations: ListingVariationCombinations;
+	combinations: Combinations;
 	setCombinationField: (
 		key: string,
-		patch: Partial<ListingVariationCombination>,
+		patch: Partial<Combination>,
 	) => void;
 
 	validate: () => boolean;
@@ -227,11 +228,11 @@ export const useListingForm = ({
 		string | null
 	>(null);
 
-	const [variations, setVariations] = useState<ListingVariations>(
+	const [variations, setVariations] = useState<Variations>(
 		{},
 	);
 
-	const addVariation = (variation: ListingVariation) => {
+	const addVariation = (variation: Variation) => {
 		const newId = crypto.randomUUID();
 		const optionIds = Object.keys(variation.options);
 		setVariations((prev) => ({ ...prev, [newId]: variation }));
@@ -253,7 +254,7 @@ export const useListingForm = ({
 
 	const updateVariation = (
 		id: string,
-		variation: ListingVariation,
+		variation: Variation,
 	) => {
 		setVariations((prev) => {
 			const oldOptionIds = Object.keys(prev[id]?.options ?? {});
@@ -271,11 +272,11 @@ export const useListingForm = ({
 	};
 
 	const [combinations, setCombinations] =
-		useState<ListingVariationCombinations>({});
+		useState<Combinations>({});
 
 	const setCombinationField = (
 		key: string,
-		patch: Partial<ListingVariationCombination>,
+		patch: Partial<Combination>,
 	) => {
 		setCombinations((prev) => ({
 			...prev,

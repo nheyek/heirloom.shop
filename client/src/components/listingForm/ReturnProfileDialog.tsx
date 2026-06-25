@@ -1,5 +1,4 @@
 import {
-	Box,
 	Button,
 	CloseButton,
 	Dialog,
@@ -22,6 +21,7 @@ import { useEffect, useRef, useState } from 'react';
 export enum ReturnPolicyType {
 	Standard = 'standard',
 	Custom = 'custom',
+	NoReturns = 'no_returns',
 }
 
 const STANDARD_POLICY_HTML =
@@ -29,10 +29,11 @@ const STANDARD_POLICY_HTML =
 
 export type NewReturnProfile = {
 	name: string;
-	windowDays: number;
+	windowDays?: number;
 	policy:
 		| { type: ReturnPolicyType.Standard; text: string }
-		| { type: ReturnPolicyType.Custom; text: string };
+		| { type: ReturnPolicyType.Custom; text: string }
+		| { type: ReturnPolicyType.NoReturns };
 };
 
 type Props = {
@@ -80,8 +81,12 @@ export const ReturnProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
-		} else if (trimmedName.length > LISTING_LIMITS.maxProfileNameLength) {
-			setNameError(`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`);
+		} else if (
+			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
+		) {
+			setNameError(
+				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
+			);
 			valid = false;
 		} else if (
 			existingNames.some(
@@ -93,10 +98,16 @@ export const ReturnProfileDialog = ({
 		} else {
 			setNameError(null);
 		}
-		const days = parseInt(windowDays, 10);
-		if (!windowDays || isNaN(days) || days < 1) {
-			setWindowError('Window is required.');
-			valid = false;
+		let days: number | undefined;
+		if (policyType !== ReturnPolicyType.NoReturns) {
+			const parsed = parseInt(windowDays, 10);
+			if (!windowDays || isNaN(parsed) || parsed < 1) {
+				setWindowError('Window is required.');
+				valid = false;
+			} else {
+				setWindowError(null);
+				days = parsed;
+			}
 		} else {
 			setWindowError(null);
 		}
@@ -104,28 +115,32 @@ export const ReturnProfileDialog = ({
 			.replace(/<[^>]*>/g, '')
 			.trim();
 		if (policyType === ReturnPolicyType.Custom && !strippedHtml) {
-			setCustomTextError('Policy text is required.');
+			setCustomTextError('Policy details are required.');
 			valid = false;
 		} else if (
 			policyType === ReturnPolicyType.Custom &&
 			strippedHtml.length > LISTING_LIMITS.maxReturnPolicyChars
 		) {
-			setCustomTextError(`Policy must be ${LISTING_LIMITS.maxReturnPolicyChars.toLocaleString()} characters or fewer.`);
+			setCustomTextError(
+				`Policy must be ${LISTING_LIMITS.maxReturnPolicyChars.toLocaleString()} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setCustomTextError(null);
 		}
 		if (!valid) return;
 		const policy =
-			policyType === ReturnPolicyType.Standard
-				? ({
-						type: ReturnPolicyType.Standard,
-						text: STANDARD_POLICY_HTML,
-					} as const)
-				: ({
-						type: ReturnPolicyType.Custom,
-						text: customHtmlRef.current,
-					} as const);
+			policyType === ReturnPolicyType.NoReturns
+				? ({ type: ReturnPolicyType.NoReturns } as const)
+				: policyType === ReturnPolicyType.Standard
+					? ({
+							type: ReturnPolicyType.Standard,
+							text: STANDARD_POLICY_HTML,
+						} as const)
+					: ({
+							type: ReturnPolicyType.Custom,
+							text: customHtmlRef.current,
+						} as const);
 		onConfirm({ name: trimmedName, windowDays: days, policy });
 		onClose();
 	};
@@ -162,6 +177,7 @@ export const ReturnProfileDialog = ({
 							<FormField
 								label="Name"
 								error={nameError}
+								required
 							>
 								<FormInput
 									value={name}
@@ -171,17 +187,80 @@ export const ReturnProfileDialog = ({
 											setNameError(null);
 									}}
 									placeholder="e.g. Standard Returns"
-									maxW={300}
 								/>
 							</FormField>
 							<HStack
 								align="start"
 								gap={0}
 							>
+								<FormField label="Policy">
+									<RadioCard.Root
+										value={policyType}
+										onValueChange={(e) =>
+											setPolicyType(
+												e.value as ReturnPolicyType,
+											)
+										}
+										size="sm"
+										alignSelf="stretch"
+									>
+										<HStack gap={3}>
+											<RadioCard.Item
+												value={
+													ReturnPolicyType.Standard
+												}
+											>
+												<RadioCard.ItemHiddenInput />
+												<RadioCard.ItemControl alignItems="center">
+													<RadioCard.ItemText
+														fontSize={16}
+													>
+														Standard
+													</RadioCard.ItemText>
+													<RadioCard.ItemIndicator />
+												</RadioCard.ItemControl>
+											</RadioCard.Item>
+											<RadioCard.Item
+												value={
+													ReturnPolicyType.Custom
+												}
+											>
+												<RadioCard.ItemHiddenInput />
+												<RadioCard.ItemControl alignItems="center">
+													<RadioCard.ItemText
+														fontSize={16}
+													>
+														Custom
+													</RadioCard.ItemText>
+													<RadioCard.ItemIndicator />
+												</RadioCard.ItemControl>
+											</RadioCard.Item>
+											<RadioCard.Item
+												value={
+													ReturnPolicyType.NoReturns
+												}
+											>
+												<RadioCard.ItemHiddenInput />
+												<RadioCard.ItemControl alignItems="center">
+													<RadioCard.ItemText
+														fontSize={16}
+													>
+														No returns
+													</RadioCard.ItemText>
+													<RadioCard.ItemIndicator />
+												</RadioCard.ItemControl>
+											</RadioCard.Item>
+										</HStack>
+									</RadioCard.Root>
+								</FormField>
+							</HStack>
+							{policyType !==
+								ReturnPolicyType.NoReturns && (
 								<FormField
 									label="Window"
 									error={windowError}
 									width={150}
+									required
 								>
 									<HStack
 										gap={3}
@@ -210,86 +289,43 @@ export const ReturnProfileDialog = ({
 										</Text>
 									</HStack>
 								</FormField>
-								<Box flex="1">
-									<FormField label="Policy">
-										<RadioCard.Root
-											value={policyType}
-											onValueChange={(e) =>
-												setPolicyType(
-													e.value as ReturnPolicyType,
-												)
-											}
-											size="sm"
-											alignSelf="stretch"
-										>
-											<HStack gap={3}>
-												<RadioCard.Item
-													value={
-														ReturnPolicyType.Standard
-													}
-												>
-													<RadioCard.ItemHiddenInput />
-													<RadioCard.ItemControl alignItems="center">
-														<RadioCard.ItemText
-															fontSize={
-																16
-															}
-														>
-															Standard
-														</RadioCard.ItemText>
-														<RadioCard.ItemIndicator />
-													</RadioCard.ItemControl>
-												</RadioCard.Item>
-												<RadioCard.Item
-													value={
-														ReturnPolicyType.Custom
-													}
-												>
-													<RadioCard.ItemHiddenInput />
-													<RadioCard.ItemControl alignItems="center">
-														<RadioCard.ItemText
-															fontSize={
-																15
-															}
-														>
-															Custom
-														</RadioCard.ItemText>
-														<RadioCard.ItemIndicator />
-													</RadioCard.ItemControl>
-												</RadioCard.Item>
-											</HStack>
-										</RadioCard.Root>
-									</FormField>
-								</Box>
-							</HStack>
+							)}
 
 							{policyType ===
 								ReturnPolicyType.Standard && (
 								<RichTextDisplay
 									htmlString={STANDARD_POLICY_HTML}
-									fontSize={16}
+									fontSize={18}
 								/>
 							)}
 
 							{policyType ===
 								ReturnPolicyType.Custom && (
-								<RichTextEditor
-									onChange={(html) => {
-										customHtmlRef.current = html;
-										if (
-											html
-												.replace(
-													/<[^>]*>/g,
-													'',
-												)
-												.trim()
-										)
-											setCustomTextError(null);
-									}}
-									invalid={!!customTextError}
-									error={customTextError}
-									maxHeight={250}
-								/>
+								<FormField
+									label="Details"
+									required
+								>
+									<RichTextEditor
+										onChange={(html) => {
+											customHtmlRef.current =
+												html;
+											if (
+												html
+													.replace(
+														/<[^>]*>/g,
+														'',
+													)
+													.trim()
+											)
+												setCustomTextError(
+													null,
+												);
+										}}
+										invalid={!!customTextError}
+										error={customTextError}
+										maxHeight={150}
+									/>
+								</FormField>
 							)}
 						</Stack>
 					</Dialog.Body>

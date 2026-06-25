@@ -27,11 +27,6 @@ export const DEFAULT_COMBINATION: Combination = {
 	disabled: false,
 };
 
-/**
- * Stable canonical key for a combination: variationId:optionId pairs
- * sorted lexicographically by variationId, joined with |.
- * Stable under variation/option reordering.
- */
 export const combinationKey = (
 	optionMap: Record<string, string>,
 ): string =>
@@ -52,10 +47,6 @@ export const parseCombinationKey = (
 	);
 };
 
-/**
- * Derive the ordered display list of combinations from current variations.
- * Order follows variation.order and option.order — purely for UI rendering.
- */
 export const deriveCombinationsList = (
 	variations: Variations,
 ): { key: string; optionMap: Record<string, string> }[] => {
@@ -86,11 +77,6 @@ export const deriveCombinationsList = (
 	}));
 };
 
-/**
- * Expand combinations when a new variation is added.
- * Each existing combination is cloned once per new option.
- * If there are no existing combinations, seeds one entry per option.
- */
 export const addVariationToCombinations = (
 	combinations: Combinations,
 	newVarId: string,
@@ -117,11 +103,6 @@ export const addVariationToCombinations = (
 	return result;
 };
 
-/**
- * Collapse combinations when a variation is removed.
- * Combinations that become identical after removal are reset to defaults
- * (first one encountered keeps its data, subsequent duplicates are reset).
- */
 export const removeVariationFromCombinations = (
 	combinations: Combinations,
 	varId: string,
@@ -137,10 +118,6 @@ export const removeVariationFromCombinations = (
 	return result;
 };
 
-/**
- * Expand combinations when a new option is added to an existing variation.
- * One new combination is created per existing combination, with the new option substituted in.
- */
 export const addOptionToCombinations = (
 	combinations: Combinations,
 	varId: string,
@@ -161,9 +138,6 @@ export const addOptionToCombinations = (
 	return result;
 };
 
-/**
- * Remove all combinations that include the given option.
- */
 export const removeOptionFromCombinations = (
 	combinations: Combinations,
 	varId: string,
@@ -175,10 +149,6 @@ export const removeOptionFromCombinations = (
 		),
 	);
 
-/**
- * Sync combinations after a variation's options are edited.
- * Applies removals first, then additions, preserving data for unchanged combinations.
- */
 export const syncVariationOptions = (
 	combinations: Combinations,
 	varId: string,

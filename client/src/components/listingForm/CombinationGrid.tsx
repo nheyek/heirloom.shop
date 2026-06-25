@@ -15,7 +15,7 @@ import {
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import {
-	CombinationEntry,
+	Combination,
 	Variation,
 } from '@client/hooks/useListingForm';
 import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
@@ -26,15 +26,15 @@ const THUMB_WIDTH = 100;
 
 type Props = {
 	variations: Record<string, Variation>;
-	combinations: Record<string, CombinationEntry>;
-	onUpdate: (key: string, patch: Partial<CombinationEntry>) => void;
+	combinations: Record<string, Combination>;
+	onUpdate: (key: string, patch: Partial<Combination>) => void;
 	combinationPriceErrors?: Record<string, boolean>;
 	combinationUpcErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
 };
 
-const DEFAULT_ENTRY: CombinationEntry = {
+const DEFAULT_ENTRY: Combination = {
 	imageUuid: null,
 	priceCents: null,
 	upc: '',
