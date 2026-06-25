@@ -30,13 +30,11 @@ export const mapListingToCompleteApiResponseData = (
 	processingProfile: listing.processingProfile
 		? { minDays: listing.processingProfile.minDays, maxDays: listing.processingProfile.maxDays }
 		: undefined,
-	originZip: listing.shippingOrigin?.originZip,
+	originZip: listing.shippingProfile?.originZip,
 	shippingDetails: listing.shippingProfile
 		? {
-				shipTimeDaysMin:
-					listing.shippingProfile.shippingDaysMin || 0,
-				shipTimeDaysMax:
-					listing.shippingProfile.shippingDaysMax || 0,
+				shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
+				shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
 				shippingRate:
 					listing.shippingProfile.flatShippingRateCents ||
 					0,

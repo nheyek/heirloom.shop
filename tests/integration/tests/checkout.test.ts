@@ -60,8 +60,11 @@ beforeAll(async () => {
 
 	const mugShipping = em.create(ShippingProfile, {
 		id: 30,
-		profileName: 'Standard Shipping',
+		name: 'Standard Shipping',
 		flatShippingRateCents: 500,
+		shippingDaysMin: 3,
+		shippingDaysMax: 7,
+		originZip: '15201',
 		shop: shop1,
 	});
 
@@ -98,8 +101,11 @@ beforeAll(async () => {
 
 	const boardShipping = em.create(ShippingProfile, {
 		id: 31,
-		profileName: 'Heavy Item Shipping',
+		name: 'Heavy Item Shipping',
 		flatShippingRateCents: 800,
+		shippingDaysMin: 5,
+		shippingDaysMax: 10,
+		originZip: '90210',
 		shop: shop2,
 	});
 

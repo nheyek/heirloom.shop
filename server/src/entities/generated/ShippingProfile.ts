@@ -9,17 +9,17 @@ export class ShippingProfile {
   @PrimaryKey()
   id!: number;
 
-  @Property({ length: 128 })
-  profileName!: string;
+  @Property({ length: 64 })
+  name!: string;
 
   @Property({ nullable: true })
   flatShippingRateCents?: number;
 
-  @Property({ nullable: true })
-  shippingDaysMin?: number;
+  @Property()
+  shippingDaysMin!: number;
 
-  @Property({ nullable: true })
-  shippingDaysMax?: number;
+  @Property()
+  shippingDaysMax!: number;
 
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   createdAt?: Date;
@@ -27,11 +27,11 @@ export class ShippingProfile {
   @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
   updatedAt?: Date;
 
-  @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade', nullable: true })
-  shop?: Rel<Shop>;
+  @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
+  shop!: Rel<Shop>;
 
-  @Property({ length: 64, nullable: true, unique: 'unique_shop_standard_profile_key' })
-  standardProfileKey?: string;
+  @Property({ type: 'decimal', precision: 5, scale: 0 })
+  originZip!: string;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'shippingProfile' })
   listingCollection = new Collection<Listing>(this);

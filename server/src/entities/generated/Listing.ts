@@ -5,7 +5,6 @@ import { ListingCategory } from './ListingCategory.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingVariation } from './ListingVariation.js';
 import { ReturnExchangeProfile } from './ReturnExchangeProfile.js';
-import { ShippingOrigin } from './ShippingOrigin.js';
 import { ShippingProfile } from './ShippingProfile.js';
 import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
@@ -48,9 +47,6 @@ export class Listing {
 
   @ManyToOne({ entity: () => ReturnExchangeProfile, updateRule: 'no action', nullable: true })
   returnExchangeProfile?: Rel<ReturnExchangeProfile>;
-
-  @ManyToOne({ entity: () => ShippingOrigin, updateRule: 'no action', nullable: true })
-  shippingOrigin?: Rel<ShippingOrigin>;
 
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;

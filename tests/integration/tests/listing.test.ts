@@ -77,15 +77,16 @@ beforeAll(async () => {
 
 	const shippingProfile = em.create(ShippingProfile, {
 		id: 1,
-		profileName: 'Standard Shipping',
+		name: 'Standard Shipping',
 		flatShippingRateCents: 995,
 		shippingDaysMin: 3,
 		shippingDaysMax: 7,
+		originZip: '15201',
 		shop: shop2,
 	});
 	const returnProfile = em.create(ReturnExchangeProfile, {
 		id: 1,
-		profileName: 'Standard Returns',
+		name: 'Standard Returns',
 		acceptReturns: true,
 		acceptExchanges: true,
 		returnWindowDays: 30,

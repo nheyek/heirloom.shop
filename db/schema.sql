@@ -154,7 +154,6 @@ CREATE TABLE public.listing (
     image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL,
     shipping_profile_id integer,
     return_exchange_profile_id integer,
-    shipping_origin_id integer,
     full_descr jsonb,
     short_id character varying(10) NOT NULL,
     processing_profile_id integer
@@ -386,53 +385,19 @@ ALTER SEQUENCE public.server_error_log_id_seq OWNED BY public.server_error_log.i
 
 
 --
--- Name: shipping_origin; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.shipping_origin (
-    id integer NOT NULL,
-    location_name character varying(128) NOT NULL,
-    origin_zip numeric(5,0) NOT NULL,
-    shop_id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
-);
-
-
---
--- Name: ship_location_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.ship_location_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: ship_location_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.ship_location_id_seq OWNED BY public.shipping_origin.id;
-
-
---
 -- Name: shipping_profile; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE public.shipping_profile (
     id integer NOT NULL,
-    profile_name character varying(128) NOT NULL,
+    name character varying(64) CONSTRAINT shipping_profile_profile_name_not_null NOT NULL,
     flat_shipping_rate_cents integer,
-    shipping_days_min integer,
-    shipping_days_max integer,
+    shipping_days_min integer NOT NULL,
+    shipping_days_max integer NOT NULL,
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    shop_id integer,
-    standard_profile_key character varying(64)
+    shop_id integer NOT NULL,
+    origin_zip numeric(5,0) NOT NULL
 );
 
 
@@ -657,13 +622,6 @@ ALTER TABLE ONLY public.server_error_log ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Name: shipping_origin id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_origin ALTER COLUMN id SET DEFAULT nextval('public.ship_location_id_seq'::regclass);
-
-
---
 -- Name: shipping_profile id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -811,14 +769,6 @@ ALTER TABLE ONLY public.server_error_log
 
 
 --
--- Name: shipping_origin ship_location_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_origin
-    ADD CONSTRAINT ship_location_pkey PRIMARY KEY (id);
-
-
---
 -- Name: shipping_profile shipping_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -872,22 +822,6 @@ ALTER TABLE ONLY public.listing_variation
 
 ALTER TABLE ONLY public.listing_variation_option
     ADD CONSTRAINT unique_option_per_variation UNIQUE (listing_variation_id, option_name);
-
-
---
--- Name: shipping_origin unique_shop_origin_zip; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_origin
-    ADD CONSTRAINT unique_shop_origin_zip UNIQUE (shop_id, origin_zip);
-
-
---
--- Name: shipping_profile unique_shop_standard_profile_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_profile
-    ADD CONSTRAINT unique_shop_standard_profile_key UNIQUE (standard_profile_key);
 
 
 --
@@ -1038,14 +972,6 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: listing listing_shipping_origin_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_shipping_origin_id_fkey FOREIGN KEY (shipping_origin_id) REFERENCES public.shipping_origin(id) ON DELETE SET NULL;
-
-
---
 -- Name: listing listing_shipping_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1075,14 +1001,6 @@ ALTER TABLE ONLY public.listing_variation
 
 ALTER TABLE ONLY public.listing_variation_option
     ADD CONSTRAINT listing_variation_option_listing_variation_id_fkey FOREIGN KEY (listing_variation_id) REFERENCES public.listing_variation(id) ON DELETE CASCADE;
-
-
---
--- Name: shipping_origin ship_location_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_origin
-    ADD CONSTRAINT ship_location_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
 
 
 --
@@ -1170,4 +1088,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260523000002'),
     ('20260608000000'),
     ('20260610000000'),
-    ('20260624000000');
+    ('20260624000000'),
+    ('20260624000001');
