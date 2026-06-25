@@ -88,8 +88,14 @@ export type ListingFormState = {
 	setPriceCents: (v: number | null) => void;
 	priceError: string | null;
 	setPriceError: (v: string | null) => void;
+	upc: string;
+	setUpc: (v: string) => void;
+	upcError: string | null;
+	setUpcError: (v: string | null) => void;
 	combinationPriceErrors: Record<string, boolean>;
 	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
+	combinationUpcErrors: Record<string, boolean>;
+	setCombinationUpcErrors: (v: Record<string, boolean>) => void;
 	combinationActiveError: string | null;
 	setCombinationActiveError: (v: string | null) => void;
 
@@ -178,7 +184,11 @@ export const useListingForm = ({
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(null);
 	const [priceError, setPriceError] = useState<string | null>(null);
+	const [upc, setUpc] = useState('');
+	const [upcError, setUpcError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] =
+		useState<Record<string, boolean>>({});
+	const [combinationUpcErrors, setCombinationUpcErrors] =
 		useState<Record<string, boolean>>({});
 	const [combinationActiveError, setCombinationActiveError] =
 		useState<string | null>(null);
@@ -422,24 +432,40 @@ export const useListingForm = ({
 			}
 		}
 
+		const hasCombinations = allCombinations.length > 0;
+
+		if (!hasCombinations) {
+			if (upc && !/^\d{12}$/.test(upc)) {
+				setUpcError('UPC must be exactly 12 digits.');
+				valid = false;
+			} else {
+				setUpcError(null);
+			}
+		} else {
+			setUpcError(null);
+		}
+
 		const priceErrors: Record<string, boolean> = {};
+		const upcErrors: Record<string, boolean> = {};
 		let hasActive = allCombinations.length === 0;
 
 		for (const { key } of allCombinations) {
 			const entry = combinations[key];
 			if (entry?.disabled) continue;
 			hasActive = true;
-			if (
-				pricesVary &&
-				!(entry?.priceCents && entry.priceCents > 0)
-			) {
+			if (pricesVary && !(entry?.priceCents && entry.priceCents > 0)) {
 				priceErrors[key] = true;
+			}
+			if (entry?.upc && !/^\d{12}$/.test(entry.upc)) {
+				upcErrors[key] = true;
 			}
 		}
 
 		setCombinationPriceErrors(pricesVary ? priceErrors : {});
+		setCombinationUpcErrors(upcErrors);
 
 		if (Object.keys(priceErrors).length > 0) valid = false;
+		if (Object.keys(upcErrors).length > 0) valid = false;
 
 		if (allCombinations.length > 0 && !hasActive) {
 			setCombinationActiveError(
@@ -478,8 +504,14 @@ export const useListingForm = ({
 		setPriceCents,
 		priceError,
 		setPriceError,
+		upc,
+		setUpc,
+		upcError,
+		setUpcError,
 		combinationPriceErrors,
 		setCombinationPriceErrors,
+		combinationUpcErrors,
+		setCombinationUpcErrors,
 		combinationActiveError,
 		setCombinationActiveError,
 		processingProfiles,

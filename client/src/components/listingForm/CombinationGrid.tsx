@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { PriceInput } from '@client/components/input/PriceInput';
+import { UpcInput } from '@client/components/input/UpcInput';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,
@@ -28,6 +29,7 @@ type Props = {
 	combinations: Record<string, CombinationEntry>;
 	onUpdate: (key: string, patch: Partial<CombinationEntry>) => void;
 	combinationPriceErrors?: Record<string, boolean>;
+	combinationUpcErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
 };
@@ -35,6 +37,7 @@ type Props = {
 const DEFAULT_ENTRY: CombinationEntry = {
 	imageUuid: null,
 	priceCents: null,
+	upc: '',
 	disabled: false,
 };
 
@@ -43,6 +46,7 @@ export const CombinationGrid = ({
 	combinations,
 	onUpdate,
 	combinationPriceErrors = {},
+	combinationUpcErrors = {},
 	invalid,
 	disabled,
 }: Props) => {
@@ -90,6 +94,9 @@ export const CombinationGrid = ({
 								Price
 							</Table.ColumnHeader>
 						)}
+						<Table.ColumnHeader minW={155}>
+							UPC
+						</Table.ColumnHeader>
 						<Table.ColumnHeader />
 					</Table.Row>
 				</Table.Header>
@@ -213,6 +220,26 @@ export const CombinationGrid = ({
 										</Stack>
 									</Table.Cell>
 								)}
+
+								{/* UPC */}
+								<Table.Cell>
+									<Stack gap={1.5}>
+										<UpcInput
+											value={entry.upc}
+											onChange={(v) =>
+												onUpdate(key, { upc: v })
+											}
+											invalid={!!combinationUpcErrors[key]}
+											disabled={disabled || isDisabled}
+											size={InputSize.Md}
+										/>
+										{combinationUpcErrors[key] && (
+											<FieldError fontSize={14}>
+												UPC must be exactly 12 digits.
+											</FieldError>
+										)}
+									</Stack>
+								</Table.Cell>
 
 								{/* Disable toggle */}
 								<Table.Cell

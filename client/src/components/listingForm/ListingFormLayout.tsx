@@ -31,34 +31,32 @@ export const ListingFormLayout = ({
 						form.setCombinationField(key, patch);
 						if (patch.disabled) {
 							if (form.combinationPriceErrors[key]) {
-								const next = {
-									...form.combinationPriceErrors,
-								};
+								const next = { ...form.combinationPriceErrors };
 								delete next[key];
 								form.setCombinationPriceErrors(next);
 							}
+							if (form.combinationUpcErrors[key]) {
+								const next = { ...form.combinationUpcErrors };
+								delete next[key];
+								form.setCombinationUpcErrors(next);
+							}
 						}
-						if (
-							patch.disabled === false &&
-							form.combinationActiveError
-						) {
+						if (patch.disabled === false && form.combinationActiveError) {
 							form.setCombinationActiveError(null);
 						}
-						if (
-							patch.priceCents &&
-							patch.priceCents > 0 &&
-							form.combinationPriceErrors[key]
-						) {
-							const next = {
-								...form.combinationPriceErrors,
-							};
+						if (patch.priceCents && patch.priceCents > 0 && form.combinationPriceErrors[key]) {
+							const next = { ...form.combinationPriceErrors };
 							delete next[key];
 							form.setCombinationPriceErrors(next);
 						}
+						if (patch.upc !== undefined && form.combinationUpcErrors[key]) {
+							const next = { ...form.combinationUpcErrors };
+							delete next[key];
+							form.setCombinationUpcErrors(next);
+						}
 					}}
-					combinationPriceErrors={
-						form.combinationPriceErrors
-					}
+					combinationPriceErrors={form.combinationPriceErrors}
+					combinationUpcErrors={form.combinationUpcErrors}
 					invalid={!!form.combinationActiveError}
 				/>
 				{form.combinationActiveError && (

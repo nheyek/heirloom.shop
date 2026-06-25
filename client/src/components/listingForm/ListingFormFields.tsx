@@ -13,6 +13,7 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
+import { UpcInput } from '@client/components/input/UpcInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
@@ -226,26 +227,53 @@ export const ListingFormFields = ({
 						</Box>
 					</FormField>
 
-					{!sortedVariations.some(
-						([, v]) => v.pricesVary,
-					) && (
-						<FormField
-							label="Price"
-							error={form.priceError}
-						>
-							<PriceInput
-								size={InputSize.Lg}
-								value={form.priceCents}
-								onChange={(v) => {
-									form.setPriceCents(v);
-									if (v && v > 0)
-										form.setPriceError(null);
-								}}
-								invalid={!!form.priceError}
-								disabled={disabled}
-							/>
-						</FormField>
-					)}
+					<Wrap
+						gap={5}
+						align="start"
+					>
+						{!sortedVariations.some(
+							([, v]) => v.pricesVary,
+						) && (
+							<WrapItem>
+								<FormField
+									label="Price"
+									error={form.priceError}
+								>
+									<PriceInput
+										size={InputSize.Lg}
+										value={form.priceCents}
+										onChange={(v) => {
+											form.setPriceCents(v);
+											if (v && v > 0)
+												form.setPriceError(null);
+										}}
+										invalid={!!form.priceError}
+										disabled={disabled}
+									/>
+								</FormField>
+							</WrapItem>
+						)}
+						{sortedVariations.length === 0 && (
+							<WrapItem>
+								<FormField
+									label="UPC"
+									error={form.upcError}
+								>
+									<UpcInput
+										size={InputSize.Lg}
+										value={form.upc}
+										onChange={(v) => {
+											form.setUpc(v);
+											if (form.upcError)
+												form.setUpcError(null);
+										}}
+										invalid={!!form.upcError}
+										disabled={disabled}
+									/>
+								</FormField>
+							</WrapItem>
+						)}
+					</Wrap>
 
 					<Wrap
 						gap={10}

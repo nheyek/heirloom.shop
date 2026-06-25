@@ -12,6 +12,7 @@ export type Variation = {
 
 export type Combination = {
 	priceCents: number | null;
+	upc: string;
 	imageUuid: string | null;
 	disabled: boolean;
 };
@@ -21,6 +22,7 @@ export type Combinations = Record<string, Combination>;
 
 export const DEFAULT_COMBINATION: Combination = {
 	priceCents: null,
+	upc: '',
 	imageUuid: null,
 	disabled: false,
 };
