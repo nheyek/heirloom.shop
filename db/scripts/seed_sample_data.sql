@@ -3,7 +3,7 @@ DO $$
 DECLARE
     admin_user_1_username CONSTANT VARCHAR := 'nick@heyek.com';
 
-    return_policy_type_standard CONSTANT VARCHAR := return_policy_type_standard;
+    return_policy_type_standard CONSTANT VARCHAR := 'standard';
 
     sample_shop_1_return_profile_id INT;
     sample_shop_2_return_profile_id INT;

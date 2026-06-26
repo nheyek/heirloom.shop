@@ -41,7 +41,7 @@ import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
-import { getCombinationKey } from '@heirloom/common/domain/listing';
+import { deriveCombinationsList, getCombinationKey } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
@@ -129,36 +129,52 @@ export const ListingPage = () => {
 	}, [id]);
 
 	useEffect(() => {
-		if (listingData) {
-			setSelectedVariationOptions({});
-		}
+		if (!listingData) return;
+		const orderedCombinations = deriveCombinationsList(listingData.variations);
+		const firstActive = orderedCombinations.find(
+			({ key }) => !listingData.combinations[key]?.disabled,
+		);
+		setSelectedVariationOptions(firstActive?.optionMap ?? {});
 	}, [listingData]);
 
 	const imageUrls =
 		listingData?.imageUuids.map(
-			(uuid) => `${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
+			(uuid) =>
+				`${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
 		) || [];
 
 	type VariationCollectionItem = { value: string; label: string };
-	const variationCollections: Array<{ id: string; name: string; collection: ReturnType<typeof createListCollection<VariationCollectionItem>> }> =
-		listingData
-			? Object.entries(listingData.variations)
-					.sort(([, a], [, b]) => a.order - b.order)
-					.map(([varId, variation]) => ({
-						id: varId,
-						name: variation.name,
-						collection: createListCollection({
-							items: Object.entries(variation.options)
-								.sort(([, a], [, b]) => a.order - b.order)
-								.map(([optId, option]) => ({ value: optId, label: option.name })),
-						}),
-					}))
-			: [];
+	const variationCollections: Array<{
+		id: string;
+		name: string;
+		collection: ReturnType<
+			typeof createListCollection<VariationCollectionItem>
+		>;
+	}> = listingData
+		? Object.entries(listingData.variations)
+				.sort(([, a], [, b]) => a.order - b.order)
+				.map(([varId, variation]) => ({
+					id: varId,
+					name: variation.name,
+					collection: createListCollection({
+						items: Object.entries(variation.options)
+							.sort(([, a], [, b]) => a.order - b.order)
+							.map(([optId, option]) => ({
+								value: optId,
+								label: option.name,
+							})),
+					}),
+				}))
+		: [];
 
 	const totalPriceCents = (() => {
 		if (!listingData) return 0;
 		const key = getCombinationKey(selectedVariationOptions);
-		return listingData.combinations[key]?.priceCents ?? listingData.priceCents ?? 0;
+		return (
+			listingData.combinations[key]?.priceCents ??
+			listingData.priceCents ??
+			0
+		);
 	})();
 
 	const deliveryEstimate = listingData
@@ -171,7 +187,11 @@ export const ListingPage = () => {
 
 	const returnPolicy = listingData?.returnPolicy;
 	let returnPolicyText = 'No returns';
-	if (returnPolicy && returnPolicy.policyType !== ReturnPolicyType.NO_RETURNS && (returnPolicy.returnWindowDays ?? 0) > 0) {
+	if (
+		returnPolicy &&
+		returnPolicy.policyType !== ReturnPolicyType.NO_RETURNS &&
+		(returnPolicy.returnWindowDays ?? 0) > 0
+	) {
 		returnPolicyText = `Returns accepted within ${returnPolicy.returnWindowDays} days`;
 	}
 
@@ -341,8 +361,15 @@ export const ListingPage = () => {
 												}
 												size="lg"
 												value={
-													selectedVariationOptions[variation.id] != null
-														? [selectedVariationOptions[variation.id]]
+													selectedVariationOptions[
+														variation.id
+													] != null
+														? [
+																selectedVariationOptions[
+																	variation
+																		.id
+																],
+															]
 														: []
 												}
 												onValueChange={(
@@ -351,7 +378,10 @@ export const ListingPage = () => {
 													setSelectedVariationOptions(
 														{
 															...selectedVariationOptions,
-															[variation.id]: e.value[0] ?? '',
+															[variation.id]:
+																e
+																	.value[0] ??
+																'',
 														},
 													);
 												}}
