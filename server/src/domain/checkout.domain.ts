@@ -10,19 +10,21 @@ const resolveUnitPrice = (
 	selectedOptions: Record<string, string>,
 ): number => {
 	const key = getCombinationKey(selectedOptions);
-	return combinations[key]?.priceCents ?? priceCents;
+	const combination = combinations[key];
+	if (combination?.disabled) throw new Error('Selected combination is unavailable');
+	return combination?.priceCents ?? priceCents;
 };
 
 const resolveVariationDisplayNames = (
 	variations: VariationsData,
 	selectedOptions: Record<string, string>,
 ): Array<{ name: string; value: string }> =>
-	Object.entries(selectedOptions).flatMap(([varId, optId]) => {
+	Object.entries(selectedOptions).map(([varId, optId]) => {
 		const variation = variations[varId];
-		if (!variation) return [];
+		if (!variation) throw new Error(`Invalid variation ID: ${varId}`);
 		const option = variation.options[optId];
-		if (!option) return [];
-		return [{ name: variation.name, value: option.name }];
+		if (!option) throw new Error(`Invalid option ID: ${optId} for variation ${varId}`);
+		return { name: variation.name, value: option.name };
 	});
 
 export const calculateCheckoutTotals = (
@@ -39,6 +41,8 @@ export const calculateCheckoutTotals = (
 		if (!listing) continue;
 
 		const combinations = (listing.combinations ?? {}) as CombinationsData;
+		const variations = (listing.variations ?? {}) as VariationsData;
+		resolveVariationDisplayNames(variations, item.selectedOptions);
 		const unitPriceCents = resolveUnitPrice(
 			listing.priceCents || 0,
 			combinations,

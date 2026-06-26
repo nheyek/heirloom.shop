@@ -19,8 +19,13 @@ const s = initServer();
 export const checkoutRouter = s.router(checkoutContract, {
 	calculateTax: async ({ body }) => {
 		const cartData = await loadCheckoutData(body.items);
-		const { subtotalCents, shippingCents } =
-			calculateCheckoutTotals(body.items, cartData);
+		let subtotalCents: number;
+		let shippingCents: number;
+		try {
+			({ subtotalCents, shippingCents } = calculateCheckoutTotals(body.items, cartData));
+		} catch (e) {
+			return { status: 400 as const, body: { error: (e as Error).message } };
+		}
 		return {
 			status: 200 as const,
 			body: {
@@ -43,9 +48,15 @@ export const checkoutRouter = s.router(checkoutContract, {
 			}
 
 			const cartData = await loadCheckoutData(body.items);
-			const { subtotalCents, shippingCents } =
-				calculateCheckoutTotals(body.items, cartData);
-			const snapshots = createOrderItemSnapshots(body.items, cartData);
+			let subtotalCents: number;
+			let shippingCents: number;
+			let snapshots: ReturnType<typeof createOrderItemSnapshots>;
+			try {
+				({ subtotalCents, shippingCents } = calculateCheckoutTotals(body.items, cartData));
+				snapshots = createOrderItemSnapshots(body.items, cartData);
+			} catch (e) {
+				return { status: 400 as const, body: { error: (e as Error).message } };
+			}
 
 			const preTaxTotal = subtotalCents + shippingCents;
 			const taxTotal = getTaxTotal(preTaxTotal, body.shippingAddress);

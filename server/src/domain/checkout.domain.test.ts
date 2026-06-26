@@ -152,6 +152,56 @@ describe('calculateCheckoutTotals', () => {
 		expect(result).toEqual({ subtotalCents: 0, shippingCents: 0 });
 	});
 
+	it('throws when selectedOptions references an unknown variation ID', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000)],
+		};
+		expect(() =>
+			calculateCheckoutTotals(
+				[{ listingShortId: 'abc', selectedOptions: { 'bad-var-id': OPT_SMALL }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow('Invalid variation ID: bad-var-id');
+	});
+
+	it('throws when selectedOptions references an unknown option ID', () => {
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+					},
+				}),
+			],
+		};
+		expect(() =>
+			calculateCheckoutTotals(
+				[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: 'bad-opt-id' }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow(`Invalid option ID: bad-opt-id for variation ${VAR_ID}`);
+	});
+
+	it('throws when the selected combination is disabled', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_SMALL });
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+					},
+					combinations: { [key]: { priceCents: 1000, upc: '', imageUuid: null, disabled: true } },
+				}),
+			],
+		};
+		expect(() =>
+			calculateCheckoutTotals(
+				[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_SMALL }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow('Selected combination is unavailable');
+	});
+
 	it('accumulates totals across multiple items', () => {
 		const queryData: CheckoutCartData = {
 			listings: [
@@ -280,5 +330,55 @@ describe('createOrderItemSnapshots', () => {
 			queryData,
 		);
 		expect(result).toEqual([]);
+	});
+
+	it('throws when selectedOptions references an unknown variation ID', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000)],
+		};
+		expect(() =>
+			createOrderItemSnapshots(
+				[{ listingShortId: 'abc', selectedOptions: { 'bad-var-id': OPT_SMALL }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow('Invalid variation ID: bad-var-id');
+	});
+
+	it('throws when selectedOptions references an unknown option ID', () => {
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+					},
+				}),
+			],
+		};
+		expect(() =>
+			createOrderItemSnapshots(
+				[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: 'bad-opt-id' }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow(`Invalid option ID: bad-opt-id for variation ${VAR_ID}`);
+	});
+
+	it('throws when the selected combination is disabled', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_SMALL });
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+					},
+					combinations: { [key]: { priceCents: 1000, upc: '', imageUuid: null, disabled: true } },
+				}),
+			],
+		};
+		expect(() =>
+			createOrderItemSnapshots(
+				[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_SMALL }, quantity: 1 }],
+				queryData,
+			),
+		).toThrow('Selected combination is unavailable');
 	});
 });

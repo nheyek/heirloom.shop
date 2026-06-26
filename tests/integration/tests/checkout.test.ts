@@ -11,12 +11,11 @@ jest.unstable_mockModule('@server/services/payment.service', () => ({
 }));
 
 import { OrderStatus } from '@heirloom/common/constants';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
-import { ListingVariation } from '@server/entities/generated/ListingVariation';
-import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
 import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
@@ -25,11 +24,17 @@ import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
 
+const MUG_VAR_ID      = 'a1b2c3d4-0000-0000-0000-000000000001';
+const MUG_OPT_SMALL   = 'a1b2c3d4-0000-0000-0000-000000000002';
+const MUG_OPT_LARGE   = 'a1b2c3d4-0000-0000-0000-000000000003';
+const MUG_OPT_JUMBO   = 'a1b2c3d4-0000-0000-0000-000000000004';
+
 /**
  * Sample data (IDs in the 300s to avoid conflicts with other test files):
  * Shop 30: "Checkout Artisan Workshop"
  *   - "Handmade Bowl" ($25, no shipping)  shortId="cbwl01"
- *   - "Ceramic Mug" ($15, $5 shipping)    shortId="cmug01"  with Size variation (Small +$0, Large +$3)
+ *   - "Ceramic Mug" ($15 base, $5 shipping) shortId="cmug01"
+ *       Size variation: Small=$15, Large=$18
  * Shop 31: "Wood Crafts"
  *   - "Cutting Board" ($45, $8 shipping)  shortId="cbrd01"
  */
@@ -76,27 +81,23 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 		shippingProfile: mugShipping,
 		imageUuids: ['img-mug-01'],
-	});
-
-	const sizeVariation = em.create(ListingVariation, {
-		id: 1,
-		variationName: 'Size',
-		pricesVary: true,
-		listing: mug,
-	});
-
-	const sizeSmall = em.create(ListingVariationOption, {
-		id: 1,
-		optionName: 'Small',
-		additionalPriceCents: 0,
-		listingVariation: sizeVariation,
-	});
-
-	const sizeLarge = em.create(ListingVariationOption, {
-		id: 2,
-		optionName: 'Large',
-		additionalPriceCents: 300,
-		listingVariation: sizeVariation,
+		variations: {
+			[MUG_VAR_ID]: {
+				name: 'Size',
+				pricesVary: true,
+				order: 0,
+				options: {
+					[MUG_OPT_SMALL]: { name: 'Small', order: 0 },
+					[MUG_OPT_LARGE]: { name: 'Large', order: 1 },
+					[MUG_OPT_JUMBO]: { name: 'Jumbo', order: 2 },
+				},
+			},
+		},
+		combinations: {
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_SMALL })]: { priceCents: 1500, upc: '', imageUuid: null, disabled: false },
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_LARGE })]: { priceCents: 1800, upc: '', imageUuid: null, disabled: false },
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_JUMBO })]: { priceCents: 2200, upc: '', imageUuid: null, disabled: true },
+		},
 	});
 
 	const boardShipping = em.create(ShippingProfile, {
@@ -125,9 +126,6 @@ beforeAll(async () => {
 		bowl,
 		mugShipping,
 		mug,
-		sizeVariation,
-		sizeSmall,
-		sizeLarge,
 		boardShipping,
 		cuttingBoard,
 	]).flush();
@@ -188,7 +186,7 @@ describe('POST /api/checkout/calculateTax', () => {
 				items: [
 					{
 						listingShortId: 'cmug01',
-						selectedOptions: { 1: 1 },
+						selectedOptions: { [MUG_VAR_ID]: MUG_OPT_SMALL },
 						quantity: 1,
 					},
 				],
@@ -213,7 +211,7 @@ describe('POST /api/checkout/calculateTax', () => {
 					},
 					{
 						listingShortId: 'cmug01',
-						selectedOptions: { 1: 2 },
+						selectedOptions: { [MUG_VAR_ID]: MUG_OPT_LARGE },
 						quantity: 1,
 					},
 				],
@@ -221,8 +219,44 @@ describe('POST /api/checkout/calculateTax', () => {
 			});
 
 		expect(res.status).toBe(200);
-		// Total: 2*$25 + ($15+$3) + $5 shipping = $73 at 6.25% = 457 cents
+		// Total: 2*$25 + $18 (Large mug) + $5 shipping = $73 at 6.25% = ~456 cents
 		expect(res.body.TaxTotalCents).toBeGreaterThanOrEqual(400);
+	});
+
+	it('returns 400 when selectedOptions references an unknown variation ID', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { 'bad-var-id': MUG_OPT_SMALL }, quantity: 1 }],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/invalid variation id/i);
+	});
+
+	it('returns 400 when selectedOptions references an unknown option ID', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: 'bad-opt-id' }, quantity: 1 }],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/invalid option id/i);
+	});
+
+	it('returns 400 when selectedOptions references a disabled combination', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: MUG_OPT_JUMBO }, quantity: 1 }],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/unavailable/i);
 	});
 
 	it('handles empty cart and unknown items', async () => {
@@ -316,7 +350,7 @@ describe('POST /api/checkout/submitOrder', () => {
 					},
 					{
 						listingShortId: 'cmug01',
-						selectedOptions: { 1: 2 },
+						selectedOptions: { [MUG_VAR_ID]: MUG_OPT_LARGE },
 						quantity: 2,
 					},
 				],
@@ -331,7 +365,7 @@ describe('POST /api/checkout/submitOrder', () => {
 			shortId: res.body.orderShortId,
 		}, { populate: ['appOrderItemCollection'] });
 
-		expect(order!.subtotal).toBe(6100); // $25 + 2*($15+$3)
+		expect(order!.subtotal).toBe(6100); // $25 + 2*$18
 		expect(order!.shippingPrice).toBe(1000); // 2*$5
 
 		const items = order!.appOrderItemCollection.getItems();
@@ -350,5 +384,44 @@ describe('POST /api/checkout/submitOrder', () => {
 			quantity: 2,
 			variations: [{ name: 'Size', value: 'Large' }],
 		});
+	});
+
+	it('returns 400 when selectedOptions references an unknown variation ID', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { 'bad-var-id': MUG_OPT_SMALL }, quantity: 1 }],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/invalid variation id/i);
+	});
+
+	it('returns 400 when selectedOptions references an unknown option ID', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: 'bad-opt-id' }, quantity: 1 }],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/invalid option id/i);
+	});
+
+	it('returns 400 when selectedOptions references a disabled combination', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: MUG_OPT_JUMBO }, quantity: 1 }],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/unavailable/i);
 	});
 });
