@@ -1,7 +1,9 @@
 import {
 	CartItemData,
+	CombinationsData,
 	ListingCardData,
 	ListingPageData,
+	VariationsData,
 } from '@heirloom/common/contract';
 import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
@@ -36,27 +38,20 @@ export const mapListingToCompleteApiResponseData = (
 	originZip: listing.shippingProfile?.originZip,
 	shippingDetails: listing.shippingProfile
 		? {
-				shipTimeDaysMin:
-					listing.shippingProfile.shippingDaysMin,
-				shipTimeDaysMax:
-					listing.shippingProfile.shippingDaysMax,
-				shippingRate:
-					listing.shippingProfile.flatShippingRateCents ||
-					0,
+				shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
+				shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
+				shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
 			}
 		: undefined,
 	returnPolicy: listing.returnProfile
 		? {
 				policyType: listing.returnProfile.policyType,
-				returnWindowDays:
-					listing.returnProfile.returnWindowDays,
+				returnWindowDays: listing.returnProfile.returnWindowDays,
 			}
 		: undefined,
 	upc: listing.upc,
-	variations: (listing.variations ??
-		{}) as ListingPageData['variations'],
-	combinations: (listing.combinations ??
-		{}) as ListingPageData['combinations'],
+	variations: (listing.variations ?? {}) as VariationsData,
+	combinations: (listing.combinations ?? {}) as CombinationsData,
 });
 
 export const mapListingToCartItemData = (
@@ -65,12 +60,9 @@ export const mapListingToCartItemData = (
 	shippingPrice: number,
 	deliveryEstimate: string | null | undefined,
 ): CartItemData => {
-	const allCombinations = (listing.combinations ??
-		{}) as CartItemData['combinations'];
-	const neededKeys = new Set(
-		selectedOptionSets.map(getCombinationKey),
-	);
-	const combinations = Object.fromEntries(
+	const allCombinations = (listing.combinations ?? {}) as CombinationsData;
+	const neededKeys = new Set(selectedOptionSets.map(getCombinationKey));
+	const combinations: CombinationsData = Object.fromEntries(
 		[...neededKeys]
 			.filter((key) => key in allCombinations)
 			.map((key) => [key, allCombinations[key]]),
@@ -79,8 +71,7 @@ export const mapListingToCartItemData = (
 		...mapListingToApiResponseData(listing),
 		shippingPrice,
 		deliveryEstimate,
-		variations: (listing.variations ??
-			{}) as CartItemData['variations'],
+		variations: (listing.variations ?? {}) as VariationsData,
 		combinations,
 	};
 };

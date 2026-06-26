@@ -1,10 +1,10 @@
 import { Listing } from '@server/entities/generated/Listing';
-import { ListingVariationOption } from '@server/entities/generated/ListingVariationOption';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import {
 	calculateCheckoutTotals,
 	createOrderItemSnapshots,
 } from '@server/domain/checkout.domain';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 
 const makeListing = (
 	shortId: string,
@@ -17,15 +17,20 @@ const makeListing = (
 		processingMaxDays: number;
 		title: string;
 		shopTitle: string;
+		shopShortId: string;
 		imageUuids: string[];
+		variations: Record<string, unknown>;
+		combinations: Record<string, unknown>;
 	}> = {},
 ) =>
 	({
 		shortId,
 		priceCents,
 		title: overrides.title ?? 'Test Listing',
-		shop: { title: overrides.shopTitle ?? 'Test Shop' },
+		shop: { title: overrides.shopTitle ?? 'Test Shop', shortId: overrides.shopShortId ?? 'shop1' },
 		imageUuids: overrides.imageUuids ?? [],
+		variations: overrides.variations ?? {},
+		combinations: overrides.combinations ?? {},
 		processingProfile:
 			overrides.processingMinDays !== undefined || overrides.processingMaxDays !== undefined
 				? { minDays: overrides.processingMinDays ?? 0, maxDays: overrides.processingMaxDays ?? 0 }
@@ -40,31 +45,20 @@ const makeListing = (
 				: undefined,
 	}) as unknown as Listing;
 
-const makeOption = (
-	id: number,
-	variationId: number,
-	additionalPriceCents: number,
-	variationName: string,
-	optionName: string,
-	pricesVary: boolean = true,
-) =>
-	({
-		id,
-		additionalPriceCents,
-		optionName,
-		listingVariation: {
-			id: variationId,
-			variationName,
-			pricesVary,
-		},
-	}) as unknown as ListingVariationOption;
+const VAR_ID = 'var-uuid-size';
+const OPT_SMALL = 'opt-uuid-small';
+const OPT_LARGE = 'opt-uuid-large';
+
+const makeCombination = (priceCents: number) => ({
+	priceCents,
+	upc: '',
+	imageUuid: null,
+	disabled: false,
+});
 
 describe('calculateCheckoutTotals', () => {
 	it('returns zero totals for an empty cart', () => {
-		const queryData: CheckoutCartData = {
-			listings: [],
-			variationOptions: [],
-		};
+		const queryData: CheckoutCartData = { listings: [] };
 		expect(calculateCheckoutTotals([], queryData)).toEqual({
 			subtotalCents: 0,
 			shippingCents: 0,
@@ -74,16 +68,9 @@ describe('calculateCheckoutTotals', () => {
 	it('calculates subtotal from listing base price', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
 			queryData,
 		);
 		expect(result.subtotalCents).toBe(1000);
@@ -92,58 +79,52 @@ describe('calculateCheckoutTotals', () => {
 	it('multiplies unit price by quantity', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 500)],
-			variationOptions: [],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 3,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 3 }],
 			queryData,
 		);
 		expect(result.subtotalCents).toBe(1500);
 	});
 
-	it('adds additional price from selected options', () => {
+	it('uses combination price when selected options match a combination', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_LARGE });
 		const queryData: CheckoutCartData = {
-			listings: [makeListing('abc', 1000)],
-			variationOptions: [
-				makeOption(10, 1, 500, 'Size', 'Large'),
+			listings: [
+				makeListing('abc', 1000, {
+					combinations: { [key]: makeCombination(1500) },
+				}),
 			],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: { 1: 10 },
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_LARGE }, quantity: 1 }],
 			queryData,
 		);
 		expect(result.subtotalCents).toBe(1500);
+	});
+
+	it('falls back to base price when combination has null priceCents', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_SMALL });
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					combinations: { [key]: { priceCents: null, upc: '', imageUuid: null, disabled: false } },
+				}),
+			],
+		};
+		const result = calculateCheckoutTotals(
+			[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_SMALL }, quantity: 1 }],
+			queryData,
+		);
+		expect(result.subtotalCents).toBe(1000);
 	});
 
 	it('calculates shipping total from shipping profile', () => {
 		const queryData: CheckoutCartData = {
-			listings: [
-				makeListing('abc', 1000, {
-					flatShippingRateCents: 400,
-				}),
-			],
-			variationOptions: [],
+			listings: [makeListing('abc', 1000, { flatShippingRateCents: 400 })],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 2,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 2 }],
 			queryData,
 		);
 		expect(result.shippingCents).toBe(800);
@@ -152,16 +133,9 @@ describe('calculateCheckoutTotals', () => {
 	it('treats missing shipping profile as zero shipping', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
 			queryData,
 		);
 		expect(result.shippingCents).toBe(0);
@@ -170,48 +144,25 @@ describe('calculateCheckoutTotals', () => {
 	it('skips items whose listing is not found', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
 		};
 		const result = calculateCheckoutTotals(
-			[
-				{
-					listingShortId: 'unknown',
-					selectedOptions: {},
-					quantity: 1,
-				},
-			],
+			[{ listingShortId: 'unknown', selectedOptions: {}, quantity: 1 }],
 			queryData,
 		);
-		expect(result).toEqual({
-			subtotalCents: 0,
-			shippingCents: 0,
-		});
+		expect(result).toEqual({ subtotalCents: 0, shippingCents: 0 });
 	});
 
 	it('accumulates totals across multiple items', () => {
 		const queryData: CheckoutCartData = {
 			listings: [
-				makeListing('abc', 1000, {
-					flatShippingRateCents: 300,
-				}),
-				makeListing('xyz', 2000, {
-					flatShippingRateCents: 500,
-				}),
+				makeListing('abc', 1000, { flatShippingRateCents: 300 }),
+				makeListing('xyz', 2000, { flatShippingRateCents: 500 }),
 			],
-			variationOptions: [],
 		};
 		const result = calculateCheckoutTotals(
 			[
-				{
-					listingShortId: 'abc',
-					selectedOptions: {},
-					quantity: 2,
-				},
-				{
-					listingShortId: 'xyz',
-					selectedOptions: {},
-					quantity: 1,
-				},
+				{ listingShortId: 'abc', selectedOptions: {}, quantity: 2 },
+				{ listingShortId: 'xyz', selectedOptions: {}, quantity: 1 },
 			],
 			queryData,
 		);
@@ -222,10 +173,7 @@ describe('calculateCheckoutTotals', () => {
 
 describe('createOrderItemSnapshots', () => {
 	it('returns an empty array for an empty cart', () => {
-		const queryData: CheckoutCartData = {
-			listings: [],
-			variationOptions: [],
-		};
+		const queryData: CheckoutCartData = { listings: [] };
 		expect(createOrderItemSnapshots([], queryData)).toEqual([]);
 	});
 
@@ -238,13 +186,12 @@ describe('createOrderItemSnapshots', () => {
 					imageUuids: ['uuid-1', 'uuid-2'],
 				}),
 			],
-			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
 			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 2 }],
 			queryData,
 		);
-		expect(snapshot).toEqual({
+		expect(snapshot).toMatchObject({
 			title: 'Handmade Bowl',
 			shopName: 'Clay Co',
 			imageUuid: 'uuid-1',
@@ -259,7 +206,6 @@ describe('createOrderItemSnapshots', () => {
 	it('uses null for imageUuid when listing has no images', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000, { imageUuids: [] })],
-			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
 			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
@@ -268,13 +214,27 @@ describe('createOrderItemSnapshots', () => {
 		expect(snapshot.imageUuid).toBeNull();
 	});
 
-	it('includes variation name and value in snapshot', () => {
+	it('includes variation name and value in snapshot from combinations', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_LARGE });
 		const queryData: CheckoutCartData = {
-			listings: [makeListing('abc', 1000)],
-			variationOptions: [makeOption(10, 1, 500, 'Size', 'Large')],
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: {
+							name: 'Size',
+							pricesVary: true,
+							order: 0,
+							options: {
+								[OPT_LARGE]: { name: 'Large', order: 1 },
+							},
+						},
+					},
+					combinations: { [key]: makeCombination(1500) },
+				}),
+			],
 		};
 		const [snapshot] = createOrderItemSnapshots(
-			[{ listingShortId: 'abc', selectedOptions: { 1: 10 }, quantity: 1 }],
+			[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_LARGE }, quantity: 1 }],
 			queryData,
 		);
 		expect(snapshot.unitPriceCents).toBe(1500);
@@ -292,7 +252,6 @@ describe('createOrderItemSnapshots', () => {
 					shippingDaysMax: 4,
 				}),
 			],
-			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
 			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
@@ -304,7 +263,6 @@ describe('createOrderItemSnapshots', () => {
 	it('sets estimatedDelivery to null when listing has no shipping profile', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
 		};
 		const [snapshot] = createOrderItemSnapshots(
 			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
@@ -316,7 +274,6 @@ describe('createOrderItemSnapshots', () => {
 	it('skips items whose listing is not found', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
-			variationOptions: [],
 		};
 		const result = createOrderItemSnapshots(
 			[{ listingShortId: 'unknown', selectedOptions: {}, quantity: 1 }],

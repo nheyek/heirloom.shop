@@ -60,10 +60,10 @@ export class Listing {
   upc?: string;
 
   @Property({ type: 'json', nullable: true })
-  variations?: Record<string, unknown>;
+  variations?: any;
 
   @Property({ type: 'json', nullable: true })
-  combinations?: Record<string, unknown>;
+  combinations?: any;
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);

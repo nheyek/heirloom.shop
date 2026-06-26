@@ -533,6 +533,12 @@ export const appContract = c.router({
 	shops: shopsContract,
 });
 
+export type VariationOptionData = z.infer<typeof VariationOptionSchema>;
+export type VariationData = z.infer<typeof VariationSchema>;
+export type VariationsData = z.infer<typeof VariationsSchema>;
+export type CombinationData = z.infer<typeof CombinationSchema>;
+export type CombinationsData = z.infer<typeof CombinationsSchema>;
+
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
 export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;

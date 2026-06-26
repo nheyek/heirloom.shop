@@ -157,7 +157,9 @@ CREATE TABLE public.listing (
     short_id character varying(10) NOT NULL,
     processing_profile_id integer,
     return_profile_id integer,
-    upc character varying(12)
+    upc character varying(12),
+    variations jsonb,
+    combinations jsonb
 );
 
 
@@ -265,74 +267,6 @@ CREATE SEQUENCE public.listing_return_profile_id_seq
 --
 
 ALTER SEQUENCE public.listing_return_profile_id_seq OWNED BY public.listing_return_profile.id;
-
-
---
--- Name: listing_variation; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.listing_variation (
-    id integer NOT NULL,
-    listing_id integer NOT NULL,
-    variation_name character varying(128) NOT NULL,
-    prices_vary boolean DEFAULT false NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
-);
-
-
---
--- Name: listing_variation_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.listing_variation_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: listing_variation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.listing_variation_id_seq OWNED BY public.listing_variation.id;
-
-
---
--- Name: listing_variation_option; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.listing_variation_option (
-    id integer NOT NULL,
-    listing_variation_id integer NOT NULL,
-    option_name character varying(128) NOT NULL,
-    additional_price_cents integer DEFAULT 0 NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
-);
-
-
---
--- Name: listing_variation_option_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.listing_variation_option_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: listing_variation_option_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.listing_variation_option_id_seq OWNED BY public.listing_variation_option.id;
 
 
 --
@@ -638,20 +572,6 @@ ALTER TABLE ONLY public.listing_return_profile ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- Name: listing_variation id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation ALTER COLUMN id SET DEFAULT nextval('public.listing_variation_id_seq'::regclass);
-
-
---
--- Name: listing_variation_option id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation_option ALTER COLUMN id SET DEFAULT nextval('public.listing_variation_option_id_seq'::regclass);
-
-
---
 -- Name: return_exchange_profile id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -773,22 +693,6 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: listing_variation_option listing_variation_option_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation_option
-    ADD CONSTRAINT listing_variation_option_pkey PRIMARY KEY (id);
-
-
---
--- Name: listing_variation listing_variation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation
-    ADD CONSTRAINT listing_variation_pkey PRIMARY KEY (id);
-
-
---
 -- Name: listing product_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -858,22 +762,6 @@ ALTER TABLE ONLY public.shop
 
 ALTER TABLE ONLY public.shop_user_role
     ADD CONSTRAINT shop_user_role_pkey PRIMARY KEY (id);
-
-
---
--- Name: listing_variation unique_name_per_listing; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation
-    ADD CONSTRAINT unique_name_per_listing UNIQUE (listing_id, variation_name);
-
-
---
--- Name: listing_variation_option unique_option_per_variation; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation_option
-    ADD CONSTRAINT unique_option_per_variation UNIQUE (listing_variation_id, option_name);
 
 
 --
@@ -1048,22 +936,6 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: listing_variation listing_variation_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation
-    ADD CONSTRAINT listing_variation_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
-
-
---
--- Name: listing_variation_option listing_variation_option_listing_variation_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing_variation_option
-    ADD CONSTRAINT listing_variation_option_listing_variation_id_fkey FOREIGN KEY (listing_variation_id) REFERENCES public.listing_variation(id) ON DELETE CASCADE;
-
-
---
 -- Name: shipping_profile shipping_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1152,4 +1024,6 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260624000001'),
     ('20260624000002'),
     ('20260625000000'),
-    ('20260625000001');
+    ('20260625000001'),
+    ('20260625000002'),
+    ('20260625000003');
