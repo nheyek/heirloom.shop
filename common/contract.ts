@@ -1,6 +1,6 @@
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
-import { OrderStatus } from './constants.js';
+import { OrderStatus, ReturnPolicyType } from './constants.js';
 
 const c = initContract();
 
@@ -359,6 +359,83 @@ export const shopsContract = c.router({
 	},
 });
 
+const ShopManagerProcessingProfileSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	minDays: z.number(),
+	maxDays: z.number(),
+});
+
+const ShopManagerShippingProfileSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	originZip: z.string(),
+	flatShippingRateCents: z.number().nullable(),
+	shippingDaysMin: z.number(),
+	shippingDaysMax: z.number(),
+});
+
+const ShopManagerReturnProfileSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	policyType: z.nativeEnum(ReturnPolicyType),
+	returnWindowDays: z.number().nullable(),
+	policyDescrRichText: z.string().nullable(),
+});
+
+const ShopProfilesDataSchema = z.object({
+	processingProfiles: z.array(ShopManagerProcessingProfileSchema),
+	shippingProfiles: z.array(ShopManagerShippingProfileSchema),
+	returnProfiles: z.array(ShopManagerReturnProfileSchema),
+});
+
+const ListingEditDataSchema = z.object({
+	shortId: z.string(),
+	title: z.string(),
+	subtitle: z.string().nullable(),
+	categoryId: z.string(),
+	priceCents: z.number(),
+	upc: z.string().nullable(),
+	imageUuids: z.array(z.string()),
+	processingProfileId: z.number().nullable(),
+	shippingProfileId: z.number().nullable(),
+	returnProfileId: z.number().nullable(),
+	fullDescr: z.array(ListingDescrSectionSchema).nullable(),
+	variations: VariationsSchema,
+	combinations: CombinationsSchema,
+});
+
+export const shopManagerContract = c.router({
+	getProfiles: {
+		method: 'GET',
+		path: '/api/shops/:shopId/manager/profiles',
+		pathParams: z.object({ shopId: z.string() }),
+		responses: {
+			200: ShopProfilesDataSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	getListing: {
+		method: 'GET',
+		path: '/api/shops/:shopId/manager/listings/:listingShortId',
+		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		responses: {
+			200: ListingEditDataSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+});
+
+export type ShopManagerProcessingProfile = z.infer<typeof ShopManagerProcessingProfileSchema>;
+export type ShopManagerShippingProfile = z.infer<typeof ShopManagerShippingProfileSchema>;
+export type ShopManagerReturnProfile = z.infer<typeof ShopManagerReturnProfileSchema>;
+export type ShopProfilesData = z.infer<typeof ShopProfilesDataSchema>;
+export type ListingEditData = z.infer<typeof ListingEditDataSchema>;
+
 const SearchResultSchema = z.object({
 	id: z.string(),
 	label: z.string(),
@@ -530,6 +607,7 @@ export const appContract = c.router({
 	me: meContract,
 	orders: ordersContract,
 	search: searchContract,
+	shopManager: shopManagerContract,
 	shops: shopsContract,
 });
 
@@ -542,6 +620,7 @@ export type CombinationsData = z.infer<typeof CombinationsSchema>;
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
 export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;
+export type ListingFullDescr = ListingDescrSection[];
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
 export type CheckoutRequest = z.infer<typeof CheckoutBodySchema>;

@@ -7,6 +7,7 @@ import { IoReceipt, IoSettingsSharp } from 'react-icons/io5';
 import { TbSquaresFilled } from 'react-icons/tb';
 import { Navigate, useParams } from 'react-router-dom';
 
+import { ShopManagerProvider } from '@client/providers/ShopManagerProvider';
 import { FaShop } from 'react-icons/fa6';
 import {
 	SidebarNavItem,
@@ -90,5 +91,9 @@ export const ShopManagerPageLayout = () => {
 		);
 	}
 
-	return <SidebarPageLayout navItems={getNavItems(shortId)} />;
+	return (
+		<ShopManagerProvider>
+			<SidebarPageLayout navItems={getNavItems(shortId)} />
+		</ShopManagerProvider>
+	);
 };

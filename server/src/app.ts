@@ -6,6 +6,7 @@ import {
 	meContract,
 	ordersContract,
 	searchContract,
+	shopManagerContract,
 	shopsContract,
 } from '@heirloom/common/contract';
 import { createExpressEndpoints } from '@ts-rest/express';
@@ -21,6 +22,7 @@ import { listingRouter } from './routes/listing.routes.js';
 import { meRouter } from './routes/me.routes.js';
 import { orderRouter } from './routes/order.routes.js';
 import { searchRouter } from './routes/search.routes.js';
+import { shopManagerRouter } from './routes/shopManager.routes.js';
 import { shopRouter } from './routes/shop.routes.js';
 import webhookRouter from './routes/webhook.routes.js';
 import { logError } from './services/error-log.service.js';
@@ -84,6 +86,7 @@ export const createApp = async () => {
 	createExpressEndpoints(categoryContract, categoryRouter, app);
 	createExpressEndpoints(checkoutContract, checkoutRouter, app);
 	createExpressEndpoints(searchContract, searchRouter, app);
+	createExpressEndpoints(shopManagerContract, shopManagerRouter, app);
 	createExpressEndpoints(ordersContract, orderRouter, app);
 
 	app.use((_req, res) => {

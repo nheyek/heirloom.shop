@@ -20,8 +20,8 @@ const hashFile = async (file: File): Promise<string> => {
 		.join('');
 };
 
-export const useImageUpload = (getUploadUrl: GetUploadUrl) => {
-	const [imageEntries, setImageEntries] = useState<ImageEntry[]>([]);
+export const useImageUpload = (getUploadUrl: GetUploadUrl, initialEntries: ImageEntry[] = []) => {
+	const [imageEntries, setImageEntries] = useState<ImageEntry[]>(initialEntries);
 	const uploadCache = useRef<Map<string, string>>(new Map());
 
 	// Keep a stable ref to the latest getUploadUrl so async closures

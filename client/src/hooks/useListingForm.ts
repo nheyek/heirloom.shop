@@ -157,6 +157,18 @@ type UseListingFormOptions = {
 	initialTitle?: string;
 	initialSubtitle?: string;
 	initialCategoryId?: string | null;
+	initialPriceCents?: number | null;
+	initialUpc?: string;
+	initialImageEntries?: ImageEntry[];
+	initialProcessingProfileId?: string | null;
+	initialShippingProfileId?: string | null;
+	initialReturnProfileId?: string | null;
+	initialProcessingProfiles?: ProcessingProfile[];
+	initialShippingProfiles?: ShippingProfile[];
+	initialReturnProfiles?: ReturnProfile[];
+	initialDescrSections?: ListingDescrSection[];
+	initialVariations?: Variations;
+	initialCombinations?: Combinations;
 };
 
 export const useListingForm = ({
@@ -164,6 +176,18 @@ export const useListingForm = ({
 	initialTitle = '',
 	initialSubtitle = '',
 	initialCategoryId = null,
+	initialPriceCents = null,
+	initialUpc = '',
+	initialImageEntries,
+	initialProcessingProfileId = null,
+	initialShippingProfileId = null,
+	initialReturnProfileId = null,
+	initialProcessingProfiles = [],
+	initialShippingProfiles = [],
+	initialReturnProfiles = [],
+	initialDescrSections = [],
+	initialVariations = {},
+	initialCombinations = {},
 }: UseListingFormOptions): ListingFormState => {
 	const apiClient = useApiClient();
 
@@ -183,9 +207,9 @@ export const useListingForm = ({
 	);
 
 	const [imageError, setImageError] = useState<string | null>(null);
-	const [priceCents, setPriceCents] = useState<number | null>(null);
+	const [priceCents, setPriceCents] = useState<number | null>(initialPriceCents);
 	const [priceError, setPriceError] = useState<string | null>(null);
-	const [upc, setUpc] = useState('');
+	const [upc, setUpc] = useState(initialUpc);
 	const [upcError, setUpcError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] =
 		useState<Record<string, boolean>>({});
@@ -193,44 +217,34 @@ export const useListingForm = ({
 		useState<Record<string, boolean>>({});
 	const [combinationActiveError, setCombinationActiveError] =
 		useState<string | null>(null);
-	const [processingProfiles, setProcessingProfiles] = useState<
-		ProcessingProfile[]
-	>([]);
+	const [processingProfiles, setProcessingProfiles] = useState<ProcessingProfile[]>(
+		initialProcessingProfiles,
+	);
 	const addProcessingProfile = (profile: ProcessingProfile) =>
 		setProcessingProfiles((prev) => [...prev, profile]);
-	const [processingProfileId, setProcessingProfileId] = useState<
-		string | null
-	>(null);
+	const [processingProfileId, setProcessingProfileId] = useState<string | null>(
+		initialProcessingProfileId,
+	);
 	const [processingProfileError, setProcessingProfileError] =
 		useState<string | null>(null);
 
-	const [shippingProfiles, setShippingProfiles] = useState<
-		ShippingProfile[]
-	>([]);
+	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>(
+		initialShippingProfiles,
+	);
 	const addShippingProfile = (profile: ShippingProfile) =>
 		setShippingProfiles((prev) => [...prev, profile]);
-	const [shippingProfileId, setShippingProfileId] = useState<
-		string | null
-	>(null);
-	const [shippingProfileError, setShippingProfileError] = useState<
-		string | null
-	>(null);
+	const [shippingProfileId, setShippingProfileId] = useState<string | null>(
+		initialShippingProfileId,
+	);
+	const [shippingProfileError, setShippingProfileError] = useState<string | null>(null);
 
-	const [returnProfiles, setReturnProfiles] = useState<
-		ReturnProfile[]
-	>([]);
+	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>(initialReturnProfiles);
 	const addReturnProfile = (profile: ReturnProfile) =>
 		setReturnProfiles((prev) => [...prev, profile]);
-	const [returnProfileId, setReturnProfileId] = useState<
-		string | null
-	>(null);
-	const [returnProfileError, setReturnProfileError] = useState<
-		string | null
-	>(null);
+	const [returnProfileId, setReturnProfileId] = useState<string | null>(initialReturnProfileId);
+	const [returnProfileError, setReturnProfileError] = useState<string | null>(null);
 
-	const [variations, setVariations] = useState<Variations>(
-		{},
-	);
+	const [variations, setVariations] = useState<Variations>(initialVariations);
 
 	const addVariation = (variation: Variation) => {
 		const newId = crypto.randomUUID();
@@ -271,8 +285,7 @@ export const useListingForm = ({
 		});
 	};
 
-	const [combinations, setCombinations] =
-		useState<Combinations>({});
+	const [combinations, setCombinations] = useState<Combinations>(initialCombinations);
 
 	const setCombinationField = (
 		key: string,
@@ -301,11 +314,9 @@ export const useListingForm = ({
 		});
 	};
 
-	const [descrSections, setDescrSections] = useState<
-		ListingDescrSection[]
-	>([]);
+	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>(initialDescrSections);
 	const [descrSectionIds, setDescrSectionIds] = useState<string[]>(
-		[],
+		initialDescrSections.map(() => crypto.randomUUID()),
 	);
 
 	const addDescrSection = (section: ListingDescrSection) => {
@@ -360,7 +371,7 @@ export const useListingForm = ({
 			}),
 		);
 		return result.error !== null ? null : result.data;
-	});
+	}, initialImageEntries);
 
 	const validate = (): boolean => {
 		let valid = true;

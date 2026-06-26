@@ -1,14 +1,26 @@
 import { Button, HStack } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
+import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
 import { useListingForm } from '@client/hooks/useListingForm';
+import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { FaCheckCircle, FaSave } from 'react-icons/fa';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 export const ShopManagerListingCreatePage = () => {
 	const { shortId: shopShortId } = useParams<{ shortId: string }>();
-	const form = useListingForm({ shopShortId: shopShortId! });
+	const { processingProfiles, shippingProfiles, returnProfiles, profilesLoading } = useShopManager();
+	const form = useListingForm({
+		shopShortId: shopShortId!,
+		initialProcessingProfiles: processingProfiles,
+		initialShippingProfiles: shippingProfiles,
+		initialReturnProfiles: returnProfiles,
+	});
 	const containerRef = useRef<HTMLDivElement>(null);
+
+	if (profilesLoading) {
+		return <ListingFormSkeleton />;
+	}
 
 	const handleCreate = () => {
 		if (!form.validate()) {
