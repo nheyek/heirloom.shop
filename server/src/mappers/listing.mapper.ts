@@ -17,7 +17,7 @@ export const mapListingToApiResponseData = (
 	subtitle: listing.subtitle || '',
 	categoryId: listing.category.id,
 	priceCents: listing.priceCents || 0,
-	countryCode: listing.country?.code,
+	countryCode: listing.shop.country?.code,
 	shopId: listing.shop.id,
 	shopShortId: listing.shop.shortId || '',
 	shopTitle: listing.shop.title,

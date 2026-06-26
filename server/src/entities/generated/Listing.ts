@@ -1,6 +1,5 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
-import { Country } from './Country.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingReturnProfile } from './ListingReturnProfile.js';
@@ -34,9 +33,6 @@ export class Listing {
 
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
   shop!: Rel<Shop>;
-
-  @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
-  country?: Rel<Country>;
 
   @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
   imageUuids!: string[] & Opt;

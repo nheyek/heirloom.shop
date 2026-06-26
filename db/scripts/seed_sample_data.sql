@@ -73,7 +73,6 @@ DECLARE
     sample_listing_1_title VARCHAR := 'Chain-Link Bracelet';
     sample_listing_1_subtitle VARCHAR := '7mm wide curb chain with hand-formed closure.';
     sample_listing_1_price_cents INT := 20000;
-    sample_listing_1_country_code CHAR(2) := 'US';
     sample_listing_1_image_uuids text[] := '{"71E53058-8F01-42EE-B240-245BB0977ED8"}';
 
     sample_listing_2_id INT := 2;
@@ -82,7 +81,6 @@ DECLARE
     sample_listing_2_title VARCHAR := 'Cuff Bracelet';
     sample_listing_2_subtitle VARCHAR := 'Hand-forged, classic straight body cuff bracelet.';
     sample_listing_2_price_cents INT := 12500;
-    sample_listing_2_country_code CHAR(2) := 'US';
     sample_listing_2_image_uuids text[] := '{"E4EF3812-2D09-4A32-94CE-4DF424B213A4"}';
 
     sample_listing_3_id INT := 3;
@@ -91,7 +89,6 @@ DECLARE
     sample_listing_3_title VARCHAR := 'Band Ring';
     sample_listing_3_subtitle VARCHAR := 'Solid silver or brass band ring in a variety of widths.';
     sample_listing_3_price_cents INT := 8000;
-    sample_listing_3_country_code CHAR(2) := 'US';
     sample_listing_3_image_uuids text[] := '{"AD996A1E-9D17-46E8-8023-6250877CFDAC"}';
 
     sample_listing_4_id INT := 4;
@@ -100,7 +97,6 @@ DECLARE
     sample_listing_4_title VARCHAR := 'Signet Ring';
     sample_listing_4_subtitle VARCHAR := 'Classic signet ring with a distinct hand-filed texture on the sides and body of the ring, showing the marks of tool used carve and refine its shape';
     sample_listing_4_price_cents INT := 4500;
-    sample_listing_4_country_code CHAR(2) := 'US';
     sample_listing_4_image_uuids text[] := '{"8F44E91A-D1CD-4B48-9A08-A1F439BD8839"}';
 
     sample_listing_5_id INT := 5;
@@ -109,7 +105,6 @@ DECLARE
     sample_listing_5_title VARCHAR := 'Allyson Dining Table';
     sample_listing_5_subtitle VARCHAR := 'Crafted from Alder hardwood, this turned-leg table exudes timeless allure, transforming any dining space into a haven of sophistication and charm.';
     sample_listing_5_price_cents INT := 296700;
-    sample_listing_5_country_code CHAR(2) := 'US';
     sample_listing_5_image_uuids text[] := '{"8D236EB4-62F3-48D8-A468-4A46DEE32003", "5561CDF1-343A-4AA7-AE24-D099BD97157E", "140D5892-CF55-4611-8BC8-FEDCFFE4614C", "DC7B2D50-361B-4573-A9C8-8AEDB7FC0C7A"}';
     sample_shop_1_processing_profile_id INT;
     sample_shop_2_processing_profile_id INT;
@@ -142,7 +137,6 @@ DECLARE
     sample_listing_6_title VARCHAR := 'Floating Top Coffee Table';
     sample_listing_6_subtitle VARCHAR := 'A symbol of meticulous design and enduring quality, the Floating Top Coffee Table showcases a stylishly jointed solid hardwood top that epitomizes seamless beauty and resilience.';
     sample_listing_6_price_cents INT := 206100;
-    sample_listing_6_country_code CHAR(2) := 'US';
     sample_listing_6_image_uuids text[] := '{"9C5A0A04-14A6-4415-B273-9317DFAB20E4"}';
 
     sample_listing_7_id INT := 7;
@@ -151,7 +145,6 @@ DECLARE
     sample_listing_7_title VARCHAR := 'Stissing Cocktail Table';
     sample_listing_7_subtitle VARCHAR := 'Hand-forged in Maine, by Matt Foster and the Black Dog Ironworks team, our Martini table was designed for our tavern, Stissing House, in Pine Plains, NY.';
     sample_listing_7_price_cents INT := 39000;
-    sample_listing_7_country_code CHAR(2) := 'US';
     sample_listing_7_image_uuids text[] := '{"E2C0607B-160B-41A6-9258-E1EA6AEBC2AB"}';
 
     sample_listing_8_id INT := 8;
@@ -160,7 +153,6 @@ DECLARE
     sample_listing_8_title VARCHAR := 'No. 1943 Navigator Briefcase';
     sample_listing_8_subtitle VARCHAR := 'Stand out with this timeless WWII-inspired full-grain American Buffalo leather briefcase. Meticulously handcrafted in America.';
     sample_listing_8_price_cents INT := 116000;
-    sample_listing_8_country_code CHAR(2) := 'US';
     sample_listing_8_image_uuids text[] := '{"EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C"}';
 
     sample_listing_9_id INT := 9;
@@ -169,7 +161,6 @@ DECLARE
     sample_listing_9_title VARCHAR := 'No. 2 Leather Duffel Bag';
     sample_listing_9_subtitle VARCHAR := 'The ultimate weekender/carry-on bag in easy-going, dry-milled American Buffalo.';
     sample_listing_9_price_cents INT := 134000;
-    sample_listing_9_country_code CHAR(2) := 'US';
     sample_listing_9_image_uuids text[] := '{"18A7B73F-AFBE-48AE-A16D-8CC7466B1E9E"}';
 
     sample_listing_10_id INT := 10;
@@ -178,7 +169,6 @@ DECLARE
     sample_listing_10_title VARCHAR := 'Prato Candlestick, Small, Pair';
     sample_listing_10_subtitle VARCHAR := 'This smaller version of our Prato candlestick is one of our best sellers. These versatile pewter candlesticks are a great way to add that warm glow to a special dinner for two. Or try them dotting the table in multiples to light up a special celebration.';
     sample_listing_10_price_cents INT := 16300;
-    sample_listing_10_country_code CHAR(2) := 'IT';
     sample_listing_10_image_uuids text[] := '{"52EC9AC7-82EC-4BE8-ABF0-E49A5C71FB31"}';
 
     sample_listing_5_variation_id VARCHAR;

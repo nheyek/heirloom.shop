@@ -150,7 +150,6 @@ CREATE TABLE public.listing (
     subtitle character varying(256),
     price_cents integer DEFAULT 0 NOT NULL,
     shop_id integer NOT NULL,
-    country_code character(2),
     image_uuids text[] DEFAULT ARRAY[]::text[] NOT NULL,
     shipping_profile_id integer,
     full_descr jsonb,
@@ -880,14 +879,6 @@ ALTER TABLE ONLY public.listing_category
 
 
 --
--- Name: listing listing_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_country_code_fkey FOREIGN KEY (country_code) REFERENCES public.country(code) ON DELETE SET NULL;
-
-
---
 -- Name: listing listing_processing_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1026,4 +1017,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260625000000'),
     ('20260625000001'),
     ('20260625000002'),
-    ('20260625000003');
+    ('20260625000003'),
+    ('20260626000000');

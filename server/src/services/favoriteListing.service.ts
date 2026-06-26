@@ -78,7 +78,7 @@ export const getFavoritedListingsForUser = async (
 			populate: [
 				'listing',
 				'listing.shop',
-				'listing.country',
+				'listing.shop.country',
 			],
 			orderBy: { createdAt: 'desc' },
 		},

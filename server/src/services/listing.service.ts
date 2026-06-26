@@ -11,7 +11,7 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 		Listing,
 		{},
 		{
-			populate: ['shop', 'country'],
+			populate: ['shop', 'shop.country'],
 			orderBy: { [sql`RANDOM()`]: 'asc' },
 			limit: 8,
 		},
@@ -43,7 +43,7 @@ export const findListingsByCategory = async (
 		{
 			category: { $in: categoryIds },
 		},
-		{ populate: ['shop', 'country'] },
+		{ populate: ['shop', 'shop.country'] },
 	);
 };
 
@@ -65,7 +65,7 @@ export const findFullListingDataByShortId = async (
 		{
 			populate: [
 				'shop',
-				'country',
+				'shop.country',
 				'shippingProfile',
 				'processingProfile',
 				'returnProfile',
@@ -112,6 +112,6 @@ export const findListingsByShortIds = async (
 	return em.find(
 		Listing,
 		{ shortId: { $in: shortIds } },
-		{ populate: ['shop', 'country', 'category'] },
+		{ populate: ['shop', 'shop.country', 'category'] },
 	);
 };
