@@ -41,6 +41,7 @@ import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
@@ -133,15 +134,32 @@ export const ListingPage = () => {
 		}
 	}, [listingData]);
 
-	const totalPriceCents = listingData?.priceCents || 0;
-
 	const imageUrls =
 		listingData?.imageUuids.map(
 			(uuid) => `${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
 		) || [];
 
 	type VariationCollectionItem = { value: string; label: string };
-	const variationCollections: Array<{ id: string; name: string; collection: ReturnType<typeof createListCollection<VariationCollectionItem>> }> = [];
+	const variationCollections: Array<{ id: string; name: string; collection: ReturnType<typeof createListCollection<VariationCollectionItem>> }> =
+		listingData
+			? Object.entries(listingData.variations)
+					.sort(([, a], [, b]) => a.order - b.order)
+					.map(([varId, variation]) => ({
+						id: varId,
+						name: variation.name,
+						collection: createListCollection({
+							items: Object.entries(variation.options)
+								.sort(([, a], [, b]) => a.order - b.order)
+								.map(([optId, option]) => ({ value: optId, label: option.name })),
+						}),
+					}))
+			: [];
+
+	const totalPriceCents = (() => {
+		if (!listingData) return 0;
+		const key = getCombinationKey(selectedVariationOptions);
+		return listingData.combinations[key]?.priceCents ?? listingData.priceCents ?? 0;
+	})();
 
 	const deliveryEstimate = listingData
 		? calculateDeliveryEstimate(
