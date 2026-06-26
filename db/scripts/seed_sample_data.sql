@@ -171,10 +171,14 @@ DECLARE
     sample_listing_10_price_cents INT := 16300;
     sample_listing_10_image_uuids text[] := '{"52EC9AC7-82EC-4BE8-ABF0-E49A5C71FB31"}';
 
-    sample_listing_5_variation_id VARCHAR;
-    sample_listing_5_option_1_id VARCHAR;
-    sample_listing_5_option_2_id VARCHAR;
-    sample_listing_5_option_3_id VARCHAR;
+    sample_listing_5_variation_id         CONSTANT VARCHAR := 'c6011ee4-de8c-40e2-8215-305434391f6e';
+    sample_listing_5_option_1_id          CONSTANT VARCHAR := 'a2d28b3e-3938-422f-9ee7-548cbc29419d';
+    sample_listing_5_option_2_id          CONSTANT VARCHAR := '412a538a-0c1f-4fcc-818f-f0c9daefb72d';
+    sample_listing_5_option_3_id          CONSTANT VARCHAR := '1b83df66-10ab-41e8-bab2-e8dd751c2d8d';
+    sample_listing_5_species_variation_id CONSTANT VARCHAR := '6d790a0c-0ed4-4280-a8f5-446bd25f4d47';
+    sample_listing_5_species_walnut_id    CONSTANT VARCHAR := 'cedbf96c-dfab-457a-9cfe-611d2bf60288';
+    sample_listing_5_species_oak_id       CONSTANT VARCHAR := '5b11fe9c-3b6e-4040-8bd2-3f05747e1829';
+    sample_listing_5_species_maple_id     CONSTANT VARCHAR := '9fcd7fb6-068f-414f-a649-16e083a8d5ce';
 
 BEGIN
 
@@ -206,12 +210,12 @@ BEGIN
         ('Standard', sample_shop_6_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT DO NOTHING;
 
-    sample_shop_1_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard');
-    sample_shop_2_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard');
-    sample_shop_3_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard');
-    sample_shop_4_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard');
-    sample_shop_5_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
-    sample_shop_6_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
+    sample_shop_1_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
+    sample_shop_2_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
+    sample_shop_3_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard' LIMIT 1);
+    sample_shop_4_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard' LIMIT 1);
+    sample_shop_5_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
+    sample_shop_6_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
     INSERT INTO shipping_profile (name, shop_id, origin_zip, flat_shipping_rate_cents, shipping_days_min, shipping_days_max, created_at, updated_at)
     VALUES
@@ -223,12 +227,12 @@ BEGIN
         ('Standard', sample_shop_6_id, sample_shop_6_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT DO NOTHING;
 
-    sample_shop_1_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard');
-    sample_shop_2_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard');
-    sample_shop_3_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard');
-    sample_shop_4_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard');
-    sample_shop_5_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
-    sample_shop_6_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
+    sample_shop_1_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
+    sample_shop_2_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
+    sample_shop_3_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard' LIMIT 1);
+    sample_shop_4_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard' LIMIT 1);
+    sample_shop_5_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
+    sample_shop_6_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
     INSERT INTO listing_return_profile (name, shop_id, return_window_days, policy_type, created_at, updated_at)
     VALUES
@@ -240,17 +244,13 @@ BEGIN
         ('Standard', sample_shop_6_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT DO NOTHING;
 
-    sample_shop_1_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard');
-    sample_shop_2_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard');
-    sample_shop_3_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard');
-    sample_shop_4_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard');
-    sample_shop_5_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard');
-    sample_shop_6_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard');
+    sample_shop_1_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
+    sample_shop_2_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
+    sample_shop_3_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard' LIMIT 1);
+    sample_shop_4_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard' LIMIT 1);
+    sample_shop_5_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
+    sample_shop_6_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
-    sample_listing_5_variation_id := gen_random_uuid()::VARCHAR;
-    sample_listing_5_option_1_id  := gen_random_uuid()::VARCHAR;
-    sample_listing_5_option_2_id  := gen_random_uuid()::VARCHAR;
-    sample_listing_5_option_3_id  := gen_random_uuid()::VARCHAR;
 
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, upc, variations, combinations)
     VALUES
@@ -265,19 +265,32 @@ BEGIN
                     'pricesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        sample_listing_5_option_1_id, jsonb_build_object('name', '72" x 48"',   'order', 0),
-                        sample_listing_5_option_2_id, jsonb_build_object('name', '96" x 56"',   'order', 1),
-                        sample_listing_5_option_3_id, jsonb_build_object('name', '120" x 60"',  'order', 2)
+                        sample_listing_5_option_1_id, jsonb_build_object('name', '72" x 48"',  'order', 0),
+                        sample_listing_5_option_2_id, jsonb_build_object('name', '96" x 56"',  'order', 1),
+                        sample_listing_5_option_3_id, jsonb_build_object('name', '120" x 60"', 'order', 2)
+                    )
+                ),
+                sample_listing_5_species_variation_id, jsonb_build_object(
+                    'name', 'Species',
+                    'pricesVary', true,
+                    'order', 1,
+                    'options', jsonb_build_object(
+                        sample_listing_5_species_walnut_id, jsonb_build_object('name', 'Walnut', 'order', 0),
+                        sample_listing_5_species_oak_id,    jsonb_build_object('name', 'Oak',    'order', 1),
+                        sample_listing_5_species_maple_id,  jsonb_build_object('name', 'Maple',  'order', 2)
                     )
                 )
             ),
             jsonb_build_object(
-                sample_listing_5_variation_id || ':' || sample_listing_5_option_1_id,
-                    jsonb_build_object('priceCents', 296700, 'upc', '', 'imageUuid', null, 'disabled', false),
-                sample_listing_5_variation_id || ':' || sample_listing_5_option_2_id,
-                    jsonb_build_object('priceCents', 349900, 'upc', '', 'imageUuid', null, 'disabled', false),
-                sample_listing_5_variation_id || ':' || sample_listing_5_option_3_id,
-                    jsonb_build_object('priceCents', 429900, 'upc', '', 'imageUuid', null, 'disabled', false)
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:cedbf96c-dfab-457a-9cfe-611d2bf60288|c6011ee4-de8c-40e2-8215-305434391f6e:a2d28b3e-3938-422f-9ee7-548cbc29419d', jsonb_build_object('priceCents', 315000, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:5b11fe9c-3b6e-4040-8bd2-3f05747e1829|c6011ee4-de8c-40e2-8215-305434391f6e:a2d28b3e-3938-422f-9ee7-548cbc29419d', jsonb_build_object('priceCents', 296700, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:9fcd7fb6-068f-414f-a649-16e083a8d5ce|c6011ee4-de8c-40e2-8215-305434391f6e:a2d28b3e-3938-422f-9ee7-548cbc29419d', jsonb_build_object('priceCents', 305000, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:cedbf96c-dfab-457a-9cfe-611d2bf60288|c6011ee4-de8c-40e2-8215-305434391f6e:412a538a-0c1f-4fcc-818f-f0c9daefb72d', jsonb_build_object('priceCents', 375000, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:5b11fe9c-3b6e-4040-8bd2-3f05747e1829|c6011ee4-de8c-40e2-8215-305434391f6e:412a538a-0c1f-4fcc-818f-f0c9daefb72d', jsonb_build_object('priceCents', 349900, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:9fcd7fb6-068f-414f-a649-16e083a8d5ce|c6011ee4-de8c-40e2-8215-305434391f6e:412a538a-0c1f-4fcc-818f-f0c9daefb72d', jsonb_build_object('priceCents', 349900, 'upc', '', 'imageUuid', null, 'disabled', true),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:cedbf96c-dfab-457a-9cfe-611d2bf60288|c6011ee4-de8c-40e2-8215-305434391f6e:1b83df66-10ab-41e8-bab2-e8dd751c2d8d', jsonb_build_object('priceCents', 469900, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:5b11fe9c-3b6e-4040-8bd2-3f05747e1829|c6011ee4-de8c-40e2-8215-305434391f6e:1b83df66-10ab-41e8-bab2-e8dd751c2d8d', jsonb_build_object('priceCents', 429900, 'upc', '', 'imageUuid', null, 'disabled', false),
+                '6d790a0c-0ed4-4280-a8f5-446bd25f4d47:9fcd7fb6-068f-414f-a649-16e083a8d5ce|c6011ee4-de8c-40e2-8215-305434391f6e:1b83df66-10ab-41e8-bab2-e8dd751c2d8d', jsonb_build_object('priceCents', 429900, 'upc', '', 'imageUuid', null, 'disabled', true)
             )
         ),
         (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id, null, null, null),

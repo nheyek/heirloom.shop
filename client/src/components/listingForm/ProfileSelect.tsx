@@ -35,7 +35,7 @@ export const ProfileSelect = ({
 				onClick={onClickAdd}
 				disabled={disabled}
 			>
-				Add Profile
+				Create Profile
 			</AddFieldButton>
 		);
 	}
