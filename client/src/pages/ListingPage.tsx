@@ -41,7 +41,10 @@ import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
-import { deriveCombinationsList, getCombinationKey } from '@heirloom/common/domain/listing';
+import {
+	deriveCombinationsList,
+	getCombinationKey,
+} from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
@@ -130,7 +133,9 @@ export const ListingPage = () => {
 
 	useEffect(() => {
 		if (!listingData) return;
-		const orderedCombinations = deriveCombinationsList(listingData.variations);
+		const orderedCombinations = deriveCombinationsList(
+			listingData.variations,
+		);
 		const firstActive = orderedCombinations.find(
 			({ key }) => !listingData.combinations[key]?.disabled,
 		);
@@ -143,7 +148,11 @@ export const ListingPage = () => {
 				`${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
 		) || [];
 
-	type VariationCollectionItem = { value: string; label: string };
+	type VariationCollectionItem = {
+		value: string;
+		label: string;
+		disabled: boolean;
+	};
 	const variationCollections: Array<{
 		id: string;
 		name: string;
@@ -159,10 +168,19 @@ export const ListingPage = () => {
 					collection: createListCollection({
 						items: Object.entries(variation.options)
 							.sort(([, a], [, b]) => a.order - b.order)
-							.map(([optId, option]) => ({
-								value: optId,
-								label: option.name,
-							})),
+							.map(([optId, option]) => {
+								const key = getCombinationKey({
+									...selectedVariationOptions,
+									[varId]: optId,
+								});
+								return {
+									value: optId,
+									label: option.name,
+									disabled:
+										listingData.combinations[key]
+											?.disabled ?? true,
+								};
+							}),
 					}),
 				}))
 		: [];
