@@ -4,7 +4,6 @@ import {
 	Checkbox,
 	CloseButton,
 	Dialog,
-	FileUpload,
 	Flex,
 	HStack,
 	IconButton,
@@ -79,6 +78,8 @@ const OptionRow = ({
 		isDragging,
 	} = useSortable({ id });
 
+	const fileInputRef = useRef<HTMLInputElement | null>(null);
+
 	return (
 		<Stack gap={1}>
 			<Flex
@@ -109,48 +110,47 @@ const OptionRow = ({
 					<FaGripVertical />
 				</IconButton>
 				{/* Image */}
-				<FileUpload.Root
-					accept="image/*"
-					maxFiles={1}
-					onFileChange={(details) => {
-						const file = details.acceptedFiles[0];
-						if (file)
-							onChange({
-								imageUuid: URL.createObjectURL(file),
-							});
-					}}
-					width="auto"
+				<Box
+					as="button"
+					w={OPTION_IMG_W}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					bg="gray.50"
+					cursor="pointer"
+					overflow="hidden"
 					mr={1}
+					onClick={() => fileInputRef.current?.click()}
 				>
-					<FileUpload.HiddenInput />
-					<FileUpload.Trigger asChild>
-						<Box
-							as="button"
-							w={OPTION_IMG_W}
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-							display="flex"
-							alignItems="center"
-							justifyContent="center"
-							bg="gray.50"
-							cursor="pointer"
-							overflow="hidden"
-						>
-							{entry.imageUuid ? (
-								<Image
-									src={entry.imageUuid}
-									width="100%"
-									height="100%"
-									objectFit="cover"
-								/>
-							) : (
-								<FaImage
-									color="lightgray"
-									size={20}
-								/>
-							)}
-						</Box>
-					</FileUpload.Trigger>
-				</FileUpload.Root>
+					<input
+						ref={fileInputRef}
+						type="file"
+						accept="image/*"
+						style={{ display: 'none' }}
+						onChange={(e) => {
+							const file = e.target.files?.[0];
+							if (file)
+								onChange({
+									imageUuid: URL.createObjectURL(file),
+								});
+							e.target.value = '';
+						}}
+					/>
+					{entry.imageUuid ? (
+						<Image
+							src={entry.imageUuid}
+							width="100%"
+							height="100%"
+							objectFit="cover"
+						/>
+					) : (
+						<FaImage
+							color="lightgray"
+							size={20}
+						/>
+					)}
+				</Box>
 
 				<HStack flex={1}>
 					{/* Name */}
