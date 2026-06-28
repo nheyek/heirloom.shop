@@ -15,6 +15,7 @@ import {
 	DEFAULT_COMBINATION,
 	deriveCombinationsList,
 	removeVariationFromCombinations,
+	resolveEffectiveCombinationPrice,
 	syncVariationOptions,
 	Variation,
 	VariationOption,
@@ -89,14 +90,8 @@ export type ListingFormState = {
 	setPriceCents: (v: number | null) => void;
 	priceError: string | null;
 	setPriceError: (v: string | null) => void;
-	upc: string;
-	setUpc: (v: string) => void;
-	upcError: string | null;
-	setUpcError: (v: string | null) => void;
 	combinationPriceErrors: Record<string, boolean>;
 	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
-	combinationUpcErrors: Record<string, boolean>;
-	setCombinationUpcErrors: (v: Record<string, boolean>) => void;
 	combinationActiveError: string | null;
 	setCombinationActiveError: (v: string | null) => void;
 
@@ -158,7 +153,6 @@ type UseListingFormOptions = {
 	initialSubtitle?: string;
 	initialCategoryId?: string | null;
 	initialPriceCents?: number | null;
-	initialUpc?: string;
 	initialImageEntries?: ImageEntry[];
 	initialProcessingProfileId?: string | null;
 	initialShippingProfileId?: string | null;
@@ -177,7 +171,6 @@ export const useListingForm = ({
 	initialSubtitle = '',
 	initialCategoryId = null,
 	initialPriceCents = null,
-	initialUpc = '',
 	initialImageEntries,
 	initialProcessingProfileId = null,
 	initialShippingProfileId = null,
@@ -209,11 +202,7 @@ export const useListingForm = ({
 	const [imageError, setImageError] = useState<string | null>(null);
 	const [priceCents, setPriceCents] = useState<number | null>(initialPriceCents);
 	const [priceError, setPriceError] = useState<string | null>(null);
-	const [upc, setUpc] = useState(initialUpc);
-	const [upcError, setUpcError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] =
-		useState<Record<string, boolean>>({});
-	const [combinationUpcErrors, setCombinationUpcErrors] =
 		useState<Record<string, boolean>>({});
 	const [combinationActiveError, setCombinationActiveError] =
 		useState<string | null>(null);
@@ -248,10 +237,9 @@ export const useListingForm = ({
 
 	const addVariation = (variation: Variation) => {
 		const newId = crypto.randomUUID();
-		const optionIds = Object.keys(variation.options);
 		setVariations((prev) => ({ ...prev, [newId]: variation }));
 		setCombinations((prev) =>
-			addVariationToCombinations(prev, newId, optionIds),
+			addVariationToCombinations(prev, newId, variation.options, variation.pricesVary),
 		);
 	};
 
@@ -444,40 +432,22 @@ export const useListingForm = ({
 			}
 		}
 
-		const hasCombinations = allCombinations.length > 0;
-
-		if (!hasCombinations) {
-			if (upc && !/^\d{12}$/.test(upc)) {
-				setUpcError('UPC must be exactly 12 digits.');
-				valid = false;
-			} else {
-				setUpcError(null);
-			}
-		} else {
-			setUpcError(null);
-		}
-
 		const priceErrors: Record<string, boolean> = {};
-		const upcErrors: Record<string, boolean> = {};
 		let hasActive = allCombinations.length === 0;
 
-		for (const { key } of allCombinations) {
+		for (const { key, optionMap } of allCombinations) {
 			const entry = combinations[key];
 			if (entry?.disabled) continue;
 			hasActive = true;
-			if (pricesVary && !(entry?.priceCents && entry.priceCents > 0)) {
-				priceErrors[key] = true;
-			}
-			if (entry?.upc && !/^\d{12}$/.test(entry.upc)) {
-				upcErrors[key] = true;
+			if (pricesVary) {
+				const effectivePrice = resolveEffectiveCombinationPrice(optionMap, combinations, variations, priceCents);
+				if (!(effectivePrice && effectivePrice > 0)) priceErrors[key] = true;
 			}
 		}
 
 		setCombinationPriceErrors(pricesVary ? priceErrors : {});
-		setCombinationUpcErrors(upcErrors);
 
 		if (Object.keys(priceErrors).length > 0) valid = false;
-		if (Object.keys(upcErrors).length > 0) valid = false;
 
 		if (allCombinations.length > 0 && !hasActive) {
 			setCombinationActiveError(
@@ -516,14 +486,8 @@ export const useListingForm = ({
 		setPriceCents,
 		priceError,
 		setPriceError,
-		upc,
-		setUpc,
-		upcError,
-		setUpcError,
 		combinationPriceErrors,
 		setCombinationPriceErrors,
-		combinationUpcErrors,
-		setCombinationUpcErrors,
 		combinationActiveError,
 		setCombinationActiveError,
 		processingProfiles,

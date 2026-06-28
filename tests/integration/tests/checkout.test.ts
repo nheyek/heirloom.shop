@@ -87,16 +87,16 @@ beforeAll(async () => {
 				pricesVary: true,
 				order: 0,
 				options: {
-					[MUG_OPT_SMALL]: { name: 'Small', order: 0 },
-					[MUG_OPT_LARGE]: { name: 'Large', order: 1 },
-					[MUG_OPT_JUMBO]: { name: 'Jumbo', order: 2 },
+					[MUG_OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					[MUG_OPT_LARGE]: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					[MUG_OPT_JUMBO]: { name: 'Jumbo', order: 2, priceCents: null, imageUuid: null },
 				},
 			},
 		},
 		combinations: {
-			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_SMALL })]: { priceCents: 1500, upc: '', imageUuid: null, disabled: false },
-			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_LARGE })]: { priceCents: 1800, upc: '', imageUuid: null, disabled: false },
-			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_JUMBO })]: { priceCents: 2200, upc: '', imageUuid: null, disabled: true },
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_SMALL })]: { priceCents: 1500, imageUuid: null, disabled: false },
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_LARGE })]: { priceCents: 1800, imageUuid: null, disabled: false },
+			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_JUMBO })]: { priceCents: 2200, imageUuid: null, disabled: true },
 		},
 	});
 

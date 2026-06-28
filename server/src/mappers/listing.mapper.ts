@@ -49,7 +49,6 @@ export const mapListingToCompleteApiResponseData = (
 				returnWindowDays: listing.returnProfile.returnWindowDays,
 			}
 		: undefined,
-	upc: listing.upc,
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.combinations ?? {}) as CombinationsData,
 });

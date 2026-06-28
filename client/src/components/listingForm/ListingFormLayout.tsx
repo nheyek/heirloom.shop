@@ -35,11 +35,6 @@ export const ListingFormLayout = ({
 								delete next[key];
 								form.setCombinationPriceErrors(next);
 							}
-							if (form.combinationUpcErrors[key]) {
-								const next = { ...form.combinationUpcErrors };
-								delete next[key];
-								form.setCombinationUpcErrors(next);
-							}
 						}
 						if (patch.disabled === false && form.combinationActiveError) {
 							form.setCombinationActiveError(null);
@@ -49,14 +44,8 @@ export const ListingFormLayout = ({
 							delete next[key];
 							form.setCombinationPriceErrors(next);
 						}
-						if (patch.upc !== undefined && form.combinationUpcErrors[key]) {
-							const next = { ...form.combinationUpcErrors };
-							delete next[key];
-							form.setCombinationUpcErrors(next);
-						}
 					}}
 					combinationPriceErrors={form.combinationPriceErrors}
-					combinationUpcErrors={form.combinationUpcErrors}
 					invalid={!!form.combinationActiveError}
 				/>
 				{form.combinationActiveError && (

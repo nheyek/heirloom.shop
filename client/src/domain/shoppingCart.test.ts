@@ -30,7 +30,7 @@ describe('calculateItemPrice', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
 			combinations: {
-				[key]: { priceCents: 1500, upc: '', imageUuid: null, disabled: false },
+				[key]: { priceCents: 1500, imageUuid: null, disabled: false },
 			},
 		};
 
@@ -48,7 +48,7 @@ describe('calculateItemPrice', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
 			combinations: {
-				[key]: { priceCents: null, upc: '', imageUuid: null, disabled: false },
+				[key]: { priceCents: null, imageUuid: null, disabled: false },
 			},
 		};
 
@@ -64,7 +64,7 @@ describe('calculateItemPrice', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
 			combinations: {
-				[key]: { priceCents: 3500, upc: '', imageUuid: null, disabled: false },
+				[key]: { priceCents: 3500, imageUuid: null, disabled: false },
 			},
 		};
 

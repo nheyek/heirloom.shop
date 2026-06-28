@@ -2,7 +2,7 @@ import {
 	CartItemData,
 	OrderItemDisplayData,
 } from '@heirloom/common/contract';
-import { getCombinationKey } from '@heirloom/common/domain/listing';
+import { getCombinationKey, resolveEffectiveCombinationPrice } from '@heirloom/common/domain/listing';
 
 export type ShoppingCartItem = {
 	listingData: CartItemData;
@@ -43,8 +43,10 @@ export const getOrderItemDisplayData = (
 export const calculateItemPrice = (
 	listingData: CartItemData,
 	selectedOptions: Record<string, string>,
-): number => {
-	const key = getCombinationKey(selectedOptions);
-	const combination = listingData.combinations[key];
-	return combination?.priceCents ?? listingData.priceCents ?? 0;
-};
+): number =>
+	resolveEffectiveCombinationPrice(
+		selectedOptions,
+		listingData.combinations,
+		listingData.variations,
+		listingData.priceCents ?? 0,
+	) ?? listingData.priceCents ?? 0;

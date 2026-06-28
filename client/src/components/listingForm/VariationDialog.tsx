@@ -1,11 +1,14 @@
 import {
+	Box,
 	Button,
 	Checkbox,
 	CloseButton,
 	Dialog,
+	FileUpload,
 	Flex,
 	HStack,
 	IconButton,
+	Image,
 	Input,
 	Stack,
 } from '@chakra-ui/react';
@@ -14,7 +17,9 @@ import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
+import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
+import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { Variation } from '@client/hooks/useListingForm';
 import {
 	DndContext,
@@ -33,23 +38,33 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
-import React, { useEffect, useRef, useState } from 'react';
-import { FaGripVertical, FaTrashAlt } from 'react-icons/fa';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { FaGripVertical, FaImage, FaTrashAlt } from 'react-icons/fa';
+
+const OPTION_IMG_W = 32;
+
+type OptionEntry = {
+	name: string;
+	priceCents: number | null;
+	imageUuid: string | null;
+};
 
 type OptionRowProps = {
 	id: string;
-	value: string;
+	entry: OptionEntry;
 	error?: string | null;
+	showPrice: boolean;
 	inputRef?: React.RefObject<HTMLInputElement | null>;
-	onChange: (value: string) => void;
+	onChange: (patch: Partial<OptionEntry>) => void;
 	onDelete: () => void;
 	onTabKey?: () => void;
 };
 
 const OptionRow = ({
 	id,
-	value,
+	entry,
 	error,
+	showPrice,
 	inputRef,
 	onChange,
 	onDelete,
@@ -65,54 +80,123 @@ const OptionRow = ({
 	} = useSortable({ id });
 
 	return (
-		<Stack gap={1.5}>
+		<Stack gap={1}>
 			<Flex
 				ref={setNodeRef}
 				style={{
 					transform: CSS.Transform.toString(transform),
 					transition,
-					opacity: isDragging ? 0.5 : 1,
+					opacity: isDragging ? 0.4 : 1,
 				}}
-				alignItems="center"
-				gap={2}
+				alignItems="stretch"
 				borderWidth={1}
 				borderColor={error ? 'red.500' : 'gray.200'}
 				borderRadius="md"
-				px={1}
-				py={0.5}
+				overflow="auto"
+				gap={2}
+				px={2}
 			>
+				{/* Drag handle */}
 				<IconButton
-					size="xs"
+					size="sm"
 					variant="ghost"
 					cursor="grab"
 					color="gray.400"
+					alignSelf="center"
 					{...attributes}
 					{...listeners}
 				>
 					<FaGripVertical />
 				</IconButton>
-				<Input
-					ref={inputRef}
-					flex={1}
-					size="sm"
-					fontSize={18}
-					variant="flushed"
-					value={value}
-					onChange={(e) => onChange(e.target.value)}
-					onKeyDown={(e) => {
-						if (e.key === 'Tab' && !e.shiftKey && onTabKey) {
-							e.preventDefault();
-							onTabKey();
-						}
+				{/* Image */}
+				<FileUpload.Root
+					accept="image/*"
+					maxFiles={1}
+					onFileChange={(details) => {
+						const file = details.acceptedFiles[0];
+						if (file)
+							onChange({
+								imageUuid: URL.createObjectURL(file),
+							});
 					}}
-					placeholder="Option name"
-					border="none"
-					_focus={{ border: 'none', boxShadow: 'none' }}
-				/>
+					width="auto"
+					mr={1}
+				>
+					<FileUpload.HiddenInput />
+					<FileUpload.Trigger asChild>
+						<Box
+							as="button"
+							w={OPTION_IMG_W}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							display="flex"
+							alignItems="center"
+							justifyContent="center"
+							bg="gray.50"
+							cursor="pointer"
+							overflow="hidden"
+						>
+							{entry.imageUuid ? (
+								<Image
+									src={entry.imageUuid}
+									width="100%"
+									height="100%"
+									objectFit="cover"
+								/>
+							) : (
+								<FaImage
+									color="lightgray"
+									size={20}
+								/>
+							)}
+						</Box>
+					</FileUpload.Trigger>
+				</FileUpload.Root>
+
+				<HStack flex={1}>
+					{/* Name */}
+					<Input
+						ref={inputRef}
+						fontSize={18}
+						h={10}
+						minW={150}
+						value={entry.name}
+						onChange={(e) =>
+							onChange({ name: e.target.value })
+						}
+						onKeyDown={(e) => {
+							if (e.key === 'Tab' && !e.shiftKey && !showPrice) {
+								e.preventDefault();
+								onTabKey?.();
+							}
+						}}
+						placeholder="Option name"
+					/>
+
+					{/* Price */}
+					{showPrice && (
+						<Box alignSelf="center">
+							<PriceInput
+								value={entry.priceCents}
+								onChange={(v) =>
+									onChange({ priceCents: v })
+								}
+								onKeyDown={(e) => {
+									if (e.key === 'Tab' && !e.shiftKey) {
+										e.preventDefault();
+										onTabKey?.();
+									}
+								}}
+							/>
+						</Box>
+					)}
+				</HStack>
+
+				{/* Delete */}
 				<IconButton
-					size="xs"
+					size="sm"
 					variant="ghost"
 					color="red.500"
+					alignSelf="center"
 					onClick={onDelete}
 				>
 					<FaTrashAlt />
@@ -141,12 +225,17 @@ export const VariationDialog = ({
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
-	const [options, setOptions] = useState<string[]>(['', '']);
+	const [options, setOptions] = useState<OptionEntry[]>([
+		{ name: '', priceCents: null, imageUuid: null },
+		{ name: '', priceCents: null, imageUuid: null },
+	]);
 	const [optionIds, setOptionIds] = useState<string[]>(() => [
 		crypto.randomUUID(),
 		crypto.randomUUID(),
 	]);
-	const inputRefs = useRef<React.RefObject<HTMLInputElement | null>[]>([]);
+	const inputRefs = useRef<
+		React.RefObject<HTMLInputElement | null>[]
+	>([]);
 	const pendingFocusIndex = useRef<number | null>(null);
 	const [optionErrors, setOptionErrors] = useState<
 		(string | null)[]
@@ -163,14 +252,23 @@ export const VariationDialog = ({
 				);
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
-				setOptions(sorted.map(([, o]) => o.name));
+				setOptions(
+					sorted.map(([, o]) => ({
+						name: o.name,
+						priceCents: o.priceCents,
+						imageUuid: o.imageUuid,
+					})),
+				);
 				setOptionIds(sorted.map(([id]) => id));
 				setOptionErrors(sorted.map(() => null));
 			} else {
 				setName('');
 				setPricesVary(false);
 				setNameError(null);
-				setOptions(['', '']);
+				setOptions([
+					{ name: '', priceCents: null, imageUuid: null },
+					{ name: '', priceCents: null, imageUuid: null },
+				]);
 				setOptionIds([
 					crypto.randomUUID(),
 					crypto.randomUUID(),
@@ -187,7 +285,9 @@ export const VariationDialog = ({
 
 	useEffect(() => {
 		if (pendingFocusIndex.current !== null) {
-			inputRefs.current[pendingFocusIndex.current]?.current?.focus();
+			inputRefs.current[
+				pendingFocusIndex.current
+			]?.current?.focus();
 			pendingFocusIndex.current = null;
 		}
 	});
@@ -196,7 +296,10 @@ export const VariationDialog = ({
 		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation)
 			return;
 		pendingFocusIndex.current = options.length;
-		setOptions((prev) => [...prev, '']);
+		setOptions((prev) => [
+			...prev,
+			{ name: '', priceCents: null, imageUuid: null },
+		]);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
 		setOptionsCountError(null);
@@ -205,18 +308,27 @@ export const VariationDialog = ({
 	const handleTabOnOption = (index: number) => {
 		if (index < options.length - 1) {
 			inputRefs.current[index + 1]?.current?.focus();
-		} else if (options.length < LISTING_LIMITS.maxOptionsPerVariation) {
+		} else if (
+			options.length < LISTING_LIMITS.maxOptionsPerVariation
+		) {
 			addOption();
 		}
 	};
 
-	const updateOption = (index: number, value: string) => {
+	const updateOption = (
+		index: number,
+		patch: Partial<OptionEntry>,
+	) => {
 		setOptions((prev) =>
-			prev.map((o, i) => (i === index ? value : o)),
+			prev.map((o, i) =>
+				i === index ? { ...o, ...patch } : o,
+			),
 		);
-		setOptionErrors((prev) =>
-			prev.map((e, i) => (i === index ? null : e)),
-		);
+		if (patch.name !== undefined) {
+			setOptionErrors((prev) =>
+				prev.map((e, i) => (i === index ? null : e)),
+			);
+		}
 	};
 
 	const removeOption = (index: number) => {
@@ -252,9 +364,6 @@ export const VariationDialog = ({
 			setNameError(null);
 		}
 
-		const trimmedOptions = options.map((o) => o.trim());
-		const filledOptions = trimmedOptions.filter(Boolean);
-
 		if (options.length < 2) {
 			setOptionsCountError(
 				'At least two options are required.',
@@ -265,7 +374,8 @@ export const VariationDialog = ({
 		}
 
 		const seen = new Set<string>();
-		const newOptionErrors = trimmedOptions.map((opt) => {
+		const newOptionErrors = options.map((o) => {
+			const opt = o.name.trim();
 			if (!opt) return 'Option name is required.';
 			if (opt.length > LISTING_LIMITS.maxNameLength)
 				return `Option name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
@@ -284,7 +394,12 @@ export const VariationDialog = ({
 		const optionsRecord = Object.fromEntries(
 			optionIds.map((id, i) => [
 				id,
-				{ name: trimmedOptions[i], order: i },
+				{
+					name: options[i].name.trim(),
+					order: i,
+					priceCents: options[i].priceCents,
+					imageUuid: options[i].imageUuid,
+				},
 			]),
 		);
 		onConfirm({
@@ -330,11 +445,10 @@ export const VariationDialog = ({
 				e.preventDefault();
 				onClose();
 			}}
-			size="xs"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
-				<Dialog.Content>
+				<Dialog.Content maxW={pricesVary ? 640 : 520}>
 					<Dialog.Header>
 						<Dialog.Title
 							fontSize={24}
@@ -391,7 +505,7 @@ export const VariationDialog = ({
 								required
 							>
 								<Stack
-									gap={2}
+									gap={1.5}
 									w="100%"
 								>
 									<DndContext
@@ -407,23 +521,74 @@ export const VariationDialog = ({
 												verticalListSortingStrategy
 											}
 										>
-											{options.map((opt, i) => {
-												if (!inputRefs.current[i]) {
-													inputRefs.current[i] = { current: null };
-												}
-												return (
-													<OptionRow
-														key={optionIds[i]}
-														id={optionIds[i]}
-														value={opt}
-														error={optionErrors[i]}
-														inputRef={inputRefs.current[i]}
-														onChange={(v) => updateOption(i, v)}
-														onDelete={() => removeOption(i)}
-														onTabKey={() => handleTabOnOption(i)}
-													/>
-												);
-											})}
+											<Stack gap={1.5}>
+												{options.map(
+													(opt, i) => {
+														if (
+															!inputRefs
+																.current[
+																i
+															]
+														) {
+															inputRefs.current[
+																i
+															] = {
+																current:
+																	null,
+															};
+														}
+														return (
+															<OptionRow
+																key={
+																	optionIds[
+																		i
+																	]
+																}
+																id={
+																	optionIds[
+																		i
+																	]
+																}
+																entry={
+																	opt
+																}
+																error={
+																	optionErrors[
+																		i
+																	]
+																}
+																showPrice={
+																	pricesVary
+																}
+																inputRef={
+																	inputRefs
+																		.current[
+																		i
+																	]
+																}
+																onChange={(
+																	patch,
+																) =>
+																	updateOption(
+																		i,
+																		patch,
+																	)
+																}
+																onDelete={() =>
+																	removeOption(
+																		i,
+																	)
+																}
+																onTabKey={() =>
+																	handleTabOnOption(
+																		i,
+																	)
+																}
+															/>
+														);
+													},
+												)}
+											</Stack>
 										</SortableContext>
 									</DndContext>
 									{options.length <

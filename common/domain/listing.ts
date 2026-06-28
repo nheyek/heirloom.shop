@@ -1,6 +1,8 @@
 export type VariationOption = {
 	name: string;
 	order: number;
+	priceCents: number | null;
+	imageUuid: string | null;
 };
 
 export type Variation = {
@@ -12,7 +14,6 @@ export type Variation = {
 
 export type Combination = {
 	priceCents: number | null;
-	upc: string;
 	imageUuid: string | null;
 	disabled: boolean;
 };
@@ -22,7 +23,6 @@ export type Combinations = Record<string, Combination>;
 
 export const DEFAULT_COMBINATION: Combination = {
 	priceCents: null,
-	upc: '',
 	imageUuid: null,
 	disabled: false,
 };
@@ -80,8 +80,10 @@ export const deriveCombinationsList = (
 export const addVariationToCombinations = (
 	combinations: Combinations,
 	newVarId: string,
-	newOptionIds: string[],
+	newOptions: Record<string, VariationOption>,
+	newVariationPricesVary: boolean,
 ): Combinations => {
+	const newOptionIds = Object.keys(newOptions);
 	const existing = Object.entries(combinations);
 	if (existing.length === 0) {
 		return Object.fromEntries(
@@ -95,9 +97,12 @@ export const addVariationToCombinations = (
 	for (const [key, data] of existing) {
 		const optionMap = parseCombinationKey(key);
 		for (const optId of newOptionIds) {
-			result[
-				getCombinationKey({ ...optionMap, [newVarId]: optId })
-			] = { ...data };
+			const opt = newOptions[optId];
+			result[getCombinationKey({ ...optionMap, [newVarId]: optId })] = {
+				...data,
+				...(newVariationPricesVary ? { priceCents: null } : {}),
+				...(opt.imageUuid != null ? { imageUuid: null } : {}),
+			};
 		}
 	}
 	return result;
@@ -148,6 +153,39 @@ export const removeOptionFromCombinations = (
 			([key]) => parseCombinationKey(key)[varId] !== optId,
 		),
 	);
+
+export const resolveEffectiveCombinationPrice = (
+	optionMap: Record<string, string>,
+	combinations: Combinations,
+	variations: Variations,
+	basePriceCents: number | null,
+): number | null => {
+	const key = getCombinationKey(optionMap);
+	if (combinations[key]?.priceCents != null) return combinations[key].priceCents;
+	const sorted = Object.entries(variations)
+		.filter(([, v]) => v.pricesVary)
+		.sort(([, a], [, b]) => a.order - b.order);
+	for (const [varId, v] of sorted) {
+		const price = v.options[optionMap[varId]]?.priceCents ?? null;
+		if (price != null) return price;
+	}
+	return basePriceCents;
+};
+
+export const resolveEffectiveCombinationImage = (
+	optionMap: Record<string, string>,
+	combinations: Combinations,
+	variations: Variations,
+): string | null => {
+	const key = getCombinationKey(optionMap);
+	if (combinations[key]?.imageUuid != null) return combinations[key].imageUuid;
+	const sorted = Object.entries(variations).sort(([, a], [, b]) => a.order - b.order);
+	for (const [varId, v] of sorted) {
+		const img = v.options[optionMap[varId]]?.imageUuid ?? null;
+		if (img != null) return img;
+	}
+	return null;
+};
 
 export const syncVariationOptions = (
 	combinations: Combinations,

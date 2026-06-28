@@ -51,6 +51,7 @@ export const FormTextarea = (props: TextareaProps) => (
 		fontSize={18}
 		padding={3}
 		resize="none"
+		rows={3}
 		{...props}
 	/>
 );

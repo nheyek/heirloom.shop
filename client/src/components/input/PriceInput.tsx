@@ -2,7 +2,7 @@ import { Input, InputGroup } from '@chakra-ui/react';
 import { InputSize } from '@client/constants';
 import { FIELD_ERROR_COLOR, FONT_DEFAULT } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaDollarSign } from 'react-icons/fa6';
 
 export { InputSize as PriceInputSize };
@@ -18,6 +18,8 @@ type Props = {
 	size?: InputSize;
 	disabled?: boolean;
 	invalid?: boolean;
+	inherited?: boolean;
+	onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 };
 
 const formatCents = (cents: number) =>
@@ -44,6 +46,8 @@ export const PriceInput = ({
 	size = InputSize.Md,
 	disabled,
 	invalid,
+	inherited = false,
+	onKeyDown,
 }: Props) => {
 	const [localValue, setLocalValue] = useState('');
 	const [focused, setFocused] = useState(false);
@@ -65,6 +69,8 @@ export const PriceInput = ({
 				value={displayValue}
 				disabled={disabled}
 				borderColor={invalid ? FIELD_ERROR_COLOR : undefined}
+				color={inherited && !focused ? 'gray.500' : undefined}
+				onKeyDown={onKeyDown}
 				onChange={(e) => {
 					const formatted = formatWhileTyping(
 						e.target.value,
@@ -79,7 +85,10 @@ export const PriceInput = ({
 							: Math.round(raw * 100);
 					onChange(
 						cents !== null
-							? Math.min(cents, LISTING_LIMITS.maxPriceCents)
+							? Math.min(
+									cents,
+									LISTING_LIMITS.maxPriceCents,
+								)
 							: null,
 					);
 				}}

@@ -1,5 +1,5 @@
 import { CheckoutItemData, CombinationsData, OrderItemDisplayData, VariationsData } from '@heirloom/common/contract';
-import { getCombinationKey } from '@heirloom/common/domain/listing';
+import { getCombinationKey, resolveEffectiveCombinationPrice } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
@@ -7,12 +7,13 @@ import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals
 const resolveUnitPrice = (
 	priceCents: number,
 	combinations: CombinationsData,
+	variations: VariationsData,
 	selectedOptions: Record<string, string>,
 ): number => {
 	const key = getCombinationKey(selectedOptions);
 	const combination = combinations[key];
 	if (combination?.disabled) throw new Error('Selected combination is unavailable');
-	return combination?.priceCents ?? priceCents;
+	return resolveEffectiveCombinationPrice(selectedOptions, combinations, variations, priceCents) ?? priceCents;
 };
 
 const resolveVariationDisplayNames = (
@@ -46,6 +47,7 @@ export const calculateCheckoutTotals = (
 		const unitPriceCents = resolveUnitPrice(
 			listing.priceCents || 0,
 			combinations,
+			variations,
 			item.selectedOptions,
 		);
 
@@ -74,6 +76,7 @@ export const createOrderItemSnapshots = (
 		const unitPriceCents = resolveUnitPrice(
 			listing.priceCents || 0,
 			combinations,
+			variations,
 			item.selectedOptions,
 		);
 

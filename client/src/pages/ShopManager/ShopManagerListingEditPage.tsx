@@ -53,7 +53,6 @@ const ListingEditForm = ({
 		initialSubtitle: listingData.subtitle ?? '',
 		initialCategoryId: listingData.categoryId,
 		initialPriceCents: listingData.priceCents,
-		initialUpc: listingData.upc ?? '',
 		initialImageEntries,
 		initialProcessingProfileId:
 			listingData.processingProfileId != null

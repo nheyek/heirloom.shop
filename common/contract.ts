@@ -128,6 +128,8 @@ export const categoryContract = c.router({
 const VariationOptionSchema = z.object({
 	name: z.string(),
 	order: z.number(),
+	priceCents: z.number().nullable(),
+	imageUuid: z.string().nullable(),
 });
 
 const VariationSchema = z.object({
@@ -141,7 +143,6 @@ const VariationsSchema = z.record(z.string(), VariationSchema);
 
 const CombinationSchema = z.object({
 	priceCents: z.number().nullable(),
-	upc: z.string(),
 	imageUuid: z.string().nullable(),
 	disabled: z.boolean(),
 });
@@ -167,7 +168,6 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 			returnWindowDays: z.number().optional(),
 		})
 		.optional(),
-	upc: z.string().max(12).optional(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
 });
@@ -395,7 +395,6 @@ const ListingEditDataSchema = z.object({
 	subtitle: z.string().nullable(),
 	categoryId: z.string(),
 	priceCents: z.number(),
-	upc: z.string().nullable(),
 	imageUuids: z.array(z.string()),
 	processingProfileId: z.number().nullable(),
 	shippingProfileId: z.number().nullable(),

@@ -13,7 +13,6 @@ import {
 	FormTextarea,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { UpcInput } from '@client/components/input/UpcInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
@@ -119,7 +118,7 @@ export const ListingFormFields = ({
 								<FormField
 									label="Title"
 									error={form.titleError}
-										required
+									required
 								>
 									<FormInput
 										value={form.title}
@@ -152,14 +151,13 @@ export const ListingFormFields = ({
 												);
 										}}
 										placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
-										rows={2}
-										disabled={disabled}
+											disabled={disabled}
 									/>
 								</FormField>
 								<FormField
 									label="Category"
 									error={form.categoryError}
-										required
+									required
 								>
 									<CategoryCombobox
 										value={form.categoryId}
@@ -249,29 +247,11 @@ export const ListingFormFields = ({
 										onChange={(v) => {
 											form.setPriceCents(v);
 											if (v && v > 0)
-												form.setPriceError(null);
+												form.setPriceError(
+													null,
+												);
 										}}
 										invalid={!!form.priceError}
-										disabled={disabled}
-									/>
-								</FormField>
-							</WrapItem>
-						)}
-						{sortedVariations.length === 0 && (
-							<WrapItem>
-								<FormField
-									label="UPC"
-									error={form.upcError}
-								>
-									<UpcInput
-										size={InputSize.Lg}
-										value={form.upc}
-										onChange={(v) => {
-											form.setUpc(v);
-											if (form.upcError)
-												form.setUpcError(null);
-										}}
-										invalid={!!form.upcError}
 										disabled={disabled}
 									/>
 								</FormField>

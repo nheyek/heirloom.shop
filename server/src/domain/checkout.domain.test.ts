@@ -51,7 +51,6 @@ const OPT_LARGE = 'opt-uuid-large';
 
 const makeCombination = (priceCents: number) => ({
 	priceCents,
-	upc: '',
 	imageUuid: null,
 	disabled: false,
 });
@@ -103,12 +102,33 @@ describe('calculateCheckoutTotals', () => {
 		expect(result.subtotalCents).toBe(1500);
 	});
 
+	it('uses option-level price when combination priceCents is null', () => {
+		const key = getCombinationKey({ [VAR_ID]: OPT_LARGE });
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
+							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: 2500, imageUuid: null },
+						}},
+					},
+					combinations: { [key]: { priceCents: null, imageUuid: null, disabled: false } },
+				}),
+			],
+		};
+		const result = calculateCheckoutTotals(
+			[{ listingShortId: 'abc', selectedOptions: { [VAR_ID]: OPT_LARGE }, quantity: 1 }],
+			queryData,
+		);
+		expect(result.subtotalCents).toBe(2500);
+	});
+
 	it('falls back to base price when combination has null priceCents', () => {
 		const key = getCombinationKey({ [VAR_ID]: OPT_SMALL });
 		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
-					combinations: { [key]: { priceCents: null, upc: '', imageUuid: null, disabled: false } },
+					combinations: { [key]: { priceCents: null, imageUuid: null, disabled: false } },
 				}),
 			],
 		};
@@ -169,7 +189,7 @@ describe('calculateCheckoutTotals', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
 					},
 				}),
 			],
@@ -188,9 +208,9 @@ describe('calculateCheckoutTotals', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
 					},
-					combinations: { [key]: { priceCents: 1000, upc: '', imageUuid: null, disabled: true } },
+					combinations: { [key]: { priceCents: 1000, imageUuid: null, disabled: true } },
 				}),
 			],
 		};
@@ -349,7 +369,7 @@ describe('createOrderItemSnapshots', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
 					},
 				}),
 			],
@@ -368,9 +388,9 @@ describe('createOrderItemSnapshots', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0 } } },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
 					},
-					combinations: { [key]: { priceCents: 1000, upc: '', imageUuid: null, disabled: true } },
+					combinations: { [key]: { priceCents: 1000, imageUuid: null, disabled: true } },
 				}),
 			],
 		};

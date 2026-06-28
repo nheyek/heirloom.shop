@@ -59,7 +59,6 @@ export const findListingForEdit = async (
 		subtitle: listing.subtitle ?? null,
 		categoryId: listing.category.id,
 		priceCents: listing.priceCents,
-		upc: listing.upc ?? null,
 		imageUuids: listing.imageUuids,
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,

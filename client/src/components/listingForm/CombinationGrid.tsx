@@ -9,17 +9,17 @@ import {
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { UpcInput } from '@client/components/input/UpcInput';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import {
-	Combination,
-	Variation,
-} from '@client/hooks/useListingForm';
+import { Combination, Variation } from '@client/hooks/useListingForm';
 import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
-import { deriveCombinationsList } from '@heirloom/common/domain/listing';
+import {
+	deriveCombinationsList,
+	resolveEffectiveCombinationImage,
+	resolveEffectiveCombinationPrice,
+} from '@heirloom/common/domain/listing';
 import { FaImage, FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
 
 const THUMB_WIDTH = 100;
@@ -29,7 +29,6 @@ type Props = {
 	combinations: Record<string, Combination>;
 	onUpdate: (key: string, patch: Partial<Combination>) => void;
 	combinationPriceErrors?: Record<string, boolean>;
-	combinationUpcErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
 };
@@ -37,7 +36,6 @@ type Props = {
 const DEFAULT_ENTRY: Combination = {
 	imageUuid: null,
 	priceCents: null,
-	upc: '',
 	disabled: false,
 };
 
@@ -46,7 +44,6 @@ export const CombinationGrid = ({
 	combinations,
 	onUpdate,
 	combinationPriceErrors = {},
-	combinationUpcErrors = {},
 	invalid,
 	disabled,
 }: Props) => {
@@ -94,9 +91,6 @@ export const CombinationGrid = ({
 								Price
 							</Table.ColumnHeader>
 						)}
-						<Table.ColumnHeader minW={155}>
-							UPC
-						</Table.ColumnHeader>
 						<Table.ColumnHeader />
 					</Table.Row>
 				</Table.Header>
@@ -105,6 +99,24 @@ export const CombinationGrid = ({
 						const entry =
 							combinations[key] ?? DEFAULT_ENTRY;
 						const isDisabled = entry.disabled;
+						const effectiveImage =
+							resolveEffectiveCombinationImage(
+								optionMap,
+								combinations,
+								variations,
+							);
+						const effectivePrice =
+							resolveEffectiveCombinationPrice(
+								optionMap,
+								combinations,
+								variations,
+								null,
+							);
+						const imageIsInherited =
+							!entry.imageUuid && !!effectiveImage;
+						const priceIsInherited =
+							entry.priceCents == null &&
+							effectivePrice != null;
 
 						return (
 							<Table.Row
@@ -112,7 +124,7 @@ export const CombinationGrid = ({
 								opacity={isDisabled ? 0.6 : 1}
 							>
 								{/* Image */}
-								<Table.Cell>
+								<Table.Cell p={0}>
 									<FileUpload.Root
 										accept="image/*"
 										maxFiles={1}
@@ -131,6 +143,7 @@ export const CombinationGrid = ({
 														),
 												});
 										}}
+										pr={2}
 									>
 										<FileUpload.HiddenInput />
 										<FileUpload.Trigger asChild>
@@ -140,9 +153,6 @@ export const CombinationGrid = ({
 												aspectRatio={
 													STANDARD_IMAGE_ASPECT_RATIO
 												}
-												borderRadius="md"
-												borderWidth={1}
-												borderColor="gray.200"
 												overflow="hidden"
 												cursor="pointer"
 												flexShrink={0}
@@ -151,19 +161,24 @@ export const CombinationGrid = ({
 												justifyContent="center"
 												bg="gray.50"
 											>
-												{entry.imageUuid ? (
+												{effectiveImage ? (
 													<Image
 														src={
-															entry.imageUuid
+															effectiveImage
 														}
 														width="100%"
 														height="100%"
 														objectFit="cover"
+														opacity={
+															imageIsInherited
+																? 0.5
+																: 1
+														}
 													/>
 												) : (
 													<FaImage
 														color="gray"
-														size={18}
+														size={20}
 													/>
 												)}
 											</Box>
@@ -189,14 +204,15 @@ export const CombinationGrid = ({
 										<Stack gap={1.5}>
 											<PriceInput
 												value={
-													entry.priceCents
+													entry.priceCents ??
+													effectivePrice
 												}
-												onChange={(cents) => {
+												onChange={(cents) =>
 													onUpdate(key, {
 														priceCents:
 															cents,
-													});
-												}}
+													})
+												}
 												invalid={
 													!!combinationPriceErrors[
 														key
@@ -207,6 +223,9 @@ export const CombinationGrid = ({
 													isDisabled
 												}
 												size={InputSize.Md}
+												inherited={
+													priceIsInherited
+												}
 											/>
 											{combinationPriceErrors[
 												key
@@ -220,26 +239,6 @@ export const CombinationGrid = ({
 										</Stack>
 									</Table.Cell>
 								)}
-
-								{/* UPC */}
-								<Table.Cell>
-									<Stack gap={1.5}>
-										<UpcInput
-											value={entry.upc}
-											onChange={(v) =>
-												onUpdate(key, { upc: v })
-											}
-											invalid={!!combinationUpcErrors[key]}
-											disabled={disabled || isDisabled}
-											size={InputSize.Md}
-										/>
-										{combinationUpcErrors[key] && (
-											<FieldError fontSize={14}>
-												UPC must be exactly 12 digits.
-											</FieldError>
-										)}
-									</Stack>
-								</Table.Cell>
 
 								{/* Disable toggle */}
 								<Table.Cell
