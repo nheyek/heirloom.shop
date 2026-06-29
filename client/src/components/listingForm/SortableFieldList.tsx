@@ -1,4 +1,11 @@
-import { Flex, HStack, IconButton, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Flex,
+	HStack,
+	IconButton,
+	Text,
+} from '@chakra-ui/react';
+import { FIELD_ERROR_COLOR } from '@client/theme';
 import {
 	DndContext,
 	DragEndEvent,
@@ -16,7 +23,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {
-	FaGripVertical,
+	FaGripHorizontal,
 	FaPencilAlt,
 	FaTrashAlt,
 } from 'react-icons/fa';
@@ -28,11 +35,17 @@ export type SortableFieldItem = {
 
 type ItemProps = {
 	item: SortableFieldItem;
+	isLast: boolean;
 	onEdit: () => void;
 	onDelete: () => void;
 };
 
-const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
+const SortableFieldItem = ({
+	item,
+	isLast,
+	onEdit,
+	onDelete,
+}: ItemProps) => {
 	const {
 		attributes,
 		listeners,
@@ -43,64 +56,62 @@ const SortableFieldItem = ({ item, onEdit, onDelete }: ItemProps) => {
 	} = useSortable({ id: item.id });
 
 	return (
-		<Flex
-			ref={setNodeRef}
-			style={{
-				transform: CSS.Transform.toString(transform),
-				transition,
-				opacity: isDragging ? 0.5 : 1,
-			}}
-			minWidth={300}
-			alignItems="center"
-			px={2}
-			h={12}
-			gap={3}
-			borderWidth={1}
-			borderColor="gray.200"
-			borderRadius="md"
-		>
-			<IconButton
-				size="xs"
-				variant="ghost"
-				cursor="grab"
-				color="gray.400"
-				{...attributes}
-				{...listeners}
+		<>
+			<Flex
+				ref={setNodeRef}
+				style={{
+					transform: CSS.Transform.toString(transform),
+					transition,
+					opacity: isDragging ? 0.5 : 1,
+				}}
+				minWidth={300}
+				alignItems="center"
+				px={2}
+				h={12}
+				gap={3}
 			>
-				<FaGripVertical />
-			</IconButton>
-			<Text
-				flex={1}
-				fontSize={18}
-				truncate
-			>
-				{item.label || (
-					<Text
-						color="gray.400"
-						fontStyle="italic"
+				<IconButton
+					size="xs"
+					variant="ghost"
+					cursor="grab"
+					color="gray.400"
+					{...attributes}
+					{...listeners}
+				>
+					<FaGripHorizontal />
+				</IconButton>
+				<Text
+					flex={1}
+					fontSize={18}
+					truncate
+				>
+					{item.label}
+				</Text>
+				<HStack gap={1}>
+					<IconButton
+						size="xs"
+						variant="ghost"
+						onClick={onEdit}
 					>
-						Untitled
-					</Text>
-				)}
-			</Text>
-			<HStack gap={1}>
-				<IconButton
-					size="xs"
-					variant="ghost"
-					onClick={onEdit}
-				>
-					<FaPencilAlt />
-				</IconButton>
-				<IconButton
-					size="xs"
-					variant="ghost"
-					color="red.500"
-					onClick={onDelete}
-				>
-					<FaTrashAlt />
-				</IconButton>
-			</HStack>
-		</Flex>
+						<FaPencilAlt />
+					</IconButton>
+					<IconButton
+						size="xs"
+						variant="ghost"
+						color={FIELD_ERROR_COLOR}
+						onClick={onDelete}
+					>
+						<FaTrashAlt />
+					</IconButton>
+				</HStack>
+			</Flex>
+			{!isLast && (
+				<Box
+					borderBottomWidth={1}
+					borderColor="gray.200"
+				/>
+			)}
+		</>
 	);
 };
 
@@ -142,19 +153,22 @@ export const SortableFieldList = ({
 				items={ids}
 				strategy={verticalListSortingStrategy}
 			>
-				<Flex
-					direction="column"
-					gap={2}
+				<Box
+					borderWidth={1}
+					borderColor="gray.200"
+					borderRadius="md"
+					overflow="hidden"
 				>
-					{items.map((item) => (
+					{items.map((item, i) => (
 						<SortableFieldItem
 							key={item.id}
 							item={item}
+							isLast={i === items.length - 1}
 							onEdit={() => onEdit(item.id)}
 							onDelete={() => onDelete(item.id)}
 						/>
 					))}
-				</Flex>
+				</Box>
 			</SortableContext>
 		</DndContext>
 	);

@@ -40,7 +40,11 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import React, { useEffect, useRef, useState } from 'react';
-import { FaGripVertical, FaImage, FaTrashAlt } from 'react-icons/fa';
+import {
+	FaGripHorizontal,
+	FaImage,
+	FaTrashAlt,
+} from 'react-icons/fa';
 
 const OPTION_IMG_W = 32;
 
@@ -110,7 +114,7 @@ const OptionRow = ({
 					{...attributes}
 					{...listeners}
 				>
-					<FaGripVertical />
+					<FaGripHorizontal />
 				</IconButton>
 				{/* Image */}
 				<Box
