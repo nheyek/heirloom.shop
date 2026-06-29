@@ -50,7 +50,7 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { BiSolidPackage } from 'react-icons/bi';
-import { FaHeart, FaPlusCircle } from 'react-icons/fa';
+import { FaBan, FaHeart, FaPlusCircle } from 'react-icons/fa';
 import {
 	FaCheck,
 	FaHourglassStart,
@@ -451,20 +451,34 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
+									disabled={!listingData?.active}
 								>
-									<FaPlusCircle />
-									Add to Cart
-									<RxDotFilled />
-									<Text
-										fontSize={26}
-										fontWeight={600}
-										fontFamily={FONT_DECORATIVE}
-										paddingBottom={1}
-									>
-										{formatCentsAsDollars(
-											totalPriceCents,
-										)}
-									</Text>
+									{listingData?.active ? (
+										<>
+											<FaPlusCircle />
+											Add to Cart
+											<RxDotFilled />
+											<Text
+												fontSize={26}
+												fontWeight={600}
+												fontFamily={
+													FONT_DECORATIVE
+												}
+												paddingBottom={1}
+											>
+												{formatCentsAsDollars(
+													totalPriceCents,
+												)}
+											</Text>
+										</>
+									) : (
+										<>
+											<FaBan />
+											<Text fontSize={22}>
+												Currently Unavailable
+											</Text>
+										</>
+									)}
 								</ListingPageButton>
 								<SimpleGrid
 									columns={2}
