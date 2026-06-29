@@ -10,6 +10,7 @@ import {
 	Image,
 	Input,
 	Stack,
+	StackSeparator,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
@@ -20,6 +21,7 @@ import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { Variation } from '@client/hooks/useListingForm';
+import { FIELD_ERROR_COLOR } from '@client/theme';
 import {
 	DndContext,
 	DragEndEvent,
@@ -37,7 +39,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaGripVertical, FaImage, FaTrashAlt } from 'react-icons/fa';
 
 const OPTION_IMG_W = 32;
@@ -90,9 +92,10 @@ const OptionRow = ({
 					opacity: isDragging ? 0.4 : 1,
 				}}
 				alignItems="stretch"
-				borderWidth={1}
-				borderColor={error ? 'red.500' : 'gray.200'}
-				borderRadius="md"
+				{...(error && {
+					borderWidth: 1,
+					borderColor: FIELD_ERROR_COLOR,
+				})}
 				overflow="auto"
 				gap={2}
 				px={2}
@@ -132,7 +135,8 @@ const OptionRow = ({
 							const file = e.target.files?.[0];
 							if (file)
 								onChange({
-									imageUuid: URL.createObjectURL(file),
+									imageUuid:
+										URL.createObjectURL(file),
 								});
 							e.target.value = '';
 						}}
@@ -164,7 +168,11 @@ const OptionRow = ({
 							onChange({ name: e.target.value })
 						}
 						onKeyDown={(e) => {
-							if (e.key === 'Tab' && !e.shiftKey && !showPrice) {
+							if (
+								e.key === 'Tab' &&
+								!e.shiftKey &&
+								!showPrice
+							) {
 								e.preventDefault();
 								onTabKey?.();
 							}
@@ -181,7 +189,10 @@ const OptionRow = ({
 									onChange({ priceCents: v })
 								}
 								onKeyDown={(e) => {
-									if (e.key === 'Tab' && !e.shiftKey) {
+									if (
+										e.key === 'Tab' &&
+										!e.shiftKey
+									) {
 										e.preventDefault();
 										onTabKey?.();
 									}
@@ -521,7 +532,16 @@ export const VariationDialog = ({
 												verticalListSortingStrategy
 											}
 										>
-											<Stack gap={1.5}>
+											<Stack
+												gap={0}
+												borderWidth={1}
+												borderColor="gray.200"
+												borderRadius="md"
+												overflow="hidden"
+												separator={
+													<StackSeparator />
+												}
+											>
 												{options.map(
 													(opt, i) => {
 														if (
