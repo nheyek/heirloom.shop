@@ -8,7 +8,6 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ReactNode } from 'react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
@@ -17,6 +16,7 @@ import {
 } from '@client/constants';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { ListingCardData } from '@heirloom/common/contract';
+import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
@@ -26,8 +26,15 @@ export type ListingCardIconMenuItem = {
 	color?: string;
 };
 
-export const ListingCardIconMenu = ({ items }: { items: ListingCardIconMenuItem[] }) => (
-	<Flex alignItems="center" gap={1}>
+export const ListingCardIconMenu = ({
+	items,
+}: {
+	items: ListingCardIconMenuItem[];
+}) => (
+	<Flex
+		alignItems="center"
+		gap={1}
+	>
 		{items.map((item, i) => (
 			<IconButton
 				key={i}
@@ -122,9 +129,16 @@ export const ListingCard = ({ actionMenu, ...props }: Props) => {
 					</Text>
 				</Stack>
 			</Card.Body>
-			<Card.Body pt={0} pb={2} px={3}>
-				<Flex justifyContent="space-between" alignItems="center">
-					<Box opacity={props.active ? 1 : 0.45}>
+			<Card.Body
+				pt={0}
+				pb={2}
+				px={3}
+			>
+				<Flex
+					justifyContent="space-between"
+					alignItems="center"
+				>
+					<Box opacity={props.active ? 1 : 0.5}>
 						<PriceTag priceCents={props.priceCents} />
 					</Box>
 					{actionMenu}

@@ -84,5 +84,5 @@ export const getFavoritedListingsForUser = async (
 		},
 	);
 
-	return favoritedListings.map((fl) => fl.listing);
+	return favoritedListings.map((fl) => fl.listing).filter((l) => l.active);
 };
