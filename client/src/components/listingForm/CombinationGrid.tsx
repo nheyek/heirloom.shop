@@ -1,9 +1,9 @@
 import {
 	Box,
 	FileUpload,
-	IconButton,
 	Image,
 	Stack,
+	Switch,
 	Table,
 	Text,
 } from '@chakra-ui/react';
@@ -14,13 +14,13 @@ import {
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { Combination, Variation } from '@client/hooks/useListingForm';
-import { COLOR_BRAND, FIELD_ERROR_COLOR } from '@client/theme';
+import { FIELD_ERROR_COLOR } from '@client/theme';
 import {
 	deriveCombinationsList,
 	resolveEffectiveCombinationImage,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
-import { FaImage, FaMinusCircle, FaPlusCircle } from 'react-icons/fa';
+import { FaImage } from 'react-icons/fa';
 
 const THUMB_WIDTH = 100;
 
@@ -91,7 +91,9 @@ export const CombinationGrid = ({
 								Price
 							</Table.ColumnHeader>
 						)}
-						<Table.ColumnHeader />
+						<Table.ColumnHeader textAlign="center">
+							Active
+						</Table.ColumnHeader>
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
@@ -119,12 +121,12 @@ export const CombinationGrid = ({
 							effectivePrice != null;
 
 						return (
-							<Table.Row
-								key={key}
-								opacity={isDisabled ? 0.6 : 1}
-							>
+							<Table.Row key={key}>
 								{/* Image */}
-								<Table.Cell p={0}>
+								<Table.Cell
+									p={0}
+									opacity={isDisabled ? 0.5 : 1}
+								>
 									<FileUpload.Root
 										accept="image/*"
 										maxFiles={1}
@@ -188,7 +190,10 @@ export const CombinationGrid = ({
 
 								{/* Variation option labels */}
 								{sortedVariations.map(([varId]) => (
-									<Table.Cell key={varId}>
+									<Table.Cell
+										key={varId}
+										opacity={isDisabled ? 0.5 : 1}
+									>
 										<Text fontSize={18}>
 											{optionName(
 												varId,
@@ -200,7 +205,9 @@ export const CombinationGrid = ({
 
 								{/* Price */}
 								{showPrice && (
-									<Table.Cell>
+									<Table.Cell
+										opacity={isDisabled ? 0.5 : 1}
+									>
 										<Stack gap={1.5}>
 											<PriceInput
 												value={
@@ -240,29 +247,21 @@ export const CombinationGrid = ({
 									</Table.Cell>
 								)}
 
-								{/* Disable toggle */}
-								<Table.Cell
-									pl={0}
-									pr={3}
-									textAlign="center"
-								>
-									<IconButton
-										size="sm"
-										variant="ghost"
-										color={COLOR_BRAND}
-										disabled={disabled}
-										onClick={() =>
+								{/* Active toggle */}
+								<Table.Cell textAlign="center">
+									<Switch.Root
+										checked={!isDisabled}
+										onCheckedChange={({
+											checked,
+										}) =>
 											onUpdate(key, {
-												disabled: !isDisabled,
+												disabled: !checked,
 											})
 										}
 									>
-										{isDisabled ? (
-											<FaPlusCircle />
-										) : (
-											<FaMinusCircle />
-										)}
-									</IconButton>
+										<Switch.HiddenInput />
+										<Switch.Control />
+									</Switch.Root>
 								</Table.Cell>
 							</Table.Row>
 						);
