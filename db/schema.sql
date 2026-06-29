@@ -269,43 +269,6 @@ ALTER SEQUENCE public.listing_return_profile_id_seq OWNED BY public.listing_retu
 
 
 --
--- Name: return_exchange_profile; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.return_exchange_profile (
-    id integer NOT NULL,
-    profile_name character varying(128) NOT NULL,
-    return_window_days integer DEFAULT 30 NOT NULL,
-    additional_details text,
-    accept_returns boolean DEFAULT false NOT NULL,
-    accept_exchanges boolean DEFAULT false NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    standard_profile_key character varying(64)
-);
-
-
---
--- Name: return_exchange_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.return_exchange_profile_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: return_exchange_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.return_exchange_profile_id_seq OWNED BY public.return_exchange_profile.id;
-
-
---
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -571,13 +534,6 @@ ALTER TABLE ONLY public.listing_return_profile ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- Name: return_exchange_profile id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.return_exchange_profile ALTER COLUMN id SET DEFAULT nextval('public.return_exchange_profile_id_seq'::regclass);
-
-
---
 -- Name: server_error_log id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -676,11 +632,27 @@ ALTER TABLE ONLY public.listing_processing_profile
 
 
 --
+-- Name: listing_processing_profile listing_processing_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_processing_profile
+    ADD CONSTRAINT listing_processing_profile_shop_name_unique UNIQUE (shop_id, name);
+
+
+--
 -- Name: listing_return_profile listing_return_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.listing_return_profile
     ADD CONSTRAINT listing_return_profile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing_return_profile listing_return_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_return_profile
+    ADD CONSTRAINT listing_return_profile_shop_name_unique UNIQUE (shop_id, name);
 
 
 --
@@ -697,14 +669,6 @@ ALTER TABLE ONLY public.listing
 
 ALTER TABLE ONLY public.listing
     ADD CONSTRAINT product_pkey PRIMARY KEY (id);
-
-
---
--- Name: return_exchange_profile return_exchange_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.return_exchange_profile
-    ADD CONSTRAINT return_exchange_profile_pkey PRIMARY KEY (id);
 
 
 --
@@ -729,6 +693,14 @@ ALTER TABLE ONLY public.server_error_log
 
 ALTER TABLE ONLY public.shipping_profile
     ADD CONSTRAINT shipping_profile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shipping_profile shipping_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shipping_profile
+    ADD CONSTRAINT shipping_profile_shop_name_unique UNIQUE (shop_id, name);
 
 
 --
@@ -761,14 +733,6 @@ ALTER TABLE ONLY public.shop
 
 ALTER TABLE ONLY public.shop_user_role
     ADD CONSTRAINT shop_user_role_pkey PRIMARY KEY (id);
-
-
---
--- Name: return_exchange_profile unique_standard_profile_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.return_exchange_profile
-    ADD CONSTRAINT unique_standard_profile_key UNIQUE (standard_profile_key);
 
 
 --
@@ -1018,4 +982,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260625000001'),
     ('20260625000002'),
     ('20260625000003'),
-    ('20260626000000');
+    ('20260626000000'),
+    ('20260629000000');

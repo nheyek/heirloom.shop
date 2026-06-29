@@ -208,7 +208,7 @@ BEGIN
         ('Standard', sample_shop_4_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_5_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_6_id, 3, 5, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT DO NOTHING;
+    ON CONFLICT (shop_id, name) DO NOTHING;
 
     sample_shop_1_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
     sample_shop_2_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
@@ -225,7 +225,7 @@ BEGIN
         ('Standard', sample_shop_4_id, sample_shop_4_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_5_id, sample_shop_5_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_6_id, sample_shop_6_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT DO NOTHING;
+    ON CONFLICT (shop_id, name) DO NOTHING;
 
     sample_shop_1_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
     sample_shop_2_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
@@ -242,7 +242,7 @@ BEGIN
         ('Standard', sample_shop_4_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_5_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         ('Standard', sample_shop_6_id, 30, return_policy_type_standard, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT DO NOTHING;
+    ON CONFLICT (shop_id, name) DO NOTHING;
 
     sample_shop_1_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
     sample_shop_2_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);

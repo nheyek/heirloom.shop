@@ -1,9 +1,10 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 import { Shop } from './Shop.js';
 
 @Entity()
+@Unique({ name: 'listing_return_profile_shop_name_unique', properties: ['shop', 'name'] })
 export class ListingReturnProfile {
 
   @PrimaryKey()
