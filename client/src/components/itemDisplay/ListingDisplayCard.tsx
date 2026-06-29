@@ -7,9 +7,10 @@ import { ListingCard, ListingCardIconMenu } from './ListingCard';
 
 type Props = ListingCardData & {
 	multiImage?: boolean;
+	showShopTitle?: boolean;
 };
 
-export const ListingDisplayCard = (props: Props) => {
+export const ListingDisplayCard = ({ showShopTitle, ...props }: Props) => {
 	const shareListing = useShareListing();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 
@@ -18,6 +19,7 @@ export const ListingDisplayCard = (props: Props) => {
 	return (
 		<ListingCard
 			{...props}
+			showShopTitle={showShopTitle}
 			actionMenu={
 				<ListingCardIconMenu
 					items={[

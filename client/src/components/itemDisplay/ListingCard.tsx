@@ -52,9 +52,10 @@ export const ListingCardIconMenu = ({
 type Props = ListingCardData & {
 	multiImage?: boolean;
 	actionMenu?: ReactNode;
+	showShopTitle?: boolean;
 };
 
-export const ListingCard = ({ actionMenu, ...props }: Props) => {
+export const ListingCard = ({ actionMenu, showShopTitle, ...props }: Props) => {
 	const navigate = useNavigate();
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
@@ -97,7 +98,7 @@ export const ListingCard = ({ actionMenu, ...props }: Props) => {
 							</Heading>
 						</Link>
 					</RouterLink>
-					{props.shopTitle && (
+					{showShopTitle && props.shopTitle && (
 						<RouterLink
 							to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
 						>

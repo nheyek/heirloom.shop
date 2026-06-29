@@ -171,6 +171,7 @@ export const CategoryPage = () => {
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}
+						showShopTitle
 					/>
 				</Box>
 			)}

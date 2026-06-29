@@ -7,6 +7,7 @@ type Props = {
 	listings: ListingCardData[];
 	isLoading: boolean;
 	columns?: Record<string, number>;
+	showShopTitle?: boolean;
 };
 
 export const ListingGrid = (props: Props) => (
@@ -19,6 +20,7 @@ export const ListingGrid = (props: Props) => (
 			<ListingDisplayCard
 				{...listing}
 				multiImage={!isMobile}
+				showShopTitle={props.showShopTitle}
 			/>
 		)}
 	/>
