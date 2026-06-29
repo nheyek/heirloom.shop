@@ -27,7 +27,7 @@ export const ShopManagerListingsPage = () => {
 		setError(null);
 
 		callApi(
-			apiClient.shops.getListings({ params: { id: shortId } }),
+			apiClient.shopManager.getListings({ params: { shopId: shortId } }),
 		).then((result) => {
 			if (result.error !== null) {
 				setError(result.error);

@@ -7,6 +7,11 @@ import { ListingReturnProfile } from '@server/entities/generated/ListingReturnPr
 import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
 import { CombinationsData, VariationsData } from '@heirloom/common/contract';
 
+export const findAllListingsForShop = async (shopId: number): Promise<Listing[]> => {
+	const em = getEm();
+	return em.find(Listing, { shop: { id: shopId } }, { populate: ['shop', 'shop.country', 'category'] });
+};
+
 export const findShopProfiles = async (shopId: number): Promise<ShopProfilesData> => {
 	const em = getEm();
 
@@ -67,4 +72,17 @@ export const findListingForEdit = async (
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ?? {}) as CombinationsData,
 	};
+};
+
+export const setListingActive = async (
+	shopId: number,
+	listingShortId: string,
+	active: boolean,
+): Promise<boolean | null> => {
+	const em = getEm();
+	const listing = await em.findOne(Listing, { shortId: listingShortId, shop: { id: shopId } });
+	if (!listing) return null;
+	listing.active = active;
+	await em.flush();
+	return listing.active;
 };

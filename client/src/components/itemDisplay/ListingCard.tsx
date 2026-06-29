@@ -8,6 +8,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { ReactNode } from 'react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
@@ -25,12 +26,28 @@ export type ListingCardIconMenuItem = {
 	color?: string;
 };
 
+export const ListingCardIconMenu = ({ items }: { items: ListingCardIconMenuItem[] }) => (
+	<Flex alignItems="center" gap={1}>
+		{items.map((item, i) => (
+			<IconButton
+				key={i}
+				variant="ghost"
+				size="lg"
+				onClick={item.onClick}
+				color={item.color}
+			>
+				<item.icon />
+			</IconButton>
+		))}
+	</Flex>
+);
+
 type Props = ListingCardData & {
 	multiImage?: boolean;
-	iconMenu?: ListingCardIconMenuItem[];
+	actionMenu?: ReactNode;
 };
 
-export const ListingCard = (props: Props) => {
+export const ListingCard = ({ actionMenu, ...props }: Props) => {
 	const navigate = useNavigate();
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
@@ -40,22 +57,25 @@ export const ListingCard = (props: Props) => {
 
 	return (
 		<Card.Root variant="elevated">
-			<MultiImage
-				onImageClick={() => {
-					navigate(listingUrl);
-				}}
-				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-				urls={
-					props.multiImage
-						? props.imageUuids.map(getImageUrl)
-						: [getImageUrl(props.imageUuids[0])]
-				}
-			/>
+			<Box opacity={props.active ? 1 : 0.45}>
+				<MultiImage
+					onImageClick={() => {
+						navigate(listingUrl);
+					}}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					urls={
+						props.multiImage
+							? props.imageUuids.map(getImageUrl)
+							: [getImageUrl(props.imageUuids[0])]
+					}
+				/>
+			</Box>
 
 			<Card.Body
 				p={3}
 				pb={2}
 				gap={1.5}
+				opacity={props.active ? 1 : 0.45}
 			>
 				<Stack gap={0}>
 					<RouterLink to={listingUrl}>
@@ -100,28 +120,15 @@ export const ListingCard = (props: Props) => {
 					>
 						{props.subtitle}
 					</Text>
-					<Flex
-						justifyContent="space-between"
-						alignItems="center"
-					>
-						<PriceTag priceCents={props.priceCents} />
-						{props.iconMenu && props.iconMenu.length > 0 && (
-							<Box>
-								{props.iconMenu.map((item, i) => (
-									<IconButton
-										key={i}
-										variant="ghost"
-										size="lg"
-										onClick={item.onClick}
-										color={item.color}
-									>
-										<item.icon />
-									</IconButton>
-								))}
-							</Box>
-						)}
-					</Flex>
 				</Stack>
+			</Card.Body>
+			<Card.Body pt={0} pb={2} px={3}>
+				<Flex justifyContent="space-between" alignItems="center">
+					<Box opacity={props.active ? 1 : 0.45}>
+						<PriceTag priceCents={props.priceCents} />
+					</Box>
+					{actionMenu}
+				</Flex>
 			</Card.Body>
 		</Card.Root>
 	);

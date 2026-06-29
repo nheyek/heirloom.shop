@@ -23,6 +23,7 @@ const ListingCardDataSchema = z.object({
 	shopShortId: z.string(),
 	shopTitle: z.string(),
 	imageUuids: z.array(z.string()),
+	active: z.boolean(),
 });
 
 const ErrorSchema = z.object({ error: z.string() });
@@ -405,6 +406,17 @@ const ListingEditDataSchema = z.object({
 });
 
 export const shopManagerContract = c.router({
+	getListings: {
+		method: 'GET',
+		path: '/api/shops/:shopId/manager/listings',
+		pathParams: z.object({ shopId: z.string() }),
+		responses: {
+			200: z.array(ListingCardDataSchema),
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 	getProfiles: {
 		method: 'GET',
 		path: '/api/shops/:shopId/manager/profiles',
@@ -422,6 +434,18 @@ export const shopManagerContract = c.router({
 		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
 		responses: {
 			200: ListingEditDataSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	setListingActive: {
+		method: 'PUT',
+		path: '/api/shops/:shopId/manager/listings/:listingShortId/active',
+		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		body: z.object({ active: z.boolean() }),
+		responses: {
+			200: z.object({ active: z.boolean() }),
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,

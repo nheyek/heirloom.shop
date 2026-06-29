@@ -61,6 +61,9 @@ export class Listing {
   @Property({ type: 'json', nullable: true })
   combinations?: any;
 
+  @Property({ type: 'boolean' })
+  active: boolean & Opt = false;
+
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);
 

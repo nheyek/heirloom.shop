@@ -9,7 +9,7 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
 	return em.find(
 		Listing,
-		{},
+		{ active: true },
 		{
 			populate: ['shop', 'shop.country'],
 			orderBy: { [sql`RANDOM()`]: 'asc' },
@@ -40,9 +40,7 @@ export const findListingsByCategory = async (
 	const categoryIds = categoryIdResult.map((row: any) => row.id);
 	return em.find(
 		Listing,
-		{
-			category: { $in: categoryIds },
-		},
+		{ category: { $in: categoryIds }, active: true },
 		{ populate: ['shop', 'shop.country'] },
 	);
 };
@@ -54,7 +52,7 @@ export const findListingsByShop = async (
 
 	return em.find(
 		Listing,
-		{ shop: { id: shopId } },
+		{ shop: { id: shopId }, active: true },
 		{ populate: ['shop', 'category'] },
 	);
 };

@@ -22,6 +22,7 @@ export const mapListingToApiResponseData = (
 	shopShortId: listing.shop.shortId || '',
 	shopTitle: listing.shop.title,
 	imageUuids: listing.imageUuids,
+	active: listing.active,
 });
 
 export const mapListingToCompleteApiResponseData = (
