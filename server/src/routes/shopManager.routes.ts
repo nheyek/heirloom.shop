@@ -3,7 +3,7 @@ import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import { authorizeShopAction, findShopByShortId } from '@server/services/shop.service';
-import { findAllListingsForShop, findListingForEdit, findShopProfiles, setListingAvailable } from '@server/services/shopManager.service';
+import { deleteListing, findAllListingsForShop, findListingForEdit, findShopProfiles, setListingAvailable } from '@server/services/shopManager.service';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 
 const s = initServer();
@@ -80,6 +80,26 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 				return { status: 404 as const, body: { error: ERROR_MESSAGES.listing.notFound } };
 			}
 			return { status: 200 as const, body: { available } };
+		},
+	},
+
+	deleteListing: {
+		middleware: [authAndSetUser],
+		handler: async ({ params: { shopId, listingShortId }, req }) => {
+			const shop = await findShopByShortId(shopId);
+			if (!shop) {
+				return { status: 404 as const, body: { error: ERROR_MESSAGES.shop.notFound } };
+			}
+			try {
+				await authorizeShopAction(shop.id, req.userClaims!.email);
+			} catch {
+				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
+			}
+			const deleted = await deleteListing(shop.id, listingShortId);
+			if (!deleted) {
+				return { status: 404 as const, body: { error: ERROR_MESSAGES.listing.notFound } };
+			}
+			return { status: 200 as const, body: { deleted } };
 		},
 	},
 });

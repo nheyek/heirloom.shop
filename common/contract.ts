@@ -452,6 +452,18 @@ export const shopManagerContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	deleteListing: {
+		method: 'DELETE',
+		path: '/api/shops/:shopId/manager/listings/:listingShortId',
+		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		body: z.object({}),
+		responses: {
+			200: z.object({ deleted: z.boolean() }),
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 });
 
 export type ShopManagerProcessingProfile = z.infer<typeof ShopManagerProcessingProfileSchema>;

@@ -151,7 +151,7 @@ export const ListingFormFields = ({
 												);
 										}}
 										placeholder="e.g. Full-grain vegetable-tanned leather, made to last a lifetime"
-											disabled={disabled}
+										disabled={disabled}
 									/>
 								</FormField>
 								<FormField
@@ -260,8 +260,10 @@ export const ListingFormFields = ({
 					</Wrap>
 
 					<Wrap
-						gap={10}
+						justifyContent="space-between"
 						align="start"
+						maxW={650}
+						gap={5}
 					>
 						<WrapItem>
 							<FormField

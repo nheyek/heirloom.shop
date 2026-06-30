@@ -1,6 +1,15 @@
-import { Button } from '@chakra-ui/react';
+import {
+	Button,
+	CloseButton,
+	Dialog,
+	HStack,
+	Input,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
+import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { ImageEntry } from '@client/hooks/useImageUpload';
 import {
@@ -10,6 +19,7 @@ import {
 	useListingForm,
 } from '@client/hooks/useListingForm';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
+import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	CombinationsData,
@@ -17,11 +27,121 @@ import {
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
-import { FaSave } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { FaSave, FaTrash } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
+
+type DeleteListingDialogProps = {
+	open: boolean;
+	title: string;
+	pending: boolean;
+	onCancel: () => void;
+	onConfirm: () => void;
+};
+
+const DeleteListingDialog = ({
+	open,
+	title,
+	pending,
+	onCancel,
+	onConfirm,
+}: DeleteListingDialogProps) => {
+	const [confirmationText, setConfirmationText] = useState('');
+
+	const canConfirm = confirmationText === title;
+
+	return (
+		<Dialog.Root
+			open={open}
+			onOpenChange={({ open }) => {
+				if (!open && !pending) {
+					setConfirmationText('');
+					onCancel();
+				}
+			}}
+			onInteractOutside={pending ? undefined : onCancel}
+			onEscapeKeyDown={pending ? undefined : onCancel}
+			size="sm"
+		>
+			<Dialog.Backdrop />
+			<Dialog.Positioner>
+				<Dialog.Content>
+					<Dialog.Header>
+						<Dialog.Title
+							fontSize={22}
+							fontWeight={500}
+							marginRight={10}
+							truncate
+						>
+							Delete "{title}"?
+						</Dialog.Title>
+						<CloseButton
+							position="absolute"
+							top={3}
+							right={3}
+							onClick={onCancel}
+							disabled={pending}
+						/>
+					</Dialog.Header>
+					<Dialog.Body pt={0}>
+						<Stack
+							gap={3}
+							fontSize={18}
+						>
+							<Text>
+								This will permanently delete the
+								listing, including all of its
+								variations. This action cannot be
+								undone.
+							</Text>
+							<Text>
+								Enter the listing title below to
+								confirm.
+							</Text>
+							<Input
+								value={confirmationText}
+								onChange={(e) =>
+									setConfirmationText(
+										e.target.value,
+									)
+								}
+								disabled={pending}
+								fontSize={18}
+								autoComplete="off"
+							/>
+						</Stack>
+					</Dialog.Body>
+					<Dialog.Footer>
+						<HStack gap={2}>
+							<Button
+								size="md"
+								fontSize={18}
+								variant="outline"
+								onClick={onCancel}
+								disabled={pending}
+							>
+								Cancel
+							</Button>
+							<Button
+								size="md"
+								fontSize={18}
+								colorPalette="red"
+								onClick={onConfirm}
+								disabled={!canConfirm || pending}
+								loading={pending}
+							>
+								Delete Listing
+							</Button>
+						</HStack>
+					</Dialog.Footer>
+				</Dialog.Content>
+			</Dialog.Positioner>
+		</Dialog.Root>
+	);
+};
 
 type FormProps = {
 	shopShortId: string;
+	listingShortId: string;
 	listingData: ListingEditData;
 	processingProfiles: ProcessingProfile[];
 	shippingProfiles: ShippingProfile[];
@@ -31,6 +151,7 @@ type FormProps = {
 
 const ListingEditForm = ({
 	shopShortId,
+	listingShortId,
 	listingData,
 	processingProfiles,
 	shippingProfiles,
@@ -38,6 +159,10 @@ const ListingEditForm = ({
 	listingImageBaseUrl,
 }: FormProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
+	const apiClient = useApiClient();
+	const navigate = useNavigate();
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [deletePending, setDeletePending] = useState(false);
 
 	const initialImageEntries: ImageEntry[] =
 		listingData.imageUuids.map((uuid) => ({
@@ -90,24 +215,67 @@ const ListingEditForm = ({
 		// TODO: call update API
 	};
 
+	const handleDeleteConfirm = async () => {
+		setDeletePending(true);
+		const result = await callApi(
+			apiClient.shopManager.deleteListing({
+				params: { shopId: shopShortId, listingShortId },
+				body: {},
+			}),
+		);
+		setDeletePending(false);
+		if (result.error !== null) {
+			toastError('Failed to delete listing. Please try again.');
+			return;
+		}
+		setDeleteDialogOpen(false);
+		navigate(
+			`/${CLIENT_ROUTES.shop}/${shopShortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`,
+		);
+	};
+
 	return (
-		<ListingFormLayout
-			form={form}
-			containerRef={containerRef}
-			actions={
-				<Button
-					size="lg"
-					width={175}
-					fontSize={20}
-					onClick={handleSave}
-					disabled={form.isUploadingImages}
-					loading={form.isUploadingImages}
-				>
-					<FaSave />
-					Save Changes
-				</Button>
-			}
-		/>
+		<>
+			<ListingFormLayout
+				form={form}
+				containerRef={containerRef}
+				actions={
+					<HStack
+						justifyContent="space-between"
+						maxW={650}
+					>
+						<Button
+							size="lg"
+							width={175}
+							fontSize={20}
+							onClick={handleSave}
+							disabled={form.isUploadingImages}
+							loading={form.isUploadingImages}
+						>
+							<FaSave />
+							Save Changes
+						</Button>
+						<Button
+							size="lg"
+							fontSize={20}
+							variant="solid"
+							colorPalette="red"
+							onClick={() => setDeleteDialogOpen(true)}
+						>
+							<FaTrash />
+							Delete Listing
+						</Button>
+					</HStack>
+				}
+			/>
+			<DeleteListingDialog
+				open={deleteDialogOpen}
+				title={listingData.title}
+				pending={deletePending}
+				onCancel={() => setDeleteDialogOpen(false)}
+				onConfirm={handleDeleteConfirm}
+			/>
+		</>
 	);
 };
 
@@ -149,6 +317,7 @@ export const ShopManagerListingEditPage = () => {
 	return (
 		<ListingEditForm
 			shopShortId={shopShortId!}
+			listingShortId={listingShortId!}
 			listingData={listingData}
 			processingProfiles={processingProfiles}
 			shippingProfiles={shippingProfiles}

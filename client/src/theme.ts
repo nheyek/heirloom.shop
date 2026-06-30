@@ -69,10 +69,11 @@ const buttonRecipe = defineRecipe({
 		fontFamily: FONT_DISPLAY_SANS,
 		borderRadius: 'full',
 	},
+	defaultVariants: {},
 	variants: {
 		variant: {
 			solid: {
-				background: 'brand',
+				background: 'colorPalette.solid',
 			},
 			outline: {
 				borderWidth: 2,
@@ -164,7 +165,10 @@ export const config = defineConfig({
 		},
 		semanticTokens: {
 			colors: {
-				brand: { value: COLOR_BRAND },
+				brand: {
+					DEFAULT: { value: COLOR_BRAND },
+					solid: { value: COLOR_BRAND },
+				},
 			},
 		},
 		recipes: {
