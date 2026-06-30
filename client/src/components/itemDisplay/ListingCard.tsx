@@ -53,9 +53,15 @@ type Props = ListingCardData & {
 	multiImage?: boolean;
 	actionMenu?: ReactNode;
 	showShopTitle?: boolean;
+	topRight?: ReactNode;
 };
 
-export const ListingCard = ({ actionMenu, showShopTitle, ...props }: Props) => {
+export const ListingCard = ({
+	actionMenu,
+	showShopTitle,
+	topRight,
+	...props
+}: Props) => {
 	const navigate = useNavigate();
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
@@ -64,26 +70,36 @@ export const ListingCard = ({ actionMenu, showShopTitle, ...props }: Props) => {
 		`${process.env.LISTING_IMAGES_URL}/${props.shopShortId}/${uuid}.jpg`;
 
 	return (
-		<Card.Root variant="elevated">
-			<Box opacity={props.active ? 1 : 0.45}>
-				<MultiImage
-					onImageClick={() => {
-						navigate(listingUrl);
-					}}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					urls={
-						props.multiImage
-							? props.imageUuids.map(getImageUrl)
-							: [getImageUrl(props.imageUuids[0])]
-					}
-				/>
-			</Box>
+		<Card.Root
+			variant="elevated"
+			position="relative"
+		>
+			{topRight && (
+				<Box
+					position="absolute"
+					top={2}
+					right={2}
+					zIndex={1}
+				>
+					{topRight}
+				</Box>
+			)}
+			<MultiImage
+				onImageClick={() => {
+					navigate(listingUrl);
+				}}
+				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+				urls={
+					props.multiImage
+						? props.imageUuids.map(getImageUrl)
+						: [getImageUrl(props.imageUuids[0])]
+				}
+			/>
 
 			<Card.Body
 				p={3}
 				pb={2}
 				gap={1.5}
-				opacity={props.active ? 1 : 0.45}
 			>
 				<Stack gap={0}>
 					<RouterLink to={listingUrl}>
@@ -131,18 +147,17 @@ export const ListingCard = ({ actionMenu, showShopTitle, ...props }: Props) => {
 				</Stack>
 			</Card.Body>
 			<Card.Body
-				pt={0}
-				pb={2}
+				py={0}
 				px={3}
 			>
 				<Flex
 					justifyContent="space-between"
 					alignItems="center"
 				>
-					<Box opacity={props.active ? 1 : 0.5}>
+					<Box mb={3}>
 						<PriceTag priceCents={props.priceCents} />
 					</Box>
-					{actionMenu}
+					<Box mb={2}>{actionMenu}</Box>
 				</Flex>
 			</Card.Body>
 		</Card.Root>

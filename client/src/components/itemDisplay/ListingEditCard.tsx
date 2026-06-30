@@ -2,8 +2,9 @@ import {
 	Button,
 	CloseButton,
 	Dialog,
-	Flex,
 	HStack,
+	Icon,
+	Stack,
 	Switch,
 	Text,
 } from '@chakra-ui/react';
@@ -12,8 +13,8 @@ import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
 import { useState } from 'react';
-import { FaPencil } from 'react-icons/fa6';
-import { ListingCard, ListingCardIconMenu } from './ListingCard';
+import { FaEdit } from 'react-icons/fa';
+import { ListingCard } from './ListingCard';
 
 type ListingActiveDialogProps = {
 	open: boolean;
@@ -60,12 +61,29 @@ const ListingActiveDialog = ({
 						disabled={pending}
 					/>
 				</Dialog.Header>
-				<Dialog.Body pt={0}>
-					<Text fontSize={18}>
-						{activate
-							? 'This listing will become visible to shoppers.'
-							: 'This listing will be hidden from shoppers.'}
-					</Text>
+				<Dialog.Body
+					pt={0}
+					fontSize={18}
+				>
+					{activate ? (
+						<Text>
+							This listing will immediately be available
+							for purchase.
+						</Text>
+					) : (
+						<Stack gap={2}>
+							<Text>
+								This listing will no longer be
+								available for purchase. It will still
+								be visible to customers.
+							</Text>
+							<Text>
+								To remove this listing entirely, open
+								the "Edit" form and click "Delete
+								Listing".
+							</Text>
+						</Stack>
+					)}
 				</Dialog.Body>
 				<Dialog.Footer>
 					<HStack gap={2}>
@@ -137,28 +155,35 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 			<ListingCard
 				{...props}
 				active={active}
-				actionMenu={
-					<Flex
-						alignItems="center"
-						gap={2}
+				topRight={
+					<Button
+						size="sm"
+						variant="subtle"
+						onClick={onEdit}
+						fontSize={17}
 					>
-						<Switch.Root
-							checked={active}
-							disabled={pending}
-							onCheckedChange={({ checked }) =>
-								handleToggle(checked)
-							}
-							size="md"
-						>
-							<Switch.HiddenInput />
-							<Switch.Control />
-						</Switch.Root>
-						<ListingCardIconMenu
-							items={[
-								{ icon: FaPencil, onClick: onEdit },
-							]}
-						/>
-					</Flex>
+						<Icon width={17}>
+							<FaEdit />
+						</Icon>
+						Edit
+					</Button>
+				}
+				actionMenu={
+					<Switch.Root
+						checked={active}
+						disabled={pending}
+						onCheckedChange={({ checked }) =>
+							handleToggle(checked)
+						}
+						size="md"
+						pr={1}
+					>
+						<Switch.HiddenInput />
+						<Switch.Control />
+						<Switch.Label fontSize={17}>
+							Available
+						</Switch.Label>
+					</Switch.Root>
 				}
 			/>
 
