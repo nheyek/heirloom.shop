@@ -5,6 +5,7 @@ import {
 	ImageEntry,
 	useImageUpload,
 } from '@client/hooks/useImageUpload';
+import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { callApi } from '@client/utils/apiUtils';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
@@ -183,6 +184,7 @@ export const useListingForm = ({
 	initialCombinations = {},
 }: UseListingFormOptions): ListingFormState => {
 	const apiClient = useApiClient();
+	const { directFulfillment } = useShopManager();
 
 	const [title, setTitle] = useState(initialTitle);
 	const [titleError, setTitleError] = useState<string | null>(null);
@@ -398,21 +400,21 @@ export const useListingForm = ({
 			setCategoryError(null);
 		}
 
-		if (!shippingProfileId) {
+		if (directFulfillment && !shippingProfileId) {
 			setShippingProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setShippingProfileError(null);
 		}
 
-		if (!returnProfileId) {
+		if (directFulfillment && !returnProfileId) {
 			setReturnProfileError('Profile is required.');
 			valid = false;
 		} else {
 			setReturnProfileError(null);
 		}
 
-		if (!processingProfileId) {
+		if (directFulfillment && !processingProfileId) {
 			setProcessingProfileError('Profile is required.');
 			valid = false;
 		} else {

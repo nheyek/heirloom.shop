@@ -12,7 +12,10 @@ export const findAllListingsForShop = async (shopId: number): Promise<Listing[]>
 	return em.find(Listing, { shop: { id: shopId } }, { populate: ['shop', 'shop.country', 'category'] });
 };
 
-export const findShopProfiles = async (shopId: number): Promise<ShopProfilesData> => {
+export const findShopProfiles = async (
+	shopId: number,
+	directFulfillment: boolean,
+): Promise<ShopProfilesData> => {
 	const em = getEm();
 
 	const [processingProfiles, shippingProfiles, returnProfiles] = await Promise.all([
@@ -22,6 +25,7 @@ export const findShopProfiles = async (shopId: number): Promise<ShopProfilesData
 	]);
 
 	return {
+		directFulfillment,
 		processingProfiles: processingProfiles.map((p) => ({
 			id: p.id,
 			name: p.name,

@@ -386,6 +386,7 @@ const ShopManagerReturnProfileSchema = z.object({
 });
 
 const ShopProfilesDataSchema = z.object({
+	directFulfillment: z.boolean(),
 	processingProfiles: z.array(ShopManagerProcessingProfileSchema),
 	shippingProfiles: z.array(ShopManagerShippingProfileSchema),
 	returnProfiles: z.array(ShopManagerReturnProfileSchema),

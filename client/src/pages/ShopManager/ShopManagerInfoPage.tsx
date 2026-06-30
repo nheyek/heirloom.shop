@@ -17,6 +17,7 @@ import {
 } from '@client/components/shop/ShopFormFields';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShopForm } from '@client/hooks/useShopForm';
+import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { toastError, toastSuccess } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -230,6 +231,7 @@ const ShopInfoForm = ({
 	isAdmin: boolean;
 }) => {
 	const apiClient = useApiClient();
+	const { setDirectFulfillment } = useShopManager();
 	const [isSaving, setIsSaving] = useState(false);
 	const [richText, setRichText] = useState(
 		shopData.profileRichText ?? '',
@@ -291,7 +293,7 @@ const ShopInfoForm = ({
 			return;
 		}
 
-		toastSuccess('Changes saved.');
+		toastSuccess('Changes saved', shopData.title);
 	};
 
 	const handleAssignOwnership = async (ownerEmail: string) => {
@@ -310,8 +312,9 @@ const ShopInfoForm = ({
 		}
 
 		setFulfillment(result.data);
+		setDirectFulfillment(result.data.directFulfillment);
 		setAssignDialogOpen(false);
-		toastSuccess('Ownership assigned.');
+		toastSuccess('Ownership assigned', shopData.title);
 	};
 
 	const handleCommandeer = async () => {
@@ -330,8 +333,9 @@ const ShopInfoForm = ({
 		}
 
 		setFulfillment(result.data);
+		setDirectFulfillment(result.data.directFulfillment);
 		setCommandeerDialogOpen(false);
-		toastSuccess('Shop commandeered.');
+		toastSuccess('Commandeered', shopData.title);
 	};
 
 	return (

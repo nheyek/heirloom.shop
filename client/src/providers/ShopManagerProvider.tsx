@@ -12,6 +12,8 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 type ShopManagerContextValue = {
+	directFulfillment: boolean;
+	setDirectFulfillment: (directFulfillment: boolean) => void;
 	processingProfiles: ProcessingProfile[];
 	shippingProfiles: ShippingProfile[];
 	returnProfiles: ReturnProfile[];
@@ -59,6 +61,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 	const { shortId: shopShortId } = useParams<{ shortId: string }>();
 	const apiClient = useApiClient();
 
+	const [directFulfillment, setDirectFulfillment] = useState(true);
 	const [processingProfiles, setProcessingProfiles] = useState<ProcessingProfile[]>([]);
 	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([]);
 	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>([]);
@@ -72,6 +75,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 			apiClient.shopManager.getProfiles({ params: { shopId: shopShortId } }),
 		).then((result) => {
 			if (result.error === null) {
+				setDirectFulfillment(result.data.directFulfillment);
 				setProcessingProfiles(
 					result.data.processingProfiles.map((p) => ({
 						id: String(p.id),
@@ -89,7 +93,14 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 
 	return (
 		<ShopManagerContext.Provider
-			value={{ processingProfiles, shippingProfiles, returnProfiles, profilesLoading }}
+			value={{
+				directFulfillment,
+				setDirectFulfillment,
+				processingProfiles,
+				shippingProfiles,
+				returnProfiles,
+				profilesLoading,
+			}}
 		>
 			{children}
 		</ShopManagerContext.Provider>

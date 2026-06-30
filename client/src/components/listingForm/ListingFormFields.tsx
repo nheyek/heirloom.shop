@@ -31,6 +31,7 @@ import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/hooks/useListingForm';
+import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { CHAKRA_SPACING_UNIT } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useState } from 'react';
@@ -47,6 +48,7 @@ export const ListingFormFields = ({
 	form,
 	disabled,
 }: ListingFormFieldsProps) => {
+	const { directFulfillment } = useShopManager();
 	const [variationDialogOpen, setVariationDialogOpen] =
 		useState(false);
 	const [editingVariationId, setEditingVariationId] = useState<
@@ -259,84 +261,98 @@ export const ListingFormFields = ({
 						)}
 					</Wrap>
 
-					<Wrap
-						justifyContent="space-between"
-						align="start"
-						maxW={650}
-						gap={5}
-					>
-						<WrapItem>
-							<FormField
-								label="Processing"
-								error={form.processingProfileError}
-								required
-							>
-								<ProcessingProfileSelect
-									profiles={form.processingProfiles}
-									onAddProfile={
-										form.addProcessingProfile
+					{directFulfillment && (
+						<Wrap
+							justifyContent="space-between"
+							align="start"
+							maxW={650}
+							gap={5}
+						>
+							<WrapItem>
+								<FormField
+									label="Processing"
+									error={
+										form.processingProfileError
 									}
-									value={form.processingProfileId}
-									onChange={(v) => {
-										form.setProcessingProfileId(
-											v,
-										);
-										if (v)
-											form.setProcessingProfileError(
-												null,
+									required
+								>
+									<ProcessingProfileSelect
+										profiles={
+											form.processingProfiles
+										}
+										onAddProfile={
+											form.addProcessingProfile
+										}
+										value={
+											form.processingProfileId
+										}
+										onChange={(v) => {
+											form.setProcessingProfileId(
+												v,
 											);
-									}}
-									disabled={disabled}
-								/>
-							</FormField>
-						</WrapItem>
-						<WrapItem>
-							<FormField
-								label="Shipping"
-								error={form.shippingProfileError}
-								required
-							>
-								<ShippingProfileSelect
-									profiles={form.shippingProfiles}
-									onAddProfile={
-										form.addShippingProfile
-									}
-									value={form.shippingProfileId}
-									onChange={(v) => {
-										form.setShippingProfileId(v);
-										if (v)
-											form.setShippingProfileError(
-												null,
+											if (v)
+												form.setProcessingProfileError(
+													null,
+												);
+										}}
+										disabled={disabled}
+									/>
+								</FormField>
+							</WrapItem>
+							<WrapItem>
+								<FormField
+									label="Shipping"
+									error={form.shippingProfileError}
+									required
+								>
+									<ShippingProfileSelect
+										profiles={
+											form.shippingProfiles
+										}
+										onAddProfile={
+											form.addShippingProfile
+										}
+										value={form.shippingProfileId}
+										onChange={(v) => {
+											form.setShippingProfileId(
+												v,
 											);
-									}}
-									disabled={disabled}
-								/>
-							</FormField>
-						</WrapItem>
-						<WrapItem>
-							<FormField
-								label="Returns"
-								error={form.returnProfileError}
-								required
-							>
-								<ReturnProfileSelect
-									profiles={form.returnProfiles}
-									onAddProfile={
-										form.addReturnProfile
-									}
-									value={form.returnProfileId}
-									onChange={(v) => {
-										form.setReturnProfileId(v);
-										if (v)
-											form.setReturnProfileError(
-												null,
+											if (v)
+												form.setShippingProfileError(
+													null,
+												);
+										}}
+										disabled={disabled}
+									/>
+								</FormField>
+							</WrapItem>
+							<WrapItem>
+								<FormField
+									label="Returns"
+									error={form.returnProfileError}
+									required
+								>
+									<ReturnProfileSelect
+										profiles={form.returnProfiles}
+										onAddProfile={
+											form.addReturnProfile
+										}
+										value={form.returnProfileId}
+										onChange={(v) => {
+											form.setReturnProfileId(
+												v,
 											);
-									}}
-									disabled={disabled}
-								/>
-							</FormField>
-						</WrapItem>
-					</Wrap>
+											if (v)
+												form.setReturnProfileError(
+													null,
+												);
+										}}
+										disabled={disabled}
+									/>
+								</FormField>
+							</WrapItem>
+						</Wrap>
+					)}
 
 					<FormField label="Variations">
 						<Stack gap={2}>

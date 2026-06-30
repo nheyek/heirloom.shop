@@ -27,7 +27,7 @@ import {
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
-import { FaSave, FaTrash } from 'react-icons/fa';
+import { FaSave, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type DeleteListingDialogProps = {
@@ -262,7 +262,7 @@ const ListingEditForm = ({
 							colorPalette="red"
 							onClick={() => setDeleteDialogOpen(true)}
 						>
-							<FaTrash />
+							<FaTrashAlt />
 							Delete Listing
 						</Button>
 					</HStack>
