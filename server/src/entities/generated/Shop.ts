@@ -4,7 +4,7 @@ import { Country } from './Country.js';
 import { Listing } from './Listing.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingReturnProfile } from './ListingReturnProfile.js';
-import { ShippingProfile } from './ShippingProfile.js';
+import { ListingShippingProfile } from './ListingShippingProfile.js';
 import { ShopUserRole } from './ShopUserRole.js';
 import { UserFavoriteShop } from './UserFavoriteShop.js';
 
@@ -53,8 +53,8 @@ export class Shop {
   @OneToMany({ entity: () => ListingReturnProfile, mappedBy: 'shop' })
   listingReturnProfileCollection = new Collection<ListingReturnProfile>(this);
 
-  @OneToMany({ entity: () => ShippingProfile, mappedBy: 'shop' })
-  shippingProfileCollection = new Collection<ShippingProfile>(this);
+  @OneToMany({ entity: () => ListingShippingProfile, mappedBy: 'shop' })
+  listingShippingProfileCollection = new Collection<ListingShippingProfile>(this);
 
   @OneToMany({ entity: () => ShopUserRole, mappedBy: 'shop' })
   shopUserRoleCollection = new Collection<ShopUserRole>(this);

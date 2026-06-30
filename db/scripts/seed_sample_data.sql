@@ -217,22 +217,24 @@ BEGIN
     sample_shop_5_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
     sample_shop_6_processing_profile_id := (SELECT id FROM listing_processing_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
-    INSERT INTO shipping_profile (name, shop_id, origin_zip, flat_shipping_rate_cents, shipping_days_min, shipping_days_max, created_at, updated_at)
+    INSERT INTO listing_shipping_profile (name, shop_id, origin_zip, flat_shipping_rate_cents, shipping_days_min, shipping_days_max, created_at, updated_at)
     VALUES
-        ('Standard', sample_shop_1_id, sample_shop_1_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_2_id, sample_shop_2_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_3_id, sample_shop_3_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_4_id, sample_shop_4_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_5_id, sample_shop_5_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        ('Standard', sample_shop_6_id, sample_shop_6_origin_zip, null, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
-    ON CONFLICT (shop_id, name) DO NOTHING;
+        ('Standard', sample_shop_1_id, sample_shop_1_origin_zip,     0, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_2_id, sample_shop_2_origin_zip,  1000, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_3_id, sample_shop_3_origin_zip,  2000, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_4_id, sample_shop_4_origin_zip,     0, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_5_id, sample_shop_5_origin_zip,  1000, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        ('Standard', sample_shop_6_id, sample_shop_6_origin_zip,  2000, 3, 7, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (shop_id, name) DO UPDATE SET
+        flat_shipping_rate_cents = EXCLUDED.flat_shipping_rate_cents,
+        updated_at = CURRENT_TIMESTAMP;
 
-    sample_shop_1_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
-    sample_shop_2_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
-    sample_shop_3_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard' LIMIT 1);
-    sample_shop_4_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard' LIMIT 1);
-    sample_shop_5_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
-    sample_shop_6_shipping_profile_id := (SELECT id FROM shipping_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
+    sample_shop_1_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_1_id AND name = 'Standard' LIMIT 1);
+    sample_shop_2_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_2_id AND name = 'Standard' LIMIT 1);
+    sample_shop_3_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_3_id AND name = 'Standard' LIMIT 1);
+    sample_shop_4_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_4_id AND name = 'Standard' LIMIT 1);
+    sample_shop_5_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
+    sample_shop_6_shipping_profile_id := (SELECT id FROM listing_shipping_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
     INSERT INTO listing_return_profile (name, shop_id, return_window_days, policy_type, created_at, updated_at)
     VALUES

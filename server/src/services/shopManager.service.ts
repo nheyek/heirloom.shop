@@ -4,7 +4,7 @@ import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
-import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
+import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
 import { CombinationsData, VariationsData } from '@heirloom/common/contract';
 
 export const findAllListingsForShop = async (shopId: number): Promise<Listing[]> => {
@@ -20,7 +20,7 @@ export const findShopProfiles = async (
 
 	const [processingProfiles, shippingProfiles, returnProfiles] = await Promise.all([
 		em.find(ListingProcessingProfile, { shop: { id: shopId } }),
-		em.find(ShippingProfile, { shop: { id: shopId } }),
+		em.find(ListingShippingProfile, { shop: { id: shopId } }),
 		em.find(ListingReturnProfile, { shop: { id: shopId } }),
 	]);
 

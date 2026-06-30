@@ -3,7 +3,7 @@ import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/d
 import { ListingCategory } from './ListingCategory.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingReturnProfile } from './ListingReturnProfile.js';
-import { ShippingProfile } from './ShippingProfile.js';
+import { ListingShippingProfile } from './ListingShippingProfile.js';
 import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
 
@@ -37,8 +37,8 @@ export class Listing {
   @Property({ type: 'string[]', defaultRaw: `ARRAY[]::text[]` })
   imageUuids!: string[] & Opt;
 
-  @ManyToOne({ entity: () => ShippingProfile, updateRule: 'no action', nullable: true })
-  shippingProfile?: Rel<ShippingProfile>;
+  @ManyToOne({ entity: () => ListingShippingProfile, updateRule: 'no action', nullable: true })
+  shippingProfile?: Rel<ListingShippingProfile>;
 
   @Property({ type: 'json', nullable: true })
   fullDescr?: any;

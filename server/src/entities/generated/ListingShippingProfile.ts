@@ -4,8 +4,8 @@ import { Listing } from './Listing.js';
 import { Shop } from './Shop.js';
 
 @Entity()
-@Unique({ name: 'shipping_profile_shop_name_unique', properties: ['shop', 'name'] })
-export class ShippingProfile {
+@Unique({ name: 'listing_shipping_profile_shop_name_unique', properties: ['shop', 'name'] })
+export class ListingShippingProfile {
 
   @PrimaryKey()
   id!: number;

@@ -270,6 +270,23 @@ ALTER SEQUENCE public.listing_return_profile_id_seq OWNED BY public.listing_retu
 
 
 --
+-- Name: listing_shipping_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.listing_shipping_profile (
+    id integer CONSTRAINT shipping_profile_id_not_null NOT NULL,
+    name character varying(64) CONSTRAINT shipping_profile_profile_name_not_null NOT NULL,
+    flat_shipping_rate_cents integer,
+    shipping_days_min integer CONSTRAINT shipping_profile_shipping_days_min_not_null NOT NULL,
+    shipping_days_max integer CONSTRAINT shipping_profile_shipping_days_max_not_null NOT NULL,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    shop_id integer CONSTRAINT shipping_profile_shop_id_not_null NOT NULL,
+    origin_zip numeric(5,0) CONSTRAINT shipping_profile_origin_zip_not_null NOT NULL
+);
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -319,23 +336,6 @@ ALTER SEQUENCE public.server_error_log_id_seq OWNED BY public.server_error_log.i
 
 
 --
--- Name: shipping_profile; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.shipping_profile (
-    id integer NOT NULL,
-    name character varying(64) CONSTRAINT shipping_profile_profile_name_not_null NOT NULL,
-    flat_shipping_rate_cents integer,
-    shipping_days_min integer NOT NULL,
-    shipping_days_max integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    shop_id integer NOT NULL,
-    origin_zip numeric(5,0) NOT NULL
-);
-
-
---
 -- Name: shipping_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -352,7 +352,7 @@ CREATE SEQUENCE public.shipping_profile_id_seq
 -- Name: shipping_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.shipping_profile_id_seq OWNED BY public.shipping_profile.id;
+ALTER SEQUENCE public.shipping_profile_id_seq OWNED BY public.listing_shipping_profile.id;
 
 
 --
@@ -535,17 +535,17 @@ ALTER TABLE ONLY public.listing_return_profile ALTER COLUMN id SET DEFAULT nextv
 
 
 --
+-- Name: listing_shipping_profile id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_shipping_profile ALTER COLUMN id SET DEFAULT nextval('public.shipping_profile_id_seq'::regclass);
+
+
+--
 -- Name: server_error_log id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.server_error_log ALTER COLUMN id SET DEFAULT nextval('public.server_error_log_id_seq'::regclass);
-
-
---
--- Name: shipping_profile id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_profile ALTER COLUMN id SET DEFAULT nextval('public.shipping_profile_id_seq'::regclass);
 
 
 --
@@ -657,6 +657,14 @@ ALTER TABLE ONLY public.listing_return_profile
 
 
 --
+-- Name: listing_shipping_profile listing_shipping_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_shipping_profile
+    ADD CONSTRAINT listing_shipping_profile_shop_name_unique UNIQUE (shop_id, name);
+
+
+--
 -- Name: listing listing_short_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -689,19 +697,11 @@ ALTER TABLE ONLY public.server_error_log
 
 
 --
--- Name: shipping_profile shipping_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: listing_shipping_profile shipping_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.shipping_profile
+ALTER TABLE ONLY public.listing_shipping_profile
     ADD CONSTRAINT shipping_profile_pkey PRIMARY KEY (id);
-
-
---
--- Name: shipping_profile shipping_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.shipping_profile
-    ADD CONSTRAINT shipping_profile_shop_name_unique UNIQUE (shop_id, name);
 
 
 --
@@ -880,7 +880,7 @@ ALTER TABLE ONLY public.listing_return_profile
 --
 
 ALTER TABLE ONLY public.listing
-    ADD CONSTRAINT listing_shipping_profile_id_fkey FOREIGN KEY (shipping_profile_id) REFERENCES public.shipping_profile(id) ON DELETE SET NULL;
+    ADD CONSTRAINT listing_shipping_profile_id_fkey FOREIGN KEY (shipping_profile_id) REFERENCES public.listing_shipping_profile(id) ON DELETE SET NULL;
 
 
 --
@@ -892,10 +892,10 @@ ALTER TABLE ONLY public.listing
 
 
 --
--- Name: shipping_profile shipping_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: listing_shipping_profile shipping_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.shipping_profile
+ALTER TABLE ONLY public.listing_shipping_profile
     ADD CONSTRAINT shipping_profile_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
 
 
@@ -986,4 +986,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260626000000'),
     ('20260629000000'),
     ('20260629000001'),
-    ('20260630000000');
+    ('20260630000000'),
+    ('20260630000001');
