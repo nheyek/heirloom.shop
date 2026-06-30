@@ -19,6 +19,7 @@ type ListingActiveDialogProps = {
 	open: boolean;
 	title: string;
 	activate: boolean;
+	pending: boolean;
 	onCancel: () => void;
 	onConfirm: () => void;
 };
@@ -27,13 +28,14 @@ const ListingActiveDialog = ({
 	open,
 	title,
 	activate,
+	pending,
 	onCancel,
 	onConfirm,
 }: ListingActiveDialogProps) => (
 	<Dialog.Root
 		open={open}
-		onInteractOutside={onCancel}
-		onEscapeKeyDown={onCancel}
+		onInteractOutside={pending ? undefined : onCancel}
+		onEscapeKeyDown={pending ? undefined : onCancel}
 		size="sm"
 	>
 		<Dialog.Backdrop />
@@ -55,6 +57,7 @@ const ListingActiveDialog = ({
 						top={3}
 						right={3}
 						onClick={onCancel}
+						disabled={pending}
 					/>
 				</Dialog.Header>
 				<Dialog.Body pt={0}>
@@ -71,6 +74,7 @@ const ListingActiveDialog = ({
 							fontSize={18}
 							variant="outline"
 							onClick={onCancel}
+							disabled={pending}
 						>
 							Cancel
 						</Button>
@@ -78,6 +82,7 @@ const ListingActiveDialog = ({
 							size="md"
 							fontSize={18}
 							onClick={onConfirm}
+							loading={pending}
 						>
 							{activate ? 'Activate' : 'Deactivate'}
 						</Button>
@@ -108,8 +113,6 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 	const handleConfirm = async () => {
 		if (pendingChecked === null) return;
 		const checked = pendingChecked;
-		setPendingChecked(null);
-		setActive(checked);
 		setPending(true);
 		const result = await callApi(
 			apiClient.shopManager.setListingActive({
@@ -120,11 +123,13 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				body: { active: checked },
 			}),
 		);
-		if (result.error !== null) {
-			setActive(!checked);
-			toastError('Failed to update listing. Please try again.');
-		}
 		setPending(false);
+		setPendingChecked(null);
+		if (result.error !== null) {
+			toastError('Failed to update listing. Please try again.');
+		} else {
+			setActive(checked);
+		}
 	};
 
 	return (
@@ -161,6 +166,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				open={pendingChecked === true}
 				title={props.title}
 				activate
+				pending={pending}
 				onCancel={() => setPendingChecked(null)}
 				onConfirm={handleConfirm}
 			/>
@@ -168,6 +174,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				open={pendingChecked === false}
 				title={props.title}
 				activate={false}
+				pending={pending}
 				onCancel={() => setPendingChecked(null)}
 				onConfirm={handleConfirm}
 			/>
