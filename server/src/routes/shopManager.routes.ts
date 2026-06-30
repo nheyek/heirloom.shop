@@ -3,7 +3,7 @@ import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import { authorizeShopAction, findShopByShortId } from '@server/services/shop.service';
-import { findAllListingsForShop, findListingForEdit, findShopProfiles, setListingActive } from '@server/services/shopManager.service';
+import { findAllListingsForShop, findListingForEdit, findShopProfiles, setListingAvailable } from '@server/services/shopManager.service';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 
 const s = initServer();
@@ -63,7 +63,7 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 		},
 	},
 
-	setListingActive: {
+	setListingAvailable: {
 		middleware: [authAndSetUser],
 		handler: async ({ params: { shopId, listingShortId }, body, req }) => {
 			const shop = await findShopByShortId(shopId);
@@ -75,11 +75,11 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const active = await setListingActive(shop.id, listingShortId, body.active);
-			if (active === null) {
+			const available = await setListingAvailable(shop.id, listingShortId, body.available);
+			if (available === null) {
 				return { status: 404 as const, body: { error: ERROR_MESSAGES.listing.notFound } };
 			}
-			return { status: 200 as const, body: { active } };
+			return { status: 200 as const, body: { available } };
 		},
 	},
 });

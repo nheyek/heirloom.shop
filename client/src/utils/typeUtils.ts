@@ -15,6 +15,7 @@ export const getListingDataForCart = (
 	shopShortId: listing.shopShortId,
 	shopTitle: listing.shopTitle,
 	imageUuids: listing.imageUuids,
+	available: listing.available,
 	shippingPrice: Number(listing.shippingDetails?.shippingRate || 0),
 	deliveryEstimate: calculateDeliveryEstimate(
 		listing.processingProfile?.minDays ?? 0,

@@ -23,7 +23,7 @@ const ListingCardDataSchema = z.object({
 	shopShortId: z.string(),
 	shopTitle: z.string(),
 	imageUuids: z.array(z.string()),
-	active: z.boolean(),
+	available: z.boolean(),
 });
 
 const ErrorSchema = z.object({ error: z.string() });
@@ -68,6 +68,7 @@ export const checkoutContract = c.router({
 		body: TaxRequestSchema,
 		responses: {
 			200: TaxResponseSchema,
+			400: ErrorSchema,
 			500: ErrorSchema,
 		},
 	},
@@ -439,13 +440,13 @@ export const shopManagerContract = c.router({
 			404: ErrorSchema,
 		},
 	},
-	setListingActive: {
+	setListingAvailable: {
 		method: 'PUT',
-		path: '/api/shops/:shopId/manager/listings/:listingShortId/active',
+		path: '/api/shops/:shopId/manager/listings/:listingShortId/available',
 		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
-		body: z.object({ active: z.boolean() }),
+		body: z.object({ available: z.boolean() }),
 		responses: {
-			200: z.object({ active: z.boolean() }),
+			200: z.object({ available: z.boolean() }),
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,

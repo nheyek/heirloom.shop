@@ -16,23 +16,23 @@ import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
 import { ListingCard } from './ListingCard';
 
-type ListingActiveDialogProps = {
+type ListingAvailableDialogProps = {
 	open: boolean;
 	title: string;
-	activate: boolean;
+	makeAvailable: boolean;
 	pending: boolean;
 	onCancel: () => void;
 	onConfirm: () => void;
 };
 
-const ListingActiveDialog = ({
+const ListingAvailableDialog = ({
 	open,
 	title,
-	activate,
+	makeAvailable,
 	pending,
 	onCancel,
 	onConfirm,
-}: ListingActiveDialogProps) => (
+}: ListingAvailableDialogProps) => (
 	<Dialog.Root
 		open={open}
 		onInteractOutside={pending ? undefined : onCancel}
@@ -49,7 +49,7 @@ const ListingActiveDialog = ({
 						marginRight={10}
 						truncate
 					>
-						{activate
+						{makeAvailable
 							? `Activate "${title}"?`
 							: `Deactivate "${title}"?`}
 					</Dialog.Title>
@@ -65,7 +65,7 @@ const ListingActiveDialog = ({
 					pt={0}
 					fontSize={18}
 				>
-					{activate ? (
+					{makeAvailable ? (
 						<Text>
 							This listing will immediately be available
 							for purchase.
@@ -102,7 +102,7 @@ const ListingActiveDialog = ({
 							onClick={onConfirm}
 							loading={pending}
 						>
-							{activate ? 'Activate' : 'Deactivate'}
+							{makeAvailable ? 'Activate' : 'Deactivate'}
 						</Button>
 					</HStack>
 				</Dialog.Footer>
@@ -118,7 +118,7 @@ type Props = ListingCardData & {
 
 export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 	const apiClient = useApiClient();
-	const [active, setActive] = useState(props.active);
+	const [available, setAvailable] = useState(props.available);
 	const [pending, setPending] = useState(false);
 	const [pendingChecked, setPendingChecked] = useState<
 		boolean | null
@@ -139,12 +139,12 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 		const checked = pendingChecked;
 		setPending(true);
 		const result = await callApi(
-			apiClient.shopManager.setListingActive({
+			apiClient.shopManager.setListingAvailable({
 				params: {
 					shopId: props.shopShortId,
 					listingShortId: props.shortId,
 				},
-				body: { active: checked },
+				body: { available: checked },
 			}),
 		);
 		setPending(false);
@@ -152,7 +152,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 		if (result.error !== null) {
 			toastError('Failed to update listing. Please try again.');
 		} else {
-			setActive(checked);
+			setAvailable(checked);
 		}
 	};
 
@@ -160,7 +160,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 		<>
 			<ListingCard
 				{...props}
-				active={active}
+				available={available}
 				topRight={
 					<Button
 						size="sm"
@@ -177,7 +177,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				actionMenu={
 					<Switch.Root
 						key={switchKey}
-						checked={active}
+						checked={available}
 						disabled={pending}
 						onCheckedChange={({ checked }) =>
 							handleToggle(checked)
@@ -194,18 +194,18 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				}
 			/>
 
-			<ListingActiveDialog
+			<ListingAvailableDialog
 				open={pendingChecked === true}
 				title={props.title}
-				activate
+				makeAvailable
 				pending={pending}
 				onCancel={handleCancel}
 				onConfirm={handleConfirm}
 			/>
-			<ListingActiveDialog
+			<ListingAvailableDialog
 				open={pendingChecked === false}
 				title={props.title}
-				activate={false}
+				makeAvailable={false}
 				pending={pending}
 				onCancel={handleCancel}
 				onConfirm={handleConfirm}

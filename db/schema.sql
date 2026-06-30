@@ -159,7 +159,7 @@ CREATE TABLE public.listing (
     upc character varying(12),
     variations jsonb,
     combinations jsonb,
-    active boolean DEFAULT false NOT NULL
+    available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL
 );
 
 
@@ -985,4 +985,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260625000003'),
     ('20260626000000'),
     ('20260629000000'),
-    ('20260629000001');
+    ('20260629000001'),
+    ('20260630000000');

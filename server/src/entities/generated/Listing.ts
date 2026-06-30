@@ -62,7 +62,7 @@ export class Listing {
   combinations?: any;
 
   @Property({ type: 'boolean' })
-  active: boolean & Opt = false;
+  available: boolean & Opt = false;
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);

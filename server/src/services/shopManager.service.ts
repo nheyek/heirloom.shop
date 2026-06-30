@@ -74,15 +74,15 @@ export const findListingForEdit = async (
 	};
 };
 
-export const setListingActive = async (
+export const setListingAvailable = async (
 	shopId: number,
 	listingShortId: string,
-	active: boolean,
+	available: boolean,
 ): Promise<boolean | null> => {
 	const em = getEm();
 	const listing = await em.findOne(Listing, { shortId: listingShortId, shop: { id: shopId } });
 	if (!listing) return null;
-	listing.active = active;
+	listing.available = available;
 	await em.flush();
-	return listing.active;
+	return listing.available;
 };

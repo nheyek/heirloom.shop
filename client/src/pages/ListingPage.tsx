@@ -451,9 +451,9 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
-									disabled={!listingData?.active}
+									disabled={!listingData?.available}
 								>
-									{listingData?.active ? (
+									{listingData?.available ? (
 										<>
 											<FaPlusCircle />
 											Add to Cart

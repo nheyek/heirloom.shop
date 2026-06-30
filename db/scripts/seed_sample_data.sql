@@ -252,7 +252,7 @@ BEGIN
     sample_shop_6_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, active)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available)
     VALUES
         (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
         (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
@@ -312,7 +312,7 @@ BEGIN
         processing_profile_id = EXCLUDED.processing_profile_id,
         variations = EXCLUDED.variations,
         combinations = EXCLUDED.combinations,
-        active = EXCLUDED.active,
+        available = EXCLUDED.available,
         updated_at = CURRENT_TIMESTAMP;
 
     -- Resync sequences for tables seeded with explicit IDs

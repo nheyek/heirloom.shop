@@ -19,6 +19,13 @@ const s = initServer();
 export const checkoutRouter = s.router(checkoutContract, {
 	calculateTax: async ({ body }) => {
 		const cartData = await loadCheckoutData(body.items);
+		const availableShortIds = new Set(cartData.listings.map((l) => l.shortId));
+		if (body.items.some((item) => !availableShortIds.has(item.listingShortId))) {
+			return {
+				status: 400 as const,
+				body: { error: 'One or more items in your cart are no longer available.' },
+			};
+		}
 		let subtotalCents: number;
 		let shippingCents: number;
 		try {
@@ -48,6 +55,14 @@ export const checkoutRouter = s.router(checkoutContract, {
 			}
 
 			const cartData = await loadCheckoutData(body.items);
+			const availableShortIds = new Set(cartData.listings.map((l) => l.shortId));
+			if (body.items.some((item) => !availableShortIds.has(item.listingShortId))) {
+				return {
+					status: 400 as const,
+					body: { error: 'One or more items in your cart are no longer available.' },
+				};
+			}
+
 			let subtotalCents: number;
 			let shippingCents: number;
 			let snapshots: ReturnType<typeof createOrderItemSnapshots>;

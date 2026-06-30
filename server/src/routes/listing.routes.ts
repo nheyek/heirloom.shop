@@ -31,7 +31,7 @@ export const listingRouter = s.router(listingsContract, {
 		}
 		const results = await Promise.all(
 			[...itemsByShortId.entries()].map(async ([shortId, selectedOptionSets]) => {
-				const listing = await listingService.findFullListingDataByShortId(shortId);
+				const listing = await listingService.findAvailableFullListingDataByShortId(shortId);
 				if (!listing) return null;
 				const shippingPrice = Number(listing.shippingProfile?.flatShippingRateCents || 0);
 				const deliveryEstimate = calculateDeliveryEstimate(

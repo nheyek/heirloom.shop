@@ -24,7 +24,7 @@ export const search = async (
 		[
 			em.find(
 				Listing,
-				{ title: { $ilike: pattern }, active: true },
+				{ title: { $ilike: pattern } },
 				{
 					populate: ['shop'],
 					limit: MAX_RESULTS_PER_TYPE,

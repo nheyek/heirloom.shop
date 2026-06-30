@@ -9,7 +9,7 @@ export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
 	return em.find(
 		Listing,
-		{ active: true },
+		{},
 		{
 			populate: ['shop', 'shop.country'],
 			orderBy: { [sql`RANDOM()`]: 'asc' },
@@ -40,7 +40,7 @@ export const findListingsByCategory = async (
 	const categoryIds = categoryIdResult.map((row: any) => row.id);
 	return em.find(
 		Listing,
-		{ category: { $in: categoryIds }, active: true },
+		{ category: { $in: categoryIds } },
 		{ populate: ['shop', 'shop.country'] },
 	);
 };
@@ -52,7 +52,7 @@ export const findListingsByShop = async (
 
 	return em.find(
 		Listing,
-		{ shop: { id: shopId }, active: true },
+		{ shop: { id: shopId } },
 		{ populate: ['shop', 'category'] },
 	);
 };
@@ -63,7 +63,26 @@ export const findFullListingDataByShortId = async (
 	const em = getEm();
 	return em.findOne(
 		Listing,
-		{ shortId, active: true },
+		{ shortId },
+		{
+			populate: [
+				'shop',
+				'shop.country',
+				'shippingProfile',
+				'processingProfile',
+				'returnProfile',
+			],
+		},
+	);
+};
+
+export const findAvailableFullListingDataByShortId = async (
+	shortId: string,
+) => {
+	const em = getEm();
+	return em.findOne(
+		Listing,
+		{ shortId, available: true },
 		{
 			populate: [
 				'shop',
@@ -107,13 +126,3 @@ export const createListing = async (
 	return listing.id;
 };
 
-export const findListingsByShortIds = async (
-	shortIds: string[],
-): Promise<Listing[]> => {
-	const em = getEm();
-	return em.find(
-		Listing,
-		{ shortId: { $in: shortIds }, active: true },
-		{ populate: ['shop', 'shop.country', 'category'] },
-	);
-};
