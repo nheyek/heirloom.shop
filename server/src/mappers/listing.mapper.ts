@@ -29,6 +29,7 @@ export const mapListingToCompleteApiResponseData = (
 	listing: Listing,
 ): ListingPageData => ({
 	...mapListingToApiResponseData(listing),
+	directFulfillment: listing.shop.directFulfillment,
 	fullDescr: listing.fullDescr,
 	processingProfile: listing.processingProfile
 		? {

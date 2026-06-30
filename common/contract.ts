@@ -154,6 +154,7 @@ const CombinationsSchema = z.record(z.string(), CombinationSchema);
 const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.string() });
 
 const ListingPageDataSchema = ListingCardDataSchema.extend({
+	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	processingProfile: z.object({ minDays: z.number(), maxDays: z.number() }).optional(),
 	originZip: z.string().optional(),

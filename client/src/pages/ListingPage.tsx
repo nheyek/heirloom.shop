@@ -39,6 +39,11 @@ import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
 import { toaster } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
+import {
+	HEIRLOOM_PROCESSING_PROFILE,
+	HEIRLOOM_RETURN_PROFILE,
+	HEIRLOOM_SHIPPING_PROFILE,
+} from '@client/constants/heirloomProfiles';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
 import {
@@ -195,15 +200,29 @@ export const ListingPage = () => {
 		);
 	})();
 
+	const isHeirloom = listingData && !listingData.directFulfillment;
+
 	const deliveryEstimate = listingData
 		? calculateDeliveryEstimate(
-				listingData.processingProfile?.minDays ?? 0,
-				listingData.processingProfile?.maxDays ?? 0,
-				listingData.shippingDetails,
+				isHeirloom
+					? HEIRLOOM_PROCESSING_PROFILE.minDays
+					: (listingData.processingProfile?.minDays ?? 0),
+				isHeirloom
+					? HEIRLOOM_PROCESSING_PROFILE.maxDays
+					: (listingData.processingProfile?.maxDays ?? 0),
+				isHeirloom
+					? {
+							shipTimeDaysMin: HEIRLOOM_SHIPPING_PROFILE.minDays,
+							shipTimeDaysMax: HEIRLOOM_SHIPPING_PROFILE.maxDays,
+							shippingRate: 0,
+						}
+					: listingData.shippingDetails,
 			)
 		: null;
 
-	const returnPolicy = listingData?.returnPolicy;
+	const returnPolicy = isHeirloom
+		? { policyType: HEIRLOOM_RETURN_PROFILE.policy.type, returnWindowDays: HEIRLOOM_RETURN_PROFILE.windowDays }
+		: listingData?.returnPolicy;
 	let returnPolicyText = 'No returns';
 	if (
 		returnPolicy &&
@@ -533,27 +552,27 @@ export const ListingPage = () => {
 										<b>{deliveryEstimate}</b>
 									</IconText>
 								)}
-								{listingData?.originZip && (
-									<IconText icon={FaLocationDot}>
-										Ships from
-										<b>
-											{listingData?.originZip}
-										</b>
-									</IconText>
-								)}
-								{listingData?.shippingDetails && (
-									<IconText icon={FaTruck}>
-										Ships to continental US for
-										<b>
-											{formatCentsAsDollars(
-												listingData
-													?.shippingDetails
-													?.shippingRate ||
-													0,
-											)}
-										</b>
-									</IconText>
-								)}
+								<IconText icon={FaLocationDot}>
+									Ships from
+									<b>
+										{isHeirloom
+											? HEIRLOOM_SHIPPING_PROFILE.originZip
+											: listingData?.originZip}
+									</b>
+								</IconText>
+								<IconText icon={FaTruck}>
+									Ships to continental US for
+									<b>
+										{isHeirloom
+											? 'Free'
+											: formatCentsAsDollars(
+													listingData
+														?.shippingDetails
+														?.shippingRate ||
+														0,
+												)}
+									</b>
+								</IconText>
 								<IconText icon={BiSolidPackage}>
 									{returnPolicyText}
 								</IconText>
