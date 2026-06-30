@@ -15,6 +15,79 @@ import { useState } from 'react';
 import { FaPencil } from 'react-icons/fa6';
 import { ListingCard, ListingCardIconMenu } from './ListingCard';
 
+type ListingActiveDialogProps = {
+	open: boolean;
+	title: string;
+	activate: boolean;
+	onCancel: () => void;
+	onConfirm: () => void;
+};
+
+const ListingActiveDialog = ({
+	open,
+	title,
+	activate,
+	onCancel,
+	onConfirm,
+}: ListingActiveDialogProps) => (
+	<Dialog.Root
+		open={open}
+		onInteractOutside={onCancel}
+		onEscapeKeyDown={onCancel}
+		size="sm"
+	>
+		<Dialog.Backdrop />
+		<Dialog.Positioner>
+			<Dialog.Content>
+				<Dialog.Header>
+					<Dialog.Title
+						fontSize={22}
+						fontWeight={500}
+						marginRight={10}
+						truncate
+					>
+						{activate
+							? `Activate "${title}"?`
+							: `Deactivate "${title}"?`}
+					</Dialog.Title>
+					<CloseButton
+						position="absolute"
+						top={3}
+						right={3}
+						onClick={onCancel}
+					/>
+				</Dialog.Header>
+				<Dialog.Body pt={0}>
+					<Text fontSize={18}>
+						{activate
+							? 'This listing will become visible to shoppers.'
+							: 'This listing will be hidden from shoppers.'}
+					</Text>
+				</Dialog.Body>
+				<Dialog.Footer>
+					<HStack gap={2}>
+						<Button
+							size="md"
+							fontSize={18}
+							variant="outline"
+							onClick={onCancel}
+						>
+							Cancel
+						</Button>
+						<Button
+							size="md"
+							fontSize={18}
+							onClick={onConfirm}
+						>
+							{activate ? 'Activate' : 'Deactivate'}
+						</Button>
+					</HStack>
+				</Dialog.Footer>
+			</Dialog.Content>
+		</Dialog.Positioner>
+	</Dialog.Root>
+);
+
 type Props = ListingCardData & {
 	multiImage?: boolean;
 	onEdit: () => void;
@@ -84,68 +157,20 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				}
 			/>
 
-			<Dialog.Root
-				open={pendingChecked !== null}
-				onInteractOutside={() => setPendingChecked(null)}
-				onEscapeKeyDown={() => setPendingChecked(null)}
-				size="sm"
-			>
-				<Dialog.Backdrop />
-				<Dialog.Positioner>
-					<Dialog.Content>
-						<Dialog.Header>
-							<Dialog.Title
-								fontSize={22}
-								fontWeight={500}
-								marginRight={10}
-								truncate
-							>
-								{pendingChecked
-									? `Activate "${props.title}"?`
-									: `Deactivate "${props.title}"?`}
-							</Dialog.Title>
-							<CloseButton
-								position="absolute"
-								top={3}
-								right={3}
-								onClick={() =>
-									setPendingChecked(null)
-								}
-							/>
-						</Dialog.Header>
-						<Dialog.Body pt={0}>
-							<Text fontSize={18}>
-								{pendingChecked
-									? 'This listing will become visible to shoppers.'
-									: 'This listing will be hidden from shoppers.'}
-							</Text>
-						</Dialog.Body>
-						<Dialog.Footer>
-							<HStack gap={2}>
-								<Button
-									size="md"
-									fontSize={18}
-									variant="outline"
-									onClick={() =>
-										setPendingChecked(null)
-									}
-								>
-									Cancel
-								</Button>
-								<Button
-									size="md"
-									fontSize={18}
-									onClick={handleConfirm}
-								>
-									{pendingChecked
-										? 'Activate'
-										: 'Deactivate'}
-								</Button>
-							</HStack>
-						</Dialog.Footer>
-					</Dialog.Content>
-				</Dialog.Positioner>
-			</Dialog.Root>
+			<ListingActiveDialog
+				open={pendingChecked === true}
+				title={props.title}
+				activate
+				onCancel={() => setPendingChecked(null)}
+				onConfirm={handleConfirm}
+			/>
+			<ListingActiveDialog
+				open={pendingChecked === false}
+				title={props.title}
+				activate={false}
+				onCancel={() => setPendingChecked(null)}
+				onConfirm={handleConfirm}
+			/>
 		</>
 	);
 };
