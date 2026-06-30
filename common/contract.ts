@@ -153,24 +153,27 @@ const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
 const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.string() });
 
-const ListingPageDataSchema = ListingCardDataSchema.extend({
-	directFulfillment: z.boolean(),
-	fullDescr: z.array(ListingDescrSectionSchema).optional(),
-	processingProfile: z.object({ minDays: z.number(), maxDays: z.number() }).optional(),
-	originZip: z.string().optional(),
-	shippingDetails: z
+const ListingFulfillmentProfilesSchema = z.object({
+	processing: z.object({ minDays: z.number(), maxDays: z.number() }).optional(),
+	shipping: z
 		.object({
+			originZip: z.string(),
 			shipTimeDaysMin: z.number(),
 			shipTimeDaysMax: z.number(),
 			shippingRate: z.number(),
 		})
 		.optional(),
-	returnPolicy: z
+	returns: z
 		.object({
 			policyType: z.string(),
 			returnWindowDays: z.number().optional(),
 		})
 		.optional(),
+});
+
+const ListingPageDataSchema = ListingCardDataSchema.extend({
+	fullDescr: z.array(ListingDescrSectionSchema).optional(),
+	profiles: ListingFulfillmentProfilesSchema.nullable(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
 });
@@ -694,6 +697,7 @@ export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
 export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;
 export type ListingFullDescr = ListingDescrSection[];
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
+export type ListingFulfillmentProfiles = z.infer<typeof ListingFulfillmentProfilesSchema>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
 export type CheckoutRequest = z.infer<typeof CheckoutBodySchema>;
 export type CartItemData = z.infer<typeof CartItemDataSchema>;

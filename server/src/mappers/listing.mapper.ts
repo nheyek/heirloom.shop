@@ -29,28 +29,31 @@ export const mapListingToCompleteApiResponseData = (
 	listing: Listing,
 ): ListingPageData => ({
 	...mapListingToApiResponseData(listing),
-	directFulfillment: listing.shop.directFulfillment,
 	fullDescr: listing.fullDescr,
-	processingProfile: listing.processingProfile
+	profiles: listing.shop.directFulfillment
 		? {
-				minDays: listing.processingProfile.minDays,
-				maxDays: listing.processingProfile.maxDays,
+				processing: listing.processingProfile
+					? {
+							minDays: listing.processingProfile.minDays,
+							maxDays: listing.processingProfile.maxDays,
+						}
+					: undefined,
+				shipping: listing.shippingProfile
+					? {
+							originZip: listing.shippingProfile.originZip,
+							shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
+							shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
+							shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
+						}
+					: undefined,
+				returns: listing.returnProfile
+					? {
+							policyType: listing.returnProfile.policyType,
+							returnWindowDays: listing.returnProfile.returnWindowDays,
+						}
+					: undefined,
 			}
-		: undefined,
-	originZip: listing.shippingProfile?.originZip,
-	shippingDetails: listing.shippingProfile
-		? {
-				shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
-				shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
-				shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
-			}
-		: undefined,
-	returnPolicy: listing.returnProfile
-		? {
-				policyType: listing.returnProfile.policyType,
-				returnWindowDays: listing.returnProfile.returnWindowDays,
-			}
-		: undefined,
+		: null,
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.combinations ?? {}) as CombinationsData,
 });
