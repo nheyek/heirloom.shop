@@ -123,9 +123,15 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 	const [pendingChecked, setPendingChecked] = useState<
 		boolean | null
 	>(null);
+	const [switchKey, setSwitchKey] = useState(0);
 
 	const handleToggle = (checked: boolean) => {
 		setPendingChecked(checked);
+	};
+
+	const handleCancel = () => {
+		setPendingChecked(null);
+		setSwitchKey((k) => k + 1);
 	};
 
 	const handleConfirm = async () => {
@@ -170,6 +176,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				}
 				actionMenu={
 					<Switch.Root
+						key={switchKey}
 						checked={active}
 						disabled={pending}
 						onCheckedChange={({ checked }) =>
@@ -192,7 +199,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				title={props.title}
 				activate
 				pending={pending}
-				onCancel={() => setPendingChecked(null)}
+				onCancel={handleCancel}
 				onConfirm={handleConfirm}
 			/>
 			<ListingActiveDialog
@@ -200,7 +207,7 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 				title={props.title}
 				activate={false}
 				pending={pending}
-				onCancel={() => setPendingChecked(null)}
+				onCancel={handleCancel}
 				onConfirm={handleConfirm}
 			/>
 		</>
