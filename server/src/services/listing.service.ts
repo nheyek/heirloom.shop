@@ -63,7 +63,7 @@ export const findFullListingDataByShortId = async (
 	const em = getEm();
 	return em.findOne(
 		Listing,
-		{ shortId },
+		{ shortId, active: true },
 		{
 			populate: [
 				'shop',
@@ -113,7 +113,7 @@ export const findListingsByShortIds = async (
 	const em = getEm();
 	return em.find(
 		Listing,
-		{ shortId: { $in: shortIds } },
+		{ shortId: { $in: shortIds }, active: true },
 		{ populate: ['shop', 'shop.country', 'category'] },
 	);
 };

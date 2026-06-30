@@ -474,7 +474,7 @@ export const ListingPage = () => {
 									) : (
 										<>
 											<FaBan />
-											<Text fontSize={22}>
+											<Text>
 												Currently Unavailable
 											</Text>
 										</>
