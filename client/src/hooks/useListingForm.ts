@@ -1,4 +1,3 @@
-import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import {
@@ -7,7 +6,10 @@ import {
 } from '@client/hooks/useImageUpload';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { callApi } from '@client/utils/apiUtils';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import {
+	LISTING_LIMITS,
+	ReturnPolicyType,
+} from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import {
 	addVariationToCombinations,
@@ -36,9 +38,9 @@ export type ReturnProfile = {
 	name: string;
 	windowDays?: number;
 	policy:
-		| { type: ReturnPolicyType.STANDARD; text: string }
-		| { type: ReturnPolicyType.CUSTOM; text: string }
-		| { type: ReturnPolicyType.NO_RETURNS };
+		| { type: ReturnPolicyType.STANDARD }
+		| { type: ReturnPolicyType.NO_RETURNS }
+		| { type: ReturnPolicyType.CUSTOM; text: string };
 };
 
 export type ShippingProfile = {
@@ -133,10 +135,7 @@ export type ListingFormState = {
 	variations: Record<string, Variation>;
 	addVariation: (variation: Variation) => void;
 	removeVariation: (id: string) => void;
-	updateVariation: (
-		id: string,
-		variation: Variation,
-	) => void;
+	updateVariation: (id: string, variation: Variation) => void;
 	reorderVariations: (fromId: string, toId: string) => void;
 
 	combinations: Combinations;
@@ -202,46 +201,62 @@ export const useListingForm = ({
 	);
 
 	const [imageError, setImageError] = useState<string | null>(null);
-	const [priceCents, setPriceCents] = useState<number | null>(initialPriceCents);
+	const [priceCents, setPriceCents] = useState<number | null>(
+		initialPriceCents,
+	);
 	const [priceError, setPriceError] = useState<string | null>(null);
 	const [combinationPriceErrors, setCombinationPriceErrors] =
 		useState<Record<string, boolean>>({});
 	const [combinationActiveError, setCombinationActiveError] =
 		useState<string | null>(null);
-	const [processingProfiles, setProcessingProfiles] = useState<ProcessingProfile[]>(
-		initialProcessingProfiles,
-	);
+	const [processingProfiles, setProcessingProfiles] = useState<
+		ProcessingProfile[]
+	>(initialProcessingProfiles);
 	const addProcessingProfile = (profile: ProcessingProfile) =>
 		setProcessingProfiles((prev) => [...prev, profile]);
-	const [processingProfileId, setProcessingProfileId] = useState<string | null>(
-		initialProcessingProfileId,
-	);
+	const [processingProfileId, setProcessingProfileId] = useState<
+		string | null
+	>(initialProcessingProfileId);
 	const [processingProfileError, setProcessingProfileError] =
 		useState<string | null>(null);
 
-	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>(
-		initialShippingProfiles,
-	);
+	const [shippingProfiles, setShippingProfiles] = useState<
+		ShippingProfile[]
+	>(initialShippingProfiles);
 	const addShippingProfile = (profile: ShippingProfile) =>
 		setShippingProfiles((prev) => [...prev, profile]);
-	const [shippingProfileId, setShippingProfileId] = useState<string | null>(
-		initialShippingProfileId,
-	);
-	const [shippingProfileError, setShippingProfileError] = useState<string | null>(null);
+	const [shippingProfileId, setShippingProfileId] = useState<
+		string | null
+	>(initialShippingProfileId);
+	const [shippingProfileError, setShippingProfileError] = useState<
+		string | null
+	>(null);
 
-	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>(initialReturnProfiles);
+	const [returnProfiles, setReturnProfiles] = useState<
+		ReturnProfile[]
+	>(initialReturnProfiles);
 	const addReturnProfile = (profile: ReturnProfile) =>
 		setReturnProfiles((prev) => [...prev, profile]);
-	const [returnProfileId, setReturnProfileId] = useState<string | null>(initialReturnProfileId);
-	const [returnProfileError, setReturnProfileError] = useState<string | null>(null);
+	const [returnProfileId, setReturnProfileId] = useState<
+		string | null
+	>(initialReturnProfileId);
+	const [returnProfileError, setReturnProfileError] = useState<
+		string | null
+	>(null);
 
-	const [variations, setVariations] = useState<Variations>(initialVariations);
+	const [variations, setVariations] =
+		useState<Variations>(initialVariations);
 
 	const addVariation = (variation: Variation) => {
 		const newId = crypto.randomUUID();
 		setVariations((prev) => ({ ...prev, [newId]: variation }));
 		setCombinations((prev) =>
-			addVariationToCombinations(prev, newId, variation.options, variation.pricesVary),
+			addVariationToCombinations(
+				prev,
+				newId,
+				variation.options,
+				variation.pricesVary,
+			),
 		);
 	};
 
@@ -256,10 +271,7 @@ export const useListingForm = ({
 		);
 	};
 
-	const updateVariation = (
-		id: string,
-		variation: Variation,
-	) => {
+	const updateVariation = (id: string, variation: Variation) => {
 		setVariations((prev) => {
 			const oldOptionIds = Object.keys(prev[id]?.options ?? {});
 			const newOptionIds = Object.keys(variation.options);
@@ -275,7 +287,9 @@ export const useListingForm = ({
 		});
 	};
 
-	const [combinations, setCombinations] = useState<Combinations>(initialCombinations);
+	const [combinations, setCombinations] = useState<Combinations>(
+		initialCombinations,
+	);
 
 	const setCombinationField = (
 		key: string,
@@ -304,7 +318,9 @@ export const useListingForm = ({
 		});
 	};
 
-	const [descrSections, setDescrSections] = useState<ListingDescrSection[]>(initialDescrSections);
+	const [descrSections, setDescrSections] = useState<
+		ListingDescrSection[]
+	>(initialDescrSections);
 	const [descrSectionIds, setDescrSectionIds] = useState<string[]>(
 		initialDescrSections.map(() => crypto.randomUUID()),
 	);
@@ -442,8 +458,15 @@ export const useListingForm = ({
 			if (entry?.disabled) continue;
 			hasActive = true;
 			if (pricesVary) {
-				const effectivePrice = resolveEffectiveCombinationPrice(optionMap, combinations, variations, priceCents);
-				if (!(effectivePrice && effectivePrice > 0)) priceErrors[key] = true;
+				const effectivePrice =
+					resolveEffectiveCombinationPrice(
+						optionMap,
+						combinations,
+						variations,
+						priceCents,
+					);
+				if (!(effectivePrice && effectivePrice > 0))
+					priceErrors[key] = true;
 			}
 		}
 

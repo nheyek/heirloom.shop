@@ -31,11 +31,20 @@ export const DayRangeInput = ({
 	onChangeMin,
 	onChangeMax,
 }: Props) => (
-	<HStack gap={3} align="center">
-		<DayInput value={minDays} onChange={onChangeMin} />
+	<HStack
+		gap={3}
+		align="center"
+	>
+		<DayInput
+			value={minDays}
+			onChange={onChangeMin}
+		/>
 		<FaMinus />
-		<DayInput value={maxDays} onChange={onChangeMax} />
-		<Text fontSize={18}>Days</Text>
+		<DayInput
+			value={maxDays}
+			onChange={onChangeMax}
+		/>
+		<Text fontSize={18}>Business Days</Text>
 	</HStack>
 );
 
@@ -45,7 +54,14 @@ export const validateDayRange = (
 ): { min: number; max: number } | null => {
 	const min = parseInt(minDays, 10);
 	const max = parseInt(maxDays, 10);
-	if (!minDays || !maxDays || isNaN(min) || isNaN(max) || min < 1 || max < min)
+	if (
+		!minDays ||
+		!maxDays ||
+		isNaN(min) ||
+		isNaN(max) ||
+		min < 1 ||
+		max < min
+	)
 		return null;
 	return { min, max };
 };

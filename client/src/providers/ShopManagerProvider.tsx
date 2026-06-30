@@ -45,15 +45,17 @@ const toFormReturnProfile = (p: ShopManagerReturnProfile): ReturnProfile => {
 	if (p.policyType === ReturnPolicyType.NO_RETURNS) {
 		return { ...base, policy: { type: ReturnPolicyType.NO_RETURNS } };
 	}
+	if (p.policyType === ReturnPolicyType.CUSTOM) {
+		return {
+			...base,
+			windowDays: p.returnWindowDays ?? undefined,
+			policy: { type: ReturnPolicyType.CUSTOM, text: p.policyDescrRichText ?? '' },
+		};
+	}
 	return {
 		...base,
 		windowDays: p.returnWindowDays ?? undefined,
-		policy: {
-			type: p.policyType === ReturnPolicyType.CUSTOM
-				? ReturnPolicyType.CUSTOM
-				: ReturnPolicyType.STANDARD,
-			text: p.policyDescrRichText ?? '',
-		},
+		policy: { type: ReturnPolicyType.STANDARD },
 	};
 };
 

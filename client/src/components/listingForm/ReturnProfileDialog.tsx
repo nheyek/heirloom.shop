@@ -15,7 +15,10 @@ import {
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { FONT_DEFAULT } from '@client/theme';
-import { LISTING_LIMITS, ReturnPolicyType } from '@heirloom/common/constants';
+import {
+	LISTING_LIMITS,
+	ReturnPolicyType,
+} from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 
 const STANDARD_POLICY_HTML =
@@ -25,7 +28,7 @@ export type NewReturnProfile = {
 	name: string;
 	windowDays?: number;
 	policy:
-		| { type: ReturnPolicyType.STANDARD; text: string }
+		| { type: ReturnPolicyType.STANDARD }
 		| { type: ReturnPolicyType.CUSTOM; text: string }
 		| { type: ReturnPolicyType.NO_RETURNS };
 };
@@ -127,10 +130,7 @@ export const ReturnProfileDialog = ({
 			policyType === ReturnPolicyType.NO_RETURNS
 				? ({ type: ReturnPolicyType.NO_RETURNS } as const)
 				: policyType === ReturnPolicyType.STANDARD
-					? ({
-							type: ReturnPolicyType.STANDARD,
-							text: STANDARD_POLICY_HTML,
-						} as const)
+					? ({ type: ReturnPolicyType.STANDARD } as const)
 					: ({
 							type: ReturnPolicyType.CUSTOM,
 							text: customHtmlRef.current,
@@ -253,7 +253,7 @@ export const ReturnProfileDialog = ({
 								<FormField
 									label="Window"
 									error={windowError}
-									width={150}
+									width={200}
 									required
 								>
 									<HStack
