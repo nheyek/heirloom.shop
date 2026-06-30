@@ -563,6 +563,16 @@ const CreateShopBodySchema = z.object({
 	profileImageUuid: z.string().uuid().optional(),
 });
 
+const ShopFulfillmentSchema = z.object({
+	directFulfillment: z.boolean(),
+	ownerEmail: z.string().nullable(),
+});
+
+const UpdateShopFulfillmentBodySchema = z.object({
+	directFulfillment: z.boolean(),
+	ownerEmail: z.string().optional(),
+});
+
 export const adminContract = c.router({
 	getShops: {
 		method: 'GET',
@@ -593,6 +603,30 @@ export const adminContract = c.router({
 			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
 			401: ErrorSchema,
 			403: ErrorSchema,
+		},
+	},
+	getShopFulfillment: {
+		method: 'GET',
+		path: '/api/admin/shops/:shopId/fulfillment',
+		pathParams: z.object({ shopId: z.string() }),
+		responses: {
+			200: ShopFulfillmentSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	updateShopFulfillment: {
+		method: 'PUT',
+		path: '/api/admin/shops/:shopId/fulfillment',
+		pathParams: z.object({ shopId: z.string() }),
+		body: UpdateShopFulfillmentBodySchema,
+		responses: {
+			200: ShopFulfillmentSchema,
+			400: ErrorSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
 		},
 	},
 });
@@ -681,3 +715,7 @@ export type SearchResultCollection = z.infer<
 export type AdminShopListItem = z.infer<typeof AdminShopListItemSchema>;
 export type CreateShopBody = z.infer<typeof CreateShopBodySchema>;
 export type UpdateShopBody = z.infer<typeof UpdateShopBodySchema>;
+export type ShopFulfillment = z.infer<typeof ShopFulfillmentSchema>;
+export type UpdateShopFulfillmentBody = z.infer<
+	typeof UpdateShopFulfillmentBodySchema
+>;

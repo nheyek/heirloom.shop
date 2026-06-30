@@ -1,7 +1,14 @@
 import { adminContract } from '@heirloom/common/contract';
+import { ERROR_MESSAGES } from '@server/constants';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { adminAuth } from '@server/middleware/auth0.middleware';
-import { createShop, DuplicateShopTitleError, findShopsForAdmin } from '@server/services/shop.service';
+import {
+	createShop,
+	DuplicateShopTitleError,
+	findShopsForAdmin,
+	getShopFulfillment,
+	updateShopFulfillment,
+} from '@server/services/shop.service';
 import { generateShopImageUploadUrl } from '@server/services/storage.service';
 import { initServer } from '@ts-rest/express';
 
@@ -52,5 +59,39 @@ export const adminRouter = s.router(adminContract, {
 			status: 200 as const,
 			body: await generateShopImageUploadUrl(body.contentType),
 		}),
+	},
+	getShopFulfillment: {
+		middleware: [adminAuth],
+		handler: async ({ params: { shopId } }) => {
+			const fulfillment = await getShopFulfillment(shopId);
+			if (!fulfillment) {
+				return { status: 404 as const, body: { error: ERROR_MESSAGES.shop.notFound } };
+			}
+			return { status: 200 as const, body: fulfillment };
+		},
+	},
+	updateShopFulfillment: {
+		middleware: [adminAuth],
+		handler: async ({ params: { shopId }, body }) => {
+			if (body.directFulfillment) {
+				if (!body.ownerEmail?.trim()) {
+					return {
+						status: 400 as const,
+						body: { error: 'Owner email is required.' },
+					};
+				}
+				if (!isValidEmail(body.ownerEmail)) {
+					return {
+						status: 400 as const,
+						body: { error: 'Email format is invalid.' },
+					};
+				}
+			}
+			const fulfillment = await updateShopFulfillment(shopId, body);
+			if (!fulfillment) {
+				return { status: 404 as const, body: { error: ERROR_MESSAGES.shop.notFound } };
+			}
+			return { status: 200 as const, body: fulfillment };
+		},
 	},
 });

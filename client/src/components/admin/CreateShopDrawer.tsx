@@ -1,10 +1,7 @@
-import { Button, Group, RadioCard, Stack } from '@chakra-ui/react';
+import { Button, Stack } from '@chakra-ui/react';
 import { AppDrawer } from '@client/components/layout/AppDrawer';
-import {
-	ShopFormField,
-	ShopFormFields,
-	ShopFormInput,
-} from '@client/components/shop/ShopFormFields';
+import { FulfillmentFields } from '@client/components/shop/FulfillmentFields';
+import { ShopFormFields } from '@client/components/shop/ShopFormFields';
 import { FulfillmentType } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShopForm } from '@client/hooks/useShopForm';
@@ -20,34 +17,6 @@ type Props = {
 	onClose: () => void;
 	onSuccess: (shop: AdminShopListItem) => void;
 };
-
-const FulfillmentOption = ({
-	value,
-	label,
-	description,
-}: {
-	value: FulfillmentType;
-	label: string;
-	description: string;
-}) => (
-	<RadioCard.Item
-		value={value.toString()}
-		width="full"
-	>
-		<RadioCard.ItemHiddenInput />
-		<RadioCard.ItemControl>
-			<RadioCard.ItemIndicator />
-			<RadioCard.ItemContent>
-				<RadioCard.ItemText fontSize={15}>
-					{label}
-				</RadioCard.ItemText>
-				<RadioCard.ItemDescription>
-					{description}
-				</RadioCard.ItemDescription>
-			</RadioCard.ItemContent>
-		</RadioCard.ItemControl>
-	</RadioCard.Item>
-);
 
 export const CreateShopDrawer = ({
 	isOpen,
@@ -188,47 +157,14 @@ export const CreateShopDrawer = ({
 					disabled={isConfirming}
 				/>
 
-				<RadioCard.Root
-					value={fulfillmentType.toString()}
-					onValueChange={(e) =>
-						setFulfillmentType(e.value as FulfillmentType)
-					}
-				>
-					<RadioCard.Label fontSize={18}>
-						Fulfillment
-					</RadioCard.Label>
-					<Group
-						attached
-						orientation="vertical"
-					>
-						<FulfillmentOption
-							value={FulfillmentType.HEIRLOOM}
-							label="Heirloom"
-							description="Fulfillment and support provided by Heirloom. Inventory purchased from the shop on a wholesale basis."
-						/>
-						<FulfillmentOption
-							value={FulfillmentType.DIRECT}
-							label="Direct"
-							description="Fulfillment and support provided by shop. A comission is collected on each sale."
-						/>
-					</Group>
-				</RadioCard.Root>
-				{fulfillmentType === FulfillmentType.DIRECT && (
-					<ShopFormField
-						label="Owner"
-						error={ownerEmailError}
-					>
-						<ShopFormInput
-							type="email"
-							value={ownerEmail}
-							onChange={(e) =>
-								setOwnerEmail(e.target.value)
-							}
-							placeholder="owner@example.com"
-							disabled={isConfirming}
-						/>
-					</ShopFormField>
-				)}
+				<FulfillmentFields
+					fulfillmentType={fulfillmentType}
+					onFulfillmentTypeChange={setFulfillmentType}
+					ownerEmail={ownerEmail}
+					onOwnerEmailChange={setOwnerEmail}
+					ownerEmailError={ownerEmailError}
+					disabled={isConfirming}
+				/>
 			</Stack>
 		</AppDrawer>
 	);

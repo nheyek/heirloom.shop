@@ -1,7 +1,9 @@
 import {
 	AdminShopListItem,
 	CreateShopBody,
+	ShopFulfillment,
 	UpdateShopBody,
+	UpdateShopFulfillmentBody,
 } from '@heirloom/common/contract';
 import { ShopRole } from '@heirloom/common/constants';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
@@ -136,6 +138,62 @@ export const updateShop = async (
 	}
 
 	return shop;
+};
+
+export const getShopFulfillment = async (
+	shortId: string,
+): Promise<ShopFulfillment | null> => {
+	const em = getEm();
+	const shop = await em.findOne(Shop, { shortId });
+	if (!shop) return null;
+
+	const ownerRole = await em.findOne(
+		ShopUserRole,
+		{ shop: { id: shop.id }, shopRole: ShopRole.OWNER },
+		{ populate: ['user'] },
+	);
+
+	return {
+		directFulfillment: shop.directFulfillment,
+		ownerEmail: ownerRole?.user.email ?? null,
+	};
+};
+
+export const updateShopFulfillment = async (
+	shortId: string,
+	body: UpdateShopFulfillmentBody,
+): Promise<ShopFulfillment | null> => {
+	const em = getEm();
+	const shop = await em.findOne(Shop, { shortId });
+	if (!shop) return null;
+
+	shop.directFulfillment = body.directFulfillment;
+
+	const existingOwnerRole = await em.findOne(ShopUserRole, {
+		shop: { id: shop.id },
+		shopRole: ShopRole.OWNER,
+	});
+
+	if (body.directFulfillment && body.ownerEmail) {
+		const owner = await findOrCreateUser(
+			body.ownerEmail.toLowerCase(),
+		);
+		if (existingOwnerRole) {
+			existingOwnerRole.user = owner;
+		} else {
+			em.create(ShopUserRole, {
+				shop,
+				user: owner,
+				shopRole: ShopRole.OWNER,
+			});
+		}
+	} else if (existingOwnerRole) {
+		em.remove(existingOwnerRole);
+	}
+
+	await em.flush();
+
+	return getShopFulfillment(shortId);
 };
 
 export const authorizeShopAction = async (
