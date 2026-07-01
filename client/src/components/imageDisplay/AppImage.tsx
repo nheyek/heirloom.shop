@@ -18,8 +18,9 @@ export const AppImage = (props: Props) => {
 	return (
 		<Skeleton
 			loading={isLoading}
-			{...props.containerProps}
+			aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 			borderRadius={0}
+			{...props.containerProps}
 		>
 			<Image
 				width="100%"

@@ -26,6 +26,7 @@ export const MultiImage = (props: Props) => {
 	return (
 		<Skeleton
 			loading={!allImagesLoaded}
+			width="100%"
 			aspectRatio={props.aspectRatio}
 		>
 			<Carousel.Root

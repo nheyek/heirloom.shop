@@ -54,6 +54,7 @@ export const ImageCollage = (props: Props) => {
 			containerProps={{
 				height: '100%',
 				width: '100%',
+				borderRadius: 'md',
 			}}
 		/>
 	);
@@ -67,6 +68,7 @@ export const ImageCollage = (props: Props) => {
 			/>
 			{props.urls.length === 1 ? (
 				<Box
+					width="100%"
 					maxWidth={maxWidth}
 					aspectRatio={props.aspectRatio}
 				>
@@ -75,6 +77,7 @@ export const ImageCollage = (props: Props) => {
 			) : (
 				<Box
 					position="relative"
+					width="100%"
 					maxW={maxWidth}
 				>
 					<Grid
