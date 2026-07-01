@@ -1,6 +1,7 @@
 import {
 	Button,
 	CloseButton,
+	Collapsible,
 	Dialog,
 	HStack,
 	Input,
@@ -27,7 +28,7 @@ import {
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
-import { FaSave, FaTrashAlt } from 'react-icons/fa';
+import { FaCaretDown, FaSave, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type DeleteListingDialogProps = {
@@ -223,10 +224,22 @@ const ListingEditForm = ({
 					categoryId: form.categoryId!,
 					priceCents: form.priceCents ?? 0,
 					imageUuids: form.uploadedUuids,
-					processingProfileId: form.processingProfileId != null ? Number(form.processingProfileId) : null,
-					shippingProfileId: form.shippingProfileId != null ? Number(form.shippingProfileId) : null,
-					returnProfileId: form.returnProfileId != null ? Number(form.returnProfileId) : null,
-					fullDescr: form.descrSections.length > 0 ? form.descrSections : null,
+					processingProfileId:
+						form.processingProfileId != null
+							? Number(form.processingProfileId)
+							: null,
+					shippingProfileId:
+						form.shippingProfileId != null
+							? Number(form.shippingProfileId)
+							: null,
+					returnProfileId:
+						form.returnProfileId != null
+							? Number(form.returnProfileId)
+							: null,
+					fullDescr:
+						form.descrSections.length > 0
+							? form.descrSections
+							: null,
 					variations: form.variations,
 					combinations: form.combinations,
 				},
@@ -235,7 +248,11 @@ const ListingEditForm = ({
 		setSavePending(false);
 		if (result.error !== null) {
 			toastError('Failed to save listing. Please try again.');
+			return;
 		}
+		navigate(
+			`/${CLIENT_ROUTES.shop}/${shopShortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`,
+		);
 	};
 
 	const handleDeleteConfirm = async () => {
@@ -265,30 +282,58 @@ const ListingEditForm = ({
 				disabled={savePending}
 				actions={
 					<HStack
-						justifyContent="space-between"
-						maxW={650}
+						gap={3}
+						alignItems="flex-start"
 					>
 						<Button
 							size="lg"
 							width={175}
 							fontSize={20}
 							onClick={handleSave}
-							disabled={form.isUploadingImages || savePending}
-							loading={form.isUploadingImages || savePending}
+							disabled={
+								form.isUploadingImages || savePending
+							}
+							loading={
+								form.isUploadingImages || savePending
+							}
 						>
 							<FaSave />
 							Save Changes
 						</Button>
-						<Button
-							size="lg"
-							fontSize={20}
-							variant="solid"
-							colorPalette="red"
-							onClick={() => setDeleteDialogOpen(true)}
-						>
-							<FaTrashAlt />
-							Delete Listing
-						</Button>
+						<Collapsible.Root>
+							<Collapsible.Trigger asChild>
+								<Button
+									variant="subtle"
+									size="lg"
+									fontSize={20}
+									cursor="pointer"
+								>
+									Other Actions
+									<Collapsible.Indicator
+										transition="transform 0.2s"
+										_open={{
+											transform:
+												'rotate(180deg)',
+										}}
+									>
+										<FaCaretDown />
+									</Collapsible.Indicator>
+								</Button>
+							</Collapsible.Trigger>
+							<Collapsible.Content pt={2}>
+								<Button
+									size="lg"
+									fontSize={20}
+									colorPalette="red"
+									onClick={() =>
+										setDeleteDialogOpen(true)
+									}
+								>
+									<FaTrashAlt />
+									Delete Listing
+								</Button>
+							</Collapsible.Content>
+						</Collapsible.Root>
 					</HStack>
 				}
 			/>

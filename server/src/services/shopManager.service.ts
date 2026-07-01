@@ -3,6 +3,8 @@ import { ReturnPolicyType } from '@heirloom/common/constants';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
+import { Shop } from '@server/entities/generated/Shop';
+import { encodeShortId } from '@server/utils/hashids';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
@@ -61,6 +63,77 @@ export const findListingForEdit = async (
 		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile'] },
 	);
 	if (!listing) return null;
+
+	return {
+		shortId: listing.shortId,
+		title: listing.title,
+		subtitle: listing.subtitle ?? null,
+		categoryId: listing.category.id,
+		priceCents: listing.priceCents,
+		imageUuids: listing.imageUuids,
+		processingProfileId: listing.processingProfile?.id ?? null,
+		shippingProfileId: listing.shippingProfile?.id ?? null,
+		returnProfileId: listing.returnProfile?.id ?? null,
+		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
+		variations: (listing.variations ?? {}) as VariationsData,
+		combinations: (listing.combinations ?? {}) as CombinationsData,
+	};
+};
+
+export const createListing = async (
+	shopId: number,
+	data: {
+		title: string;
+		subtitle: string | null;
+		categoryId: string;
+		priceCents: number;
+		imageUuids: string[];
+		processingProfileId: number | null;
+		shippingProfileId: number | null;
+		returnProfileId: number | null;
+		fullDescr: ListingFullDescr | null;
+		variations: VariationsData;
+		combinations: CombinationsData;
+		available: boolean;
+	},
+): Promise<ListingEditData> => {
+	const em = getEm();
+
+	const [{ nextval }] = await em.getConnection().execute("SELECT nextval('listing_id_seq')");
+	const nextId = Number(nextval);
+
+	const [category, processingProfile, shippingProfile, returnProfile] = await Promise.all([
+		em.findOne(ListingCategory, { id: data.categoryId }),
+		data.processingProfileId != null
+			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
+			: null,
+		data.shippingProfileId != null
+			? em.findOne(ListingShippingProfile, { id: data.shippingProfileId, shop: { id: shopId } })
+			: null,
+		data.returnProfileId != null
+			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			: null,
+	]);
+
+	const listing = em.create(Listing, {
+		id: nextId,
+		shortId: encodeShortId(nextId),
+		title: data.title,
+		subtitle: data.subtitle ?? undefined,
+		category: category!,
+		shop: em.getReference(Shop, shopId),
+		priceCents: data.priceCents,
+		imageUuids: data.imageUuids,
+		processingProfile: processingProfile ?? undefined,
+		shippingProfile: shippingProfile ?? undefined,
+		returnProfile: returnProfile ?? undefined,
+		fullDescr: data.fullDescr,
+		variations: data.variations,
+		combinations: data.combinations,
+		available: data.available,
+	});
+
+	await em.persist(listing).flush();
 
 	return {
 		shortId: listing.shortId,
