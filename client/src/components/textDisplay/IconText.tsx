@@ -11,6 +11,7 @@ export const IconText = (props: Props) => (
 		alignItems="center"
 		gap={2.5}
 		fontSize={18}
+		height="28px"
 	>
 		{<props.icon />}
 

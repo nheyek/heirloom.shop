@@ -3,6 +3,7 @@ import {
 	Box,
 	Button,
 	ButtonProps,
+	Center,
 	createListCollection,
 	Flex,
 	GridItem,
@@ -55,16 +56,20 @@ import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { BiSolidPackage } from 'react-icons/bi';
-import { FaBan, FaHeart, FaPlusCircle } from 'react-icons/fa';
+import {
+	FaBan,
+	FaExchangeAlt,
+	FaHeart,
+	FaPlusCircle,
+} from 'react-icons/fa';
 import {
 	FaCheck,
 	FaHourglassStart,
 	FaLocationDot,
 	FaShare,
+	FaShieldHalved,
 	FaTruck,
 } from 'react-icons/fa6';
-import { PiShieldCheckeredFill } from 'react-icons/pi';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -297,12 +302,15 @@ export const ListingPage = () => {
 				<Box
 					mx={5}
 					mt={5}
+					width="100%"
 				>
-					<ImageCollage
-						urls={imageUrls}
-						maxWidth={maxWidth}
-						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					/>
+					<Center>
+						<ImageCollage
+							urls={imageUrls}
+							maxWidth={maxWidth}
+							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+						/>
+					</Center>
 				</Box>
 			)}
 			{layout === Layout.COMPACT && (
@@ -546,15 +554,6 @@ export const ListingPage = () => {
 										<b>{deliveryEstimate}</b>
 									</IconText>
 								)}
-								<IconText icon={FaLocationDot}>
-									Ships from
-									<b>
-										{
-											profiles?.shipping
-												?.originZip
-										}
-									</b>
-								</IconText>
 								<IconText icon={FaTruck}>
 									Ships to continental US for
 									<b>
@@ -567,17 +566,24 @@ export const ListingPage = () => {
 											: 'Free'}
 									</b>
 								</IconText>
-								<IconText icon={BiSolidPackage}>
+								<IconText icon={FaExchangeAlt}>
 									{returnPolicyText}
 								</IconText>
-								{!listingData?.directFulfillment && (
-									<IconText
-										icon={PiShieldCheckeredFill}
-									>
+								{listingData?.directFulfillment ? (
+									<IconText icon={FaLocationDot}>
+										Ships from
+										<b>
+											{
+												profiles?.shipping
+													?.originZip
+											}
+										</b>
+									</IconText>
+								) : (
+									<IconText icon={FaShieldHalved}>
 										<HStack gap={1}>
-											<Text>Fulfilled by</Text>
+											Fulfilled by
 											<Box
-												height={27}
 												width={76}
 												mt={0.5}
 											>
