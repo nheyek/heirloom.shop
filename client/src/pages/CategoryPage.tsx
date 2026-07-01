@@ -1,26 +1,14 @@
-import {
-	Box,
-	Breadcrumb,
-	HStack,
-	Link,
-	Skeleton,
-	Stack,
-} from '@chakra-ui/react';
+import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
-import { Fragment, useEffect, useState } from 'react';
-import { FaHome } from 'react-icons/fa';
-import {
-	Link as RouterLink,
-	useNavigate,
-	useParams,
-} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();
@@ -33,16 +21,12 @@ export const CategoryPage = () => {
 	const apiClient = useApiClient();
 
 	const {
-		getCategory,
 		getChildCategories,
-		getAncestorCategories,
 		categoriesLoading,
 		categoriesError,
 	} = useCategories();
 
-	const category = getCategory(id.toUpperCase());
 	const childCategories = getChildCategories(id);
-	const ancestorCategories = getAncestorCategories(id);
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
@@ -106,56 +90,12 @@ export const CategoryPage = () => {
 						width={300}
 					/>
 				)}
-				{!isLoading && category && (
-					<Breadcrumb.Root>
-						<Breadcrumb.List
-							fontSize={22}
-							fontFamily={FONT_DECORATIVE}
-							flexWrap="wrap"
-							rowGap={3}
-						>
-							<Breadcrumb.Item whiteSpace="nowrap">
-								<Link asChild>
-									<RouterLink to="/">
-										<HStack gap={3}>
-											<FaHome size={24} />
-											Home
-										</HStack>
-									</RouterLink>
-								</Link>
-							</Breadcrumb.Item>
-							<Breadcrumb.Separator />
-
-							{ancestorCategories.map((ancestor) => (
-								<Fragment key={ancestor.id}>
-									<Breadcrumb.Item
-										key={ancestor.id}
-									>
-										<Link
-											whiteSpace="nowrap"
-											onClick={() =>
-												navigate(
-													`/category/${ancestor.id.toLowerCase()}`,
-												)
-											}
-										>
-											{ancestor.title}
-										</Link>
-									</Breadcrumb.Item>
-									<Breadcrumb.Separator />
-								</Fragment>
-							))}
-
-							<Breadcrumb.Item>
-								<Breadcrumb.CurrentLink
-									fontWeight={500}
-									whiteSpace="nowrap"
-								>
-									{category?.title}
-								</Breadcrumb.CurrentLink>
-							</Breadcrumb.Item>
-						</Breadcrumb.List>
-					</Breadcrumb.Root>
+				{!isLoading && (
+					<CategoryBreadcrumb
+						categoryId={id}
+						fontSize={22}
+						showHome
+					/>
 				)}
 			</Box>
 

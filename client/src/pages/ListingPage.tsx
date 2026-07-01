@@ -1,6 +1,7 @@
 import {
 	Accordion,
 	Box,
+	Breadcrumb,
 	Button,
 	ButtonProps,
 	Center,
@@ -25,6 +26,7 @@ import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
+import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { IconText } from '@client/components/textDisplay/IconText';
 import {
 	CLIENT_ROUTES,
@@ -36,6 +38,7 @@ import {
 import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShareListing } from '@client/hooks/useShareListing';
+import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import {
@@ -55,7 +58,7 @@ import {
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import {
 	FaBan,
 	FaExchangeAlt,
@@ -71,7 +74,11 @@ import {
 	FaTruck,
 } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
-import { useNavigate, useParams } from 'react-router-dom';
+import {
+	Link as RouterLink,
+	useNavigate,
+	useParams,
+} from 'react-router-dom';
 
 const MotionFlex = motion.create(Flex);
 
@@ -99,6 +106,7 @@ export const ListingPage = () => {
 
 	const apiClient = useApiClient();
 	const shareListing = useShareListing();
+	const { getCategory, getAncestorCategories, categoriesLoading } = useCategories();
 	const shoppingCart = useShoppingCart();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 	const isFavorited = id && favoriteIds.has(id);
@@ -215,7 +223,10 @@ export const ListingPage = () => {
 
 	const deliveryEstimate = profiles
 		? profiles.processing && profiles.shipping
-			? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
+			? calculateDeliveryEstimate(
+					profiles.processing,
+					profiles.shipping,
+				)
 			: 'Delivery estimate unavailable'
 		: null;
 
@@ -282,7 +293,7 @@ export const ListingPage = () => {
 		);
 	}
 
-	if (listingDataLoading) {
+	if (listingDataLoading || categoriesLoading) {
 		return (
 			<LoadingSkeleton
 				maxWidth={maxWidth}
@@ -352,6 +363,14 @@ export const ListingPage = () => {
 										{listingData?.shopTitle}
 									</Link>
 								</Heading>
+
+								{listingData && (
+									<CategoryBreadcrumb
+										categoryId={listingData.categoryId}
+										fontSize={20}
+										currentIsLink
+									/>
+								)}
 							</Stack>
 							<Stack
 								fontSize={20}
@@ -558,9 +577,11 @@ export const ListingPage = () => {
 									Ships to continental US for
 									<b>
 										{profiles?.shipping
-											? profiles.shipping.shippingRate
+											? profiles.shipping
+													.shippingRate
 												? formatCentsAsDollars(
-														profiles.shipping
+														profiles
+															.shipping
 															.shippingRate,
 													)
 												: 'Free'
@@ -572,9 +593,16 @@ export const ListingPage = () => {
 								</IconText>
 								{listingData?.directFulfillment ? (
 									profiles?.shipping && (
-										<IconText icon={FaLocationDot}>
+										<IconText
+											icon={FaLocationDot}
+										>
 											Ships from
-											<b>{profiles.shipping.originZip}</b>
+											<b>
+												{
+													profiles.shipping
+														.originZip
+												}
+											</b>
 										</IconText>
 									)
 								) : (
@@ -617,14 +645,20 @@ const LoadingSkeleton = (props: {
 }) => {
 	const renderBasicInfoSection = () => (
 		<Stack gap={4}>
-			<Skeleton
-				width="80%"
-				height="40px"
-			/>
-			<Skeleton
-				width="60%"
-				height="35px"
-			/>
+			<Stack gap={1}>
+				<Skeleton
+					width="80%"
+					height="40px"
+				/>
+				<Skeleton
+					width="60%"
+					height="35px"
+				/>
+				<Skeleton
+					width="45%"
+					height="24px"
+				/>
+			</Stack>
 			<Stack gap={2}>
 				<Skeleton
 					width="90%"
