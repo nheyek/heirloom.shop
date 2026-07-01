@@ -220,7 +220,9 @@ export const ListingPage = () => {
 		: null;
 
 	const returnPolicy = profiles?.returns;
-	let returnPolicyText = 'No returns';
+	let returnPolicyText = profiles
+		? 'No returns'
+		: 'Returns info unavailable';
 	if (
 		returnPolicy &&
 		returnPolicy.policyType !== ReturnPolicyType.NO_RETURNS &&
@@ -556,27 +558,25 @@ export const ListingPage = () => {
 									Ships to continental US for
 									<b>
 										{profiles?.shipping
-											?.shippingRate
-											? formatCentsAsDollars(
-													profiles.shipping
-														.shippingRate,
-												)
-											: 'Free'}
+											? profiles.shipping.shippingRate
+												? formatCentsAsDollars(
+														profiles.shipping
+															.shippingRate,
+													)
+												: 'Free'
+											: 'Shipping info unavailable'}
 									</b>
 								</IconText>
 								<IconText icon={FaExchangeAlt}>
 									{returnPolicyText}
 								</IconText>
 								{listingData?.directFulfillment ? (
-									<IconText icon={FaLocationDot}>
-										Ships from
-										<b>
-											{
-												profiles?.shipping
-													?.originZip
-											}
-										</b>
-									</IconText>
+									profiles?.shipping && (
+										<IconText icon={FaLocationDot}>
+											Ships from
+											<b>{profiles.shipping.originZip}</b>
+										</IconText>
+									)
 								) : (
 									<IconText icon={FaShieldHalved}>
 										<HStack gap={1}>
