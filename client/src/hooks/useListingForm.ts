@@ -65,6 +65,8 @@ export type {
 };
 
 export type ListingFormState = {
+	shopShortId: string;
+
 	title: string;
 	setTitle: (v: string) => void;
 	titleError: string | null;
@@ -84,6 +86,7 @@ export type ListingFormState = {
 	addImageFiles: (files: File[]) => void;
 	removeImage: (index: number) => void;
 	reorderImageEntries: (entries: ImageEntry[]) => void;
+	uploadImage: (file: File) => Promise<string | null>;
 	isUploadingImages: boolean;
 	uploadedUuids: string[];
 	imageError: string | null;
@@ -367,6 +370,7 @@ export const useListingForm = ({
 		addFiles,
 		removeImage,
 		reorderImages,
+		uploadImage,
 		isUploading,
 		uuids,
 	} = useImageUpload(async (contentType) => {
@@ -487,6 +491,7 @@ export const useListingForm = ({
 	};
 
 	return {
+		shopShortId,
 		title,
 		setTitle,
 		titleError,
@@ -503,6 +508,7 @@ export const useListingForm = ({
 		addImageFiles: addFiles,
 		removeImage,
 		reorderImageEntries: reorderImages,
+		uploadImage,
 		isUploadingImages: isUploading,
 		uploadedUuids: uuids,
 		imageError,

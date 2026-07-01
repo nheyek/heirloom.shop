@@ -20,6 +20,7 @@ import {
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { listingImageUrl } from '@client/utils/imageUtils';
 import { Variation } from '@client/hooks/useListingForm';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 import {
@@ -52,6 +53,8 @@ type OptionEntry = {
 	name: string;
 	priceCents: number | null;
 	imageUuid: string | null;
+	imagePreviewUrl: string | null;
+	imageUploading: boolean;
 };
 
 type OptionRowProps = {
@@ -63,6 +66,7 @@ type OptionRowProps = {
 	onChange: (patch: Partial<OptionEntry>) => void;
 	onDelete: () => void;
 	onTabKey?: () => void;
+	uploadImage: (file: File) => Promise<string | null>;
 };
 
 const OptionRow = ({
@@ -74,6 +78,7 @@ const OptionRow = ({
 	onChange,
 	onDelete,
 	onTabKey,
+	uploadImage,
 }: OptionRowProps) => {
 	const {
 		attributes,
@@ -135,22 +140,23 @@ const OptionRow = ({
 						type="file"
 						accept="image/*"
 						style={{ display: 'none' }}
-						onChange={(e) => {
+						onChange={async (e) => {
 							const file = e.target.files?.[0];
-							if (file)
-								onChange({
-									imageUuid:
-										URL.createObjectURL(file),
-								});
+							if (!file) return;
 							e.target.value = '';
+							const previewUrl = URL.createObjectURL(file);
+							onChange({ imagePreviewUrl: previewUrl, imageUuid: null, imageUploading: true });
+							const uuid = await uploadImage(file);
+							onChange({ imageUuid: uuid, imageUploading: false });
 						}}
 					/>
-					{entry.imageUuid ? (
+					{entry.imagePreviewUrl ? (
 						<Image
-							src={entry.imageUuid}
+							src={entry.imagePreviewUrl}
 							width="100%"
 							height="100%"
 							objectFit="cover"
+							opacity={entry.imageUploading ? 0.5 : 1}
 						/>
 					) : (
 						<FaImage
@@ -228,6 +234,8 @@ type Props = {
 	existingNames?: string[];
 	onClose: () => void;
 	onConfirm: (variation: Variation) => void;
+	uploadImage: (file: File) => Promise<string | null>;
+	shopShortId: string;
 };
 
 export const VariationDialog = ({
@@ -236,13 +244,15 @@ export const VariationDialog = ({
 	existingNames = [],
 	onClose,
 	onConfirm,
+	uploadImage,
+	shopShortId,
 }: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<OptionEntry[]>([
-		{ name: '', priceCents: null, imageUuid: null },
-		{ name: '', priceCents: null, imageUuid: null },
+		{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
+		{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
 	]);
 	const [optionIds, setOptionIds] = useState<string[]>(() => [
 		crypto.randomUUID(),
@@ -272,6 +282,10 @@ export const VariationDialog = ({
 						name: o.name,
 						priceCents: o.priceCents,
 						imageUuid: o.imageUuid,
+						imagePreviewUrl: o.imageUuid
+							? listingImageUrl(shopShortId, o.imageUuid)
+							: null,
+						imageUploading: false,
 					})),
 				);
 				setOptionIds(sorted.map(([id]) => id));
@@ -281,8 +295,8 @@ export const VariationDialog = ({
 				setPricesVary(false);
 				setNameError(null);
 				setOptions([
-					{ name: '', priceCents: null, imageUuid: null },
-					{ name: '', priceCents: null, imageUuid: null },
+					{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
+					{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
 				]);
 				setOptionIds([
 					crypto.randomUUID(),
@@ -313,7 +327,7 @@ export const VariationDialog = ({
 		pendingFocusIndex.current = options.length;
 		setOptions((prev) => [
 			...prev,
-			{ name: '', priceCents: null, imageUuid: null },
+			{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
 		]);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
@@ -608,6 +622,7 @@ export const VariationDialog = ({
 																		i,
 																	)
 																}
+																uploadImage={uploadImage}
 															/>
 														);
 													},

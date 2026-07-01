@@ -111,10 +111,39 @@ export const useImageUpload = (getUploadUrl: GetUploadUrl, initialEntries: Image
 		setImageEntries(newEntries);
 	}, []);
 
+	const uploadImage = useCallback(async (file: File): Promise<string | null> => {
+		const hash = await hashFile(file);
+
+		if (uploadCache.current.has(hash)) {
+			return uploadCache.current.get(hash)!;
+		}
+
+		const result = await getUploadUrlRef.current(file.type);
+		if (result === null) {
+			toastError('Failed to prepare image upload.');
+			return null;
+		}
+
+		const { uuid, uploadUrl } = result;
+		const uploadRes = await fetch(uploadUrl, {
+			method: 'PUT',
+			body: file,
+			headers: { 'Content-Type': file.type },
+		});
+
+		if (!uploadRes.ok) {
+			toastError('Failed to upload image.');
+			return null;
+		}
+
+		uploadCache.current.set(hash, uuid);
+		return uuid;
+	}, []);
+
 	const isUploading = imageEntries.some((e) => e.isUploading);
 	const uuids = imageEntries
 		.filter((e) => e.uuid !== null)
 		.map((e) => e.uuid!);
 
-	return { imageEntries, addFiles, removeImage, reorderImages, isUploading, uuids };
+	return { imageEntries, addFiles, removeImage, reorderImages, uploadImage, isUploading, uuids };
 };

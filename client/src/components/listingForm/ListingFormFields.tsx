@@ -417,6 +417,8 @@ export const ListingFormFields = ({
 						});
 					}
 				}}
+				uploadImage={form.uploadImage}
+				shopShortId={form.shopShortId}
 			/>
 		</>
 	);

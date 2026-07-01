@@ -15,11 +15,13 @@ import {
 } from '@client/constants';
 import { Combination, Variation } from '@client/hooks/useListingForm';
 import { FIELD_ERROR_COLOR } from '@client/theme';
+import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	deriveCombinationsList,
 	resolveEffectiveCombinationImage,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
+import { useState } from 'react';
 import { FaImage } from 'react-icons/fa';
 
 const THUMB_WIDTH = 100;
@@ -31,6 +33,8 @@ type Props = {
 	combinationPriceErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
+	uploadImage: (file: File) => Promise<string | null>;
+	shopShortId: string;
 };
 
 const DEFAULT_ENTRY: Combination = {
@@ -46,7 +50,10 @@ export const CombinationGrid = ({
 	combinationPriceErrors = {},
 	invalid,
 	disabled,
+	uploadImage,
+	shopShortId,
 }: Props) => {
+	const [uploadingKeys, setUploadingKeys] = useState<Set<string>>(new Set());
 	const sortedVariations = Object.entries(variations).sort(
 		(a, b) => a[1].order - b[1].order,
 	);
@@ -133,17 +140,17 @@ export const CombinationGrid = ({
 										disabled={
 											disabled || isDisabled
 										}
-										onFileChange={(details) => {
-											const file =
-												details
-													.acceptedFiles[0];
-											if (file)
-												onUpdate(key, {
-													imageUuid:
-														URL.createObjectURL(
-															file,
-														),
-												});
+										onFileChange={async (details) => {
+											const file = details.acceptedFiles[0];
+											if (!file) return;
+											setUploadingKeys((prev) => new Set(prev).add(key));
+											const uuid = await uploadImage(file);
+											setUploadingKeys((prev) => {
+												const next = new Set(prev);
+												next.delete(key);
+												return next;
+											});
+											if (uuid) onUpdate(key, { imageUuid: uuid });
 										}}
 										pr={2}
 									>
@@ -165,17 +172,23 @@ export const CombinationGrid = ({
 											>
 												{effectiveImage ? (
 													<Image
-														src={
-															effectiveImage
-														}
+														src={listingImageUrl(shopShortId, effectiveImage)}
 														width="100%"
 														height="100%"
 														objectFit="cover"
 														opacity={
-															imageIsInherited
+															uploadingKeys.has(key)
 																? 0.5
-																: 1
+																: imageIsInherited
+																	? 0.5
+																	: 1
 														}
+													/>
+												) : uploadingKeys.has(key) ? (
+													<FaImage
+														color="gray"
+														size={20}
+														opacity={0.4}
 													/>
 												) : (
 													<FaImage

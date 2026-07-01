@@ -27,6 +27,8 @@ export const ListingFormLayout = ({
 				<CombinationGrid
 					variations={form.variations}
 					combinations={form.combinations}
+					uploadImage={form.uploadImage}
+					shopShortId={form.shopShortId}
 					onUpdate={(key, patch) => {
 						form.setCombinationField(key, patch);
 						if (patch.disabled) {
