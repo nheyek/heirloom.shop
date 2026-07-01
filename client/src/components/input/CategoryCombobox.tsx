@@ -1,9 +1,13 @@
-import { Combobox, createListCollection } from '@chakra-ui/react';
+import {
+	Combobox,
+	createListCollection,
+	Icon,
+} from '@chakra-ui/react';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { CategoryTileData } from '@heirloom/common/contract';
 import { useEffect, useMemo, useState } from 'react';
-import { IoMdArrowDropdown } from 'react-icons/io';
-import { LuCheck } from 'react-icons/lu';
+import { FaCaretDown } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa6';
 
 type CategoryItem = {
 	value: string;
@@ -106,7 +110,7 @@ export const CategoryCombobox = ({
 				/>
 				<Combobox.IndicatorGroup>
 					<Combobox.Trigger>
-						<IoMdArrowDropdown />
+						<FaCaretDown />
 					</Combobox.Trigger>
 				</Combobox.IndicatorGroup>
 			</Combobox.Control>
@@ -116,7 +120,7 @@ export const CategoryCombobox = ({
 					overflowY="auto"
 				>
 					<Combobox.Empty
-						fontSize={16}
+						fontSize={18}
 						color="gray.500"
 					>
 						No categories found
@@ -128,14 +132,18 @@ export const CategoryCombobox = ({
 							cursor="pointer"
 							px={3}
 							py={2}
-							fontSize={16}
+							fontSize={18}
 							alignItems="start"
 						>
 							<Combobox.ItemText whiteSpace="pre-wrap">
 								{item.label}
 							</Combobox.ItemText>
 							<Combobox.ItemIndicator>
-								<LuCheck />
+								<Icon
+									as={FaCheck}
+									h={4}
+									w={4}
+								/>
 							</Combobox.ItemIndicator>
 						</Combobox.Item>
 					))}

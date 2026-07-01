@@ -7,13 +7,18 @@ import { useListingForm } from '@client/hooks/useListingForm';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
-import { FaCheckCircle, FaSave } from 'react-icons/fa';
 import { useRef, useState } from 'react';
+import { FaCheckCircle, FaSave } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShopManagerListingCreatePage = () => {
 	const { shortId: shopShortId } = useParams<{ shortId: string }>();
-	const { processingProfiles, shippingProfiles, returnProfiles, profilesLoading } = useShopManager();
+	const {
+		processingProfiles,
+		shippingProfiles,
+		returnProfiles,
+		profilesLoading,
+	} = useShopManager();
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
 	const form = useListingForm({
@@ -36,7 +41,10 @@ export const ShopManagerListingCreatePage = () => {
 			requestAnimationFrame(() => {
 				containerRef.current
 					?.querySelector('[data-invalid]')
-					?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					?.scrollIntoView({
+						behavior: 'smooth',
+						block: 'center',
+					});
 			});
 			return;
 		}
@@ -50,10 +58,22 @@ export const ShopManagerListingCreatePage = () => {
 					categoryId: form.categoryId!,
 					priceCents: form.priceCents ?? 0,
 					imageUuids: form.uploadedUuids,
-					processingProfileId: form.processingProfileId != null ? Number(form.processingProfileId) : null,
-					shippingProfileId: form.shippingProfileId != null ? Number(form.shippingProfileId) : null,
-					returnProfileId: form.returnProfileId != null ? Number(form.returnProfileId) : null,
-					fullDescr: form.descrSections.length > 0 ? form.descrSections : null,
+					processingProfileId:
+						form.processingProfileId != null
+							? Number(form.processingProfileId)
+							: null,
+					shippingProfileId:
+						form.shippingProfileId != null
+							? Number(form.shippingProfileId)
+							: null,
+					returnProfileId:
+						form.returnProfileId != null
+							? Number(form.returnProfileId)
+							: null,
+					fullDescr:
+						form.descrSections.length > 0
+							? form.descrSections
+							: null,
 					variations: form.variations,
 					combinations: form.combinations,
 					available,
@@ -76,11 +96,11 @@ export const ShopManagerListingCreatePage = () => {
 			containerRef={containerRef}
 			disabled={savePending}
 			actions={
-				<HStack>
+				<HStack gap={3}>
 					<Button
-						size="lg"
+						size="md"
+						fontSize={18}
 						variant="outline"
-						fontSize={20}
 						onClick={() => handleCreate(false)}
 						disabled={isBlocked}
 						loading={isBlocked}
@@ -89,8 +109,8 @@ export const ShopManagerListingCreatePage = () => {
 						Save Draft
 					</Button>
 					<Button
-						size="lg"
-						fontSize={20}
+						size="md"
+						fontSize={18}
 						onClick={() => handleCreate(true)}
 						disabled={isBlocked}
 						loading={isBlocked}

@@ -116,7 +116,7 @@ const DeleteListingDialog = ({
 							<Button
 								size="md"
 								fontSize={18}
-								variant="outline"
+								variant="subtle"
 								onClick={onCancel}
 								disabled={pending}
 							>
@@ -311,8 +311,7 @@ const ListingEditForm = ({
 									<Collapsible.Indicator
 										transition="transform 0.2s"
 										_open={{
-											transform:
-												'rotate(180deg)',
+											transform: 'rotate(180deg)',
 										}}
 									>
 										<FaCaretDown />
