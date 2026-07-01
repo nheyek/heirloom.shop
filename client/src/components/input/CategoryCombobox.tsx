@@ -1,7 +1,7 @@
 import { Combobox, createListCollection } from '@chakra-ui/react';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { CategoryTileData } from '@heirloom/common/contract';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { LuCheck } from 'react-icons/lu';
 
@@ -67,6 +67,10 @@ export const CategoryCombobox = ({
 
 	const selectedLabel =
 		allItems.find((item) => item.value === value)?.label ?? '';
+
+	useEffect(() => {
+		if (selectedLabel) setInputValue(selectedLabel);
+	}, [selectedLabel]);
 
 	return (
 		<Combobox.Root

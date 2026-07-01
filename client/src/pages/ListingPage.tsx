@@ -1,7 +1,6 @@
 import {
 	Accordion,
 	Box,
-	Breadcrumb,
 	Button,
 	ButtonProps,
 	Center,
@@ -25,8 +24,8 @@ import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
-import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
+import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { IconText } from '@client/components/textDisplay/IconText';
 import {
 	CLIENT_ROUTES,
@@ -58,7 +57,7 @@ import {
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
 	FaBan,
 	FaExchangeAlt,
@@ -74,11 +73,7 @@ import {
 	FaTruck,
 } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
-import {
-	Link as RouterLink,
-	useNavigate,
-	useParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const MotionFlex = motion.create(Flex);
 
@@ -106,7 +101,8 @@ export const ListingPage = () => {
 
 	const apiClient = useApiClient();
 	const shareListing = useShareListing();
-	const { getCategory, getAncestorCategories, categoriesLoading } = useCategories();
+	const { getCategory, getAncestorCategories, categoriesLoading } =
+		useCategories();
 	const shoppingCart = useShoppingCart();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 	const isFavorited = id && favoriteIds.has(id);
@@ -366,7 +362,9 @@ export const ListingPage = () => {
 
 								{listingData && (
 									<CategoryBreadcrumb
-										categoryId={listingData.categoryId}
+										categoryId={
+											listingData.categoryId
+										}
 										fontSize={20}
 										currentIsLink
 									/>
