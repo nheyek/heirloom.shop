@@ -187,7 +187,7 @@ export const DescrSectionDialog = ({
 							<Button
 								size="md"
 								fontSize={18}
-								variant="outline"
+								variant="subtle"
 								onClick={handleClose}
 							>
 								Cancel

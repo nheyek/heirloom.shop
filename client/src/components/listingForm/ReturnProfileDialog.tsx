@@ -328,7 +328,7 @@ export const ReturnProfileDialog = ({
 							<Button
 								size="md"
 								fontSize={18}
-								variant="outline"
+								variant="subtle"
 								onClick={onClose}
 							>
 								Cancel
