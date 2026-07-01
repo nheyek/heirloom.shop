@@ -286,9 +286,8 @@ const ListingEditForm = ({
 						alignItems="flex-start"
 					>
 						<Button
-							size="lg"
-							width={175}
-							fontSize={20}
+							size="md"
+							fontSize={18}
 							onClick={handleSave}
 							disabled={
 								form.isUploadingImages || savePending
@@ -304,8 +303,8 @@ const ListingEditForm = ({
 							<Collapsible.Trigger asChild>
 								<Button
 									variant="subtle"
-									size="lg"
-									fontSize={20}
+									size="md"
+									fontSize={18}
 									cursor="pointer"
 								>
 									Other Actions
@@ -322,8 +321,8 @@ const ListingEditForm = ({
 							</Collapsible.Trigger>
 							<Collapsible.Content pt={2}>
 								<Button
-									size="lg"
-									fontSize={20}
+									size="md"
+									fontSize={18}
 									colorPalette="red"
 									onClick={() =>
 										setDeleteDialogOpen(true)
