@@ -28,6 +28,7 @@ export const MultiImage = (props: Props) => {
 			loading={!allImagesLoaded}
 			width="100%"
 			aspectRatio={props.aspectRatio}
+			borderRadius={0}
 		>
 			<Carousel.Root
 				onMouseEnter={() => setIsHovered(true)}

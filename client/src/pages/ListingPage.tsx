@@ -217,17 +217,16 @@ export const ListingPage = () => {
 			: HEIRLOOM_LISTING_PROFILES
 		: null;
 
-	const deliveryEstimate = profiles
-		? profiles.processing && profiles.shipping
+	const deliveryEstimate =
+		profiles?.processing && profiles?.shipping
 			? calculateDeliveryEstimate(
 					profiles.processing,
 					profiles.shipping,
 				)
-			: 'Delivery estimate unavailable'
-		: null;
+			: 'Delivery estimate unavailable';
 
 	const returnPolicy = profiles?.returns;
-	let returnPolicyText = profiles
+	let returnPolicyText = returnPolicy
 		? 'No returns'
 		: 'Returns info unavailable';
 	if (
@@ -489,7 +488,7 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
-									disabled={!listingData?.available}
+									disabled={!listingData?.available || !profiles?.shipping}
 								>
 									{listingData?.available ? (
 										<>
@@ -565,26 +564,15 @@ export const ListingPage = () => {
 								gap={1}
 								fontFamily={FONT_DISPLAY_SANS}
 							>
-								{deliveryEstimate && (
-									<IconText icon={FaHourglassStart}>
-										Estimated delivery
-										<b>{deliveryEstimate}</b>
-									</IconText>
-								)}
+								<IconText icon={FaHourglassStart}>
+									{profiles?.processing && profiles?.shipping
+										? <>Estimated delivery{' '}<b>{deliveryEstimate}</b></>
+										: deliveryEstimate}
+								</IconText>
 								<IconText icon={FaTruck}>
-									Ships to continental US for
-									<b>
-										{profiles?.shipping
-											? profiles.shipping
-													.shippingRate
-												? formatCentsAsDollars(
-														profiles
-															.shipping
-															.shippingRate,
-													)
-												: 'Free'
-											: 'Shipping info unavailable'}
-									</b>
+									{profiles?.shipping
+										? <>Ships to continental US for{' '}<b>{profiles.shipping.shippingRate ? formatCentsAsDollars(profiles.shipping.shippingRate) : 'Free'}</b></>
+										: 'Shipping info unavailable'}
 								</IconText>
 								<IconText icon={FaExchangeAlt}>
 									{returnPolicyText}
