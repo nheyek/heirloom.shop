@@ -1,7 +1,7 @@
 export const LISTING_LIMITS = {
 	// Structural limits
 	maxVariations: 3,
-	maxOptionsPerVariation: 10,
+	maxOptionsPerVariation: 20,
 	maxDescrSections: 5,
 
 	// Listing title / subtitle
