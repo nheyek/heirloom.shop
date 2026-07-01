@@ -163,6 +163,7 @@ const ListingEditForm = ({
 	const navigate = useNavigate();
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deletePending, setDeletePending] = useState(false);
+	const [savePending, setSavePending] = useState(false);
 
 	const initialImageEntries: ImageEntry[] =
 		listingData.imageUuids.map((uuid) => ({
@@ -200,7 +201,7 @@ const ListingEditForm = ({
 			listingData.combinations as CombinationsData,
 	});
 
-	const handleSave = () => {
+	const handleSave = async () => {
 		if (!form.validate()) {
 			requestAnimationFrame(() => {
 				containerRef.current
@@ -212,7 +213,29 @@ const ListingEditForm = ({
 			});
 			return;
 		}
-		// TODO: call update API
+		setSavePending(true);
+		const result = await callApi(
+			apiClient.shopManager.updateListing({
+				params: { shopId: shopShortId, listingShortId },
+				body: {
+					title: form.title,
+					subtitle: form.subtitle || null,
+					categoryId: form.categoryId!,
+					priceCents: form.priceCents ?? 0,
+					imageUuids: form.uploadedUuids,
+					processingProfileId: form.processingProfileId != null ? Number(form.processingProfileId) : null,
+					shippingProfileId: form.shippingProfileId != null ? Number(form.shippingProfileId) : null,
+					returnProfileId: form.returnProfileId != null ? Number(form.returnProfileId) : null,
+					fullDescr: form.descrSections.length > 0 ? form.descrSections : null,
+					variations: form.variations,
+					combinations: form.combinations,
+				},
+			}),
+		);
+		setSavePending(false);
+		if (result.error !== null) {
+			toastError('Failed to save listing. Please try again.');
+		}
 	};
 
 	const handleDeleteConfirm = async () => {
@@ -239,6 +262,7 @@ const ListingEditForm = ({
 			<ListingFormLayout
 				form={form}
 				containerRef={containerRef}
+				disabled={savePending}
 				actions={
 					<HStack
 						justifyContent="space-between"
@@ -249,8 +273,8 @@ const ListingEditForm = ({
 							width={175}
 							fontSize={20}
 							onClick={handleSave}
-							disabled={form.isUploadingImages}
-							loading={form.isUploadingImages}
+							disabled={form.isUploadingImages || savePending}
+							loading={form.isUploadingImages || savePending}
 						>
 							<FaSave />
 							Save Changes

@@ -1,11 +1,11 @@
-import { ListingEditData, ListingFullDescr, ShopProfilesData } from '@heirloom/common/contract';
+import { CombinationsData, ListingEditData, ListingFullDescr, ShopProfilesData, VariationsData } from '@heirloom/common/contract';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
+import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
-import { CombinationsData, VariationsData } from '@heirloom/common/contract';
 
 export const findAllListingsForShop = async (shopId: number): Promise<Listing[]> => {
 	const em = getEm();
@@ -61,6 +61,74 @@ export const findListingForEdit = async (
 		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile'] },
 	);
 	if (!listing) return null;
+
+	return {
+		shortId: listing.shortId,
+		title: listing.title,
+		subtitle: listing.subtitle ?? null,
+		categoryId: listing.category.id,
+		priceCents: listing.priceCents,
+		imageUuids: listing.imageUuids,
+		processingProfileId: listing.processingProfile?.id ?? null,
+		shippingProfileId: listing.shippingProfile?.id ?? null,
+		returnProfileId: listing.returnProfile?.id ?? null,
+		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
+		variations: (listing.variations ?? {}) as VariationsData,
+		combinations: (listing.combinations ?? {}) as CombinationsData,
+	};
+};
+
+export const updateListing = async (
+	shopId: number,
+	listingShortId: string,
+	data: {
+		title: string;
+		subtitle: string | null;
+		categoryId: string;
+		priceCents: number;
+		imageUuids: string[];
+		processingProfileId: number | null;
+		shippingProfileId: number | null;
+		returnProfileId: number | null;
+		fullDescr: ListingFullDescr | null;
+		variations: VariationsData;
+		combinations: CombinationsData;
+	},
+): Promise<ListingEditData | null> => {
+	const em = getEm();
+	const listing = await em.findOne(
+		Listing,
+		{ shortId: listingShortId, shop: { id: shopId } },
+		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile'] },
+	);
+	if (!listing) return null;
+
+	const [category, processingProfile, shippingProfile, returnProfile] = await Promise.all([
+		em.findOne(ListingCategory, { id: data.categoryId }),
+		data.processingProfileId != null
+			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
+			: null,
+		data.shippingProfileId != null
+			? em.findOne(ListingShippingProfile, { id: data.shippingProfileId, shop: { id: shopId } })
+			: null,
+		data.returnProfileId != null
+			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			: null,
+	]);
+
+	listing.title = data.title;
+	listing.subtitle = data.subtitle ?? undefined;
+	listing.category = category!;
+	listing.priceCents = data.priceCents;
+	listing.imageUuids = data.imageUuids;
+	listing.processingProfile = processingProfile ?? undefined;
+	listing.shippingProfile = shippingProfile ?? undefined;
+	listing.returnProfile = returnProfile ?? undefined;
+	listing.fullDescr = data.fullDescr;
+	listing.variations = data.variations;
+	listing.combinations = data.combinations;
+
+	await em.flush();
 
 	return {
 		shortId: listing.shortId,

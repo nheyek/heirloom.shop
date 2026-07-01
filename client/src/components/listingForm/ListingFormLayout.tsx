@@ -10,18 +10,20 @@ type Props = {
 	form: ListingFormState;
 	actions: React.ReactNode;
 	containerRef?: RefObject<HTMLDivElement | null>;
+	disabled?: boolean;
 };
 
 export const ListingFormLayout = ({
 	form,
 	actions,
 	containerRef,
+	disabled,
 }: Props) => (
 	<Stack
 		gap={5}
 		ref={containerRef}
 	>
-		<ListingFormFields form={form} />
+		<ListingFormFields form={form} disabled={disabled} />
 		{deriveCombinationsList(form.variations).length > 0 && (
 			<Stack gap={1.5}>
 				<CombinationGrid
@@ -29,6 +31,7 @@ export const ListingFormLayout = ({
 					combinations={form.combinations}
 					uploadImage={form.uploadImage}
 					shopShortId={form.shopShortId}
+					disabled={disabled}
 					onUpdate={(key, patch) => {
 						form.setCombinationField(key, patch);
 						if (patch.disabled) {
