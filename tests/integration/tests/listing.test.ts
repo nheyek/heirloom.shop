@@ -183,8 +183,8 @@ describe('GET /api/listings/:id', () => {
 		expect(res.status).toBe(200);
 		expect(res.body.shippingDetails).toMatchObject({
 			shippingRate: 995,
-			shipTimeDaysMin: 3,
-			shipTimeDaysMax: 7,
+			shippingDaysMin: 3,
+			shippingDaysMax: 7,
 		});
 		expect(res.body.returnPolicy).toMatchObject({
 			policyType: 'standard',

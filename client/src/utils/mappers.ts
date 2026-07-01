@@ -22,11 +22,9 @@ export const getListingDataForCart = (
 		imageUuids: listing.imageUuids,
 		available: listing.available,
 		shippingPrice: Number(profiles.shipping?.shippingRate || 0),
-		deliveryEstimate: calculateDeliveryEstimate(
-			profiles.processing?.minDays ?? 0,
-			profiles.processing?.maxDays ?? 0,
-			profiles.shipping,
-		),
+		deliveryEstimate: profiles.processing && profiles.shipping
+			? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
+			: 'Delivery estimate unavailable',
 		variations: listing.variations,
 		combinations: listing.combinations,
 	};

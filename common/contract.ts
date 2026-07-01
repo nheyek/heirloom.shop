@@ -158,8 +158,8 @@ const ListingFulfillmentProfilesSchema = z.object({
 	shipping: z
 		.object({
 			originZip: z.string(),
-			shipTimeDaysMin: z.number(),
-			shipTimeDaysMax: z.number(),
+			shippingDaysMin: z.number(),
+			shippingDaysMax: z.number(),
 			shippingRate: z.number(),
 		})
 		.optional(),

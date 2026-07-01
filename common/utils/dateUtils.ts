@@ -76,22 +76,17 @@ const addBusinessDays = (start: Date, days: number): Date => {
 };
 
 export const calculateDeliveryEstimate = (
-	leadTimeDaysMin: number,
-	leadTimeDaysMax: number,
-	shippingDetails?: {
-		shipTimeDaysMin: number;
-		shipTimeDaysMax: number;
-	},
-): string | null => {
-	if (!shippingDetails) return null;
+	processingProfile: { minDays: number; maxDays: number },
+	shippingProfile: { shippingDaysMin: number; shippingDaysMax: number },
+): string => {
 	const today = new Date();
 	const date1 = addBusinessDays(
 		today,
-		leadTimeDaysMin + shippingDetails.shipTimeDaysMin,
+		processingProfile.minDays + shippingProfile.shippingDaysMin,
 	);
 	const date2 = addBusinessDays(
 		today,
-		leadTimeDaysMax + shippingDetails.shipTimeDaysMax,
+		processingProfile.maxDays + shippingProfile.shippingDaysMax,
 	);
 	return formatDateRange(date1, date2);
 };

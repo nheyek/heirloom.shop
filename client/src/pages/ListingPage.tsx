@@ -214,11 +214,9 @@ export const ListingPage = () => {
 		: null;
 
 	const deliveryEstimate = profiles
-		? calculateDeliveryEstimate(
-				profiles.processing?.minDays ?? 0,
-				profiles.processing?.maxDays ?? 0,
-				profiles.shipping,
-			)
+		? profiles.processing && profiles.shipping
+			? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
+			: 'Delivery estimate unavailable'
 		: null;
 
 	const returnPolicy = profiles?.returns;

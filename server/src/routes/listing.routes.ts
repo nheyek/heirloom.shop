@@ -34,16 +34,12 @@ export const listingRouter = s.router(listingsContract, {
 				const listing = await listingService.findAvailableFullListingDataByShortId(shortId);
 				if (!listing) return null;
 				const shippingPrice = Number(listing.shippingProfile?.flatShippingRateCents || 0);
-				const deliveryEstimate = calculateDeliveryEstimate(
-					listing.processingProfile?.minDays ?? 0,
-					listing.processingProfile?.maxDays ?? 0,
-					listing.shippingProfile
-						? {
-								shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
-								shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
-							}
-						: undefined,
-				);
+				const deliveryEstimate = listing.processingProfile && listing.shippingProfile
+					? calculateDeliveryEstimate(
+							listing.processingProfile,
+							listing.shippingProfile,
+						)
+					: 'Delivery estimate unavailable';
 				return mapListingToCartItemData(listing, selectedOptionSets, shippingPrice, deliveryEstimate);
 			}),
 		);

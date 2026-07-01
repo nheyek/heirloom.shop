@@ -88,16 +88,12 @@ export const createOrderItemSnapshots = (
 			unitPriceCents,
 			shippingPriceCents: listing.shippingProfile?.flatShippingRateCents ?? 0,
 			quantity: item.quantity,
-			estimatedDelivery: calculateDeliveryEstimate(
-				listing.processingProfile?.minDays ?? 0,
-				listing.processingProfile?.maxDays ?? 0,
-				listing.shippingProfile
-					? {
-							shipTimeDaysMin: listing.shippingProfile.shippingDaysMin ?? 0,
-							shipTimeDaysMax: listing.shippingProfile.shippingDaysMax ?? 0,
-						}
-					: undefined,
-			),
+			estimatedDelivery: listing.processingProfile && listing.shippingProfile
+				? calculateDeliveryEstimate(
+						listing.processingProfile,
+						listing.shippingProfile,
+					)
+				: 'Delivery estimate unavailable',
 			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
 		});
 	}

@@ -8,8 +8,8 @@ export const HEIRLOOM_LISTING_PROFILES: ListingFulfillmentProfiles = {
 	},
 	shipping: {
 		originZip: '60622',
-		shipTimeDaysMin: 3,
-		shipTimeDaysMax: 5,
+		shippingDaysMin: 3,
+		shippingDaysMax: 5,
 		shippingRate: 0,
 	},
 	returns: {

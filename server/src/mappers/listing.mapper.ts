@@ -42,8 +42,8 @@ export const mapListingToCompleteApiResponseData = (
 				shipping: listing.shippingProfile
 					? {
 							originZip: listing.shippingProfile.originZip,
-							shipTimeDaysMin: listing.shippingProfile.shippingDaysMin,
-							shipTimeDaysMax: listing.shippingProfile.shippingDaysMax,
+							shippingDaysMin: listing.shippingProfile.shippingDaysMin,
+							shippingDaysMax: listing.shippingProfile.shippingDaysMax,
 							shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
 						}
 					: undefined,
