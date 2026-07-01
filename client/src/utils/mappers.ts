@@ -1,6 +1,6 @@
 import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { CartItemData, ListingPageData } from '@heirloom/common/contract';
-import { calculateDeliveryEstimate } from '@heirloom/common/utils';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 
 export const getListingDataForCart = (
 	listing: ListingPageData,

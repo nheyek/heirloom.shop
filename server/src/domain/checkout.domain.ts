@@ -1,6 +1,6 @@
 import { CheckoutItemData, CombinationsData, OrderItemDisplayData, VariationsData } from '@heirloom/common/contract';
 import { getCombinationKey, resolveEffectiveCombinationPrice } from '@heirloom/common/domain/listing';
-import { calculateDeliveryEstimate } from '@heirloom/common/utils';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
 
