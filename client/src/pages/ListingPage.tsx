@@ -18,6 +18,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { Logo } from '@client/components/branding/Logo';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
@@ -31,15 +32,19 @@ import {
 	Layout,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
+import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShareListing } from '@client/hooks/useShareListing';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import {
+	COLOR_BRAND,
+	FONT_DECORATIVE,
+	FONT_DISPLAY_SANS,
+} from '@client/theme';
 import { toaster } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/typeUtils';
-import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
 import {
@@ -59,6 +64,7 @@ import {
 	FaShare,
 	FaTruck,
 } from 'react-icons/fa6';
+import { PiShieldCheckeredFill } from 'react-icons/pi';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -197,7 +203,9 @@ export const ListingPage = () => {
 	})();
 
 	const profiles = listingData
-		? (listingData.profiles ?? HEIRLOOM_LISTING_PROFILES)
+		? listingData.directFulfillment
+			? listingData.profiles
+			: HEIRLOOM_LISTING_PROFILES
 		: null;
 
 	const deliveryEstimate = profiles
@@ -541,21 +549,45 @@ export const ListingPage = () => {
 								<IconText icon={FaLocationDot}>
 									Ships from
 									<b>
-										{profiles?.shipping?.originZip}
+										{
+											profiles?.shipping
+												?.originZip
+										}
 									</b>
 								</IconText>
 								<IconText icon={FaTruck}>
 									Ships to continental US for
 									<b>
-										{formatCentsAsDollars(
-											profiles?.shipping
-												?.shippingRate || 0,
-										)}
+										{profiles?.shipping
+											?.shippingRate
+											? formatCentsAsDollars(
+													profiles.shipping
+														.shippingRate,
+												)
+											: 'Free'}
 									</b>
 								</IconText>
 								<IconText icon={BiSolidPackage}>
 									{returnPolicyText}
 								</IconText>
+								{!listingData?.directFulfillment && (
+									<IconText
+										icon={PiShieldCheckeredFill}
+									>
+										<HStack gap={1}>
+											<Text>Fulfilled by</Text>
+											<Box
+												height={27}
+												width={76}
+												mt={0.5}
+											>
+												<Logo
+													fill={COLOR_BRAND}
+												/>
+											</Box>
+										</HStack>
+									</IconText>
+								)}
 							</Stack>
 						</Stack>
 					</GridItem>

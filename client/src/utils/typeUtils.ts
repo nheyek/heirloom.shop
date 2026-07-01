@@ -5,7 +5,9 @@ import { calculateDeliveryEstimate } from '@heirloom/common/utils';
 export const getListingDataForCart = (
 	listing: ListingPageData,
 ): CartItemData => {
-	const profiles = listing.profiles ?? HEIRLOOM_LISTING_PROFILES;
+	const profiles =
+		(listing.directFulfillment ? listing.profiles : null) ??
+		HEIRLOOM_LISTING_PROFILES;
 	return {
 		id: listing.id,
 		shortId: listing.shortId,

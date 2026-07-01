@@ -172,6 +172,7 @@ const ListingFulfillmentProfilesSchema = z.object({
 });
 
 const ListingPageDataSchema = ListingCardDataSchema.extend({
+	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
 	variations: VariationsSchema,
