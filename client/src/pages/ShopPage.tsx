@@ -10,6 +10,7 @@ import {
 	Skeleton,
 	Stack,
 	Text,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
@@ -63,6 +64,23 @@ export const ShopPage = () => {
 		null,
 	);
 
+	const responsiveBannerAspectRatio = useBreakpointValue({
+		base: 1.75,
+		md: 2.25,
+		lg: 2.75,
+		xl: 3.25,
+	});
+
+	useEffect(() => {
+		setShopDataLoading(true);
+		setShopDataError(null);
+		setListingsLoading(true);
+		setListingsError(null);
+
+		loadShopData();
+		loadListings();
+	}, [id]);
+
 	const loadShopData = async () => {
 		const result = await callApi(
 			apiClient.shops.getById({ params: { id: id! } }),
@@ -87,19 +105,7 @@ export const ShopPage = () => {
 		setListingsLoading(false);
 	};
 
-	useEffect(() => {
-		setShopDataLoading(true);
-		setShopDataError(null);
-		setListingsLoading(true);
-		setListingsError(null);
-
-		loadShopData();
-		loadListings();
-	}, [id]);
-
 	const isLoading = shopDataLoading || listingsLoading;
-
-	const responsiveBannerAspectRatio = [1.75, 2.25, 2.75, 3.25];
 
 	if (shopDataError) {
 		return (
@@ -125,9 +131,10 @@ export const ShopPage = () => {
 					<Box mx="auto">
 						{shopData?.profileImageUuid ? (
 							<AppImage
+								aspectRatio={
+									responsiveBannerAspectRatio
+								}
 								imageProps={{
-									aspectRatio:
-										responsiveBannerAspectRatio,
 									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData.profileImageUuid}.jpg`,
 								}}
 							/>
