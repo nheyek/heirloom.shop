@@ -177,9 +177,6 @@ export const RichTextEditor = ({
 							marginLeft: 5,
 							listStyleType: 'disc',
 						},
-						'& .tiptap li': {
-							marginBottom: 0.5,
-						},
 						'& .tiptap ol': {
 							listStyleType: 'decimal',
 						},

@@ -27,9 +27,6 @@ export const RichTextDisplay = (props: Props) => {
 					marginBottom: '0.5rem',
 					listStyleType: 'disc',
 				},
-				'& li': {
-					marginBottom: '0.25rem',
-				},
 				'& em': {
 					fontStyle: 'italic',
 				},
