@@ -53,7 +53,9 @@ export const CombinationGrid = ({
 	uploadImage,
 	shopShortId,
 }: Props) => {
-	const [uploadingKeys, setUploadingKeys] = useState<Set<string>>(new Set());
+	const [uploadingKeys, setUploadingKeys] = useState<Set<string>>(
+		new Set(),
+	);
 	const sortedVariations = Object.entries(variations).sort(
 		(a, b) => a[1].order - b[1].order,
 	);
@@ -66,22 +68,21 @@ export const CombinationGrid = ({
 		variations[varId]?.options[optId]?.name ?? '';
 
 	return (
-		<Box
-			overflowX="auto"
+		<Table.ScrollArea
 			borderWidth={1}
 			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
 			borderRadius="md"
-			display="inline-block"
-			maxW="100%"
 			alignSelf="flex-start"
+			maxH={500}
 		>
 			<Table.Root
 				variant="outline"
 				size="md"
 				width="fit-content"
+				stickyHeader
 			>
 				<Table.Header fontSize={16}>
-					<Table.Row>
+					<Table.Row bg="bg.subtle">
 						<Table.ColumnHeader w={100}>
 							Image
 						</Table.ColumnHeader>
@@ -140,17 +141,34 @@ export const CombinationGrid = ({
 										disabled={
 											disabled || isDisabled
 										}
-										onFileChange={async (details) => {
-											const file = details.acceptedFiles[0];
+										onFileChange={async (
+											details,
+										) => {
+											const file =
+												details
+													.acceptedFiles[0];
 											if (!file) return;
-											setUploadingKeys((prev) => new Set(prev).add(key));
-											const uuid = await uploadImage(file);
-											setUploadingKeys((prev) => {
-												const next = new Set(prev);
-												next.delete(key);
-												return next;
-											});
-											if (uuid) onUpdate(key, { imageUuid: uuid });
+											setUploadingKeys((prev) =>
+												new Set(prev).add(
+													key,
+												),
+											);
+											const uuid =
+												await uploadImage(
+													file,
+												);
+											setUploadingKeys(
+												(prev) => {
+													const next =
+														new Set(prev);
+													next.delete(key);
+													return next;
+												},
+											);
+											if (uuid)
+												onUpdate(key, {
+													imageUuid: uuid,
+												});
 										}}
 										pr={2}
 									>
@@ -172,19 +190,26 @@ export const CombinationGrid = ({
 											>
 												{effectiveImage ? (
 													<Image
-														src={listingImageUrl(shopShortId, effectiveImage)}
+														src={listingImageUrl(
+															shopShortId,
+															effectiveImage,
+														)}
 														width="100%"
 														height="100%"
 														objectFit="cover"
 														opacity={
-															uploadingKeys.has(key)
+															uploadingKeys.has(
+																key,
+															)
 																? 0.5
 																: imageIsInherited
 																	? 0.5
 																	: 1
 														}
 													/>
-												) : uploadingKeys.has(key) ? (
+												) : uploadingKeys.has(
+														key,
+												  ) ? (
 													<FaImage
 														color="gray"
 														size={20}
@@ -263,6 +288,7 @@ export const CombinationGrid = ({
 								{/* Active toggle */}
 								<Table.Cell textAlign="center">
 									<Switch.Root
+										size="sm"
 										checked={!isDisabled}
 										onCheckedChange={({
 											checked,
@@ -282,6 +308,6 @@ export const CombinationGrid = ({
 					})}
 				</Table.Body>
 			</Table.Root>
-		</Box>
+		</Table.ScrollArea>
 	);
 };

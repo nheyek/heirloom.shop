@@ -20,9 +20,9 @@ import {
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { listingImageUrl } from '@client/utils/imageUtils';
 import { Variation } from '@client/hooks/useListingForm';
 import { FIELD_ERROR_COLOR } from '@client/theme';
+import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	DndContext,
 	DragEndEvent,
@@ -144,10 +144,18 @@ const OptionRow = ({
 							const file = e.target.files?.[0];
 							if (!file) return;
 							e.target.value = '';
-							const previewUrl = URL.createObjectURL(file);
-							onChange({ imagePreviewUrl: previewUrl, imageUuid: null, imageUploading: true });
+							const previewUrl =
+								URL.createObjectURL(file);
+							onChange({
+								imagePreviewUrl: previewUrl,
+								imageUuid: null,
+								imageUploading: true,
+							});
 							const uuid = await uploadImage(file);
-							onChange({ imageUuid: uuid, imageUploading: false });
+							onChange({
+								imageUuid: uuid,
+								imageUploading: false,
+							});
 						}}
 					/>
 					{entry.imagePreviewUrl ? (
@@ -251,8 +259,20 @@ export const VariationDialog = ({
 	const [pricesVary, setPricesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<OptionEntry[]>([
-		{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
-		{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
+		{
+			name: '',
+			priceCents: null,
+			imageUuid: null,
+			imagePreviewUrl: null,
+			imageUploading: false,
+		},
+		{
+			name: '',
+			priceCents: null,
+			imageUuid: null,
+			imagePreviewUrl: null,
+			imageUploading: false,
+		},
 	]);
 	const [optionIds, setOptionIds] = useState<string[]>(() => [
 		crypto.randomUUID(),
@@ -283,7 +303,10 @@ export const VariationDialog = ({
 						priceCents: o.priceCents,
 						imageUuid: o.imageUuid,
 						imagePreviewUrl: o.imageUuid
-							? listingImageUrl(shopShortId, o.imageUuid)
+							? listingImageUrl(
+									shopShortId,
+									o.imageUuid,
+								)
 							: null,
 						imageUploading: false,
 					})),
@@ -295,8 +318,20 @@ export const VariationDialog = ({
 				setPricesVary(false);
 				setNameError(null);
 				setOptions([
-					{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
-					{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
+					{
+						name: '',
+						priceCents: null,
+						imageUuid: null,
+						imagePreviewUrl: null,
+						imageUploading: false,
+					},
+					{
+						name: '',
+						priceCents: null,
+						imageUuid: null,
+						imagePreviewUrl: null,
+						imageUploading: false,
+					},
 				]);
 				setOptionIds([
 					crypto.randomUUID(),
@@ -327,7 +362,13 @@ export const VariationDialog = ({
 		pendingFocusIndex.current = options.length;
 		setOptions((prev) => [
 			...prev,
-			{ name: '', priceCents: null, imageUuid: null, imagePreviewUrl: null, imageUploading: false },
+			{
+				name: '',
+				priceCents: null,
+				imageUuid: null,
+				imagePreviewUrl: null,
+				imageUploading: false,
+			},
 		]);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
 		setOptionErrors((prev) => [...prev, null]);
@@ -622,7 +663,9 @@ export const VariationDialog = ({
 																		i,
 																	)
 																}
-																uploadImage={uploadImage}
+																uploadImage={
+																	uploadImage
+																}
 															/>
 														);
 													},
