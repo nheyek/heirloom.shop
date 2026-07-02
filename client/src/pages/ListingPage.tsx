@@ -50,7 +50,11 @@ import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/mappers';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
-import { getCombinationKey } from '@heirloom/common/domain/listing';
+import {
+	ListingDisplayPrice,
+	getCombinationKey,
+	getListingDisplayPrice,
+} from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
@@ -215,15 +219,14 @@ export const ListingPage = () => {
 			)
 		: false;
 
-	const totalPriceCents = (() => {
-		if (!listingData) return 0;
-		const key = getCombinationKey(selectedVariationOptions);
-		return (
-			listingData.combinations[key]?.priceCents ??
-			listingData.priceCents ??
-			0
-		);
-	})();
+	const displayPrice: ListingDisplayPrice = listingData
+		? getListingDisplayPrice(
+				listingData.variations,
+				listingData.combinations,
+				listingData.priceCents,
+				selectedVariationOptions,
+			)
+		: null;
 
 	const profiles = listingData
 		? listingData.directFulfillment
@@ -512,9 +515,10 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
-									disabled={!listingData?.available || !profiles?.shipping || !allVariationsSelected}
+									disabled={!listingData?.available || !profiles?.shipping || !allVariationsSelected || !displayPrice}
 								>
-									{listingData?.available ? (
+									{listingData?.available &&
+									displayPrice ? (
 										<>
 											<FaPlusCircle />
 											Add to Cart
@@ -528,8 +532,10 @@ export const ListingPage = () => {
 												paddingBottom={1}
 											>
 												{formatCentsAsDollars(
-													totalPriceCents,
+													displayPrice.priceCents,
 												)}
+												{displayPrice.isMinimum &&
+													'+'}
 											</Text>
 										</>
 									) : (

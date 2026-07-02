@@ -172,6 +172,57 @@ export const resolveEffectiveCombinationPrice = (
 	return basePriceCents;
 };
 
+export type ListingDisplayPrice = {
+	priceCents: number;
+	// True when the price is the lowest of several possible combination
+	// prices rather than an exact price (rendered with a trailing "+").
+	isMinimum: boolean;
+} | null;
+
+export const getListingDisplayPrice = (
+	variations: Variations,
+	combinations: Combinations,
+	basePriceCents: number | null,
+	selectedOptions: Record<string, string> = {},
+): ListingDisplayPrice => {
+	const pricesVary = Object.values(variations).some(
+		(v) => v.pricesVary,
+	);
+	if (!pricesVary) {
+		return basePriceCents != null
+			? { priceCents: basePriceCents, isMinimum: false }
+			: null;
+	}
+	// Only combinations consistent with the current selections can still
+	// be purchased, so the floor is the cheapest of those. The price is
+	// exact (not a minimum) when every reachable combination costs the
+	// same — e.g. once all price-sensitive variations are selected.
+	let min: number | null = null;
+	let max: number | null = null;
+	for (const { key, optionMap } of deriveCombinationsList(
+		variations,
+	)) {
+		if (combinations[key]?.disabled) continue;
+		const matchesSelection = Object.entries(selectedOptions).every(
+			([varId, optId]) =>
+				optionMap[varId] == null || optionMap[varId] === optId,
+		);
+		if (!matchesSelection) continue;
+		const price = resolveEffectiveCombinationPrice(
+			optionMap,
+			combinations,
+			variations,
+			basePriceCents,
+		);
+		if (price == null) continue;
+		if (min === null || price < min) min = price;
+		if (max === null || price > max) max = price;
+	}
+	return min != null
+		? { priceCents: min, isMinimum: min !== max }
+		: null;
+};
+
 export const resolveEffectiveCombinationImage = (
 	optionMap: Record<string, string>,
 	combinations: Combinations,
