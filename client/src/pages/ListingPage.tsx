@@ -54,6 +54,7 @@ import {
 	getCombinationKey,
 	getListingDisplayPrice,
 	ListingDisplayPrice,
+	resolveEffectiveCombinationImage,
 } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -153,11 +154,31 @@ export const ListingPage = () => {
 		setSelectedVariationOptions({});
 	}, [listingData]);
 
-	const imageUrls =
-		listingData?.imageUuids.map(
-			(uuid) =>
-				`${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
-		) || [];
+	const effectiveImageUuid = listingData
+		? resolveEffectiveCombinationImage(
+				selectedVariationOptions,
+				listingData.combinations,
+				listingData.variations,
+			)
+		: null;
+
+	const orderedImageUuids = listingData
+		? effectiveImageUuid
+			? [
+					effectiveImageUuid,
+					...listingData.imageUuids.filter(
+						(uuid) => uuid !== effectiveImageUuid,
+					),
+				]
+			: listingData.imageUuids
+		: [];
+
+	const imageUrls = listingData
+		? orderedImageUuids.map(
+				(uuid) =>
+					`${process.env.LISTING_IMAGES_URL}/${listingData.shopShortId}/${uuid}.jpg`,
+			)
+		: [];
 
 	type VariationCollectionItem = {
 		value: string;
@@ -368,7 +389,7 @@ export const ListingPage = () => {
 
 								<HStack
 									fontWeight={500}
-									fontSize={24}
+									fontSize={22}
 								>
 									<Icon as={FaShop} />
 									<Link
@@ -387,7 +408,7 @@ export const ListingPage = () => {
 										categoryId={
 											listingData.categoryId
 										}
-										fontSize={22}
+										fontSize={20}
 										currentIsLink
 									/>
 								)}

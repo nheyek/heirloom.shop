@@ -137,6 +137,7 @@ export const CombinationGrid = ({
 								{showImage && (
 									<Table.Cell
 										opacity={isDisabled ? 0.5 : 1}
+										p={0}
 									>
 										<FileUpload.Root
 											accept="image/*"
