@@ -6,7 +6,6 @@ import {
 	createListCollection,
 } from '@chakra-ui/react';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
-import { useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa6';
 
 type Props = {
@@ -24,11 +23,6 @@ export const ProfileSelect = ({
 	onClickAdd,
 	disabled,
 }: Props) => {
-	useEffect(() => {
-		if (items.length > 0 && value === null)
-			onChange(items[0].value);
-	}, [items, value]);
-
 	if (items.length === 0) {
 		return (
 			<AddFieldButton
@@ -47,7 +41,7 @@ export const ProfileSelect = ({
 			<Select.Root
 				size="lg"
 				collection={collection}
-				value={[value ?? '']}
+				value={value != null ? [value] : []}
 				onValueChange={(e) => onChange(e.value[0] || null)}
 				disabled={disabled}
 				width="full"
@@ -59,7 +53,11 @@ export const ProfileSelect = ({
 						py={2}
 						fontSize={18}
 					>
-						<Select.ValueText truncate />
+						<Select.ValueText
+							truncate
+							placeholder="Select profile"
+							color={value == null ? 'fg.muted' : undefined}
+						/>
 						<Select.IndicatorGroup>
 							<Select.Indicator />
 						</Select.IndicatorGroup>

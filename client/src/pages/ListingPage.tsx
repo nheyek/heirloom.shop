@@ -50,10 +50,7 @@ import { callApi } from '@client/utils/apiUtils';
 import { getListingDataForCart } from '@client/utils/mappers';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
-import {
-	deriveCombinationsList,
-	getCombinationKey,
-} from '@heirloom/common/domain/listing';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { motion } from 'framer-motion';
@@ -148,14 +145,7 @@ export const ListingPage = () => {
 	}, [id]);
 
 	useEffect(() => {
-		if (!listingData) return;
-		const orderedCombinations = deriveCombinationsList(
-			listingData.variations,
-		);
-		const firstActive = orderedCombinations.find(
-			({ key }) => !listingData.combinations[key]?.disabled,
-		);
-		setSelectedVariationOptions(firstActive?.optionMap ?? {});
+		setSelectedVariationOptions({});
 	}, [listingData]);
 
 	const imageUrls =
@@ -178,28 +168,52 @@ export const ListingPage = () => {
 	}> = listingData
 		? Object.entries(listingData.variations)
 				.sort(([, a], [, b]) => a.order - b.order)
-				.map(([varId, variation]) => ({
-					id: varId,
-					name: variation.name,
-					collection: createListCollection({
-						items: Object.entries(variation.options)
-							.sort(([, a], [, b]) => a.order - b.order)
-							.map(([optId, option]) => {
-								const key = getCombinationKey({
-									...selectedVariationOptions,
-									[varId]: optId,
-								});
-								return {
-									value: optId,
-									label: option.name,
-									disabled:
-										listingData.combinations[key]
-											?.disabled ?? true,
-								};
-							}),
-					}),
-				}))
+				.map(([varId, variation]) => {
+					// Options can only be marked unavailable once every
+					// other variation has a selection — before that the
+					// combination key is incomplete.
+					const othersSelected = Object.keys(
+						listingData.variations,
+					)
+						.filter((id) => id !== varId)
+						.every(
+							(id) =>
+								selectedVariationOptions[id] != null,
+						);
+					return {
+						id: varId,
+						name: variation.name,
+						collection: createListCollection({
+							items: Object.entries(variation.options)
+								.sort(
+									([, a], [, b]) =>
+										a.order - b.order,
+								)
+								.map(([optId, option]) => {
+									const key = getCombinationKey({
+										...selectedVariationOptions,
+										[varId]: optId,
+									});
+									return {
+										value: optId,
+										label: option.name,
+										disabled: othersSelected
+											? (listingData
+													.combinations[key]
+													?.disabled ?? true)
+											: false,
+									};
+								}),
+						}),
+					};
+				})
 		: [];
+
+	const allVariationsSelected = listingData
+		? Object.keys(listingData.variations).every(
+				(id) => selectedVariationOptions[id] != null,
+			)
+		: false;
 
 	const totalPriceCents = (() => {
 		if (!listingData) return 0;
@@ -447,7 +461,17 @@ export const ListingPage = () => {
 												</Select.Label>
 												<Select.Control>
 													<Select.Trigger cursor="button">
-														<Select.ValueText placeholder="Select an option" />
+														<Select.ValueText
+															placeholder={`Select ${variation.name.toLowerCase()}`}
+															color={
+																selectedVariationOptions[
+																	variation
+																		.id
+																] == null
+																	? 'fg.muted'
+																	: undefined
+															}
+														/>
 													</Select.Trigger>
 													<Select.IndicatorGroup>
 														<Select.Indicator />
@@ -488,7 +512,7 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
-									disabled={!listingData?.available || !profiles?.shipping}
+									disabled={!listingData?.available || !profiles?.shipping || !allVariationsSelected}
 								>
 									{listingData?.available ? (
 										<>
