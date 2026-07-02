@@ -389,7 +389,7 @@ export const ListingPage = () => {
 
 								<HStack
 									fontWeight={500}
-									fontSize={22}
+									fontSize={24}
 								>
 									<Icon as={FaShop} />
 									<Link
@@ -408,15 +408,15 @@ export const ListingPage = () => {
 										categoryId={
 											listingData.categoryId
 										}
-										fontSize={20}
+										fontSize={21}
 										currentIsLink
 									/>
 								)}
 							</Stack>
 							<Stack
-								fontSize={20}
+								fontSize={19}
+								fontFamily={FONT_DECORATIVE}
 								gap={1.5}
-								fontFamily={FONT_DISPLAY_SANS}
 							>
 								<Text>{listingData?.subtitle}</Text>
 								{listingData?.countryCode && (
