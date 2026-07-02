@@ -6,6 +6,7 @@ import {
 	GridItem,
 	HStack,
 	IconButton,
+	IconButtonProps,
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
@@ -32,6 +33,17 @@ enum gridTemplateAreas {
 	SEARCH = 'SEARCH',
 	BUTTONS = 'LOGIN',
 }
+
+export const NavBarIconButton = (props: IconButtonProps) => (
+	<IconButton
+		color="white"
+		variant="ghost"
+		_hover={{ bg: 'whiteAlpha.200' }}
+		{...props}
+	>
+		{props.children}
+	</IconButton>
+);
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
@@ -124,9 +136,9 @@ export const Navbar = () => {
 									CLIENT_ROUTES.shops,
 								].join('/')}
 							>
-								<IconButton color="white">
+								<NavBarIconButton>
 									<FaCrown />
-								</IconButton>
+								</NavBarIconButton>
 							</Link>
 						)}
 						{!user?.isAdmin && user?.shopShortId && (
@@ -138,9 +150,9 @@ export const Navbar = () => {
 									CLIENT_ROUTES.info,
 								].join('/')}
 							>
-								<IconButton color="white">
+								<NavBarIconButton>
 									<FaShop />
-								</IconButton>
+								</NavBarIconButton>
 							</Link>
 						)}
 						{!authIsLoading && (
@@ -151,14 +163,13 @@ export const Navbar = () => {
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
 								<Box position="relative">
-									<IconButton
-										color="#FFF"
+									<NavBarIconButton
 										onClick={
 											shoppingCart.openDrawer
 										}
 									>
 										<FaShoppingCart />
-									</IconButton>
+									</NavBarIconButton>
 									{shoppingCart.items.length >
 										0 && (
 										<Flex

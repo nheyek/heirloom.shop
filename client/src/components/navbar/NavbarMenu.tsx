@@ -1,11 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import {
-	Button,
-	Menu,
-	MenuItemProps,
-	Portal,
-	Text,
-} from '@chakra-ui/react';
+import { Menu, MenuItemProps, Portal, Text } from '@chakra-ui/react';
+import { NavBarIconButton } from '@client/components/navbar/NavBar';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -30,15 +25,10 @@ export const NavbarMenu = () => {
 				asChild
 				focusRing="none"
 			>
-				<Button
-					color="#FFF"
-					size="lg"
-					gap={1.5}
-					px={2}
-				>
+				<NavBarIconButton px={3}>
 					<FaUserCircle />
 					<IoMdArrowDropdown />
-				</Button>
+				</NavBarIconButton>
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
