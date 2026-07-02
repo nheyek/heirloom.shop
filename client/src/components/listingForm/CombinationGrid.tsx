@@ -72,7 +72,7 @@ export const CombinationGrid = ({
 		<Table.ScrollArea
 			borderWidth={1}
 			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
-			borderRadius="md"
+			borderRadius="sm"
 			alignSelf="flex-start"
 			maxH={500}
 		>
@@ -135,100 +135,111 @@ export const CombinationGrid = ({
 							<Table.Row key={key}>
 								{/* Image */}
 								{showImage && (
-								<Table.Cell
-									p={0}
-									opacity={isDisabled ? 0.5 : 1}
-								>
-									<FileUpload.Root
-										accept="image/*"
-										maxFiles={1}
-										disabled={
-											disabled || isDisabled
-										}
-										onFileChange={async (
-											details,
-										) => {
-											const file =
-												details
-													.acceptedFiles[0];
-											if (!file) return;
-											setUploadingKeys((prev) =>
-												new Set(prev).add(
-													key,
-												),
-											);
-											const uuid =
-												await uploadImage(
-													file,
-												);
-											setUploadingKeys(
-												(prev) => {
-													const next =
-														new Set(prev);
-													next.delete(key);
-													return next;
-												},
-											);
-											if (uuid)
-												onUpdate(key, {
-													imageUuid: uuid,
-												});
-										}}
-										pr={2}
+									<Table.Cell
+										opacity={isDisabled ? 0.5 : 1}
 									>
-										<FileUpload.HiddenInput />
-										<FileUpload.Trigger asChild>
-											<Box
-												as="button"
-												width={THUMB_WIDTH}
-												aspectRatio={
-													STANDARD_IMAGE_ASPECT_RATIO
-												}
-												overflow="hidden"
-												cursor="pointer"
-												flexShrink={0}
-												display="flex"
-												alignItems="center"
-												justifyContent="center"
-												bg="gray.50"
+										<FileUpload.Root
+											accept="image/*"
+											maxFiles={1}
+											disabled={
+												disabled || isDisabled
+											}
+											onFileChange={async (
+												details,
+											) => {
+												const file =
+													details
+														.acceptedFiles[0];
+												if (!file) return;
+												setUploadingKeys(
+													(prev) =>
+														new Set(
+															prev,
+														).add(key),
+												);
+												const uuid =
+													await uploadImage(
+														file,
+													);
+												setUploadingKeys(
+													(prev) => {
+														const next =
+															new Set(
+																prev,
+															);
+														next.delete(
+															key,
+														);
+														return next;
+													},
+												);
+												if (uuid)
+													onUpdate(key, {
+														imageUuid:
+															uuid,
+													});
+											}}
+											pr={2}
+										>
+											<FileUpload.HiddenInput />
+											<FileUpload.Trigger
+												asChild
 											>
-												{effectiveImage ? (
-													<Image
-														src={listingImageUrl(
-															shopShortId,
-															effectiveImage,
-														)}
-														width="100%"
-														height="100%"
-														objectFit="cover"
-														opacity={
-															uploadingKeys.has(
-																key,
-															)
-																? 0.5
-																: imageIsInherited
+												<Box
+													as="button"
+													width={
+														THUMB_WIDTH
+													}
+													aspectRatio={
+														STANDARD_IMAGE_ASPECT_RATIO
+													}
+													overflow="hidden"
+													cursor="pointer"
+													flexShrink={0}
+													display="flex"
+													alignItems="center"
+													justifyContent="center"
+													bg="gray.50"
+												>
+													{effectiveImage ? (
+														<Image
+															src={listingImageUrl(
+																shopShortId,
+																effectiveImage,
+															)}
+															width="100%"
+															height="100%"
+															objectFit="cover"
+															opacity={
+																uploadingKeys.has(
+																	key,
+																)
 																	? 0.5
-																	: 1
-														}
-													/>
-												) : uploadingKeys.has(
-														key,
-												  ) ? (
-													<FaImage
-														color="gray"
-														size={20}
-														opacity={0.4}
-													/>
-												) : (
-													<FaImage
-														color="gray"
-														size={20}
-													/>
-												)}
-											</Box>
-										</FileUpload.Trigger>
-									</FileUpload.Root>
-								</Table.Cell>
+																	: imageIsInherited
+																		? 0.5
+																		: 1
+															}
+														/>
+													) : uploadingKeys.has(
+															key,
+													  ) ? (
+														<FaImage
+															color="gray"
+															size={20}
+															opacity={
+																0.4
+															}
+														/>
+													) : (
+														<FaImage
+															color="gray"
+															size={20}
+														/>
+													)}
+												</Box>
+											</FileUpload.Trigger>
+										</FileUpload.Root>
+									</Table.Cell>
 								)}
 
 								{/* Variation option labels */}
@@ -250,6 +261,7 @@ export const CombinationGrid = ({
 								{showPrice && (
 									<Table.Cell
 										opacity={isDisabled ? 0.5 : 1}
+										py={0}
 									>
 										<Stack gap={1.5}>
 											<PriceInput
@@ -276,6 +288,9 @@ export const CombinationGrid = ({
 												inherited={
 													priceIsInherited
 												}
+												{...(!showImage && {
+													border: 'none',
+												})}
 											/>
 											{combinationPriceErrors[
 												key

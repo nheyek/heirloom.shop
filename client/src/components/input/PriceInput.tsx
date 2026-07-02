@@ -64,6 +64,7 @@ export const PriceInput = ({
 	return (
 		<InputGroup startElement={<FaDollarSign size={iconSize} />}>
 			<Input
+				name="price"
 				fontFamily={FONT_DEFAULT}
 				fontSize={fontSize}
 				w={w}
