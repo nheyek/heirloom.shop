@@ -7,8 +7,8 @@ import {
 	createListCollection,
 	Flex,
 	GridItem,
-	Heading,
 	HStack,
+	Icon,
 	Link,
 	Portal,
 	Select,
@@ -51,9 +51,9 @@ import { getListingDataForCart } from '@client/utils/mappers';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingPageData } from '@heirloom/common/contract';
 import {
-	ListingDisplayPrice,
 	getCombinationKey,
 	getListingDisplayPrice,
+	ListingDisplayPrice,
 } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -71,6 +71,7 @@ import {
 	FaLocationDot,
 	FaShare,
 	FaShieldHalved,
+	FaShop,
 	FaTruck,
 } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
@@ -204,7 +205,8 @@ export const ListingPage = () => {
 										disabled: othersSelected
 											? (listingData
 													.combinations[key]
-													?.disabled ?? true)
+													?.disabled ??
+												true)
 											: false,
 									};
 								}),
@@ -352,19 +354,23 @@ export const ListingPage = () => {
 				>
 					<GridItem colSpan={{ base: 1, lg: 3 }}>
 						<Stack gap={4}>
-							<Stack gap={1}>
-								<Heading
-									size="4xl"
-									mr={5}
-									lineHeight={1.1}
+							<Stack
+								gap={1}
+								fontFamily={FONT_DECORATIVE}
+								mr={5}
+							>
+								<Text
+									fontSize={36}
+									fontWeight={600}
 								>
 									{listingData?.title}
-								</Heading>
+								</Text>
 
-								<Heading
-									size="2xl"
-									fontWeight="medium"
+								<HStack
+									fontWeight={500}
+									fontSize={24}
 								>
+									<Icon as={FaShop} />
 									<Link
 										onClick={() =>
 											navigate(
@@ -374,14 +380,14 @@ export const ListingPage = () => {
 									>
 										{listingData?.shopTitle}
 									</Link>
-								</Heading>
+								</HStack>
 
 								{listingData && (
 									<CategoryBreadcrumb
 										categoryId={
 											listingData.categoryId
 										}
-										fontSize={20}
+										fontSize={22}
 										currentIsLink
 									/>
 								)}
@@ -470,7 +476,8 @@ export const ListingPage = () => {
 																selectedVariationOptions[
 																	variation
 																		.id
-																] == null
+																] ==
+																null
 																	? 'fg.muted'
 																	: undefined
 															}
@@ -515,7 +522,12 @@ export const ListingPage = () => {
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
-									disabled={!listingData?.available || !profiles?.shipping || !allVariationsSelected || !displayPrice}
+									disabled={
+										!listingData?.available ||
+										!profiles?.shipping ||
+										!allVariationsSelected ||
+										!displayPrice
+									}
 								>
 									{listingData?.available &&
 									displayPrice ? (
@@ -595,14 +607,35 @@ export const ListingPage = () => {
 								fontFamily={FONT_DISPLAY_SANS}
 							>
 								<IconText icon={FaHourglassStart}>
-									{profiles?.processing && profiles?.shipping
-										? <>Estimated delivery{' '}<b>{deliveryEstimate}</b></>
-										: deliveryEstimate}
+									{profiles?.processing &&
+									profiles?.shipping ? (
+										<>
+											Estimated delivery{' '}
+											<b>{deliveryEstimate}</b>
+										</>
+									) : (
+										deliveryEstimate
+									)}
 								</IconText>
 								<IconText icon={FaTruck}>
-									{profiles?.shipping
-										? <>Ships to continental US for{' '}<b>{profiles.shipping.shippingRate ? formatCentsAsDollars(profiles.shipping.shippingRate) : 'Free'}</b></>
-										: 'Shipping info unavailable'}
+									{profiles?.shipping ? (
+										<>
+											Ships to continental US
+											for{' '}
+											<b>
+												{profiles.shipping
+													.shippingRate
+													? formatCentsAsDollars(
+															profiles
+																.shipping
+																.shippingRate,
+														)
+													: 'Free'}
+											</b>
+										</>
+									) : (
+										'Shipping info unavailable'
+									)}
 								</IconText>
 								<IconText icon={FaExchangeAlt}>
 									{returnPolicyText}
