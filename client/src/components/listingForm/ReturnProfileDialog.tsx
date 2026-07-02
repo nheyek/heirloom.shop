@@ -36,8 +36,9 @@ export type NewReturnProfile = {
 type Props = {
 	open: boolean;
 	onClose: () => void;
-	onConfirm: (profile: NewReturnProfile) => void;
+	onConfirm: (profile: NewReturnProfile) => Promise<void>;
 	existingNames?: string[];
+	saving?: boolean;
 };
 
 export const ReturnProfileDialog = ({
@@ -45,6 +46,7 @@ export const ReturnProfileDialog = ({
 	onClose,
 	onConfirm,
 	existingNames = [],
+	saving = false,
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -135,8 +137,7 @@ export const ReturnProfileDialog = ({
 							type: ReturnPolicyType.CUSTOM,
 							text: customHtmlRef.current,
 						} as const);
-		onConfirm({ name: trimmedName, windowDays: days, policy });
-		onClose();
+		void onConfirm({ name: trimmedName, windowDays: days, policy });;
 	};
 
 	return (
@@ -161,6 +162,7 @@ export const ReturnProfileDialog = ({
 							top={3}
 							right={3}
 							onClick={onClose}
+							disabled={saving}
 						/>
 					</Dialog.Header>
 					<Dialog.Body
@@ -181,6 +183,7 @@ export const ReturnProfileDialog = ({
 											setNameError(null);
 									}}
 									placeholder="e.g. Standard Returns"
+									disabled={saving}
 								/>
 							</FormField>
 							<HStack
@@ -197,6 +200,7 @@ export const ReturnProfileDialog = ({
 										}
 										size="sm"
 										alignSelf="stretch"
+										disabled={saving}
 									>
 										<HStack gap={3}>
 											<RadioCard.Item
@@ -277,6 +281,7 @@ export const ReturnProfileDialog = ({
 											}}
 											inputMode="numeric"
 											placeholder="30"
+											disabled={saving}
 										/>
 										<Text fontSize={18}>
 											Days
@@ -318,6 +323,7 @@ export const ReturnProfileDialog = ({
 										invalid={!!customTextError}
 										error={customTextError}
 										maxHeight={150}
+										disabled={saving}
 									/>
 								</FormField>
 							)}
@@ -330,6 +336,7 @@ export const ReturnProfileDialog = ({
 								fontSize={18}
 								variant="subtle"
 								onClick={onClose}
+								disabled={saving}
 							>
 								Cancel
 							</Button>
@@ -337,6 +344,8 @@ export const ReturnProfileDialog = ({
 								size="md"
 								fontSize={18}
 								onClick={handleConfirm}
+									disabled={saving}
+									loading={saving}
 							>
 								Create
 							</Button>

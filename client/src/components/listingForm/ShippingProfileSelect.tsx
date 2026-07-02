@@ -1,9 +1,13 @@
+import { ShippingCostType, ShippingProfileDialog } from '@client/components/listingForm/ShippingProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
-import { ShippingProfileDialog } from '@client/components/listingForm/ShippingProfileDialog';
+import { useApiClient } from '@client/hooks/useApiClient';
 import { ShippingProfile } from '@client/hooks/useListingForm';
+import { toastError } from '@client/toaster';
+import { callApi } from '@client/utils/apiUtils';
 import { useState } from 'react';
 
 type Props = {
+	shopShortId: string;
 	profiles: ShippingProfile[];
 	onAddProfile: (profile: ShippingProfile) => void;
 	value: string | null;
@@ -12,19 +16,22 @@ type Props = {
 };
 
 export const ShippingProfileSelect = ({
+	shopShortId,
 	profiles,
 	onAddProfile,
 	value,
 	onChange,
 	disabled,
 }: Props) => {
+	const apiClient = useApiClient();
 	const [dialogOpen, setDialogOpen] = useState(false);
+	const [saving, setSaving] = useState(false);
 
 	return (
 		<>
 			<ProfileSelect
 				items={profiles.map((p) => ({
-					value: p.id,
+					value: String(p.id),
 					label: p.name,
 				}))}
 				value={value}
@@ -36,10 +43,40 @@ export const ShippingProfileSelect = ({
 				open={dialogOpen}
 				onClose={() => setDialogOpen(false)}
 				existingNames={profiles.map((p) => p.name)}
-				onConfirm={(p) => {
-					const profile = { id: crypto.randomUUID(), ...p };
+				saving={saving}
+				onConfirm={async (p) => {
+					setSaving(true);
+					const flatRate = p.cost.type === ShippingCostType.FlatRate ? p.cost.cents : null;
+					const result = await callApi(
+						apiClient.shopManager.createShippingProfile({
+							params: { shopId: shopShortId },
+							body: {
+								name: p.name,
+								originZip: p.originZip,
+								flatShippingRateCents: flatRate,
+								shippingDaysMin: p.minDays,
+								shippingDaysMax: p.maxDays,
+							},
+						}),
+					);
+					setSaving(false);
+					if (result.error !== null) {
+						toastError('Failed to create shipping profile.');
+						return;
+					}
+					const profile: ShippingProfile = {
+						id: String(result.data.id),
+						name: result.data.name,
+						originZip: result.data.originZip,
+						cost: result.data.flatShippingRateCents != null
+							? { type: ShippingCostType.FlatRate, cents: result.data.flatShippingRateCents }
+							: { type: ShippingCostType.Free },
+						minDays: result.data.shippingDaysMin,
+						maxDays: result.data.shippingDaysMax,
+					};
 					onAddProfile(profile);
 					onChange(profile.id);
+					setDialogOpen(false);
 				}}
 			/>
 		</>

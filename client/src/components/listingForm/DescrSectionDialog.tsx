@@ -25,6 +25,7 @@ type Props = {
 	existingTitles: string[];
 	onClose: () => void;
 	onConfirm: (section: ListingDescrSection) => void;
+	disabled?: boolean;
 };
 
 export const DescrSectionDialog = ({
@@ -33,6 +34,7 @@ export const DescrSectionDialog = ({
 	existingTitles,
 	onClose,
 	onConfirm,
+	disabled,
 }: Props) => {
 	const [title, setTitle] = useState('');
 	const [titleError, setTitleError] = useState<string | null>(null);
@@ -178,6 +180,7 @@ export const DescrSectionDialog = ({
 											setBodyError(null);
 									}}
 									maxHeight={300}
+								disabled={disabled}
 								/>
 							</FormField>
 						</Stack>

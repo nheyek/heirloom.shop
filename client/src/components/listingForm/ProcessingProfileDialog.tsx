@@ -25,8 +25,9 @@ export type NewProcessingProfile = {
 type Props = {
 	open: boolean;
 	onClose: () => void;
-	onConfirm: (profile: NewProcessingProfile) => void;
+	onConfirm: (profile: NewProcessingProfile) => Promise<void>;
 	existingNames?: string[];
+	saving?: boolean;
 };
 
 export const ProcessingProfileDialog = ({
@@ -34,6 +35,7 @@ export const ProcessingProfileDialog = ({
 	onClose,
 	onConfirm,
 	existingNames = [],
+	saving = false,
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -84,12 +86,11 @@ export const ProcessingProfileDialog = ({
 			setDaysError(null);
 		}
 		if (!valid) return;
-		onConfirm({
+		void onConfirm({
 			name: trimmedName,
 			minDays: days!.min,
 			maxDays: days!.max,
 		});
-		onClose();
 	};
 
 	return (
@@ -114,6 +115,7 @@ export const ProcessingProfileDialog = ({
 							top={3}
 							right={3}
 							onClick={onClose}
+							disabled={saving}
 						/>
 					</Dialog.Header>
 					<Dialog.Body
@@ -134,6 +136,7 @@ export const ProcessingProfileDialog = ({
 											setNameError(null);
 									}}
 									placeholder="e.g. Default"
+									disabled={saving}
 								/>
 							</FormField>
 							<FormField
@@ -152,6 +155,7 @@ export const ProcessingProfileDialog = ({
 										setMaxDays(v);
 										setDaysError(null);
 									}}
+									disabled={saving}
 								/>
 							</FormField>
 						</Stack>
@@ -163,6 +167,7 @@ export const ProcessingProfileDialog = ({
 								fontSize={18}
 								variant="subtle"
 								onClick={onClose}
+								disabled={saving}
 							>
 								Cancel
 							</Button>
@@ -170,6 +175,8 @@ export const ProcessingProfileDialog = ({
 								size="md"
 								fontSize={18}
 								onClick={handleConfirm}
+								disabled={saving}
+								loading={saving}
 							>
 								Create
 							</Button>

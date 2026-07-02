@@ -242,3 +242,64 @@ export const deleteListing = async (
 	await em.remove(listing).flush();
 	return true;
 };
+
+export const createProcessingProfile = async (
+	shopId: number,
+	data: { name: string; minDays: number; maxDays: number },
+) => {
+	const em = getEm();
+	const profile = em.create(ListingProcessingProfile, {
+		shop: em.getReference(Shop, shopId),
+		name: data.name,
+		minDays: data.minDays,
+		maxDays: data.maxDays,
+	});
+	await em.persist(profile).flush();
+	return { id: profile.id, name: profile.name, minDays: profile.minDays, maxDays: profile.maxDays };
+};
+
+export const createShippingProfile = async (
+	shopId: number,
+	data: { name: string; originZip: string; flatShippingRateCents: number | null; shippingDaysMin: number; shippingDaysMax: number },
+) => {
+	const em = getEm();
+	const profile = em.create(ListingShippingProfile, {
+		shop: em.getReference(Shop, shopId),
+		name: data.name,
+		originZip: data.originZip,
+		flatShippingRateCents: data.flatShippingRateCents ?? undefined,
+		shippingDaysMin: data.shippingDaysMin,
+		shippingDaysMax: data.shippingDaysMax,
+	});
+	await em.persist(profile).flush();
+	return {
+		id: profile.id,
+		name: profile.name,
+		originZip: profile.originZip,
+		flatShippingRateCents: profile.flatShippingRateCents ?? null,
+		shippingDaysMin: profile.shippingDaysMin,
+		shippingDaysMax: profile.shippingDaysMax,
+	};
+};
+
+export const createReturnProfile = async (
+	shopId: number,
+	data: { name: string; policyType: ReturnPolicyType; returnWindowDays: number | null; policyDescrRichText: string | null },
+) => {
+	const em = getEm();
+	const profile = em.create(ListingReturnProfile, {
+		shop: em.getReference(Shop, shopId),
+		name: data.name,
+		policyType: data.policyType,
+		returnWindowDays: data.returnWindowDays ?? undefined,
+		policyDescrRichText: data.policyDescrRichText ?? undefined,
+	});
+	await em.persist(profile).flush();
+	return {
+		id: profile.id,
+		name: profile.name,
+		policyType: profile.policyType as ReturnPolicyType,
+		returnWindowDays: profile.returnWindowDays ?? null,
+		policyDescrRichText: profile.policyDescrRichText ?? null,
+	};
+};

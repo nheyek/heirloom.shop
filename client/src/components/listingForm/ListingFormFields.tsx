@@ -277,6 +277,7 @@ export const ListingFormFields = ({
 									required
 								>
 									<ProcessingProfileSelect
+										shopShortId={form.shopShortId}
 										profiles={
 											form.processingProfiles
 										}
@@ -306,6 +307,7 @@ export const ListingFormFields = ({
 									required
 								>
 									<ShippingProfileSelect
+										shopShortId={form.shopShortId}
 										profiles={
 											form.shippingProfiles
 										}
@@ -333,6 +335,7 @@ export const ListingFormFields = ({
 									required
 								>
 									<ReturnProfileSelect
+										shopShortId={form.shopShortId}
 										profiles={form.returnProfiles}
 										onAddProfile={
 											form.addReturnProfile
@@ -391,6 +394,7 @@ export const ListingFormFields = ({
 				existingTitles={existingTitles}
 				onClose={() => setDialogOpen(false)}
 				onConfirm={handleConfirm}
+				disabled={disabled}
 			/>
 			<VariationDialog
 				open={variationDialogOpen}

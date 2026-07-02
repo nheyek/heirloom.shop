@@ -39,8 +39,9 @@ export type NewShippingProfile = {
 type Props = {
 	open: boolean;
 	onClose: () => void;
-	onConfirm: (profile: NewShippingProfile) => void;
+	onConfirm: (profile: NewShippingProfile) => Promise<void>;
 	existingNames?: string[];
+	saving?: boolean;
 };
 
 export const ShippingProfileDialog = ({
@@ -48,6 +49,7 @@ export const ShippingProfileDialog = ({
 	onClose,
 	onConfirm,
 	existingNames = [],
+	saving = false,
 }: Props) => {
 	const [name, setName] = useState('');
 	const [nameError, setNameError] = useState<string | null>(null);
@@ -129,14 +131,13 @@ export const ShippingProfileDialog = ({
 						type: ShippingCostType.FlatRate,
 						cents: flatRateCents ?? 0,
 					} as const);
-		onConfirm({
+		void onConfirm({
 			name: trimmedName,
 			originZip: trimmedZip,
 			cost,
 			minDays: days!.min,
 			maxDays: days!.max,
 		});
-		onClose();
 	};
 
 	return (
@@ -161,6 +162,7 @@ export const ShippingProfileDialog = ({
 							top={3}
 							right={3}
 							onClick={onClose}
+							disabled={saving}
 						/>
 					</Dialog.Header>
 					<Dialog.Body
@@ -181,6 +183,7 @@ export const ShippingProfileDialog = ({
 											setNameError(null);
 									}}
 									placeholder="e.g. Standard Domestic"
+									disabled={saving}
 								/>
 							</FormField>
 							<FormField
@@ -200,6 +203,7 @@ export const ShippingProfileDialog = ({
 									}}
 									placeholder="e.g. 90210"
 									inputMode="numeric"
+									disabled={saving}
 								/>
 							</FormField>
 							<FormField label="Cost">
@@ -212,6 +216,7 @@ export const ShippingProfileDialog = ({
 									}
 									size="sm"
 									alignSelf="stretch"
+									disabled={saving}
 								>
 									<HStack
 										gap={3}
@@ -308,6 +313,7 @@ export const ShippingProfileDialog = ({
 										setMaxDays(v);
 										setDaysError(null);
 									}}
+									disabled={saving}
 								/>
 							</FormField>
 						</Stack>
@@ -319,6 +325,7 @@ export const ShippingProfileDialog = ({
 								fontSize={18}
 								variant="subtle"
 								onClick={onClose}
+								disabled={saving}
 							>
 								Cancel
 							</Button>
@@ -326,6 +333,8 @@ export const ShippingProfileDialog = ({
 								size="md"
 								fontSize={18}
 								onClick={handleConfirm}
+									disabled={saving}
+									loading={saving}
 							>
 								Create
 							</Button>

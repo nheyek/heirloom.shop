@@ -22,6 +22,7 @@ type Props = {
 	maxHeight?: number | string;
 	invalid?: boolean;
 	error?: string | null;
+	disabled?: boolean;
 };
 
 export const RichTextEditor = ({
@@ -30,10 +31,12 @@ export const RichTextEditor = ({
 	maxHeight,
 	invalid,
 	error,
+	disabled,
 }: Props) => {
 	const editor = useEditor({
 		extensions: [StarterKit, Underline],
 		content: initialHtml ?? '',
+		editable: !disabled,
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
 			// After deleting all content (e.g. Ctrl+A + Delete), ProseMirror can

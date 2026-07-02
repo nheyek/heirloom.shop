@@ -5,9 +5,10 @@ import { FaMinus } from 'react-icons/fa6';
 type DayInputProps = {
 	value: string;
 	onChange: (value: string) => void;
+	disabled?: boolean;
 };
 
-const DayInput = ({ value, onChange }: DayInputProps) => (
+const DayInput = ({ value, onChange, disabled }: DayInputProps) => (
 	<Input
 		size="lg"
 		w={16}
@@ -15,6 +16,7 @@ const DayInput = ({ value, onChange }: DayInputProps) => (
 		fontFamily={FONT_DEFAULT}
 		value={value}
 		onChange={(e) => onChange(e.target.value.replace(/\D/g, ''))}
+		disabled={disabled}
 	/>
 );
 
@@ -23,6 +25,7 @@ type Props = {
 	maxDays: string;
 	onChangeMin: (v: string) => void;
 	onChangeMax: (v: string) => void;
+	disabled?: boolean;
 };
 
 export const DayRangeInput = ({
@@ -30,6 +33,7 @@ export const DayRangeInput = ({
 	maxDays,
 	onChangeMin,
 	onChangeMax,
+	disabled,
 }: Props) => (
 	<HStack
 		gap={3}
@@ -38,13 +42,15 @@ export const DayRangeInput = ({
 		<DayInput
 			value={minDays}
 			onChange={onChangeMin}
+			disabled={disabled}
 		/>
 		<FaMinus />
 		<DayInput
 			value={maxDays}
 			onChange={onChangeMax}
+			disabled={disabled}
 		/>
-		<Text fontSize={18}>Business Days</Text>
+		<Text fontSize={18}>Business days</Text>
 	</HStack>
 );
 

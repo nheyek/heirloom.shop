@@ -435,6 +435,57 @@ export const shopManagerContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	createProcessingProfile: {
+		method: 'POST',
+		path: '/api/shops/:shopId/manager/profiles/processing',
+		pathParams: z.object({ shopId: z.string() }),
+		body: z.object({
+			name: z.string(),
+			minDays: z.number(),
+			maxDays: z.number(),
+		}),
+		responses: {
+			200: ShopManagerProcessingProfileSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	createShippingProfile: {
+		method: 'POST',
+		path: '/api/shops/:shopId/manager/profiles/shipping',
+		pathParams: z.object({ shopId: z.string() }),
+		body: z.object({
+			name: z.string(),
+			originZip: z.string(),
+			flatShippingRateCents: z.number().nullable(),
+			shippingDaysMin: z.number(),
+			shippingDaysMax: z.number(),
+		}),
+		responses: {
+			200: ShopManagerShippingProfileSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	createReturnProfile: {
+		method: 'POST',
+		path: '/api/shops/:shopId/manager/profiles/returns',
+		pathParams: z.object({ shopId: z.string() }),
+		body: z.object({
+			name: z.string(),
+			policyType: z.nativeEnum(ReturnPolicyType),
+			returnWindowDays: z.number().nullable(),
+			policyDescrRichText: z.string().nullable(),
+		}),
+		responses: {
+			200: ShopManagerReturnProfileSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 	getListing: {
 		method: 'GET',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId',
