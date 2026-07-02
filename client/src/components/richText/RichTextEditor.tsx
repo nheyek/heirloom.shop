@@ -79,6 +79,7 @@ export const RichTextEditor = ({
 			size="sm"
 			variant={active ? 'solid' : 'ghost'}
 			onClick={onClick}
+			tabIndex={-1}
 		>
 			{icon}
 		</IconButton>
