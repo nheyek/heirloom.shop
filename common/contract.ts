@@ -137,6 +137,8 @@ const VariationOptionSchema = z.object({
 const VariationSchema = z.object({
 	name: z.string(),
 	pricesVary: z.boolean(),
+	// Defaulted so variations stored before this field existed still parse.
+	imagesVary: z.boolean().default(false),
 	options: z.record(z.string(), VariationOptionSchema),
 	order: z.number(),
 });

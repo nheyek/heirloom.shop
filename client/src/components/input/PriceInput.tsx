@@ -19,6 +19,7 @@ type Props = {
 	disabled?: boolean;
 	invalid?: boolean;
 	inherited?: boolean;
+	border?: string;
 	onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
 };
 
@@ -47,6 +48,7 @@ export const PriceInput = ({
 	disabled,
 	invalid,
 	inherited = false,
+	border,
 	onKeyDown,
 }: Props) => {
 	const [localValue, setLocalValue] = useState('');
@@ -68,6 +70,7 @@ export const PriceInput = ({
 				h={h}
 				value={displayValue}
 				disabled={disabled}
+				border={border}
 				borderColor={invalid ? FIELD_ERROR_COLOR : undefined}
 				color={inherited && !focused ? 'gray.500' : undefined}
 				onKeyDown={onKeyDown}

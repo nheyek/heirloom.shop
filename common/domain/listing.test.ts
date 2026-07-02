@@ -15,6 +15,7 @@ const makeVariation = (
 	name,
 	order,
 	pricesVary,
+	imagesVary: false,
 	options: Object.fromEntries(
 		Object.entries(options).map(([id, o]) => [
 			id,

@@ -259,6 +259,7 @@ export const useListingForm = ({
 				newId,
 				variation.options,
 				variation.pricesVary,
+				variation.imagesVary,
 			),
 		);
 	};

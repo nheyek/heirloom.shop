@@ -60,6 +60,7 @@ export const CombinationGrid = ({
 		(a, b) => a[1].order - b[1].order,
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
+	const showImage = sortedVariations.some(([, v]) => v.imagesVary);
 
 	const combos = deriveCombinationsList(variations);
 	if (combos.length === 0) return null;
@@ -83,9 +84,11 @@ export const CombinationGrid = ({
 			>
 				<Table.Header fontSize={16}>
 					<Table.Row bg="bg.subtle">
-						<Table.ColumnHeader w={100}>
-							Image
-						</Table.ColumnHeader>
+						{showImage && (
+							<Table.ColumnHeader w={100}>
+								Image
+							</Table.ColumnHeader>
+						)}
 						{sortedVariations.map(([varId, v]) => (
 							<Table.ColumnHeader
 								key={varId}
@@ -131,6 +134,7 @@ export const CombinationGrid = ({
 						return (
 							<Table.Row key={key}>
 								{/* Image */}
+								{showImage && (
 								<Table.Cell
 									p={0}
 									opacity={isDisabled ? 0.5 : 1}
@@ -225,6 +229,7 @@ export const CombinationGrid = ({
 										</FileUpload.Trigger>
 									</FileUpload.Root>
 								</Table.Cell>
+								)}
 
 								{/* Variation option labels */}
 								{sortedVariations.map(([varId]) => (

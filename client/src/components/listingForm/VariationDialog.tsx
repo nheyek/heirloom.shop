@@ -62,6 +62,7 @@ type OptionRowProps = {
 	entry: OptionEntry;
 	error?: string | null;
 	showPrice: boolean;
+	showImage: boolean;
 	inputRef?: React.RefObject<HTMLInputElement | null>;
 	onChange: (patch: Partial<OptionEntry>) => void;
 	onDelete: () => void;
@@ -74,6 +75,7 @@ const OptionRow = ({
 	entry,
 	error,
 	showPrice,
+	showImage,
 	inputRef,
 	onChange,
 	onDelete,
@@ -108,6 +110,7 @@ const OptionRow = ({
 				overflow="auto"
 				gap={2}
 				px={2}
+				minH={10}
 			>
 				{/* Drag handle */}
 				<IconButton
@@ -122,57 +125,61 @@ const OptionRow = ({
 					<FaGripHorizontal />
 				</IconButton>
 				{/* Image */}
-				<Box
-					as="button"
-					w={OPTION_IMG_W}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-					display="flex"
-					alignItems="center"
-					justifyContent="center"
-					bg="gray.50"
-					cursor="pointer"
-					overflow="hidden"
-					mr={1}
-					onClick={() => fileInputRef.current?.click()}
-				>
-					<input
-						ref={fileInputRef}
-						type="file"
-						accept="image/*"
-						style={{ display: 'none' }}
-						onChange={async (e) => {
-							const file = e.target.files?.[0];
-							if (!file) return;
-							e.target.value = '';
-							const previewUrl =
-								URL.createObjectURL(file);
-							onChange({
-								imagePreviewUrl: previewUrl,
-								imageUuid: null,
-								imageUploading: true,
-							});
-							const uuid = await uploadImage(file);
-							onChange({
-								imageUuid: uuid,
-								imageUploading: false,
-							});
-						}}
-					/>
-					{entry.imagePreviewUrl ? (
-						<Image
-							src={entry.imagePreviewUrl}
-							width="100%"
-							height="100%"
-							objectFit="cover"
-							opacity={entry.imageUploading ? 0.5 : 1}
+				{showImage && (
+					<Box
+						as="button"
+						w={OPTION_IMG_W}
+						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+						display="flex"
+						alignItems="center"
+						justifyContent="center"
+						bg="gray.50"
+						cursor="pointer"
+						overflow="hidden"
+						mr={1}
+						onClick={() => fileInputRef.current?.click()}
+					>
+						<input
+							ref={fileInputRef}
+							type="file"
+							accept="image/*"
+							style={{ display: 'none' }}
+							onChange={async (e) => {
+								const file = e.target.files?.[0];
+								if (!file) return;
+								e.target.value = '';
+								const previewUrl =
+									URL.createObjectURL(file);
+								onChange({
+									imagePreviewUrl: previewUrl,
+									imageUuid: null,
+									imageUploading: true,
+								});
+								const uuid = await uploadImage(file);
+								onChange({
+									imageUuid: uuid,
+									imageUploading: false,
+								});
+							}}
 						/>
-					) : (
-						<FaImage
-							color="lightgray"
-							size={20}
-						/>
-					)}
-				</Box>
+						{entry.imagePreviewUrl ? (
+							<Image
+								src={entry.imagePreviewUrl}
+								width="100%"
+								height="100%"
+								objectFit="cover"
+								opacity={
+									entry.imageUploading ? 0.5 : 1
+								}
+							/>
+						) : (
+							<FaImage
+								color="lightgray"
+								size={20}
+							/>
+						)}
+					</Box>
+				)}
 
 				<HStack flex={1}>
 					{/* Name */}
@@ -196,6 +203,10 @@ const OptionRow = ({
 							}
 						}}
 						placeholder="Option name"
+						{...(!showImage && {
+							border: 'none',
+							px: 0,
+						})}
 					/>
 
 					{/* Price */}
@@ -215,6 +226,9 @@ const OptionRow = ({
 										onTabKey?.();
 									}
 								}}
+								{...(!showImage && {
+									border: 'none',
+								})}
 							/>
 						</Box>
 					)}
@@ -257,6 +271,7 @@ export const VariationDialog = ({
 }: Props) => {
 	const [name, setName] = useState('');
 	const [pricesVary, setPricesVary] = useState(false);
+	const [imagesVary, setImagesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
 	const [options, setOptions] = useState<OptionEntry[]>([
 		{
@@ -297,6 +312,7 @@ export const VariationDialog = ({
 				);
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
+				setImagesVary(initial.imagesVary);
 				setOptions(
 					sorted.map(([, o]) => ({
 						name: o.name,
@@ -316,6 +332,7 @@ export const VariationDialog = ({
 			} else {
 				setName('');
 				setPricesVary(false);
+				setImagesVary(false);
 				setNameError(null);
 				setOptions([
 					{
@@ -475,6 +492,7 @@ export const VariationDialog = ({
 		onConfirm({
 			name: trimmedName,
 			pricesVary,
+			imagesVary,
 			options: optionsRecord,
 			order: initial?.order ?? 0,
 		});
@@ -507,6 +525,7 @@ export const VariationDialog = ({
 	return (
 		<Dialog.Root
 			open={open}
+			size="xs"
 			onInteractOutside={(e) => {
 				e.preventDefault();
 				onClose();
@@ -518,7 +537,15 @@ export const VariationDialog = ({
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
-				<Dialog.Content maxW={pricesVary ? 640 : 520}>
+				<Dialog.Content
+					maxW={
+						pricesVary && imagesVary
+							? 640
+							: pricesVary || imagesVary
+								? 520
+								: undefined
+					}
+				>
 					<Dialog.Header>
 						<Dialog.Title
 							fontSize={24}
@@ -555,19 +582,34 @@ export const VariationDialog = ({
 									placeholder="e.g. Size"
 								/>
 							</FormField>
-							<Checkbox.Root
-								checked={pricesVary}
-								onCheckedChange={(e) =>
-									setPricesVary(!!e.checked)
-								}
-								size="lg"
-							>
-								<Checkbox.HiddenInput />
-								<Checkbox.Control />
-								<Checkbox.Label fontSize={18}>
-									Prices vary
-								</Checkbox.Label>
-							</Checkbox.Root>
+							<HStack gap={6}>
+								<Checkbox.Root
+									checked={pricesVary}
+									onCheckedChange={(e) =>
+										setPricesVary(!!e.checked)
+									}
+									size="lg"
+								>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label fontSize={18}>
+										Prices vary
+									</Checkbox.Label>
+								</Checkbox.Root>
+								<Checkbox.Root
+									checked={imagesVary}
+									onCheckedChange={(e) =>
+										setImagesVary(!!e.checked)
+									}
+									size="lg"
+								>
+									<Checkbox.HiddenInput />
+									<Checkbox.Control />
+									<Checkbox.Label fontSize={18}>
+										Images vary
+									</Checkbox.Label>
+								</Checkbox.Root>
+							</HStack>
 
 							<FormField
 								label="Options"
@@ -638,6 +680,9 @@ export const VariationDialog = ({
 																}
 																showPrice={
 																	pricesVary
+																}
+																showImage={
+																	imagesVary
 																}
 																inputRef={
 																	inputRefs

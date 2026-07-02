@@ -8,6 +8,7 @@ export type VariationOption = {
 export type Variation = {
 	name: string;
 	pricesVary: boolean;
+	imagesVary: boolean;
 	options: Record<string, VariationOption>;
 	order: number;
 };
@@ -82,6 +83,7 @@ export const addVariationToCombinations = (
 	newVarId: string,
 	newOptions: Record<string, VariationOption>,
 	newVariationPricesVary: boolean,
+	newVariationImagesVary: boolean,
 ): Combinations => {
 	const newOptionIds = Object.keys(newOptions);
 	const existing = Object.entries(combinations);
@@ -97,11 +99,10 @@ export const addVariationToCombinations = (
 	for (const [key, data] of existing) {
 		const optionMap = parseCombinationKey(key);
 		for (const optId of newOptionIds) {
-			const opt = newOptions[optId];
 			result[getCombinationKey({ ...optionMap, [newVarId]: optId })] = {
 				...data,
 				...(newVariationPricesVary ? { priceCents: null } : {}),
-				...(opt.imageUuid != null ? { imageUuid: null } : {}),
+				...(newVariationImagesVary ? { imageUuid: null } : {}),
 			};
 		}
 	}
@@ -230,7 +231,9 @@ export const resolveEffectiveCombinationImage = (
 ): string | null => {
 	const key = getCombinationKey(optionMap);
 	if (combinations[key]?.imageUuid != null) return combinations[key].imageUuid;
-	const sorted = Object.entries(variations).sort(([, a], [, b]) => a.order - b.order);
+	const sorted = Object.entries(variations)
+		.filter(([, v]) => v.imagesVary)
+		.sort(([, a], [, b]) => a.order - b.order);
 	for (const [varId, v] of sorted) {
 		const img = v.options[optionMap[varId]]?.imageUuid ?? null;
 		if (img != null) return img;
