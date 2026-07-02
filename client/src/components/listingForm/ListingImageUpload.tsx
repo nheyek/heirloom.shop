@@ -50,7 +50,7 @@ const SortableThumbnail = ({
 		transform,
 		transition,
 		isDragging,
-	} = useSortable({ id: entry.previewUrl });
+	} = useSortable({ id: entry.previewUrl, disabled });
 
 	return (
 		<Box
@@ -126,7 +126,7 @@ export const ListingImageUpload = ({
 
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
-		if (!over || active.id === over.id) return;
+		if (disabled || !over || active.id === over.id) return;
 		const oldIndex = imageEntries.findIndex(
 			(e) => e.previewUrl === active.id,
 		);

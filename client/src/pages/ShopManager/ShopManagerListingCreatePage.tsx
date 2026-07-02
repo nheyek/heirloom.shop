@@ -103,7 +103,6 @@ export const ShopManagerListingCreatePage = () => {
 						variant="outline"
 						onClick={() => handleCreate(false)}
 						disabled={isBlocked}
-						loading={isBlocked}
 					>
 						<FaSave />
 						Save Draft

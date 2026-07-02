@@ -299,19 +299,21 @@ const ListingEditForm = ({
 							<FaSave />
 							Save Changes
 						</Button>
-						<Collapsible.Root>
+						<Collapsible.Root disabled={savePending}>
 							<Collapsible.Trigger asChild>
 								<Button
 									variant="subtle"
 									size="md"
 									fontSize={18}
 									cursor="pointer"
+									disabled={savePending}
 								>
 									Other Actions
 									<Collapsible.Indicator
 										transition="transform 0.2s"
 										_open={{
-											transform: 'rotate(180deg)',
+											transform:
+												'rotate(180deg)',
 										}}
 									>
 										<FaCaretDown />

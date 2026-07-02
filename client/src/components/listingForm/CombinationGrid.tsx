@@ -271,6 +271,7 @@ export const CombinationGrid = ({
 												disabled: !checked,
 											})
 										}
+										disabled={disabled}
 									>
 										<Switch.HiddenInput />
 										<Switch.Control />

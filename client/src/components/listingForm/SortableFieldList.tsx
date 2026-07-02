@@ -38,6 +38,7 @@ type ItemProps = {
 	isLast: boolean;
 	onEdit: () => void;
 	onDelete: () => void;
+	disabled?: boolean;
 };
 
 const SortableFieldItem = ({
@@ -45,6 +46,7 @@ const SortableFieldItem = ({
 	isLast,
 	onEdit,
 	onDelete,
+	disabled,
 }: ItemProps) => {
 	const {
 		attributes,
@@ -53,7 +55,7 @@ const SortableFieldItem = ({
 		transform,
 		transition,
 		isDragging,
-	} = useSortable({ id: item.id });
+	} = useSortable({ id: item.id, disabled });
 
 	return (
 		<>
@@ -73,8 +75,9 @@ const SortableFieldItem = ({
 				<IconButton
 					size="xs"
 					variant="ghost"
-					cursor="grab"
+					cursor={disabled ? 'default' : 'grab'}
 					color="gray.400"
+					disabled={disabled}
 					{...attributes}
 					{...listeners}
 				>
@@ -92,6 +95,7 @@ const SortableFieldItem = ({
 						size="xs"
 						variant="ghost"
 						onClick={onEdit}
+						disabled={disabled}
 					>
 						<FaPencilAlt />
 					</IconButton>
@@ -100,6 +104,7 @@ const SortableFieldItem = ({
 						variant="ghost"
 						color={FIELD_ERROR_COLOR}
 						onClick={onDelete}
+						disabled={disabled}
 					>
 						<FaTrashAlt />
 					</IconButton>
@@ -120,6 +125,7 @@ type Props = {
 	onEdit: (id: string) => void;
 	onDelete: (id: string) => void;
 	onReorder: (fromId: string, toId: string) => void;
+	disabled?: boolean;
 };
 
 export const SortableFieldList = ({
@@ -127,6 +133,7 @@ export const SortableFieldList = ({
 	onEdit,
 	onDelete,
 	onReorder,
+	disabled,
 }: Props) => {
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -166,6 +173,7 @@ export const SortableFieldList = ({
 							isLast={i === items.length - 1}
 							onEdit={() => onEdit(item.id)}
 							onDelete={() => onDelete(item.id)}
+							disabled={disabled}
 						/>
 					))}
 				</Box>

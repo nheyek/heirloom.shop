@@ -196,6 +196,7 @@ export const ListingFormFields = ({
 											onReorder={
 												form.reorderDescrSections
 											}
+											disabled={disabled}
 										/>
 									)}
 									{form.descrSections.length <
@@ -370,6 +371,7 @@ export const ListingFormFields = ({
 									onEdit={openEditVariation}
 									onDelete={form.removeVariation}
 									onReorder={form.reorderVariations}
+									disabled={disabled}
 								/>
 							)}
 							{sortedVariations.length <
