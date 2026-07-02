@@ -23,6 +23,8 @@ export const mapListingToApiResponseData = (
 	shopTitle: listing.shop.title,
 	imageUuids: listing.imageUuids,
 	available: listing.available,
+	variations: (listing.variations ?? {}) as VariationsData,
+	combinations: (listing.combinations ?? {}) as CombinationsData,
 });
 
 export const mapListingToCompleteApiResponseData = (
@@ -55,8 +57,6 @@ export const mapListingToCompleteApiResponseData = (
 					: undefined,
 			}
 		: null,
-	variations: (listing.variations ?? {}) as VariationsData,
-	combinations: (listing.combinations ?? {}) as CombinationsData,
 });
 
 export const mapListingToCartItemData = (

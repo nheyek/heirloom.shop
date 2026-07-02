@@ -5,6 +5,7 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 type Props = {
 	priceCents: number;
 	quantity?: number;
+	isMinimum?: boolean;
 };
 
 export const PriceTag = (props: Props) => {
@@ -40,6 +41,7 @@ export const PriceTag = (props: Props) => {
 				paddingBottom="5px"
 			>
 				{formatCentsAsDollars(props.priceCents)}
+				{props.isMinimum && '+'}
 				{props.quantity &&
 					props.quantity > 1 &&
 					`(${props.quantity})`}

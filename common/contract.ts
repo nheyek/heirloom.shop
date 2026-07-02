@@ -11,6 +11,31 @@ const CategoryTileDataSchema = z.object({
 	imageUuid: z.string().optional(),
 });
 
+const VariationOptionSchema = z.object({
+	name: z.string(),
+	order: z.number(),
+	priceCents: z.number().nullable(),
+	imageUuid: z.string().nullable(),
+});
+
+const VariationSchema = z.object({
+	name: z.string(),
+	pricesVary: z.boolean(),
+	imagesVary: z.boolean().default(false),
+	options: z.record(z.string(), VariationOptionSchema),
+	order: z.number(),
+});
+
+const VariationsSchema = z.record(z.string(), VariationSchema);
+
+const CombinationSchema = z.object({
+	priceCents: z.number().nullable(),
+	imageUuid: z.string().nullable(),
+	disabled: z.boolean(),
+});
+
+const CombinationsSchema = z.record(z.string(), CombinationSchema);
+
 const ListingCardDataSchema = z.object({
 	id: z.number(),
 	shortId: z.string(),
@@ -24,6 +49,8 @@ const ListingCardDataSchema = z.object({
 	shopTitle: z.string(),
 	imageUuids: z.array(z.string()),
 	available: z.boolean(),
+	variations: VariationsSchema,
+	combinations: CombinationsSchema,
 });
 
 const ErrorSchema = z.object({ error: z.string() });
@@ -127,36 +154,15 @@ export const categoryContract = c.router({
 	},
 });
 
-const VariationOptionSchema = z.object({
-	name: z.string(),
-	order: z.number(),
-	priceCents: z.number().nullable(),
-	imageUuid: z.string().nullable(),
+const ListingDescrSectionSchema = z.object({
+	title: z.string(),
+	richText: z.string(),
 });
-
-const VariationSchema = z.object({
-	name: z.string(),
-	pricesVary: z.boolean(),
-	// Defaulted so variations stored before this field existed still parse.
-	imagesVary: z.boolean().default(false),
-	options: z.record(z.string(), VariationOptionSchema),
-	order: z.number(),
-});
-
-const VariationsSchema = z.record(z.string(), VariationSchema);
-
-const CombinationSchema = z.object({
-	priceCents: z.number().nullable(),
-	imageUuid: z.string().nullable(),
-	disabled: z.boolean(),
-});
-
-const CombinationsSchema = z.record(z.string(), CombinationSchema);
-
-const ListingDescrSectionSchema = z.object({ title: z.string(), richText: z.string() });
 
 const ListingFulfillmentProfilesSchema = z.object({
-	processing: z.object({ minDays: z.number(), maxDays: z.number() }).optional(),
+	processing: z
+		.object({ minDays: z.number(), maxDays: z.number() })
+		.optional(),
 	shipping: z
 		.object({
 			originZip: z.string(),
@@ -177,15 +183,11 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
-	variations: VariationsSchema,
-	combinations: CombinationsSchema,
 });
 
 const CartItemDataSchema = ListingCardDataSchema.extend({
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
-	variations: VariationsSchema,
-	combinations: CombinationsSchema,
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
@@ -348,7 +350,10 @@ export const shopsContract = c.router({
 		pathParams: z.object({ id: z.string() }),
 		body: z.object({ contentType: z.string() }),
 		responses: {
-			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
+			200: z.object({
+				uuid: z.string(),
+				uploadUrl: z.string(),
+			}),
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
@@ -360,7 +365,10 @@ export const shopsContract = c.router({
 		pathParams: z.object({ id: z.string() }),
 		body: z.object({ contentType: z.string() }),
 		responses: {
-			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
+			200: z.object({
+				uuid: z.string(),
+				uploadUrl: z.string(),
+			}),
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
@@ -491,7 +499,10 @@ export const shopManagerContract = c.router({
 	getListing: {
 		method: 'GET',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId',
-		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		pathParams: z.object({
+			shopId: z.string(),
+			listingShortId: z.string(),
+		}),
 		responses: {
 			200: ListingEditDataSchema,
 			401: ErrorSchema,
@@ -502,7 +513,10 @@ export const shopManagerContract = c.router({
 	setListingAvailable: {
 		method: 'PUT',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId/available',
-		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		pathParams: z.object({
+			shopId: z.string(),
+			listingShortId: z.string(),
+		}),
 		body: z.object({ available: z.boolean() }),
 		responses: {
 			200: z.object({ available: z.boolean() }),
@@ -539,7 +553,10 @@ export const shopManagerContract = c.router({
 	updateListing: {
 		method: 'PUT',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId',
-		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		pathParams: z.object({
+			shopId: z.string(),
+			listingShortId: z.string(),
+		}),
 		body: z.object({
 			title: z.string(),
 			subtitle: z.string().nullable(),
@@ -563,7 +580,10 @@ export const shopManagerContract = c.router({
 	deleteListing: {
 		method: 'DELETE',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId',
-		pathParams: z.object({ shopId: z.string(), listingShortId: z.string() }),
+		pathParams: z.object({
+			shopId: z.string(),
+			listingShortId: z.string(),
+		}),
 		body: z.object({}),
 		responses: {
 			200: z.object({ deleted: z.boolean() }),
@@ -574,9 +594,15 @@ export const shopManagerContract = c.router({
 	},
 });
 
-export type ShopManagerProcessingProfile = z.infer<typeof ShopManagerProcessingProfileSchema>;
-export type ShopManagerShippingProfile = z.infer<typeof ShopManagerShippingProfileSchema>;
-export type ShopManagerReturnProfile = z.infer<typeof ShopManagerReturnProfileSchema>;
+export type ShopManagerProcessingProfile = z.infer<
+	typeof ShopManagerProcessingProfileSchema
+>;
+export type ShopManagerShippingProfile = z.infer<
+	typeof ShopManagerShippingProfileSchema
+>;
+export type ShopManagerReturnProfile = z.infer<
+	typeof ShopManagerReturnProfileSchema
+>;
 export type ShopProfilesData = z.infer<typeof ShopProfilesDataSchema>;
 export type ListingEditData = z.infer<typeof ListingEditDataSchema>;
 
@@ -708,7 +734,10 @@ export const adminContract = c.router({
 		path: '/api/admin/shop-image-upload-url',
 		body: z.object({ contentType: z.string() }),
 		responses: {
-			200: z.object({ uuid: z.string(), uploadUrl: z.string() }),
+			200: z.object({
+				uuid: z.string(),
+				uploadUrl: z.string(),
+			}),
 			401: ErrorSchema,
 			403: ErrorSchema,
 		},
@@ -789,7 +818,9 @@ export const appContract = c.router({
 	shops: shopsContract,
 });
 
-export type VariationOptionData = z.infer<typeof VariationOptionSchema>;
+export type VariationOptionData = z.infer<
+	typeof VariationOptionSchema
+>;
 export type VariationData = z.infer<typeof VariationSchema>;
 export type VariationsData = z.infer<typeof VariationsSchema>;
 export type CombinationData = z.infer<typeof CombinationSchema>;
@@ -797,10 +828,14 @@ export type CombinationsData = z.infer<typeof CombinationsSchema>;
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
-export type ListingDescrSection = z.infer<typeof ListingDescrSectionSchema>;
+export type ListingDescrSection = z.infer<
+	typeof ListingDescrSectionSchema
+>;
 export type ListingFullDescr = ListingDescrSection[];
 export type ListingPageData = z.infer<typeof ListingPageDataSchema>;
-export type ListingFulfillmentProfiles = z.infer<typeof ListingFulfillmentProfilesSchema>;
+export type ListingFulfillmentProfiles = z.infer<
+	typeof ListingFulfillmentProfilesSchema
+>;
 export type CheckoutItemData = z.infer<typeof CheckoutItemSchema>;
 export type CheckoutRequest = z.infer<typeof CheckoutBodySchema>;
 export type CartItemData = z.infer<typeof CartItemDataSchema>;
@@ -821,7 +856,9 @@ export type OrderResponse = z.infer<typeof OrderResponseSchema>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema
 >;
-export type AdminShopListItem = z.infer<typeof AdminShopListItemSchema>;
+export type AdminShopListItem = z.infer<
+	typeof AdminShopListItemSchema
+>;
 export type CreateShopBody = z.infer<typeof CreateShopBodySchema>;
 export type UpdateShopBody = z.infer<typeof UpdateShopBodySchema>;
 export type ShopFulfillment = z.infer<typeof ShopFulfillmentSchema>;

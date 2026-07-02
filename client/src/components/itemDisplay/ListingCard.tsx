@@ -16,6 +16,7 @@ import {
 } from '@client/constants';
 import { FONT_DISPLAY_SANS } from '@client/theme';
 import { ListingCardData } from '@heirloom/common/contract';
+import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -65,6 +66,12 @@ export const ListingCard = ({
 	const navigate = useNavigate();
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
+
+	const displayPrice = getListingDisplayPrice(
+		props.variations,
+		props.combinations,
+		props.priceCents,
+	) ?? { priceCents: props.priceCents, isMinimum: false };
 
 	const getImageUrl = (uuid: string) =>
 		`${process.env.LISTING_IMAGES_URL}/${props.shopShortId}/${uuid}.jpg`;
@@ -155,7 +162,10 @@ export const ListingCard = ({
 					alignItems="center"
 				>
 					<Box mb={3}>
-						<PriceTag priceCents={props.priceCents} />
+						<PriceTag
+							priceCents={displayPrice.priceCents}
+							isMinimum={displayPrice.isMinimum}
+						/>
 					</Box>
 					<Box mb={2}>{actionMenu}</Box>
 				</Flex>
