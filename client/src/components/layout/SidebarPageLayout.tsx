@@ -11,7 +11,6 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import {
-	ACCOUNT_PAGE_PADDING_SPACING_UNITS,
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
 	NAVBAR_HEIGHT_SPACING_UNITS,
@@ -247,12 +246,11 @@ export const SidebarPageLayout = ({
 		<Box
 			flex={1}
 			minW={0}
-			pt={ACCOUNT_PAGE_PADDING_SPACING_UNITS}
+			pt={{ base: 5, md: 8 }}
 		>
 			<Stack
-				px={ACCOUNT_PAGE_PADDING_SPACING_UNITS}
+				px={5}
 				w="100%"
-				maxW={1100}
 				gap={5}
 				fontFamily={FONT_DISPLAY_SANS}
 			>

@@ -15,7 +15,6 @@ export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
 export const NAVBAR_HEIGHT_SPACING_UNITS = 16;
 export const SIDEBAR_WIDTH_PX = 250;
-export const ACCOUNT_PAGE_PADDING_SPACING_UNITS = 5;
 
 const BASE_BREAKPOINTS = {
 	sm: 600,

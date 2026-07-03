@@ -62,7 +62,6 @@ const App = () => {
 				<Box
 					flex="1"
 					width="100%"
-					maxWidth={1600}
 					mx="auto"
 					position="relative"
 				>
