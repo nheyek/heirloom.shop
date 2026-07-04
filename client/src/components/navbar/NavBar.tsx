@@ -38,7 +38,7 @@ export const NavBarIconButton = (props: IconButtonProps) => (
 	<IconButton
 		color="white"
 		variant="ghost"
-		_hover={{ bg: 'whiteAlpha.200' }}
+		_hover={{ bg: 'whiteAlpha.100' }}
 		{...props}
 	>
 		{props.children}
