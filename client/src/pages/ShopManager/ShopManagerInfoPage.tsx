@@ -27,8 +27,11 @@ import {
 } from '@heirloom/common/contract';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { useCallback, useEffect, useState } from 'react';
-import { FaCheckCircle, FaSkullCrossbones } from 'react-icons/fa';
-import { FaRegHandPointRight, FaSignature } from 'react-icons/fa6';
+import {
+	FaCheckCircle,
+	FaExchangeAlt,
+	FaSkullCrossbones,
+} from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 type AssignOwnershipDialogProps = {
@@ -137,8 +140,8 @@ const AssignOwnershipDialog = ({
 								disabled={pending}
 								loading={pending}
 							>
-								<FaSignature />
-								Assign
+								<FaCheckCircle />
+								Confirm
 							</Button>
 						</HStack>
 					</Dialog.Footer>
@@ -400,11 +403,11 @@ const ShopInfoForm = ({
 						{fulfillment.directFulfillment ? (
 							<FaSkullCrossbones />
 						) : (
-							<FaRegHandPointRight />
+							<FaExchangeAlt />
 						)}
 						{fulfillment.directFulfillment
 							? 'Commandeer'
-							: 'Assign Ownership'}
+							: 'Transfer Ownership'}
 					</Button>
 				)}
 			</HStack>

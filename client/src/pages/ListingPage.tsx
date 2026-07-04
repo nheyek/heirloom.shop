@@ -62,6 +62,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import {
 	FaBan,
+	FaCheckCircle,
 	FaExchangeAlt,
 	FaHeart,
 	FaPlusCircle,
@@ -71,7 +72,6 @@ import {
 	FaHourglassStart,
 	FaLocationDot,
 	FaShare,
-	FaShieldHalved,
 	FaShop,
 	FaTruck,
 } from 'react-icons/fa6';
@@ -676,13 +676,10 @@ export const ListingPage = () => {
 										</IconText>
 									)
 								) : (
-									<IconText icon={FaShieldHalved}>
+									<IconText icon={FaCheckCircle}>
 										<HStack gap={1}>
 											Fulfilled by
-											<Box
-												width={76}
-												mt={0.5}
-											>
+											<Box width={76}>
 												<Logo
 													fill={COLOR_BRAND}
 												/>
