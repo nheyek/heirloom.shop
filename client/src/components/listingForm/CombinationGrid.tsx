@@ -2,12 +2,10 @@ import {
 	Box,
 	FileUpload,
 	Image,
-	Stack,
 	Switch,
 	Table,
 	Text,
 } from '@chakra-ui/react';
-import { FieldError } from '@client/components/input/FieldError';
 import { PriceInput } from '@client/components/input/PriceInput';
 import {
 	InputSize,
@@ -30,7 +28,6 @@ type Props = {
 	variations: Record<string, Variation>;
 	combinations: Record<string, Combination>;
 	onUpdate: (key: string, patch: Partial<Combination>) => void;
-	combinationPriceErrors?: Record<string, boolean>;
 	invalid?: boolean;
 	disabled?: boolean;
 	uploadImage: (file: File) => Promise<string | null>;
@@ -47,7 +44,6 @@ export const CombinationGrid = ({
 	variations,
 	combinations,
 	onUpdate,
-	combinationPriceErrors = {},
 	invalid,
 	disabled,
 	uploadImage,
@@ -268,45 +264,27 @@ export const CombinationGrid = ({
 										opacity={isDisabled ? 0.5 : 1}
 										py={0}
 									>
-										<Stack gap={1.5}>
-											<PriceInput
-												value={
-													entry.priceCents ??
-													effectivePrice
-												}
-												onChange={(cents) =>
-													onUpdate(key, {
-														priceCents:
-															cents,
-													})
-												}
-												invalid={
-													!!combinationPriceErrors[
-														key
-													]
-												}
-												disabled={
-													disabled ||
-													isDisabled
-												}
-												size={InputSize.Md}
-												inherited={
-													priceIsInherited
-												}
-												{...(!showImage && {
-													border: 'none',
-												})}
-											/>
-											{combinationPriceErrors[
-												key
-											] && (
-												<FieldError
-													fontSize={14}
-												>
-													Price is required.
-												</FieldError>
-											)}
-										</Stack>
+										<PriceInput
+											value={
+												entry.priceCents ??
+												effectivePrice
+											}
+											onChange={(cents) =>
+												onUpdate(key, {
+													priceCents: cents,
+												})
+											}
+											disabled={
+												disabled || isDisabled
+											}
+											size={InputSize.Md}
+											inherited={
+												priceIsInherited
+											}
+											{...(!showImage && {
+												border: 'none',
+											})}
+										/>
 									</Table.Cell>
 								)}
 

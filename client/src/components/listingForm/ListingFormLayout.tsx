@@ -34,29 +34,21 @@ export const ListingFormLayout = ({
 					disabled={disabled}
 					onUpdate={(key, patch) => {
 						form.setCombinationField(key, patch);
-						if (patch.disabled) {
-							if (form.combinationPriceErrors[key]) {
-								const next = { ...form.combinationPriceErrors };
-								delete next[key];
-								form.setCombinationPriceErrors(next);
-							}
-						}
-						if (patch.disabled === false && form.combinationActiveError) {
-							form.setCombinationActiveError(null);
-						}
-						if (patch.priceCents && patch.priceCents > 0 && form.combinationPriceErrors[key]) {
-							const next = { ...form.combinationPriceErrors };
-							delete next[key];
-							form.setCombinationPriceErrors(next);
+						// Any change that could resolve the error clears
+						// it; validation on save re-checks everything.
+						if (
+							form.combinationError &&
+							(patch.disabled !== undefined ||
+								(patch.priceCents &&
+									patch.priceCents > 0))
+						) {
+							form.setCombinationError(null);
 						}
 					}}
-					combinationPriceErrors={form.combinationPriceErrors}
-					invalid={!!form.combinationActiveError}
+					invalid={!!form.combinationError}
 				/>
-				{form.combinationActiveError && (
-					<FieldError>
-						{form.combinationActiveError}
-					</FieldError>
+				{form.combinationError && (
+					<FieldError>{form.combinationError}</FieldError>
 				)}
 			</Stack>
 		)}

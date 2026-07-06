@@ -60,7 +60,7 @@ type OptionEntry = {
 type OptionRowProps = {
 	id: string;
 	entry: OptionEntry;
-	error?: string | null;
+	invalid?: boolean;
 	showPrice: boolean;
 	showImage: boolean;
 	inputRef?: React.RefObject<HTMLInputElement | null>;
@@ -73,7 +73,7 @@ type OptionRowProps = {
 const OptionRow = ({
 	id,
 	entry,
-	error,
+	invalid,
 	showPrice,
 	showImage,
 	inputRef,
@@ -94,159 +94,148 @@ const OptionRow = ({
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	return (
-		<Stack gap={1}>
-			<Flex
-				ref={setNodeRef}
-				style={{
-					transform: CSS.Transform.toString(transform),
-					transition,
-					opacity: isDragging ? 0.4 : 1,
-				}}
-				alignItems="stretch"
-				{...(error && {
-					borderWidth: 1,
-					borderColor: FIELD_ERROR_COLOR,
-				})}
-				overflow="auto"
-				gap={2}
-				px={2}
-				minH={10}
+		<Flex
+			ref={setNodeRef}
+			style={{
+				transform: CSS.Transform.toString(transform),
+				transition,
+				opacity: isDragging ? 0.4 : 1,
+			}}
+			alignItems="stretch"
+			{...(invalid && { bg: 'red.50' })}
+			overflow="auto"
+			gap={2}
+			px={2}
+			minH={10}
+		>
+			{/* Drag handle */}
+			<IconButton
+				size="sm"
+				variant="ghost"
+				cursor="grab"
+				color="gray.400"
+				alignSelf="center"
+				{...attributes}
+				{...listeners}
 			>
-				{/* Drag handle */}
-				<IconButton
-					size="sm"
-					variant="ghost"
-					cursor="grab"
-					color="gray.400"
-					alignSelf="center"
-					{...attributes}
-					{...listeners}
+				<FaGripHorizontal />
+			</IconButton>
+			{/* Image */}
+			{showImage && (
+				<Box
+					as="button"
+					w={OPTION_IMG_W}
+					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					display="flex"
+					alignItems="center"
+					justifyContent="center"
+					bg="gray.50"
+					cursor="pointer"
+					overflow="hidden"
+					mr={1}
+					onClick={() => fileInputRef.current?.click()}
 				>
-					<FaGripHorizontal />
-				</IconButton>
-				{/* Image */}
-				{showImage && (
-					<Box
-						as="button"
-						w={OPTION_IMG_W}
-						aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
-						display="flex"
-						alignItems="center"
-						justifyContent="center"
-						bg="gray.50"
-						cursor="pointer"
-						overflow="hidden"
-						mr={1}
-						onClick={() => fileInputRef.current?.click()}
-					>
-						<input
-							ref={fileInputRef}
-							type="file"
-							accept="image/*"
-							style={{ display: 'none' }}
-							onChange={async (e) => {
-								const file = e.target.files?.[0];
-								if (!file) return;
-								e.target.value = '';
-								const previewUrl =
-									URL.createObjectURL(file);
-								onChange({
-									imagePreviewUrl: previewUrl,
-									imageUuid: null,
-									imageUploading: true,
-								});
-								const uuid = await uploadImage(file);
-								onChange({
-									imageUuid: uuid,
-									imageUploading: false,
-								});
-							}}
+					<input
+						ref={fileInputRef}
+						type="file"
+						accept="image/*"
+						style={{ display: 'none' }}
+						onChange={async (e) => {
+							const file = e.target.files?.[0];
+							if (!file) return;
+							e.target.value = '';
+							const previewUrl =
+								URL.createObjectURL(file);
+							onChange({
+								imagePreviewUrl: previewUrl,
+								imageUuid: null,
+								imageUploading: true,
+							});
+							const uuid = await uploadImage(file);
+							onChange({
+								imageUuid: uuid,
+								imageUploading: false,
+							});
+						}}
+					/>
+					{entry.imagePreviewUrl ? (
+						<Image
+							src={entry.imagePreviewUrl}
+							width="100%"
+							height="100%"
+							objectFit="cover"
+							opacity={entry.imageUploading ? 0.5 : 1}
 						/>
-						{entry.imagePreviewUrl ? (
-							<Image
-								src={entry.imagePreviewUrl}
-								width="100%"
-								height="100%"
-								objectFit="cover"
-								opacity={
-									entry.imageUploading ? 0.5 : 1
+					) : (
+						<FaImage
+							color="lightgray"
+							size={20}
+						/>
+					)}
+				</Box>
+			)}
+
+			<HStack flex={1}>
+				{/* Name */}
+				<Input
+					ref={inputRef}
+					fontSize={18}
+					h={10}
+					minW={150}
+					value={entry.name}
+					onChange={(e) =>
+						onChange({ name: e.target.value })
+					}
+					onKeyDown={(e) => {
+						if (
+							e.key === 'Tab' &&
+							!e.shiftKey &&
+							!showPrice
+						) {
+							e.preventDefault();
+							onTabKey?.();
+						}
+					}}
+					placeholder="Option name"
+					{...(!showImage && {
+						border: 'none',
+						px: 0,
+					})}
+				/>
+
+				{/* Price */}
+				{showPrice && (
+					<Box alignSelf="center">
+						<PriceInput
+							value={entry.priceCents}
+							onChange={(v) =>
+								onChange({ priceCents: v })
+							}
+							onKeyDown={(e) => {
+								if (e.key === 'Tab' && !e.shiftKey) {
+									e.preventDefault();
+									onTabKey?.();
 								}
-							/>
-						) : (
-							<FaImage
-								color="lightgray"
-								size={20}
-							/>
-						)}
+							}}
+							{...(!showImage && {
+								border: 'none',
+							})}
+						/>
 					</Box>
 				)}
+			</HStack>
 
-				<HStack flex={1}>
-					{/* Name */}
-					<Input
-						ref={inputRef}
-						fontSize={18}
-						h={10}
-						minW={150}
-						value={entry.name}
-						onChange={(e) =>
-							onChange({ name: e.target.value })
-						}
-						onKeyDown={(e) => {
-							if (
-								e.key === 'Tab' &&
-								!e.shiftKey &&
-								!showPrice
-							) {
-								e.preventDefault();
-								onTabKey?.();
-							}
-						}}
-						placeholder="Option name"
-						{...(!showImage && {
-							border: 'none',
-							px: 0,
-						})}
-					/>
-
-					{/* Price */}
-					{showPrice && (
-						<Box alignSelf="center">
-							<PriceInput
-								value={entry.priceCents}
-								onChange={(v) =>
-									onChange({ priceCents: v })
-								}
-								onKeyDown={(e) => {
-									if (
-										e.key === 'Tab' &&
-										!e.shiftKey
-									) {
-										e.preventDefault();
-										onTabKey?.();
-									}
-								}}
-								{...(!showImage && {
-									border: 'none',
-								})}
-							/>
-						</Box>
-					)}
-				</HStack>
-
-				{/* Delete */}
-				<IconButton
-					size="sm"
-					variant="ghost"
-					color="red.500"
-					alignSelf="center"
-					onClick={onDelete}
-				>
-					<FaTrashAlt />
-				</IconButton>
-			</Flex>
-			{error && <FieldError>{error}</FieldError>}
-		</Stack>
+			{/* Delete */}
+			<IconButton
+				size="sm"
+				variant="ghost"
+				color="red.500"
+				alignSelf="center"
+				onClick={onDelete}
+			>
+				<FaTrashAlt />
+			</IconButton>
+		</Flex>
 	);
 };
 
@@ -297,12 +286,12 @@ export const VariationDialog = ({
 		React.RefObject<HTMLInputElement | null>[]
 	>([]);
 	const pendingFocusIndex = useRef<number | null>(null);
-	const [optionErrors, setOptionErrors] = useState<
-		(string | null)[]
-	>([null, null]);
-	const [optionsCountError, setOptionsCountError] = useState<
-		string | null
-	>(null);
+	const [optionsError, setOptionsError] = useState<string | null>(
+		null,
+	);
+	const [invalidOptionIds, setInvalidOptionIds] = useState<
+		Set<string>
+	>(new Set());
 
 	useEffect(() => {
 		if (open) {
@@ -328,7 +317,6 @@ export const VariationDialog = ({
 					})),
 				);
 				setOptionIds(sorted.map(([id]) => id));
-				setOptionErrors(sorted.map(() => null));
 			} else {
 				setName('');
 				setPricesVary(false);
@@ -354,13 +342,13 @@ export const VariationDialog = ({
 					crypto.randomUUID(),
 					crypto.randomUUID(),
 				]);
-				setOptionErrors([null, null]);
 			}
-			setOptionsCountError(null);
+			setOptionsError(null);
+			setInvalidOptionIds(new Set());
 		} else {
 			setNameError(null);
-			setOptionErrors([]);
-			setOptionsCountError(null);
+			setOptionsError(null);
+			setInvalidOptionIds(new Set());
 		}
 	}, [open]);
 
@@ -388,8 +376,7 @@ export const VariationDialog = ({
 			},
 		]);
 		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
-		setOptionErrors((prev) => [...prev, null]);
-		setOptionsCountError(null);
+		setOptionsError(null);
 	};
 
 	const handleTabOnOption = (index: number) => {
@@ -412,16 +399,14 @@ export const VariationDialog = ({
 			),
 		);
 		if (patch.name !== undefined) {
-			setOptionErrors((prev) =>
-				prev.map((e, i) => (i === index ? null : e)),
-			);
+			setOptionsError(null);
+			setInvalidOptionIds(new Set());
 		}
 	};
 
 	const removeOption = (index: number) => {
 		setOptions((prev) => prev.filter((_, i) => i !== index));
 		setOptionIds((prev) => prev.filter((_, i) => i !== index));
-		setOptionErrors((prev) => prev.filter((_, i) => i !== index));
 	};
 
 	const handleConfirm = () => {
@@ -451,30 +436,39 @@ export const VariationDialog = ({
 			setNameError(null);
 		}
 
+		const trimmedOptions = options.map((o) => o.name.trim());
+		const lowered = trimmedOptions.map((n) => n.toLowerCase());
+		let optsError: string | null = null;
+		let offenders: string[] = [];
 		if (options.length < 2) {
-			setOptionsCountError(
-				'At least two options are required.',
+			optsError = 'At least two options are required.';
+		} else if (trimmedOptions.some((n) => !n)) {
+			optsError = 'All options must have a name.';
+			offenders = optionIds.filter(
+				(_, i) => !trimmedOptions[i],
 			);
-			valid = false;
-		} else {
-			setOptionsCountError(null);
+		} else if (
+			trimmedOptions.some(
+				(n) => n.length > LISTING_LIMITS.maxNameLength,
+			)
+		) {
+			optsError = `Option names must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
+			offenders = optionIds.filter(
+				(_, i) =>
+					trimmedOptions[i].length >
+					LISTING_LIMITS.maxNameLength,
+			);
+		} else if (new Set(lowered).size !== lowered.length) {
+			optsError = 'Option names must be unique.';
+			offenders = optionIds.filter(
+				(_, i) =>
+					lowered.indexOf(lowered[i]) !==
+					lowered.lastIndexOf(lowered[i]),
+			);
 		}
-
-		const seen = new Set<string>();
-		const newOptionErrors = options.map((o) => {
-			const opt = o.name.trim();
-			if (!opt) return 'Option name is required.';
-			if (opt.length > LISTING_LIMITS.maxNameLength)
-				return `Option name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
-			const key = opt.toLowerCase();
-			if (seen.has(key)) return 'Duplicate option name.';
-			seen.add(key);
-			return null;
-		});
-		if (newOptionErrors.some(Boolean)) {
-			setOptionErrors(newOptionErrors);
-			valid = false;
-		}
+		setOptionsError(optsError);
+		setInvalidOptionIds(new Set(offenders));
+		if (optsError) valid = false;
 
 		if (!valid) return;
 
@@ -519,7 +513,6 @@ export const VariationDialog = ({
 		};
 		setOptions(move);
 		setOptionIds(move);
-		setOptionErrors(move);
 	};
 
 	return (
@@ -613,7 +606,6 @@ export const VariationDialog = ({
 
 							<FormField
 								label="Options"
-								error={optionsCountError}
 								required
 							>
 								<Stack
@@ -636,11 +628,15 @@ export const VariationDialog = ({
 											<Stack
 												gap={0}
 												borderWidth={1}
-												borderColor="gray.200"
+												borderColor={
+													optionsError
+														? FIELD_ERROR_COLOR
+														: 'gray.200'
+												}
 												borderRadius="md"
 												overflow="hidden"
 												separator={
-													<StackSeparator />
+													<StackSeparator borderColor="gray.200" />
 												}
 											>
 												{options.map(
@@ -673,11 +669,11 @@ export const VariationDialog = ({
 																entry={
 																	opt
 																}
-																error={
-																	optionErrors[
+																invalid={invalidOptionIds.has(
+																	optionIds[
 																		i
-																	]
-																}
+																	],
+																)}
 																showPrice={
 																	pricesVary
 																}
@@ -718,6 +714,11 @@ export const VariationDialog = ({
 											</Stack>
 										</SortableContext>
 									</DndContext>
+									{optionsError && (
+										<FieldError>
+											{optionsError}
+										</FieldError>
+									)}
 									{options.length <
 										LISTING_LIMITS.maxOptionsPerVariation && (
 										<HStack>

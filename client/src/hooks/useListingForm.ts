@@ -96,10 +96,8 @@ export type ListingFormState = {
 	setPriceCents: (v: number | null) => void;
 	priceError: string | null;
 	setPriceError: (v: string | null) => void;
-	combinationPriceErrors: Record<string, boolean>;
-	setCombinationPriceErrors: (v: Record<string, boolean>) => void;
-	combinationActiveError: string | null;
-	setCombinationActiveError: (v: string | null) => void;
+	combinationError: string | null;
+	setCombinationError: (v: string | null) => void;
 
 	processingProfiles: ProcessingProfile[];
 	addProcessingProfile: (profile: ProcessingProfile) => void;
@@ -208,10 +206,9 @@ export const useListingForm = ({
 		initialPriceCents,
 	);
 	const [priceError, setPriceError] = useState<string | null>(null);
-	const [combinationPriceErrors, setCombinationPriceErrors] =
-		useState<Record<string, boolean>>({});
-	const [combinationActiveError, setCombinationActiveError] =
-		useState<string | null>(null);
+	const [combinationError, setCombinationError] = useState<
+		string | null
+	>(null);
 	const [processingProfiles, setProcessingProfiles] = useState<
 		ProcessingProfile[]
 	>(initialProcessingProfiles);
@@ -455,8 +452,8 @@ export const useListingForm = ({
 			}
 		}
 
-		const priceErrors: Record<string, boolean> = {};
 		let hasActive = allCombinations.length === 0;
+		let missingPrice = false;
 
 		for (const { key, optionMap } of allCombinations) {
 			const entry = combinations[key];
@@ -471,21 +468,22 @@ export const useListingForm = ({
 						priceCents,
 					);
 				if (!(effectivePrice && effectivePrice > 0))
-					priceErrors[key] = true;
+					missingPrice = true;
 			}
 		}
 
-		setCombinationPriceErrors(pricesVary ? priceErrors : {});
-
-		if (Object.keys(priceErrors).length > 0) valid = false;
-
 		if (allCombinations.length > 0 && !hasActive) {
-			setCombinationActiveError(
+			setCombinationError(
 				'At least one combination must be active.',
 			);
 			valid = false;
+		} else if (missingPrice) {
+			setCombinationError(
+				'A price must be defined for every active combination.',
+			);
+			valid = false;
 		} else {
-			setCombinationActiveError(null);
+			setCombinationError(null);
 		}
 
 		return valid;
@@ -518,10 +516,8 @@ export const useListingForm = ({
 		setPriceCents,
 		priceError,
 		setPriceError,
-		combinationPriceErrors,
-		setCombinationPriceErrors,
-		combinationActiveError,
-		setCombinationActiveError,
+		combinationError,
+		setCombinationError,
 		processingProfiles,
 		addProcessingProfile,
 		processingProfileId,

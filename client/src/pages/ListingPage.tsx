@@ -712,21 +712,21 @@ const LoadingSkeleton = (props: {
 }) => {
 	const renderBasicInfoSection = () => (
 		<Stack gap={4}>
-			<Stack gap={1}>
+			<Stack gap={2}>
 				<Skeleton
 					width="80%"
-					height="40px"
+					height="50px"
 				/>
 				<Skeleton
-					width="60%"
-					height="35px"
+					width="55%"
+					height="30px"
 				/>
 				<Skeleton
-					width="45%"
-					height="24px"
+					width="65%"
+					height="30px"
 				/>
 			</Stack>
-			<Stack gap={2}>
+			<Stack gap={1}>
 				<Skeleton
 					width="90%"
 					height="20px"
