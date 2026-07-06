@@ -81,6 +81,7 @@ export const CombinationGrid = ({
 				size="md"
 				width="fit-content"
 				stickyHeader
+				striped
 			>
 				<Table.Header fontSize={16}>
 					<Table.Row bg="bg.subtle">

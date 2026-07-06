@@ -61,6 +61,7 @@ type OptionRowProps = {
 	id: string;
 	entry: OptionEntry;
 	invalid?: boolean;
+	deletable?: boolean;
 	showPrice: boolean;
 	showImage: boolean;
 	inputRef?: React.RefObject<HTMLInputElement | null>;
@@ -74,6 +75,7 @@ const OptionRow = ({
 	id,
 	entry,
 	invalid,
+	deletable,
 	showPrice,
 	showImage,
 	inputRef,
@@ -232,6 +234,7 @@ const OptionRow = ({
 				color="red.500"
 				alignSelf="center"
 				onClick={onDelete}
+				disabled={!deletable}
 			>
 				<FaTrashAlt />
 			</IconButton>
@@ -438,12 +441,12 @@ export const VariationDialog = ({
 
 		const trimmedOptions = options.map((o) => o.name.trim());
 		const lowered = trimmedOptions.map((n) => n.toLowerCase());
-		let optsError: string | null = null;
+		let error: string | null = null;
 		let offenders: string[] = [];
 		if (options.length < 2) {
-			optsError = 'At least two options are required.';
+			error = 'At least two options are required.';
 		} else if (trimmedOptions.some((n) => !n)) {
-			optsError = 'All options must have a name.';
+			error = 'All options must have a name.';
 			offenders = optionIds.filter(
 				(_, i) => !trimmedOptions[i],
 			);
@@ -452,23 +455,23 @@ export const VariationDialog = ({
 				(n) => n.length > LISTING_LIMITS.maxNameLength,
 			)
 		) {
-			optsError = `Option names must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
+			error = `Option names must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
 			offenders = optionIds.filter(
 				(_, i) =>
 					trimmedOptions[i].length >
 					LISTING_LIMITS.maxNameLength,
 			);
 		} else if (new Set(lowered).size !== lowered.length) {
-			optsError = 'Option names must be unique.';
+			error = 'Option names must be unique.';
 			offenders = optionIds.filter(
 				(_, i) =>
 					lowered.indexOf(lowered[i]) !==
 					lowered.lastIndexOf(lowered[i]),
 			);
 		}
-		setOptionsError(optsError);
+		setOptionsError(error);
 		setInvalidOptionIds(new Set(offenders));
-		if (optsError) valid = false;
+		if (error) valid = false;
 
 		if (!valid) return;
 
@@ -674,6 +677,10 @@ export const VariationDialog = ({
 																		i
 																	],
 																)}
+																deletable={
+																	options.length >
+																	2
+																}
 																showPrice={
 																	pricesVary
 																}
