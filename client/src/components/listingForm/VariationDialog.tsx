@@ -10,7 +10,6 @@ import {
 	Image,
 	Input,
 	Stack,
-	StackSeparator,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
@@ -60,7 +59,8 @@ type OptionEntry = {
 type OptionRowProps = {
 	id: string;
 	entry: OptionEntry;
-	invalid?: boolean;
+	// Color of the divider drawn above this row; undefined for the first row.
+	dividerColor?: string;
 	deletable?: boolean;
 	showPrice: boolean;
 	showImage: boolean;
@@ -74,7 +74,7 @@ type OptionRowProps = {
 const OptionRow = ({
 	id,
 	entry,
-	invalid,
+	dividerColor,
 	deletable,
 	showPrice,
 	showImage,
@@ -104,7 +104,10 @@ const OptionRow = ({
 				opacity: isDragging ? 0.4 : 1,
 			}}
 			alignItems="stretch"
-			{...(invalid && { bg: 'red.50' })}
+			{...(dividerColor && {
+				borderTopWidth: 1,
+				borderTopColor: dividerColor,
+			})}
 			overflow="auto"
 			gap={2}
 			px={2}
@@ -638,9 +641,6 @@ export const VariationDialog = ({
 												}
 												borderRadius="md"
 												overflow="hidden"
-												separator={
-													<StackSeparator borderColor="gray.200" />
-												}
 											>
 												{options.map(
 													(opt, i) => {
@@ -672,11 +672,24 @@ export const VariationDialog = ({
 																entry={
 																	opt
 																}
-																invalid={invalidOptionIds.has(
-																	optionIds[
-																		i
-																	],
-																)}
+																dividerColor={
+																	i ===
+																	0
+																		? undefined
+																		: invalidOptionIds.has(
+																					optionIds[
+																						i
+																					],
+																			  ) ||
+																			  invalidOptionIds.has(
+																					optionIds[
+																						i -
+																							1
+																					],
+																			  )
+																			? FIELD_ERROR_COLOR
+																			: 'gray.200'
+																}
 																deletable={
 																	options.length >
 																	2
