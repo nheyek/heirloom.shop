@@ -6,7 +6,7 @@ import {
 	SkeletonProps,
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FaRegImage } from 'react-icons/fa6';
 
 enum ImageStatus {
@@ -26,11 +26,6 @@ export const AppImage = ({
 	...props
 }: Props) => {
 	const [status, setStatus] = useState(ImageStatus.LOADING);
-
-	const src = props.imageProps?.src;
-	useEffect(() => {
-		setStatus(ImageStatus.LOADING);
-	}, [src]);
 
 	if (status === ImageStatus.ERROR) {
 		return (

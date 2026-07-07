@@ -66,12 +66,12 @@ import {
 	FaExchangeAlt,
 	FaHeart,
 	FaPlusCircle,
+	FaShareAlt,
 } from 'react-icons/fa';
 import {
 	FaCheck,
 	FaHourglassStart,
 	FaLocationDot,
-	FaShare,
 	FaShop,
 	FaTruck,
 } from 'react-icons/fa6';
@@ -617,7 +617,7 @@ export const ListingPage = () => {
 											shareListing(listingData)
 										}
 									>
-										<FaShare />
+										<FaShareAlt />
 										Share
 									</ListingPageButton>
 								</SimpleGrid>
