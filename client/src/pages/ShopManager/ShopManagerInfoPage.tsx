@@ -7,6 +7,7 @@ import {
 	Skeleton,
 	Stack,
 	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
@@ -374,7 +375,7 @@ const ShopInfoForm = ({
 					maxHeight={500}
 				/>
 			</Field.Root>
-			<HStack
+			<Wrap
 				justifyContent="space-between"
 				maxW={650}
 			>
@@ -410,7 +411,7 @@ const ShopInfoForm = ({
 							: 'Transfer Ownership'}
 					</Button>
 				)}
-			</HStack>
+			</Wrap>
 
 			<AssignOwnershipDialog
 				open={assignDialogOpen}

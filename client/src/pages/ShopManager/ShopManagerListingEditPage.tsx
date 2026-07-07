@@ -7,6 +7,7 @@ import {
 	Input,
 	Stack,
 	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
@@ -281,7 +282,7 @@ const ListingEditForm = ({
 				containerRef={containerRef}
 				disabled={savePending}
 				actions={
-					<HStack
+					<Wrap
 						gap={3}
 						alignItems="flex-start"
 					>
@@ -334,7 +335,7 @@ const ListingEditForm = ({
 								</Button>
 							</Collapsible.Content>
 						</Collapsible.Root>
-					</HStack>
+					</Wrap>
 				}
 			/>
 			<DeleteListingDialog

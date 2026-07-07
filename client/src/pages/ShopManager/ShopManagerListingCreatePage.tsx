@@ -1,4 +1,4 @@
-import { Button, HStack } from '@chakra-ui/react';
+import { Button, Wrap } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -96,7 +96,7 @@ export const ShopManagerListingCreatePage = () => {
 			containerRef={containerRef}
 			disabled={savePending}
 			actions={
-				<HStack gap={3}>
+				<Wrap gap={3}>
 					<Button
 						size="md"
 						fontSize={18}
@@ -117,7 +117,7 @@ export const ShopManagerListingCreatePage = () => {
 						<FaCheckCircle />
 						Publish
 					</Button>
-				</HStack>
+				</Wrap>
 			}
 		/>
 	);
