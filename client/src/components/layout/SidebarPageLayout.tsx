@@ -185,7 +185,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	if (exactMatch) {
 		return (
 			<Heading
-				fontSize={32}
+				fontSize={36}
 				fontWeight={500}
 				fontFamily={FONT_DECORATIVE}
 			>
