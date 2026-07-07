@@ -7,7 +7,6 @@ import {
 	Stack,
 	Switch,
 	Text,
-	useBreakpointValue,
 } from '@chakra-ui/react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';
@@ -128,8 +127,6 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 	>(null);
 	const [switchKey, setSwitchKey] = useState(0);
 
-	const compact = useBreakpointValue({ base: true, md: false });
-
 	const handleToggle = (checked: boolean) => {
 		setPendingChecked(checked);
 	};
@@ -187,16 +184,11 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 						onCheckedChange={({ checked }) =>
 							handleToggle(checked)
 						}
-						size="md"
+						size="lg"
 						pr={1}
 					>
 						<Switch.HiddenInput />
 						<Switch.Control />
-						{!compact && (
-							<Switch.Label fontSize={17}>
-								Available
-							</Switch.Label>
-						)}
 					</Switch.Root>
 				}
 			/>
