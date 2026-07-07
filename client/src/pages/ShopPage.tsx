@@ -37,7 +37,7 @@ import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
 	base: 36,
-	md: 48,
+	md: 50,
 	lg: 64,
 };
 
@@ -148,8 +148,8 @@ export const ShopPage = () => {
 					</Box>
 					<Stack
 						position="absolute"
-						bottom={{ base: 5, lg: 10 }}
-						left={{ base: 5, lg: 10 }}
+						bottom={{ base: 5, md: 10 }}
+						left={{ base: 5, md: 10 }}
 						gap={5}
 						alignItems="flex-start"
 					>
@@ -332,7 +332,7 @@ const ActionButton = (props: {
 	onClick?: () => void;
 }) => (
 	<Button
-		size={{ base: 'sm', md: 'md', lg: 'lg' }}
+		size={{ base: 'md', md: 'lg' }}
 		variant="subtle"
 		fontSize={{ base: 16, md: 18, lg: 20 }}
 		onClick={props.onClick}
