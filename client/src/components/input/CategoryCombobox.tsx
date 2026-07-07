@@ -1,13 +1,7 @@
-import {
-	Combobox,
-	createListCollection,
-	Icon,
-} from '@chakra-ui/react';
+import { Combobox, createListCollection } from '@chakra-ui/react';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { CategoryTileData } from '@heirloom/common/contract';
 import { useEffect, useMemo, useState } from 'react';
-import { FaCaretDown } from 'react-icons/fa';
-import { FaCheck } from 'react-icons/fa6';
 
 type CategoryItem = {
 	value: string;
@@ -109,9 +103,7 @@ export const CategoryCombobox = ({
 					name="category"
 				/>
 				<Combobox.IndicatorGroup>
-					<Combobox.Trigger>
-						<FaCaretDown />
-					</Combobox.Trigger>
+					<Combobox.Trigger />
 				</Combobox.IndicatorGroup>
 			</Combobox.Control>
 			<Combobox.Positioner>
@@ -133,18 +125,11 @@ export const CategoryCombobox = ({
 							px={3}
 							py={2}
 							fontSize={18}
-							alignItems="start"
 						>
 							<Combobox.ItemText whiteSpace="pre-wrap">
 								{item.label}
 							</Combobox.ItemText>
-							<Combobox.ItemIndicator>
-								<Icon
-									as={FaCheck}
-									h={4}
-									w={4}
-								/>
-							</Combobox.ItemIndicator>
+							<Combobox.ItemIndicator />
 						</Combobox.Item>
 					))}
 				</Combobox.Content>
