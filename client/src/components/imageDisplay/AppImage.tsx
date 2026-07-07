@@ -1,11 +1,19 @@
 import {
+	Center,
 	Image,
 	ImageProps,
 	Skeleton,
 	SkeletonProps,
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FaRegImage } from 'react-icons/fa6';
+
+enum ImageStatus {
+	LOADING,
+	LOADED,
+	ERROR,
+}
 
 type Props = {
 	aspectRatio?: number;
@@ -17,11 +25,29 @@ export const AppImage = ({
 	aspectRatio = STANDARD_IMAGE_ASPECT_RATIO,
 	...props
 }: Props) => {
-	const [isLoading, setIsLoading] = useState(true);
+	const [status, setStatus] = useState(ImageStatus.LOADING);
+
+	const src = props.imageProps?.src;
+	useEffect(() => {
+		setStatus(ImageStatus.LOADING);
+	}, [src]);
+
+	if (status === ImageStatus.ERROR) {
+		return (
+			<Center
+				aspectRatio={aspectRatio}
+				bg="gray.100"
+				color="gray.400"
+				{...props.containerProps}
+			>
+				<FaRegImage size="20%" />
+			</Center>
+		);
+	}
 
 	return (
 		<Skeleton
-			loading={isLoading}
+			loading={status === ImageStatus.LOADING}
 			aspectRatio={aspectRatio}
 			borderRadius={0}
 			{...props.containerProps}
@@ -30,10 +56,15 @@ export const AppImage = ({
 				width="100%"
 				objectFit="cover"
 				aspectRatio={aspectRatio}
-				onLoad={() => {
-					setIsLoading(false);
-				}}
 				{...props.imageProps}
+				onLoad={(e) => {
+					setStatus(ImageStatus.LOADED);
+					props.imageProps?.onLoad?.(e);
+				}}
+				onError={(e) => {
+					setStatus(ImageStatus.ERROR);
+					props.imageProps?.onError?.(e);
+				}}
 			/>
 		</Skeleton>
 	);
