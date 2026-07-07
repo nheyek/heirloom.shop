@@ -59,6 +59,7 @@ type OptionEntry = {
 type OptionRowProps = {
 	id: string;
 	entry: OptionEntry;
+	invalid?: boolean;
 	// Color of the divider drawn above this row; undefined for the first row.
 	dividerColor?: string;
 	deletable?: boolean;
@@ -74,6 +75,7 @@ type OptionRowProps = {
 const OptionRow = ({
 	id,
 	entry,
+	invalid,
 	dividerColor,
 	deletable,
 	showPrice,
@@ -104,6 +106,7 @@ const OptionRow = ({
 				opacity: isDragging ? 0.4 : 1,
 			}}
 			alignItems="stretch"
+			{...(invalid && { bg: 'red.50' })}
 			{...(dividerColor && {
 				borderTopWidth: 1,
 				borderTopColor: dividerColor,
@@ -202,10 +205,17 @@ const OptionRow = ({
 						}
 					}}
 					placeholder="Option name"
-					{...(!showImage && {
-						border: 'none',
-						px: 0,
-					})}
+					{...(showImage
+						? {
+								bg: 'white',
+								...(invalid && {
+									borderColor: FIELD_ERROR_COLOR,
+								}),
+							}
+						: {
+								border: 'none',
+								px: 0,
+							})}
 				/>
 
 				{/* Price */}
@@ -222,9 +232,7 @@ const OptionRow = ({
 									onTabKey?.();
 								}
 							}}
-							{...(!showImage && {
-								border: 'none',
-							})}
+							enclosed={showImage}
 						/>
 					</Box>
 				)}
@@ -672,6 +680,11 @@ export const VariationDialog = ({
 																entry={
 																	opt
 																}
+																invalid={invalidOptionIds.has(
+																	optionIds[
+																		i
+																	],
+																)}
 																dividerColor={
 																	i ===
 																	0

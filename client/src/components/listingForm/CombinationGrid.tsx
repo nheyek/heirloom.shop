@@ -153,6 +153,9 @@ export const CombinationGrid = ({
 						return (
 							<Table.Row
 								key={key}
+								{...(invalidKeys?.has(key) && {
+									bg: 'red.50',
+								})}
 								{...(errorBottomBorder && {
 									borderBottomColor:
 										FIELD_ERROR_COLOR,
@@ -306,9 +309,10 @@ export const CombinationGrid = ({
 											inherited={
 												priceIsInherited
 											}
-											{...(!showImage && {
-												border: 'none',
-											})}
+											invalid={invalidKeys?.has(
+												key,
+											)}
+											enclosed={showImage}
 										/>
 									</Table.Cell>
 								)}
