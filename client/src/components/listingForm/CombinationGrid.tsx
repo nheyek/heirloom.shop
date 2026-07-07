@@ -83,6 +83,7 @@ export const CombinationGrid = ({
 				size="md"
 				width="fit-content"
 				stickyHeader
+				css={{ '& th': { border: 'none' } }}
 			>
 				<Table.Header fontSize={16}>
 					<Table.Row
@@ -96,10 +97,7 @@ export const CombinationGrid = ({
 						})}
 					>
 						{showImage && (
-							<Table.ColumnHeader
-								w={100}
-								border="none"
-							>
+							<Table.ColumnHeader w={100}>
 								Image
 							</Table.ColumnHeader>
 						)}
@@ -107,20 +105,16 @@ export const CombinationGrid = ({
 							<Table.ColumnHeader
 								key={varId}
 								minW={100}
-								border="none"
 							>
 								{v.name}
 							</Table.ColumnHeader>
 						))}
 						{showPrice && (
-							<Table.ColumnHeader border="none">
+							<Table.ColumnHeader>
 								Price
 							</Table.ColumnHeader>
 						)}
-						<Table.ColumnHeader
-							textAlign="center"
-							border="none"
-						>
+						<Table.ColumnHeader textAlign="center">
 							Active
 						</Table.ColumnHeader>
 					</Table.Row>

@@ -111,7 +111,7 @@ const OptionRow = ({
 			overflow="auto"
 			gap={2}
 			px={2}
-			minH={10}
+			minH={12}
 		>
 			{/* Drag handle */}
 			<IconButton
