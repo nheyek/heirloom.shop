@@ -7,7 +7,6 @@ import {
 	Input,
 	Stack,
 	Text,
-	Wrap,
 } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
@@ -30,7 +29,11 @@ import {
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
-import { FaCaretDown, FaSave, FaTrashAlt } from 'react-icons/fa';
+import {
+	FaCaretDown,
+	FaCheckCircle,
+	FaTrashAlt,
+} from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type DeleteListingDialogProps = {
@@ -285,13 +288,11 @@ const ListingEditForm = ({
 				containerRef={containerRef}
 				disabled={savePending}
 				actions={
-					<Wrap
-						gap={3}
-						alignItems="flex-start"
-					>
+					<Stack gap={2}>
 						<Button
-							size="md"
-							fontSize={18}
+							size="lg"
+							width={185}
+							fontSize={22}
 							onClick={handleSave}
 							disabled={
 								!form.isDirty ||
@@ -302,7 +303,7 @@ const ListingEditForm = ({
 								form.isUploadingImages || savePending
 							}
 						>
-							<FaSave />
+							<FaCheckCircle />
 							Save Changes
 						</Button>
 						<Collapsible.Root disabled={savePending}>
@@ -340,7 +341,7 @@ const ListingEditForm = ({
 								</Button>
 							</Collapsible.Content>
 						</Collapsible.Root>
-					</Wrap>
+					</Stack>
 				}
 			/>
 			<DeleteListingDialog

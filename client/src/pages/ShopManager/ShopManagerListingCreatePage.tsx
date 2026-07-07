@@ -1,4 +1,4 @@
-import { Button, Wrap } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -91,7 +91,6 @@ export const ShopManagerListingCreatePage = () => {
 	};
 
 	const isBusy = form.isUploadingImages || savePending;
-	const isBlocked = !form.isDirty || isBusy;
 
 	return (
 		<ListingFormLayout
@@ -99,18 +98,16 @@ export const ShopManagerListingCreatePage = () => {
 			containerRef={containerRef}
 			disabled={savePending}
 			actions={
-				<Wrap gap={3}>
-					<Button
-						size="md"
-						fontSize={18}
-						onClick={handleCreate}
-						disabled={isBlocked}
-						loading={isBusy}
-					>
-						<FaCheckCircle />
-						Publish
-					</Button>
-				</Wrap>
+				<Button
+					size="lg"
+					width={150}
+					fontSize={22}
+					onClick={handleCreate}
+					loading={isBusy}
+				>
+					<FaCheckCircle />
+					Publish
+				</Button>
 			}
 		/>
 	);

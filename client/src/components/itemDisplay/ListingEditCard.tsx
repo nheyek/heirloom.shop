@@ -7,6 +7,7 @@ import {
 	Stack,
 	Switch,
 	Text,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';
@@ -102,7 +103,9 @@ const ListingAvailableDialog = ({
 							onClick={onConfirm}
 							loading={pending}
 						>
-							{makeAvailable ? 'Activate' : 'Deactivate'}
+							{makeAvailable
+								? 'Activate'
+								: 'Deactivate'}
 						</Button>
 					</HStack>
 				</Dialog.Footer>
@@ -124,6 +127,8 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 		boolean | null
 	>(null);
 	const [switchKey, setSwitchKey] = useState(0);
+
+	const compact = useBreakpointValue({ base: true, md: false });
 
 	const handleToggle = (checked: boolean) => {
 		setPendingChecked(checked);
@@ -187,9 +192,11 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 					>
 						<Switch.HiddenInput />
 						<Switch.Control />
-						<Switch.Label fontSize={17}>
-							Available
-						</Switch.Label>
+						{!compact && (
+							<Switch.Label fontSize={17}>
+								Available
+							</Switch.Label>
+						)}
 					</Switch.Root>
 				}
 			/>
