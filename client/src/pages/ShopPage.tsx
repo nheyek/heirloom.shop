@@ -177,7 +177,7 @@ export const ShopPage = () => {
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: (value * 2) / 3,
+											[key]: value * 0.65,
 										}),
 										{},
 									)}
@@ -215,7 +215,7 @@ export const ShopPage = () => {
 										).reduce(
 											(acc, [key, value]) => ({
 												...acc,
-												[key]: value / 2,
+												[key]: value * 0.55,
 											}),
 											{},
 										)}
