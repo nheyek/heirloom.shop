@@ -9,7 +9,7 @@ import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { useRef, useState } from 'react';
-import { FaCheckCircle, FaSave } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShopManagerListingCreatePage = () => {
@@ -39,7 +39,7 @@ export const ShopManagerListingCreatePage = () => {
 
 	const listingsPath = `/${CLIENT_ROUTES.shop}/${shopShortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`;
 
-	const handleCreate = async (available: boolean) => {
+	const handleCreate = async () => {
 		if (!form.validate()) {
 			requestAnimationFrame(() => {
 				containerRef.current
@@ -79,7 +79,6 @@ export const ShopManagerListingCreatePage = () => {
 							: null,
 					variations: form.variations,
 					combinations: form.combinations,
-					available,
 				},
 			}),
 		);
@@ -104,17 +103,7 @@ export const ShopManagerListingCreatePage = () => {
 					<Button
 						size="md"
 						fontSize={18}
-						variant="outline"
-						onClick={() => handleCreate(false)}
-						disabled={isBlocked}
-					>
-						<FaSave />
-						Save Draft
-					</Button>
-					<Button
-						size="md"
-						fontSize={18}
-						onClick={() => handleCreate(true)}
+						onClick={handleCreate}
 						disabled={isBlocked}
 						loading={isBusy}
 					>

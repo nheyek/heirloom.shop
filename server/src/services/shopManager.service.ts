@@ -94,7 +94,6 @@ export const createListing = async (
 		fullDescr: ListingFullDescr | null;
 		variations: VariationsData;
 		combinations: CombinationsData;
-		available: boolean;
 	},
 ): Promise<ListingEditData> => {
 	const em = getEm();
@@ -130,7 +129,7 @@ export const createListing = async (
 		fullDescr: data.fullDescr,
 		variations: data.variations,
 		combinations: data.combinations,
-		available: data.available,
+		available: true,
 	});
 
 	await em.persist(listing).flush();

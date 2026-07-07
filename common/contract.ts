@@ -541,7 +541,6 @@ export const shopManagerContract = c.router({
 			fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 			variations: VariationsSchema,
 			combinations: CombinationsSchema,
-			available: z.boolean(),
 		}),
 		responses: {
 			200: ListingEditDataSchema,
