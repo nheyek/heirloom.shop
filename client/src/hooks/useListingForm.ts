@@ -98,6 +98,8 @@ export type ListingFormState = {
 	setPriceError: (v: string | null) => void;
 	combinationError: string | null;
 	setCombinationError: (v: string | null) => void;
+	invalidCombinationKeys: Set<string>;
+	setInvalidCombinationKeys: (v: Set<string>) => void;
 
 	processingProfiles: ProcessingProfile[];
 	addProcessingProfile: (profile: ProcessingProfile) => void;
@@ -209,6 +211,8 @@ export const useListingForm = ({
 	const [combinationError, setCombinationError] = useState<
 		string | null
 	>(null);
+	const [invalidCombinationKeys, setInvalidCombinationKeys] =
+		useState<Set<string>>(new Set());
 	const [processingProfiles, setProcessingProfiles] = useState<
 		ProcessingProfile[]
 	>(initialProcessingProfiles);
@@ -453,7 +457,7 @@ export const useListingForm = ({
 		}
 
 		let hasActive = allCombinations.length === 0;
-		let missingPrice = false;
+		const missingPriceKeys: string[] = [];
 
 		for (const { key, optionMap } of allCombinations) {
 			const entry = combinations[key];
@@ -468,7 +472,7 @@ export const useListingForm = ({
 						priceCents,
 					);
 				if (!(effectivePrice && effectivePrice > 0))
-					missingPrice = true;
+					missingPriceKeys.push(key);
 			}
 		}
 
@@ -476,14 +480,17 @@ export const useListingForm = ({
 			setCombinationError(
 				'At least one combination must be active.',
 			);
+			setInvalidCombinationKeys(new Set());
 			valid = false;
-		} else if (missingPrice) {
+		} else if (missingPriceKeys.length > 0) {
 			setCombinationError(
-				'A price must be defined for every active combination.',
+				'Price is required for every combination.',
 			);
+			setInvalidCombinationKeys(new Set(missingPriceKeys));
 			valid = false;
 		} else {
 			setCombinationError(null);
+			setInvalidCombinationKeys(new Set());
 		}
 
 		return valid;
@@ -518,6 +525,8 @@ export const useListingForm = ({
 		setPriceError,
 		combinationError,
 		setCombinationError,
+		invalidCombinationKeys,
+		setInvalidCombinationKeys,
 		processingProfiles,
 		addProcessingProfile,
 		processingProfileId,

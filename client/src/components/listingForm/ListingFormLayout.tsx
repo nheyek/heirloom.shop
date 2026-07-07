@@ -43,9 +43,13 @@ export const ListingFormLayout = ({
 									patch.priceCents > 0))
 						) {
 							form.setCombinationError(null);
+							form.setInvalidCombinationKeys(
+								new Set(),
+							);
 						}
 					}}
 					invalid={!!form.combinationError}
+					invalidKeys={form.invalidCombinationKeys}
 				/>
 				{form.combinationError && (
 					<FieldError>{form.combinationError}</FieldError>

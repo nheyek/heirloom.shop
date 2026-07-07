@@ -29,6 +29,7 @@ type Props = {
 	combinations: Record<string, Combination>;
 	onUpdate: (key: string, patch: Partial<Combination>) => void;
 	invalid?: boolean;
+	invalidKeys?: Set<string>;
 	disabled?: boolean;
 	uploadImage: (file: File) => Promise<string | null>;
 	shopShortId: string;
@@ -45,6 +46,7 @@ export const CombinationGrid = ({
 	combinations,
 	onUpdate,
 	invalid,
+	invalidKeys,
 	disabled,
 	uploadImage,
 	shopShortId,
@@ -58,8 +60,8 @@ export const CombinationGrid = ({
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
 	const showImage = sortedVariations.some(([, v]) => v.imagesVary);
 
-	const combos = deriveCombinationsList(variations);
-	if (combos.length === 0) return null;
+	const combinationsList = deriveCombinationsList(variations);
+	if (combinationsList.length === 0) return null;
 
 	const optionName = (varId: string, optId: string) =>
 		variations[varId]?.options[optId]?.name ?? '';
@@ -81,12 +83,23 @@ export const CombinationGrid = ({
 				size="md"
 				width="fit-content"
 				stickyHeader
-				striped
 			>
 				<Table.Header fontSize={16}>
-					<Table.Row bg="bg.subtle">
+					<Table.Row
+						bg="bg.subtle"
+						borderBottom="1px solid"
+						borderBottomColor="gray.200"
+						{...(invalidKeys?.has(
+							combinationsList[0].key,
+						) && {
+							borderBottomColor: FIELD_ERROR_COLOR,
+						})}
+					>
 						{showImage && (
-							<Table.ColumnHeader w={100}>
+							<Table.ColumnHeader
+								w={100}
+								border="none"
+							>
 								Image
 							</Table.ColumnHeader>
 						)}
@@ -94,22 +107,26 @@ export const CombinationGrid = ({
 							<Table.ColumnHeader
 								key={varId}
 								minW={100}
+								border="none"
 							>
 								{v.name}
 							</Table.ColumnHeader>
 						))}
 						{showPrice && (
-							<Table.ColumnHeader>
+							<Table.ColumnHeader border="none">
 								Price
 							</Table.ColumnHeader>
 						)}
-						<Table.ColumnHeader textAlign="center">
+						<Table.ColumnHeader
+							textAlign="center"
+							border="none"
+						>
 							Active
 						</Table.ColumnHeader>
 					</Table.Row>
 				</Table.Header>
 				<Table.Body>
-					{combos.map(({ key, optionMap }) => {
+					{combinationsList.map(({ key, optionMap }, i) => {
 						const entry =
 							combinations[key] ?? DEFAULT_ENTRY;
 						const isDisabled = entry.disabled;
@@ -132,8 +149,21 @@ export const CombinationGrid = ({
 							entry.priceCents == null &&
 							effectivePrice != null;
 
+						const errorBottomBorder =
+							invalidKeys?.has(key) ||
+							(i < combinationsList.length - 1 &&
+								invalidKeys?.has(
+									combinationsList[i + 1].key,
+								));
+
 						return (
-							<Table.Row key={key}>
+							<Table.Row
+								key={key}
+								{...(errorBottomBorder && {
+									borderBottomColor:
+										FIELD_ERROR_COLOR,
+								})}
+							>
 								{/* Image */}
 								{showImage && (
 									<Table.Cell
@@ -229,7 +259,7 @@ export const CombinationGrid = ({
 															color="gray"
 															size={20}
 															opacity={
-																0.4
+																0.5
 															}
 														/>
 													) : (
