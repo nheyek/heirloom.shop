@@ -69,13 +69,12 @@ export const ProfileSelect = ({
 							<Button
 								variant="ghost"
 								size="sm"
+								h={10}
 								w="full"
 								justifyContent="flex-start"
 								px={2}
-								pt={1}
 								borderRadius={0}
 								fontSize={18}
-								fontWeight={400}
 								onPointerDown={(e) => {
 									e.preventDefault();
 									e.stopPropagation();
