@@ -24,7 +24,7 @@ import {
 	VariationOption,
 	Variations,
 } from '@heirloom/common/domain/listing';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export type ProcessingProfile = {
 	id: string;
@@ -147,6 +147,7 @@ export type ListingFormState = {
 		patch: Partial<Combination>,
 	) => void;
 
+	isDirty: boolean;
 	validate: () => boolean;
 };
 
@@ -385,6 +386,27 @@ export const useListingForm = ({
 		return result.error !== null ? null : result.data;
 	}, initialImageEntries);
 
+	// Dirty tracking: snapshot the user-editable fields on mount and
+	// compare against the current values each render.
+	const serializeFields = () =>
+		JSON.stringify({
+			title,
+			subtitle,
+			categoryId,
+			priceCents,
+			imageUuids: imageEntries.map((e) => e.uuid),
+			processingProfileId,
+			shippingProfileId,
+			returnProfileId,
+			descrSections,
+			variations,
+			combinations,
+		});
+	const initialSnapshot = useRef<string | null>(null);
+	if (initialSnapshot.current === null)
+		initialSnapshot.current = serializeFields();
+	const isDirty = serializeFields() !== initialSnapshot.current;
+
 	const validate = (): boolean => {
 		let valid = true;
 
@@ -558,6 +580,7 @@ export const useListingForm = ({
 		reorderVariations,
 		combinations,
 		setCombinationField,
+		isDirty,
 		validate,
 	};
 };

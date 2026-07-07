@@ -4,6 +4,7 @@ import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormS
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingForm } from '@client/hooks/useListingForm';
+import { useUnsavedChangesGuard } from '@client/hooks/useUnsavedChangesGuard';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -29,6 +30,8 @@ export const ShopManagerListingCreatePage = () => {
 	});
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [savePending, setSavePending] = useState(false);
+
+	useUnsavedChangesGuard(form.isDirty);
 
 	if (profilesLoading) {
 		return <ListingFormSkeleton />;
@@ -88,7 +91,8 @@ export const ShopManagerListingCreatePage = () => {
 		navigate(listingsPath);
 	};
 
-	const isBlocked = form.isUploadingImages || savePending;
+	const isBusy = form.isUploadingImages || savePending;
+	const isBlocked = !form.isDirty || isBusy;
 
 	return (
 		<ListingFormLayout
@@ -112,7 +116,7 @@ export const ShopManagerListingCreatePage = () => {
 						fontSize={18}
 						onClick={() => handleCreate(true)}
 						disabled={isBlocked}
-						loading={isBlocked}
+						loading={isBusy}
 					>
 						<FaCheckCircle />
 						Publish

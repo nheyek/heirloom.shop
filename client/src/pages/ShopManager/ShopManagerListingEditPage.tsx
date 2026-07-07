@@ -20,6 +20,7 @@ import {
 	ShippingProfile,
 	useListingForm,
 } from '@client/hooks/useListingForm';
+import { useUnsavedChangesGuard } from '@client/hooks/useUnsavedChangesGuard';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -203,6 +204,8 @@ const ListingEditForm = ({
 			listingData.combinations as CombinationsData,
 	});
 
+	useUnsavedChangesGuard(form.isDirty);
+
 	const handleSave = async () => {
 		if (!form.validate()) {
 			requestAnimationFrame(() => {
@@ -291,7 +294,9 @@ const ListingEditForm = ({
 							fontSize={18}
 							onClick={handleSave}
 							disabled={
-								form.isUploadingImages || savePending
+								!form.isDirty ||
+								form.isUploadingImages ||
+								savePending
 							}
 							loading={
 								form.isUploadingImages || savePending
