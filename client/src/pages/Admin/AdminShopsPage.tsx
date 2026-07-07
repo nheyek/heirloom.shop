@@ -53,6 +53,7 @@ export const AdminShopsPage = () => {
 						borderRadius="md"
 						border="1px solid"
 						borderColor="gray.200"
+						w="fit-content"
 						maxW={1000}
 					>
 						<Table.Root
@@ -60,22 +61,23 @@ export const AdminShopsPage = () => {
 							stickyHeader
 							variant="outline"
 							interactive
+							width="fit-content"
 						>
 							<Table.Header>
 								<Table.Row>
-									<Table.ColumnHeader>
+									<Table.ColumnHeader minW={200}>
 										Title
 									</Table.ColumnHeader>
-									<Table.ColumnHeader>
+									<Table.ColumnHeader w={125}>
 										Created
 									</Table.ColumnHeader>
 
-									<Table.ColumnHeader>
+									<Table.ColumnHeader w={125}>
 										Fulfillment
 									</Table.ColumnHeader>
 									<Table.ColumnHeader
 										textAlign="right"
-										width={50}
+										w={100}
 									>
 										Listings
 									</Table.ColumnHeader>
@@ -112,7 +114,14 @@ export const AdminShopsPage = () => {
 									: shops.map((shop) => (
 											<Table.Row key={shop.id}>
 												<Table.Cell>
-													<Link asChild>
+													{/* Truncation lives on the link because max-width
+													    on a td isn't honored in auto table layout. */}
+													<Link
+														asChild
+														display="block"
+														maxW={400}
+														truncate
+													>
 														<RouterLink
 															to={`/${CLIENT_ROUTES.shop}/${shop.shortId}/${CLIENT_ROUTES.manage}`}
 														>
