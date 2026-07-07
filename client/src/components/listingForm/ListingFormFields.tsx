@@ -264,10 +264,9 @@ export const ListingFormFields = ({
 
 					{directFulfillment && (
 						<Wrap
-							justifyContent="space-between"
 							align="start"
-							maxW={650}
-							gap={5}
+							gapX={10}
+							gapY={5}
 						>
 							<WrapItem>
 								<FormField
