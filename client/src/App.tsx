@@ -53,6 +53,7 @@ const App = () => {
 			<ScrollDebugReadout />
 			<Navbar />
 			<Box
+				data-debug="content"
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"

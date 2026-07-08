@@ -125,6 +125,7 @@ export const ShopPage = () => {
 			)}
 			{!isLoading && (
 				<Box
+					data-debug="banner"
 					position="relative"
 					boxShadow="md"
 				>
