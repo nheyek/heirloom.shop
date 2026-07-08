@@ -4,6 +4,8 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 
+import { ScrollToTop } from '@client/components/util/ScrollToTop';
+import { StripeProvider } from '@client/providers/StripeProvider';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
 import { FavoritesProvider } from './providers/FavoritesProvider';
@@ -15,13 +17,17 @@ const root = createRoot(document.getElementById('root')!);
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
+			<ScrollToTop />
+
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
 					<FavoritesProvider>
 						<CategoriesProvider>
 							<ShoppingCartProvider>
 								<ChakraProvider value={customSystem}>
-									<App />
+									<StripeProvider>
+										<App />
+									</StripeProvider>
 								</ChakraProvider>
 							</ShoppingCartProvider>
 						</CategoriesProvider>

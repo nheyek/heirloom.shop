@@ -1,7 +1,6 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
-import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
@@ -27,7 +26,6 @@ import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessages
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
 import { ShopPage } from './pages/ShopPage';
 import { OrderSuccess } from './pages/SuccessPage';
-import { StripeProvider } from './providers/StripeProvider';
 
 const ShopManagerDefaultRedirect = () => {
 	const { shortId } = useParams<{ shortId: string }>();
@@ -47,148 +45,139 @@ const App = () => {
 	}, []);
 
 	return (
-		<StripeProvider>
+		<Box
+			display="flex"
+			flexDirection="column"
+			minHeight="100dvh"
+			opacity={mounted ? 1 : 0}
+			transition="opacity 0.25s"
+		>
+			<AppToaster />
+			<Navbar />
 			<Box
-				display="flex"
-				flexDirection="column"
-				minHeight="100dvh"
-				opacity={mounted ? 1 : 0}
-				transition="opacity 0.25s"
+				flex="1"
+				width="100%"
+				mx="auto"
+				position="relative"
 			>
-				<ScrollToTop />
-				<AppToaster />
-				<Navbar />
-				<Box
-					flex="1"
-					width="100%"
-					mx="auto"
-					position="relative"
-				>
-					<Routes>
+				<Routes>
+					<Route
+						path="/"
+						element={<LandingPage />}
+					/>
+					<Route
+						path="/callback"
+						element={<AuthCallback />}
+					/>
+					<Route element={<ShopManagerPageLayout />}>
 						<Route
-							path="/"
-							element={<LandingPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}`}
+							element={<ShopManagerDefaultRedirect />}
 						/>
 						<Route
-							path="/callback"
-							element={<AuthCallback />}
-						/>
-						<Route element={<ShopManagerPageLayout />}>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}`}
-								element={
-									<ShopManagerDefaultRedirect />
-								}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`}
-								element={<ShopManagerInfoPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}
-								element={<ShopManagerListingsPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`}
-								element={
-									<ShopManagerListingCreatePage />
-								}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/:listingShortId`}
-								element={
-									<ShopManagerListingEditPage />
-								}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}
-								element={<ShopManagerOrdersPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`}
-								element={<ShopManagerMessagesPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
-								element={null}
-							/>
-						</Route>
-						<Route element={<AccountPageLayout />}>
-							<Route
-								path={`/${CLIENT_ROUTES.favorites}`}
-								element={<FavoritesPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.orders}`}
-								element={<OrdersPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.orders}/:shortId`}
-								element={<OrderPage />}
-							/>
-						</Route>
-						<Route
-							path={`/${CLIENT_ROUTES.order}/:shortId`}
-							element={<OrderIsolatedPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.info}`}
+							element={<ShopManagerInfoPage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.category}/:id`}
-							element={<CategoryPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`}
+							element={<ShopManagerListingsPage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.shop}/:id`}
-							element={<ShopPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`}
+							element={<ShopManagerListingCreatePage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.listing}/:id`}
-							element={<ListingPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/:listingShortId`}
+							element={<ShopManagerListingEditPage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.checkout}`}
-							element={<CheckoutPage />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}
+							element={<ShopManagerOrdersPage />}
 						/>
 						<Route
-							path={`/${CLIENT_ROUTES.orderConfirmed}`}
-							element={<OrderSuccess />}
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`}
+							element={<ShopManagerMessagesPage />}
 						/>
-						<Route element={<AdminPageLayout />}>
-							<Route
-								path={`/${CLIENT_ROUTES.admin}`}
-								element={
-									<Navigate
-										to={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
-										replace
-									/>
-								}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
-								element={<AdminShopsPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`}
-								element={null}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.analytics}`}
-								element={null}
-							/>
-						</Route>
-
 						<Route
-							path="*"
+							path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
+							element={null}
+						/>
+					</Route>
+					<Route element={<AccountPageLayout />}>
+						<Route
+							path={`/${CLIENT_ROUTES.favorites}`}
+							element={<FavoritesPage />}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.orders}`}
+							element={<OrdersPage />}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.orders}/:shortId`}
+							element={<OrderPage />}
+						/>
+					</Route>
+					<Route
+						path={`/${CLIENT_ROUTES.order}/:shortId`}
+						element={<OrderIsolatedPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.category}/:id`}
+						element={<CategoryPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.shop}/:id`}
+						element={<ShopPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.listing}/:id`}
+						element={<ListingPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.checkout}`}
+						element={<CheckoutPage />}
+					/>
+					<Route
+						path={`/${CLIENT_ROUTES.orderConfirmed}`}
+						element={<OrderSuccess />}
+					/>
+					<Route element={<AdminPageLayout />}>
+						<Route
+							path={`/${CLIENT_ROUTES.admin}`}
 							element={
 								<Navigate
-									to="/"
+									to={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
 									replace
 								/>
 							}
 						/>
-					</Routes>
-				</Box>
-				<Footer />
+						<Route
+							path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.shops}`}
+							element={<AdminShopsPage />}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`}
+							element={null}
+						/>
+						<Route
+							path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.analytics}`}
+							element={null}
+						/>
+					</Route>
+
+					<Route
+						path="*"
+						element={
+							<Navigate
+								to="/"
+								replace
+							/>
+						}
+					/>
+				</Routes>
 			</Box>
-		</StripeProvider>
+			<Footer />
+		</Box>
 	);
 };
 
