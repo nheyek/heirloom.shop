@@ -1,38 +1,31 @@
-import { useEffect, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
-
-// Scroll position for each visited history entry, keyed by location.key.
-const savedPositions = new Map<string, number>();
 
 export const ScrollToTop = () => {
 	const { key } = useLocation();
 	const navigationType = useNavigationType();
 
-	// With 'auto', mobile browsers asynchronously re-apply remembered
-	// scroll offsets after the new page's content loads, undoing our
-	// reset. 'manual' disables all browser scroll meddling; we handle
-	// back/forward restoration ourselves below.
-	useEffect(() => {
-		window.history.scrollRestoration = 'manual';
-	}, []);
-
-	// Track the current entry's scroll position for later restoration.
-	useEffect(() => {
-		const onScroll = () => {
-			savedPositions.set(key, window.scrollY);
-		};
-		window.addEventListener('scroll', onScroll, { passive: true });
-		return () =>
-			window.removeEventListener('scroll', onScroll);
-	}, [key]);
-
-	// Layout effect so the scroll is set before the new page paints.
 	useLayoutEffect(() => {
-		if (navigationType === 'POP') {
-			window.scrollTo(0, savedPositions.get(key) ?? 0);
-		} else {
+		if (navigationType === 'POP') return;
+
+		window.scrollTo(0, 0);
+
+		// Mobile browsers auto-collapse/expand the URL/tab bar based on
+		// scroll direction. If it re-expands right after we reset to 0,
+		// the visual viewport shrinks and the page appears scrolled down
+		// by the bar's height even though scrollY may still read 0. This
+		// resizes visualViewport (not window), so re-zero once that
+		// settling resize fires; it's a single show/hide transition, so
+		// the listener removes itself after the first event.
+		const vv = window.visualViewport;
+		if (!vv) return;
+
+		const reset = () => {
 			window.scrollTo(0, 0);
-		}
+			vv.removeEventListener('resize', reset);
+		};
+		vv.addEventListener('resize', reset);
+		return () => vv.removeEventListener('resize', reset);
 	}, [key, navigationType]);
 
 	return null;
