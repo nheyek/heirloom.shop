@@ -14,6 +14,7 @@ import { Logo } from '@client/components/branding/Logo';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
+import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { FadeInBox } from '@client/components/util/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
@@ -194,10 +195,10 @@ export const Navbar = () => {
 								</Box>
 							</FadeInBox>
 						)}
-						{/* <ShoppingCartDrawer
+						<ShoppingCartDrawer
 							isOpen={shoppingCart.isDrawerOpen}
 							onClose={shoppingCart.closeDrawer}
-						/> */}
+						/>
 					</HStack>
 				</GridItem>
 			</Grid>
