@@ -4,7 +4,6 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 
-import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { StripeProvider } from '@client/providers/StripeProvider';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
@@ -32,7 +31,6 @@ root.render(
 					</FavoritesProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
-			<ScrollToTop />
 		</BrowserRouter>
 	</React.StrictMode>,
 );

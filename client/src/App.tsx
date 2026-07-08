@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { Navbar } from '@client/components/navbar/NavBar';
+import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import React, { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
@@ -55,6 +56,8 @@ const App = () => {
 				opacity={mounted ? 1 : 0}
 				transition="opacity 0.25s"
 			>
+				<ScrollToTop />
+
 				<Box
 					flex="1"
 					width="100%"
