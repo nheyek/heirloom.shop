@@ -7,7 +7,6 @@ import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
-import { Navbar } from './components/navbar/NavBar';
 import { CLIENT_ROUTES } from './constants';
 import { AdminShopsPage } from './pages/Admin/AdminShopsPage';
 import { AuthCallback } from './pages/AuthCallback';
@@ -53,7 +52,7 @@ const App = () => {
 			transition="opacity 0.25s"
 		>
 			<AppToaster />
-			<Navbar />
+			{/* <Navbar /> */}
 			<Box
 				flex="1"
 				width="100%"
