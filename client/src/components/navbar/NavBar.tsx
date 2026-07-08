@@ -70,6 +70,10 @@ export const Navbar = () => {
 			position="sticky"
 			top={0}
 			zIndex="docked"
+			// Excludes the navbar from the page-level view-transition
+			// crossfade so it persists smoothly across navigation
+			// instead of being blended along with page content.
+			style={{ viewTransitionName: 'navbar' }}
 		>
 			<Grid
 				gridTemplateAreas={{

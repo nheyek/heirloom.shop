@@ -30,7 +30,10 @@ export const ShopCard = (props: Props) => {
 			variant="elevated"
 			minWidth={props.minWidth}
 		>
-			<RouterLink to={shopUrl}>
+			<RouterLink
+				to={shopUrl}
+				viewTransition
+			>
 				{props.profileImageUuid ? (
 					<AppImage
 						imageProps={{
@@ -48,7 +51,10 @@ export const ShopCard = (props: Props) => {
 				fontFamily={FONT_DECORATIVE}
 			>
 				<Stack gap={0}>
-					<RouterLink to={shopUrl}>
+					<RouterLink
+						to={shopUrl}
+						viewTransition
+					>
 						<Link asChild>
 							<Heading
 								fontSize={24}
