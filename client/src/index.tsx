@@ -16,6 +16,7 @@ import customSystem from './theme';
 const root = createRoot(document.getElementById('root')!);
 root.render(
 	<React.StrictMode>
+		<div id="anchor"></div>
 		<BrowserRouter>
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
