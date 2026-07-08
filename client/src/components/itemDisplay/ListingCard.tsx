@@ -109,10 +109,7 @@ export const ListingCard = ({
 				gap={1.5}
 			>
 				<Stack gap={0}>
-					<RouterLink
-						to={listingUrl}
-						viewTransition
-					>
+					<RouterLink to={listingUrl}>
 						<Link asChild>
 							<Heading
 								size="2xl"

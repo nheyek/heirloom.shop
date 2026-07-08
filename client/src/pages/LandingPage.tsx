@@ -1,5 +1,4 @@
 import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
-import { IntroCarousel } from '@client/components/branding/IntroCarousel';
 import { Logo } from '@client/components/branding/Logo';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
@@ -97,7 +96,7 @@ export const LandingPage = () => {
 					</Box>
 				</Flex>
 
-				<IntroCarousel />
+				{/* <IntroCarousel /> */}
 			</Stack>
 
 			{categoriesError ? (
