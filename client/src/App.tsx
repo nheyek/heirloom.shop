@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { Navbar } from '@client/components/navbar/NavBar';
+import { DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS } from '@client/theme';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import React, { useEffect, useState } from 'react';
@@ -53,6 +54,12 @@ const App = () => {
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"
+				// Offsets the fixed navbar, which no longer occupies
+				// document flow; must match the navbar's height.
+				pt={{
+					base: '110px',
+					md: DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS,
+				}}
 				opacity={mounted ? 1 : 0}
 				transition="opacity 0.25s"
 			>
