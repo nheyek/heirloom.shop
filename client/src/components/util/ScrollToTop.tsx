@@ -8,9 +8,11 @@ export const ScrollToTop = () => {
 	useEffect(() => {
 		if (navigationType === 'POP') return;
 
-		document
-			.getElementById('anchor')
-			?.scrollIntoView({ behavior: 'instant' });
+		setTimeout(() => {
+			document
+				.getElementById('anchor')
+				?.scrollIntoView({ behavior: 'instant' });
+		}, 100);
 	}, [key, navigationType]);
 
 	return null;
