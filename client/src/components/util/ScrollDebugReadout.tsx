@@ -9,28 +9,40 @@ export const ScrollDebugReadout = () => {
 	useEffect(() => {
 		let raf: number;
 		const tick = () => {
-			const vv = window.visualViewport;
-			// Find every element that is actually scrolled.
-			const scrolled: string[] = [];
+			// Any element actually scrolled?
+			let scrolled = 'none';
 			for (const el of document.querySelectorAll('*')) {
 				if (el.scrollTop > 0) {
-					const tag = el.tagName.toLowerCase();
-					const cls = [...el.classList]
-						.slice(0, 2)
-						.join('.');
-					scrolled.push(
-						`${tag}${cls ? '.' + cls : ''}=${Math.round(el.scrollTop)}`,
-					);
-					if (scrolled.length >= 3) break;
+					scrolled = `${el.tagName.toLowerCase()}=${Math.round(el.scrollTop)}`;
+					break;
+				}
+			}
+			// Where do the structural containers actually sit?
+			const bodyTop = Math.round(
+				document.body.getBoundingClientRect().top,
+			);
+			const root = document.getElementById('root');
+			const rootTop = root
+				? Math.round(root.getBoundingClientRect().top)
+				: '?';
+			// Any transformed ancestor shifting content?
+			let transformed = 'none';
+			for (const el of document.querySelectorAll(
+				'body, #root, #root > *, #root > * > *',
+			)) {
+				const t = getComputedStyle(el).transform;
+				if (t && t !== 'none') {
+					transformed = `${el.tagName.toLowerCase()} ${t.slice(0, 40)}`;
+					break;
 				}
 			}
 			setText(
 				`scrollY=${Math.round(window.scrollY)} ` +
-					`bodyST=${Math.round(document.body.scrollTop)} ` +
-					`pageTop=${vv ? Math.round(vv.pageTop) : '?'} ` +
+					`scrolled=${scrolled} ` +
+					`bodyTop=${bodyTop} rootTop=${rootTop} ` +
 					`docH=${document.documentElement.scrollHeight} ` +
 					`innerH=${window.innerHeight} | ` +
-					`scrolled: ${scrolled.join(' ') || 'none'}`,
+					`xform: ${transformed}`,
 			);
 			raf = requestAnimationFrame(tick);
 		};
