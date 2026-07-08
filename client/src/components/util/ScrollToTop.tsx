@@ -9,10 +9,8 @@ export const ScrollToTop = () => {
 		if (navigationType === 'POP') return;
 
 		setTimeout(() => {
-			document
-				.getElementById('anchor')
-				?.scrollIntoView({ behavior: 'instant' });
-		}, 100);
+			window.scrollTo(0, 0);
+		}, 1000);
 	}, [key, navigationType]);
 
 	return null;
