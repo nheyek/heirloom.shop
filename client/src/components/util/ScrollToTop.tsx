@@ -8,12 +8,12 @@ export const ScrollToTop = () => {
 	useEffect(() => {
 		if (navigationType === 'POP') return;
 
-		setTimeout(() => {
-			window.scrollTo(
-				Number.NEGATIVE_INFINITY,
-				Number.NEGATIVE_INFINITY,
-			);
-		}, 10);
+		window.scrollTo(0, 0);
+		document.documentElement.scrollTo({
+			top: 0,
+			left: 0,
+			behavior: 'instant',
+		});
 	}, [key, navigationType]);
 
 	return null;
