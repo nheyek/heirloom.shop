@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
+import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
@@ -8,7 +9,6 @@ import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { Navbar } from './components/navbar/NavBar';
-import { ScrollToTop } from './components/util/ScrollToTop';
 import { CLIENT_ROUTES } from './constants';
 import { AdminShopsPage } from './pages/Admin/AdminShopsPage';
 import { AuthCallback } from './pages/AuthCallback';
@@ -48,6 +48,8 @@ const App = () => {
 
 	return (
 		<StripeProvider>
+			<ScrollToTop />
+
 			<Box
 				display="flex"
 				flexDirection="column"
@@ -56,7 +58,6 @@ const App = () => {
 				transition="opacity 0.25s"
 			>
 				<AppToaster />
-
 				<Navbar />
 				<Box
 					flex="1"
@@ -64,8 +65,6 @@ const App = () => {
 					mx="auto"
 					position="relative"
 				>
-					<ScrollToTop />
-
 					<Routes>
 						<Route
 							path="/"
