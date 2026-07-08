@@ -133,6 +133,14 @@ export const config = defineConfig({
 		'html, body': {
 			touchAction: 'pan-y',
 			minHeight: '100dvh',
+			// CSS scroll anchoring adjusts scroll offset to compensate
+			// for content height changes above the viewport — useful for
+			// "an ad loaded above me" pages, but actively wrong for an
+			// SPA where a route change tears down and rebuilds content
+			// below the sticky navbar. The deeper scrolled, the more
+			// content sits "above," so the more the browser compensates,
+			// producing a residual scroll offset after navigation.
+			overflowAnchor: 'none',
 		},
 		// Prevents outline on accordion section headers on mobile
 		'*:focus': {
