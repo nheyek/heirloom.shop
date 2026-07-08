@@ -17,8 +17,6 @@ const root = createRoot(document.getElementById('root')!);
 root.render(
 	<React.StrictMode>
 		<BrowserRouter>
-			<ScrollToTop />
-
 			<Auth0ProviderWithNavigate>
 				<UserProvider>
 					<FavoritesProvider>
@@ -34,6 +32,7 @@ root.render(
 					</FavoritesProvider>
 				</UserProvider>
 			</Auth0ProviderWithNavigate>
+			<ScrollToTop />
 		</BrowserRouter>
 	</React.StrictMode>,
 );
