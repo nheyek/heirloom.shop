@@ -19,10 +19,7 @@ import { FadeInBox } from '@client/components/util/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import {
-	DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS,
-	FONT_DISPLAY_SANS,
-} from '@client/theme';
+import { FONT_DISPLAY_SANS, NAVBAR_HEIGHT } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
 
@@ -65,7 +62,10 @@ export const Navbar = () => {
 			bg="brand"
 			px={4}
 			py={2}
-			h={{ base: 110, md: DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS }}
+			h={{
+				base: NAVBAR_HEIGHT.MOBILE,
+				md: NAVBAR_HEIGHT.DESKTOP,
+			}}
 			boxShadow="md"
 			// fixed, not sticky: sticky pinning is a per-frame scroll
 			// translation computed on the compositor thread, and for a

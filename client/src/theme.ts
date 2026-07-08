@@ -13,8 +13,10 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
-export const DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS = 16;
-export const MOBILE_NAVBAR_HEIGHT_PX = 110;
+export const NAVBAR_HEIGHT = {
+	DESKTOP: 16, // Spacing units
+	MOBILE: 110, // Pixels
+};
 export const SIDEBAR_WIDTH_PX = 250;
 
 const BASE_BREAKPOINTS = {

@@ -11,9 +11,9 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import {
-	DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS,
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
+	NAVBAR_HEIGHT,
 	SIDEBAR_WIDTH_PX,
 } from '@client/theme';
 import { IconType } from 'react-icons';
@@ -53,7 +53,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS}
+			top={NAVBAR_HEIGHT.DESKTOP}
 			overflowY="auto"
 		>
 			{navItems.map(({ label, icon: Icon, route }) => {
