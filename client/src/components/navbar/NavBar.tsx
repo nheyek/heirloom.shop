@@ -20,8 +20,8 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import {
+	DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS,
 	FONT_DISPLAY_SANS,
-	NAVBAR_HEIGHT_SPACING_UNITS,
 } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
@@ -65,7 +65,7 @@ export const Navbar = () => {
 			bg="brand"
 			px={4}
 			py={2}
-			h={{ md: NAVBAR_HEIGHT_SPACING_UNITS }}
+			h={{ base: 110, md: DESKTOP_NAVBAR_HEIGHT_SPACING_UNITS }}
 			boxShadow="md"
 			position="sticky"
 			top={0}
