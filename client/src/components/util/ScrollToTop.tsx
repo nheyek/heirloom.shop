@@ -1,13 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
-const USER_INTENT_EVENTS = [
-	'touchstart',
-	'pointerdown',
-	'wheel',
-	'keydown',
-] as const;
-
 export const ScrollToTop = () => {
 	const { key } = useLocation();
 	const navigationType = useNavigationType();
@@ -15,29 +8,20 @@ export const ScrollToTop = () => {
 	useLayoutEffect(() => {
 		if (navigationType === 'POP') return;
 
-		window.scrollTo(0, 0);
-
-		/* Mobile browsers scroll on the compositor thread, and for a few
-		frames after a route swap it can still hold the previous
-		page's scroll offset. When it reconciles, that stale offset —
-		clamped to the new (short, still-loading) page's height — is
-		synced back to the main thread, landing AFTER the reset above
-		and leaving the page sitting slightly below the top. That
-		sync-back fires a normal scroll event, so hold the scroll at
-		zero until the first real user input, then get out of the way. */
-		const release = () => {
-			window.removeEventListener('scroll', onScroll);
-			for (const e of USER_INTENT_EVENTS)
-				window.removeEventListener(e, release);
-		};
-		const onScroll = () => {
-			if (window.scrollY !== 0) window.scrollTo(0, 0);
-		};
-		window.addEventListener('scroll', onScroll);
-		for (const e of USER_INTENT_EVENTS)
-			window.addEventListener(e, release, { passive: true });
-
-		return release;
+		// On mobile, the compositor can keep rendering the page's
+		// content layer with a stale scroll translation from before the
+		// navigation, while the main thread already reads scrollY=0 —
+		// layout coordinates report the top, but the painted pixels sit
+		// higher. Because the main thread is at 0, a plain
+		// scrollTo(0, 0) is a no-op: no offset change, nothing is sent
+		// to the compositor, and the stale translation persists. Force a
+		// real change — nudge to 1px, then settle at 0 on the next frame
+		// — so the compositor is obligated to resync.
+		window.scrollTo(0, 1);
+		const raf = requestAnimationFrame(() => {
+			window.scrollTo(0, 0);
+		});
+		return () => cancelAnimationFrame(raf);
 	}, [key, navigationType]);
 
 	return null;

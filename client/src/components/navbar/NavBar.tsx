@@ -67,13 +67,6 @@ export const Navbar = () => {
 				md: NAVBAR_HEIGHT.DESKTOP,
 			}}
 			boxShadow="md"
-			// fixed, not sticky: sticky pinning is a per-frame scroll
-			// translation computed on the compositor thread, and for a
-			// frame or two after a route swap it can be painted unstuck
-			// against a stale scroll offset — visibly "flashing" the
-			// navbar away on mobile. A fixed element is anchored to the
-			// viewport, so no scroll offset can ever move it. The content
-			// below compensates with a matching padding-top (App.tsx).
 			position="fixed"
 			top={0}
 			left={0}

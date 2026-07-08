@@ -57,8 +57,6 @@ const App = () => {
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"
-				// Offsets the fixed navbar, which no longer occupies
-				// document flow; must match the navbar's height.
 				pt={{
 					base: NAVBAR_HEIGHT.MOBILE,
 					md: NAVBAR_HEIGHT.DESKTOP,
