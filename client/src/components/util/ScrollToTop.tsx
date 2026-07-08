@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { useLocation, useNavigationType } from 'react-router-dom';
 
 export const ScrollToTop = () => {
 	const { key } = useLocation();
 	const navigationType = useNavigationType();
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		if (navigationType === 'POP') return;
-		window.scrollTo(0, 0);
+		document.scrollingElement?.scrollTo(0, 0);
 	}, [key, navigationType]);
 
 	return null;

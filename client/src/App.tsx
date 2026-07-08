@@ -48,8 +48,6 @@ const App = () => {
 
 	return (
 		<StripeProvider>
-			<ScrollToTop />
-
 			<Box
 				display="flex"
 				flexDirection="column"
@@ -57,6 +55,7 @@ const App = () => {
 				opacity={mounted ? 1 : 0}
 				transition="opacity 0.25s"
 			>
+				<ScrollToTop />
 				<AppToaster />
 				<Navbar />
 				<Box
