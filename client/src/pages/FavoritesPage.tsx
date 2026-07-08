@@ -133,6 +133,7 @@ export const FavoritesPage = () => {
 						listings={listings}
 						isLoading={isLoading}
 						columns={gridColumns}
+						showShopTitle
 					/>
 				)}
 			</Tabs.Content>
