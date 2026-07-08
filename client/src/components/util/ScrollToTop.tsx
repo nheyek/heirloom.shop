@@ -9,8 +9,11 @@ export const ScrollToTop = () => {
 		if (navigationType === 'POP') return;
 
 		setTimeout(() => {
-			window.scrollTo(0, 0);
-		}, 1000);
+			window.scrollTo(
+				Number.NEGATIVE_INFINITY,
+				Number.NEGATIVE_INFINITY,
+			);
+		}, 10);
 	}, [key, navigationType]);
 
 	return null;
