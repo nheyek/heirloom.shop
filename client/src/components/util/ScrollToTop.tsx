@@ -8,9 +8,7 @@ export const ScrollToTop = () => {
 	useLayoutEffect(() => {
 		if (navigationType === 'POP') return;
 
-		setTimeout(() => {
-			window.scrollTo(0, 0);
-		}, 10);
+		window.scrollTo(0, 0);
 	}, [key, navigationType]);
 
 	return null;
