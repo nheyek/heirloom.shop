@@ -20,6 +20,7 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { FONT_DISPLAY_SANS, NAVBAR_HEIGHT } from '@client/theme';
+import React from 'react';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
 
@@ -58,156 +59,168 @@ export const Navbar = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	return (
-		<Box
-			bg="brand"
-			px={4}
-			py={2}
-			h={{
-				base: NAVBAR_HEIGHT.MOBILE,
-				md: NAVBAR_HEIGHT.DESKTOP,
-			}}
-			boxShadow="md"
-			position="fixed"
-			top={0}
-			left={0}
-			right={0}
-			zIndex="docked"
-			// Explicitly promotes the navbar to its own stable compositor
-			// layer at all times, rather than relying on the browser's
-			// implicit layer-promotion heuristics for fixed elements.
-			willChange="transform"
-		>
-			<Grid
-				gridTemplateAreas={{
-					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
-					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
+		<React.Fragment>
+			<Box
+				bg="brand"
+				px={4}
+				py={2}
+				h={{
+					base: NAVBAR_HEIGHT.MOBILE,
+					md: NAVBAR_HEIGHT.DESKTOP,
 				}}
-				templateColumns={{
-					base: '150px 1fr 150px',
-					md: '250px 1fr 150px',
-				}}
-				alignItems="center"
-				gapX={5}
-				gapY={1}
+				boxShadow="md"
+				position="fixed"
+				top={0}
+				left={0}
+				right={0}
+				zIndex="docked"
+				// Explicitly promotes the navbar to its own stable compositor
+				// layer at all times, rather than relying on the browser's
+				// implicit layer-promotion heuristics for fixed elements.
+				willChange="transform"
 			>
-				<GridItem area={gridTemplateAreas.LOGO}>
-					<HStack
-						gap={3}
-						alignItems="center"
-					>
-						<Link to="/">
-							<Box
-								flexShrink={0}
-								width={150}
-								mt={1}
-								cursor="button"
-							>
-								<Logo />
-							</Box>
-						</Link>
-						{(isAdminPage || isShopManagerPage) &&
-							!isMobile && (
-								<Text
-									color="white"
-									fontFamily={FONT_DISPLAY_SANS}
-									fontSize={24}
-									paddingTop={1}
+				<Grid
+					gridTemplateAreas={{
+						base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
+						md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
+					}}
+					templateColumns={{
+						base: '150px 1fr 150px',
+						md: '250px 1fr 150px',
+					}}
+					alignItems="center"
+					gapX={5}
+					gapY={1}
+				>
+					<GridItem area={gridTemplateAreas.LOGO}>
+						<HStack
+							gap={3}
+							alignItems="center"
+						>
+							<Link to="/">
+								<Box
+									flexShrink={0}
+									width={150}
+									mt={1}
+									cursor="button"
 								>
-									{isShopManagerPage
-										? 'Manager'
-										: 'Admin'}
-								</Text>
-							)}
-					</HStack>
-				</GridItem>
-				<GridItem
-					area={gridTemplateAreas.SEARCH}
-					justifySelf="center"
-					justifyContent="center"
-					w="100%"
-					maxW={500}
-					colSpan={{ base: 3, md: 1 }}
-				>
-					<NavbarSearch />
-				</GridItem>
-				<GridItem
-					area={gridTemplateAreas.BUTTONS}
-					justifySelf="end"
-				>
-					<HStack gap={1}>
-						{user?.isAdmin && (
-							<Link
-								to={[
-									CLIENT_ROUTES.admin,
-									CLIENT_ROUTES.shops,
-								].join('/')}
-							>
-								<NavBarIconButton>
-									<FaCrown />
-								</NavBarIconButton>
-							</Link>
-						)}
-						{!user?.isAdmin && user?.shopShortId && (
-							<Link
-								to={[
-									CLIENT_ROUTES.shop,
-									user.shopShortId,
-									CLIENT_ROUTES.manage,
-									CLIENT_ROUTES.info,
-								].join('/')}
-							>
-								<NavBarIconButton>
-									<FaShop />
-								</NavBarIconButton>
-							</Link>
-						)}
-						{!authIsLoading && (
-							<FadeInBox
-								display="flex"
-								alignItems="center"
-							>
-								{!isAuthenticated && <LoginButton />}
-								{isAuthenticated && <NavbarMenu />}
-								<Box position="relative">
-									<NavBarIconButton
-										onClick={
-											shoppingCart.openDrawer
-										}
-									>
-										<FaShoppingCart />
-									</NavBarIconButton>
-									{shoppingCart.items.length >
-										0 && (
-										<Flex
-											background="#FFF"
-											border="2px solid #000"
-											position="absolute"
-											top={-1}
-											right={-1}
-											w="22px"
-											h="22px"
-											borderRadius="full"
-											fontSize={12}
-											alignItems="center"
-											justifyContent="center"
-											fontWeight={700}
-										>
-											{
-												shoppingCart.items
-													.length
-											}
-										</Flex>
-									)}
+									<Logo />
 								</Box>
-							</FadeInBox>
-						)}
-						<ShoppingCartDrawer
-							isOpen={shoppingCart.isDrawerOpen}
-							onClose={shoppingCart.closeDrawer}
-						/>
-					</HStack>
-				</GridItem>
-			</Grid>
-		</Box>
+							</Link>
+							{(isAdminPage || isShopManagerPage) &&
+								!isMobile && (
+									<Text
+										color="white"
+										fontFamily={FONT_DISPLAY_SANS}
+										fontSize={24}
+										paddingTop={1}
+									>
+										{isShopManagerPage
+											? 'Manager'
+											: 'Admin'}
+									</Text>
+								)}
+						</HStack>
+					</GridItem>
+					<GridItem
+						area={gridTemplateAreas.SEARCH}
+						justifySelf="center"
+						justifyContent="center"
+						w="100%"
+						maxW={500}
+						colSpan={{ base: 3, md: 1 }}
+					>
+						<NavbarSearch />
+					</GridItem>
+					<GridItem
+						area={gridTemplateAreas.BUTTONS}
+						justifySelf="end"
+					>
+						<HStack gap={1}>
+							{user?.isAdmin && (
+								<Link
+									to={[
+										CLIENT_ROUTES.admin,
+										CLIENT_ROUTES.shops,
+									].join('/')}
+								>
+									<NavBarIconButton>
+										<FaCrown />
+									</NavBarIconButton>
+								</Link>
+							)}
+							{!user?.isAdmin && user?.shopShortId && (
+								<Link
+									to={[
+										CLIENT_ROUTES.shop,
+										user.shopShortId,
+										CLIENT_ROUTES.manage,
+										CLIENT_ROUTES.info,
+									].join('/')}
+								>
+									<NavBarIconButton>
+										<FaShop />
+									</NavBarIconButton>
+								</Link>
+							)}
+							{!authIsLoading && (
+								<FadeInBox
+									display="flex"
+									alignItems="center"
+								>
+									{!isAuthenticated && (
+										<LoginButton />
+									)}
+									{isAuthenticated && (
+										<NavbarMenu />
+									)}
+									<Box position="relative">
+										<NavBarIconButton
+											onClick={
+												shoppingCart.openDrawer
+											}
+										>
+											<FaShoppingCart />
+										</NavBarIconButton>
+										{shoppingCart.items.length >
+											0 && (
+											<Flex
+												background="#FFF"
+												border="2px solid #000"
+												position="absolute"
+												top={-1}
+												right={-1}
+												w="22px"
+												h="22px"
+												borderRadius="full"
+												fontSize={12}
+												alignItems="center"
+												justifyContent="center"
+												fontWeight={700}
+											>
+												{
+													shoppingCart.items
+														.length
+												}
+											</Flex>
+										)}
+									</Box>
+								</FadeInBox>
+							)}
+							<ShoppingCartDrawer
+								isOpen={shoppingCart.isDrawerOpen}
+								onClose={shoppingCart.closeDrawer}
+							/>
+						</HStack>
+					</GridItem>
+				</Grid>
+			</Box>
+			<Box
+				h={{
+					base: NAVBAR_HEIGHT.MOBILE,
+					md: NAVBAR_HEIGHT.DESKTOP,
+				}}
+			/>
+		</React.Fragment>
 	);
 };

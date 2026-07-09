@@ -9,6 +9,7 @@ export const ScrollToTop = () => {
 		if (navigationType === 'POP') {
 			return;
 		}
+		window.scrollTo(0, 0);
 	}, [key, navigationType]);
 
 	return null;

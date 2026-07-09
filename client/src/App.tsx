@@ -4,15 +4,8 @@ import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPage
 import { Navbar } from '@client/components/navbar/NavBar';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
-import { NAVBAR_HEIGHT } from '@client/theme';
-import React, { useEffect, useRef } from 'react';
-import {
-	Navigate,
-	Route,
-	Routes,
-	useLocation,
-	useParams,
-} from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
@@ -46,32 +39,18 @@ const ShopManagerDefaultRedirect = () => {
 };
 
 const App = () => {
-	const containerRef = useRef<HTMLDivElement>(null);
-
-	const { key } = useLocation();
-
-	useEffect(() => {
-		containerRef.current?.scrollIntoView();
-	}, [key]);
-
 	return (
 		<React.Fragment>
+			<ScrollToTop />
 			<AppToaster />
 			<Navbar />
-			<Box ref={containerRef} />
 			<Box
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"
-				pt={{
-					base: NAVBAR_HEIGHT.MOBILE,
-					md: NAVBAR_HEIGHT.DESKTOP,
-				}}
 				transition="opacity 0.25s"
 				overflowY="auto"
 			>
-				<ScrollToTop />
-
 				<Box
 					flex="1"
 					width="100%"
