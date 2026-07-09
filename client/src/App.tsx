@@ -3,7 +3,6 @@ import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
-import { NAVBAR_HEIGHT } from '@client/theme';
 import React, { useEffect, useRef } from 'react';
 import {
 	Navigate,
@@ -62,10 +61,10 @@ const App = () => {
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"
-				pt={{
-					base: NAVBAR_HEIGHT.MOBILE,
-					md: NAVBAR_HEIGHT.DESKTOP,
-				}}
+				// pt={{
+				// 	base: NAVBAR_HEIGHT.MOBILE,
+				// 	md: NAVBAR_HEIGHT.DESKTOP,
+				// }}
 				transition="opacity 0.25s"
 				overflowY="auto"
 			>
