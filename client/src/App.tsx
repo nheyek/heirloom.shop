@@ -51,24 +51,24 @@ const App = () => {
 	const { key } = useLocation();
 
 	useEffect(() => {
-		containerRef.current?.scrollTo(0, 0);
+		containerRef.current?.scrollIntoView();
 	}, [key]);
 
 	return (
 		<React.Fragment>
 			<AppToaster />
 			<Navbar />
+			<Box ref={containerRef} />
 			<Box
 				display="flex"
 				flexDirection="column"
-				height="100dvh"
+				minHeight="100dvh"
 				pt={{
 					base: NAVBAR_HEIGHT.MOBILE,
 					md: NAVBAR_HEIGHT.DESKTOP,
 				}}
 				transition="opacity 0.25s"
 				overflowY="auto"
-				ref={containerRef}
 			>
 				<ScrollToTop />
 
