@@ -70,6 +70,7 @@ export const Navbar = () => {
 			top={0}
 			left={0}
 			right={0}
+			position="fixed"
 			zIndex="docked"
 		>
 			<Grid

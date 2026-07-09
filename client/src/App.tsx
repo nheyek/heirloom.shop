@@ -4,6 +4,7 @@ import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPage
 import { Navbar } from '@client/components/navbar/NavBar';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
+import { NAVBAR_HEIGHT } from '@client/theme';
 import React from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
@@ -50,10 +51,10 @@ const App = () => {
 				minHeight="100dvh"
 				transition="opacity 0.25s"
 				overflowY="auto"
-				// pt={{
-				// 	base: NAVBAR_HEIGHT.MOBILE,
-				// 	md: NAVBAR_HEIGHT.DESKTOP,
-				// }}
+				pt={{
+					base: NAVBAR_HEIGHT.MOBILE,
+					md: NAVBAR_HEIGHT.DESKTOP,
+				}}
 				zIndex="docked"
 			>
 				<Box
