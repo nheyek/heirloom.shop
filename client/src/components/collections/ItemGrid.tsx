@@ -69,6 +69,8 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			<HStack
 				overflowX="auto"
 				gap={STANDARD_GRID_GAP}
+				p={5}
+				m={-5}
 				scrollbarWidth="none"
 			>
 				{isLoading && (
