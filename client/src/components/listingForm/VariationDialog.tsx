@@ -4,7 +4,6 @@ import {
 	Checkbox,
 	CloseButton,
 	Dialog,
-	Flex,
 	HStack,
 	IconButton,
 	Image,
@@ -98,23 +97,22 @@ const OptionRow = ({
 	const fileInputRef = useRef<HTMLInputElement | null>(null);
 
 	return (
-		<Flex
+		<HStack
 			ref={setNodeRef}
 			style={{
 				transform: CSS.Transform.toString(transform),
 				transition,
 				opacity: isDragging ? 0.4 : 1,
 			}}
-			alignItems="stretch"
 			{...(invalid && { bg: 'red.50' })}
 			{...(dividerColor && {
 				borderTopWidth: 1,
 				borderTopColor: dividerColor,
 			})}
-			overflow="auto"
 			gap={2}
 			px={2}
 			minH={12}
+			overflowX="auto"
 		>
 			{/* Drag handle */}
 			<IconButton
@@ -124,6 +122,7 @@ const OptionRow = ({
 				color="gray.400"
 				alignSelf="center"
 				touchAction="none"
+				flexShrink={0}
 				{...attributes}
 				{...listeners}
 			>
@@ -134,6 +133,7 @@ const OptionRow = ({
 				<Box
 					as="button"
 					w={OPTION_IMG_W}
+					flexShrink={0}
 					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
 					display="flex"
 					alignItems="center"
@@ -184,73 +184,70 @@ const OptionRow = ({
 				</Box>
 			)}
 
-			<HStack flex={1}>
-				{/* Name */}
-				<Input
-					ref={inputRef}
-					fontSize={18}
-					h={10}
-					minW={150}
-					value={entry.name}
-					onChange={(e) =>
-						onChange({ name: e.target.value })
+			{/* Name */}
+			<Input
+				ref={inputRef}
+				fontSize={18}
+				h={10}
+				minW={100}
+				value={entry.name}
+				onChange={(e) => onChange({ name: e.target.value })}
+				onKeyDown={(e) => {
+					if (
+						e.key === 'Tab' &&
+						!e.shiftKey &&
+						!showPrice
+					) {
+						e.preventDefault();
+						onTabKey?.();
 					}
-					onKeyDown={(e) => {
-						if (
-							e.key === 'Tab' &&
-							!e.shiftKey &&
-							!showPrice
-						) {
-							e.preventDefault();
-							onTabKey?.();
+				}}
+				placeholder="Option name"
+				{...(showImage
+					? {
+							bg: 'white',
+							...(invalid && {
+								borderColor: FIELD_ERROR_COLOR,
+							}),
 						}
-					}}
-					placeholder="Option name"
-					{...(showImage
-						? {
-								bg: 'white',
-								...(invalid && {
-									borderColor: FIELD_ERROR_COLOR,
-								}),
-							}
-						: {
-								border: 'none',
-								px: 0,
-							})}
-				/>
+					: {
+							border: 'none',
+							px: 0,
+						})}
+			/>
 
-				{/* Price */}
-				{showPrice && (
-					<Box alignSelf="center">
-						<PriceInput
-							value={entry.priceCents}
-							onChange={(v) =>
-								onChange({ priceCents: v })
+			{/* Price */}
+			{showPrice && (
+				<Box
+					alignSelf="center"
+					flexShrink={0}
+				>
+					<PriceInput
+						value={entry.priceCents}
+						onChange={(v) => onChange({ priceCents: v })}
+						onKeyDown={(e) => {
+							if (e.key === 'Tab' && !e.shiftKey) {
+								e.preventDefault();
+								onTabKey?.();
 							}
-							onKeyDown={(e) => {
-								if (e.key === 'Tab' && !e.shiftKey) {
-									e.preventDefault();
-									onTabKey?.();
-								}
-							}}
-							enclosed={showImage}
-						/>
-					</Box>
-				)}
-			</HStack>
+						}}
+						enclosed={showImage}
+					/>
+				</Box>
+			)}
 
 			{/* Delete */}
 			<IconButton
 				size="sm"
 				variant="ghost"
 				color="red.500"
-				alignSelf="center"
+				flexShrink={0}
 				onClick={onDelete}
 				disabled={!deletable}
 			>
 				<FaTrashAlt />
 			</IconButton>
-		</Flex>
+		</HStack>
 	);
 };
 
