@@ -67,7 +67,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	if (maxNumColumns === 1) {
 		return (
 			<HStack
-				overflowX="scroll"
+				overflowX="auto"
 				gap={STANDARD_GRID_GAP}
 				p={5}
 				m={-5}

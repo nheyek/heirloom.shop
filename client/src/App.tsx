@@ -49,6 +49,7 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<AppToaster />
+			<div id="anchor" />
 			<Navbar />
 			<Box
 				display="flex"
