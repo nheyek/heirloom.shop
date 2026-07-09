@@ -9,12 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
-
-const MotionBox = motion.create(Box);
-
-const STAGGER_INTERVAL = 0;
 
 type Props<T> = {
 	items: T[];
@@ -46,22 +41,15 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	const animatedItem = (
 		child: ReactNode,
 		key: React.Key,
-		index: number,
+		_index: number,
 	) => (
-		<MotionBox
+		<Box
 			key={key}
 			minWidth={minItemWidth}
 			maxWidth={maxItemWidth}
-			initial={{ y: -10, scale: 0.95 }}
-			animate={{ y: 0, scale: 1 }}
-			transition={{
-				duration: 0.25,
-				ease: 'easeOut',
-				delay: index * STAGGER_INTERVAL,
-			}}
 		>
 			{child}
-		</MotionBox>
+		</Box>
 	);
 
 	if (maxNumColumns === 1) {
