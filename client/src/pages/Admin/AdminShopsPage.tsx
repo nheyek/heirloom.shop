@@ -50,6 +50,8 @@ export const AdminShopsPage = () => {
 					<AppError title="Failed to load shops" />
 				) : (
 					<Table.ScrollArea
+						border="1px solid"
+						borderColor="gray.200"
 						borderRadius="md"
 						w="fit-content"
 						maxW="100%"
@@ -60,8 +62,6 @@ export const AdminShopsPage = () => {
 							variant="outline"
 							interactive
 							width="fit-content"
-							border="1px solid"
-							borderColor="gray.200"
 						>
 							<Table.Header>
 								<Table.Row>

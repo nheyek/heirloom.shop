@@ -70,7 +70,7 @@ export const CombinationGrid = ({
 		<Table.ScrollArea
 			borderWidth={1}
 			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
-			borderRadius="sm"
+			borderRadius="md"
 			alignSelf="flex-start"
 			maxH={500}
 			// Contain the absolutely-positioned FileUpload.HiddenInputs;
