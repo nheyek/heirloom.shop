@@ -50,6 +50,11 @@ const App = () => {
 				minHeight="100dvh"
 				transition="opacity 0.25s"
 				overflowY="auto"
+				// pt={{
+				// 	base: NAVBAR_HEIGHT.MOBILE,
+				// 	md: NAVBAR_HEIGHT.DESKTOP,
+				// }}
+				zIndex="docked"
 			>
 				<Box
 					flex="1"
