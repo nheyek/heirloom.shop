@@ -53,7 +53,7 @@ const App = () => {
 			<Box
 				display="flex"
 				flexDirection="column"
-				minHeight="125svh"
+				minHeight="200svh"
 				pt={{
 					base: NAVBAR_HEIGHT.MOBILE,
 					md: NAVBAR_HEIGHT.DESKTOP,
