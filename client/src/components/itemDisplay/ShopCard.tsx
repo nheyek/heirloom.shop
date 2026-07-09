@@ -15,7 +15,7 @@ import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { ShopCardData } from '@heirloom/common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 type Props = ShopCardData & {
 	minWidth?: number;
@@ -24,26 +24,24 @@ type Props = ShopCardData & {
 export const ShopCard = (props: Props) => {
 	const shopUrl = `/${CLIENT_ROUTES.shop}/${props.shortId}`;
 	const { isFavoritedShop, toggleFavoriteShop } = useFavorites();
-	const navigate = useNavigate();
 
 	return (
 		<Card.Root
 			variant="elevated"
 			minWidth={props.minWidth}
-			onClick={() => navigate(shopUrl)}
 		>
-			{/* <RouterLink to={shopUrl}> */}
-			{props.profileImageUuid ? (
-				<AppImage
-					imageProps={{
-						src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
-						cursor: 'button',
-					}}
-				/>
-			) : (
-				<ImagePlaceholder />
-			)}
-			{/* </RouterLink> */}
+			<RouterLink to={shopUrl}>
+				{props.profileImageUuid ? (
+					<AppImage
+						imageProps={{
+							src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+							cursor: 'button',
+						}}
+					/>
+				) : (
+					<ImagePlaceholder />
+				)}
+			</RouterLink>
 			<Card.Body
 				p={3}
 				gap={1.5}
