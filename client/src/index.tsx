@@ -4,7 +4,6 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 
-import { StripeProvider } from '@client/providers/StripeProvider';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
 import { FavoritesProvider } from './providers/FavoritesProvider';
@@ -22,9 +21,9 @@ root.render(
 						<CategoriesProvider>
 							<ShoppingCartProvider>
 								<ChakraProvider value={customSystem}>
-									<StripeProvider>
-										<App />
-									</StripeProvider>
+									{/* <StripeProvider> */}
+									<App />
+									{/* </StripeProvider> */}
 								</ChakraProvider>
 							</ShoppingCartProvider>
 						</CategoriesProvider>
