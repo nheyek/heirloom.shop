@@ -136,6 +136,13 @@ export const config = defineConfig({
 		'html, body': {
 			touchAction: 'pan-y',
 			minHeight: '100dvh',
+			// CSS scroll anchoring adjusts scroll position on its own,
+			// after any of our own reset code has already run, to
+			// compensate for content that mutates above the current
+			// viewport — exactly what a route swap does. Disabling it
+			// removes a real, spec'd, cross-browser source of scroll
+			// position changing again after we've already set it.
+			overflowAnchor: 'none',
 		},
 		// Prevents outline on accordion section headers on mobile
 		'*:focus': {
