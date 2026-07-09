@@ -5,8 +5,14 @@ import { Navbar } from '@client/components/navbar/NavBar';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { NAVBAR_HEIGHT } from '@client/theme';
-import React, { useEffect, useState } from 'react';
-import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import React, { useEffect, useRef } from 'react';
+import {
+	Navigate,
+	Route,
+	Routes,
+	useLocation,
+	useParams,
+} from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
@@ -40,11 +46,13 @@ const ShopManagerDefaultRedirect = () => {
 };
 
 const App = () => {
-	const [mounted, setMounted] = useState(false);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	const { key } = useLocation();
 
 	useEffect(() => {
-		setMounted(true);
-	}, []);
+		containerRef.current?.scrollTo(0, 0);
+	}, [key]);
 
 	return (
 		<React.Fragment>
@@ -60,6 +68,7 @@ const App = () => {
 				}}
 				transition="opacity 0.25s"
 				overflowY="auto"
+				ref={containerRef}
 			>
 				<ScrollToTop />
 
