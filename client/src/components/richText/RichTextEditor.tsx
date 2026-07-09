@@ -1,7 +1,6 @@
 import { Box, HStack, IconButton, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { FIELD_ERROR_COLOR, FONT_DISPLAY_SANS } from '@client/theme';
-import Underline from '@tiptap/extension-underline';
 import {
 	EditorContent,
 	useEditor,
@@ -34,7 +33,7 @@ export const RichTextEditor = ({
 	disabled,
 }: Props) => {
 	const editor = useEditor({
-		extensions: [StarterKit, Underline],
+		extensions: [StarterKit],
 		content: initialHtml ?? '',
 		editable: !disabled,
 		onUpdate: ({ editor }) => {
