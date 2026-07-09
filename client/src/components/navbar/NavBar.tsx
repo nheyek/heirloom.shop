@@ -62,7 +62,10 @@ export const Navbar = () => {
 			bg="brand"
 			px={4}
 			py={2}
-			h={NAVBAR_HEIGHT.MOBILE}
+			h={{
+				base: NAVBAR_HEIGHT.MOBILE,
+				md: NAVBAR_HEIGHT.DESKTOP,
+			}}
 			boxShadow="md"
 			position="fixed"
 			top={0}

@@ -57,7 +57,10 @@ const App = () => {
 				display="flex"
 				flexDirection="column"
 				minHeight="100dvh"
-				pt={NAVBAR_HEIGHT.MOBILE}
+				pt={{
+					base: NAVBAR_HEIGHT.MOBILE,
+					md: NAVBAR_HEIGHT.DESKTOP,
+				}}
 				opacity={mounted ? 1 : 0}
 				transition="opacity 0.25s"
 			>
