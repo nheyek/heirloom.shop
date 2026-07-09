@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
+import { Navbar } from '@client/components/navbar/NavBar';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import React, { useEffect, useRef } from 'react';
@@ -55,7 +56,7 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<AppToaster />
-			{/* <Navbar /> */}
+			<Navbar />
 			<Box ref={containerRef} />
 			<Box
 				display="flex"
