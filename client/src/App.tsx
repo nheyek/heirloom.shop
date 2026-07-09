@@ -49,12 +49,11 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<AppToaster />
-			<div id="anchor" />
 			<Navbar />
 			<Box
 				display="flex"
 				flexDirection="column"
-				minHeight="200svh"
+				minHeight="100dvh"
 				pt={{
 					base: NAVBAR_HEIGHT.MOBILE,
 					md: NAVBAR_HEIGHT.DESKTOP,

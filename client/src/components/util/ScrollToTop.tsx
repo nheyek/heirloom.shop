@@ -7,7 +7,6 @@ export const ScrollToTop = () => {
 
 	useLayoutEffect(() => {
 		if (navigationType === 'POP') return;
-		document.getElementById('anchor')?.scrollIntoView();
 	}, [key, navigationType]);
 
 	return null;
