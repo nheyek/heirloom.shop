@@ -8,8 +8,11 @@ import { FaDollarSign } from 'react-icons/fa6';
 export { InputSize as PriceInputSize };
 
 const SIZE_CONFIG = {
-	[InputSize.Md]: { fontSize: 15, w: 125, h: 10, iconSize: 14 },
-	[InputSize.Lg]: { fontSize: 17, w: 135, h: 12, iconSize: 16 },
+	// fontSize must stay >= 16: below that, iOS Safari auto-zooms the
+	// page on focus, since it treats the field as too small to read
+	// comfortably.
+	[InputSize.Md]: { fontSize: 16, w: 125, h: 10, iconSize: 14 },
+	[InputSize.Lg]: { fontSize: 18, w: 135, h: 12, iconSize: 16 },
 };
 
 type Props = {
