@@ -73,10 +73,8 @@ export const CombinationGrid = ({
 			borderRadius="md"
 			alignSelf="flex-start"
 			maxH={500}
-			// Contain the absolutely-positioned FileUpload.HiddenInputs;
-			// without this they escape the scroll container and inflate
-			// the page height at their unscrolled row offsets.
 			position="relative"
+			overscrollBehavior="contain"
 		>
 			<Table.Root
 				variant="outline"
