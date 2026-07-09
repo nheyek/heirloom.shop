@@ -54,7 +54,7 @@ export const AdminShopsPage = () => {
 						border="1px solid"
 						borderColor="gray.200"
 						w="fit-content"
-						maxW={1000}
+						maxW="100%"
 					>
 						<Table.Root
 							size="lg"
@@ -65,7 +65,7 @@ export const AdminShopsPage = () => {
 						>
 							<Table.Header>
 								<Table.Row>
-									<Table.ColumnHeader minW={200}>
+									<Table.ColumnHeader minW={150}>
 										Title
 									</Table.ColumnHeader>
 									<Table.ColumnHeader w={125}>
@@ -114,12 +114,13 @@ export const AdminShopsPage = () => {
 									: shops.map((shop) => (
 											<Table.Row key={shop.id}>
 												<Table.Cell>
-													{/* Truncation lives on the link because max-width
-													    on a td isn't honored in auto table layout. */}
 													<Link
 														asChild
 														display="block"
-														maxW={400}
+														maxW={{
+															base: 200,
+															md: 400,
+														}}
 														truncate
 													>
 														<RouterLink
