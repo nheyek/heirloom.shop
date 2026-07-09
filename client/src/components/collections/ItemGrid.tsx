@@ -61,18 +61,19 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 				m={-5}
 				scrollbarWidth="none"
 			>
-				{isLoading && (
-					<>
-						<Skeleton
-							width={minItemWidth}
-							height={minItemWidth}
-						/>
-						<Skeleton
-							width={minItemWidth}
-							height={minItemWidth}
-						/>
-					</>
-				)}
+				{isLoading ||
+					(true && (
+						<>
+							<Skeleton
+								width={minItemWidth}
+								aspectRatio={0.75}
+							/>
+							<Skeleton
+								width={minItemWidth}
+								aspectRatio={0.75}
+							/>
+						</>
+					))}
 				{items.map((item, index) =>
 					animatedItem(
 						renderItem(item, true),
