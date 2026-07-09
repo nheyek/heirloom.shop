@@ -23,6 +23,7 @@ export const Footer = () => {
 			background="brand"
 			color="#FFF"
 			mt={{ base: 5, md: 10 }}
+			flexShrink={0}
 		>
 			<Center height="100%">
 				<Flex
