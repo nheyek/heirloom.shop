@@ -51,8 +51,6 @@ export const AdminShopsPage = () => {
 				) : (
 					<Table.ScrollArea
 						borderRadius="md"
-						border="1px solid"
-						borderColor="gray.200"
 						w="fit-content"
 						maxW="100%"
 					>
@@ -62,6 +60,8 @@ export const AdminShopsPage = () => {
 							variant="outline"
 							interactive
 							width="fit-content"
+							border="1px solid"
+							borderColor="gray.200"
 						>
 							<Table.Header>
 								<Table.Row>

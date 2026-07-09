@@ -13,7 +13,6 @@ import {
 import {
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
-	NAVBAR_HEIGHT,
 	SIDEBAR_WIDTH_PX,
 } from '@client/theme';
 import { IconType } from 'react-icons';
@@ -53,7 +52,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={NAVBAR_HEIGHT.DESKTOP}
+			top={0}
 			overflowY="auto"
 		>
 			{navItems.map(({ label, icon: Icon, route }) => {
