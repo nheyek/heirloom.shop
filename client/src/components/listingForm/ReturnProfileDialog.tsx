@@ -74,6 +74,19 @@ export const ReturnProfileDialog = ({
 		}
 	}, [open]);
 
+	const isDirty = () =>
+		!!name ||
+		!!windowDays ||
+		policyType !== ReturnPolicyType.STANDARD ||
+		!!customHtmlRef.current;
+
+	const handleClose = () => {
+		if (isDirty()) {
+			if (!window.confirm('Discard changes?')) return;
+		}
+		onClose();
+	};
+
 	const handleConfirm = () => {
 		let valid = true;
 		const trimmedName = name.trim();
@@ -143,8 +156,8 @@ export const ReturnProfileDialog = ({
 	return (
 		<Dialog.Root
 			open={open}
-			onInteractOutside={onClose}
-			onEscapeKeyDown={onClose}
+			onInteractOutside={handleClose}
+			onEscapeKeyDown={handleClose}
 			size="md"
 		>
 			<Dialog.Backdrop />
@@ -161,7 +174,7 @@ export const ReturnProfileDialog = ({
 							position="absolute"
 							top={3}
 							right={3}
-							onClick={onClose}
+							onClick={handleClose}
 							disabled={saving}
 						/>
 					</Dialog.Header>
@@ -335,7 +348,7 @@ export const ReturnProfileDialog = ({
 								size="md"
 								fontSize={18}
 								variant="subtle"
-								onClick={onClose}
+								onClick={handleClose}
 								disabled={saving}
 							>
 								Cancel

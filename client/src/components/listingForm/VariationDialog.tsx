@@ -304,6 +304,35 @@ export const VariationDialog = ({
 	const [invalidOptionIds, setInvalidOptionIds] = useState<
 		Set<string>
 	>(new Set());
+	const initialSnapshotRef = useRef('');
+
+	const snapshot = (
+		n: string,
+		pv: boolean,
+		iv: boolean,
+		opts: OptionEntry[],
+	) =>
+		JSON.stringify({
+			name: n,
+			pricesVary: pv,
+			imagesVary: iv,
+			options: opts.map((o) => ({
+				name: o.name,
+				priceCents: o.priceCents,
+				imageUuid: o.imageUuid,
+			})),
+		});
+
+	const isDirty = () =>
+		snapshot(name, pricesVary, imagesVary, options) !==
+		initialSnapshotRef.current;
+
+	const handleClose = () => {
+		if (isDirty()) {
+			if (!window.confirm('Discard changes?')) return;
+		}
+		onClose();
+	};
 
 	useEffect(() => {
 		if (open) {
@@ -311,49 +340,58 @@ export const VariationDialog = ({
 				const sorted = Object.entries(initial.options).sort(
 					(a, b) => a[1].order - b[1].order,
 				);
+				const initialOptions = sorted.map(([, o]) => ({
+					name: o.name,
+					priceCents: o.priceCents,
+					imageUuid: o.imageUuid,
+					imagePreviewUrl: o.imageUuid
+						? listingImageUrl(shopShortId, o.imageUuid)
+						: null,
+					imageUploading: false,
+				}));
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
 				setImagesVary(initial.imagesVary);
-				setOptions(
-					sorted.map(([, o]) => ({
-						name: o.name,
-						priceCents: o.priceCents,
-						imageUuid: o.imageUuid,
-						imagePreviewUrl: o.imageUuid
-							? listingImageUrl(
-									shopShortId,
-									o.imageUuid,
-								)
-							: null,
-						imageUploading: false,
-					})),
-				);
+				setOptions(initialOptions);
 				setOptionIds(sorted.map(([id]) => id));
+				initialSnapshotRef.current = snapshot(
+					initial.name,
+					initial.pricesVary,
+					initial.imagesVary,
+					initialOptions,
+				);
 			} else {
+				const initialOptions = [
+					{
+						name: '',
+						priceCents: null,
+						imageUuid: null,
+						imagePreviewUrl: null,
+						imageUploading: false,
+					},
+					{
+						name: '',
+						priceCents: null,
+						imageUuid: null,
+						imagePreviewUrl: null,
+						imageUploading: false,
+					},
+				];
 				setName('');
 				setPricesVary(false);
 				setImagesVary(false);
 				setNameError(null);
-				setOptions([
-					{
-						name: '',
-						priceCents: null,
-						imageUuid: null,
-						imagePreviewUrl: null,
-						imageUploading: false,
-					},
-					{
-						name: '',
-						priceCents: null,
-						imageUuid: null,
-						imagePreviewUrl: null,
-						imageUploading: false,
-					},
-				]);
+				setOptions(initialOptions);
 				setOptionIds([
 					crypto.randomUUID(),
 					crypto.randomUUID(),
 				]);
+				initialSnapshotRef.current = snapshot(
+					'',
+					false,
+					false,
+					initialOptions,
+				);
 			}
 			setOptionsError(null);
 			setInvalidOptionIds(new Set());
@@ -533,11 +571,11 @@ export const VariationDialog = ({
 			size="xs"
 			onInteractOutside={(e) => {
 				e.preventDefault();
-				onClose();
+				handleClose();
 			}}
 			onEscapeKeyDown={(e) => {
 				e.preventDefault();
-				onClose();
+				handleClose();
 			}}
 		>
 			<Dialog.Backdrop />
@@ -564,7 +602,7 @@ export const VariationDialog = ({
 							position="absolute"
 							top={3}
 							right={3}
-							onClick={onClose}
+							onClick={handleClose}
 						/>
 					</Dialog.Header>
 					<Dialog.Body
@@ -770,7 +808,7 @@ export const VariationDialog = ({
 								size="md"
 								fontSize={18}
 								variant="subtle"
-								onClick={onClose}
+								onClick={handleClose}
 							>
 								Cancel
 							</Button>

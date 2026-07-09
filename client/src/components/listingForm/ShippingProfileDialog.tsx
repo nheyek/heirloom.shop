@@ -79,6 +79,21 @@ export const ShippingProfileDialog = ({
 		}
 	}, [open]);
 
+	const isDirty = () =>
+		!!name ||
+		!!originZip ||
+		costType !== ShippingCostType.Free ||
+		flatRateCents !== null ||
+		!!minDays ||
+		!!maxDays;
+
+	const handleClose = () => {
+		if (isDirty()) {
+			if (!window.confirm('Discard changes?')) return;
+		}
+		onClose();
+	};
+
 	const handleConfirm = () => {
 		let valid = true;
 		const trimmedName = name.trim();
@@ -143,8 +158,8 @@ export const ShippingProfileDialog = ({
 	return (
 		<Dialog.Root
 			open={open}
-			onInteractOutside={onClose}
-			onEscapeKeyDown={onClose}
+			onInteractOutside={handleClose}
+			onEscapeKeyDown={handleClose}
 			size="sm"
 		>
 			<Dialog.Backdrop />
@@ -161,7 +176,7 @@ export const ShippingProfileDialog = ({
 							position="absolute"
 							top={3}
 							right={3}
-							onClick={onClose}
+							onClick={handleClose}
 							disabled={saving}
 						/>
 					</Dialog.Header>
@@ -324,7 +339,7 @@ export const ShippingProfileDialog = ({
 								size="md"
 								fontSize={18}
 								variant="subtle"
-								onClick={onClose}
+								onClick={handleClose}
 								disabled={saving}
 							>
 								Cancel

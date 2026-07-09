@@ -53,6 +53,15 @@ export const ProcessingProfileDialog = ({
 		}
 	}, [open]);
 
+	const isDirty = () => !!name || !!minDays || !!maxDays;
+
+	const handleClose = () => {
+		if (isDirty()) {
+			if (!window.confirm('Discard changes?')) return;
+		}
+		onClose();
+	};
+
 	const handleConfirm = () => {
 		let valid = true;
 		const trimmedName = name.trim();
@@ -96,8 +105,8 @@ export const ProcessingProfileDialog = ({
 	return (
 		<Dialog.Root
 			open={open}
-			onInteractOutside={onClose}
-			onEscapeKeyDown={onClose}
+			onInteractOutside={handleClose}
+			onEscapeKeyDown={handleClose}
 			size="xs"
 		>
 			<Dialog.Backdrop />
@@ -114,7 +123,7 @@ export const ProcessingProfileDialog = ({
 							position="absolute"
 							top={3}
 							right={3}
-							onClick={onClose}
+							onClick={handleClose}
 							disabled={saving}
 						/>
 					</Dialog.Header>
@@ -166,7 +175,7 @@ export const ProcessingProfileDialog = ({
 								size="md"
 								fontSize={18}
 								variant="subtle"
-								onClick={onClose}
+								onClick={handleClose}
 								disabled={saving}
 							>
 								Cancel
