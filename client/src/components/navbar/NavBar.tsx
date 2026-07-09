@@ -72,6 +72,10 @@ export const Navbar = () => {
 			left={0}
 			right={0}
 			zIndex="docked"
+			// Explicitly promotes the navbar to its own stable compositor
+			// layer at all times, rather than relying on the browser's
+			// implicit layer-promotion heuristics for fixed elements.
+			willChange="transform"
 		>
 			<Grid
 				gridTemplateAreas={{
