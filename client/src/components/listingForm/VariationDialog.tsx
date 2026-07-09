@@ -123,6 +123,7 @@ const OptionRow = ({
 				cursor="grab"
 				color="gray.400"
 				alignSelf="center"
+				touchAction="none"
 				{...attributes}
 				{...listeners}
 			>
