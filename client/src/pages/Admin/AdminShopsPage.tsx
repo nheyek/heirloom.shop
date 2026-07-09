@@ -55,7 +55,7 @@ export const AdminShopsPage = () => {
 						borderRadius="md"
 						w="fit-content"
 						maxW="100%"
-						overscrollBehavior="contain"
+						overscrollBehavior="none"
 					>
 						<Table.Root
 							size="lg"

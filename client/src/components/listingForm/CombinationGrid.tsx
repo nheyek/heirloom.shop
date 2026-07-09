@@ -74,7 +74,7 @@ export const CombinationGrid = ({
 			alignSelf="flex-start"
 			maxH={500}
 			position="relative"
-			overscrollBehavior="contain"
+			overscrollBehavior="none"
 		>
 			<Table.Root
 				variant="outline"
