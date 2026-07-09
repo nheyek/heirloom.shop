@@ -2,7 +2,6 @@ import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { Navbar } from '@client/components/navbar/NavBar';
-import { ScrollDebugReadout } from '@client/components/util/ScrollDebugReadout';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { NAVBAR_HEIGHT } from '@client/theme';
@@ -50,13 +49,11 @@ const App = () => {
 	return (
 		<React.Fragment>
 			<AppToaster />
-			<ScrollDebugReadout />
 			<Navbar />
 			<Box
-				data-debug="content"
 				display="flex"
 				flexDirection="column"
-				minHeight="100dvh"
+				minHeight="100svh"
 				pt={{
 					base: NAVBAR_HEIGHT.MOBILE,
 					md: NAVBAR_HEIGHT.DESKTOP,
