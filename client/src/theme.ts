@@ -135,7 +135,7 @@ export const config = defineConfig({
 	globalCss: {
 		'html, body': {
 			touchAction: 'pan-y',
-			minHeight: '100svh',
+			minHeight: '100dvh',
 		},
 		// Prevents outline on accordion section headers on mobile
 		'*:focus': {
