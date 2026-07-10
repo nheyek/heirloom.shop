@@ -124,6 +124,9 @@ export const ListingPage = () => {
 		shoppingCart.addToCart(
 			getListingDataForCart(listingData),
 			selectedVariationOptions,
+			personalizationEnabled
+				? personalizationText.trim() || undefined
+				: undefined,
 		);
 
 		toaster.create({

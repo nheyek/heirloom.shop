@@ -16,8 +16,16 @@ import { FONT_DISPLAY_SANS } from '@client/theme';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
+import { FaSignature } from 'react-icons/fa';
 import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
+
+const PERSONALIZATION_BADGE_MAX_CHARS = 16;
+
+const truncatePersonalizationText = (text: string): string =>
+	text.length > PERSONALIZATION_BADGE_MAX_CHARS
+		? `${text.slice(0, PERSONALIZATION_BADGE_MAX_CHARS)}...`
+		: text;
 
 type Props = {
 	item: OrderItemDisplayData;
@@ -71,7 +79,8 @@ export const OrderItemCard = (props: Props) => {
 					)}
 				</Stack>
 
-				{props.item.variations.length > 0 && (
+				{(props.item.variations.length > 0 ||
+					props.item.personalizationText) && (
 					<Wrap gap={2}>
 						{props.item.variations.map(
 							({ name, value }) => (
@@ -84,6 +93,22 @@ export const OrderItemCard = (props: Props) => {
 									{name}: {value}
 								</Badge>
 							),
+						)}
+						{props.item.personalizationText && (
+							<Badge
+								size="lg"
+								fontFamily={FONT_DISPLAY_SANS}
+								fontSize={18}
+								gap={2}
+							>
+								<FaSignature />
+								<Span>
+									{truncatePersonalizationText(
+										props.item
+											.personalizationText,
+									)}
+								</Span>
+							</Badge>
 						)}
 					</Wrap>
 				)}

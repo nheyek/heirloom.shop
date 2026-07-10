@@ -9,6 +9,9 @@ export type ShoppingCartItem = {
 	selectedOptions: Record<string, string>;
 	quantity: number;
 	addedAt: number;
+	// Existence (a non-empty string) is what indicates the personalization
+	// surcharge should be applied, mirroring the listing page's checkbox.
+	personalizationText?: string;
 };
 
 export const getOrderItemDisplayData = (
@@ -33,20 +36,29 @@ export const getOrderItemDisplayData = (
 		unitPriceCents: calculateItemPrice(
 			item.listingData,
 			item.selectedOptions,
+			item.personalizationText,
 		),
 		quantity: item.quantity,
 		estimatedDelivery: item.listingData.deliveryEstimate ?? null,
 		variations,
+		personalizationText: item.personalizationText ?? null,
 	};
 };
 
 export const calculateItemPrice = (
 	listingData: CartItemData,
 	selectedOptions: Record<string, string>,
-): number =>
-	resolveEffectiveCombinationPrice(
-		selectedOptions,
-		listingData.combinations,
-		listingData.variations,
-		listingData.priceCents ?? 0,
-	) ?? listingData.priceCents ?? 0;
+	personalizationText?: string,
+): number => {
+	const basePrice =
+		resolveEffectiveCombinationPrice(
+			selectedOptions,
+			listingData.combinations,
+			listingData.variations,
+			listingData.priceCents ?? 0,
+		) ?? listingData.priceCents ?? 0;
+	return !!personalizationText &&
+		listingData.personalizationCostCents != null
+		? basePrice + listingData.personalizationCostCents
+		: basePrice;
+};

@@ -195,6 +195,7 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 const CartItemDataSchema = ListingCardDataSchema.extend({
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
+	personalizationCostCents: z.number().nullable(),
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
@@ -677,6 +678,10 @@ export const OrderItemDisplayDataSchema = z.object({
 	variations: z.array(
 		z.object({ name: z.string(), value: z.string() }),
 	),
+	// Only ever populated for the pre-checkout cart preview today — actual
+	// orders don't yet persist the customer's personalization text, so this
+	// is always undefined for a real, submitted order.
+	personalizationText: z.string().nullable().optional(),
 });
 
 const OrderResponseSchema = z.object({

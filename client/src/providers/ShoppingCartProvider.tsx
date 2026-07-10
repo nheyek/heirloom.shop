@@ -25,7 +25,10 @@ import {
 	useState,
 } from 'react';
 
-type PersistedCartItem = CheckoutItemData & { addedAt: number };
+type PersistedCartItem = CheckoutItemData & {
+	addedAt: number;
+	personalizationText?: string;
+};
 
 type ShoppingCartContext = {
 	isDrawerOpen: boolean;
@@ -45,15 +48,18 @@ type ShoppingCartContext = {
 	addToCart: (
 		listing: CartItemData,
 		selectedOptions: Record<string, string>,
+		personalizationText?: string,
 	) => void;
 	removeFromCart: (
 		listingId: string,
 		selectedOptions: Record<string, string>,
+		personalizationText?: string,
 	) => void;
 	updateQuantity: (
 		listingId: string,
 		selectedOptions: Record<string, string>,
 		quantity: number,
+		personalizationText?: string,
 	) => void;
 	setCheckoutEmail: (email: string) => void;
 	setShippingAddress: (address: ShippingAddress) => void;
@@ -117,12 +123,15 @@ export const ShoppingCartProvider = (props: {
 		.map((p) => {
 			const listingData = cartListingData[p.listingShortId];
 			if (!listingData) return null;
-			return {
+			const item: ShoppingCartItem = {
 				listingData,
 				selectedOptions: p.selectedOptions,
 				quantity: p.quantity,
 				addedAt: p.addedAt,
 			};
+			if (p.personalizationText != null)
+				item.personalizationText = p.personalizationText;
+			return item;
 		})
 		.filter((item): item is ShoppingCartItem => item !== null);
 
@@ -136,7 +145,11 @@ export const ShoppingCartProvider = (props: {
 		if (!listingData) return sum;
 		return (
 			sum +
-			calculateItemPrice(listingData, p.selectedOptions) *
+			calculateItemPrice(
+				listingData,
+				p.selectedOptions,
+				p.personalizationText,
+			) *
 				p.quantity
 		);
 	}, 0);
@@ -206,8 +219,13 @@ export const ShoppingCartProvider = (props: {
 	const addToCart = (
 		listing: CartItemData,
 		selectedOptions: Record<string, string>,
+		personalizationText?: string,
 	) => {
-		const itemKey = getItemKey(listing.shortId, selectedOptions);
+		const itemKey = getItemKey(
+			listing.shortId,
+			selectedOptions,
+			personalizationText,
+		);
 
 		setPersistedItems((prev) => {
 			const existing = prev.find(
@@ -215,6 +233,7 @@ export const ShoppingCartProvider = (props: {
 					getItemKey(
 						item.listingShortId,
 						item.selectedOptions,
+						item.personalizationText,
 					) === itemKey,
 			);
 			if (existing) {
@@ -222,6 +241,7 @@ export const ShoppingCartProvider = (props: {
 					getItemKey(
 						item.listingShortId,
 						item.selectedOptions,
+						item.personalizationText,
 					) === itemKey
 						? { ...item, quantity: item.quantity + 1 }
 						: item,
@@ -234,6 +254,7 @@ export const ShoppingCartProvider = (props: {
 					selectedOptions,
 					quantity: 1,
 					addedAt: Date.now(),
+					personalizationText,
 				},
 			];
 		});
@@ -247,14 +268,20 @@ export const ShoppingCartProvider = (props: {
 	const removeFromCart = (
 		listingId: string,
 		selectedOptions: Record<string, string>,
+		personalizationText?: string,
 	) => {
-		const itemKey = getItemKey(listingId, selectedOptions);
+		const itemKey = getItemKey(
+			listingId,
+			selectedOptions,
+			personalizationText,
+		);
 		setPersistedItems((prev) =>
 			prev.filter(
 				(item) =>
 					getItemKey(
 						item.listingShortId,
 						item.selectedOptions,
+						item.personalizationText,
 					) !== itemKey,
 			),
 		);
@@ -264,17 +291,27 @@ export const ShoppingCartProvider = (props: {
 		listingId: string,
 		selectedOptions: Record<string, string>,
 		quantity: number,
+		personalizationText?: string,
 	) => {
 		if (quantity === 0) {
-			removeFromCart(listingId, selectedOptions);
+			removeFromCart(
+				listingId,
+				selectedOptions,
+				personalizationText,
+			);
 			return;
 		}
-		const itemKey = getItemKey(listingId, selectedOptions);
+		const itemKey = getItemKey(
+			listingId,
+			selectedOptions,
+			personalizationText,
+		);
 		setPersistedItems((prev) =>
 			prev.map((item) =>
 				getItemKey(
 					item.listingShortId,
 					item.selectedOptions,
+					item.personalizationText,
 				) === itemKey
 					? { ...item, quantity }
 					: item,
@@ -390,10 +427,13 @@ export const useShoppingCart = () => {
 const getItemKey = (
 	listingId: string,
 	selectedOptions: Record<string, string>,
+	personalizationText?: string,
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort()
 		.map((variationId) => `${variationId}:${selectedOptions[variationId]}`)
 		.join('|');
-	return `${listingId}__${optionsString}`;
+	// Distinct personalization text makes for a distinct line item — each is
+	// effectively its own custom-made unit, so they shouldn't merge quantities.
+	return `${listingId}__${optionsString}__${personalizationText ?? ''}`;
 };

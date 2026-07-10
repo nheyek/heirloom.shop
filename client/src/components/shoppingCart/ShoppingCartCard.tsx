@@ -38,6 +38,7 @@ export const ShoppingCartCard = (props: Props) => {
 							shoppingCart.removeFromCart(
 								props.item.listingData.shortId,
 								props.item.selectedOptions,
+								props.item.personalizationText,
 							)
 						}
 						cursor="button"
@@ -62,6 +63,7 @@ export const ShoppingCartCard = (props: Props) => {
 									props.item.listingData.shortId,
 									props.item.selectedOptions,
 									props.item.quantity - 1,
+									props.item.personalizationText,
 								)
 							}
 						>
@@ -83,6 +85,7 @@ export const ShoppingCartCard = (props: Props) => {
 									props.item.listingData.shortId,
 									props.item.selectedOptions,
 									props.item.quantity + 1,
+									props.item.personalizationText,
 								)
 							}
 						>

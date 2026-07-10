@@ -25,6 +25,11 @@ export const getListingDataForCart = (
 		deliveryEstimate: profiles.processing && profiles.shipping
 			? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
 			: 'Delivery estimate unavailable',
+		// Not gated behind directFulfillment/HEIRLOOM_LISTING_PROFILES like
+		// shipping/processing above — personalization is independent of
+		// fulfillment, so it's read straight off the listing's own profiles.
+		personalizationCostCents:
+			listing.profiles?.personalization?.costCents ?? null,
 		variations: listing.variations,
 		combinations: listing.combinations,
 	};
