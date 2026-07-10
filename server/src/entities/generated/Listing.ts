@@ -1,6 +1,7 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { ListingCategory } from './ListingCategory.js';
+import { ListingPersonalizationProfile } from './ListingPersonalizationProfile.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
 import { ListingReturnProfile } from './ListingReturnProfile.js';
 import { ListingShippingProfile } from './ListingShippingProfile.js';
@@ -63,6 +64,9 @@ export class Listing {
 
   @Property({ type: 'boolean' })
   available: boolean & Opt = false;
+
+  @ManyToOne({ entity: () => ListingPersonalizationProfile, updateRule: 'no action', nullable: true })
+  personalizationProfile?: Rel<ListingPersonalizationProfile>;
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);

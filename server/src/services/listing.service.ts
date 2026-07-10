@@ -71,6 +71,7 @@ export const findFullListingDataByShortId = async (
 				'shippingProfile',
 				'processingProfile',
 				'returnProfile',
+				'personalizationProfile',
 			],
 		},
 	);
@@ -90,6 +91,7 @@ export const findAvailableFullListingDataByShortId = async (
 				'shippingProfile',
 				'processingProfile',
 				'returnProfile',
+				'personalizationProfile',
 			],
 		},
 	);

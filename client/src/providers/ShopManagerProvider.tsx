@@ -1,6 +1,7 @@
 import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import {
+	PersonalizationProfile,
 	ProcessingProfile,
 	ReturnProfile,
 	ShippingProfile,
@@ -17,6 +18,7 @@ type ShopManagerContextValue = {
 	processingProfiles: ProcessingProfile[];
 	shippingProfiles: ShippingProfile[];
 	returnProfiles: ReturnProfile[];
+	personalizationProfiles: PersonalizationProfile[];
 	profilesLoading: boolean;
 };
 
@@ -67,6 +69,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 	const [processingProfiles, setProcessingProfiles] = useState<ProcessingProfile[]>([]);
 	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([]);
 	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>([]);
+	const [personalizationProfiles, setPersonalizationProfiles] = useState<PersonalizationProfile[]>([]);
 	const [profilesLoading, setProfilesLoading] = useState(true);
 
 	useEffect(() => {
@@ -88,6 +91,14 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 				);
 				setShippingProfiles(result.data.shippingProfiles.map(toFormShippingProfile));
 				setReturnProfiles(result.data.returnProfiles.map(toFormReturnProfile));
+				setPersonalizationProfiles(
+					result.data.personalizationProfiles.map((p) => ({
+						id: String(p.id),
+						name: p.name,
+						costCents: p.costCents,
+						helperText: p.helperText,
+					})),
+				);
 			}
 			setProfilesLoading(false);
 		});
@@ -101,6 +112,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 				processingProfiles,
 				shippingProfiles,
 				returnProfiles,
+				personalizationProfiles,
 				profilesLoading,
 			}}
 		>

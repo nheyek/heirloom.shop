@@ -5,6 +5,7 @@ import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { Shop } from '@server/entities/generated/Shop';
 import { encodeShortId } from '@server/utils/hashids';
+import { ListingPersonalizationProfile } from '@server/entities/generated/ListingPersonalizationProfile';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
@@ -20,10 +21,11 @@ export const findShopProfiles = async (
 ): Promise<ShopProfilesData> => {
 	const em = getEm();
 
-	const [processingProfiles, shippingProfiles, returnProfiles] = await Promise.all([
+	const [processingProfiles, shippingProfiles, returnProfiles, personalizationProfiles] = await Promise.all([
 		em.find(ListingProcessingProfile, { shop: { id: shopId } }),
 		em.find(ListingShippingProfile, { shop: { id: shopId } }),
 		em.find(ListingReturnProfile, { shop: { id: shopId } }),
+		em.find(ListingPersonalizationProfile, { shop: { id: shopId } }),
 	]);
 
 	return {
@@ -49,6 +51,12 @@ export const findShopProfiles = async (
 			returnWindowDays: p.returnWindowDays ?? null,
 			policyDescrRichText: p.policyDescrRichText ?? null,
 		})),
+		personalizationProfiles: personalizationProfiles.map((p) => ({
+			id: p.id,
+			name: p.name,
+			costCents: p.costCents,
+			helperText: p.helperText ?? null,
+		})),
 	};
 };
 
@@ -60,7 +68,7 @@ export const findListingForEdit = async (
 	const listing = await em.findOne(
 		Listing,
 		{ shortId: listingShortId, shop: { id: shopId } },
-		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile'] },
+		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile', 'personalizationProfile'] },
 	);
 	if (!listing) return null;
 
@@ -74,6 +82,7 @@ export const findListingForEdit = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
+		personalizationProfileId: listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ?? {}) as CombinationsData,
@@ -91,6 +100,7 @@ export const createListing = async (
 		processingProfileId: number | null;
 		shippingProfileId: number | null;
 		returnProfileId: number | null;
+		personalizationProfileId: number | null;
 		fullDescr: ListingFullDescr | null;
 		variations: VariationsData;
 		combinations: CombinationsData;
@@ -101,7 +111,7 @@ export const createListing = async (
 	const [{ nextval }] = await em.getConnection().execute("SELECT nextval('listing_id_seq')");
 	const nextId = Number(nextval);
 
-	const [category, processingProfile, shippingProfile, returnProfile] = await Promise.all([
+	const [category, processingProfile, shippingProfile, returnProfile, personalizationProfile] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
 			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
@@ -111,6 +121,9 @@ export const createListing = async (
 			: null,
 		data.returnProfileId != null
 			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			: null,
+		data.personalizationProfileId != null
+			? em.findOne(ListingPersonalizationProfile, { id: data.personalizationProfileId, shop: { id: shopId } })
 			: null,
 	]);
 
@@ -126,6 +139,7 @@ export const createListing = async (
 		processingProfile: processingProfile ?? undefined,
 		shippingProfile: shippingProfile ?? undefined,
 		returnProfile: returnProfile ?? undefined,
+		personalizationProfile: personalizationProfile ?? undefined,
 		fullDescr: data.fullDescr,
 		variations: data.variations,
 		combinations: data.combinations,
@@ -144,6 +158,7 @@ export const createListing = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
+		personalizationProfileId: listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ?? {}) as CombinationsData,
@@ -162,6 +177,7 @@ export const updateListing = async (
 		processingProfileId: number | null;
 		shippingProfileId: number | null;
 		returnProfileId: number | null;
+		personalizationProfileId: number | null;
 		fullDescr: ListingFullDescr | null;
 		variations: VariationsData;
 		combinations: CombinationsData;
@@ -171,11 +187,11 @@ export const updateListing = async (
 	const listing = await em.findOne(
 		Listing,
 		{ shortId: listingShortId, shop: { id: shopId } },
-		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile'] },
+		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile', 'personalizationProfile'] },
 	);
 	if (!listing) return null;
 
-	const [category, processingProfile, shippingProfile, returnProfile] = await Promise.all([
+	const [category, processingProfile, shippingProfile, returnProfile, personalizationProfile] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
 			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
@@ -185,6 +201,9 @@ export const updateListing = async (
 			: null,
 		data.returnProfileId != null
 			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			: null,
+		data.personalizationProfileId != null
+			? em.findOne(ListingPersonalizationProfile, { id: data.personalizationProfileId, shop: { id: shopId } })
 			: null,
 	]);
 
@@ -196,6 +215,7 @@ export const updateListing = async (
 	listing.processingProfile = processingProfile ?? undefined;
 	listing.shippingProfile = shippingProfile ?? undefined;
 	listing.returnProfile = returnProfile ?? undefined;
+	listing.personalizationProfile = personalizationProfile ?? undefined;
 	listing.fullDescr = data.fullDescr;
 	listing.variations = data.variations;
 	listing.combinations = data.combinations;
@@ -212,6 +232,7 @@ export const updateListing = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
+		personalizationProfileId: listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ?? {}) as CombinationsData,
@@ -300,5 +321,25 @@ export const createReturnProfile = async (
 		policyType: profile.policyType as ReturnPolicyType,
 		returnWindowDays: profile.returnWindowDays ?? null,
 		policyDescrRichText: profile.policyDescrRichText ?? null,
+	};
+};
+
+export const createPersonalizationProfile = async (
+	shopId: number,
+	data: { name: string; costCents: number; helperText: string | null },
+) => {
+	const em = getEm();
+	const profile = em.create(ListingPersonalizationProfile, {
+		shop: em.getReference(Shop, shopId),
+		name: data.name,
+		costCents: data.costCents,
+		helperText: data.helperText ?? undefined,
+	});
+	await em.persist(profile).flush();
+	return {
+		id: profile.id,
+		name: profile.name,
+		costCents: profile.costCents,
+		helperText: profile.helperText ?? null,
 	};
 };

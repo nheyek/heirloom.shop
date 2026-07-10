@@ -17,6 +17,7 @@ import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
 import { ListingImageUpload } from '@client/components/listingForm/ListingImageUpload';
+import { PersonalizationProfileSelect } from '@client/components/listingForm/PersonalizationProfileSelect';
 import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import { ReturnProfileSelect } from '@client/components/listingForm/ReturnProfileSelect';
 import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
@@ -356,6 +357,27 @@ export const ListingFormFields = ({
 							</WrapItem>
 						</Wrap>
 					)}
+
+					<Wrap
+						align="start"
+						gapX={10}
+						gapY={5}
+					>
+						<WrapItem>
+							<FormField label="Personalization">
+								<PersonalizationProfileSelect
+									shopShortId={form.shopShortId}
+									profiles={form.personalizationProfiles}
+									onAddProfile={
+										form.addPersonalizationProfile
+									}
+									value={form.personalizationProfileId}
+									onChange={form.setPersonalizationProfileId}
+									disabled={disabled}
+								/>
+							</FormField>
+						</WrapItem>
+					</Wrap>
 
 					<FormField label="Variations">
 						<Stack gap={2}>

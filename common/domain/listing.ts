@@ -99,10 +99,16 @@ export const addVariationToCombinations = (
 	for (const [key, data] of existing) {
 		const optionMap = parseCombinationKey(key);
 		for (const optId of newOptionIds) {
-			result[getCombinationKey({ ...optionMap, [newVarId]: optId })] = {
+			result[
+				getCombinationKey({ ...optionMap, [newVarId]: optId })
+			] = {
 				...data,
-				...(newVariationPricesVary ? { priceCents: null } : {}),
-				...(newVariationImagesVary ? { imageUuid: null } : {}),
+				...(newVariationPricesVary
+					? { priceCents: null }
+					: {}),
+				...(newVariationImagesVary
+					? { imageUuid: null }
+					: {}),
 			};
 		}
 	}
@@ -162,7 +168,8 @@ export const resolveEffectiveCombinationPrice = (
 	basePriceCents: number | null,
 ): number | null => {
 	const key = getCombinationKey(optionMap);
-	if (combinations[key]?.priceCents != null) return combinations[key].priceCents;
+	if (combinations[key]?.priceCents != null)
+		return combinations[key].priceCents;
 	const sorted = Object.entries(variations)
 		.filter(([, v]) => v.pricesVary)
 		.sort(([, a], [, b]) => a.order - b.order);
@@ -180,18 +187,43 @@ export type ListingDisplayPrice = {
 	isMinimum: boolean;
 } | null;
 
+// Personalization (e.g. engraving) is an opt-in add-on rather than part of
+// a listing's intrinsic combination pricing. It's folded into
+// getListingDisplayPrice — the single method for computing a listing's
+// price — as a final surcharge step, rather than a separate function
+// callers could forget to apply.
+export type PersonalizationSelection = {
+	costCents: number | null | undefined;
+	selected: boolean;
+} | null;
+
+const applyPersonalizationCost = (
+	priceCents: number,
+	personalization: PersonalizationSelection,
+): number =>
+	personalization?.selected && personalization.costCents != null
+		? priceCents + personalization.costCents
+		: priceCents;
+
 export const getListingDisplayPrice = (
 	variations: Variations,
 	combinations: Combinations,
 	basePriceCents: number | null,
 	selectedOptions: Record<string, string> = {},
+	personalization: PersonalizationSelection = null,
 ): ListingDisplayPrice => {
 	const pricesVary = Object.values(variations).some(
 		(v) => v.pricesVary,
 	);
 	if (!pricesVary) {
 		return basePriceCents != null
-			? { priceCents: basePriceCents, isMinimum: false }
+			? {
+					priceCents: applyPersonalizationCost(
+						basePriceCents,
+						personalization,
+					),
+					isMinimum: false,
+				}
 			: null;
 	}
 	// Only combinations consistent with the current selections can still
@@ -204,9 +236,12 @@ export const getListingDisplayPrice = (
 		variations,
 	)) {
 		if (combinations[key]?.disabled) continue;
-		const matchesSelection = Object.entries(selectedOptions).every(
+		const matchesSelection = Object.entries(
+			selectedOptions,
+		).every(
 			([varId, optId]) =>
-				optionMap[varId] == null || optionMap[varId] === optId,
+				optionMap[varId] == null ||
+				optionMap[varId] === optId,
 		);
 		if (!matchesSelection) continue;
 		const price = resolveEffectiveCombinationPrice(
@@ -220,7 +255,13 @@ export const getListingDisplayPrice = (
 		if (max === null || price > max) max = price;
 	}
 	return min != null
-		? { priceCents: min, isMinimum: min !== max }
+		? {
+				priceCents: applyPersonalizationCost(
+					min,
+					personalization,
+				),
+				isMinimum: min !== max,
+			}
 		: null;
 };
 
@@ -230,7 +271,8 @@ export const resolveEffectiveCombinationImage = (
 	variations: Variations,
 ): string | null => {
 	const key = getCombinationKey(optionMap);
-	if (combinations[key]?.imageUuid != null) return combinations[key].imageUuid;
+	if (combinations[key]?.imageUuid != null)
+		return combinations[key].imageUuid;
 	const sorted = Object.entries(variations)
 		.filter(([, v]) => v.imagesVary)
 		.sort(([, a], [, b]) => a.order - b.order);

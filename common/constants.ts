@@ -19,6 +19,8 @@ export const LISTING_LIMITS = {
 	// Rich text character limits (stripped HTML)
 	maxDescrSectionBodyChars: 5000,
 	maxReturnPolicyChars: 2000,
+
+	maxPersonalizationHelperTextLength: 256,
 };
 
 export const SEARCH_QUERY_LIMITS = {

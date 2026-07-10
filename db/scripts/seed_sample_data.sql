@@ -19,6 +19,8 @@ DECLARE
     sample_shop_5_shipping_profile_id INT;
     sample_shop_6_shipping_profile_id INT;
 
+    sample_shop_1_personalization_profile_id INT;
+
     sample_shop_1_id INT := 1;
     sample_shop_1_title VARCHAR := 'Studebaker Metals';
     sample_shop_1_profile_image_uuid VARCHAR := '231210EF-D8F8-4A33-96E0-2F8FBACD43AB';
@@ -253,13 +255,23 @@ BEGIN
     sample_shop_5_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_5_id AND name = 'Standard' LIMIT 1);
     sample_shop_6_return_profile_id := (SELECT id FROM listing_return_profile WHERE shop_id = sample_shop_6_id AND name = 'Standard' LIMIT 1);
 
-
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available)
+    INSERT INTO listing_personalization_profile (name, shop_id, cost_cents, helper_text, created_at, updated_at)
     VALUES
-        (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
-        (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
-        (sample_listing_3_id,  '0XNl', sample_listing_3_shop_id,  sample_listing_3_category_id,  sample_listing_3_title,  sample_listing_3_subtitle,  null,                        sample_listing_3_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_3_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
-        (sample_listing_4_id,  'yDvP', sample_listing_4_shop_id,  sample_listing_4_category_id,  sample_listing_4_title,  sample_listing_4_subtitle,  null,                        sample_listing_4_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_4_image_uuids,  sample_shop_1_processing_profile_id, null, null, true),
+        ('Engraving', sample_shop_1_id, 1500, 'Maximum 6 characters.', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (shop_id, name) DO UPDATE SET
+        cost_cents = EXCLUDED.cost_cents,
+        helper_text = EXCLUDED.helper_text,
+        updated_at = CURRENT_TIMESTAMP;
+
+    sample_shop_1_personalization_profile_id := (SELECT id FROM listing_personalization_profile WHERE shop_id = sample_shop_1_id AND name = 'Engraving' LIMIT 1);
+
+
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id)
+    VALUES
+        (sample_listing_1_id,  'gB8K', sample_listing_1_shop_id,  sample_listing_1_category_id,  sample_listing_1_title,  sample_listing_1_subtitle,  null,                        sample_listing_1_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_1_image_uuids,  sample_shop_1_processing_profile_id, null, null, true, sample_shop_1_personalization_profile_id),
+        (sample_listing_2_id,  'jR6k', sample_listing_2_shop_id,  sample_listing_2_category_id,  sample_listing_2_title,  sample_listing_2_subtitle,  null,                        sample_listing_2_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_2_image_uuids,  sample_shop_1_processing_profile_id, null, null, true, sample_shop_1_personalization_profile_id),
+        (sample_listing_3_id,  '0XNl', sample_listing_3_shop_id,  sample_listing_3_category_id,  sample_listing_3_title,  sample_listing_3_subtitle,  null,                        sample_listing_3_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_3_image_uuids,  sample_shop_1_processing_profile_id, null, null, true, sample_shop_1_personalization_profile_id),
+        (sample_listing_4_id,  'yDvP', sample_listing_4_shop_id,  sample_listing_4_category_id,  sample_listing_4_title,  sample_listing_4_subtitle,  null,                        sample_listing_4_price_cents,  sample_shop_1_shipping_profile_id, sample_shop_1_return_profile_id, sample_listing_4_image_uuids,  sample_shop_1_processing_profile_id, null, null, true, sample_shop_1_personalization_profile_id),
         (sample_listing_5_id,  'Qa0Z', sample_listing_5_shop_id,  sample_listing_5_category_id,  sample_listing_5_title,  sample_listing_5_subtitle,  sample_listing_5_full_descr, sample_listing_5_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_5_image_uuids,  sample_shop_2_processing_profile_id,
             jsonb_build_object(
                 sample_listing_5_variation_id, jsonb_build_object(
@@ -294,12 +306,12 @@ BEGIN
                 sample_listing_5_species_variation_id || ':' || sample_listing_5_species_oak_id    || '|' || sample_listing_5_variation_id || ':' || sample_listing_5_option_3_id, jsonb_build_object('priceCents', 429900, 'imageUuid', null, 'disabled', false),
                 sample_listing_5_species_variation_id || ':' || sample_listing_5_species_maple_id  || '|' || sample_listing_5_variation_id || ':' || sample_listing_5_option_3_id, jsonb_build_object('priceCents', 429900, 'imageUuid', null, 'disabled', true)
             )
-        , true),
-        (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id, null, null, true),
-        (sample_listing_7_id,  'La9m', sample_listing_7_shop_id,  sample_listing_7_category_id,  sample_listing_7_title,  sample_listing_7_subtitle,  null,                        sample_listing_7_price_cents,  sample_shop_3_shipping_profile_id, sample_shop_3_return_profile_id, sample_listing_7_image_uuids,  sample_shop_3_processing_profile_id, null, null, true),
-        (sample_listing_8_id,  'vmb5', sample_listing_8_shop_id,  sample_listing_8_category_id,  sample_listing_8_title,  sample_listing_8_subtitle,  null,                        sample_listing_8_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_8_image_uuids,  sample_shop_4_processing_profile_id, null, null, true),
-        (sample_listing_9_id,  '4p1J', sample_listing_9_shop_id,  sample_listing_9_category_id,  sample_listing_9_title,  sample_listing_9_subtitle,  null,                        sample_listing_9_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_9_image_uuids,  sample_shop_4_processing_profile_id, null, null, true),
-        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null,                        sample_listing_10_price_cents, sample_shop_6_shipping_profile_id, sample_shop_6_return_profile_id, sample_listing_10_image_uuids, sample_shop_6_processing_profile_id, null, null, true)
+        , true, null),
+        (sample_listing_6_id,  '8aOn', sample_listing_6_shop_id,  sample_listing_6_category_id,  sample_listing_6_title,  sample_listing_6_subtitle,  null,                        sample_listing_6_price_cents,  sample_shop_2_shipping_profile_id, sample_shop_2_return_profile_id, sample_listing_6_image_uuids,  sample_shop_2_processing_profile_id, null, null, true, null),
+        (sample_listing_7_id,  'La9m', sample_listing_7_shop_id,  sample_listing_7_category_id,  sample_listing_7_title,  sample_listing_7_subtitle,  null,                        sample_listing_7_price_cents,  sample_shop_3_shipping_profile_id, sample_shop_3_return_profile_id, sample_listing_7_image_uuids,  sample_shop_3_processing_profile_id, null, null, true, null),
+        (sample_listing_8_id,  'vmb5', sample_listing_8_shop_id,  sample_listing_8_category_id,  sample_listing_8_title,  sample_listing_8_subtitle,  null,                        sample_listing_8_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_8_image_uuids,  sample_shop_4_processing_profile_id, null, null, true, null),
+        (sample_listing_9_id,  '4p1J', sample_listing_9_shop_id,  sample_listing_9_category_id,  sample_listing_9_title,  sample_listing_9_subtitle,  null,                        sample_listing_9_price_cents,  sample_shop_4_shipping_profile_id, sample_shop_4_return_profile_id, sample_listing_9_image_uuids,  sample_shop_4_processing_profile_id, null, null, true, null),
+        (sample_listing_10_id, 'MWOr', sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, null,                        sample_listing_10_price_cents, sample_shop_6_shipping_profile_id, sample_shop_6_return_profile_id, sample_listing_10_image_uuids, sample_shop_6_processing_profile_id, null, null, true, null)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -315,6 +327,7 @@ BEGIN
         variations = EXCLUDED.variations,
         combinations = EXCLUDED.combinations,
         available = EXCLUDED.available,
+        personalization_profile_id = EXCLUDED.personalization_profile_id,
         updated_at = CURRENT_TIMESTAMP;
 
     -- Resync sequences for tables seeded with explicit IDs
@@ -322,6 +335,7 @@ BEGIN
 PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
     PERFORM setval(pg_get_serial_sequence('listing_processing_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_processing_profile), 1));
     PERFORM setval(pg_get_serial_sequence('listing_return_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_return_profile), 1));
+    PERFORM setval(pg_get_serial_sequence('listing_personalization_profile', 'id'), COALESCE((SELECT MAX(id) FROM listing_personalization_profile), 1));
 
 COMMIT;
 

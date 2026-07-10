@@ -4,11 +4,13 @@ import {
 	Button,
 	ButtonProps,
 	Center,
+	CheckboxCard,
 	createListCollection,
 	Flex,
 	GridItem,
 	HStack,
 	Icon,
+	Input,
 	Link,
 	Portal,
 	Select,
@@ -66,6 +68,7 @@ import {
 	FaHeart,
 	FaPlusCircle,
 	FaShareAlt,
+	FaSignature,
 } from 'react-icons/fa';
 import {
 	FaCheck,
@@ -90,6 +93,11 @@ export const ListingPage = () => {
 	});
 
 	const maxWidth = 1100;
+
+	const [personalizationEnabled, setPersonalizationEnabled] =
+		useState(false);
+	const [personalizationText, setPersonalizationText] =
+		useState('');
 
 	const [listingData, setListingData] =
 		useState<ListingPageData | null>(null);
@@ -242,12 +250,18 @@ export const ListingPage = () => {
 			)
 		: false;
 
+	const personalizationProfile = listingData?.profiles?.personalization;
+
 	const displayPrice: ListingDisplayPrice = listingData
 		? getListingDisplayPrice(
 				listingData.variations,
 				listingData.combinations,
 				listingData.priceCents,
 				selectedVariationOptions,
+				{
+					costCents: personalizationProfile?.costCents,
+					selected: personalizationEnabled,
+				},
 			)
 		: null;
 
@@ -408,13 +422,13 @@ export const ListingPage = () => {
 										categoryId={
 											listingData.categoryId
 										}
-										fontSize={21}
+										fontSize={22}
 										currentIsLink
 									/>
 								)}
 							</Stack>
 							<Stack
-								fontSize={19}
+								fontSize={20}
 								fontFamily={FONT_DECORATIVE}
 								gap={1.5}
 							>
@@ -445,7 +459,7 @@ export const ListingPage = () => {
 					</GridItem>
 					<GridItem colSpan={{ base: 1, lg: 2 }}>
 						<Stack
-							gap={6}
+							gap={5}
 							width="100%"
 						>
 							{variationCollections.length > 0 && (
@@ -486,7 +500,9 @@ export const ListingPage = () => {
 												}}
 											>
 												<Select.HiddenSelect />
-												<Select.Label>
+												<Select.Label
+													fontSize={16}
+												>
 													{variation.name}
 												</Select.Label>
 												<Select.Control>
@@ -537,6 +553,106 @@ export const ListingPage = () => {
 										),
 									)}
 								</Stack>
+							)}
+							{personalizationProfile && (
+								<CheckboxCard.Root
+									checked={personalizationEnabled}
+									onCheckedChange={(e) =>
+										setPersonalizationEnabled(
+											!!e.checked,
+										)
+									}
+									size="md"
+									fontFamily={FONT_DISPLAY_SANS}
+								>
+									<CheckboxCard.HiddenInput />
+									<CheckboxCard.Control>
+										<Stack
+											width="100%"
+											gap={3}
+										>
+											<HStack justifyContent="space-between">
+												<HStack>
+													<Flex px={1}>
+														<Icon
+															h={5}
+															w={5}
+															as={
+																FaSignature
+															}
+														/>
+													</Flex>
+
+													<CheckboxCard.Label
+														fontWeight={
+															500
+														}
+														fontSize={16}
+													>
+														{personalizationProfile.name}{' '}
+													</CheckboxCard.Label>
+												</HStack>
+
+												<HStack gap={3}>
+													<Text
+														fontFamily={
+															FONT_DISPLAY_SANS
+														}
+														fontSize={18}
+													>
+														{formatCentsAsDollars(
+															personalizationProfile.costCents,
+														)}
+													</Text>
+													<CheckboxCard.Indicator />
+												</HStack>
+											</HStack>
+
+											{personalizationEnabled && (
+												<Stack
+													gap={2}
+													onPointerDownCapture={(
+														e,
+													) =>
+														e.stopPropagation()
+													}
+												>
+													<Input
+														variant="outline"
+														size="lg"
+														width="100%"
+														fontSize={18}
+														value={
+															personalizationText
+														}
+														onChange={(
+															e,
+														) =>
+															setPersonalizationText(
+																e
+																	.target
+																	.value,
+															)
+														}
+														placeholder={
+															personalizationProfile.name
+														}
+													/>
+													{personalizationProfile.helperText && (
+														<Text
+															fontSize={16}
+															color="fg.muted"
+														>
+															{
+																personalizationProfile.helperText
+															}
+														</Text>
+													)}
+												</Stack>
+											)}
+										</Stack>
+									</CheckboxCard.Control>
+								</CheckboxCard.Root>
 							)}
 
 							<Stack gap={3}>

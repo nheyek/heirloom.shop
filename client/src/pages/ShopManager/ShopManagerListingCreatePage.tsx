@@ -18,6 +18,7 @@ export const ShopManagerListingCreatePage = () => {
 		processingProfiles,
 		shippingProfiles,
 		returnProfiles,
+		personalizationProfiles,
 		profilesLoading,
 	} = useShopManager();
 	const apiClient = useApiClient();
@@ -27,6 +28,7 @@ export const ShopManagerListingCreatePage = () => {
 		initialProcessingProfiles: processingProfiles,
 		initialShippingProfiles: shippingProfiles,
 		initialReturnProfiles: returnProfiles,
+		initialPersonalizationProfiles: personalizationProfiles,
 	});
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [savePending, setSavePending] = useState(false);
@@ -72,6 +74,10 @@ export const ShopManagerListingCreatePage = () => {
 					returnProfileId:
 						form.returnProfileId != null
 							? Number(form.returnProfileId)
+							: null,
+					personalizationProfileId:
+						form.personalizationProfileId != null
+							? Number(form.personalizationProfileId)
 							: null,
 					fullDescr:
 						form.descrSections.length > 0

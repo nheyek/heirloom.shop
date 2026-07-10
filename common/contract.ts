@@ -177,6 +177,13 @@ const ListingFulfillmentProfilesSchema = z.object({
 			returnWindowDays: z.number().optional(),
 		})
 		.optional(),
+	personalization: z
+		.object({
+			name: z.string(),
+			costCents: z.number(),
+			helperText: z.string().nullable(),
+		})
+		.optional(),
 });
 
 const ListingPageDataSchema = ListingCardDataSchema.extend({
@@ -400,11 +407,19 @@ const ShopManagerReturnProfileSchema = z.object({
 	policyDescrRichText: z.string().nullable(),
 });
 
+const ShopManagerPersonalizationProfileSchema = z.object({
+	id: z.number(),
+	name: z.string(),
+	costCents: z.number(),
+	helperText: z.string().nullable(),
+});
+
 const ShopProfilesDataSchema = z.object({
 	directFulfillment: z.boolean(),
 	processingProfiles: z.array(ShopManagerProcessingProfileSchema),
 	shippingProfiles: z.array(ShopManagerShippingProfileSchema),
 	returnProfiles: z.array(ShopManagerReturnProfileSchema),
+	personalizationProfiles: z.array(ShopManagerPersonalizationProfileSchema),
 });
 
 const ListingEditDataSchema = z.object({
@@ -417,6 +432,7 @@ const ListingEditDataSchema = z.object({
 	processingProfileId: z.number().nullable(),
 	shippingProfileId: z.number().nullable(),
 	returnProfileId: z.number().nullable(),
+	personalizationProfileId: z.number().nullable(),
 	fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
@@ -496,6 +512,22 @@ export const shopManagerContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	createPersonalizationProfile: {
+		method: 'POST',
+		path: '/api/shops/:shopId/manager/profiles/personalization',
+		pathParams: z.object({ shopId: z.string() }),
+		body: z.object({
+			name: z.string(),
+			costCents: z.number(),
+			helperText: z.string().nullable(),
+		}),
+		responses: {
+			200: ShopManagerPersonalizationProfileSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
 	getListing: {
 		method: 'GET',
 		path: '/api/shops/:shopId/manager/listings/:listingShortId',
@@ -538,6 +570,7 @@ export const shopManagerContract = c.router({
 			processingProfileId: z.number().nullable(),
 			shippingProfileId: z.number().nullable(),
 			returnProfileId: z.number().nullable(),
+			personalizationProfileId: z.number().nullable(),
 			fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 			variations: VariationsSchema,
 			combinations: CombinationsSchema,
@@ -565,6 +598,7 @@ export const shopManagerContract = c.router({
 			processingProfileId: z.number().nullable(),
 			shippingProfileId: z.number().nullable(),
 			returnProfileId: z.number().nullable(),
+			personalizationProfileId: z.number().nullable(),
 			fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 			variations: VariationsSchema,
 			combinations: CombinationsSchema,
@@ -601,6 +635,9 @@ export type ShopManagerShippingProfile = z.infer<
 >;
 export type ShopManagerReturnProfile = z.infer<
 	typeof ShopManagerReturnProfileSchema
+>;
+export type ShopManagerPersonalizationProfile = z.infer<
+	typeof ShopManagerPersonalizationProfileSchema
 >;
 export type ShopProfilesData = z.infer<typeof ShopProfilesDataSchema>;
 export type ListingEditData = z.infer<typeof ListingEditDataSchema>;

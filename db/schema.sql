@@ -159,7 +159,8 @@ CREATE TABLE public.listing (
     upc character varying(12),
     variations jsonb,
     combinations jsonb,
-    available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL
+    available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL,
+    personalization_profile_id integer
 );
 
 
@@ -196,6 +197,41 @@ CREATE SEQUENCE public.listing_id_seq
 --
 
 ALTER SEQUENCE public.listing_id_seq OWNED BY public.listing.id;
+
+
+--
+-- Name: listing_personalization_profile; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.listing_personalization_profile (
+    id integer NOT NULL,
+    name character varying(64) NOT NULL,
+    shop_id integer NOT NULL,
+    cost_cents integer NOT NULL,
+    helper_text character varying(256),
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+);
+
+
+--
+-- Name: listing_personalization_profile_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.listing_personalization_profile_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: listing_personalization_profile_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.listing_personalization_profile_id_seq OWNED BY public.listing_personalization_profile.id;
 
 
 --
@@ -521,6 +557,13 @@ ALTER TABLE ONLY public.listing ALTER COLUMN id SET DEFAULT nextval('public.list
 
 
 --
+-- Name: listing_personalization_profile id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_personalization_profile ALTER COLUMN id SET DEFAULT nextval('public.listing_personalization_profile_id_seq'::regclass);
+
+
+--
 -- Name: listing_processing_profile id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -622,6 +665,22 @@ ALTER TABLE ONLY public.country
 
 ALTER TABLE ONLY public.listing_category
     ADD CONSTRAINT listing_category_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing_personalization_profile listing_personalization_profile_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_personalization_profile
+    ADD CONSTRAINT listing_personalization_profile_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: listing_personalization_profile listing_personalization_profile_shop_name_unique; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_personalization_profile
+    ADD CONSTRAINT listing_personalization_profile_shop_name_unique UNIQUE (shop_id, name);
 
 
 --
@@ -844,6 +903,22 @@ ALTER TABLE ONLY public.listing_category
 
 
 --
+-- Name: listing listing_personalization_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_personalization_profile_id_fkey FOREIGN KEY (personalization_profile_id) REFERENCES public.listing_personalization_profile(id) ON DELETE SET NULL;
+
+
+--
+-- Name: listing_personalization_profile listing_personalization_profile_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing_personalization_profile
+    ADD CONSTRAINT listing_personalization_profile_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
+
+
+--
 -- Name: listing listing_processing_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -987,4 +1062,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260629000000'),
     ('20260629000001'),
     ('20260630000000'),
-    ('20260630000001');
+    ('20260630000001'),
+    ('20260710000000');

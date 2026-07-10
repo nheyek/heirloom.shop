@@ -14,6 +14,7 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { ImageEntry } from '@client/hooks/useImageUpload';
 import {
+	PersonalizationProfile,
 	ProcessingProfile,
 	ReturnProfile,
 	ShippingProfile,
@@ -152,6 +153,7 @@ type FormProps = {
 	processingProfiles: ProcessingProfile[];
 	shippingProfiles: ShippingProfile[];
 	returnProfiles: ReturnProfile[];
+	personalizationProfiles: PersonalizationProfile[];
 	listingImageBaseUrl: string;
 };
 
@@ -162,6 +164,7 @@ const ListingEditForm = ({
 	processingProfiles,
 	shippingProfiles,
 	returnProfiles,
+	personalizationProfiles,
 	listingImageBaseUrl,
 }: FormProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -198,9 +201,14 @@ const ListingEditForm = ({
 			listingData.returnProfileId != null
 				? String(listingData.returnProfileId)
 				: null,
+		initialPersonalizationProfileId:
+			listingData.personalizationProfileId != null
+				? String(listingData.personalizationProfileId)
+				: null,
 		initialProcessingProfiles: processingProfiles,
 		initialShippingProfiles: shippingProfiles,
 		initialReturnProfiles: returnProfiles,
+		initialPersonalizationProfiles: personalizationProfiles,
 		initialDescrSections: listingData.fullDescr ?? [],
 		initialVariations: listingData.variations as VariationsData,
 		initialCombinations:
@@ -242,6 +250,10 @@ const ListingEditForm = ({
 					returnProfileId:
 						form.returnProfileId != null
 							? Number(form.returnProfileId)
+							: null,
+					personalizationProfileId:
+						form.personalizationProfileId != null
+							? Number(form.personalizationProfileId)
 							: null,
 					fullDescr:
 						form.descrSections.length > 0
@@ -366,6 +378,7 @@ export const ShopManagerListingEditPage = () => {
 		processingProfiles,
 		shippingProfiles,
 		returnProfiles,
+		personalizationProfiles,
 		profilesLoading,
 	} = useShopManager();
 
@@ -398,6 +411,7 @@ export const ShopManagerListingEditPage = () => {
 			processingProfiles={processingProfiles}
 			shippingProfiles={shippingProfiles}
 			returnProfiles={returnProfiles}
+			personalizationProfiles={personalizationProfiles}
 			listingImageBaseUrl={`${process.env.LISTING_IMAGES_URL}/${shopShortId}`}
 		/>
 	);

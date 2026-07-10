@@ -29,35 +29,53 @@ export const mapListingToApiResponseData = (
 
 export const mapListingToCompleteApiResponseData = (
 	listing: Listing,
-): ListingPageData => ({
-	...mapListingToApiResponseData(listing),
-	directFulfillment: listing.shop.directFulfillment,
-	fullDescr: listing.fullDescr,
-	profiles: listing.shop.directFulfillment
+): ListingPageData => {
+	// Personalization is a shop-specific customization option, not a
+	// fulfillment detail, so unlike processing/shipping/returns it isn't
+	// gated behind directFulfillment (Heirloom-fulfilled shops still fall
+	// back to HEIRLOOM_LISTING_PROFILES for those, but can still offer
+	// personalization).
+	const personalization = listing.personalizationProfile
 		? {
-				processing: listing.processingProfile
-					? {
-							minDays: listing.processingProfile.minDays,
-							maxDays: listing.processingProfile.maxDays,
-						}
-					: undefined,
-				shipping: listing.shippingProfile
-					? {
-							originZip: listing.shippingProfile.originZip,
-							shippingDaysMin: listing.shippingProfile.shippingDaysMin,
-							shippingDaysMax: listing.shippingProfile.shippingDaysMax,
-							shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
-						}
-					: undefined,
-				returns: listing.returnProfile
-					? {
-							policyType: listing.returnProfile.policyType,
-							returnWindowDays: listing.returnProfile.returnWindowDays,
-						}
-					: undefined,
+				name: listing.personalizationProfile.name,
+				costCents: listing.personalizationProfile.costCents,
+				helperText: listing.personalizationProfile.helperText ?? null,
 			}
-		: null,
-});
+		: undefined;
+
+	return {
+		...mapListingToApiResponseData(listing),
+		directFulfillment: listing.shop.directFulfillment,
+		fullDescr: listing.fullDescr,
+		profiles: listing.shop.directFulfillment
+			? {
+					processing: listing.processingProfile
+						? {
+								minDays: listing.processingProfile.minDays,
+								maxDays: listing.processingProfile.maxDays,
+							}
+						: undefined,
+					shipping: listing.shippingProfile
+						? {
+								originZip: listing.shippingProfile.originZip,
+								shippingDaysMin: listing.shippingProfile.shippingDaysMin,
+								shippingDaysMax: listing.shippingProfile.shippingDaysMax,
+								shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
+							}
+						: undefined,
+					returns: listing.returnProfile
+						? {
+								policyType: listing.returnProfile.policyType,
+								returnWindowDays: listing.returnProfile.returnWindowDays,
+							}
+						: undefined,
+					personalization,
+				}
+			: personalization
+				? { personalization }
+				: null,
+	};
+};
 
 export const mapListingToCartItemData = (
 	listing: Listing,

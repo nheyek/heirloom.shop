@@ -54,6 +54,13 @@ export type ShippingProfile = {
 	maxDays: number;
 };
 
+export type PersonalizationProfile = {
+	id: string;
+	name: string;
+	costCents: number;
+	helperText: string | null;
+};
+
 export type {
 	Combination,
 	Combinations,
@@ -122,6 +129,11 @@ export type ListingFormState = {
 	returnProfileError: string | null;
 	setReturnProfileError: (v: string | null) => void;
 
+	personalizationProfiles: PersonalizationProfile[];
+	addPersonalizationProfile: (profile: PersonalizationProfile) => void;
+	personalizationProfileId: string | null;
+	setPersonalizationProfileId: (v: string | null) => void;
+
 	descrSections: ListingDescrSection[];
 	descrSectionIds: string[];
 	addDescrSection: (section: ListingDescrSection) => void;
@@ -164,6 +176,8 @@ type UseListingFormOptions = {
 	initialProcessingProfiles?: ProcessingProfile[];
 	initialShippingProfiles?: ShippingProfile[];
 	initialReturnProfiles?: ReturnProfile[];
+	initialPersonalizationProfileId?: string | null;
+	initialPersonalizationProfiles?: PersonalizationProfile[];
 	initialDescrSections?: ListingDescrSection[];
 	initialVariations?: Variations;
 	initialCombinations?: Combinations;
@@ -182,6 +196,8 @@ export const useListingForm = ({
 	initialProcessingProfiles = [],
 	initialShippingProfiles = [],
 	initialReturnProfiles = [],
+	initialPersonalizationProfileId = null,
+	initialPersonalizationProfiles = [],
 	initialDescrSections = [],
 	initialVariations = {},
 	initialCombinations = {},
@@ -248,6 +264,15 @@ export const useListingForm = ({
 	const [returnProfileError, setReturnProfileError] = useState<
 		string | null
 	>(null);
+
+	const [personalizationProfiles, setPersonalizationProfiles] = useState<
+		PersonalizationProfile[]
+	>(initialPersonalizationProfiles);
+	const addPersonalizationProfile = (profile: PersonalizationProfile) =>
+		setPersonalizationProfiles((prev) => [...prev, profile]);
+	const [personalizationProfileId, setPersonalizationProfileId] = useState<
+		string | null
+	>(initialPersonalizationProfileId);
 
 	const [variations, setVariations] =
 		useState<Variations>(initialVariations);
@@ -398,6 +423,7 @@ export const useListingForm = ({
 			processingProfileId,
 			shippingProfileId,
 			returnProfileId,
+			personalizationProfileId,
 			descrSections,
 			variations,
 			combinations,
@@ -567,6 +593,10 @@ export const useListingForm = ({
 		setReturnProfileId,
 		returnProfileError,
 		setReturnProfileError,
+		personalizationProfiles,
+		addPersonalizationProfile,
+		personalizationProfileId,
+		setPersonalizationProfileId,
 		descrSections,
 		descrSectionIds,
 		addDescrSection,
