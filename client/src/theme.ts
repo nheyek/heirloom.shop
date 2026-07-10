@@ -13,6 +13,10 @@ export const FONT_DEFAULT = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
+export const ANIMATION_NAME = {
+	itemGridEnter: 'item-grid-enter',
+};
+
 export const NAVBAR_HEIGHT = {
 	DESKTOP: 16, // Spacing units
 	MOBILE: 110, // Pixels
@@ -133,15 +137,14 @@ const selectRecipe = defineSlotRecipe({
 });
 export const config = defineConfig({
 	globalCss: {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[`@keyframes ${ANIMATION_NAME.itemGridEnter}`]: {
+			from: { transform: 'translateY(-10px)' },
+			to: { transform: 'translateY(0)' },
+		} as any,
 		'html, body': {
 			touchAction: 'pan-y',
 			minHeight: '100dvh',
-			// CSS scroll anchoring adjusts scroll position on its own,
-			// after any of our own reset code has already run, to
-			// compensate for content that mutates above the current
-			// viewport — exactly what a route swap does. Disabling it
-			// removes a real, spec'd, cross-browser source of scroll
-			// position changing again after we've already set it.
 			overflowAnchor: 'none',
 		},
 		// Prevents outline on accordion section headers on mobile

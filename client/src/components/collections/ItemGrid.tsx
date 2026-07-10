@@ -9,10 +9,8 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { motion } from 'framer-motion';
+import { ANIMATION_NAME } from '@client/theme';
 import { ReactNode } from 'react';
-
-const MotionBox = motion.create(Box);
 
 const STAGGER_INTERVAL = 0;
 
@@ -48,20 +46,14 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		key: React.Key,
 		index: number,
 	) => (
-		<MotionBox
+		<Box
 			key={key}
 			minWidth={minItemWidth}
 			maxWidth={maxItemWidth}
-			initial={{ y: -10, scale: 0.95 }}
-			animate={{ y: 0, scale: 1 }}
-			transition={{
-				duration: 0.25,
-				ease: 'easeOut',
-				delay: index * STAGGER_INTERVAL,
-			}}
+			animation={`${ANIMATION_NAME.itemGridEnter} 0.25s ease-out`}
 		>
 			{child}
-		</MotionBox>
+		</Box>
 	);
 
 	if (maxNumColumns === 1) {
