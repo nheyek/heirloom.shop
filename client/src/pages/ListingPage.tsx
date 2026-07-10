@@ -250,7 +250,8 @@ export const ListingPage = () => {
 			)
 		: false;
 
-	const personalizationProfile = listingData?.profiles?.personalization;
+	const personalizationProfile =
+		listingData?.profiles?.personalization;
 
 	const displayPrice: ListingDisplayPrice = listingData
 		? getListingDisplayPrice(
@@ -383,11 +384,14 @@ export const ListingPage = () => {
 				m={5}
 				maxWidth={maxWidth}
 			>
-				<SimpleGrid
-					columns={{ base: 1, md: 2, lg: 5 }}
+				<Flex
+					direction={{ base: 'column', md: 'row' }}
 					gap={layout === Layout.COMPACT ? 5 : 10}
 				>
-					<GridItem colSpan={{ base: 1, lg: 3 }}>
+					<Box
+						flex="1"
+						minW={0}
+					>
 						<Stack gap={4}>
 							<Stack
 								gap={1}
@@ -456,8 +460,11 @@ export const ListingPage = () => {
 							{layout === Layout.STANDARD &&
 								renderFullDescription()}
 						</Stack>
-					</GridItem>
-					<GridItem colSpan={{ base: 1, lg: 2 }}>
+					</Box>
+					<Box
+						flexShrink={0}
+						width={{ base: '100%', md: 375 }}
+					>
 						<Stack
 							gap={5}
 							width="100%"
@@ -589,7 +596,9 @@ export const ListingPage = () => {
 														}
 														fontSize={16}
 													>
-														{personalizationProfile.name}{' '}
+														{
+															personalizationProfile.name
+														}{' '}
 													</CheckboxCard.Label>
 												</HStack>
 
@@ -640,7 +649,9 @@ export const ListingPage = () => {
 													/>
 													{personalizationProfile.helperText && (
 														<Text
-															fontSize={16}
+															fontSize={
+																16
+															}
 															color="fg.muted"
 														>
 															{
@@ -805,10 +816,10 @@ export const ListingPage = () => {
 								)}
 							</Stack>
 						</Stack>
-					</GridItem>
+					</Box>
 					{layout === Layout.COMPACT &&
 						renderFullDescription()}
-				</SimpleGrid>
+				</Flex>
 			</Box>
 		</MotionFlex>
 	);
