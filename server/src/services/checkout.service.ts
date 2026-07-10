@@ -12,7 +12,7 @@ export const loadCheckoutData = async (
 	const listings = await em.find(
 		Listing,
 		{ shortId: { $in: shortIds }, available: true },
-		{ populate: ['shippingProfile', 'processingProfile', 'shop'] },
+		{ populate: ['shippingProfile', 'processingProfile', 'personalizationProfile', 'shop'] },
 	);
 
 	return { listings };

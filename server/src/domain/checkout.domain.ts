@@ -9,11 +9,16 @@ const resolveUnitPrice = (
 	combinations: CombinationsData,
 	variations: VariationsData,
 	selectedOptions: Record<string, string>,
+	personalizationCostCents: number | null | undefined,
+	personalizationText: string | null | undefined,
 ): number => {
 	const key = getCombinationKey(selectedOptions);
 	const combination = combinations[key];
 	if (combination?.disabled) throw new Error('Selected combination is unavailable');
-	return resolveEffectiveCombinationPrice(selectedOptions, combinations, variations, priceCents) ?? priceCents;
+	const basePrice = resolveEffectiveCombinationPrice(selectedOptions, combinations, variations, priceCents) ?? priceCents;
+	return personalizationText && personalizationCostCents != null
+		? basePrice + personalizationCostCents
+		: basePrice;
 };
 
 const resolveVariationDisplayNames = (
@@ -49,6 +54,8 @@ export const calculateCheckoutTotals = (
 			combinations,
 			variations,
 			item.selectedOptions,
+			listing.personalizationProfile?.costCents,
+			item.personalizationText,
 		);
 
 		subtotalCents += unitPriceCents * item.quantity;
@@ -78,6 +85,8 @@ export const createOrderItemSnapshots = (
 			combinations,
 			variations,
 			item.selectedOptions,
+			listing.personalizationProfile?.costCents,
+			item.personalizationText,
 		);
 
 		snapshots.push({
@@ -95,6 +104,7 @@ export const createOrderItemSnapshots = (
 					)
 				: 'Delivery estimate unavailable',
 			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
+			personalizationText: item.personalizationText ?? null,
 		});
 	}
 

@@ -69,6 +69,7 @@ const CheckoutItemSchema = z.object({
 	listingShortId: z.string(),
 	selectedOptions: z.record(z.string(), z.string()),
 	quantity: z.number(),
+	personalizationText: z.string().nullable().optional(),
 });
 
 const TaxRequestSchema = z.object({
@@ -678,9 +679,6 @@ export const OrderItemDisplayDataSchema = z.object({
 	variations: z.array(
 		z.object({ name: z.string(), value: z.string() }),
 	),
-	// Only ever populated for the pre-checkout cart preview today — actual
-	// orders don't yet persist the customer's personalization text, so this
-	// is always undefined for a real, submitted order.
 	personalizationText: z.string().nullable().optional(),
 });
 

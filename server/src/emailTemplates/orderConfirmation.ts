@@ -16,6 +16,9 @@ const formatItem = (item: OrderItemDisplayData) => {
 		item.shopName,
 		unitPrice,
 	];
+	if (item.personalizationText) {
+		lines.push(`Personalization: ${item.personalizationText}`);
+	}
 	if (item.estimatedDelivery) {
 		lines.push(`Estimated delivery: ${item.estimatedDelivery}`);
 	}
