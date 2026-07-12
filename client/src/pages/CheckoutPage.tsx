@@ -49,11 +49,11 @@ export const CheckoutPage = () => {
 		taxTotal,
 		checkoutEmail,
 		shippingAddress,
-		validateCheckoutFields,
+		validateLocalCheckoutFields,
+		validateAddressDeliverable,
 		clearCart,
 	} = useShoppingCart();
 
-	const [pendingValidation, setPendingValidation] = useState(false);
 	const [pendingSubmit, setPendingSubmit] = useState(false);
 	const shippingFormRef = useRef<HTMLDivElement>(null);
 
@@ -95,25 +95,32 @@ export const CheckoutPage = () => {
 	};
 
 	const handleConfirmation = async () => {
-		setPendingValidation(true);
-		const failedValidation = !(await validateCheckoutFields());
-		setPendingValidation(false);
-
-		if (failedValidation) {
-			if (
-				layout === Layout.COMPACT &&
-				shippingFormRef.current
-			) {
+		const scrollToShippingForm = () => {
+			if (layout === Layout.COMPACT && shippingFormRef.current) {
 				const top =
 					shippingFormRef.current.getBoundingClientRect()
 						.top;
 				window.scrollTo({ top, behavior: 'smooth' });
 			}
+		};
+
+		// Only synchronous, local checks gate entering the loading state —
+		// anything requiring a network round-trip (deliverability, order
+		// submission, payment confirmation) happens after the button is
+		// already showing as loading.
+		if (!validateLocalCheckoutFields()) {
+			scrollToShippingForm();
 			return;
 		}
 		if (!stripe || !elements) return;
 
 		setPendingSubmit(true);
+
+		if (!(await validateAddressDeliverable())) {
+			setPendingSubmit(false);
+			scrollToShippingForm();
+			return;
+		}
 
 		const { error } = await elements.submit();
 		if (error) {
@@ -185,7 +192,7 @@ export const CheckoutPage = () => {
 				>
 					<CheckoutShippingForm
 						layout={layout}
-						disabled={pendingValidation || pendingSubmit}
+						disabled={pendingSubmit}
 					/>
 					<CheckoutShoppingCartCompact />
 				</Stack>
@@ -218,7 +225,7 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
-						disabled={pendingValidation || pendingSubmit}
+						disabled={pendingSubmit}
 						loading={pendingSubmit}
 					>
 						<FaCheckCircle />
@@ -245,9 +252,7 @@ export const CheckoutPage = () => {
 					<Stack gap={6}>
 						<CheckoutShippingForm
 							layout={layout}
-							disabled={
-								pendingValidation || pendingSubmit
-							}
+							disabled={pendingSubmit}
 						/>
 
 						<Stack gap={3}>
@@ -273,9 +278,7 @@ export const CheckoutPage = () => {
 							mb={10}
 							fontSize={22}
 							onClick={handleConfirmation}
-							disabled={
-								pendingValidation || pendingSubmit
-							}
+							disabled={pendingSubmit}
 							loading={pendingSubmit}
 						>
 							<FaCheckCircle />

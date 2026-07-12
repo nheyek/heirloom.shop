@@ -18,6 +18,7 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
+import { OrderConfirmedPage } from './pages/OrderConfirmedPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { ShopManagerInfoPage } from './pages/ShopManager/ShopManagerInfoPage';
@@ -27,7 +28,6 @@ import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListings
 import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
 import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
 import { ShopPage } from './pages/ShopPage';
-import { OrderSuccess } from './pages/SuccessPage';
 
 const ShopManagerDefaultRedirect = () => {
 	const { shortId } = useParams<{ shortId: string }>();
@@ -148,7 +148,7 @@ const App = () => {
 						/>
 						<Route
 							path={`/${CLIENT_ROUTES.orderConfirmed}`}
-							element={<OrderSuccess />}
+							element={<OrderConfirmedPage />}
 						/>
 						<Route element={<AdminPageLayout />}>
 							<Route

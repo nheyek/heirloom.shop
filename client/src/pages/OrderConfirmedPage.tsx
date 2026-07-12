@@ -1,15 +1,22 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
-import { IoBagCheckOutline, IoReceipt } from 'react-icons/io5';
-import { Link, Navigate, useLocation } from 'react-router-dom';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FONT_DECORATIVE } from '@client/theme';
+import { FaScroll } from 'react-icons/fa';
+import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';
+import { Link, Navigate, useLocation } from 'react-router-dom';
 
-export const OrderSuccess = () => {
+export const OrderConfirmedPage = () => {
 	const { state } = useLocation();
 	const shortId: string | undefined = state?.shortId;
 	const accessKey: string | undefined = state?.accessKey;
 
-	if (!shortId || !accessKey) return <Navigate to="/" replace />;
+	if (!shortId || !accessKey)
+		return (
+			<Navigate
+				to="/"
+				replace
+			/>
+		);
 
 	const orderPath = `/${CLIENT_ROUTES.order}/${shortId}?key=${accessKey}`;
 
@@ -27,10 +34,10 @@ export const OrderSuccess = () => {
 					alignItems="center"
 				>
 					<Stack alignItems="center">
-						<IoBagCheckOutline size={50} />
+						<FaCircleCheck size={44} />
 
 						<Text
-							fontSize={40}
+							fontSize={44}
 							fontFamily={FONT_DECORATIVE}
 						>
 							Order Confirmed
@@ -41,21 +48,22 @@ export const OrderSuccess = () => {
 						<Link to={orderPath}>
 							<Button
 								size="lg"
-								fontSize={18}
+								fontSize={20}
 								width="100%"
 							>
-								<IoReceipt />
-								View details
+								<FaScroll />
+								View Details
 							</Button>
 						</Link>
 						<Link to="/">
 							<Button
 								size="lg"
 								variant="outline"
-								fontSize={18}
+								fontSize={20}
 								width="100%"
 							>
-								Continue browsing
+								Keep Looking
+								<FaArrowRight />
 							</Button>
 						</Link>
 					</Stack>

@@ -63,7 +63,12 @@ type ShoppingCartContext = {
 	) => void;
 	setCheckoutEmail: (email: string) => void;
 	setShippingAddress: (address: ShippingAddress) => void;
-	validateCheckoutFields: () => Promise<boolean>;
+	// Synchronous, local-only checks (required fields, email format) — safe
+	// to run before entering a loading state.
+	validateLocalCheckoutFields: () => boolean;
+	// Everything that requires a network round-trip (address deliverability).
+	// Callers should already be in a loading state before calling this.
+	validateAddressDeliverable: () => Promise<boolean>;
 	clearShippingAddressError: (key: keyof ShippingAddress) => void;
 	clearEmailError: () => void;
 	clearCart: () => void;
@@ -319,16 +324,17 @@ export const ShoppingCartProvider = (props: {
 		);
 	};
 
-	const validateCheckoutFields = async () => {
+	const validateLocalCheckoutFields = () => {
 		const errors = getShippingAddressFieldErrors(shippingAddress);
 		const emailError = getEmailFieldError(checkoutEmail);
 
 		setShippingAddressErrors(errors);
 		setCheckoutEmailError(emailError);
 
-		if (emailError || Object.values(errors).some(Boolean))
-			return false;
+		return !emailError && !Object.values(errors).some(Boolean);
+	};
 
+	const validateAddressDeliverable = async () => {
 		const isDeliverable =
 			await validateDeliverableAddress(shippingAddress);
 		if (!isDeliverable) {
@@ -397,7 +403,8 @@ export const ShoppingCartProvider = (props: {
 				updateQuantity,
 				setCheckoutEmail,
 				setShippingAddress,
-				validateCheckoutFields,
+				validateLocalCheckoutFields,
+				validateAddressDeliverable,
 				clearShippingAddressError,
 				clearEmailError: () => setCheckoutEmailError(null),
 				clearCart: () => {
