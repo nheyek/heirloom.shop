@@ -23,11 +23,11 @@ export const LightBox = (props: Props) => {
 	return (
 		<Dialog.Root
 			initialFocusEl={() => null}
-			size="xl"
 			open={props.page !== null}
 			onInteractOutside={() => {
 				props.setPage(null);
 			}}
+			size="full"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
@@ -57,14 +57,16 @@ export const LightBox = (props: Props) => {
 								<IoClose />
 							</ActionButton>
 							<Carousel.Control>
-								<Carousel.PrevTrigger
-									asChild
-									insetStart={10}
-								>
-									<ActionButton>
-										<FaArrowLeft />
-									</ActionButton>
-								</Carousel.PrevTrigger>
+								{props.urls.length > 1 && (
+									<Carousel.PrevTrigger
+										asChild
+										insetStart={10}
+									>
+										<ActionButton>
+											<FaArrowLeft />
+										</ActionButton>
+									</Carousel.PrevTrigger>
+								)}
 
 								<Carousel.ItemGroup
 									aspectRatio={props.aspectRatio}
@@ -87,20 +89,24 @@ export const LightBox = (props: Props) => {
 									))}
 								</Carousel.ItemGroup>
 
-								<Carousel.NextTrigger
-									asChild
-									insetEnd={10}
-								>
-									<ActionButton>
-										<FaArrowRight />
-									</ActionButton>
-								</Carousel.NextTrigger>
+								{props.urls.length > 1 && (
+									<Carousel.NextTrigger
+										asChild
+										insetEnd={10}
+									>
+										<ActionButton>
+											<FaArrowRight />
+										</ActionButton>
+									</Carousel.NextTrigger>
+								)}
 							</Carousel.Control>
 
-							<CarouselThumbnails
-								urls={props.urls}
-								aspectRatio={props.aspectRatio}
-							/>
+							{props.urls.length > 1 && (
+								<CarouselThumbnails
+									urls={props.urls}
+									aspectRatio={props.aspectRatio}
+								/>
+							)}
 						</Carousel.Root>
 					</Dialog.Body>
 				</Dialog.Content>

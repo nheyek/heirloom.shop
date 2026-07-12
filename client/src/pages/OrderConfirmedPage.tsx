@@ -30,19 +30,17 @@ export const OrderConfirmedPage = () => {
 		>
 			<Center height="100%">
 				<Stack
-					gap={4}
+					gap={5}
 					alignItems="center"
 				>
-					<Stack alignItems="center">
-						<FaCircleCheck size={44} />
+					<FaCircleCheck size={54} />
 
-						<Text
-							fontSize={44}
-							fontFamily={FONT_DECORATIVE}
-						>
-							Order Confirmed
-						</Text>
-					</Stack>
+					<Text
+						fontSize={44}
+						fontFamily={FONT_DECORATIVE}
+					>
+						Order Confirmed
+					</Text>
 
 					<Stack width={200}>
 						<Link to={orderPath}>

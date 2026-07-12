@@ -94,7 +94,7 @@ export const ListingPage = () => {
 		md: Layout.STANDARD,
 	});
 
-	const maxWidth = 1100;
+	const maxWidth = 1200;
 
 	const [personalizationEnabled, setPersonalizationEnabled] =
 		useState(false);
