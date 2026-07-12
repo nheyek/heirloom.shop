@@ -6,19 +6,19 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 
 const formatItem = (item: OrderItemDisplayData) => {
-	const variations =
-		item.variations.length > 0
-			? ` (${item.variations.map((v) => `${v.name}: ${v.value}`).join(', ')})`
-			: '';
+	const details = [
+		...item.variations.map((v) => `${v.name}: ${v.value}`),
+		...(item.personalizationText
+			? [`${item.personalizationName ?? 'Personalization'}: ${item.personalizationText}`]
+			: []),
+	];
+	const detailsText = details.length > 0 ? ` (${details.join(', ')})` : '';
 	const unitPrice = `${formatCentsAsDollars(item.unitPriceCents)}${item.quantity > 1 ? ` (${item.quantity})` : ''}`;
 	const lines = [
-		`${item.title}${variations}`,
+		`${item.title}${detailsText}`,
 		item.shopName,
 		unitPrice,
 	];
-	if (item.personalizationText) {
-		lines.push(`Personalization: ${item.personalizationText}`);
-	}
 	if (item.estimatedDelivery) {
 		lines.push(`Estimated delivery: ${item.estimatedDelivery}`);
 	}

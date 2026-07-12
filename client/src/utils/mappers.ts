@@ -30,6 +30,8 @@ export const getListingDataForCart = (
 		// fulfillment, so it's read straight off the listing's own profiles.
 		personalizationCostCents:
 			listing.profiles?.personalization?.costCents ?? null,
+		personalizationName:
+			listing.profiles?.personalization?.name ?? null,
 		variations: listing.variations,
 		combinations: listing.combinations,
 	};

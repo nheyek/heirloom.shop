@@ -197,6 +197,7 @@ const CartItemDataSchema = ListingCardDataSchema.extend({
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
 	personalizationCostCents: z.number().nullable(),
+	personalizationName: z.string().nullable(),
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });
@@ -680,6 +681,7 @@ export const OrderItemDisplayDataSchema = z.object({
 		z.object({ name: z.string(), value: z.string() }),
 	),
 	personalizationText: z.string().nullable().optional(),
+	personalizationName: z.string().nullable().optional(),
 });
 
 const OrderResponseSchema = z.object({

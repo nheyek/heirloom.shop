@@ -96,6 +96,7 @@ export const mapListingToCartItemData = (
 		deliveryEstimate,
 		personalizationCostCents:
 			listing.personalizationProfile?.costCents ?? null,
+		personalizationName: listing.personalizationProfile?.name ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations,
 	};

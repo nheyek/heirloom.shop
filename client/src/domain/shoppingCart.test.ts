@@ -17,6 +17,7 @@ const baseListingData: CartItemData = {
 	combinations: {},
 	shippingPrice: 500,
 	personalizationCostCents: null,
+	personalizationName: null,
 };
 
 describe('calculateItemPrice', () => {

@@ -26,6 +26,7 @@ import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { FieldError } from '@client/components/input/FieldError';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { IconText } from '@client/components/textDisplay/IconText';
@@ -44,6 +45,7 @@ import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import {
 	COLOR_BRAND,
+	FIELD_ERROR_COLOR,
 	FONT_DECORATIVE,
 	FONT_DISPLAY_SANS,
 } from '@client/theme';
@@ -98,6 +100,8 @@ export const ListingPage = () => {
 		useState(false);
 	const [personalizationText, setPersonalizationText] =
 		useState('');
+	const [personalizationTextError, setPersonalizationTextError] =
+		useState<string | null>(null);
 
 	const [listingData, setListingData] =
 		useState<ListingPageData | null>(null);
@@ -120,6 +124,11 @@ export const ListingPage = () => {
 
 	const handleAddToCart = () => {
 		if (!listingData) return;
+
+		if (personalizationEnabled && !personalizationText.trim()) {
+			setPersonalizationTextError('This field is required.');
+			return;
+		}
 
 		shoppingCart.addToCart(
 			getListingDataForCart(listingData),
@@ -567,11 +576,15 @@ export const ListingPage = () => {
 							{personalizationProfile && (
 								<CheckboxCard.Root
 									checked={personalizationEnabled}
-									onCheckedChange={(e) =>
+									onCheckedChange={(e) => {
 										setPersonalizationEnabled(
 											!!e.checked,
-										)
-									}
+										);
+										if (!e.checked)
+											setPersonalizationTextError(
+												null,
+											);
+									}}
 									size="md"
 									fontFamily={FONT_DISPLAY_SANS}
 								>
@@ -582,7 +595,7 @@ export const ListingPage = () => {
 											gap={3}
 										>
 											<HStack justifyContent="space-between">
-												<HStack>
+												<HStack gap={1}>
 													<Flex px={1}>
 														<Icon
 															h={5}
@@ -639,17 +652,35 @@ export const ListingPage = () => {
 														}
 														onChange={(
 															e,
-														) =>
+														) => {
 															setPersonalizationText(
 																e
 																	.target
 																	.value,
+															);
+															if (
+																e.target.value.trim()
 															)
-														}
+																setPersonalizationTextError(
+																	null,
+																);
+														}}
 														placeholder={
 															personalizationProfile.name
 														}
+														borderColor={
+															personalizationTextError
+																? FIELD_ERROR_COLOR
+																: undefined
+														}
 													/>
+													{personalizationTextError && (
+														<FieldError>
+															{
+																personalizationTextError
+															}
+														</FieldError>
+													)}
 													{personalizationProfile.helperText && (
 														<Text
 															fontSize={

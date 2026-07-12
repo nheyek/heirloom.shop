@@ -42,6 +42,7 @@ export const getOrderItemDisplayData = (
 		estimatedDelivery: item.listingData.deliveryEstimate ?? null,
 		variations,
 		personalizationText: item.personalizationText ?? null,
+		personalizationName: item.listingData.personalizationName ?? null,
 	};
 };
 

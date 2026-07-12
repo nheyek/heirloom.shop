@@ -105,6 +105,7 @@ export const createOrderItemSnapshots = (
 				: 'Delivery estimate unavailable',
 			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
 			personalizationText: item.personalizationText ?? null,
+			personalizationName: listing.personalizationProfile?.name ?? null,
 		});
 	}
 
