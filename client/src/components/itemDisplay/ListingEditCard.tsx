@@ -3,7 +3,6 @@ import {
 	CloseButton,
 	Dialog,
 	HStack,
-	Icon,
 	Stack,
 	Switch,
 	Text,
@@ -13,7 +12,7 @@ import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
 import { useState } from 'react';
-import { FaEdit } from 'react-icons/fa';
+import { FaPencil } from 'react-icons/fa6';
 import { ListingCard } from './ListingCard';
 
 type ListingAvailableDialogProps = {
@@ -168,11 +167,9 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 						size="sm"
 						variant="subtle"
 						onClick={onEdit}
-						fontSize={17}
+						fontSize={20}
 					>
-						<Icon width={17}>
-							<FaEdit />
-						</Icon>
+						<FaPencil />
 						Edit
 					</Button>
 				}
