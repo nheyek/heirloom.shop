@@ -81,7 +81,7 @@ export const Navbar = () => {
 				}}
 				templateColumns={{
 					base: '150px 1fr 150px',
-					md: '250px 1fr 150px',
+					md: '250px 1fr 250px',
 				}}
 				alignItems="center"
 				gapX={5}
@@ -130,6 +130,7 @@ export const Navbar = () => {
 				<GridItem
 					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
+					flexShrink={0}
 				>
 					<HStack gap={1}>
 						{user?.isAdmin && (
