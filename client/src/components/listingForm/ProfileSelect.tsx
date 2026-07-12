@@ -25,7 +25,7 @@ export const ProfileSelect = ({
 	const collection = createListCollection({ items });
 
 	return (
-		<Box w={200}>
+		<Box w={225}>
 			<Select.Root
 				size="lg"
 				collection={collection}
