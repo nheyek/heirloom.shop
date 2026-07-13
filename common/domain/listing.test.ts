@@ -4,6 +4,7 @@ import {
 	Variations,
 	getCombinationKey,
 	getListingDisplayPrice,
+	isVariationOptionDisabled,
 } from './listing.js';
 
 const makeVariation = (
@@ -243,5 +244,96 @@ describe('getListingDisplayPrice', () => {
 				color: 'red',
 			}),
 		).toEqual({ priceCents: 1500, isMinimum: false });
+	});
+});
+
+describe('isVariationOptionDisabled', () => {
+	const variations: Variations = {
+		size: makeVariation('Size', 0, false, {
+			s: { order: 0 },
+			m: { order: 1 },
+		}),
+		color: makeVariation('Color', 1, false, {
+			red: { order: 0 },
+			blue: { order: 1 },
+		}),
+	};
+
+	it('is never disabled until every other variation has a selection', () => {
+		expect(
+			isVariationOptionDisabled('size', 'm', {}, variations, {}),
+		).toBe(false);
+	});
+
+	it('defaults to disabled once other variations are selected but no combination entry exists', () => {
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{ color: 'red' },
+				variations,
+				{},
+			),
+		).toBe(true);
+	});
+
+	it('respects an explicit disabled: true combination entry', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: true,
+			},
+		};
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{ color: 'red' },
+				variations,
+				combinations,
+			),
+		).toBe(true);
+	});
+
+	it('respects an explicit disabled: false combination entry', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+			},
+		};
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{ color: 'red' },
+				variations,
+				combinations,
+			),
+		).toBe(false);
+	});
+
+	it('checks the combination lookup directly for a single-variation listing', () => {
+		const singleVariation: Variations = {
+			size: variations.size,
+		};
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: true,
+			},
+		};
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{},
+				singleVariation,
+				combinations,
+			),
+		).toBe(true);
 	});
 });

@@ -1,13 +1,13 @@
-import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
+import {
+	getDeliveryEstimateDisplay,
+	resolveEffectiveProfiles,
+} from '@client/domain/listingPage';
 import { CartItemData, ListingPageData } from '@heirloom/common/contract';
-import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 
 export const getListingDataForCart = (
 	listing: ListingPageData,
 ): CartItemData => {
-	const profiles =
-		(listing.directFulfillment ? listing.profiles : null) ??
-		HEIRLOOM_LISTING_PROFILES;
+	const profiles = resolveEffectiveProfiles(listing);
 	return {
 		id: listing.id,
 		shortId: listing.shortId,
@@ -21,10 +21,8 @@ export const getListingDataForCart = (
 		shopTitle: listing.shopTitle,
 		imageUuids: listing.imageUuids,
 		available: listing.available,
-		shippingPrice: Number(profiles.shipping?.shippingRate || 0),
-		deliveryEstimate: profiles.processing && profiles.shipping
-			? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
-			: 'Delivery estimate unavailable',
+		shippingPrice: Number(profiles?.shipping?.shippingRate || 0),
+		deliveryEstimate: getDeliveryEstimateDisplay(profiles),
 		// Not gated behind directFulfillment/HEIRLOOM_LISTING_PROFILES like
 		// shipping/processing above — personalization is independent of
 		// fulfillment, so it's read straight off the listing's own profiles.

@@ -13,6 +13,10 @@ import { FaSearch } from 'react-icons/fa';
 import { MdCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
+import { FadeInBox } from '@client/components/util/FadeInBox';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { callApi } from '@client/utils/apiUtils';
 import { SEARCH_QUERY_LIMITS } from '@heirloom/common/constants';
 import {
 	SearchResult,
@@ -20,11 +24,6 @@ import {
 } from '@heirloom/common/contract';
 import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
-import { CLIENT_ROUTES } from '@client/constants';
-import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DEFAULT } from '@client/theme';
-import { callApi } from '@client/utils/apiUtils';
-import { FadeInBox } from '@client/components/util/FadeInBox';
 
 export const NavbarSearch = () => {
 	const apiClient = useApiClient();
@@ -134,7 +133,7 @@ export const NavbarSearch = () => {
 			>
 				<Input
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					fontSize={16}
+					fontSize={18}
 					placeholder="Search..."
 					bg="#FFF"
 					style={{ borderRadius: 20 }}
@@ -284,8 +283,6 @@ const renderSearchResultGroupLabel = (
 
 const renderSearchException = (message: string) => (
 	<Text
-		fontFamily={FONT_DEFAULT}
-		fontStyle="italic"
 		p={1}
 		pl={4}
 		color="gray.500"

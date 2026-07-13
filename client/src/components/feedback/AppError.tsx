@@ -1,4 +1,5 @@
 import { Alert, Box } from '@chakra-ui/react';
+import { FONT_BASIC } from '@client/theme';
 import { JSX } from 'react';
 
 type Props = {
@@ -8,7 +9,10 @@ type Props = {
 
 export const AppError = (props: Props) => (
 	<Box m={5}>
-		<Alert.Root status="error">
+		<Alert.Root
+			status="error"
+			fontFamily={FONT_BASIC}
+		>
 			<Alert.Indicator />
 			<Alert.Content>
 				<Alert.Title>{props.title}</Alert.Title>

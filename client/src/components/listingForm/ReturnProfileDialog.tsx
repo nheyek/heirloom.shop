@@ -15,7 +15,7 @@ import {
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
-import { FONT_DEFAULT } from '@client/theme';
+import { FONT_BASIC } from '@client/theme';
 import {
 	LISTING_LIMITS,
 	ReturnPolicyType,
@@ -148,7 +148,11 @@ export const ReturnProfileDialog = ({
 							type: ReturnPolicyType.CUSTOM,
 							text: customHtmlRef.current,
 						} as const);
-		void onConfirm({ name: trimmedName, windowDays: days, policy });;
+		void onConfirm({
+			name: trimmedName,
+			windowDays: days,
+			policy,
+		});
 	};
 
 	return (
@@ -279,7 +283,7 @@ export const ReturnProfileDialog = ({
 											size="lg"
 											w={16}
 											fontSize={16}
-											fontFamily={FONT_DEFAULT}
+											fontFamily={FONT_BASIC}
 											value={windowDays}
 											onChange={(e) => {
 												setWindowDays(
@@ -357,8 +361,8 @@ export const ReturnProfileDialog = ({
 								size="md"
 								fontSize={18}
 								onClick={handleConfirm}
-									disabled={saving}
-									loading={saving}
+								disabled={saving}
+								loading={saving}
 							>
 								Create
 							</Button>

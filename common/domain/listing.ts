@@ -283,6 +283,28 @@ export const resolveEffectiveCombinationImage = (
 	return null;
 };
 
+// An option is only known to be unavailable once every other variation has
+// a selection — before that the combination key is incomplete, so we can't
+// yet tell which combination it would resolve to.
+export const isVariationOptionDisabled = (
+	varId: string,
+	optionId: string,
+	selectedOptions: Record<string, string>,
+	variations: Variations,
+	combinations: Combinations,
+): boolean => {
+	const othersSelected = Object.keys(variations)
+		.filter((id) => id !== varId)
+		.every((id) => selectedOptions[id] != null);
+	if (!othersSelected) return false;
+
+	const key = getCombinationKey({
+		...selectedOptions,
+		[varId]: optionId,
+	});
+	return combinations[key]?.disabled ?? true;
+};
+
 export const syncVariationOptions = (
 	combinations: Combinations,
 	varId: string,
