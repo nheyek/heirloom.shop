@@ -27,7 +27,9 @@ export const ShopManagerListingsPage = () => {
 		setError(null);
 
 		callApi(
-			apiClient.shopManager.getListings({ params: { shopId: shortId } }),
+			apiClient.shopManager.getListings({
+				params: { shopId: shortId },
+			}),
 		).then((result) => {
 			if (result.error !== null) {
 				setError(result.error);
@@ -49,7 +51,7 @@ export const ShopManagerListingsPage = () => {
 
 	return (
 		<>
-			<Stack gap={4}>
+			<Stack gap={5}>
 				<Button
 					size="md"
 					onClick={() =>
