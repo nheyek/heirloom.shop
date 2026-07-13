@@ -31,8 +31,8 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
 import {
-	FaCaretDown,
 	FaCheckCircle,
+	FaChevronRight,
 	FaTrashAlt,
 } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -319,25 +319,23 @@ const ListingEditForm = ({
 							Save Changes
 						</Button>
 						<Collapsible.Root disabled={savePending}>
-							<Collapsible.Trigger asChild>
-								<Button
-									variant="subtle"
-									size="md"
-									fontSize={18}
-									cursor="pointer"
-									disabled={savePending}
-								>
-									Other Actions
+							<Collapsible.Trigger
+								fontSize={20}
+								cursor="pointer"
+								disabled={savePending}
+							>
+								<HStack gap={3}>
 									<Collapsible.Indicator
 										transition="transform 0.2s"
 										_open={{
 											transform:
-												'rotate(180deg)',
+												'rotate(90deg)',
 										}}
 									>
-										<FaCaretDown />
+										<FaChevronRight size={16} />
 									</Collapsible.Indicator>
-								</Button>
+									More Actions
+								</HStack>
 							</Collapsible.Trigger>
 							<Collapsible.Content pt={2}>
 								<Button
