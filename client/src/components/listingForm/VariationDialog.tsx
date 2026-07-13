@@ -658,10 +658,7 @@ export const VariationDialog = ({
 								label="Options"
 								required
 							>
-								<Stack
-									gap={1.5}
-									w="100%"
-								>
+								<Stack w="100%">
 									<DndContext
 										sensors={sensors}
 										collisionDetection={
@@ -790,13 +787,11 @@ export const VariationDialog = ({
 									)}
 									{options.length <
 										LISTING_LIMITS.maxOptionsPerVariation && (
-										<HStack>
-											<AddFieldButton
-												onClick={addOption}
-											>
-												Add Option
-											</AddFieldButton>
-										</HStack>
+										<AddFieldButton
+											onClick={addOption}
+										>
+											Add Option
+										</AddFieldButton>
 									)}
 								</Stack>
 							</FormField>

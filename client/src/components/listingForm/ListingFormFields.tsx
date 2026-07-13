@@ -1,7 +1,6 @@
 import {
 	Box,
 	Fieldset,
-	HStack,
 	Stack,
 	Wrap,
 	WrapItem,
@@ -202,14 +201,12 @@ export const ListingFormFields = ({
 									)}
 									{form.descrSections.length <
 										LISTING_LIMITS.maxDescrSections && (
-										<HStack>
-											<AddFieldButton
-												onClick={openAdd}
-												disabled={disabled}
-											>
-												Add Section
-											</AddFieldButton>
-										</HStack>
+										<AddFieldButton
+											onClick={openAdd}
+											disabled={disabled}
+										>
+											Add Section
+										</AddFieldButton>
 									)}
 								</Stack>
 							</FormField>
@@ -367,12 +364,18 @@ export const ListingFormFields = ({
 							<FormField label="Personalization">
 								<PersonalizationProfileSelect
 									shopShortId={form.shopShortId}
-									profiles={form.personalizationProfiles}
+									profiles={
+										form.personalizationProfiles
+									}
 									onAddProfile={
 										form.addPersonalizationProfile
 									}
-									value={form.personalizationProfileId}
-									onChange={form.setPersonalizationProfileId}
+									value={
+										form.personalizationProfileId
+									}
+									onChange={
+										form.setPersonalizationProfileId
+									}
 									disabled={disabled}
 								/>
 							</FormField>
@@ -397,14 +400,12 @@ export const ListingFormFields = ({
 							)}
 							{sortedVariations.length <
 								LISTING_LIMITS.maxVariations && (
-								<HStack>
-									<AddFieldButton
-										onClick={openAddVariation}
-										disabled={disabled}
-									>
-										Add Variation
-									</AddFieldButton>
-								</HStack>
+								<AddFieldButton
+									onClick={openAddVariation}
+									disabled={disabled}
+								>
+									Add Variation
+								</AddFieldButton>
 							)}
 						</Stack>
 					</FormField>

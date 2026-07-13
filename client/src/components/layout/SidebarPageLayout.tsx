@@ -238,12 +238,11 @@ export const SidebarPageLayout = ({
 		<Box
 			flex={1}
 			minW={0}
-			pt={{ base: 4, md: 8 }}
+			pt={5}
 		>
 			<Stack
-				pl={4}
-				pr={8}
-				gap={6}
+				px={5}
+				gap={5}
 				w="100%"
 			>
 				<MobileNav navItems={navItems} />
