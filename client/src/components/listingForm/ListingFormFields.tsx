@@ -24,14 +24,14 @@ import { ShippingProfileSelect } from '@client/components/listingForm/ShippingPr
 import { SortableFieldList } from '@client/components/listingForm/SortableFieldList';
 import { VariationDialog } from '@client/components/listingForm/VariationDialog';
 import {
+	ListingDescrSection,
+	ListingFormState,
+} from '@client/components/listingForm/useListingForm';
+import {
 	InputSize,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
-import {
-	ListingDescrSection,
-	ListingFormState,
-} from '@client/hooks/useListingForm';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { CHAKRA_SPACING_UNIT } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';

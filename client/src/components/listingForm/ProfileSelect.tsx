@@ -60,7 +60,7 @@ export const ProfileSelect = ({
 								<Select.Item
 									key={item.value}
 									item={item}
-									fontSize={16}
+									fontSize={18}
 								>
 									{item.label}
 									<Select.ItemIndicator />

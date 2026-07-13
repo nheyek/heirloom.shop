@@ -2,7 +2,7 @@ import { Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
-import { ListingFormState } from '@client/hooks/useListingForm';
+import { ListingFormState } from '@client/components/listingForm/useListingForm';
 import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { RefObject } from 'react';
 

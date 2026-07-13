@@ -1,11 +1,11 @@
 import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
-import { useApiClient } from '@client/hooks/useApiClient';
 import {
 	PersonalizationProfile,
 	ProcessingProfile,
 	ReturnProfile,
 	ShippingProfile,
-} from '@client/hooks/useListingForm';
+} from '@client/components/listingForm/useListingForm';
+import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ShopManagerReturnProfile, ShopManagerShippingProfile } from '@heirloom/common/contract';

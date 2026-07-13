@@ -7,11 +7,11 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
+import { Combination, Variation } from '@client/components/listingForm/useListingForm';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { Combination, Variation } from '@client/hooks/useListingForm';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {

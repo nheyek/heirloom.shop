@@ -3,8 +3,8 @@ import { Menu, MenuItemProps, Portal, Text } from '@chakra-ui/react';
 import { NavBarIconButton } from '@client/components/navbar/NavBar';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
+import { FaScroll } from 'react-icons/fa6';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { IoReceipt } from 'react-icons/io5';
 import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ export const NavbarMenu = () => {
 					>
 						<Link to={`/${CLIENT_ROUTES.orders}`}>
 							<MenuItem value="orders">
-								<IoReceipt />
+								<FaScroll />
 								<Text pl={1}>Orders</Text>
 							</MenuItem>
 						</Link>

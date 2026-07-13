@@ -1,7 +1,7 @@
 import { ProcessingProfileDialog } from '@client/components/listingForm/ProcessingProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
+import { ProcessingProfile } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { ProcessingProfile } from '@client/hooks/useListingForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { useState } from 'react';

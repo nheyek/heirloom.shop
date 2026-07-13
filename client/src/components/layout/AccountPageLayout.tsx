@@ -1,13 +1,16 @@
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart } from 'react-icons/fa';
-import { IoReceipt } from 'react-icons/io5';
-import { SidebarNavItem, SidebarPageLayout } from './SidebarPageLayout';
+import { FaScroll } from 'react-icons/fa6';
+import {
+	SidebarNavItem,
+	SidebarPageLayout,
+} from './SidebarPageLayout';
 
 const NAV_ITEMS: SidebarNavItem[] = [
 	{
 		label: 'Orders',
 		title: 'Your Orders',
-		icon: IoReceipt,
+		icon: FaScroll,
 		route: CLIENT_ROUTES.orders,
 	},
 	{
@@ -18,4 +21,6 @@ const NAV_ITEMS: SidebarNavItem[] = [
 	},
 ];
 
-export const AccountPageLayout = () => <SidebarPageLayout navItems={NAV_ITEMS} />;
+export const AccountPageLayout = () => (
+	<SidebarPageLayout navItems={NAV_ITEMS} />
+);

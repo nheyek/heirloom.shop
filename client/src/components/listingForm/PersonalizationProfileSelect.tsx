@@ -1,7 +1,7 @@
 import { PersonalizationProfileDialog } from '@client/components/listingForm/PersonalizationProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
+import { PersonalizationProfile } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { PersonalizationProfile } from '@client/hooks/useListingForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { useState } from 'react';

@@ -9,8 +9,8 @@ import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
+import { ListingDescrSection } from '@client/components/listingForm/useListingForm';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
-import { ListingDescrSection } from '@client/hooks/useListingForm';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 

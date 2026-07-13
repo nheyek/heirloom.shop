@@ -17,8 +17,8 @@ import {
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
+import { Variation } from '@client/components/listingForm/useListingForm';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { Variation } from '@client/hooks/useListingForm';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {

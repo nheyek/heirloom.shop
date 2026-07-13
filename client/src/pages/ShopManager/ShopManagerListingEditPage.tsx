@@ -10,16 +10,16 @@ import {
 } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
-import { CLIENT_ROUTES } from '@client/constants';
-import { useApiClient } from '@client/hooks/useApiClient';
-import { ImageEntry } from '@client/hooks/useImageUpload';
 import {
 	PersonalizationProfile,
 	ProcessingProfile,
 	ReturnProfile,
 	ShippingProfile,
 	useListingForm,
-} from '@client/hooks/useListingForm';
+} from '@client/components/listingForm/useListingForm';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useApiClient } from '@client/hooks/useApiClient';
+import { ImageEntry } from '@client/hooks/useImageUpload';
 import { useUnsavedChangesGuard } from '@client/hooks/useUnsavedChangesGuard';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';

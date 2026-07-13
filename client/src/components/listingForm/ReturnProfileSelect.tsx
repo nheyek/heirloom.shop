@@ -1,7 +1,7 @@
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
 import { ReturnProfileDialog } from '@client/components/listingForm/ReturnProfileDialog';
+import { ReturnProfile } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { ReturnProfile } from '@client/hooks/useListingForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';

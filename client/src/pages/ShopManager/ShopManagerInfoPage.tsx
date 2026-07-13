@@ -16,8 +16,8 @@ import {
 	ShopFormFields,
 	ShopFormInput,
 } from '@client/components/shop/ShopFormFields';
+import { useShopForm } from '@client/components/shop/useShopForm';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { useShopForm } from '@client/hooks/useShopForm';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { toastError, toastSuccess } from '@client/toaster';

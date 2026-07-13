@@ -1,7 +1,7 @@
 import { ShippingCostType, ShippingProfileDialog } from '@client/components/listingForm/ShippingProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
+import { ShippingProfile } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { ShippingProfile } from '@client/hooks/useListingForm';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { useState } from 'react';
