@@ -14,7 +14,6 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { FONT_DISPLAY_SANS } from '@client/theme';
 import { ListingCardData } from '@heirloom/common/contract';
 import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
@@ -147,7 +146,6 @@ export const ListingCard = ({
 					<Text
 						lineClamp={2}
 						fontSize={18}
-						fontFamily={FONT_DISPLAY_SANS}
 					>
 						{props.subtitle}
 					</Text>

@@ -19,7 +19,7 @@ import { FadeInBox } from '@client/components/util/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { FONT_DISPLAY_SANS, NAVBAR_HEIGHT } from '@client/theme';
+import { NAVBAR_HEIGHT } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
 
@@ -106,7 +106,6 @@ export const Navbar = () => {
 							!isMobile && (
 								<Text
 									color="white"
-									fontFamily={FONT_DISPLAY_SANS}
 									fontSize={24}
 									paddingTop={1}
 								>

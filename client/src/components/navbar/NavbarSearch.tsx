@@ -22,7 +22,7 @@ import { FaShop } from 'react-icons/fa6';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DEFAULT, FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DEFAULT } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { FadeInBox } from '@client/components/util/FadeInBox';
 
@@ -153,7 +153,6 @@ export const NavbarSearch = () => {
 					boxShadow="md"
 					overflow="hidden"
 					zIndex="popover"
-					fontFamily={FONT_DISPLAY_SANS}
 				>
 					<Stack
 						gap={0}

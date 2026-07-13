@@ -13,7 +13,7 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { FONT_DECORATIVE, FONT_DISPLAY_SANS } from '@client/theme';
+import { FONT_DECORATIVE } from '@client/theme';
 import { formatDateCompact } from '@client/utils/dateUtils';
 import {
 	OrderItemDisplayData,
@@ -134,10 +134,7 @@ export const OrderItemPreview = ({ order }: Props) => {
 						</Heading>
 					</RouterLink>
 				</Link>
-				<HStack
-					gap={4}
-					fontFamily={FONT_DISPLAY_SANS}
-				>
+				<HStack gap={4}>
 					{order.createdAt && (
 						<LabeledValue
 							label="Placed"

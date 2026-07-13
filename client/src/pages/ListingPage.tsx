@@ -49,7 +49,6 @@ import {
 	COLOR_BRAND,
 	FIELD_ERROR_COLOR,
 	FONT_DECORATIVE,
-	FONT_DISPLAY_SANS,
 } from '@client/theme';
 import { toaster } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -328,7 +327,6 @@ export const ListingPage = () => {
 					<Accordion.Item
 						key={index}
 						value={index.toString()}
-						fontFamily={FONT_DISPLAY_SANS}
 					>
 						<Accordion.ItemTrigger>
 							<Text
@@ -595,7 +593,6 @@ export const ListingPage = () => {
 											);
 									}}
 									size="md"
-									fontFamily={FONT_DISPLAY_SANS}
 								>
 									<CheckboxCard.HiddenInput />
 									<CheckboxCard.Control>
@@ -628,12 +625,7 @@ export const ListingPage = () => {
 												</HStack>
 
 												<HStack gap={3}>
-													<Text
-														fontFamily={
-															FONT_DISPLAY_SANS
-														}
-														fontSize={18}
-													>
+													<Text fontSize={18}>
 														{formatCentsAsDollars(
 															personalizationProfile.costCents,
 														)}
@@ -793,10 +785,7 @@ export const ListingPage = () => {
 								</SimpleGrid>
 							</Stack>
 
-							<Stack
-								gap={1}
-								fontFamily={FONT_DISPLAY_SANS}
-							>
+							<Stack gap={1}>
 								<IconText icon={FaHourglassStart}>
 									{profiles?.processing &&
 									profiles?.shipping ? (
@@ -850,11 +839,7 @@ export const ListingPage = () => {
 														maxWidth={300}
 													>
 														<Popover.Arrow />
-														<Popover.Body
-															fontFamily={
-																FONT_DISPLAY_SANS
-															}
-														>
+														<Popover.Body>
 															<RichTextDisplay
 																htmlString={
 																	returnPolicyDescrHtml

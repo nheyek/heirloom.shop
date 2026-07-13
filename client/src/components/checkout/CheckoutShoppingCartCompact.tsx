@@ -2,7 +2,6 @@ import { Collapsible, HStack, Span } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DISPLAY_SANS } from '@client/theme';
 import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
 
 export const CheckoutShoppingCartCompact = () => {
@@ -13,7 +12,6 @@ export const CheckoutShoppingCartCompact = () => {
 			<Collapsible.Trigger
 				fontSize={20}
 				fontWeight={500}
-				fontFamily={FONT_DISPLAY_SANS}
 				cursor="button"
 			>
 				<HStack gap={3}>

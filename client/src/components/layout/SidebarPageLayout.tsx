@@ -10,11 +10,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import {
-	FONT_DECORATIVE,
-	FONT_DISPLAY_SANS,
-	SIDEBAR_WIDTH_PX,
-} from '@client/theme';
+import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
 import { IconType } from 'react-icons';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import {
@@ -73,7 +69,6 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 								bg: isActive ? 'gray.100' : 'gray.50',
 							}}
 							transition="background 0.15s"
-							fontFamily={FONT_DISPLAY_SANS}
 							fontSize={20}
 							fontWeight={isActive ? 500 : 400}
 							color={isActive ? 'black' : 'gray.700'}
@@ -118,7 +113,6 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 						justifyContent="space-between"
 						fontWeight={500}
 						fontSize={20}
-						fontFamily={FONT_DISPLAY_SANS}
 						w="100%"
 						px={4}
 						py={3}
@@ -147,7 +141,6 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 										value={route}
 										cursor="pointer"
 										fontSize={20}
-										fontFamily={FONT_DISPLAY_SANS}
 										px={3}
 										py={2}
 									>
@@ -252,7 +245,6 @@ export const SidebarPageLayout = ({
 				pr={8}
 				gap={6}
 				w="100%"
-				fontFamily={FONT_DISPLAY_SANS}
 			>
 				<MobileNav navItems={navItems} />
 				<Box display={{ base: 'none', md: 'block' }}>

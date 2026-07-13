@@ -12,7 +12,6 @@ import {
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { FONT_DISPLAY_SANS } from '@client/theme';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
@@ -87,7 +86,6 @@ export const OrderItemCard = (props: Props) => {
 								<Badge
 									size="lg"
 									key={name}
-									fontFamily={FONT_DISPLAY_SANS}
 									fontSize={18}
 								>
 									{name}: {value}
@@ -97,7 +95,6 @@ export const OrderItemCard = (props: Props) => {
 						{props.item.personalizationText && (
 							<Badge
 								size="lg"
-								fontFamily={FONT_DISPLAY_SANS}
 								fontSize={18}
 								gap={2}
 							>
@@ -119,7 +116,6 @@ export const OrderItemCard = (props: Props) => {
 					lineHeight={1}
 					fontSize={22}
 					fontWeight={500}
-					fontFamily={FONT_DISPLAY_SANS}
 				>
 					<HStack gap={1.5}>
 						<IoMdPricetag size={24} />
@@ -151,7 +147,6 @@ export const OrderItemCard = (props: Props) => {
 						fontSize={18}
 						gap={1}
 						lineHeight={1}
-						fontFamily={FONT_DISPLAY_SANS}
 					>
 						<Span>Estimated delivery</Span>
 						<Span fontWeight={500}>

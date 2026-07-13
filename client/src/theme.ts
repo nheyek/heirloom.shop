@@ -72,7 +72,6 @@ const inputRecipe = defineRecipe({
 
 const buttonRecipe = defineRecipe({
 	base: {
-		fontFamily: FONT_DISPLAY_SANS,
 		borderRadius: 'full',
 	},
 	defaultVariants: {},
@@ -99,15 +98,6 @@ const cardRecipe = defineSlotRecipe({
 	},
 });
 
-const menuRecipe = defineSlotRecipe({
-	slots: ['item'],
-	base: {
-		item: {
-			fontFamily: FONT_DISPLAY_SANS,
-		},
-	},
-});
-
 const fieldsetRecipe = defineSlotRecipe({
 	slots: ['root', 'content'],
 	variants: {
@@ -129,7 +119,6 @@ const selectRecipe = defineSlotRecipe({
 	slots: ['label', 'item'],
 	base: {
 		label: {
-			fontFamily: FONT_DISPLAY_SANS,
 			fontSize: 18,
 			fontWeight: 500,
 		},
@@ -173,7 +162,7 @@ export const config = defineConfig({
 				1: { value: `${CHAKRA_SPACING_UNIT}px` },
 			},
 			fonts: {
-				body: { value: FONT_DEFAULT },
+				body: { value: FONT_DISPLAY_SANS },
 				heading: {
 					value: FONT_DECORATIVE,
 				},
@@ -196,7 +185,6 @@ export const config = defineConfig({
 		slotRecipes: {
 			card: cardRecipe,
 			fieldset: fieldsetRecipe,
-			menu: menuRecipe,
 			select: selectRecipe,
 		},
 	},

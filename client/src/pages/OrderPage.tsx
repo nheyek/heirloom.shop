@@ -10,7 +10,7 @@ import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { FONT_DISPLAY_SANS, sidebarBreakpoint } from '@client/theme';
+import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -164,7 +164,6 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					gap={5}
-					fontFamily={FONT_DISPLAY_SANS}
 				>
 					{isLoading || authIsLoading
 						? renderSkeleton()
