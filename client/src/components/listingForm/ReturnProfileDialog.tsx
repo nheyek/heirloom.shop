@@ -14,15 +14,13 @@ import {
 } from '@client/components/input/FormField';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
+import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
 import { FONT_DEFAULT } from '@client/theme';
 import {
 	LISTING_LIMITS,
 	ReturnPolicyType,
 } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
-
-const STANDARD_POLICY_HTML =
-	'<ul><li>Customer is responsible for return shipping costs.</li><li>Refunds applied to the original payment method within 7 days of return delivery.</li><li>Exchanges can be discussed with the seller on a case-by-case basis.</li></ul>';
 
 export type NewReturnProfile = {
 	name: string;
@@ -306,7 +304,9 @@ export const ReturnProfileDialog = ({
 							{policyType ===
 								ReturnPolicyType.STANDARD && (
 								<RichTextDisplay
-									htmlString={STANDARD_POLICY_HTML}
+									htmlString={
+										STANDARD_RETURN_POLICY_HTML
+									}
 									fontSize={18}
 								/>
 							)}

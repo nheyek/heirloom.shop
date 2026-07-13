@@ -140,3 +140,6 @@ export enum FulfillmentType {
 	DIRECT = 'DIRECT',
 	HEIRLOOM = 'HEIRLOOM',
 }
+
+export const STANDARD_RETURN_POLICY_HTML =
+	'<ul><li>Customer is responsible for return shipping costs.</li><li>Refunds applied to the original payment method within 7 days of return delivery.</li><li>Exchanges can be discussed with the seller on a case-by-case basis.</li></ul>';

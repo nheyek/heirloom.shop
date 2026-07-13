@@ -23,9 +23,12 @@ export const RichTextDisplay = (props: Props) => {
 					fontWeight: 'bold',
 				},
 				'& ul, & ol': {
-					marginLeft: '1rem',
-					marginBottom: '0.5rem',
+					marginLeft: 6,
 					listStyleType: 'disc',
+				},
+				'& li': {
+					fontSize: fontSize - 1,
+					marginBottom: 2,
 				},
 				'& em': {
 					fontStyle: 'italic',

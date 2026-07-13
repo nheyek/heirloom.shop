@@ -27,7 +27,7 @@ export const LightBox = (props: Props) => {
 			onInteractOutside={() => {
 				props.setPage(null);
 			}}
-			size="full"
+			size="xl"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>

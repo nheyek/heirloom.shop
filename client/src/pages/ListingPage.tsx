@@ -12,6 +12,7 @@ import {
 	Icon,
 	Input,
 	Link,
+	Popover,
 	Portal,
 	Select,
 	SimpleGrid,
@@ -36,6 +37,7 @@ import {
 	countryDisplayName,
 	Layout,
 	STANDARD_IMAGE_ASPECT_RATIO,
+	STANDARD_RETURN_POLICY_HTML,
 } from '@client/constants';
 import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -75,6 +77,7 @@ import {
 import {
 	FaCheck,
 	FaCheckDouble,
+	FaCircleInfo,
 	FaHourglassStart,
 	FaLocationDot,
 	FaShop,
@@ -303,6 +306,12 @@ export const ListingPage = () => {
 	) {
 		returnPolicyText = `Returns accepted within ${returnPolicy.returnWindowDays} days`;
 	}
+	const returnPolicyDescrHtml =
+		returnPolicy?.policyType === ReturnPolicyType.STANDARD
+			? STANDARD_RETURN_POLICY_HTML
+			: returnPolicy?.policyType === ReturnPolicyType.CUSTOM
+				? (returnPolicy.policyDescrRichText ?? null)
+				: null;
 
 	const renderFullDescription = () => (
 		<>
@@ -821,6 +830,45 @@ export const ListingPage = () => {
 								</IconText>
 								<IconText icon={FaExchangeAlt}>
 									{returnPolicyText}
+									{returnPolicyDescrHtml && (
+										<Popover.Root
+											positioning={{
+												placement: 'top',
+											}}
+										>
+											<Popover.Trigger
+												pl={1}
+												cursor="pointer"
+											>
+												<FaCircleInfo
+													size={16}
+												/>
+											</Popover.Trigger>
+											<Portal>
+												<Popover.Positioner>
+													<Popover.Content
+														maxWidth={300}
+													>
+														<Popover.Arrow />
+														<Popover.Body
+															fontFamily={
+																FONT_DISPLAY_SANS
+															}
+														>
+															<RichTextDisplay
+																htmlString={
+																	returnPolicyDescrHtml
+																}
+																fontSize={
+																	16
+																}
+															/>
+														</Popover.Body>
+													</Popover.Content>
+												</Popover.Positioner>
+											</Portal>
+										</Popover.Root>
+									)}
 								</IconText>
 								{listingData?.directFulfillment ? (
 									profiles?.shipping && (

@@ -176,6 +176,7 @@ const ListingFulfillmentProfilesSchema = z.object({
 		.object({
 			policyType: z.string(),
 			returnWindowDays: z.number().optional(),
+			policyDescrRichText: z.string().nullable().optional(),
 		})
 		.optional(),
 	personalization: z

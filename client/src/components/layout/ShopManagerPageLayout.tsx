@@ -2,13 +2,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { IoMdMail } from 'react-icons/io';
-import { IoReceipt, IoSettingsSharp } from 'react-icons/io5';
-import { TbSquaresFilled } from 'react-icons/tb';
+import { IoGrid, IoMail, IoSettingsSharp } from 'react-icons/io5';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { ShopManagerProvider } from '@client/providers/ShopManagerProvider';
-import { FaShop } from 'react-icons/fa6';
+import { FaScroll, FaShop } from 'react-icons/fa6';
 import {
 	SidebarNavItem,
 	SidebarPageLayout,
@@ -24,7 +22,7 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
 		label: 'Listings',
 		title: 'Listings',
-		icon: TbSquaresFilled,
+		icon: IoGrid,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}`,
 		children: [
 			{ path: CLIENT_ROUTES.new, label: 'New Listing' },
@@ -34,13 +32,13 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
 		label: 'Orders',
 		title: 'Orders',
-		icon: IoReceipt,
+		icon: FaScroll,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`,
 	},
 	{
 		label: 'Messages',
 		title: 'Messages',
-		icon: IoMdMail,
+		icon: IoMail,
 		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`,
 	},
 	{

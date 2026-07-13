@@ -67,6 +67,8 @@ export const mapListingToCompleteApiResponseData = (
 						? {
 								policyType: listing.returnProfile.policyType,
 								returnWindowDays: listing.returnProfile.returnWindowDays,
+								policyDescrRichText:
+									listing.returnProfile.policyDescrRichText ?? null,
 							}
 						: undefined,
 					personalization,
