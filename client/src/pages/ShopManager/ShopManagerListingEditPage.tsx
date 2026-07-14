@@ -249,10 +249,10 @@ const ListingEditForm = ({
 				containerRef={containerRef}
 				disabled={savePending}
 				actions={
-					<Stack gap={2}>
+					<Stack gap={5}>
 						<Button
 							size="lg"
-							width={185}
+							width="fit-content"
 							onClick={handleSave}
 							disabled={
 								!form.isDirty ||

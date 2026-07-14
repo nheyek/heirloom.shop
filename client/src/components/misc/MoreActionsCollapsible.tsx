@@ -1,5 +1,5 @@
 import { Collapsible, HStack } from '@chakra-ui/react';
-import { FaChevronRight } from 'react-icons/fa';
+import { FaCaretDown } from 'react-icons/fa6';
 
 type Props = {
 	disabled?: boolean;
@@ -13,19 +13,20 @@ export const MoreActionsCollapsible = ({
 	<Collapsible.Root disabled={disabled}>
 		<Collapsible.Trigger
 			fontSize={20}
+			fontWeight={500}
 			cursor="pointer"
 			disabled={disabled}
 		>
-			<HStack gap={2}>
+			<HStack>
+				More Actions
 				<Collapsible.Indicator
 					transition="transform 0.2s"
 					_open={{
-						transform: 'rotate(90deg)',
+						transform: 'rotate(-90deg)',
 					}}
 				>
-					<FaChevronRight size={15} />
+					<FaCaretDown size={18} />
 				</Collapsible.Indicator>
-				More Actions
 			</HStack>
 		</Collapsible.Trigger>
 		<Collapsible.Content pt={2}>{children}</Collapsible.Content>

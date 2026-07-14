@@ -106,7 +106,7 @@ export const ShopManagerListingCreatePage = () => {
 			actions={
 				<Button
 					size="lg"
-					width={150}
+					width="fit-content"
 					onClick={handleCreate}
 					loading={isBusy}
 				>

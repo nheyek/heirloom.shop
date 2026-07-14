@@ -298,7 +298,7 @@ const ShopInfoForm = ({
 					maxHeight={500}
 				/>
 			</Field.Root>
-			<Stack gap={2}>
+			<Stack gap={5}>
 				<Button
 					size="lg"
 					width="fit-content"
