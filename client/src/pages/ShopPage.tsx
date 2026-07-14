@@ -195,9 +195,9 @@ export const ShopPage = () => {
 								>
 									<Box
 										width={{
-											base: 6,
+											base: 5,
 											md: 7,
-											lg: 8,
+											lg: 9,
 										}}
 									>
 										<CountryFlagIcon
