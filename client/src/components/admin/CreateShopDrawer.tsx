@@ -1,8 +1,8 @@
 import { Button, Stack } from '@chakra-ui/react';
-import { AppDrawer } from '@client/components/layout/AppDrawer';
 import { FulfillmentFields } from '@client/components/shop/FulfillmentFields';
 import { ShopFormFields } from '@client/components/shop/ShopFormFields';
 import { useShopForm } from '@client/components/shop/useShopForm';
+import { AppDrawer } from '@client/components/util/AppDrawer';
 import { FulfillmentType } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';

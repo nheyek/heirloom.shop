@@ -2,9 +2,9 @@ import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart } from 'react-icons/fa';
 import { FaScroll } from 'react-icons/fa6';
 import {
+	NavigationEquippedPageLayout,
 	SidebarNavItem,
-	SidebarPageLayout,
-} from './SidebarPageLayout';
+} from './NavigationEquippedPageLayout';
 
 const NAV_ITEMS: SidebarNavItem[] = [
 	{
@@ -22,5 +22,5 @@ const NAV_ITEMS: SidebarNavItem[] = [
 ];
 
 export const AccountPageLayout = () => (
-	<SidebarPageLayout navItems={NAV_ITEMS} />
+	<NavigationEquippedPageLayout navItems={NAV_ITEMS} />
 );

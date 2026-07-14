@@ -136,6 +136,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 		<Box display={{ base: 'block', md: 'none' }}>
 			<Menu.Root
 				onSelect={(details) => navigate(`/${details.value}`)}
+				positioning={{ sameWidth: true }}
 			>
 				<Menu.Trigger asChild>
 					<Button
@@ -145,8 +146,6 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 						justifyContent="space-between"
 						fontSize={20}
 						w="100%"
-						px={4}
-						py={3}
 					>
 						<HStack gap={3}>
 							{match && (
@@ -182,8 +181,8 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 										value={route}
 										cursor="pointer"
 										fontSize={20}
-										px={3}
-										py={2}
+										p={3}
+										width="100%"
 									>
 										<HStack gap={3}>
 											<Box
@@ -255,7 +254,7 @@ type SidebarPageLayoutProps = {
 	navItems: SidebarNavItem[];
 };
 
-export const SidebarPageLayout = ({
+export const NavigationEquippedPageLayout = ({
 	navItems,
 }: SidebarPageLayoutProps) => (
 	<HStack
