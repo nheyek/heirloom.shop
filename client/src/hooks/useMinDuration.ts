@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export const useMinDuration = (
 	isLoading: boolean,
-	minDurationMs: number = 300,
+	minDurationMs: number = 200,
 ): boolean => {
 	const [shownLoading, setShownLoading] = useState(isLoading);
 	const startedAtRef = useRef<number | null>(
