@@ -88,9 +88,9 @@ const buttonRecipe = defineRecipe({
 			},
 		},
 		size: {
-			md: { fontSize: 18 },
-			lg: { fontSize: 20 },
-			xl: { fontSize: 22 },
+			md: { fontSize: 20 },
+			lg: { fontSize: 22 },
+			xl: { fontSize: 24 },
 		},
 	},
 });
