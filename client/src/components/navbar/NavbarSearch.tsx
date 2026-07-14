@@ -284,7 +284,7 @@ const renderSearchException = (message: string) => (
 	<Text
 		p={1}
 		pl={4}
-		color="gray.500"
+		color="fg.muted"
 		fontSize={18}
 	>
 		{message}

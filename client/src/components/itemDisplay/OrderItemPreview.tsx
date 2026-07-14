@@ -43,7 +43,7 @@ const LabeledValue = ({
 	<Stack gap={0.5}>
 		<Text
 			fontSize={15}
-			color="gray.600"
+			color="fg.muted"
 			textTransform="uppercase"
 		>
 			{label}

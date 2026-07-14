@@ -24,10 +24,7 @@ export const FormField = ({
 		invalid={!!error}
 		{...rest}
 	>
-		<Field.Label
-			fontSize={18}
-			fontWeight={500}
-		>
+		<Field.Label textStyle="fieldLabel">
 			{label}
 			<Field.RequiredIndicator fontFamily={FONT_SANS} />
 		</Field.Label>

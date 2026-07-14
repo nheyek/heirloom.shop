@@ -39,7 +39,7 @@ export const AppImage = ({
 			<Center
 				aspectRatio={aspectRatio}
 				bg="gray.100"
-				color="gray.400"
+				color="fg.muted"
 				{...props.containerProps}
 			>
 				<FaRegImage size="20%" />

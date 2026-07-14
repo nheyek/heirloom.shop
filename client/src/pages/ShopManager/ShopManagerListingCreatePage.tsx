@@ -107,7 +107,6 @@ export const ShopManagerListingCreatePage = () => {
 				<Button
 					size="lg"
 					width={150}
-					fontSize={22}
 					onClick={handleCreate}
 					loading={isBusy}
 				>

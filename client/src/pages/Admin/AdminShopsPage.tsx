@@ -40,10 +40,9 @@ export const AdminShopsPage = () => {
 		<>
 			<Stack gap={4}>
 				<Button
-					size="md"
+					size="lg"
 					onClick={() => setCreateShopOpen(true)}
 					width={155}
-					fontSize={20}
 				>
 					<FaPlusCircle />
 					Create Shop

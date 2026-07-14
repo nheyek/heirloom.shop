@@ -1,13 +1,4 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	Field,
-	HStack,
-	Skeleton,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Button, Field, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import {
@@ -16,6 +7,8 @@ import {
 	ShopFormInput,
 } from '@client/components/shop/ShopFormFields';
 import { useShopForm } from '@client/components/shop/useShopForm';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -52,6 +45,12 @@ const AssignOwnershipDialog = ({
 	const [ownerEmail, setOwnerEmail] = useState('');
 	const [error, setError] = useState<string | null>(null);
 
+	const handleCancel = () => {
+		setOwnerEmail('');
+		setError(null);
+		onCancel();
+	};
+
 	const handleConfirm = () => {
 		const trimmed = ownerEmail.trim();
 		if (!trimmed) {
@@ -66,90 +65,46 @@ const AssignOwnershipDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title="Assign Ownership"
 			open={open}
-			onOpenChange={({ open }) => {
-				if (!open && !pending) {
-					setOwnerEmail('');
-					setError(null);
-					onCancel();
-				}
-			}}
-			onInteractOutside={pending ? undefined : onCancel}
-			onEscapeKeyDown={pending ? undefined : onCancel}
+			onCancel={handleCancel}
+			pending={pending}
 			size="sm"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleCancel}
+					onConfirm={handleConfirm}
+					confirmLabel="Confirm"
+					confirmIcon={<FaCheckCircle />}
+					pending={pending}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-							marginRight={10}
-						>
-							Assign Ownership
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={onCancel}
-							disabled={pending}
-						/>
-					</Dialog.Header>
-					<Dialog.Body pt={0}>
-						<Stack gap={3}>
-							<Text fontSize={18}>
-								This shop will be switched to direct
-								fulfillment, with the listed owner
-								responsible for fulfillment and
-								support.
-							</Text>
-							<ShopFormField
-								label="Owner"
-								error={error}
-							>
-								<ShopFormInput
-									type="email"
-									value={ownerEmail}
-									onChange={(e) => {
-										setOwnerEmail(e.target.value);
-										setError(null);
-									}}
-									placeholder="owner@example.com"
-									disabled={pending}
-									autoFocus
-								/>
-							</ShopFormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="outline"
-								onClick={onCancel}
-								disabled={pending}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-								disabled={pending}
-								loading={pending}
-							>
-								<FaCheckCircle />
-								Confirm
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+			<Stack gap={3}>
+				<Text fontSize={18}>
+					This shop will be switched to direct fulfillment,
+					with the listed owner responsible for fulfillment
+					and support.
+				</Text>
+				<ShopFormField
+					label="Owner"
+					error={error}
+				>
+					<ShopFormInput
+						type="email"
+						value={ownerEmail}
+						onChange={(e) => {
+							setOwnerEmail(e.target.value);
+							setError(null);
+						}}
+						placeholder="owner@example.com"
+						disabled={pending}
+						autoFocus
+					/>
+				</ShopFormField>
+			</Stack>
+		</AppDialog>
 	);
 };
 
@@ -168,64 +123,27 @@ const CommandeerDialog = ({
 	onCancel,
 	onConfirm,
 }: CommandeerDialogProps) => (
-	<Dialog.Root
+	<AppDialog
+		title={`Commandeer "${title}"?`}
 		open={open}
-		onInteractOutside={pending ? undefined : onCancel}
-		onEscapeKeyDown={pending ? undefined : onCancel}
+		onCancel={onCancel}
+		pending={pending}
 		size="sm"
+		footer={
+			<DialogConfirmFooter
+				onCancel={onCancel}
+				onConfirm={onConfirm}
+				confirmLabel="Commandeer"
+				confirmIcon={<FaSkullCrossbones />}
+				pending={pending}
+			/>
+		}
 	>
-		<Dialog.Backdrop />
-		<Dialog.Positioner>
-			<Dialog.Content>
-				<Dialog.Header>
-					<Dialog.Title
-						fontSize={22}
-						fontWeight={500}
-						marginRight={10}
-					>
-						{`Commandeer "${title}"?`}
-					</Dialog.Title>
-					<CloseButton
-						position="absolute"
-						top={3}
-						right={3}
-						onClick={onCancel}
-						disabled={pending}
-					/>
-				</Dialog.Header>
-				<Dialog.Body pt={0}>
-					<Text fontSize={18}>
-						This shop will be switched back to Heirloom
-						fulfillment. The current owner will lose
-						access.
-					</Text>
-				</Dialog.Body>
-				<Dialog.Footer>
-					<HStack gap={2}>
-						<Button
-							size="md"
-							fontSize={18}
-							variant="outline"
-							onClick={onCancel}
-							disabled={pending}
-						>
-							Cancel
-						</Button>
-						<Button
-							size="md"
-							fontSize={18}
-							onClick={onConfirm}
-							disabled={pending}
-							loading={pending}
-						>
-							<FaSkullCrossbones />
-							Commandeer
-						</Button>
-					</HStack>
-				</Dialog.Footer>
-			</Dialog.Content>
-		</Dialog.Positioner>
-	</Dialog.Root>
+		<Text fontSize={18}>
+			This shop will be switched back to Heirloom fulfillment.
+			The current owner will lose access.
+		</Text>
+	</AppDialog>
 );
 
 const ShopInfoForm = ({
@@ -364,10 +282,7 @@ const ShopInfoForm = ({
 				disabled={isSaving}
 			/>
 			<Field.Root>
-				<Field.Label
-					fontSize={18}
-					fontWeight={500}
-				>
+				<Field.Label textStyle="fieldLabel">
 					About
 				</Field.Label>
 				<RichTextEditor
@@ -379,7 +294,6 @@ const ShopInfoForm = ({
 			<Stack gap={2}>
 				<Button
 					size="lg"
-					fontSize={20}
 					width="fit-content"
 					onClick={handleSave}
 					disabled={isSaving || form.isUploadingImage}

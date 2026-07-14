@@ -1,12 +1,4 @@
-import {
-	Box,
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	RadioCard,
-	Stack,
-} from '@chakra-ui/react';
+import { Box, HStack, RadioCard, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
 	FormField,
@@ -17,6 +9,8 @@ import {
 	DayRangeInput,
 	validateDayRange,
 } from '@client/components/listingForm/DayRangeInput';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { InputSize } from '@client/constants';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
@@ -156,207 +150,162 @@ export const ShippingProfileDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title="New Shipping Profile"
 			open={open}
-			onInteractOutside={handleClose}
-			onEscapeKeyDown={handleClose}
+			onCancel={handleClose}
+			pending={saving}
 			size="sm"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel="Create"
+					pending={saving}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-						>
-							New Shipping Profile
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
-							disabled={saving}
-						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
+			<Stack gap={4}>
+				<FormField
+					label="Name"
+					error={nameError}
+					required
+				>
+					<FormInput
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							if (e.target.value.trim())
+								setNameError(null);
+						}}
+						placeholder="e.g. Standard Domestic"
+						disabled={saving}
+					/>
+				</FormField>
+				<FormField
+					label="Origin zip code"
+					error={zipError}
+					required
+				>
+					<FormInput
+						w={32}
+						value={originZip}
+						onChange={(e) => {
+							const digits = e.target.value
+								.replace(/\D/g, '')
+								.slice(0, 5);
+							setOriginZip(digits);
+							if (digits) setZipError(null);
+						}}
+						placeholder="e.g. 90210"
+						inputMode="numeric"
+						disabled={saving}
+					/>
+				</FormField>
+				<FormField label="Cost">
+					<RadioCard.Root
+						value={costType}
+						onValueChange={(e) =>
+							setCostType(
+								e.value as ShippingCostType,
+							)
+						}
+						size="sm"
+						alignSelf="stretch"
+						disabled={saving}
 					>
-						<Stack gap={4}>
-							<FormField
-								label="Name"
-								error={nameError}
-								required
+						<HStack
+							gap={3}
+							align="start"
+						>
+							<RadioCard.Item
+								value={ShippingCostType.Free}
 							>
-								<FormInput
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value);
-										if (e.target.value.trim())
-											setNameError(null);
-									}}
-									placeholder="e.g. Standard Domestic"
-									disabled={saving}
-								/>
-							</FormField>
-							<FormField
-								label="Origin zip code"
-								error={zipError}
-								required
+								<RadioCard.ItemHiddenInput />
+								<RadioCard.ItemControl alignItems="center">
+									<RadioCard.ItemText fontSize={16}>
+										Free
+									</RadioCard.ItemText>
+									<RadioCard.ItemIndicator />
+								</RadioCard.ItemControl>
+							</RadioCard.Item>
+							<RadioCard.Item
+								value={ShippingCostType.FlatRate}
 							>
-								<FormInput
-									w={32}
-									value={originZip}
-									onChange={(e) => {
-										const digits = e.target.value
-											.replace(/\D/g, '')
-											.slice(0, 5);
-										setOriginZip(digits);
-										if (digits) setZipError(null);
-									}}
-									placeholder="e.g. 90210"
-									inputMode="numeric"
-									disabled={saving}
-								/>
-							</FormField>
-							<FormField label="Cost">
-								<RadioCard.Root
-									value={costType}
-									onValueChange={(e) =>
-										setCostType(
-											e.value as ShippingCostType,
-										)
-									}
-									size="sm"
-									alignSelf="stretch"
-									disabled={saving}
-								>
-									<HStack
+								<RadioCard.ItemHiddenInput />
+								<RadioCard.ItemControl>
+									<Stack
+										width="100%"
 										gap={3}
-										align="start"
 									>
-										<RadioCard.Item
-											value={
-												ShippingCostType.Free
-											}
+										<HStack
+											alignItems="center"
+											justifyContent="space-between"
 										>
-											<RadioCard.ItemHiddenInput />
-											<RadioCard.ItemControl alignItems="center">
-												<RadioCard.ItemText
-													fontSize={16}
-												>
-													Free
-												</RadioCard.ItemText>
-												<RadioCard.ItemIndicator />
-											</RadioCard.ItemControl>
-										</RadioCard.Item>
-										<RadioCard.Item
-											value={
-												ShippingCostType.FlatRate
-											}
-										>
-											<RadioCard.ItemHiddenInput />
-											<RadioCard.ItemControl>
-												<Stack
-													width="100%"
-													gap={3}
-												>
-													<HStack
-														alignItems="center"
-														justifyContent="space-between"
-													>
-														<RadioCard.ItemText
-															fontSize={
-																16
-															}
-														>
-															Flat rate
-														</RadioCard.ItemText>
-														<RadioCard.ItemIndicator />
-													</HStack>
-													{costType ===
-														ShippingCostType.FlatRate && (
-														<Box
-															onPointerDown={(
-																e,
-															) =>
-																e.stopPropagation()
-															}
-															onClick={(
-																e,
-															) =>
-																e.stopPropagation()
-															}
-														>
-															<PriceInput
-																size={
-																	InputSize.Md
-																}
-																value={
-																	flatRateCents
-																}
-																onChange={(v) => {
-																	setFlatRateCents(v);
-																	if (v && v > 0) setFlatRateError(null);
-																}}
-																invalid={!!flatRateError}
-															/>
-															{flatRateError && <FieldError>{flatRateError}</FieldError>}
-														</Box>
-													)}
-												</Stack>
-											</RadioCard.ItemControl>
-										</RadioCard.Item>
-									</HStack>
-								</RadioCard.Root>
-							</FormField>
-							<FormField
-								label="Delivery"
-								error={daysError}
-								required
-							>
-								<DayRangeInput
-									minDays={minDays}
-									maxDays={maxDays}
-									onChangeMin={(v) => {
-										setMinDays(v);
-										setDaysError(null);
-									}}
-									onChangeMax={(v) => {
-										setMaxDays(v);
-										setDaysError(null);
-									}}
-									disabled={saving}
-								/>
-							</FormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-								disabled={saving}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-									disabled={saving}
-									loading={saving}
-							>
-								Create
-							</Button>
+											<RadioCard.ItemText
+												fontSize={16}
+											>
+												Flat rate
+											</RadioCard.ItemText>
+											<RadioCard.ItemIndicator />
+										</HStack>
+										{costType ===
+											ShippingCostType.FlatRate && (
+											<Box
+												onPointerDown={(e) =>
+													e.stopPropagation()
+												}
+												onClick={(e) =>
+													e.stopPropagation()
+												}
+											>
+												<PriceInput
+													size={InputSize.Md}
+													value={flatRateCents}
+													onChange={(v) => {
+														setFlatRateCents(v);
+														if (v && v > 0)
+															setFlatRateError(
+																null,
+															);
+													}}
+													invalid={
+														!!flatRateError
+													}
+												/>
+												{flatRateError && (
+													<FieldError>
+														{flatRateError}
+													</FieldError>
+												)}
+											</Box>
+										)}
+									</Stack>
+								</RadioCard.ItemControl>
+							</RadioCard.Item>
 						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+					</RadioCard.Root>
+				</FormField>
+				<FormField
+					label="Delivery"
+					error={daysError}
+					required
+				>
+					<DayRangeInput
+						minDays={minDays}
+						maxDays={maxDays}
+						onChangeMin={(v) => {
+							setMinDays(v);
+							setDaysError(null);
+						}}
+						onChangeMax={(v) => {
+							setMaxDays(v);
+							setDaysError(null);
+						}}
+						disabled={saving}
+					/>
+				</FormField>
+			</Stack>
+		</AppDialog>
 	);
 };

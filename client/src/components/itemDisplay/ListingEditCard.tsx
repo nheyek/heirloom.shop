@@ -1,12 +1,6 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Stack,
-	Switch,
-	Text,
-} from '@chakra-ui/react';
+import { Button, Stack, Switch, Text } from '@chakra-ui/react';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -32,84 +26,50 @@ const ListingAvailableDialog = ({
 	onCancel,
 	onConfirm,
 }: ListingAvailableDialogProps) => (
-	<Dialog.Root
+	<AppDialog
+		title={
+			makeAvailable
+				? `Activate "${title}"?`
+				: `Deactivate "${title}"?`
+		}
 		open={open}
-		onInteractOutside={pending ? undefined : onCancel}
-		onEscapeKeyDown={pending ? undefined : onCancel}
+		onCancel={onCancel}
+		pending={pending}
 		size="sm"
+		titleProps={{ truncate: true }}
+		footer={
+			<DialogConfirmFooter
+				onCancel={onCancel}
+				onConfirm={onConfirm}
+				confirmLabel={makeAvailable ? 'Activate' : 'Deactivate'}
+				pending={pending}
+			/>
+		}
 	>
-		<Dialog.Backdrop />
-		<Dialog.Positioner>
-			<Dialog.Content>
-				<Dialog.Header>
-					<Dialog.Title
-						fontSize={22}
-						fontWeight={500}
-						marginRight={10}
-						truncate
-					>
-						{makeAvailable
-							? `Activate "${title}"?`
-							: `Deactivate "${title}"?`}
-					</Dialog.Title>
-					<CloseButton
-						position="absolute"
-						top={3}
-						right={3}
-						onClick={onCancel}
-						disabled={pending}
-					/>
-				</Dialog.Header>
-				<Dialog.Body
-					pt={0}
-					fontSize={18}
-				>
-					{makeAvailable ? (
-						<Text>
-							This listing will immediately be available
-							for purchase.
-						</Text>
-					) : (
-						<Stack gap={2}>
-							<Text>
-								This listing will no longer be
-								available for purchase. It will still
-								be visible to customers.
-							</Text>
-							<Text>
-								To remove this listing entirely, open
-								the "Edit" form and click "Delete
-								Listing".
-							</Text>
-						</Stack>
-					)}
-				</Dialog.Body>
-				<Dialog.Footer>
-					<HStack gap={2}>
-						<Button
-							size="md"
-							fontSize={18}
-							variant="outline"
-							onClick={onCancel}
-							disabled={pending}
-						>
-							Cancel
-						</Button>
-						<Button
-							size="md"
-							fontSize={18}
-							onClick={onConfirm}
-							loading={pending}
-						>
-							{makeAvailable
-								? 'Activate'
-								: 'Deactivate'}
-						</Button>
-					</HStack>
-				</Dialog.Footer>
-			</Dialog.Content>
-		</Dialog.Positioner>
-	</Dialog.Root>
+		<Stack
+			gap={2}
+			fontSize={18}
+		>
+			{makeAvailable ? (
+				<Text>
+					This listing will immediately be available for
+					purchase.
+				</Text>
+			) : (
+				<>
+					<Text>
+						This listing will no longer be available for
+						purchase. It will still be visible to
+						customers.
+					</Text>
+					<Text>
+						To remove this listing entirely, open the
+						"Edit" form and click "Delete Listing".
+					</Text>
+				</>
+			)}
+		</Stack>
+	</AppDialog>
 );
 
 type Props = ListingCardData & {

@@ -1,15 +1,11 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Stack,
-} from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 
@@ -113,110 +109,72 @@ export const PersonalizationProfileDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title="New Personalization Profile"
 			open={open}
-			onInteractOutside={handleClose}
-			onEscapeKeyDown={handleClose}
+			onCancel={handleClose}
+			pending={saving}
 			size="xs"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel="Create"
+					pending={saving}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-						>
-							New Personalization Profile
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
-							disabled={saving}
-						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
-					>
-						<Stack gap={4}>
-							<FormField
-								label="Name"
-								error={nameError}
-								required
-							>
-								<FormInput
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value);
-										if (e.target.value.trim())
-											setNameError(null);
-									}}
-									placeholder="e.g. Engraving"
-									disabled={saving}
-								/>
-							</FormField>
-							<FormField
-								label="Cost"
-								error={costError}
-								required
-							>
-								<PriceInput
-									value={costCents}
-									onChange={(v) => {
-										setCostCents(v);
-										if (v && v > 0) setCostError(null);
-									}}
-									invalid={!!costError}
-									disabled={saving}
-								/>
-							</FormField>
-							<FormField
-								label="Helper text"
-								error={helperTextError}
-							>
-								<FormInput
-									value={helperText}
-									onChange={(e) => {
-										setHelperText(e.target.value);
-										if (
-											e.target.value.trim().length <=
-											LISTING_LIMITS.maxPersonalizationHelperTextLength
-										)
-											setHelperTextError(null);
-									}}
-									placeholder="e.g. Add up to 20 characters."
-									disabled={saving}
-								/>
-							</FormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-								disabled={saving}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-								disabled={saving}
-								loading={saving}
-							>
-								Create
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+			<Stack gap={4}>
+				<FormField
+					label="Name"
+					error={nameError}
+					required
+				>
+					<FormInput
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							if (e.target.value.trim())
+								setNameError(null);
+						}}
+						placeholder="e.g. Engraving"
+						disabled={saving}
+					/>
+				</FormField>
+				<FormField
+					label="Cost"
+					error={costError}
+					required
+				>
+					<PriceInput
+						value={costCents}
+						onChange={(v) => {
+							setCostCents(v);
+							if (v && v > 0) setCostError(null);
+						}}
+						invalid={!!costError}
+						disabled={saving}
+					/>
+				</FormField>
+				<FormField
+					label="Helper text"
+					error={helperTextError}
+				>
+					<FormInput
+						value={helperText}
+						onChange={(e) => {
+							setHelperText(e.target.value);
+							if (
+								e.target.value.trim().length <=
+								LISTING_LIMITS.maxPersonalizationHelperTextLength
+							)
+								setHelperTextError(null);
+						}}
+						placeholder="e.g. Add up to 20 characters."
+						disabled={saving}
+					/>
+				</FormField>
+			</Stack>
+		</AppDialog>
 	);
 };

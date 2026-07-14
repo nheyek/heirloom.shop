@@ -1,16 +1,12 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Stack,
-} from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
 import { ListingDescrSection } from '@client/components/listingForm/useListingForm';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 
@@ -100,112 +96,63 @@ export const DescrSectionDialog = ({
 	}, [open]);
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title={initial ? 'Edit Section' : 'Add Section'}
 			open={open}
-			onInteractOutside={(e) => {
-				e.preventDefault();
-				handleClose();
-			}}
-			onEscapeKeyDown={(e) => {
-				e.preventDefault();
-				handleClose();
-			}}
+			onCancel={handleClose}
 			size="lg"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel={initial ? 'Save' : 'Add'}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={24}
-							fontWeight={500}
-						>
-							{initial ? 'Edit Section' : 'Add Section'}
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
-						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
-					>
-						<Stack gap={3}>
-							<FormField
-								label="Title"
-								error={titleError}
-								required
-							>
-								<FormInput
-									value={title}
-									onChange={(e) => {
-										setTitle(e.target.value);
-										const trimmed =
-											e.target.value.trim();
-										if (
-											trimmed &&
-											!existingTitles.some(
-												(t) =>
-													t.trim() ===
-													trimmed,
-											)
-										)
-											setTitleError(null);
-									}}
-									placeholder="e.g. Materials"
-								/>
-							</FormField>
-							<FormField
-								label="Body"
-								error={bodyError}
-								required
-							>
-								<RichTextEditor
-									invalid={!!bodyError}
-									key={
-										open
-											? (initial?.title ??
-												EDITOR_KEY_NEW)
-											: 'closed'
-									}
-									initialHtml={
-										initial?.richText ?? ''
-									}
-									onChange={(html) => {
-										richTextRef.current = html;
-										if (stripHtml(html))
-											setBodyError(null);
-									}}
-									maxHeight={300}
-								disabled={disabled}
-								/>
-							</FormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-							>
-								{initial ? 'Save' : 'Add'}
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+			<Stack gap={3}>
+				<FormField
+					label="Title"
+					error={titleError}
+					required
+				>
+					<FormInput
+						value={title}
+						onChange={(e) => {
+							setTitle(e.target.value);
+							const trimmed = e.target.value.trim();
+							if (
+								trimmed &&
+								!existingTitles.some(
+									(t) => t.trim() === trimmed,
+								)
+							)
+								setTitleError(null);
+						}}
+						placeholder="e.g. Materials"
+					/>
+				</FormField>
+				<FormField
+					label="Body"
+					error={bodyError}
+					required
+				>
+					<RichTextEditor
+						invalid={!!bodyError}
+						key={
+							open
+								? (initial?.title ?? EDITOR_KEY_NEW)
+								: 'closed'
+						}
+						initialHtml={initial?.richText ?? ''}
+						onChange={(html) => {
+							richTextRef.current = html;
+							if (stripHtml(html)) setBodyError(null);
+						}}
+						maxHeight={300}
+						disabled={disabled}
+					/>
+				</FormField>
+			</Stack>
+		</AppDialog>
 	);
 };

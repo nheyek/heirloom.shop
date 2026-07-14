@@ -1,10 +1,4 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Stack,
-} from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
@@ -13,6 +7,8 @@ import {
 	DayRangeInput,
 	validateDayRange,
 } from '@client/components/listingForm/DayRangeInput';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 
@@ -103,96 +99,58 @@ export const ProcessingProfileDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title="New Processing Profile"
 			open={open}
-			onInteractOutside={handleClose}
-			onEscapeKeyDown={handleClose}
+			onCancel={handleClose}
+			pending={saving}
 			size="xs"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel="Create"
+					pending={saving}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-						>
-							New Processing Profile
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
-							disabled={saving}
-						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
-					>
-						<Stack gap={4}>
-							<FormField
-								label="Name"
-								error={nameError}
-								required
-							>
-								<FormInput
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value);
-										if (e.target.value.trim())
-											setNameError(null);
-									}}
-									placeholder="e.g. Default"
-									disabled={saving}
-								/>
-							</FormField>
-							<FormField
-								label="Lead Time"
-								error={daysError}
-								required
-							>
-								<DayRangeInput
-									minDays={minDays}
-									maxDays={maxDays}
-									onChangeMin={(v) => {
-										setMinDays(v);
-										setDaysError(null);
-									}}
-									onChangeMax={(v) => {
-										setMaxDays(v);
-										setDaysError(null);
-									}}
-									disabled={saving}
-								/>
-							</FormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-								disabled={saving}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-								disabled={saving}
-								loading={saving}
-							>
-								Create
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+			<Stack gap={4}>
+				<FormField
+					label="Name"
+					error={nameError}
+					required
+				>
+					<FormInput
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							if (e.target.value.trim())
+								setNameError(null);
+						}}
+						placeholder="e.g. Default"
+						disabled={saving}
+					/>
+				</FormField>
+				<FormField
+					label="Lead Time"
+					error={daysError}
+					required
+				>
+					<DayRangeInput
+						minDays={minDays}
+						maxDays={maxDays}
+						onChangeMin={(v) => {
+							setMinDays(v);
+							setDaysError(null);
+						}}
+						onChangeMax={(v) => {
+							setMaxDays(v);
+							setDaysError(null);
+						}}
+						disabled={saving}
+					/>
+				</FormField>
+			</Stack>
+		</AppDialog>
 	);
 };

@@ -1,5 +1,5 @@
 import { Text } from '@chakra-ui/react';
 
 export const ShopManagerMessagesPage = () => {
-	return <Text color="gray.500">Messages coming soon.</Text>;
+	return <Text color="fg.muted">Messages coming soon.</Text>;
 };

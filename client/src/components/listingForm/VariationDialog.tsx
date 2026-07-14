@@ -1,9 +1,6 @@
 import {
 	Box,
-	Button,
 	Checkbox,
-	CloseButton,
-	Dialog,
 	HStack,
 	IconButton,
 	Image,
@@ -18,6 +15,8 @@ import {
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/components/listingForm/useListingForm';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
@@ -119,7 +118,7 @@ const OptionRow = ({
 				size="sm"
 				variant="ghost"
 				cursor="grab"
-				color="gray.400"
+				color="fg.muted"
 				alignSelf="center"
 				touchAction="none"
 				flexShrink={0}
@@ -566,258 +565,174 @@ export const VariationDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title={initial ? 'Edit Variation' : 'Add Variation'}
 			open={open}
+			onCancel={handleClose}
 			size="xs"
-			onInteractOutside={(e) => {
-				e.preventDefault();
-				handleClose();
+			contentProps={{
+				maxW:
+					pricesVary && imagesVary
+						? 640
+						: pricesVary || imagesVary
+							? 520
+							: undefined,
 			}}
-			onEscapeKeyDown={(e) => {
-				e.preventDefault();
-				handleClose();
-			}}
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel={initial ? 'Save' : 'Add'}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content
-					maxW={
-						pricesVary && imagesVary
-							? 640
-							: pricesVary || imagesVary
-								? 520
-								: undefined
-					}
+			<Stack gap={5}>
+				<FormField
+					label="Name"
+					error={nameError}
+					required
 				>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={24}
-							fontWeight={500}
-						>
-							{initial
-								? 'Edit Variation'
-								: 'Add Variation'}
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
-						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
+					<FormInput
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							if (e.target.value.trim())
+								setNameError(null);
+						}}
+						placeholder="e.g. Size"
+					/>
+				</FormField>
+				<HStack gap={6}>
+					<Checkbox.Root
+						checked={pricesVary}
+						onCheckedChange={(e) =>
+							setPricesVary(!!e.checked)
+						}
+						size="lg"
 					>
-						<Stack gap={5}>
-							<FormField
-								label="Name"
-								error={nameError}
-								required
-							>
-								<FormInput
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value);
-										if (e.target.value.trim())
-											setNameError(null);
-									}}
-									placeholder="e.g. Size"
-								/>
-							</FormField>
-							<HStack gap={6}>
-								<Checkbox.Root
-									checked={pricesVary}
-									onCheckedChange={(e) =>
-										setPricesVary(!!e.checked)
-									}
-									size="lg"
-								>
-									<Checkbox.HiddenInput />
-									<Checkbox.Control />
-									<Checkbox.Label fontSize={18}>
-										Prices vary
-									</Checkbox.Label>
-								</Checkbox.Root>
-								<Checkbox.Root
-									checked={imagesVary}
-									onCheckedChange={(e) =>
-										setImagesVary(!!e.checked)
-									}
-									size="lg"
-								>
-									<Checkbox.HiddenInput />
-									<Checkbox.Control />
-									<Checkbox.Label fontSize={18}>
-										Images vary
-									</Checkbox.Label>
-								</Checkbox.Root>
-							</HStack>
+						<Checkbox.HiddenInput />
+						<Checkbox.Control />
+						<Checkbox.Label fontSize={18}>
+							Prices vary
+						</Checkbox.Label>
+					</Checkbox.Root>
+					<Checkbox.Root
+						checked={imagesVary}
+						onCheckedChange={(e) =>
+							setImagesVary(!!e.checked)
+						}
+						size="lg"
+					>
+						<Checkbox.HiddenInput />
+						<Checkbox.Control />
+						<Checkbox.Label fontSize={18}>
+							Images vary
+						</Checkbox.Label>
+					</Checkbox.Root>
+				</HStack>
 
-							<FormField
-								label="Options"
-								required
+				<FormField
+					label="Options"
+					required
+				>
+					<Stack w="100%">
+						<DndContext
+							sensors={sensors}
+							collisionDetection={closestCenter}
+							onDragEnd={handleDragEnd}
+						>
+							<SortableContext
+								items={optionIds}
+								strategy={
+									verticalListSortingStrategy
+								}
 							>
-								<Stack w="100%">
-									<DndContext
-										sensors={sensors}
-										collisionDetection={
-											closestCenter
+								<Stack
+									gap={0}
+									borderWidth={1}
+									borderColor={
+										optionsError
+											? FIELD_ERROR_COLOR
+											: 'gray.200'
+									}
+									borderRadius="md"
+									overflow="hidden"
+								>
+									{options.map((opt, i) => {
+										if (!inputRefs.current[i]) {
+											inputRefs.current[i] = {
+												current: null,
+											};
 										}
-										onDragEnd={handleDragEnd}
-									>
-										<SortableContext
-											items={optionIds}
-											strategy={
-												verticalListSortingStrategy
-											}
-										>
-											<Stack
-												gap={0}
-												borderWidth={1}
-												borderColor={
-													optionsError
-														? FIELD_ERROR_COLOR
-														: 'gray.200'
-												}
-												borderRadius="md"
-												overflow="hidden"
-											>
-												{options.map(
-													(opt, i) => {
-														if (
-															!inputRefs
-																.current[
-																i
-															]
-														) {
-															inputRefs.current[
-																i
-															] = {
-																current:
-																	null,
-															};
-														}
-														return (
-															<OptionRow
-																key={
-																	optionIds[
-																		i
-																	]
-																}
-																id={
-																	optionIds[
-																		i
-																	]
-																}
-																entry={
-																	opt
-																}
-																invalid={invalidOptionIds.has(
+										return (
+											<OptionRow
+												key={optionIds[i]}
+												id={optionIds[i]}
+												entry={opt}
+												invalid={invalidOptionIds.has(
+													optionIds[i],
+												)}
+												dividerColor={
+													i === 0
+														? undefined
+														: invalidOptionIds.has(
 																	optionIds[
 																		i
 																	],
-																)}
-																dividerColor={
-																	i ===
-																	0
-																		? undefined
-																		: invalidOptionIds.has(
-																					optionIds[
-																						i
-																					],
-																			  ) ||
-																			  invalidOptionIds.has(
-																					optionIds[
-																						i -
-																							1
-																					],
-																			  )
-																			? FIELD_ERROR_COLOR
-																			: 'gray.200'
-																}
-																deletable={
-																	options.length >
-																	2
-																}
-																showPrice={
-																	pricesVary
-																}
-																showImage={
-																	imagesVary
-																}
-																inputRef={
-																	inputRefs
-																		.current[
-																		i
-																	]
-																}
-																onChange={(
-																	patch,
-																) =>
-																	updateOption(
-																		i,
-																		patch,
-																	)
-																}
-																onDelete={() =>
-																	removeOption(
-																		i,
-																	)
-																}
-																onTabKey={() =>
-																	handleTabOnOption(
-																		i,
-																	)
-																}
-																uploadImage={
-																	uploadImage
-																}
-															/>
-														);
-													},
-												)}
-											</Stack>
-										</SortableContext>
-									</DndContext>
-									{optionsError && (
-										<FieldError>
-											{optionsError}
-										</FieldError>
-									)}
-									{options.length <
-										LISTING_LIMITS.maxOptionsPerVariation && (
-										<AddFieldButton
-											onClick={addOption}
-										>
-											Add Option
-										</AddFieldButton>
-									)}
+															) ||
+															  invalidOptionIds.has(
+																	optionIds[
+																		i - 1
+																	],
+															  )
+															? FIELD_ERROR_COLOR
+															: 'gray.200'
+												}
+												deletable={
+													options.length > 2
+												}
+												showPrice={pricesVary}
+												showImage={imagesVary}
+												inputRef={
+													inputRefs.current[
+														i
+													]
+												}
+												onChange={(patch) =>
+													updateOption(
+														i,
+														patch,
+													)
+												}
+												onDelete={() =>
+													removeOption(i)
+												}
+												onTabKey={() =>
+													handleTabOnOption(
+														i,
+													)
+												}
+												uploadImage={
+													uploadImage
+												}
+											/>
+										);
+									})}
 								</Stack>
-							</FormField>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-							>
-								{initial ? 'Save' : 'Add'}
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+							</SortableContext>
+						</DndContext>
+						{optionsError && (
+							<FieldError>{optionsError}</FieldError>
+						)}
+						{options.length <
+							LISTING_LIMITS.maxOptionsPerVariation && (
+							<AddFieldButton onClick={addOption}>
+								Add Option
+							</AddFieldButton>
+						)}
+					</Stack>
+				</FormField>
+			</Stack>
+		</AppDialog>
 	);
 };

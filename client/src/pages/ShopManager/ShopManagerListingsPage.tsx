@@ -55,14 +55,13 @@ export const ShopManagerListingsPage = () => {
 		<>
 			<Stack gap={5}>
 				<Button
-					size="md"
+					size="lg"
 					onClick={() =>
 						navigate(
 							`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`,
 						)
 					}
 					width={170}
-					fontSize={20}
 				>
 					<FaPlusCircle />
 					Create Listing

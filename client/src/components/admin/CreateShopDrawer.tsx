@@ -119,7 +119,6 @@ export const CreateShopDrawer = ({
 	const confirmButton = (
 		<Button
 			size="xl"
-			fontSize={22}
 			width="100%"
 			onClick={handleConfirm}
 			disabled={isConfirming || isUploadingImage}

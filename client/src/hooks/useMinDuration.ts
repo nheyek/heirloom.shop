@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Keeps a loading flag `true` for at least `minDurationMs` once it starts,
-// even if the underlying request finishes sooner — avoids a skeleton
-// flashing on/off for fast responses. Does not delay when the request
-// starts, only how long the loading state is reported as `true` for.
 export const useMinDuration = (
 	isLoading: boolean,
 	minDurationMs: number = 300,

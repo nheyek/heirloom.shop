@@ -117,8 +117,7 @@ export const ShopFormFields = ({
 		{imagePreviewUrl ? (
 			<Box>
 				<Text
-					fontSize={18}
-					fontWeight={500}
+					textStyle="fieldLabel"
 					mb={1.5}
 				>
 					Banner Image

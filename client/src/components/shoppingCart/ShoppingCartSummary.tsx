@@ -58,8 +58,7 @@ export const ShoppingCartSummary = (props: Props) => {
 				>
 					<DataList.ItemLabel
 						minWidth={75}
-						fontSize={18}
-						fontWeight={500}
+						textStyle="fieldLabel"
 						color={props.textColor}
 					>
 						{label}

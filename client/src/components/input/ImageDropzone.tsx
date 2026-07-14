@@ -64,7 +64,7 @@ export const ImageDropzone = ({
 					alignItems="center"
 					justifyContent="center"
 					gap={2}
-					color="gray.500"
+					color="fg.muted"
 					fontSize={20}
 				>
 					<FaImage size={30} />

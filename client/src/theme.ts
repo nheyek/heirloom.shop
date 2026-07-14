@@ -4,6 +4,7 @@ import {
 	defineConfig,
 	defineRecipe,
 	defineSlotRecipe,
+	defineTextStyles,
 } from '@chakra-ui/react';
 
 export const COLOR_BRAND = '#121212';
@@ -86,6 +87,11 @@ const buttonRecipe = defineRecipe({
 				borderColor: COLOR_BRAND,
 			},
 		},
+		size: {
+			md: { fontSize: 18 },
+			lg: { fontSize: 20 },
+			xl: { fontSize: 22 },
+		},
 	},
 });
 
@@ -119,6 +125,15 @@ const selectRecipe = defineSlotRecipe({
 	slots: ['label', 'item'],
 	base: {
 		label: {
+			fontSize: 18,
+			fontWeight: 500,
+		},
+	},
+});
+
+const textStyles = defineTextStyles({
+	fieldLabel: {
+		value: {
 			fontSize: 18,
 			fontWeight: 500,
 		},
@@ -176,6 +191,7 @@ export const config = defineConfig({
 				},
 			},
 		},
+		textStyles,
 		recipes: {
 			input: inputRecipe,
 			button: buttonRecipe,

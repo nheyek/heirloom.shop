@@ -113,7 +113,7 @@ export const CategoryCombobox = ({
 				>
 					<Combobox.Empty
 						fontSize={18}
-						color="gray.500"
+						color="fg.muted"
 					>
 						No categories found
 					</Combobox.Empty>

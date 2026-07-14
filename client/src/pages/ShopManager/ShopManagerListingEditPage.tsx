@@ -1,12 +1,4 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Input,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Button, Input, Stack, Text } from '@chakra-ui/react';
 import { ListingFormLayout } from '@client/components/listingForm/ListingFormLayout';
 import { ListingFormSkeleton } from '@client/components/listingForm/ListingFormSkeleton';
 import {
@@ -16,6 +8,8 @@ import {
 	ShippingProfile,
 	useListingForm,
 } from '@client/components/listingForm/useListingForm';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -53,93 +47,53 @@ const DeleteListingDialog = ({
 
 	const canConfirm = confirmationText === title;
 
+	const handleCancel = () => {
+		setConfirmationText('');
+		onCancel();
+	};
+
 	return (
-		<Dialog.Root
+		<AppDialog
+			title={`Delete "${title}"?`}
 			open={open}
-			onOpenChange={({ open }) => {
-				if (!open && !pending) {
-					setConfirmationText('');
-					onCancel();
-				}
-			}}
-			onInteractOutside={pending ? undefined : onCancel}
-			onEscapeKeyDown={pending ? undefined : onCancel}
+			onCancel={handleCancel}
+			pending={pending}
 			size="sm"
+			titleProps={{ truncate: true }}
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleCancel}
+					onConfirm={onConfirm}
+					confirmLabel="Delete Listing"
+					confirmColorPalette="red"
+					confirmDisabled={!canConfirm}
+					pending={pending}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
-							marginRight={10}
-							truncate
-						>
-							Delete "{title}"?
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={onCancel}
-							disabled={pending}
-						/>
-					</Dialog.Header>
-					<Dialog.Body pt={0}>
-						<Stack
-							gap={3}
-							fontSize={18}
-						>
-							<Text>
-								This will permanently delete the
-								listing, including all of its
-								variations. This action cannot be
-								undone.
-							</Text>
-							<Text>
-								Enter the listing title below to
-								confirm.
-							</Text>
-							<Input
-								value={confirmationText}
-								onChange={(e) =>
-									setConfirmationText(
-										e.target.value,
-									)
-								}
-								disabled={pending}
-								fontSize={18}
-								autoComplete="off"
-							/>
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={onCancel}
-								disabled={pending}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								colorPalette="red"
-								onClick={onConfirm}
-								disabled={!canConfirm || pending}
-								loading={pending}
-							>
-								Delete Listing
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+			<Stack
+				gap={3}
+				fontSize={18}
+			>
+				<Text>
+					This will permanently delete the listing,
+					including all of its variations. This action
+					cannot be undone.
+				</Text>
+				<Text>
+					Enter the listing title below to confirm.
+				</Text>
+				<Input
+					value={confirmationText}
+					onChange={(e) =>
+						setConfirmationText(e.target.value)
+					}
+					disabled={pending}
+					fontSize={18}
+					autoComplete="off"
+				/>
+			</Stack>
+		</AppDialog>
 	);
 };
 
@@ -301,7 +255,6 @@ const ListingEditForm = ({
 						<Button
 							size="lg"
 							width={185}
-							fontSize={22}
 							onClick={handleSave}
 							disabled={
 								!form.isDirty ||

@@ -1,19 +1,12 @@
-import {
-	Button,
-	CloseButton,
-	Dialog,
-	HStack,
-	Input,
-	RadioCard,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { HStack, Input, RadioCard, Stack, Text } from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
+import { AppDialog } from '@client/components/util/AppDialog';
+import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
 import { FONT_SANS } from '@client/theme';
 import {
@@ -156,220 +149,165 @@ export const ReturnProfileDialog = ({
 	};
 
 	return (
-		<Dialog.Root
+		<AppDialog
+			title="New Return Profile"
 			open={open}
-			onInteractOutside={handleClose}
-			onEscapeKeyDown={handleClose}
+			onCancel={handleClose}
+			pending={saving}
 			size="md"
+			footer={
+				<DialogConfirmFooter
+					onCancel={handleClose}
+					onConfirm={handleConfirm}
+					confirmLabel="Create"
+					pending={saving}
+				/>
+			}
 		>
-			<Dialog.Backdrop />
-			<Dialog.Positioner>
-				<Dialog.Content>
-					<Dialog.Header>
-						<Dialog.Title
-							fontSize={22}
-							fontWeight={500}
+			<Stack gap={4}>
+				<FormField
+					label="Name"
+					error={nameError}
+					required
+				>
+					<FormInput
+						value={name}
+						onChange={(e) => {
+							setName(e.target.value);
+							if (e.target.value.trim())
+								setNameError(null);
+						}}
+						placeholder="e.g. Standard Returns"
+						disabled={saving}
+					/>
+				</FormField>
+				<HStack
+					align="start"
+					gap={0}
+				>
+					<FormField label="Policy">
+						<RadioCard.Root
+							value={policyType}
+							onValueChange={(e) =>
+								setPolicyType(
+									e.value as ReturnPolicyType,
+								)
+							}
+							size="sm"
+							alignSelf="stretch"
+							disabled={saving}
 						>
-							New Return Profile
-						</Dialog.Title>
-						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
-							onClick={handleClose}
+							<HStack gap={3}>
+								<RadioCard.Item
+									value={ReturnPolicyType.STANDARD}
+								>
+									<RadioCard.ItemHiddenInput />
+									<RadioCard.ItemControl alignItems="center">
+										<RadioCard.ItemText
+											fontSize={16}
+										>
+											Standard
+										</RadioCard.ItemText>
+										<RadioCard.ItemIndicator />
+									</RadioCard.ItemControl>
+								</RadioCard.Item>
+								<RadioCard.Item
+									value={ReturnPolicyType.CUSTOM}
+								>
+									<RadioCard.ItemHiddenInput />
+									<RadioCard.ItemControl alignItems="center">
+										<RadioCard.ItemText
+											fontSize={16}
+										>
+											Custom
+										</RadioCard.ItemText>
+										<RadioCard.ItemIndicator />
+									</RadioCard.ItemControl>
+								</RadioCard.Item>
+								<RadioCard.Item
+									value={
+										ReturnPolicyType.NO_RETURNS
+									}
+								>
+									<RadioCard.ItemHiddenInput />
+									<RadioCard.ItemControl alignItems="center">
+										<RadioCard.ItemText
+											fontSize={16}
+										>
+											No returns
+										</RadioCard.ItemText>
+										<RadioCard.ItemIndicator />
+									</RadioCard.ItemControl>
+								</RadioCard.Item>
+							</HStack>
+						</RadioCard.Root>
+					</FormField>
+				</HStack>
+				{policyType !== ReturnPolicyType.NO_RETURNS && (
+					<FormField
+						label="Window"
+						error={windowError}
+						width={200}
+						required
+					>
+						<HStack
+							gap={3}
+							align="center"
+						>
+							<Input
+								size="lg"
+								w={16}
+								fontSize={16}
+								fontFamily={FONT_SANS}
+								value={windowDays}
+								onChange={(e) => {
+									setWindowDays(
+										e.target.value.replace(
+											/\D/g,
+											'',
+										),
+									);
+									setWindowError(null);
+								}}
+								inputMode="numeric"
+								placeholder="30"
+								disabled={saving}
+							/>
+							<Text fontSize={18}>Days</Text>
+						</HStack>
+					</FormField>
+				)}
+
+				{policyType === ReturnPolicyType.STANDARD && (
+					<RichTextDisplay
+						htmlString={STANDARD_RETURN_POLICY_HTML}
+						fontSize={18}
+					/>
+				)}
+
+				{policyType === ReturnPolicyType.CUSTOM && (
+					<FormField
+						label="Details"
+						required
+					>
+						<RichTextEditor
+							onChange={(html) => {
+								customHtmlRef.current = html;
+								if (
+									html
+										.replace(/<[^>]*>/g, '')
+										.trim()
+								)
+									setCustomTextError(null);
+							}}
+							invalid={!!customTextError}
+							error={customTextError}
+							maxHeight={150}
 							disabled={saving}
 						/>
-					</Dialog.Header>
-					<Dialog.Body
-						pt={0}
-						pb={3}
-					>
-						<Stack gap={4}>
-							<FormField
-								label="Name"
-								error={nameError}
-								required
-							>
-								<FormInput
-									value={name}
-									onChange={(e) => {
-										setName(e.target.value);
-										if (e.target.value.trim())
-											setNameError(null);
-									}}
-									placeholder="e.g. Standard Returns"
-									disabled={saving}
-								/>
-							</FormField>
-							<HStack
-								align="start"
-								gap={0}
-							>
-								<FormField label="Policy">
-									<RadioCard.Root
-										value={policyType}
-										onValueChange={(e) =>
-											setPolicyType(
-												e.value as ReturnPolicyType,
-											)
-										}
-										size="sm"
-										alignSelf="stretch"
-										disabled={saving}
-									>
-										<HStack gap={3}>
-											<RadioCard.Item
-												value={
-													ReturnPolicyType.STANDARD
-												}
-											>
-												<RadioCard.ItemHiddenInput />
-												<RadioCard.ItemControl alignItems="center">
-													<RadioCard.ItemText
-														fontSize={16}
-													>
-														Standard
-													</RadioCard.ItemText>
-													<RadioCard.ItemIndicator />
-												</RadioCard.ItemControl>
-											</RadioCard.Item>
-											<RadioCard.Item
-												value={
-													ReturnPolicyType.CUSTOM
-												}
-											>
-												<RadioCard.ItemHiddenInput />
-												<RadioCard.ItemControl alignItems="center">
-													<RadioCard.ItemText
-														fontSize={16}
-													>
-														Custom
-													</RadioCard.ItemText>
-													<RadioCard.ItemIndicator />
-												</RadioCard.ItemControl>
-											</RadioCard.Item>
-											<RadioCard.Item
-												value={
-													ReturnPolicyType.NO_RETURNS
-												}
-											>
-												<RadioCard.ItemHiddenInput />
-												<RadioCard.ItemControl alignItems="center">
-													<RadioCard.ItemText
-														fontSize={16}
-													>
-														No returns
-													</RadioCard.ItemText>
-													<RadioCard.ItemIndicator />
-												</RadioCard.ItemControl>
-											</RadioCard.Item>
-										</HStack>
-									</RadioCard.Root>
-								</FormField>
-							</HStack>
-							{policyType !==
-								ReturnPolicyType.NO_RETURNS && (
-								<FormField
-									label="Window"
-									error={windowError}
-									width={200}
-									required
-								>
-									<HStack
-										gap={3}
-										align="center"
-									>
-										<Input
-											size="lg"
-											w={16}
-											fontSize={16}
-											fontFamily={FONT_SANS}
-											value={windowDays}
-											onChange={(e) => {
-												setWindowDays(
-													e.target.value.replace(
-														/\D/g,
-														'',
-													),
-												);
-												setWindowError(null);
-											}}
-											inputMode="numeric"
-											placeholder="30"
-											disabled={saving}
-										/>
-										<Text fontSize={18}>
-											Days
-										</Text>
-									</HStack>
-								</FormField>
-							)}
-
-							{policyType ===
-								ReturnPolicyType.STANDARD && (
-								<RichTextDisplay
-									htmlString={
-										STANDARD_RETURN_POLICY_HTML
-									}
-									fontSize={18}
-								/>
-							)}
-
-							{policyType ===
-								ReturnPolicyType.CUSTOM && (
-								<FormField
-									label="Details"
-									required
-								>
-									<RichTextEditor
-										onChange={(html) => {
-											customHtmlRef.current =
-												html;
-											if (
-												html
-													.replace(
-														/<[^>]*>/g,
-														'',
-													)
-													.trim()
-											)
-												setCustomTextError(
-													null,
-												);
-										}}
-										invalid={!!customTextError}
-										error={customTextError}
-										maxHeight={150}
-										disabled={saving}
-									/>
-								</FormField>
-							)}
-						</Stack>
-					</Dialog.Body>
-					<Dialog.Footer>
-						<HStack gap={2}>
-							<Button
-								size="md"
-								fontSize={18}
-								variant="subtle"
-								onClick={handleClose}
-								disabled={saving}
-							>
-								Cancel
-							</Button>
-							<Button
-								size="md"
-								fontSize={18}
-								onClick={handleConfirm}
-								disabled={saving}
-								loading={saving}
-							>
-								Create
-							</Button>
-						</HStack>
-					</Dialog.Footer>
-				</Dialog.Content>
-			</Dialog.Positioner>
-		</Dialog.Root>
+					</FormField>
+				)}
+			</Stack>
+		</AppDialog>
 	);
 };
