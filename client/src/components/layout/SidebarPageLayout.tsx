@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
 import { IconType } from 'react-icons';
-import { IoMdArrowDropdown } from 'react-icons/io';
+import { FaCaretDown } from 'react-icons/fa6';
 import {
 	Outlet,
 	Link as RouterLink,
@@ -88,6 +88,40 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 	);
 };
 
+type ActiveNavMatch = {
+	navItem: SidebarNavItem;
+	subLabel: string | null;
+};
+
+// Resolves which nav item is active for the current path, and — when on a
+// child route (e.g. editing a specific listing) — the sub-label to show
+// alongside it (a matched child's label, or the raw id/path segment as a
+// fallback). Shared by the desktop breadcrumb heading and the mobile
+// dropdown trigger so they stay in sync.
+const getActiveNavMatch = (
+	navItems: SidebarNavItem[],
+	pathname: string,
+): ActiveNavMatch | null => {
+	const exactMatch = navItems.find(
+		({ route }) => pathname === `/${route}`,
+	);
+	if (exactMatch) return { navItem: exactMatch, subLabel: null };
+
+	const parentMatch = navItems.find(({ route }) =>
+		pathname.startsWith(`/${route}/`),
+	);
+	if (parentMatch) {
+		const subId = pathname.slice(`/${parentMatch.route}/`.length);
+		const subLabel =
+			parentMatch.children?.find(({ path }) =>
+				path.startsWith(':') ? true : path === subId,
+			)?.label ?? subId;
+		return { navItem: parentMatch, subLabel };
+	}
+
+	return null;
+};
+
 type MobileNavProps = {
 	navItems: SidebarNavItem[];
 };
@@ -96,9 +130,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 	const { pathname } = useLocation();
 	const navigate = useNavigate();
 
-	const current = navItems.find(({ route }) =>
-		pathname.startsWith(`/${route}`),
-	);
+	const match = getActiveNavMatch(navItems, pathname);
 
 	return (
 		<Box display={{ base: 'block', md: 'none' }}>
@@ -111,24 +143,33 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 						variant="subtle"
 						borderRadius="md"
 						justifyContent="space-between"
-						fontWeight={500}
 						fontSize={20}
 						w="100%"
 						px={4}
 						py={3}
 					>
 						<HStack gap={3}>
-							{current && (
+							{match && (
 								<Box
 									fontSize={20}
 									flexShrink={0}
 								>
-									<current.icon />
+									<match.navItem.icon />
 								</Box>
 							)}
-							<Text>{current?.label}</Text>
+
+							<Text>{match?.navItem.label}</Text>
+
+							{match?.subLabel != null && (
+								<>
+									{'/'}
+									<Text fontWeight={400}>
+										{match.subLabel}
+									</Text>
+								</>
+							)}
 						</HStack>
-						<IoMdArrowDropdown />
+						<FaCaretDown />
 					</Button>
 				</Menu.Trigger>
 				<Portal>
@@ -171,55 +212,43 @@ type PageHeadingProps = {
 const PageHeading = ({ navItems }: PageHeadingProps) => {
 	const { pathname } = useLocation();
 
-	const exactMatch = navItems.find(
-		({ route }) => pathname === `/${route}`,
-	);
-	if (exactMatch) {
+	const match = getActiveNavMatch(navItems, pathname);
+	if (!match) return null;
+
+	if (match.subLabel === null) {
 		return (
 			<Heading
 				fontSize={36}
 				fontWeight={500}
 				fontFamily={FONT_DECORATIVE}
 			>
-				{exactMatch.title}
+				{match.navItem.title}
 			</Heading>
 		);
 	}
 
-	const parentMatch = navItems.find(({ route }) =>
-		pathname.startsWith(`/${route}/`),
-	);
-	if (parentMatch) {
-		const subId = pathname.slice(`/${parentMatch.route}/`.length);
-		const subLabel =
-			parentMatch.children?.find(({ path }) =>
-				path.startsWith(':') ? true : path === subId,
-			)?.label ?? subId;
-		return (
-			<Heading
-				fontSize={32}
-				fontFamily={FONT_DECORATIVE}
+	return (
+		<Heading
+			fontSize={32}
+			fontFamily={FONT_DECORATIVE}
+		>
+			<Link
+				asChild
+				fontWeight={400}
 			>
-				<Link
-					asChild
-					fontWeight={400}
-				>
-					<RouterLink to={`/${parentMatch.route}`}>
-						{parentMatch.label}
-					</RouterLink>
-				</Link>
-				<Span
-					fontWeight={400}
-					mx={2}
-				>
-					/
-				</Span>
-				<Span fontWeight={500}>{subLabel}</Span>
-			</Heading>
-		);
-	}
-
-	return null;
+				<RouterLink to={`/${match.navItem.route}`}>
+					{match.navItem.label}
+				</RouterLink>
+			</Link>
+			<Span
+				fontWeight={400}
+				mx={2}
+			>
+				/
+			</Span>
+			<Span fontWeight={500}>{match.subLabel}</Span>
+		</Heading>
+	);
 };
 
 type SidebarPageLayoutProps = {
