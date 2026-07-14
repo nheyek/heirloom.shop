@@ -11,7 +11,6 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
-import { FadeInBox } from '@client/components/misc/FadeInBox';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
@@ -132,6 +131,8 @@ export const Navbar = () => {
 					area={gridTemplateAreas.BUTTONS}
 					justifySelf="end"
 					flexShrink={0}
+					opacity={authIsLoading ? 0 : 1}
+					transition="opacity 0.25s ease-in-out"
 				>
 					<HStack>
 						{user?.isAdmin && (
@@ -160,11 +161,9 @@ export const Navbar = () => {
 								</NavbarButton>
 							</Link>
 						)}
+
 						{!authIsLoading && (
-							<FadeInBox
-								display="flex"
-								alignItems="center"
-							>
+							<Flex alignItems="center">
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
 								<Box position="relative">
@@ -198,8 +197,9 @@ export const Navbar = () => {
 										</Flex>
 									)}
 								</Box>
-							</FadeInBox>
+							</Flex>
 						)}
+
 						<ShoppingCartDrawer
 							isOpen={shoppingCart.isDrawerOpen}
 							onClose={shoppingCart.closeDrawer}

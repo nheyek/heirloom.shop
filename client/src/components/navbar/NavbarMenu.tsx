@@ -29,8 +29,8 @@ export const NavbarMenu = () => {
 				focusRing="none"
 			>
 				<NavbarButton
-					pr={1}
-					pl={2}
+					pr={1.5}
+					pl={3}
 					gap={1}
 				>
 					<FaUserCircle />

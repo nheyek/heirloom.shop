@@ -7,11 +7,9 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { AnimatePresence } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FadeInBox } from '@client/components/misc/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
@@ -113,20 +111,18 @@ export const NavbarSearch = () => {
 		>
 			<InputGroup
 				width="100%"
+				py={1}
 				startElement={<FaSearch size={20} />}
 				endElement={
-					<AnimatePresence>
-						{query && (
-							<FadeInBox
-								onClick={() => setQuery('')}
-								cursor="pointer"
-							>
-								<IoMdCloseCircle size={24} />
-							</FadeInBox>
-						)}
-					</AnimatePresence>
+					<Flex
+						cursor="pointer"
+						onClick={() => setQuery('')}
+						opacity={query ? 1 : 0}
+						transition="opacity 0.15s ease-in-out"
+					>
+						{query && <IoMdCloseCircle size={24} />}
+					</Flex>
 				}
-				py={1}
 			>
 				<Input
 					size="lg"
