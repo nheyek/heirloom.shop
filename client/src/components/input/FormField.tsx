@@ -7,7 +7,7 @@ import {
 	TextareaProps,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { FONT_GEOMETRIC } from '@client/theme';
+import { FONT_SANS } from '@client/theme';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -29,7 +29,7 @@ export const FormField = ({
 			fontWeight={500}
 		>
 			{label}
-			<Field.RequiredIndicator fontFamily={FONT_GEOMETRIC} />
+			<Field.RequiredIndicator fontFamily={FONT_SANS} />
 		</Field.Label>
 		{children}
 		{error && <FieldError>{error}</FieldError>}

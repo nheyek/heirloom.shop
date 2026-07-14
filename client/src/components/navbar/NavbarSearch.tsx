@@ -9,8 +9,6 @@ import {
 } from '@chakra-ui/react';
 import { AnimatePresence } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import { MdCancel } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
 import { FadeInBox } from '@client/components/util/FadeInBox';
@@ -22,7 +20,9 @@ import {
 	SearchResult,
 	SearchResultCollection,
 } from '@heirloom/common/contract';
+import { FaSearch } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
+import { IoMdCloseCircle } from 'react-icons/io';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 
 export const NavbarSearch = () => {
@@ -113,18 +113,15 @@ export const NavbarSearch = () => {
 		>
 			<InputGroup
 				width="100%"
-				startElement={<FaSearch size={16} />}
+				startElement={<FaSearch size={20} />}
 				endElement={
 					<AnimatePresence>
 						{query && (
 							<FadeInBox
-								style={{
-									display: 'flex',
-									cursor: 'pointer',
-								}}
 								onClick={() => setQuery('')}
+								cursor="pointer"
 							>
-								<MdCancel size={18} />
+								<IoMdCloseCircle size={24} />
 							</FadeInBox>
 						)}
 					</AnimatePresence>
@@ -132,11 +129,12 @@ export const NavbarSearch = () => {
 				py={1}
 			>
 				<Input
+					size="lg"
 					maxLength={SEARCH_QUERY_LIMITS.maxChars}
-					fontSize={18}
+					fontSize={20}
 					placeholder="Search..."
 					bg="#FFF"
-					style={{ borderRadius: 20 }}
+					borderRadius="full"
 					value={query}
 					onChange={(e) => setQuery(e.target.value)}
 					onFocus={() => results && setShowPopover(true)}

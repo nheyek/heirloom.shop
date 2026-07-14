@@ -9,17 +9,17 @@ import {
 export const COLOR_BRAND = '#121212';
 export const FIELD_ERROR_COLOR = '#df1b41';
 export const CHAKRA_SPACING_UNIT = 4;
-export const FONT_GEOMETRIC = 'Roboto';
+export const FONT_SANS = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
-export const FONT_DISPLAY_SANS = 'Alegreya Sans';
+export const FONT_DISPLAY = 'Alegreya Sans';
 
 export const ANIMATION_NAME = {
 	itemGridEnter: 'item-grid-enter',
 };
 
 export const NAVBAR_HEIGHT = {
-	DESKTOP: 16, // Spacing units
-	MOBILE: 110, // Pixels
+	DESKTOP: 68, // Spacing units
+	MOBILE: 115, // Pixels
 };
 export const SIDEBAR_WIDTH_PX = 250;
 
@@ -162,7 +162,7 @@ export const config = defineConfig({
 				1: { value: `${CHAKRA_SPACING_UNIT}px` },
 			},
 			fonts: {
-				body: { value: FONT_DISPLAY_SANS },
+				body: { value: FONT_DISPLAY },
 				heading: {
 					value: FONT_DECORATIVE,
 				},

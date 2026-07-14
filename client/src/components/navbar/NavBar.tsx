@@ -59,15 +59,13 @@ export const Navbar = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	return (
-		<Box
+		<Flex
 			bg="brand"
 			px={4}
-			py={2}
 			h={{
 				base: NAVBAR_HEIGHT.MOBILE,
 				md: NAVBAR_HEIGHT.DESKTOP,
 			}}
-			boxShadow="md"
 			top={0}
 			left={0}
 			right={0}
@@ -85,7 +83,9 @@ export const Navbar = () => {
 				}}
 				alignItems="center"
 				gapX={5}
-				gapY={1}
+				gapY={0}
+				w="100%"
+				py={2}
 			>
 				<GridItem area={gridTemplateAreas.LOGO}>
 					<HStack
@@ -205,6 +205,6 @@ export const Navbar = () => {
 					</HStack>
 				</GridItem>
 			</Grid>
-		</Box>
+		</Flex>
 	);
 };
