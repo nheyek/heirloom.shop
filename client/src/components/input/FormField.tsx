@@ -7,7 +7,7 @@ import {
 	TextareaProps,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { FONT_SANS } from '@client/theme';
+import { FONT_SANS, TEXT_STYLES } from '@client/theme';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -24,7 +24,7 @@ export const FormField = ({
 		invalid={!!error}
 		{...rest}
 	>
-		<Field.Label textStyle="fieldLabel">
+		<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
 			{label}
 			<Field.RequiredIndicator fontFamily={FONT_SANS} />
 		</Field.Label>

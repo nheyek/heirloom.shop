@@ -122,7 +122,7 @@ const textRecipe = defineRecipe({
 });
 
 const selectRecipe = defineSlotRecipe({
-	slots: ['label', 'item'],
+	slots: ['label'],
 	base: {
 		label: {
 			fontSize: 18,
@@ -131,8 +131,11 @@ const selectRecipe = defineSlotRecipe({
 	},
 });
 
+export const TEXT_STYLES = {
+	fieldLabel: 'fieldLabel',
+};
 const textStyles = defineTextStyles({
-	fieldLabel: {
+	[TEXT_STYLES.fieldLabel]: {
 		value: {
 			fontSize: 18,
 			fontWeight: 500,

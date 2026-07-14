@@ -1,4 +1,10 @@
-import { Button, Field, Skeleton, Stack, Text } from '@chakra-ui/react';
+import {
+	Button,
+	Field,
+	Skeleton,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import {
@@ -14,6 +20,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
+import { TEXT_STYLES } from '@client/theme';
 import { toastError, toastSuccess } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import {
@@ -282,7 +289,7 @@ const ShopInfoForm = ({
 				disabled={isSaving}
 			/>
 			<Field.Root>
-				<Field.Label textStyle="fieldLabel">
+				<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
 					About
 				</Field.Label>
 				<RichTextEditor

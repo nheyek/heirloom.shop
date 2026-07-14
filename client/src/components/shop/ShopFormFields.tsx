@@ -15,6 +15,7 @@ import {
 } from '@client/components/input/FormField';
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { CountryCode } from '@client/constants';
+import { TEXT_STYLES } from '@client/theme';
 import { FaExchangeAlt } from 'react-icons/fa';
 
 export { FormField as ShopFormField, FormInput as ShopFormInput };
@@ -117,7 +118,7 @@ export const ShopFormFields = ({
 		{imagePreviewUrl ? (
 			<Box>
 				<Text
-					textStyle="fieldLabel"
+					textStyle={TEXT_STYLES.fieldLabel}
 					mb={1.5}
 				>
 					Banner Image
