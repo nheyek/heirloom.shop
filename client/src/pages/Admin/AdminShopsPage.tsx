@@ -9,6 +9,7 @@ import { CreateShopDrawer } from '@client/components/admin/CreateShopDrawer';
 import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { callApi } from '@client/utils/apiUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
@@ -18,8 +19,9 @@ import { Link as RouterLink } from 'react-router-dom';
 export const AdminShopsPage = () => {
 	const [shops, setShops] = useState<AdminShopListItem[]>([]);
 	const [shopsError, setShopsError] = useState<string | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [dataLoading, setDataLoading] = useState(true);
 	const [createShopOpen, setCreateShopOpen] = useState(false);
+	const isLoading = useMinDuration(dataLoading);
 
 	const apiClient = useApiClient();
 
@@ -30,7 +32,7 @@ export const AdminShopsPage = () => {
 			} else {
 				setShops(result.data);
 			}
-			setIsLoading(false);
+			setDataLoading(false);
 		});
 	}, []);
 

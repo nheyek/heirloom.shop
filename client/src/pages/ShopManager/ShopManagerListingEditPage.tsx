@@ -20,6 +20,7 @@ import { MoreActionsCollapsible } from '@client/components/util/MoreActionsColla
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { ImageEntry } from '@client/hooks/useImageUpload';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useUnsavedChangesGuard } from '@client/hooks/useUnsavedChangesGuard';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
@@ -360,7 +361,8 @@ export const ShopManagerListingEditPage = () => {
 
 	const [listingData, setListingData] =
 		useState<ListingEditData | null>(null);
-	const [listingLoading, setListingLoading] = useState(true);
+	const [rawListingLoading, setListingLoading] = useState(true);
+	const listingLoading = useMinDuration(rawListingLoading);
 
 	useEffect(() => {
 		if (!shopShortId || !listingShortId) return;

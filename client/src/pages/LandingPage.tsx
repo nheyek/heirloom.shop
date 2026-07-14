@@ -7,6 +7,7 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -31,8 +32,10 @@ export const LandingPage = () => {
 	const { getChildCategories, categoriesLoading, categoriesError } =
 		useCategories();
 
-	const isLoading =
-		shopsLoading || listingsLoading || categoriesLoading;
+	const isLoading = useMinDuration(
+		shopsLoading || listingsLoading || categoriesLoading,
+	);
+	const showCategoriesLoading = useMinDuration(categoriesLoading);
 
 	const apiClient = useApiClient();
 
@@ -104,7 +107,7 @@ export const LandingPage = () => {
 				<AppError title="Failed to load categories" />
 			) : (
 				<CategoryGrid
-					isLoading={categoriesLoading}
+					isLoading={showCategoriesLoading}
 					categories={getChildCategories(null)}
 					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
 				/>

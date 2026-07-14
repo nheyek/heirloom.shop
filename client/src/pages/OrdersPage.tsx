@@ -4,6 +4,7 @@ import { AppError } from '@client/components/feedback/AppError';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
@@ -46,7 +47,7 @@ export const OrdersPage = () => {
 		}
 	}, [authIsLoading]);
 
-	const isLoading = dataIsLoading || authIsLoading;
+	const isLoading = useMinDuration(dataIsLoading || authIsLoading);
 
 	if (error) {
 		return <AppError title={error} />;

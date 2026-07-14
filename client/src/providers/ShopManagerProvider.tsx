@@ -6,6 +6,7 @@ import {
 	ShippingProfile,
 } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { callApi } from '@client/utils/apiUtils';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ShopManagerReturnProfile, ShopManagerShippingProfile } from '@heirloom/common/contract';
@@ -70,7 +71,8 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([]);
 	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>([]);
 	const [personalizationProfiles, setPersonalizationProfiles] = useState<PersonalizationProfile[]>([]);
-	const [profilesLoading, setProfilesLoading] = useState(true);
+	const [rawProfilesLoading, setProfilesLoading] = useState(true);
+	const profilesLoading = useMinDuration(rawProfilesLoading);
 
 	useEffect(() => {
 		if (!shopShortId) return;

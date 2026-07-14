@@ -10,6 +10,7 @@ import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { sidebarBreakpoint } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
@@ -30,6 +31,7 @@ export const OrderPage = () => {
 	const [orderDetails, setOrderDetails] =
 		useState<OrderResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const showSkeleton = useMinDuration(isLoading || authIsLoading);
 
 	const loadOrderData = async () => {
 		if (!shortId) {
@@ -165,7 +167,7 @@ export const OrderPage = () => {
 					w="100%"
 					gap={5}
 				>
-					{isLoading || authIsLoading
+					{showSkeleton
 						? renderSkeleton()
 						: renderContent(orderDetails!)}
 				</Stack>

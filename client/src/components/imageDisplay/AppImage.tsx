@@ -6,6 +6,7 @@ import {
 	SkeletonProps,
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useState } from 'react';
 import { FaRegImage } from 'react-icons/fa6';
 
@@ -26,8 +27,14 @@ export const AppImage = ({
 	...props
 }: Props) => {
 	const [status, setStatus] = useState(ImageStatus.LOADING);
+	// Once an image reports loaded/error, keep showing the skeleton for a
+	// short minimum stretch rather than flashing it on/off for images that
+	// load near-instantly (e.g. from cache).
+	const showSkeleton = useMinDuration(
+		status === ImageStatus.LOADING,
+	);
 
-	if (status === ImageStatus.ERROR) {
+	if (status === ImageStatus.ERROR && !showSkeleton) {
 		return (
 			<Center
 				aspectRatio={aspectRatio}
@@ -42,7 +49,7 @@ export const AppImage = ({
 
 	return (
 		<Skeleton
-			loading={status === ImageStatus.LOADING}
+			loading={showSkeleton}
 			aspectRatio={aspectRatio}
 			borderRadius={0}
 			{...props.containerProps}

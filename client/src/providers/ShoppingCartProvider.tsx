@@ -7,6 +7,7 @@ import {
 } from '@client/domain/checkout';
 import { calculateItemPrice } from '@client/domain/shoppingCart';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { usePersistedState } from '@client/hooks/usePersistedState';
 import { callApi } from '@client/utils/apiUtils';
 import { validateDeliverableAddress } from '@client/utils/googleMapsUtils';
@@ -93,7 +94,8 @@ export const ShoppingCartProvider = (props: {
 		Record<string, CartItemData>
 	>({});
 
-	const [cartLoading, setCartLoading] = useState(false);
+	const [rawCartLoading, setCartLoading] = useState(false);
+	const cartLoading = useMinDuration(rawCartLoading);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [checkoutEmail, setCheckoutEmail] = useState('');
 	const [checkoutEmailError, setCheckoutEmailError] = useState<
@@ -115,8 +117,9 @@ export const ShoppingCartProvider = (props: {
 		shippingAddressUndeliverable,
 		setShippingAddressUndeliverable,
 	] = useState(false);
-	const [taxCalcLoading, setTaxCalcLoading] =
+	const [rawTaxCalcLoading, setTaxCalcLoading] =
 		useState<boolean>(false);
+	const taxCalcLoading = useMinDuration(rawTaxCalcLoading);
 	const [taxTotal, setTaxTotal] = useState<number | null>(null);
 
 	const taxDebounceRef = useRef<NodeJS.Timeout | null>(null);

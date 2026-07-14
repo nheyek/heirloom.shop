@@ -4,6 +4,7 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
@@ -33,7 +34,9 @@ export const CategoryPage = () => {
 	const [listingsError, setListingsError] = useState<string | null>(
 		null,
 	);
-	const isLoading = listingsLoading || categoriesLoading;
+	const isLoading = useMinDuration(
+		listingsLoading || categoriesLoading,
+	);
 
 	const loadListings = async () => {
 		const result = await callApi(
@@ -53,7 +56,7 @@ export const CategoryPage = () => {
 		setListingsError(null);
 		setListings([]);
 
-		setTimeout(loadListings, 500);
+		loadListings();
 	}, [id]);
 
 	if (categoriesError) {

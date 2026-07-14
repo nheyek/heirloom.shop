@@ -20,6 +20,7 @@ import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlacehold
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { FONT_DECORATIVE } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
@@ -105,7 +106,9 @@ export const ShopPage = () => {
 		setListingsLoading(false);
 	};
 
-	const isLoading = shopDataLoading || listingsLoading;
+	const isLoading = useMinDuration(
+		shopDataLoading || listingsLoading,
+	);
 
 	if (shopDataError) {
 		return (

@@ -38,6 +38,7 @@ import {
 	getReturnPolicyDisplay,
 	resolveEffectiveProfiles,
 } from '@client/domain/listingPage';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useShareListing } from '@client/hooks/useShareListing';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
@@ -89,6 +90,9 @@ export const ListingPage = () => {
 	const shareListing = useShareListing();
 	const { getCategory, getAncestorCategories, categoriesLoading } =
 		useCategories();
+	const showSkeleton = useMinDuration(
+		listingDataLoading || categoriesLoading,
+	);
 	const shoppingCart = useShoppingCart();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 	const isFavorited = id && favoriteIds.has(id);
@@ -156,7 +160,7 @@ export const ListingPage = () => {
 		);
 	}
 
-	if (listingDataLoading || categoriesLoading) {
+	if (showSkeleton) {
 		return (
 			<ListingPageSkeleton
 				maxWidth={maxWidth}

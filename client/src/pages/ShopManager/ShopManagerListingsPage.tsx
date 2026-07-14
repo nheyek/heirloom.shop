@@ -4,6 +4,7 @@ import { AppError } from '@client/components/feedback/AppError';
 import { ListingEditCard } from '@client/components/itemDisplay/ListingEditCard';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { SIDEBAR_GRID_COLUMNS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
@@ -17,13 +18,14 @@ export const ShopManagerListingsPage = () => {
 	const navigate = useNavigate();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [dataLoading, setDataLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
+	const isLoading = useMinDuration(dataLoading);
 
 	useEffect(() => {
 		if (!shortId) return;
 
-		setIsLoading(true);
+		setDataLoading(true);
 		setError(null);
 
 		callApi(
@@ -36,7 +38,7 @@ export const ShopManagerListingsPage = () => {
 			} else {
 				setListings(result.data);
 			}
-			setIsLoading(false);
+			setDataLoading(false);
 		});
 	}, [shortId]);
 

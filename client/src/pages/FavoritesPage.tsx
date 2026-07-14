@@ -5,6 +5,7 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { SIDEBAR_GRID_COLUMNS } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
@@ -24,11 +25,12 @@ export const FavoritesPage = () => {
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(true);
+	const [dataLoading, setDataLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+	const isLoading = useMinDuration(dataLoading);
 
 	const loadFavorites = async () => {
-		setIsLoading(true);
+		setDataLoading(true);
 		setError(null);
 
 		const [listingsResult, shopsResult] = await Promise.all([
@@ -45,7 +47,7 @@ export const FavoritesPage = () => {
 			setListings(listingsResult.data);
 			setShops(shopsResult.data);
 		}
-		setIsLoading(false);
+		setDataLoading(false);
 	};
 
 	useEffect(() => {

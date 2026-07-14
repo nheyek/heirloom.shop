@@ -18,6 +18,7 @@ import {
 import { useShopForm } from '@client/components/shop/useShopForm';
 import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { toastError, toastSuccess } from '@client/toaster';
@@ -462,8 +463,9 @@ export const ShopManagerInfoPage = () => {
 	const [shopData, setShopData] = useState<ShopCardData | null>(
 		null,
 	);
-	const [isLoading, setIsLoading] = useState(true);
+	const [dataLoading, setDataLoading] = useState(true);
 	const [loadError, setLoadError] = useState(false);
+	const isLoading = useMinDuration(dataLoading);
 
 	useEffect(() => {
 		if (!shortId) return;
@@ -475,7 +477,7 @@ export const ShopManagerInfoPage = () => {
 			} else {
 				setShopData(result.data);
 			}
-			setIsLoading(false);
+			setDataLoading(false);
 		});
 	}, [shortId]);
 
