@@ -3,9 +3,8 @@ import { Menu, MenuItemProps, Portal, Text } from '@chakra-ui/react';
 import { NavBarIconButton } from '@client/components/navbar/NavBar';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
-import { FaScroll } from 'react-icons/fa6';
+import { FaArrowRightFromBracket, FaScroll } from 'react-icons/fa6';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { PiSignOutBold } from 'react-icons/pi';
 import { Link } from 'react-router-dom';
 
 export const NavbarMenu = () => {
@@ -56,7 +55,7 @@ export const NavbarMenu = () => {
 							value="logout"
 							onClick={handleLogout}
 						>
-							<PiSignOutBold />
+							<FaArrowRightFromBracket />
 							<Text pl={1}>Log Out</Text>
 						</MenuItem>
 					</Menu.Content>
