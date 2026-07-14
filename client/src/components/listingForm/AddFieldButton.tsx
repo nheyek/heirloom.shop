@@ -11,7 +11,6 @@ export const AddFieldButton = ({ children, ...props }: Props) => (
 		size="sm"
 		fontSize={16}
 		variant="subtle"
-		width="fit-content"
 		borderRadius="md"
 		{...props}
 	>

@@ -301,7 +301,6 @@ const ShopInfoForm = ({
 			<Stack gap={5}>
 				<Button
 					size="lg"
-					width="fit-content"
 					onClick={handleSave}
 					disabled={isSaving || form.isUploadingImage}
 					loading={isSaving || form.isUploadingImage}

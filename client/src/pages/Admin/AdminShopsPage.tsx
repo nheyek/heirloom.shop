@@ -42,7 +42,6 @@ export const AdminShopsPage = () => {
 				<Button
 					size="lg"
 					onClick={() => setCreateShopOpen(true)}
-					width="fit-content"
 				>
 					<FaPlusCircle />
 					Create Shop

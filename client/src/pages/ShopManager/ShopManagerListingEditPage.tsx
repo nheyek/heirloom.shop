@@ -252,7 +252,6 @@ const ListingEditForm = ({
 					<Stack gap={5}>
 						<Button
 							size="lg"
-							width="fit-content"
 							onClick={handleSave}
 							disabled={
 								!form.isDirty ||

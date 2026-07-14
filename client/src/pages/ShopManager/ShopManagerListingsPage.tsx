@@ -61,7 +61,6 @@ export const ShopManagerListingsPage = () => {
 							`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`,
 						)
 					}
-					width="fit-content"
 				>
 					<FaPlusCircle />
 					Create Listing
