@@ -51,7 +51,7 @@ export const PriceInput = ({
 	disabled,
 	invalid,
 	inherited = false,
-	enclosed = true,
+	enclosed = false,
 	onKeyDown,
 }: Props) => {
 	const [localValue, setLocalValue] = useState('');
