@@ -16,14 +16,9 @@ export const CheckoutShoppingCartCompact = () => {
 			>
 				<HStack gap={3}>
 					<FaShoppingCart size={22} />
-					<Span
-						fontSize={20}
-						marginTop={0.5}
-					>
-						Shopping Cart
-					</Span>
+					<Span fontSize={20}>Shopping Cart</Span>
 					<Collapsible.Indicator
-						_open={{ transform: 'rotate(180deg)' }}
+						_open={{ transform: 'rotate(-90deg)' }}
 					>
 						<FaChevronDown size={14} />
 					</Collapsible.Indicator>
