@@ -19,7 +19,7 @@ export const LoginButton = () => {
 			color="#FFF"
 			_hover={{ bg: 'whiteAlpha.200' }}
 			onClick={handleLogin}
-			size="lg"
+			size="md"
 		>
 			<FaArrowRightToBracket />
 			Log In
