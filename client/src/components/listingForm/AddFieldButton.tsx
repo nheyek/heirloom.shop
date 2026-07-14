@@ -12,6 +12,7 @@ export const AddFieldButton = ({ children, ...props }: Props) => (
 		fontSize={16}
 		variant="subtle"
 		width="fit-content"
+		borderRadius="md"
 		{...props}
 	>
 		<FaPlus />

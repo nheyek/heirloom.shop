@@ -7,7 +7,6 @@ import {
 	Skeleton,
 	Stack,
 	Text,
-	Wrap,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
@@ -17,6 +16,7 @@ import {
 	ShopFormInput,
 } from '@client/components/shop/ShopFormFields';
 import { useShopForm } from '@client/components/shop/useShopForm';
+import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
@@ -375,14 +375,11 @@ const ShopInfoForm = ({
 					maxHeight={500}
 				/>
 			</Field.Root>
-			<Wrap
-				justifyContent="space-between"
-				maxW={650}
-			>
+			<Stack gap={2}>
 				<Button
 					size="lg"
-					width={175}
 					fontSize={20}
+					width="fit-content"
 					onClick={handleSave}
 					disabled={isSaving || form.isUploadingImage}
 					loading={isSaving || form.isUploadingImage}
@@ -391,27 +388,29 @@ const ShopInfoForm = ({
 					Save Changes
 				</Button>
 				{isAdmin && fulfillment && (
-					<Button
-						size="lg"
-						fontSize={20}
-						variant="outline"
-						onClick={() =>
-							fulfillment.directFulfillment
-								? setCommandeerDialogOpen(true)
-								: setAssignDialogOpen(true)
-						}
-					>
-						{fulfillment.directFulfillment ? (
-							<FaSkullCrossbones />
-						) : (
-							<FaExchangeAlt />
-						)}
-						{fulfillment.directFulfillment
-							? 'Commandeer'
-							: 'Transfer Ownership'}
-					</Button>
+					<MoreActionsCollapsible>
+						<Button
+							size="lg"
+							fontSize={20}
+							variant="outline"
+							onClick={() =>
+								fulfillment.directFulfillment
+									? setCommandeerDialogOpen(true)
+									: setAssignDialogOpen(true)
+							}
+						>
+							{fulfillment.directFulfillment ? (
+								<FaSkullCrossbones />
+							) : (
+								<FaExchangeAlt />
+							)}
+							{fulfillment.directFulfillment
+								? 'Commandeer'
+								: 'Transfer Ownership'}
+						</Button>
+					</MoreActionsCollapsible>
 				)}
-			</Wrap>
+			</Stack>
 
 			<AssignOwnershipDialog
 				open={assignDialogOpen}

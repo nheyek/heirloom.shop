@@ -1,7 +1,6 @@
 import {
 	Button,
 	CloseButton,
-	Collapsible,
 	Dialog,
 	HStack,
 	Input,
@@ -17,6 +16,7 @@ import {
 	ShippingProfile,
 	useListingForm,
 } from '@client/components/listingForm/useListingForm';
+import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { ImageEntry } from '@client/hooks/useImageUpload';
@@ -30,11 +30,7 @@ import {
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
-import {
-	FaCheckCircle,
-	FaChevronRight,
-	FaTrashAlt,
-} from 'react-icons/fa';
+import { FaCheckCircle, FaTrashAlt } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 type DeleteListingDialogProps = {
@@ -318,39 +314,21 @@ const ListingEditForm = ({
 							<FaCheckCircle />
 							Save Changes
 						</Button>
-						<Collapsible.Root disabled={savePending}>
-							<Collapsible.Trigger
+						<MoreActionsCollapsible
+							disabled={savePending}
+						>
+							<Button
+								size="lg"
 								fontSize={20}
-								cursor="pointer"
-								disabled={savePending}
+								colorPalette="red"
+								onClick={() =>
+									setDeleteDialogOpen(true)
+								}
 							>
-								<HStack gap={3}>
-									<Collapsible.Indicator
-										transition="transform 0.2s"
-										_open={{
-											transform:
-												'rotate(90deg)',
-										}}
-									>
-										<FaChevronRight size={16} />
-									</Collapsible.Indicator>
-									More Actions
-								</HStack>
-							</Collapsible.Trigger>
-							<Collapsible.Content pt={2}>
-								<Button
-									size="md"
-									fontSize={18}
-									colorPalette="red"
-									onClick={() =>
-										setDeleteDialogOpen(true)
-									}
-								>
-									<FaTrashAlt />
-									Delete Listing
-								</Button>
-							</Collapsible.Content>
-						</Collapsible.Root>
+								<FaTrashAlt />
+								Delete Listing
+							</Button>
+						</MoreActionsCollapsible>
 					</Stack>
 				}
 			/>
