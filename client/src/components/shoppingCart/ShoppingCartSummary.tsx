@@ -1,7 +1,7 @@
 import { DataList, Spinner } from '@chakra-ui/react';
-import { JSX } from 'react';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { JSX } from 'react';
 
 type Props = {
 	pendingMessage: JSX.Element | string;
@@ -54,17 +54,19 @@ export const ShoppingCartSummary = (props: Props) => {
 			].map(({ label, value }) => (
 				<DataList.Item
 					key={label}
-					fontSize={16}
 					color={props.textColor}
 				>
 					<DataList.ItemLabel
 						minWidth={75}
+						fontSize={18}
 						fontWeight={500}
 						color={props.textColor}
 					>
 						{label}
 					</DataList.ItemLabel>
-					<DataList.ItemValue>{value}</DataList.ItemValue>
+					<DataList.ItemValue fontSize={20}>
+						{value}
+					</DataList.ItemValue>
 				</DataList.Item>
 			))}
 		</DataList.Root>

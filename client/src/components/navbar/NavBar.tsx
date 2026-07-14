@@ -184,7 +184,7 @@ export const Navbar = () => {
 											w="22px"
 											h="22px"
 											borderRadius="full"
-											fontSize={12}
+											fontSize={16}
 											alignItems="center"
 											justifyContent="center"
 											fontWeight={700}
