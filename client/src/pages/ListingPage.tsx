@@ -52,7 +52,6 @@ import {
 	ListingDisplayPrice,
 } from '@heirloom/common/domain/listing';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { motion } from 'framer-motion';
 import {
 	FaBan,
 	FaHeart,
@@ -62,8 +61,6 @@ import {
 import { FaCheck, FaShop } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate, useParams } from 'react-router-dom';
-
-const MotionFlex = motion.create(Flex);
 
 export const ListingPage = () => {
 	const { id } = useParams<{ id: string }>();
@@ -170,7 +167,7 @@ export const ListingPage = () => {
 	}
 
 	return (
-		<MotionFlex
+		<Flex
 			flexDir="column"
 			width="fit-content"
 			alignItems="center"
@@ -322,7 +319,9 @@ export const ListingPage = () => {
 									textError={
 										personalization.textError
 									}
-									onToggle={personalization.onToggle}
+									onToggle={
+										personalization.onToggle
+									}
 									onTextChange={
 										personalization.onTextChange
 									}
@@ -430,7 +429,7 @@ export const ListingPage = () => {
 					)}
 				</Flex>
 			</Box>
-		</MotionFlex>
+		</Flex>
 	);
 };
 
