@@ -176,21 +176,19 @@ export const Navbar = () => {
 									{shoppingCart.itemQuantityTotal >
 										0 && (
 										<Flex
+											alignItems="center"
 											background="#FFF"
 											border="2px solid #000"
 											position="absolute"
-											lineHeight={0}
 											width="fit-content"
-											aspectRatio={1}
+											h={6}
 											overflow="hidden"
 											top={-1}
 											right={-1}
-											p="5px"
+											p={1.5}
 											borderRadius="full"
 											fontSize={16}
 											fontWeight={700}
-											alignItems="center"
-											justifyContent="center"
 										>
 											{
 												shoppingCart.itemQuantityTotal
