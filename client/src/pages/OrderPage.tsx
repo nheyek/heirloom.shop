@@ -162,7 +162,7 @@ export const OrderPage = () => {
 					content={error}
 				/>
 			)}
-			{!error && (isLoading || orderDetails) && (
+			{!error && (showSkeleton || orderDetails) && (
 				<Stack
 					w="100%"
 					gap={5}
