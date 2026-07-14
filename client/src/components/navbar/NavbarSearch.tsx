@@ -20,7 +20,7 @@ import {
 } from '@heirloom/common/contract';
 import { FaSearch } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
-import { IoMdCloseCircle } from 'react-icons/io';
+import { IoClose } from 'react-icons/io5';
 import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
 
 export const NavbarSearch = () => {
@@ -112,7 +112,7 @@ export const NavbarSearch = () => {
 			<InputGroup
 				width="100%"
 				py={1}
-				startElement={<FaSearch size={20} />}
+				startElement={<FaSearch size={18} />}
 				endElement={
 					<Flex
 						cursor="pointer"
@@ -120,7 +120,7 @@ export const NavbarSearch = () => {
 						opacity={query ? 1 : 0}
 						transition="opacity 0.15s ease-in-out"
 					>
-						{query && <IoMdCloseCircle size={24} />}
+						{query && <IoClose size={24} />}
 					</Flex>
 				}
 			>
