@@ -11,6 +11,7 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
+import React from 'react';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -147,7 +148,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 						fontSize={20}
 						w="100%"
 					>
-						<HStack gap={3}>
+						<HStack gap={4}>
 							{match && (
 								<Box
 									fontSize={20}
@@ -157,16 +158,18 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 								</Box>
 							)}
 
-							<Text>{match?.navItem.label}</Text>
+							<HStack gap={2}>
+								<Span>{match?.navItem.label}</Span>
 
-							{match?.subLabel != null && (
-								<>
-									{'/'}
-									<Text fontWeight={400}>
-										{match.subLabel}
-									</Text>
-								</>
-							)}
+								{match?.subLabel != null && (
+									<>
+										{'/'}
+										<Span fontWeight={400}>
+											{match.subLabel}
+										</Span>
+									</>
+								)}
+							</HStack>
 						</HStack>
 						<FaCaretDown />
 					</Button>
@@ -175,25 +178,34 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 					<Menu.Positioner>
 						<Menu.Content>
 							{navItems.map(
-								({ label, icon: Icon, route }) => (
-									<Menu.Item
-										key={route}
-										value={route}
-										cursor="pointer"
-										fontSize={20}
-										p={3}
-										width="100%"
-									>
-										<HStack gap={3}>
-											<Box
-												fontSize={20}
-												flexShrink={0}
-											>
-												<Icon />
-											</Box>
-											<Text>{label}</Text>
-										</HStack>
-									</Menu.Item>
+								(
+									{ label, icon: Icon, route },
+									index,
+								) => (
+									<React.Fragment key={route}>
+										{index > 0 && (
+											<Menu.Separator />
+										)}
+										<Menu.Item
+											key={route}
+											value={route}
+											cursor="pointer"
+											fontSize={20}
+											px={4}
+											py={2}
+											width="100%"
+										>
+											<HStack gap={4}>
+												<Box
+													fontSize={20}
+													flexShrink={0}
+												>
+													<Icon />
+												</Box>
+												<Text>{label}</Text>
+											</HStack>
+										</Menu.Item>
+									</React.Fragment>
 								),
 							)}
 						</Menu.Content>
