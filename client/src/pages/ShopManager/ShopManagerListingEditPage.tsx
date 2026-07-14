@@ -318,8 +318,8 @@ const ListingEditForm = ({
 							disabled={savePending}
 						>
 							<Button
-								size="lg"
-								fontSize={20}
+								size="md"
+								fontSize={18}
 								colorPalette="red"
 								onClick={() =>
 									setDeleteDialogOpen(true)

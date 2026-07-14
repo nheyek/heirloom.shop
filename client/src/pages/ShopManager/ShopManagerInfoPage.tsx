@@ -390,8 +390,8 @@ const ShopInfoForm = ({
 				{isAdmin && fulfillment && (
 					<MoreActionsCollapsible>
 						<Button
-							size="lg"
-							fontSize={20}
+							size="md"
+							fontSize={18}
 							variant="outline"
 							onClick={() =>
 								fulfillment.directFulfillment
