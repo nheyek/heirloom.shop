@@ -2,7 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { ScrollToTop } from '@client/components/misc/ScrollToTop';
-import { Navbar } from '@client/components/navbar/NavBar';
+import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { NAVBAR_HEIGHT } from '@client/theme';
 import React from 'react';

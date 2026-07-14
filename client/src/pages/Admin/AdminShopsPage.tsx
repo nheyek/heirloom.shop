@@ -67,7 +67,7 @@ export const AdminShopsPage = () => {
 						>
 							<Table.Header>
 								<Table.Row>
-									<Table.ColumnHeader minW={150}>
+									<Table.ColumnHeader minW={160}>
 										Title
 									</Table.ColumnHeader>
 									<Table.ColumnHeader w={125}>
@@ -92,22 +92,22 @@ export const AdminShopsPage = () => {
 												<Table.Row key={i}>
 													<Table.Cell>
 														<Skeleton
-															height={4}
+															height={5}
 														/>
 													</Table.Cell>
 													<Table.Cell>
 														<Skeleton
-															height={4}
+															height={5}
 														/>
 													</Table.Cell>
 													<Table.Cell>
 														<Skeleton
-															height={4}
+															height={5}
 														/>
 													</Table.Cell>
 													<Table.Cell>
 														<Skeleton
-															height={4}
+															height={5}
 														/>
 													</Table.Cell>
 												</Table.Row>

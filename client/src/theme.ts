@@ -20,7 +20,7 @@ export const ANIMATION_NAME = {
 
 export const NAVBAR_HEIGHT = {
 	DESKTOP: 68, // Spacing units
-	MOBILE: 115, // Pixels
+	MOBILE: 120, // Pixels
 };
 export const SIDEBAR_WIDTH_PX = 250;
 

@@ -4,7 +4,7 @@ import {
 	NavMenuContent,
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
-import { NavBarIconButton } from '@client/components/navbar/NavBar';
+import { NavbarButton } from '@client/components/navbar/Navbar';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { FaArrowRightFromBracket, FaScroll } from 'react-icons/fa6';
@@ -28,10 +28,14 @@ export const NavbarMenu = () => {
 				asChild
 				focusRing="none"
 			>
-				<NavBarIconButton px={3}>
+				<NavbarButton
+					pr={1}
+					pl={2}
+					gap={1}
+				>
 					<FaUserCircle />
 					<IoMdArrowDropdown />
-				</NavBarIconButton>
+				</NavbarButton>
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>

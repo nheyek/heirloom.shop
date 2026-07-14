@@ -1,5 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Button } from '@chakra-ui/react';
+import { FaArrowRightToBracket } from 'react-icons/fa6';
 
 export const LoginButton = () => {
 	const { loginWithRedirect } = useAuth0();
@@ -14,12 +15,14 @@ export const LoginButton = () => {
 
 	return (
 		<Button
-			variant="plain"
+			variant="ghost"
 			color="#FFF"
-			fontSize={20}
+			_hover={{ bg: 'whiteAlpha.200' }}
 			onClick={handleLogin}
+			size="lg"
 		>
-			Sign In
+			<FaArrowRightToBracket />
+			Log In
 		</Button>
 	);
 };

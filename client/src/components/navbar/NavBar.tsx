@@ -31,12 +31,14 @@ enum gridTemplateAreas {
 	BUTTONS = 'LOGIN',
 }
 
-export const NavBarIconButton = (props: IconButtonProps) => (
+export const NavbarButton = (props: IconButtonProps) => (
 	<IconButton
+		size="lg"
 		color="white"
 		variant="ghost"
 		_hover={{ bg: 'whiteAlpha.200' }}
 		_expanded={{ bg: 'whiteAlpha.200' }}
+		_icon={{ height: 6, width: 6 }}
 		{...props}
 	>
 		{props.children}
@@ -131,7 +133,7 @@ export const Navbar = () => {
 					justifySelf="end"
 					flexShrink={0}
 				>
-					<HStack gap={1}>
+					<HStack>
 						{user?.isAdmin && (
 							<Link
 								to={[
@@ -139,9 +141,9 @@ export const Navbar = () => {
 									CLIENT_ROUTES.shops,
 								].join('/')}
 							>
-								<NavBarIconButton>
+								<NavbarButton>
 									<FaCrown />
-								</NavBarIconButton>
+								</NavbarButton>
 							</Link>
 						)}
 						{!user?.isAdmin && user?.shopShortId && (
@@ -153,9 +155,9 @@ export const Navbar = () => {
 									CLIENT_ROUTES.info,
 								].join('/')}
 							>
-								<NavBarIconButton>
+								<NavbarButton>
 									<FaShop />
-								</NavBarIconButton>
+								</NavbarButton>
 							</Link>
 						)}
 						{!authIsLoading && (
@@ -166,13 +168,13 @@ export const Navbar = () => {
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
 								<Box position="relative">
-									<NavBarIconButton
+									<NavbarButton
 										onClick={
 											shoppingCart.openDrawer
 										}
 									>
 										<FaShoppingCart />
-									</NavBarIconButton>
+									</NavbarButton>
 									{shoppingCart.itemQuantityTotal >
 										0 && (
 										<Flex
