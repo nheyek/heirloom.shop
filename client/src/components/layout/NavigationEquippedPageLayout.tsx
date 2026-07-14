@@ -10,8 +10,11 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import {
+	NavMenuContent,
+	NavMenuItem,
+} from '@client/components/util/NavMenu';
 import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
-import React from 'react';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -176,39 +179,28 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 				</Menu.Trigger>
 				<Portal>
 					<Menu.Positioner>
-						<Menu.Content p={0}>
+						<NavMenuContent>
 							{navItems.map(
 								(
 									{ label, icon: Icon, route },
 									index,
 								) => (
-									<React.Fragment key={route}>
-										<Menu.Item
-											key={route}
-											value={route}
-											cursor="pointer"
+									<NavMenuItem
+										key={route}
+										value={route}
+										isFirst={index === 0}
+									>
+										<Box
 											fontSize={20}
-											p={4}
-											width="100%"
-											borderRadius={0}
-											{...(index > 0 && {
-												borderTopWidth: 1,
-											})}
+											flexShrink={0}
 										>
-											<HStack gap={4}>
-												<Box
-													fontSize={20}
-													flexShrink={0}
-												>
-													<Icon />
-												</Box>
-												<Text>{label}</Text>
-											</HStack>
-										</Menu.Item>
-									</React.Fragment>
+											<Icon />
+										</Box>
+										<Text>{label}</Text>
+									</NavMenuItem>
 								),
 							)}
-						</Menu.Content>
+						</NavMenuContent>
 					</Menu.Positioner>
 				</Portal>
 			</Menu.Root>

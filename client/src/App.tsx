@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
+import { NavigationEquippedPageLayout } from '@client/components/layout/NavigationEquippedPageLayout';
 import { Navbar } from '@client/components/navbar/NavBar';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
@@ -181,6 +182,27 @@ const App = () => {
 								<Box p={10}>
 									<NavbarMenu />
 								</Box>
+							}
+						/>
+						<Route
+							path="/dev-preview-mobilenav"
+							element={
+								<NavigationEquippedPageLayout
+									navItems={[
+										{
+											label: 'Listings',
+											title: 'Listings',
+											icon: () => <span>L</span>,
+											route: 'dev-preview-mobilenav',
+										},
+										{
+											label: 'Orders',
+											title: 'Orders',
+											icon: () => <span>O</span>,
+											route: 'dev-preview-mobilenav-orders',
+										},
+									]}
+								/>
 							}
 						/>
 						<Route

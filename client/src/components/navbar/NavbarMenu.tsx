@@ -1,6 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Menu, MenuItemProps, Portal, Text } from '@chakra-ui/react';
+import { Menu, Portal, Text } from '@chakra-ui/react';
 import { NavBarIconButton } from '@client/components/navbar/NavBar';
+import {
+	NavMenuContent,
+	NavMenuItem,
+} from '@client/components/util/NavMenu';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { FaArrowRightFromBracket, FaScroll } from 'react-icons/fa6';
@@ -31,50 +35,34 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<Menu.Content
-						gapY={2}
-						_open={{
-							animation:
-								'slide-from-top 0.25s ease-out',
-						}}
-					>
+					<NavMenuContent width={150}>
 						<Link to={`/${CLIENT_ROUTES.orders}`}>
-							<MenuItem value="orders">
+							<NavMenuItem
+								value="orders"
+								isFirst
+							>
 								<FaScroll />
-								<Text pl={1}>Orders</Text>
-							</MenuItem>
+								<Text>Orders</Text>
+							</NavMenuItem>
 						</Link>
 
 						<Link to={`/${CLIENT_ROUTES.favorites}`}>
-							<MenuItem value="saved">
+							<NavMenuItem value="saved">
 								<FaHeart />
-								<Text pl={1}>Favorites</Text>
-							</MenuItem>
+								<Text>Favorites</Text>
+							</NavMenuItem>
 						</Link>
 
-						<MenuItem
+						<NavMenuItem
 							value="logout"
 							onClick={handleLogout}
 						>
 							<FaArrowRightFromBracket />
-							<Text pl={1}>Log Out</Text>
-						</MenuItem>
-					</Menu.Content>
+							<Text>Log Out</Text>
+						</NavMenuItem>
+					</NavMenuContent>
 				</Menu.Positioner>
 			</Portal>
 		</Menu.Root>
 	);
 };
-
-const MenuItem = (props: MenuItemProps) => (
-	<Menu.Item
-		fontSize={20}
-		cursor="pointer"
-		py={2}
-		px={3}
-		gap={2}
-		{...props}
-	>
-		{props.children}
-	</Menu.Item>
-);
