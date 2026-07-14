@@ -141,7 +141,7 @@ export const NavbarSearch = () => {
 				/>
 			</InputGroup>
 			{showPopover && query && (
-				<FadeInBox
+				<Box
 					position="absolute"
 					width="100%"
 					mt={1.5}
@@ -150,6 +150,7 @@ export const NavbarSearch = () => {
 					boxShadow="md"
 					overflow="hidden"
 					zIndex="popover"
+					animation="slide-from-top 0.25s ease-out"
 				>
 					<Stack
 						gap={0}
@@ -227,7 +228,7 @@ export const NavbarSearch = () => {
 							</>
 						)}
 					</Stack>
-				</FadeInBox>
+				</Box>
 			)}
 		</Box>
 	);

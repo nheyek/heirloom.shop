@@ -34,7 +34,8 @@ export const NavbarMenu = () => {
 					<Menu.Content
 						gapY={2}
 						_open={{
-							animation: 'fade-in 0.25s ease-out',
+							animation:
+								'slide-from-top 0.25s ease-out',
 						}}
 					>
 						<Link to={`/${CLIENT_ROUTES.orders}`}>

@@ -2,6 +2,7 @@ import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { Navbar } from '@client/components/navbar/NavBar';
+import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ScrollToTop } from '@client/components/util/ScrollToTop';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { NAVBAR_HEIGHT } from '@client/theme';
@@ -174,6 +175,14 @@ const App = () => {
 							/>
 						</Route>
 
+						<Route
+							path="/dev-preview-navbarmenu"
+							element={
+								<Box p={10}>
+									<NavbarMenu />
+								</Box>
+							}
+						/>
 						<Route
 							path="*"
 							element={
