@@ -176,24 +176,23 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 				</Menu.Trigger>
 				<Portal>
 					<Menu.Positioner>
-						<Menu.Content>
+						<Menu.Content p={0}>
 							{navItems.map(
 								(
 									{ label, icon: Icon, route },
 									index,
 								) => (
 									<React.Fragment key={route}>
-										{index > 0 && (
-											<Menu.Separator />
-										)}
 										<Menu.Item
 											key={route}
 											value={route}
 											cursor="pointer"
 											fontSize={20}
-											px={4}
-											py={2}
+											p={4}
 											width="100%"
+											{...(index > 0 && {
+												borderTopWidth: 1,
+											})}
 										>
 											<HStack gap={4}>
 												<Box
