@@ -173,25 +173,27 @@ export const Navbar = () => {
 									>
 										<FaShoppingCart />
 									</NavBarIconButton>
-									{shoppingCart.items.length >
+									{shoppingCart.itemQuantityTotal >
 										0 && (
 										<Flex
 											background="#FFF"
 											border="2px solid #000"
 											position="absolute"
+											lineHeight={0}
+											width="fit-content"
+											aspectRatio={1}
+											overflow="hidden"
 											top={-1}
 											right={-1}
-											w="22px"
-											h="22px"
+											p="5px"
 											borderRadius="full"
 											fontSize={16}
+											fontWeight={700}
 											alignItems="center"
 											justifyContent="center"
-											fontWeight={700}
 										>
 											{
-												shoppingCart.items
-													.length
+												shoppingCart.itemQuantityTotal
 											}
 										</Flex>
 									)}

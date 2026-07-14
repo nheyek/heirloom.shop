@@ -5,9 +5,11 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
-import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
+import {
+	getOrderItemDisplayData,
+	ShoppingCartItem,
+} from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { ShoppingCartItem } from '@client/domain/shoppingCart';
 import { FaTrashAlt } from 'react-icons/fa';
 import { TiMinus, TiPlus } from 'react-icons/ti';
 
@@ -72,7 +74,7 @@ export const ShoppingCartCard = (props: Props) => {
 						<Text
 							textAlign="center"
 							minWidth={5}
-							fontSize={16}
+							fontSize={20}
 							fontWeight={700}
 						>
 							{props.item.quantity}
