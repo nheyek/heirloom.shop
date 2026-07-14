@@ -285,6 +285,7 @@ export const ShippingProfileDialog = ({
 													invalid={
 														!!flatRateError
 													}
+													enclosed
 												/>
 												{flatRateError && (
 													<FieldError>

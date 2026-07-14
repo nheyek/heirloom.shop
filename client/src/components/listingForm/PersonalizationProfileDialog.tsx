@@ -155,6 +155,7 @@ export const PersonalizationProfileDialog = ({
 						}}
 						invalid={!!costError}
 						disabled={saving}
+						enclosed
 					/>
 				</FormField>
 				<FormField
