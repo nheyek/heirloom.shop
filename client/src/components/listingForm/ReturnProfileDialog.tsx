@@ -1,12 +1,18 @@
-import { HStack, Input, RadioCard, Stack, Text } from '@chakra-ui/react';
+import {
+	HStack,
+	Input,
+	RadioCard,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
 import { FONT_SANS } from '@client/theme';
 import {

@@ -11,11 +11,11 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
+import { FadeInBox } from '@client/components/misc/FadeInBox';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
-import { FadeInBox } from '@client/components/util/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';

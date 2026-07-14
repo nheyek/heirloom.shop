@@ -7,8 +7,8 @@ import {
 	DayRangeInput,
 	validateDayRange,
 } from '@client/components/listingForm/DayRangeInput';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 

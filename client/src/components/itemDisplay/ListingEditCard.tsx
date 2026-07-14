@@ -1,6 +1,6 @@
 import { Button, Stack, Switch, Text } from '@chakra-ui/react';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -41,7 +41,9 @@ const ListingAvailableDialog = ({
 			<DialogConfirmFooter
 				onCancel={onCancel}
 				onConfirm={onConfirm}
-				confirmLabel={makeAvailable ? 'Activate' : 'Deactivate'}
+				confirmLabel={
+					makeAvailable ? 'Activate' : 'Deactivate'
+				}
 				pending={pending}
 			/>
 		}

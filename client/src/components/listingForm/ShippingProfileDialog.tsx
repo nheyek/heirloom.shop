@@ -9,8 +9,8 @@ import {
 	DayRangeInput,
 	validateDayRange,
 } from '@client/components/listingForm/DayRangeInput';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { InputSize } from '@client/constants';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
@@ -53,7 +53,9 @@ export const ShippingProfileDialog = ({
 	const [flatRateCents, setFlatRateCents] = useState<number | null>(
 		null,
 	);
-	const [flatRateError, setFlatRateError] = useState<string | null>(null);
+	const [flatRateError, setFlatRateError] = useState<string | null>(
+		null,
+	);
 	const [minDays, setMinDays] = useState('');
 	const [maxDays, setMaxDays] = useState('');
 	const [daysError, setDaysError] = useState<string | null>(null);
@@ -94,8 +96,12 @@ export const ShippingProfileDialog = ({
 		if (!trimmedName) {
 			setNameError('Name is required.');
 			valid = false;
-		} else if (trimmedName.length > LISTING_LIMITS.maxProfileNameLength) {
-			setNameError(`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`);
+		} else if (
+			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
+		) {
+			setNameError(
+				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
+			);
 			valid = false;
 		} else if (
 			existingNames.some(
@@ -206,9 +212,7 @@ export const ShippingProfileDialog = ({
 					<RadioCard.Root
 						value={costType}
 						onValueChange={(e) =>
-							setCostType(
-								e.value as ShippingCostType,
-							)
+							setCostType(e.value as ShippingCostType)
 						}
 						size="sm"
 						alignSelf="stretch"
@@ -260,11 +264,20 @@ export const ShippingProfileDialog = ({
 												}
 											>
 												<PriceInput
-													size={InputSize.Md}
-													value={flatRateCents}
+													size={
+														InputSize.Md
+													}
+													value={
+														flatRateCents
+													}
 													onChange={(v) => {
-														setFlatRateCents(v);
-														if (v && v > 0)
+														setFlatRateCents(
+															v,
+														);
+														if (
+															v &&
+															v > 0
+														)
 															setFlatRateError(
 																null,
 															);
@@ -275,7 +288,9 @@ export const ShippingProfileDialog = ({
 												/>
 												{flatRateError && (
 													<FieldError>
-														{flatRateError}
+														{
+															flatRateError
+														}
 													</FieldError>
 												)}
 											</Box>

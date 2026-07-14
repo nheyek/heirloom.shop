@@ -13,7 +13,7 @@ import {
 import {
 	NavMenuContent,
 	NavMenuItem,
-} from '@client/components/util/NavMenu';
+} from '@client/components/misc/NavMenu';
 import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';

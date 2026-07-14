@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Menu, Portal, Text } from '@chakra-ui/react';
-import { NavBarIconButton } from '@client/components/navbar/NavBar';
 import {
 	NavMenuContent,
 	NavMenuItem,
-} from '@client/components/util/NavMenu';
+} from '@client/components/misc/NavMenu';
+import { NavBarIconButton } from '@client/components/navbar/NavBar';
 import { CLIENT_ROUTES } from '@client/constants';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import { FaArrowRightFromBracket, FaScroll } from 'react-icons/fa6';

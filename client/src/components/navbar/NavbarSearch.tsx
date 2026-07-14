@@ -11,7 +11,7 @@ import { AnimatePresence } from 'framer-motion';
 import { JSX, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { FadeInBox } from '@client/components/util/FadeInBox';
+import { FadeInBox } from '@client/components/misc/FadeInBox';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';

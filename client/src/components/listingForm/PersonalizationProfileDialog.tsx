@@ -4,8 +4,8 @@ import {
 	FormInput,
 } from '@client/components/input/FormField';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useState } from 'react';
 
@@ -50,7 +50,8 @@ export const PersonalizationProfileDialog = ({
 		}
 	}, [open]);
 
-	const isDirty = () => !!name || costCents !== null || !!helperText;
+	const isDirty = () =>
+		!!name || costCents !== null || !!helperText;
 
 	const handleClose = () => {
 		if (isDirty()) {

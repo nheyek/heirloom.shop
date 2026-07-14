@@ -4,9 +4,9 @@ import {
 	FormInput,
 } from '@client/components/input/FormField';
 import { ListingDescrSection } from '@client/components/listingForm/useListingForm';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useEffect, useRef, useState } from 'react';
 
@@ -54,13 +54,19 @@ export const DescrSectionDialog = ({
 		if (!trimmedTitle) {
 			setTitleError('Title is required.');
 			valid = false;
-		} else if (trimmedTitle.length > LISTING_LIMITS.maxNameLength) {
-			setTitleError(`Title must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`);
+		} else if (
+			trimmedTitle.length > LISTING_LIMITS.maxNameLength
+		) {
+			setTitleError(
+				`Title must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`,
+			);
 			valid = false;
 		} else if (
 			existingTitles.some((t) => t.trim() === trimmedTitle)
 		) {
-			setTitleError('A section with this title already exists.');
+			setTitleError(
+				'A section with this title already exists.',
+			);
 			valid = false;
 		} else {
 			setTitleError(null);
@@ -69,8 +75,13 @@ export const DescrSectionDialog = ({
 		if (!strippedBody) {
 			setBodyError('Body is required.');
 			valid = false;
-		} else if (strippedBody.length > LISTING_LIMITS.maxDescrSectionBodyChars) {
-			setBodyError(`Body must be ${LISTING_LIMITS.maxDescrSectionBodyChars.toLocaleString()} characters or fewer.`);
+		} else if (
+			strippedBody.length >
+			LISTING_LIMITS.maxDescrSectionBodyChars
+		) {
+			setBodyError(
+				`Body must be ${LISTING_LIMITS.maxDescrSectionBodyChars.toLocaleString()} characters or fewer.`,
+			);
 			valid = false;
 		} else {
 			setBodyError(null);

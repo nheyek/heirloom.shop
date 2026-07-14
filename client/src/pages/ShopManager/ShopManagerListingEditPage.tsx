@@ -8,9 +8,9 @@ import {
 	ShippingProfile,
 	useListingForm,
 } from '@client/components/listingForm/useListingForm';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
-import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
+import { MoreActionsCollapsible } from '@client/components/misc/MoreActionsCollapsible';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { ImageEntry } from '@client/hooks/useImageUpload';
@@ -80,9 +80,7 @@ const DeleteListingDialog = ({
 					including all of its variations. This action
 					cannot be undone.
 				</Text>
-				<Text>
-					Enter the listing title below to confirm.
-				</Text>
+				<Text>Enter the listing title below to confirm.</Text>
 				<Input
 					value={confirmationText}
 					onChange={(e) =>

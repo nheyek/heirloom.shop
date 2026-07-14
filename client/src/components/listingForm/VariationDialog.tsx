@@ -15,8 +15,8 @@ import {
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/components/listingForm/useListingForm';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
@@ -643,9 +643,7 @@ export const VariationDialog = ({
 						>
 							<SortableContext
 								items={optionIds}
-								strategy={
-									verticalListSortingStrategy
-								}
+								strategy={verticalListSortingStrategy}
 							>
 								<Stack
 									gap={0}
@@ -679,10 +677,11 @@ export const VariationDialog = ({
 																	optionIds[
 																		i
 																	],
-															) ||
+															  ) ||
 															  invalidOptionIds.has(
 																	optionIds[
-																		i - 1
+																		i -
+																			1
 																	],
 															  )
 															? FIELD_ERROR_COLOR

@@ -6,6 +6,9 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
+import { AppDialog } from '@client/components/misc/AppDialog';
+import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
+import { MoreActionsCollapsible } from '@client/components/misc/MoreActionsCollapsible';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import {
 	ShopFormField,
@@ -13,9 +16,6 @@ import {
 	ShopFormInput,
 } from '@client/components/shop/ShopFormFields';
 import { useShopForm } from '@client/components/shop/useShopForm';
-import { AppDialog } from '@client/components/util/AppDialog';
-import { DialogConfirmFooter } from '@client/components/util/DialogConfirmFooter';
-import { MoreActionsCollapsible } from '@client/components/util/MoreActionsCollapsible';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
