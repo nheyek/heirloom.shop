@@ -15,7 +15,7 @@ import {
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
-import { FONT_BASIC } from '@client/theme';
+import { FONT_GEOMETRIC } from '@client/theme';
 import {
 	LISTING_LIMITS,
 	ReturnPolicyType,
@@ -283,7 +283,9 @@ export const ReturnProfileDialog = ({
 											size="lg"
 											w={16}
 											fontSize={16}
-											fontFamily={FONT_BASIC}
+											fontFamily={
+												FONT_GEOMETRIC
+											}
 											value={windowDays}
 											onChange={(e) => {
 												setWindowDays(

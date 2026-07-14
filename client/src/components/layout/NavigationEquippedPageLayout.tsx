@@ -190,6 +190,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 											fontSize={20}
 											p={4}
 											width="100%"
+											borderRadius={0}
 											{...(index > 0 && {
 												borderTopWidth: 1,
 											})}

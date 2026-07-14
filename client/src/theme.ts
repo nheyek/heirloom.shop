@@ -9,7 +9,7 @@ import {
 export const COLOR_BRAND = '#121212';
 export const FIELD_ERROR_COLOR = '#df1b41';
 export const CHAKRA_SPACING_UNIT = 4;
-export const FONT_BASIC = 'Roboto';
+export const FONT_GEOMETRIC = 'Roboto';
 export const FONT_DECORATIVE = 'Alegreya';
 export const FONT_DISPLAY_SANS = 'Alegreya Sans';
 
