@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 // starts, only how long the loading state is reported as `true` for.
 export const useMinDuration = (
 	isLoading: boolean,
-	minDurationMs: number = 200,
+	minDurationMs: number = 300,
 ): boolean => {
 	const [shownLoading, setShownLoading] = useState(isLoading);
 	const startedAtRef = useRef<number | null>(
@@ -30,7 +30,10 @@ export const useMinDuration = (
 			return;
 		}
 
-		const timer = setTimeout(() => setShownLoading(false), remaining);
+		const timer = setTimeout(
+			() => setShownLoading(false),
+			remaining,
+		);
 		return () => clearTimeout(timer);
 	}, [isLoading, minDurationMs]);
 
