@@ -4,6 +4,11 @@ export default {
 	testEnvironment: 'node',
 	maxWorkers: 1,
 	testMatch: ['<rootDir>/tests/integration/tests/**/*.test.ts'],
+	// Defense in depth: testMatch is already anchored to <rootDir> so it
+	// shouldn't pick up nested copies (e.g. background-task git worktrees
+	// under .claude/worktrees/<name>/tests/integration/), but exclude them
+	// explicitly too in case that ever changes.
+	testPathIgnorePatterns: ['/\\.claude/worktrees/'],
 	moduleNameMapper: {
 		'^@heirloom/common/(.*)$': '<rootDir>/common/$1',
 		'^@server/(.*)$': '<rootDir>/server/src/$1',

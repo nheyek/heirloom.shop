@@ -91,6 +91,11 @@ describe('calculateCheckoutTotals', () => {
 		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
+							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: null, imageUuid: null },
+						}},
+					},
 					combinations: { [key]: makeCombination(1500) },
 				}),
 			],
@@ -128,6 +133,11 @@ describe('calculateCheckoutTotals', () => {
 		const queryData: CheckoutCartData = {
 			listings: [
 				makeListing('abc', 1000, {
+					variations: {
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
+							[OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+						}},
+					},
 					combinations: { [key]: { priceCents: null, imageUuid: null, disabled: false } },
 				}),
 			],

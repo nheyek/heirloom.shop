@@ -1,5 +1,5 @@
 import { CartItemData } from '@heirloom/common/contract';
-import { combinationKey } from '@heirloom/common/domain/listing';
+import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { calculateItemPrice } from './shoppingCart';
 
 const baseListingData: CartItemData = {
@@ -13,6 +13,7 @@ const baseListingData: CartItemData = {
 	shopShortId: 'shop1',
 	shopTitle: 'Test Shop',
 	imageUuids: [],
+	available: true,
 	variations: {},
 	combinations: {},
 	shippingPrice: 500,
@@ -21,6 +22,11 @@ const baseListingData: CartItemData = {
 };
 
 describe('calculateItemPrice', () => {
+	// Combination/option/variation price-resolution branches are exercised
+	// exhaustively against the shared resolver itself in
+	// common/domain/listing.test.ts (getListingDisplayPrice). This test just
+	// confirms calculateItemPrice wires its arguments into that resolver
+	// correctly — it isn't trying to re-cover every branch.
 	it('returns the base price when there are no selected options', () => {
 		expect(calculateItemPrice(baseListingData, {})).toBe(1000);
 	});
@@ -28,7 +34,7 @@ describe('calculateItemPrice', () => {
 	it('returns the combination price when a matching combination exists', () => {
 		const varId = 'var-uuid-1';
 		const optId = 'opt-uuid-2';
-		const key = combinationKey({ [varId]: optId });
+		const key = getCombinationKey({ [varId]: optId });
 		const listingData: CartItemData = {
 			...baseListingData,
 			combinations: {
@@ -39,37 +45,21 @@ describe('calculateItemPrice', () => {
 		expect(calculateItemPrice(listingData, { [varId]: optId })).toBe(1500);
 	});
 
-	it('falls back to base priceCents when no matching combination exists', () => {
-		expect(calculateItemPrice(baseListingData, { 'var-uuid-1': 'opt-uuid-x' })).toBe(1000);
-	});
-
-	it('falls back to base priceCents when combination priceCents is null', () => {
-		const varId = 'var-uuid-1';
-		const optId = 'opt-uuid-2';
-		const key = combinationKey({ [varId]: optId });
+	it('adds the personalization surcharge when personalization text is provided', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
-			combinations: {
-				[key]: { priceCents: null, imageUuid: null, disabled: false },
-			},
+			personalizationCostCents: 250,
 		};
-
-		expect(calculateItemPrice(listingData, { [varId]: optId })).toBe(1000);
+		expect(
+			calculateItemPrice(listingData, {}, 'Happy Birthday'),
+		).toBe(1250);
 	});
 
-	it('resolves the correct combination across multiple variations', () => {
-		const varId1 = 'var-uuid-size';
-		const varId2 = 'var-uuid-material';
-		const optId1 = 'opt-uuid-large';
-		const optId2 = 'opt-uuid-gold';
-		const key = combinationKey({ [varId1]: optId1, [varId2]: optId2 });
+	it('does not add a surcharge when no personalization text is provided', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
-			combinations: {
-				[key]: { priceCents: 3500, imageUuid: null, disabled: false },
-			},
+			personalizationCostCents: 250,
 		};
-
-		expect(calculateItemPrice(listingData, { [varId1]: optId1, [varId2]: optId2 })).toBe(3500);
+		expect(calculateItemPrice(listingData, {})).toBe(1000);
 	});
 });
