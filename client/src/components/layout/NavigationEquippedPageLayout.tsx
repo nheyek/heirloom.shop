@@ -65,8 +65,8 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 					>
 						<HStack
 							gap={3}
-							px={3}
-							py={2}
+							px={4}
+							py={3}
 							borderRadius="md"
 							bg={isActive ? 'gray.100' : 'transparent'}
 							_hover={{
@@ -97,11 +97,6 @@ type ActiveNavMatch = {
 	subLabel: string | null;
 };
 
-// Resolves which nav item is active for the current path, and — when on a
-// child route (e.g. editing a specific listing) — the sub-label to show
-// alongside it (a matched child's label, or the raw id/path segment as a
-// fallback). Shared by the desktop breadcrumb heading and the mobile
-// dropdown trigger so they stay in sync.
 const getActiveNavMatch = (
 	navItems: SidebarNavItem[],
 	pathname: string,
@@ -254,13 +249,13 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	);
 };
 
-type SidebarPageLayoutProps = {
+type PageLayoutProps = {
 	navItems: SidebarNavItem[];
 };
 
 export const NavigationEquippedPageLayout = ({
 	navItems,
-}: SidebarPageLayoutProps) => (
+}: PageLayoutProps) => (
 	<HStack
 		alignItems="stretch"
 		gap={0}

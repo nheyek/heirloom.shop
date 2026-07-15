@@ -9,7 +9,10 @@ import {
 	shopManagerContract,
 	shopsContract,
 } from '@heirloom/common/contract';
-import { createExpressEndpoints } from '@ts-rest/express';
+import {
+	createExpressEndpoints,
+	RequestValidationError,
+} from '@ts-rest/express';
 import dotenvFlow from 'dotenv-flow';
 import express, { NextFunction, Request, Response } from 'express';
 import path from 'path';
@@ -22,14 +25,41 @@ import { listingRouter } from './routes/listing.routes.js';
 import { meRouter } from './routes/me.routes.js';
 import { orderRouter } from './routes/order.routes.js';
 import { searchRouter } from './routes/search.routes.js';
-import { shopManagerRouter } from './routes/shopManager.routes.js';
 import { shopRouter } from './routes/shop.routes.js';
+import { shopManagerRouter } from './routes/shopManager.routes.js';
 import webhookRouter from './routes/webhook.routes.js';
-import { logError } from './services/error-log.service.js';
+import { logError } from './services/log.service.js';
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url));
 
 dotenvFlow.config({ path: path.join(__dirname, '..') });
+
+// Formats a malformed request (wrong type, missing field, etc. caught by the
+// ts-rest/zod body schema) as `{ error: string }` with 400, matching the
+// error shape used by every handler-thrown error elsewhere in the app,
+// instead of ts-rest's default raw zod-issue dump.
+// `req` is intentionally untyped: this handler is shared across every
+// contract's createExpressEndpoints call, each of which expects a
+// differently-shaped, contract-specific request type that this handler
+// never needs to inspect.
+const requestValidationErrorHandler = (
+	err: RequestValidationError,
+	_req: unknown,
+	res: Response,
+	next: NextFunction,
+) => {
+	if (!(err instanceof RequestValidationError)) {
+		next(err);
+		return;
+	}
+	const zodError =
+		err.pathParams ?? err.headers ?? err.query ?? err.body;
+	const message =
+		zodError && zodError.issues.length > 0
+			? zodError.issues.map((issue) => issue.message).join('; ')
+			: 'Invalid request';
+	res.status(400).json({ error: message });
+};
 
 export const createApp = async () => {
 	const app = express();
@@ -71,7 +101,10 @@ export const createApp = async () => {
 							: undefined,
 					requestQuery: req.query,
 					userEmail: req.userClaims?.email,
-					ipAddress: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ?? req.ip,
+					ipAddress:
+						(req.headers['x-forwarded-for'] as string)
+							?.split(',')[0]
+							.trim() ?? req.ip,
 					userAgent: req.headers['user-agent'],
 				});
 			}
@@ -79,15 +112,61 @@ export const createApp = async () => {
 		next();
 	});
 
-	createExpressEndpoints(adminContract, adminRouter, app);
-	createExpressEndpoints(listingsContract, listingRouter, app);
-	createExpressEndpoints(meContract, meRouter, app);
-	createExpressEndpoints(shopsContract, shopRouter, app);
-	createExpressEndpoints(categoryContract, categoryRouter, app);
-	createExpressEndpoints(checkoutContract, checkoutRouter, app);
-	createExpressEndpoints(searchContract, searchRouter, app);
-	createExpressEndpoints(shopManagerContract, shopManagerRouter, app);
-	createExpressEndpoints(ordersContract, orderRouter, app);
+	const endpointOptions = { requestValidationErrorHandler };
+	createExpressEndpoints(
+		adminContract,
+		adminRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		listingsContract,
+		listingRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		meContract,
+		meRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		shopsContract,
+		shopRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		categoryContract,
+		categoryRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		checkoutContract,
+		checkoutRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		searchContract,
+		searchRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		shopManagerContract,
+		shopManagerRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		ordersContract,
+		orderRouter,
+		app,
+		endpointOptions,
+	);
 
 	app.use((_req, res) => {
 		res.sendFile(path.join(__dirname, 'public/index.html'));
@@ -117,7 +196,10 @@ export const createApp = async () => {
 						: undefined,
 				requestQuery: req.query,
 				userEmail: req.userClaims?.email,
-				ipAddress: (req.headers['x-forwarded-for'] as string)?.split(',')[0].trim() ?? req.ip,
+				ipAddress:
+					(req.headers['x-forwarded-for'] as string)
+						?.split(',')[0]
+						.trim() ?? req.ip,
 				userAgent: req.headers['user-agent'],
 			});
 			res.status(500).json({ error: 'Internal server error' });

@@ -8,12 +8,12 @@ import {
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import {
-	MAX_LISTING_IMAGES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
 import { ImageEntry } from '@client/hooks/useImageUpload';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	DndContext,
 	DragEndEvent,
@@ -140,7 +140,7 @@ export const ListingImageUpload = ({
 		return (
 			<ImageDropzone
 				onAdd={onAdd}
-				maxFiles={MAX_LISTING_IMAGES}
+				maxFiles={LISTING_LIMITS.maxImages}
 				disabled={disabled}
 				width="100%"
 			/>
@@ -176,7 +176,7 @@ export const ListingImageUpload = ({
 			</DndContext>
 			<ImageDropzone
 				onAdd={onAdd}
-				maxFiles={MAX_LISTING_IMAGES}
+				maxFiles={LISTING_LIMITS.maxImages}
 				disabled={disabled}
 				trigger={<AddFieldButton>Add Images</AddFieldButton>}
 			/>

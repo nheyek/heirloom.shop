@@ -1,18 +1,57 @@
-import { CombinationsData, ListingEditData, ListingFullDescr, ShopProfilesData, VariationsData } from '@heirloom/common/contract';
 import { ReturnPolicyType } from '@heirloom/common/constants';
+import {
+	CombinationsData,
+	ListingEditData,
+	ListingFullDescr,
+	ListingWriteBody,
+	ShopProfilesData,
+	VariationsData,
+} from '@heirloom/common/contract';
+import { validateListingFields } from '@heirloom/common/validation/listing';
+import {
+	validatePersonalizationProfileInput,
+	validateProcessingProfileInput,
+	validateReturnProfileInput,
+	validateShippingProfileInput,
+} from '@heirloom/common/validation/profiles';
+import {
+	FieldError,
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
+import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
-import { Shop } from '@server/entities/generated/Shop';
-import { encodeShortId } from '@server/utils/hashids';
 import { ListingPersonalizationProfile } from '@server/entities/generated/ListingPersonalizationProfile';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
+import { Shop } from '@server/entities/generated/Shop';
+import { encodeShortId } from '@server/utils/hashids';
 
-export const findAllListingsForShop = async (shopId: number): Promise<Listing[]> => {
+export class ListingValidationError extends Error {
+	constructor(public readonly fieldErrors: FieldError[]) {
+		super(fieldErrors.map((e) => e.message).join('; '));
+	}
+}
+
+export class DuplicateProfileNameError extends Error {}
+
+const hasFieldError = (
+	fieldErrors: FieldError[],
+	field: ValidationFieldKey,
+) => fieldErrors.some((e) => e.field === field);
+
+export const findAllListingsForShop = async (
+	shopId: number,
+): Promise<Listing[]> => {
 	const em = getEm();
-	return em.find(Listing, { shop: { id: shopId } }, { populate: ['shop', 'shop.country', 'category'] });
+	return em.find(
+		Listing,
+		{ shop: { id: shopId } },
+		{ populate: ['shop', 'shop.country', 'category'] },
+	);
 };
 
 export const findShopProfiles = async (
@@ -21,11 +60,18 @@ export const findShopProfiles = async (
 ): Promise<ShopProfilesData> => {
 	const em = getEm();
 
-	const [processingProfiles, shippingProfiles, returnProfiles, personalizationProfiles] = await Promise.all([
+	const [
+		processingProfiles,
+		shippingProfiles,
+		returnProfiles,
+		personalizationProfiles,
+	] = await Promise.all([
 		em.find(ListingProcessingProfile, { shop: { id: shopId } }),
 		em.find(ListingShippingProfile, { shop: { id: shopId } }),
 		em.find(ListingReturnProfile, { shop: { id: shopId } }),
-		em.find(ListingPersonalizationProfile, { shop: { id: shopId } }),
+		em.find(ListingPersonalizationProfile, {
+			shop: { id: shopId },
+		}),
 	]);
 
 	return {
@@ -68,7 +114,15 @@ export const findListingForEdit = async (
 	const listing = await em.findOne(
 		Listing,
 		{ shortId: listingShortId, shop: { id: shopId } },
-		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile', 'personalizationProfile'] },
+		{
+			populate: [
+				'category',
+				'processingProfile',
+				'shippingProfile',
+				'returnProfile',
+				'personalizationProfile',
+			],
+		},
 	);
 	if (!listing) return null;
 
@@ -82,50 +136,104 @@ export const findListingForEdit = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
-		personalizationProfileId: listing.personalizationProfile?.id ?? null,
+		personalizationProfileId:
+			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ?? {}) as CombinationsData,
+		combinations: (listing.combinations ??
+			{}) as CombinationsData,
 	};
 };
 
 export const createListing = async (
 	shopId: number,
-	data: {
-		title: string;
-		subtitle: string | null;
-		categoryId: string;
-		priceCents: number;
-		imageUuids: string[];
-		processingProfileId: number | null;
-		shippingProfileId: number | null;
-		returnProfileId: number | null;
-		personalizationProfileId: number | null;
-		fullDescr: ListingFullDescr | null;
-		variations: VariationsData;
-		combinations: CombinationsData;
-	},
+	directFulfillment: boolean,
+	data: ListingWriteBody,
 ): Promise<ListingEditData> => {
 	const em = getEm();
 
-	const [{ nextval }] = await em.getConnection().execute("SELECT nextval('listing_id_seq')");
-	const nextId = Number(nextval);
+	const fieldErrors = validateListingFields(data, {
+		directFulfillment,
+	});
 
-	const [category, processingProfile, shippingProfile, returnProfile, personalizationProfile] = await Promise.all([
+	const [
+		category,
+		processingProfile,
+		shippingProfile,
+		returnProfile,
+		personalizationProfile,
+	] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
-			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
+			? em.findOne(ListingProcessingProfile, {
+					id: data.processingProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.shippingProfileId != null
-			? em.findOne(ListingShippingProfile, { id: data.shippingProfileId, shop: { id: shopId } })
+			? em.findOne(ListingShippingProfile, {
+					id: data.shippingProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.returnProfileId != null
-			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			? em.findOne(ListingReturnProfile, {
+					id: data.returnProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.personalizationProfileId != null
-			? em.findOne(ListingPersonalizationProfile, { id: data.personalizationProfileId, shop: { id: shopId } })
+			? em.findOne(ListingPersonalizationProfile, {
+					id: data.personalizationProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 	]);
+
+	if (
+		!category &&
+		!hasFieldError(fieldErrors, ValidationField.Category)
+	) {
+		fieldErrors.push({
+			field: ValidationField.Category,
+			message: 'Category not found.',
+		});
+	}
+	if (data.processingProfileId != null && !processingProfile) {
+		fieldErrors.push({
+			field: ValidationField.ProcessingProfile,
+			message: 'Processing profile not found.',
+		});
+	}
+	if (data.shippingProfileId != null && !shippingProfile) {
+		fieldErrors.push({
+			field: ValidationField.ShippingProfile,
+			message: 'Shipping profile not found.',
+		});
+	}
+	if (data.returnProfileId != null && !returnProfile) {
+		fieldErrors.push({
+			field: ValidationField.ReturnProfile,
+			message: 'Return profile not found.',
+		});
+	}
+	if (
+		data.personalizationProfileId != null &&
+		!personalizationProfile
+	) {
+		fieldErrors.push({
+			field: ValidationField.PersonalizationProfile,
+			message: 'Personalization profile not found.',
+		});
+	}
+
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
+
+	const [{ nextval }] = await em
+		.getConnection()
+		.execute("SELECT nextval('listing_id_seq')");
+	const nextId = Number(nextval);
 
 	const listing = em.create(Listing, {
 		id: nextId,
@@ -158,54 +266,114 @@ export const createListing = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
-		personalizationProfileId: listing.personalizationProfile?.id ?? null,
+		personalizationProfileId:
+			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ?? {}) as CombinationsData,
+		combinations: (listing.combinations ??
+			{}) as CombinationsData,
 	};
 };
 
 export const updateListing = async (
 	shopId: number,
+	directFulfillment: boolean,
 	listingShortId: string,
-	data: {
-		title: string;
-		subtitle: string | null;
-		categoryId: string;
-		priceCents: number;
-		imageUuids: string[];
-		processingProfileId: number | null;
-		shippingProfileId: number | null;
-		returnProfileId: number | null;
-		personalizationProfileId: number | null;
-		fullDescr: ListingFullDescr | null;
-		variations: VariationsData;
-		combinations: CombinationsData;
-	},
+	data: ListingWriteBody,
 ): Promise<ListingEditData | null> => {
 	const em = getEm();
 	const listing = await em.findOne(
 		Listing,
 		{ shortId: listingShortId, shop: { id: shopId } },
-		{ populate: ['category', 'processingProfile', 'shippingProfile', 'returnProfile', 'personalizationProfile'] },
+		{
+			populate: [
+				'category',
+				'processingProfile',
+				'shippingProfile',
+				'returnProfile',
+				'personalizationProfile',
+			],
+		},
 	);
 	if (!listing) return null;
 
-	const [category, processingProfile, shippingProfile, returnProfile, personalizationProfile] = await Promise.all([
+	const fieldErrors = validateListingFields(data, {
+		directFulfillment,
+	});
+
+	const [
+		category,
+		processingProfile,
+		shippingProfile,
+		returnProfile,
+		personalizationProfile,
+	] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
-			? em.findOne(ListingProcessingProfile, { id: data.processingProfileId, shop: { id: shopId } })
+			? em.findOne(ListingProcessingProfile, {
+					id: data.processingProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.shippingProfileId != null
-			? em.findOne(ListingShippingProfile, { id: data.shippingProfileId, shop: { id: shopId } })
+			? em.findOne(ListingShippingProfile, {
+					id: data.shippingProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.returnProfileId != null
-			? em.findOne(ListingReturnProfile, { id: data.returnProfileId, shop: { id: shopId } })
+			? em.findOne(ListingReturnProfile, {
+					id: data.returnProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 		data.personalizationProfileId != null
-			? em.findOne(ListingPersonalizationProfile, { id: data.personalizationProfileId, shop: { id: shopId } })
+			? em.findOne(ListingPersonalizationProfile, {
+					id: data.personalizationProfileId,
+					shop: { id: shopId },
+				})
 			: null,
 	]);
+
+	if (
+		!category &&
+		!hasFieldError(fieldErrors, ValidationField.Category)
+	) {
+		fieldErrors.push({
+			field: ValidationField.Category,
+			message: 'Category not found.',
+		});
+	}
+	if (data.processingProfileId != null && !processingProfile) {
+		fieldErrors.push({
+			field: ValidationField.ProcessingProfile,
+			message: 'Processing profile not found.',
+		});
+	}
+	if (data.shippingProfileId != null && !shippingProfile) {
+		fieldErrors.push({
+			field: ValidationField.ShippingProfile,
+			message: 'Shipping profile not found.',
+		});
+	}
+	if (data.returnProfileId != null && !returnProfile) {
+		fieldErrors.push({
+			field: ValidationField.ReturnProfile,
+			message: 'Return profile not found.',
+		});
+	}
+	if (
+		data.personalizationProfileId != null &&
+		!personalizationProfile
+	) {
+		fieldErrors.push({
+			field: ValidationField.PersonalizationProfile,
+			message: 'Personalization profile not found.',
+		});
+	}
+
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
 
 	listing.title = data.title;
 	listing.subtitle = data.subtitle ?? undefined;
@@ -215,7 +383,8 @@ export const updateListing = async (
 	listing.processingProfile = processingProfile ?? undefined;
 	listing.shippingProfile = shippingProfile ?? undefined;
 	listing.returnProfile = returnProfile ?? undefined;
-	listing.personalizationProfile = personalizationProfile ?? undefined;
+	listing.personalizationProfile =
+		personalizationProfile ?? undefined;
 	listing.fullDescr = data.fullDescr;
 	listing.variations = data.variations;
 	listing.combinations = data.combinations;
@@ -232,10 +401,12 @@ export const updateListing = async (
 		processingProfileId: listing.processingProfile?.id ?? null,
 		shippingProfileId: listing.shippingProfile?.id ?? null,
 		returnProfileId: listing.returnProfile?.id ?? null,
-		personalizationProfileId: listing.personalizationProfile?.id ?? null,
+		personalizationProfileId:
+			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ?? {}) as CombinationsData,
+		combinations: (listing.combinations ??
+			{}) as CombinationsData,
 	};
 };
 
@@ -245,7 +416,10 @@ export const setListingAvailable = async (
 	available: boolean,
 ): Promise<boolean | null> => {
 	const em = getEm();
-	const listing = await em.findOne(Listing, { shortId: listingShortId, shop: { id: shopId } });
+	const listing = await em.findOne(Listing, {
+		shortId: listingShortId,
+		shop: { id: shopId },
+	});
 	if (!listing) return null;
 	listing.available = available;
 	await em.flush();
@@ -257,10 +431,27 @@ export const deleteListing = async (
 	listingShortId: string,
 ): Promise<boolean> => {
 	const em = getEm();
-	const listing = await em.findOne(Listing, { shortId: listingShortId, shop: { id: shopId } });
+	const listing = await em.findOne(Listing, {
+		shortId: listingShortId,
+		shop: { id: shopId },
+	});
 	if (!listing) return false;
 	await em.remove(listing).flush();
 	return true;
+};
+
+const persistProfileOrThrow = async (
+	em: ReturnType<typeof getEm>,
+	profile: object,
+): Promise<void> => {
+	try {
+		await em.persist(profile).flush();
+	} catch (e) {
+		if (e instanceof UniqueConstraintViolationException) {
+			throw new DuplicateProfileNameError();
+		}
+		throw e;
+	}
 };
 
 export const createProcessingProfile = async (
@@ -268,30 +459,63 @@ export const createProcessingProfile = async (
 	data: { name: string; minDays: number; maxDays: number },
 ) => {
 	const em = getEm();
+	// Duplicate names are a DB-level conflict (409, via the unique constraint
+	// caught below), not a 400 field-validation error, so existingNames is
+	// intentionally empty here.
+	const fieldErrors = validateProcessingProfileInput({
+		...data,
+		existingNames: [],
+	});
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
+
 	const profile = em.create(ListingProcessingProfile, {
 		shop: em.getReference(Shop, shopId),
 		name: data.name,
 		minDays: data.minDays,
 		maxDays: data.maxDays,
 	});
-	await em.persist(profile).flush();
-	return { id: profile.id, name: profile.name, minDays: profile.minDays, maxDays: profile.maxDays };
+	await persistProfileOrThrow(em, profile);
+	return {
+		id: profile.id,
+		name: profile.name,
+		minDays: profile.minDays,
+		maxDays: profile.maxDays,
+	};
 };
 
 export const createShippingProfile = async (
 	shopId: number,
-	data: { name: string; originZip: string; flatShippingRateCents: number | null; shippingDaysMin: number; shippingDaysMax: number },
+	data: {
+		name: string;
+		originZip: string;
+		flatShippingRateCents: number | null;
+		shippingDaysMin: number;
+		shippingDaysMax: number;
+	},
 ) => {
 	const em = getEm();
+	// Duplicate names are a DB-level conflict (409, via the unique constraint
+	// caught below), not a 400 field-validation error, so existingNames is
+	// intentionally empty here.
+	const fieldErrors = validateShippingProfileInput({
+		...data,
+		existingNames: [],
+		isFlatRate: data.flatShippingRateCents != null,
+	});
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
+
 	const profile = em.create(ListingShippingProfile, {
 		shop: em.getReference(Shop, shopId),
 		name: data.name,
 		originZip: data.originZip,
-		flatShippingRateCents: data.flatShippingRateCents ?? undefined,
+		flatShippingRateCents:
+			data.flatShippingRateCents ?? undefined,
 		shippingDaysMin: data.shippingDaysMin,
 		shippingDaysMax: data.shippingDaysMax,
 	});
-	await em.persist(profile).flush();
+	await persistProfileOrThrow(em, profile);
 	return {
 		id: profile.id,
 		name: profile.name,
@@ -304,9 +528,24 @@ export const createShippingProfile = async (
 
 export const createReturnProfile = async (
 	shopId: number,
-	data: { name: string; policyType: ReturnPolicyType; returnWindowDays: number | null; policyDescrRichText: string | null },
+	data: {
+		name: string;
+		policyType: ReturnPolicyType;
+		returnWindowDays: number | null;
+		policyDescrRichText: string | null;
+	},
 ) => {
 	const em = getEm();
+	// Duplicate names are a DB-level conflict (409, via the unique constraint
+	// caught below), not a 400 field-validation error, so existingNames is
+	// intentionally empty here.
+	const fieldErrors = validateReturnProfileInput({
+		...data,
+		existingNames: [],
+	});
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
+
 	const profile = em.create(ListingReturnProfile, {
 		shop: em.getReference(Shop, shopId),
 		name: data.name,
@@ -314,7 +553,7 @@ export const createReturnProfile = async (
 		returnWindowDays: data.returnWindowDays ?? undefined,
 		policyDescrRichText: data.policyDescrRichText ?? undefined,
 	});
-	await em.persist(profile).flush();
+	await persistProfileOrThrow(em, profile);
 	return {
 		id: profile.id,
 		name: profile.name,
@@ -326,16 +565,30 @@ export const createReturnProfile = async (
 
 export const createPersonalizationProfile = async (
 	shopId: number,
-	data: { name: string; costCents: number; helperText: string | null },
+	data: {
+		name: string;
+		costCents: number;
+		helperText: string | null;
+	},
 ) => {
 	const em = getEm();
+	// Duplicate names are a DB-level conflict (409, via the unique constraint
+	// caught below), not a 400 field-validation error, so existingNames is
+	// intentionally empty here.
+	const fieldErrors = validatePersonalizationProfileInput({
+		...data,
+		existingNames: [],
+	});
+	if (fieldErrors.length > 0)
+		throw new ListingValidationError(fieldErrors);
+
 	const profile = em.create(ListingPersonalizationProfile, {
 		shop: em.getReference(Shop, shopId),
 		name: data.name,
 		costCents: data.costCents,
 		helperText: data.helperText ?? undefined,
 	});
-	await em.persist(profile).flush();
+	await persistProfileOrThrow(em, profile);
 	return {
 		id: profile.id,
 		name: profile.name,

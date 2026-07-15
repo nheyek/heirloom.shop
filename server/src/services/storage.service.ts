@@ -31,7 +31,9 @@ const generateUploadUrl = async (
 		ContentType: contentType,
 		ACL: 'public-read',
 	});
-	const uploadUrl = await getSignedUrl(s3, command, { expiresIn: 300 });
+	const uploadUrl = await getSignedUrl(s3, command, {
+		expiresIn: 300,
+	});
 	return { uuid, uploadUrl };
 };
 
@@ -40,7 +42,10 @@ export const generateShopImageUploadUrl = async (
 ): Promise<{ uuid: string; uploadUrl: string }> => {
 	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
 	const uuid = randomUUID();
-	return generateUploadUrl(`shop-profile-images/${uuid}.${ext}`, contentType);
+	return generateUploadUrl(
+		`shop-profile-images/${uuid}.${ext}`,
+		contentType,
+	);
 };
 
 export const generateListingImageUploadUrl = async (
@@ -49,5 +54,8 @@ export const generateListingImageUploadUrl = async (
 ): Promise<{ uuid: string; uploadUrl: string }> => {
 	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
 	const uuid = randomUUID();
-	return generateUploadUrl(`listing-images/${shopShortId}/${uuid}.${ext}`, contentType);
+	return generateUploadUrl(
+		`listing-images/${shopShortId}/${uuid}.${ext}`,
+		contentType,
+	);
 };

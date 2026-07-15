@@ -37,6 +37,11 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
+import {
+	findInvalidVariationOptionIndices,
+	validateVariationEntry,
+} from '@heirloom/common/validation/listing';
+import { ValidationField } from '@heirloom/common/validation/shared';
 import React, { useEffect, useRef, useState } from 'react';
 import {
 	FaGripHorizontal,
@@ -459,68 +464,35 @@ export const VariationDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
+		const optionInputs = options.map((o) => ({
+			name: o.name,
+			priceCents: o.priceCents,
+		}));
+		const errors = validateVariationEntry(
+			{ name, options: optionInputs },
+			existingNames,
+		);
+		const nameErrorMessage =
+			errors.find((e) => e.field === ValidationField.VariationName)
+				?.message ?? null;
+		const optionsErrorMessage =
+			errors.find(
+				(e) => e.field === ValidationField.VariationOptions,
+			)?.message ?? null;
+
+		setNameError(nameErrorMessage);
+		setOptionsError(optionsErrorMessage);
+		setInvalidOptionIds(
+			new Set(
+				findInvalidVariationOptionIndices(optionInputs).map(
+					(i) => optionIds[i],
+				),
+			),
+		);
+
+		if (errors.length > 0) return;
 
 		const trimmedName = name.trim();
-		if (!trimmedName) {
-			setNameError('Name is required.');
-			valid = false;
-		} else if (
-			trimmedName.length > LISTING_LIMITS.maxNameLength
-		) {
-			setNameError(
-				`Name must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingNames.some(
-				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
-			)
-		) {
-			setNameError(
-				'A variation with this name already exists.',
-			);
-			valid = false;
-		} else {
-			setNameError(null);
-		}
-
-		const trimmedOptions = options.map((o) => o.name.trim());
-		const lowered = trimmedOptions.map((n) => n.toLowerCase());
-		let error: string | null = null;
-		let offenders: string[] = [];
-		if (options.length < 2) {
-			error = 'At least two options are required.';
-		} else if (trimmedOptions.some((n) => !n)) {
-			error = 'All options must have a name.';
-			offenders = optionIds.filter(
-				(_, i) => !trimmedOptions[i],
-			);
-		} else if (
-			trimmedOptions.some(
-				(n) => n.length > LISTING_LIMITS.maxNameLength,
-			)
-		) {
-			error = `Option names must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`;
-			offenders = optionIds.filter(
-				(_, i) =>
-					trimmedOptions[i].length >
-					LISTING_LIMITS.maxNameLength,
-			);
-		} else if (new Set(lowered).size !== lowered.length) {
-			error = 'Option names must be unique.';
-			offenders = optionIds.filter(
-				(_, i) =>
-					lowered.indexOf(lowered[i]) !==
-					lowered.lastIndexOf(lowered[i]),
-			);
-		}
-		setOptionsError(error);
-		setInvalidOptionIds(new Set(offenders));
-		if (error) valid = false;
-
-		if (!valid) return;
-
 		const optionsRecord = Object.fromEntries(
 			optionIds.map((id, i) => [
 				id,

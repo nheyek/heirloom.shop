@@ -12,7 +12,11 @@ import {
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { InputSize } from '@client/constants';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { validateShippingProfileInput } from '@heirloom/common/validation/profiles';
+import {
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
 import { useEffect, useState } from 'react';
 
 export enum ShippingCostType {
@@ -91,54 +95,26 @@ export const ShippingProfileDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
-		const trimmedName = name.trim();
-		if (!trimmedName) {
-			setNameError('Name is required.');
-			valid = false;
-		} else if (
-			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
-		) {
-			setNameError(
-				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingNames.some(
-				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
-			)
-		) {
-			setNameError('A profile with this name already exists.');
-			valid = false;
-		} else {
-			setNameError(null);
-		}
-		const trimmedZip = originZip.trim();
-		if (!trimmedZip) {
-			setZipError('Origin zip code is required.');
-			valid = false;
-		} else {
-			setZipError(null);
-		}
-		if (
-			costType === ShippingCostType.FlatRate &&
-			(flatRateCents === null || flatRateCents <= 0)
-		) {
-			setFlatRateError('Price is required.');
-			valid = false;
-		} else {
-			setFlatRateError(null);
-		}
-		const days = validateDayRange(minDays, maxDays);
-		if (!days) {
-			setDaysError(
-				'Enter a valid range (min ≤ max, both ≥ 1).',
-			);
-			valid = false;
-		} else {
-			setDaysError(null);
-		}
-		if (!valid) return;
+		const errors = validateShippingProfileInput({
+			name,
+			existingNames,
+			originZip,
+			isFlatRate: costType === ShippingCostType.FlatRate,
+			flatShippingRateCents: flatRateCents,
+			shippingDaysMin: minDays,
+			shippingDaysMax: maxDays,
+		});
+		const findError = (field: ValidationFieldKey) =>
+			errors.find((e) => e.field === field)?.message ?? null;
+
+		setNameError(findError(ValidationField.Name));
+		setZipError(findError(ValidationField.OriginZip));
+		setFlatRateError(findError(ValidationField.FlatRate));
+		setDaysError(findError(ValidationField.Days));
+
+		if (errors.length > 0) return;
+
+		const days = validateDayRange(minDays, maxDays)!;
 		const cost =
 			costType === ShippingCostType.Free
 				? ({ type: ShippingCostType.Free } as const)
@@ -147,11 +123,11 @@ export const ShippingProfileDialog = ({
 						cents: flatRateCents ?? 0,
 					} as const);
 		void onConfirm({
-			name: trimmedName,
-			originZip: trimmedZip,
+			name: name.trim(),
+			originZip: originZip.trim(),
 			cost,
-			minDays: days!.min,
-			maxDays: days!.max,
+			minDays: days.min,
+			maxDays: days.max,
 		});
 	};
 

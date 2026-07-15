@@ -134,7 +134,7 @@ export const Navbar = () => {
 					opacity={authIsLoading ? 0 : 1}
 					transition="opacity 0.25s ease-in-out"
 				>
-					<HStack>
+					<HStack gap={2}>
 						{user?.isAdmin && (
 							<Link
 								to={[
@@ -163,7 +163,7 @@ export const Navbar = () => {
 						)}
 
 						{!authIsLoading && (
-							<Flex alignItems="center">
+							<HStack gap={1}>
 								{!isAuthenticated && <LoginButton />}
 								{isAuthenticated && <NavbarMenu />}
 								<Box position="relative">
@@ -197,7 +197,7 @@ export const Navbar = () => {
 										</Flex>
 									)}
 								</Box>
-							</Flex>
+							</HStack>
 						)}
 
 						<ShoppingCartDrawer

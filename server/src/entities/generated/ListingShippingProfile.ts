@@ -31,7 +31,7 @@ export class ListingShippingProfile {
   @ManyToOne({ entity: () => Shop, updateRule: 'no action', deleteRule: 'cascade' })
   shop!: Rel<Shop>;
 
-  @Property({ type: 'decimal', precision: 5, scale: 0 })
+  @Property({ length: 5 })
   originZip!: string;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'shippingProfile' })

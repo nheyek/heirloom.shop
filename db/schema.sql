@@ -318,7 +318,7 @@ CREATE TABLE public.listing_shipping_profile (
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     shop_id integer CONSTRAINT shipping_profile_shop_id_not_null NOT NULL,
-    origin_zip numeric(5,0) CONSTRAINT shipping_profile_origin_zip_not_null NOT NULL
+    origin_zip character varying(5) CONSTRAINT shipping_profile_origin_zip_not_null NOT NULL
 );
 
 
@@ -1063,4 +1063,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260629000001'),
     ('20260630000000'),
     ('20260630000001'),
-    ('20260710000000');
+    ('20260710000000'),
+    ('20260714000000');

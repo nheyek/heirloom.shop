@@ -1,3 +1,4 @@
+import { ShopRole } from '@heirloom/common/constants';
 import {
 	AdminShopListItem,
 	CreateShopBody,
@@ -5,12 +6,11 @@ import {
 	UpdateShopBody,
 	UpdateShopFulfillmentBody,
 } from '@heirloom/common/contract';
-import { ShopRole } from '@heirloom/common/constants';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
+import { AppUser } from '@server/entities/generated/AppUser';
 import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
-import { AppUser } from '@server/entities/generated/AppUser';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { findOrCreateUser } from '@server/services/user.service';
 import { encodeShortId } from '@server/utils/hashids';

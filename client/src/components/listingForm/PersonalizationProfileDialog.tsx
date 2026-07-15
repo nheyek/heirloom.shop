@@ -7,6 +7,11 @@ import { PriceInput } from '@client/components/input/PriceInput';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { validatePersonalizationProfileInput } from '@heirloom/common/validation/profiles';
+import {
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
 import { useEffect, useState } from 'react';
 
 export type NewPersonalizationProfile = {
@@ -61,49 +66,24 @@ export const PersonalizationProfileDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
-		const trimmedName = name.trim();
-		if (!trimmedName) {
-			setNameError('Name is required.');
-			valid = false;
-		} else if (
-			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
-		) {
-			setNameError(
-				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingNames.some(
-				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
-			)
-		) {
-			setNameError('A profile with this name already exists.');
-			valid = false;
-		} else {
-			setNameError(null);
-		}
-		if (costCents === null || costCents <= 0) {
-			setCostError('Cost is required.');
-			valid = false;
-		} else {
-			setCostError(null);
-		}
+		const errors = validatePersonalizationProfileInput({
+			name,
+			existingNames,
+			costCents,
+			helperText,
+		});
+		const findError = (field: ValidationFieldKey) =>
+			errors.find((e) => e.field === field)?.message ?? null;
+
+		setNameError(findError(ValidationField.Name));
+		setCostError(findError(ValidationField.Cost));
+		setHelperTextError(findError(ValidationField.HelperText));
+
+		if (errors.length > 0) return;
+
 		const trimmedHelperText = helperText.trim();
-		if (
-			trimmedHelperText.length >
-			LISTING_LIMITS.maxPersonalizationHelperTextLength
-		) {
-			setHelperTextError(
-				`Helper text must be ${LISTING_LIMITS.maxPersonalizationHelperTextLength} characters or fewer.`,
-			);
-			valid = false;
-		} else {
-			setHelperTextError(null);
-		}
-		if (!valid) return;
 		void onConfirm({
-			name: trimmedName,
+			name: name.trim(),
 			costCents: costCents!,
 			helperText: trimmedHelperText || null,
 		});

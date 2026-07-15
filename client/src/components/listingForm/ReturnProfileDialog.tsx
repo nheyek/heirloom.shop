@@ -15,10 +15,12 @@ import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
 import { FONT_SANS } from '@client/theme';
+import { ReturnPolicyType } from '@heirloom/common/constants';
+import { validateReturnProfileInput } from '@heirloom/common/validation/profiles';
 import {
-	LISTING_LIMITS,
-	ReturnPolicyType,
-} from '@heirloom/common/constants';
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
 import { useEffect, useRef, useState } from 'react';
 
 export type NewReturnProfile = {
@@ -85,59 +87,27 @@ export const ReturnProfileDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
+		const errors = validateReturnProfileInput({
+			name,
+			existingNames,
+			policyType,
+			returnWindowDays: windowDays || null,
+			policyDescrRichText: customHtmlRef.current,
+		});
+		const findError = (field: ValidationFieldKey) =>
+			errors.find((e) => e.field === field)?.message ?? null;
+
+		setNameError(findError(ValidationField.Name));
+		setWindowError(findError(ValidationField.WindowDays));
+		setCustomTextError(findError(ValidationField.CustomText));
+
+		if (errors.length > 0) return;
+
 		const trimmedName = name.trim();
-		if (!trimmedName) {
-			setNameError('Name is required.');
-			valid = false;
-		} else if (
-			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
-		) {
-			setNameError(
-				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingNames.some(
-				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
-			)
-		) {
-			setNameError('A profile with this name already exists.');
-			valid = false;
-		} else {
-			setNameError(null);
-		}
-		let days: number | undefined;
-		if (policyType !== ReturnPolicyType.NO_RETURNS) {
-			const parsed = parseInt(windowDays, 10);
-			if (!windowDays || isNaN(parsed) || parsed < 1) {
-				setWindowError('Window is required.');
-				valid = false;
-			} else {
-				setWindowError(null);
-				days = parsed;
-			}
-		} else {
-			setWindowError(null);
-		}
-		const strippedHtml = customHtmlRef.current
-			.replace(/<[^>]*>/g, '')
-			.trim();
-		if (policyType === ReturnPolicyType.CUSTOM && !strippedHtml) {
-			setCustomTextError('Policy details are required.');
-			valid = false;
-		} else if (
-			policyType === ReturnPolicyType.CUSTOM &&
-			strippedHtml.length > LISTING_LIMITS.maxReturnPolicyChars
-		) {
-			setCustomTextError(
-				`Policy must be ${LISTING_LIMITS.maxReturnPolicyChars.toLocaleString()} characters or fewer.`,
-			);
-			valid = false;
-		} else {
-			setCustomTextError(null);
-		}
-		if (!valid) return;
+		const days =
+			policyType !== ReturnPolicyType.NO_RETURNS
+				? parseInt(windowDays, 10)
+				: undefined;
 		const policy =
 			policyType === ReturnPolicyType.NO_RETURNS
 				? ({ type: ReturnPolicyType.NO_RETURNS } as const)

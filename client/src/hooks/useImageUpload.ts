@@ -1,4 +1,5 @@
 import { toastError } from '@client/toaster';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useCallback, useRef, useState } from 'react';
 
 export type ImageEntry = {
@@ -174,14 +175,27 @@ export const useImageUpload = (
 	const addFiles = useCallback(
 		(files: File[]) => {
 			setImageEntries((prev) => {
+				const remaining = LISTING_LIMITS.maxImages - prev.length;
+				if (remaining <= 0) {
+					toastError(
+						`You can only add up to ${LISTING_LIMITS.maxImages} images.`,
+					);
+					return prev;
+				}
+				const accepted = files.slice(0, remaining);
+				if (accepted.length < files.length) {
+					toastError(
+						`You can only add up to ${LISTING_LIMITS.maxImages} images.`,
+					);
+				}
 				const startIndex = prev.length;
-				const newEntries: ImageEntry[] = files.map((f) => ({
+				const newEntries: ImageEntry[] = accepted.map((f) => ({
 					previewUrl: URL.createObjectURL(f),
 					uuid: null,
 					isUploading: true,
 					uploadFailed: false,
 				}));
-				files.forEach((file, i) =>
+				accepted.forEach((file, i) =>
 					uploadFile(file, startIndex + i),
 				);
 				return [...prev, ...newEntries];

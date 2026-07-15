@@ -23,5 +23,7 @@ export const sendEmail = (params: {
 			subject,
 			text: params.text,
 		})
-		.catch((e) => console.error('[emailer] Failed to send email:', e));
+		.catch((e) =>
+			console.error('[emailer] Failed to send email:', e),
+		);
 };

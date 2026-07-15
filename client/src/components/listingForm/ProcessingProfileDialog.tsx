@@ -9,7 +9,11 @@ import {
 } from '@client/components/listingForm/DayRangeInput';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { validateProcessingProfileInput } from '@heirloom/common/validation/profiles';
+import {
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
 import { useEffect, useState } from 'react';
 
 export type NewProcessingProfile = {
@@ -59,42 +63,25 @@ export const ProcessingProfileDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
-		const trimmedName = name.trim();
-		if (!trimmedName) {
-			setNameError('Name is required.');
-			valid = false;
-		} else if (
-			trimmedName.length > LISTING_LIMITS.maxProfileNameLength
-		) {
-			setNameError(
-				`Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingNames.some(
-				(n) => n.toLowerCase() === trimmedName.toLowerCase(),
-			)
-		) {
-			setNameError('A profile with this name already exists.');
-			valid = false;
-		} else {
-			setNameError(null);
-		}
-		const days = validateDayRange(minDays, maxDays);
-		if (!days) {
-			setDaysError(
-				'Enter a valid range (min ≤ max, both ≥ 1).',
-			);
-			valid = false;
-		} else {
-			setDaysError(null);
-		}
-		if (!valid) return;
+		const errors = validateProcessingProfileInput({
+			name,
+			existingNames,
+			minDays,
+			maxDays,
+		});
+		const findError = (field: ValidationFieldKey) =>
+			errors.find((e) => e.field === field)?.message ?? null;
+
+		setNameError(findError(ValidationField.Name));
+		setDaysError(findError(ValidationField.Days));
+
+		if (errors.length > 0) return;
+
+		const days = validateDayRange(minDays, maxDays)!;
 		void onConfirm({
-			name: trimmedName,
-			minDays: days!.min,
-			maxDays: days!.max,
+			name: name.trim(),
+			minDays: days.min,
+			maxDays: days.max,
 		});
 	};
 

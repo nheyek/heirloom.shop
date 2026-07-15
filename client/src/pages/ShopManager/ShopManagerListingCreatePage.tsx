@@ -90,7 +90,7 @@ export const ShopManagerListingCreatePage = () => {
 		);
 		setSavePending(false);
 		if (result.error !== null) {
-			toastError('Failed to create listing. Please try again.');
+			toastError('Failed to create listing.', result.error);
 			return;
 		}
 		navigate(listingsPath);

@@ -215,7 +215,7 @@ const ListingEditForm = ({
 		);
 		setSavePending(false);
 		if (result.error !== null) {
-			toastError('Failed to save listing. Please try again.');
+			toastError('Failed to save listing.', result.error);
 			return;
 		}
 		navigate(

@@ -3,7 +3,7 @@ import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import { authorizeShopAction, findShopByShortId } from '@server/services/shop.service';
-import { createPersonalizationProfile, createListing, createProcessingProfile, createReturnProfile, createShippingProfile, deleteListing, findAllListingsForShop, findListingForEdit, findShopProfiles, setListingAvailable, updateListing } from '@server/services/shopManager.service';
+import { createPersonalizationProfile, createListing, createProcessingProfile, createReturnProfile, createShippingProfile, deleteListing, DuplicateProfileNameError, findAllListingsForShop, findListingForEdit, findShopProfiles, ListingValidationError, setListingAvailable, updateListing } from '@server/services/shopManager.service';
 import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
 
 const s = initServer();
@@ -75,8 +75,15 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const listing = await createListing(shop.id, body);
-			return { status: 200 as const, body: listing };
+			try {
+				const listing = await createListing(shop.id, shop.directFulfillment, body);
+				return { status: 200 as const, body: listing };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				throw e;
+			}
 		},
 	},
 
@@ -92,11 +99,18 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const listing = await updateListing(shop.id, listingShortId, body);
-			if (!listing) {
-				return { status: 404 as const, body: { error: ERROR_MESSAGES.listing.notFound } };
+			try {
+				const listing = await updateListing(shop.id, shop.directFulfillment, listingShortId, body);
+				if (!listing) {
+					return { status: 404 as const, body: { error: ERROR_MESSAGES.listing.notFound } };
+				}
+				return { status: 200 as const, body: listing };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				throw e;
 			}
-			return { status: 200 as const, body: listing };
 		},
 	},
 
@@ -132,8 +146,18 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const profile = await createProcessingProfile(shop.id, body);
-			return { status: 200 as const, body: profile };
+			try {
+				const profile = await createProcessingProfile(shop.id, body);
+				return { status: 200 as const, body: profile };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				if (e instanceof DuplicateProfileNameError) {
+					return { status: 409 as const, body: { error: 'A profile with this name already exists.' } };
+				}
+				throw e;
+			}
 		},
 	},
 
@@ -149,8 +173,18 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const profile = await createShippingProfile(shop.id, body);
-			return { status: 200 as const, body: profile };
+			try {
+				const profile = await createShippingProfile(shop.id, body);
+				return { status: 200 as const, body: profile };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				if (e instanceof DuplicateProfileNameError) {
+					return { status: 409 as const, body: { error: 'A profile with this name already exists.' } };
+				}
+				throw e;
+			}
 		},
 	},
 
@@ -166,8 +200,18 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const profile = await createReturnProfile(shop.id, body);
-			return { status: 200 as const, body: profile };
+			try {
+				const profile = await createReturnProfile(shop.id, body);
+				return { status: 200 as const, body: profile };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				if (e instanceof DuplicateProfileNameError) {
+					return { status: 409 as const, body: { error: 'A profile with this name already exists.' } };
+				}
+				throw e;
+			}
 		},
 	},
 
@@ -183,8 +227,18 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const profile = await createPersonalizationProfile(shop.id, body);
-			return { status: 200 as const, body: profile };
+			try {
+				const profile = await createPersonalizationProfile(shop.id, body);
+				return { status: 200 as const, body: profile };
+			} catch (e) {
+				if (e instanceof ListingValidationError) {
+					return { status: 400 as const, body: { error: e.message } };
+				}
+				if (e instanceof DuplicateProfileNameError) {
+					return { status: 409 as const, body: { error: 'A profile with this name already exists.' } };
+				}
+				throw e;
+			}
 		},
 	},
 

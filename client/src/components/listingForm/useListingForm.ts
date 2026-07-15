@@ -6,10 +6,7 @@ import {
 } from '@client/hooks/useImageUpload';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { callApi } from '@client/utils/apiUtils';
-import {
-	LISTING_LIMITS,
-	ReturnPolicyType,
-} from '@heirloom/common/constants';
+import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import {
 	addVariationToCombinations,
@@ -18,12 +15,19 @@ import {
 	DEFAULT_COMBINATION,
 	deriveCombinationsList,
 	removeVariationFromCombinations,
-	resolveEffectiveCombinationPrice,
 	syncVariationOptions,
 	Variation,
 	VariationOption,
 	Variations,
 } from '@heirloom/common/domain/listing';
+import {
+	findInvalidCombinations,
+	validateListingFields,
+} from '@heirloom/common/validation/listing';
+import {
+	ValidationField,
+	ValidationFieldKey,
+} from '@heirloom/common/validation/shared';
 import { useRef, useState } from 'react';
 
 export type ProcessingProfile = {
@@ -434,114 +438,63 @@ export const useListingForm = ({
 	const isDirty = serializeFields() !== initialSnapshot.current;
 
 	const validate = (): boolean => {
-		let valid = true;
+		const errors = validateListingFields(
+			{
+				title,
+				subtitle,
+				categoryId,
+				priceCents,
+				imageUuids: uuids,
+				shippingProfileId,
+				returnProfileId,
+				processingProfileId,
+				fullDescr: descrSections,
+				variations,
+				combinations,
+			},
+			{ directFulfillment },
+		);
+		const findError = (field: ValidationFieldKey) =>
+			errors.find((e) => e.field === field)?.message ?? null;
 
-		const trimmedTitle = title.trim();
-		if (!trimmedTitle) {
-			setTitleError('Title is required.');
-			valid = false;
-		} else if (
-			trimmedTitle.length > LISTING_LIMITS.maxTitleLength
-		) {
-			setTitleError(
-				`Title must be ${LISTING_LIMITS.maxTitleLength} characters or fewer.`,
-			);
-			valid = false;
-		} else {
-			setTitleError(null);
-		}
+		setTitleError(findError(ValidationField.Title));
+		setSubtitleError(findError(ValidationField.Subtitle));
+		setCategoryError(findError(ValidationField.Category));
+		setImageError(findError(ValidationField.Images));
+		setShippingProfileError(findError(ValidationField.ShippingProfile));
+		setReturnProfileError(findError(ValidationField.ReturnProfile));
+		setProcessingProfileError(
+			findError(ValidationField.ProcessingProfile),
+		);
 
-		const trimmedSubtitle = subtitle.trim();
-		if (
-			trimmedSubtitle.length > LISTING_LIMITS.maxSubtitleLength
-		) {
-			setSubtitleError(
-				`Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`,
-			);
-			valid = false;
-		} else {
-			setSubtitleError(null);
-		}
+		const pricesVary = Object.values(variations).some(
+			(v) => v.pricesVary,
+		);
+		setPriceError(pricesVary ? null : findError(ValidationField.Price));
 
-		if (!categoryId) {
-			setCategoryError('Category is required.');
-			valid = false;
-		} else {
-			setCategoryError(null);
-		}
-
-		if (directFulfillment && !shippingProfileId) {
-			setShippingProfileError('Profile is required.');
-			valid = false;
-		} else {
-			setShippingProfileError(null);
-		}
-
-		if (directFulfillment && !returnProfileId) {
-			setReturnProfileError('Profile is required.');
-			valid = false;
-		} else {
-			setReturnProfileError(null);
-		}
-
-		if (directFulfillment && !processingProfileId) {
-			setProcessingProfileError('Profile is required.');
-			valid = false;
-		} else {
-			setProcessingProfileError(null);
-		}
-
-		const allCombinations = deriveCombinationsList(variations);
-		const variationValues = Object.values(variations);
-		const pricesVary = variationValues.some((v) => v.pricesVary);
-
-		if (!pricesVary) {
-			if (!priceCents || priceCents <= 0) {
-				setPriceError('Price is required.');
-				valid = false;
-			} else {
-				setPriceError(null);
-			}
-		}
-
-		let hasActive = allCombinations.length === 0;
-		const missingPriceKeys: string[] = [];
-
-		for (const { key, optionMap } of allCombinations) {
-			const entry = combinations[key];
-			if (entry?.disabled) continue;
-			hasActive = true;
-			if (pricesVary) {
-				const effectivePrice =
-					resolveEffectiveCombinationPrice(
-						optionMap,
-						combinations,
-						variations,
-						priceCents,
-					);
-				if (!(effectivePrice && effectivePrice > 0))
-					missingPriceKeys.push(key);
-			}
-		}
-
-		if (allCombinations.length > 0 && !hasActive) {
+		const { hasActive, missingPriceKeys } = findInvalidCombinations(
+			variations,
+			combinations,
+			priceCents,
+		);
+		const hasCombinations =
+			deriveCombinationsList(variations).length > 0;
+		if (hasCombinations && !hasActive) {
 			setCombinationError(
 				'At least one combination must be active.',
 			);
 			setInvalidCombinationKeys(new Set());
-			valid = false;
 		} else if (missingPriceKeys.length > 0) {
 			setCombinationError(
 				'Price is required for every combination.',
 			);
 			setInvalidCombinationKeys(new Set(missingPriceKeys));
-			valid = false;
 		} else {
 			setCombinationError(null);
 			setInvalidCombinationKeys(new Set());
 		}
 
-		return valid;
+		return errors.length === 0;
 	};
 
 	return {

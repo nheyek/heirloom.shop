@@ -442,6 +442,38 @@ const ListingEditDataSchema = z.object({
 	combinations: CombinationsSchema,
 });
 
+// Create and update take an identical body; the only difference between
+// the two operations is the URL. Also reused as the canonical shape for
+// listing validation, so the two aren't declared independently.
+const ListingWriteBodySchema = ListingEditDataSchema.omit({ shortId: true });
+
+const CreateProcessingProfileBodySchema = z.object({
+	name: z.string(),
+	minDays: z.number(),
+	maxDays: z.number(),
+});
+
+const CreateShippingProfileBodySchema = z.object({
+	name: z.string(),
+	originZip: z.string(),
+	flatShippingRateCents: z.number().nullable(),
+	shippingDaysMin: z.number(),
+	shippingDaysMax: z.number(),
+});
+
+const CreateReturnProfileBodySchema = z.object({
+	name: z.string(),
+	policyType: z.nativeEnum(ReturnPolicyType),
+	returnWindowDays: z.number().nullable(),
+	policyDescrRichText: z.string().nullable(),
+});
+
+const CreatePersonalizationProfileBodySchema = z.object({
+	name: z.string(),
+	costCents: z.number(),
+	helperText: z.string().nullable(),
+});
+
 export const shopManagerContract = c.router({
 	getListings: {
 		method: 'GET',
@@ -469,67 +501,56 @@ export const shopManagerContract = c.router({
 		method: 'POST',
 		path: '/api/shops/:shopId/manager/profiles/processing',
 		pathParams: z.object({ shopId: z.string() }),
-		body: z.object({
-			name: z.string(),
-			minDays: z.number(),
-			maxDays: z.number(),
-		}),
+		body: CreateProcessingProfileBodySchema,
 		responses: {
 			200: ShopManagerProcessingProfileSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	createShippingProfile: {
 		method: 'POST',
 		path: '/api/shops/:shopId/manager/profiles/shipping',
 		pathParams: z.object({ shopId: z.string() }),
-		body: z.object({
-			name: z.string(),
-			originZip: z.string(),
-			flatShippingRateCents: z.number().nullable(),
-			shippingDaysMin: z.number(),
-			shippingDaysMax: z.number(),
-		}),
+		body: CreateShippingProfileBodySchema,
 		responses: {
 			200: ShopManagerShippingProfileSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	createReturnProfile: {
 		method: 'POST',
 		path: '/api/shops/:shopId/manager/profiles/returns',
 		pathParams: z.object({ shopId: z.string() }),
-		body: z.object({
-			name: z.string(),
-			policyType: z.nativeEnum(ReturnPolicyType),
-			returnWindowDays: z.number().nullable(),
-			policyDescrRichText: z.string().nullable(),
-		}),
+		body: CreateReturnProfileBodySchema,
 		responses: {
 			200: ShopManagerReturnProfileSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	createPersonalizationProfile: {
 		method: 'POST',
 		path: '/api/shops/:shopId/manager/profiles/personalization',
 		pathParams: z.object({ shopId: z.string() }),
-		body: z.object({
-			name: z.string(),
-			costCents: z.number(),
-			helperText: z.string().nullable(),
-		}),
+		body: CreatePersonalizationProfileBodySchema,
 		responses: {
 			200: ShopManagerPersonalizationProfileSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
+			409: ErrorSchema,
 		},
 	},
 	getListing: {
@@ -565,22 +586,10 @@ export const shopManagerContract = c.router({
 		method: 'POST',
 		path: '/api/shops/:shopId/manager/listings',
 		pathParams: z.object({ shopId: z.string() }),
-		body: z.object({
-			title: z.string(),
-			subtitle: z.string().nullable(),
-			categoryId: z.string(),
-			priceCents: z.number(),
-			imageUuids: z.array(z.string()),
-			processingProfileId: z.number().nullable(),
-			shippingProfileId: z.number().nullable(),
-			returnProfileId: z.number().nullable(),
-			personalizationProfileId: z.number().nullable(),
-			fullDescr: z.array(ListingDescrSectionSchema).nullable(),
-			variations: VariationsSchema,
-			combinations: CombinationsSchema,
-		}),
+		body: ListingWriteBodySchema,
 		responses: {
 			200: ListingEditDataSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
@@ -593,22 +602,10 @@ export const shopManagerContract = c.router({
 			shopId: z.string(),
 			listingShortId: z.string(),
 		}),
-		body: z.object({
-			title: z.string(),
-			subtitle: z.string().nullable(),
-			categoryId: z.string(),
-			priceCents: z.number(),
-			imageUuids: z.array(z.string()),
-			processingProfileId: z.number().nullable(),
-			shippingProfileId: z.number().nullable(),
-			returnProfileId: z.number().nullable(),
-			personalizationProfileId: z.number().nullable(),
-			fullDescr: z.array(ListingDescrSectionSchema).nullable(),
-			variations: VariationsSchema,
-			combinations: CombinationsSchema,
-		}),
+		body: ListingWriteBodySchema,
 		responses: {
 			200: ListingEditDataSchema,
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
@@ -645,6 +642,19 @@ export type ShopManagerPersonalizationProfile = z.infer<
 >;
 export type ShopProfilesData = z.infer<typeof ShopProfilesDataSchema>;
 export type ListingEditData = z.infer<typeof ListingEditDataSchema>;
+export type ListingWriteBody = z.infer<typeof ListingWriteBodySchema>;
+export type CreateProcessingProfileBody = z.infer<
+	typeof CreateProcessingProfileBodySchema
+>;
+export type CreateShippingProfileBody = z.infer<
+	typeof CreateShippingProfileBodySchema
+>;
+export type CreateReturnProfileBody = z.infer<
+	typeof CreateReturnProfileBodySchema
+>;
+export type CreatePersonalizationProfileBody = z.infer<
+	typeof CreatePersonalizationProfileBodySchema
+>;
 
 const SearchResultSchema = z.object({
 	id: z.string(),

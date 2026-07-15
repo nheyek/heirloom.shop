@@ -20,28 +20,26 @@ export const search = async (
 	const em = getEm();
 	const pattern = `%${escapeLikePattern(query)}%`;
 
-	const [listings, shops, categories] = await Promise.all(
-		[
-			em.find(
-				Listing,
-				{ title: { $ilike: pattern } },
-				{
-					populate: ['shop'],
-					limit: MAX_RESULTS_PER_TYPE,
-				},
-			),
-			em.find(
-				Shop,
-				{ title: { $ilike: pattern } },
-				{ limit: MAX_RESULTS_PER_TYPE },
-			),
-			em.find(
-				ListingCategory,
-				{ title: { $ilike: pattern } },
-				{ limit: MAX_RESULTS_PER_TYPE },
-			),
-		],
-	);
+	const [listings, shops, categories] = await Promise.all([
+		em.find(
+			Listing,
+			{ title: { $ilike: pattern } },
+			{
+				populate: ['shop'],
+				limit: MAX_RESULTS_PER_TYPE,
+			},
+		),
+		em.find(
+			Shop,
+			{ title: { $ilike: pattern } },
+			{ limit: MAX_RESULTS_PER_TYPE },
+		),
+		em.find(
+			ListingCategory,
+			{ title: { $ilike: pattern } },
+			{ limit: MAX_RESULTS_PER_TYPE },
+		),
+	]);
 
 	return {
 		listingResults: listings.map(

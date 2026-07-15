@@ -7,13 +7,14 @@ import { ListingDescrSection } from '@client/components/listingForm/useListingFo
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { validateDescrSectionEntry } from '@heirloom/common/validation/listing';
+import {
+	stripHtml,
+	ValidationField,
+} from '@heirloom/common/validation/shared';
 import { useEffect, useRef, useState } from 'react';
 
 const EDITOR_KEY_NEW = 'new';
-
-const stripHtml = (html: string) =>
-	html.replace(/<[^>]*>/g, '').trim();
 
 type Props = {
 	open: boolean;
@@ -49,46 +50,24 @@ export const DescrSectionDialog = ({
 	};
 
 	const handleConfirm = () => {
-		let valid = true;
-		const trimmedTitle = title.trim();
-		if (!trimmedTitle) {
-			setTitleError('Title is required.');
-			valid = false;
-		} else if (
-			trimmedTitle.length > LISTING_LIMITS.maxNameLength
-		) {
-			setTitleError(
-				`Title must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`,
-			);
-			valid = false;
-		} else if (
-			existingTitles.some((t) => t.trim() === trimmedTitle)
-		) {
-			setTitleError(
-				'A section with this title already exists.',
-			);
-			valid = false;
-		} else {
-			setTitleError(null);
-		}
-		const strippedBody = stripHtml(richTextRef.current);
-		if (!strippedBody) {
-			setBodyError('Body is required.');
-			valid = false;
-		} else if (
-			strippedBody.length >
-			LISTING_LIMITS.maxDescrSectionBodyChars
-		) {
-			setBodyError(
-				`Body must be ${LISTING_LIMITS.maxDescrSectionBodyChars.toLocaleString()} characters or fewer.`,
-			);
-			valid = false;
-		} else {
-			setBodyError(null);
-		}
-		if (!valid) return;
+		const errors = validateDescrSectionEntry(
+			{ title, richText: richTextRef.current },
+			existingTitles,
+		);
+		setTitleError(
+			errors.find(
+				(e) => e.field === ValidationField.DescrSectionTitle,
+			)?.message ?? null,
+		);
+		setBodyError(
+			errors.find(
+				(e) => e.field === ValidationField.DescrSectionBody,
+			)?.message ?? null,
+		);
+		if (errors.length > 0) return;
+
 		onConfirm({
-			title: trimmedTitle,
+			title: title.trim(),
 			richText: richTextRef.current,
 		});
 		onClose();
