@@ -102,7 +102,7 @@ export const createOrderItemSnapshots = (
 						listing.processingProfile,
 						listing.shippingProfile,
 					)
-				: 'Delivery estimate unavailable',
+				: null,
 			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
 			personalizationText: item.personalizationText ?? null,
 			personalizationName: listing.personalizationProfile?.name ?? null,
