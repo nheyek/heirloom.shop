@@ -49,9 +49,10 @@ describe('GET /api/me', () => {
 });
 
 /**
- * Seed data (IDs in the 600s to avoid conflicts with other test files):
- * - AppOrder 601: shortId="me_ord01", status PENDING, linked to test user
- *     - AppOrderItem 601 with a snapshot
+ * Seed data (ids are DB-generated, not hardcoded, to avoid collisions with
+ * other test files sharing the same database):
+ * - AppOrder: shortId="me_ord01", status PENDING, linked to test user
+ *     - AppOrderItem with a snapshot
  */
 describe('GET /api/me/orders', () => {
 	beforeAll(async () => {
@@ -59,7 +60,6 @@ describe('GET /api/me/orders', () => {
 		const testUser = await findOrCreateUser(TEST_USER_EMAIL);
 
 		const order = em.create(AppOrder, {
-			id: 601,
 			shortId: 'me_ord01',
 			email: TEST_USER_EMAIL,
 			user: testUser,
@@ -83,7 +83,6 @@ describe('GET /api/me/orders', () => {
 		await em.persist(order).flush();
 
 		const item = em.create(AppOrderItem, {
-			id: 601,
 			order,
 			snapshot: {
 				title: 'Handmade Mug',
@@ -98,21 +97,9 @@ describe('GET /api/me/orders', () => {
 		await em.persist(item).flush();
 	});
 
-	it('returns 401 without auth', async () => {
-		const res = await request(getApp()).get('/api/me/orders');
-		expect(res.status).toBe(401);
-	});
-
-	it('returns 200 with the seeded order', async () => {
-		const res = await request(getApp())
-			.get('/api/me/orders')
-			.set('Authorization', 'Bearer test');
-		expect(res.status).toBe(200);
-		expect(Array.isArray(res.body)).toBe(true);
-		const order = res.body.find((o: any) => o.shortId === 'me_ord01');
-		expect(order).toBeDefined();
-	});
-
+	// 401-without-auth and cross-user ownership isolation for this endpoint
+	// are already covered in orderView.test.ts; this file focuses on the
+	// order/item snapshot shape specifically.
 	it('returns orders with the expected shape', async () => {
 		const res = await request(getApp())
 			.get('/api/me/orders')

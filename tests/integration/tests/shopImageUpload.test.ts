@@ -7,6 +7,12 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 			uuid: 'img-test-uuid',
 			uploadUrl: 'https://example.com/shop-upload',
 		}),
+	generateListingImageUploadUrl: jest
+		.fn<() => Promise<{ uuid: string; uploadUrl: string }>>()
+		.mockResolvedValue({
+			uuid: 'listing-img-test-uuid',
+			uploadUrl: 'https://example.com/listing-upload',
+		}),
 }));
 
 import { getEm } from '@server/db';
@@ -22,10 +28,11 @@ const getApp = useApp();
 const AUTH = { Authorization: 'Bearer test' };
 
 /**
- * Seed data (IDs in the 70s to avoid conflicts with other test files):
+ * Seed data (ids are DB-generated, not hardcoded, to avoid collisions with
+ * other test files sharing the same database):
  *
- * Shop 70: "Image Upload Test Shop"  shortId="img_shop70"  — test user is owner
- * Shop 71: "Image Upload Test Shop 2" shortId="img_shop71"  — no role for test user
+ * Shop "Image Upload Test Shop"  shortId="img_shop70"  — test user is owner
+ * Shop "Image Upload Test Shop 2" shortId="img_shop71"  — no role for test user
  */
 beforeAll(async () => {
 	const em = getEm();
@@ -34,18 +41,15 @@ beforeAll(async () => {
 	const testUser = await findOrCreateUser(TEST_USER_EMAIL);
 
 	const shop70 = em.create(Shop, {
-		id: 70,
 		title: 'Image Upload Test Shop',
 		shortId: 'img_shop70',
 	});
 	const shop71 = em.create(Shop, {
-		id: 71,
 		title: 'Image Upload Test Shop 2',
 		shortId: 'img_shop71',
 	});
 
 	const ownerRole = em.create(ShopUserRole, {
-		id: 700,
 		shop: shop70,
 		user: testUser,
 		shopRole: 'owner',

@@ -11,13 +11,16 @@ const getApp = useApp();
 const AUTH = { Authorization: 'Bearer test' };
 
 /**
- * Sample data (IDs in the 100s to avoid conflicts with other test files):
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
  *
- * Shop 10: "Craft Co"
+ * Shop "Craft Co"
  *   - "Ceramic Bowl"  shortId="bowl01"
  *   - "Wool Scarf"    shortId="scrf01"
  *   - "Brass Lamp"    shortId="lamp01"
  */
+let shopId: number;
+
 beforeAll(async () => {
 	const em = getEm();
 	await seedCategories(em);
@@ -26,12 +29,10 @@ beforeAll(async () => {
 	await request(getApp()).get('/api/me').set(AUTH);
 
 	const shop = em.create(Shop, {
-		id: 10,
 		title: 'Craft Co',
 		shortId: 'shop10',
 	});
 	const bowl = em.create(Listing, {
-		id: 101,
 		shortId: 'bowl01',
 		title: 'Ceramic Bowl',
 		priceCents: 3200,
@@ -39,7 +40,6 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 	});
 	const scarf = em.create(Listing, {
-		id: 102,
 		shortId: 'scrf01',
 		title: 'Wool Scarf',
 		priceCents: 5500,
@@ -47,7 +47,6 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 	});
 	const lamp = em.create(Listing, {
-		id: 103,
 		shortId: 'lamp01',
 		title: 'Brass Lamp',
 		priceCents: 18000,
@@ -56,6 +55,8 @@ beforeAll(async () => {
 	});
 
 	await em.persist([shop, bowl, scarf, lamp]).flush();
+
+	shopId = shop.id;
 });
 
 describe('POST /api/listings/:id/favorite', () => {
@@ -170,7 +171,7 @@ describe('GET /api/me/favorites', () => {
 			shortId: 'lamp01',
 			title: 'Brass Lamp',
 			priceCents: 18000,
-			shopId: 10,
+			shopId,
 			shopTitle: 'Craft Co',
 		});
 	});

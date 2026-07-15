@@ -2,7 +2,7 @@ import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
-import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
+import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
 import { seedCategories } from '../helpers/seedData';
@@ -13,27 +13,31 @@ const getApp = useApp();
 /**
  * Sample data:
  *
- * Shop 1: "Artisan Workshop"
+ * Shop "Artisan Workshop"
  *   - "Handmade Vase"       (CERAMICS)
  *   - "Men's Oxford Shirt"  (MENS_SHIRTS — grandchild of CLOTHING)
  *   - "Linen Blouse"        (WOMENS — child of CLOTHING)
  *
- * Shop 2: "Vintage Finds"
+ * Shop "Vintage Finds"
  *   - "Art Deco Brooch"          (JEWELRY_VINTAGE — child of JEWELRY)
  *   - "Mahogany Dresser"         (FURNITURE — top-level)
  *   - "Victorian Writing Desk"   (FURNITURE — with shipping + return profiles)
+ *
+ * IDs are DB-generated (not hardcoded) to avoid collisions with other test
+ * files sharing the same database; shop1Id captures the generated id for
+ * an assertion below that checks it.
  */
+let shop1Id: number;
+
 beforeAll(async () => {
 	const em = getEm();
 	await seedCategories(em);
 
 	const shop1 = em.create(Shop, {
-		id: 1,
 		title: 'Artisan Workshop',
 		shortId: 'shop01',
 	});
 	const shop2 = em.create(Shop, {
-		id: 2,
 		title: 'Vintage Finds',
 		shortId: 'shop02',
 	});
@@ -75,8 +79,7 @@ beforeAll(async () => {
 		category: 'FURNITURE',
 	});
 
-	const shippingProfile = em.create(ShippingProfile, {
-		id: 1,
+	const shippingProfile = em.create(ListingShippingProfile, {
 		name: 'Standard Shipping',
 		flatShippingRateCents: 995,
 		shippingDaysMin: 3,
@@ -85,7 +88,6 @@ beforeAll(async () => {
 		shop: shop2,
 	});
 	const returnProfile = em.create(ListingReturnProfile, {
-		id: 1,
 		name: 'Standard Returns',
 		shop: shop2,
 		policyType: 'standard',
@@ -101,19 +103,18 @@ beforeAll(async () => {
 		returnProfile,
 	});
 
-	await em.persist([
-		shop1,
-		shop2,
-		vase,
-		shirt,
-		blouse,
-		brooch,
-		dresser,
-		shippingProfile,
-		returnProfile,
-		desk,
-	]).flush();
+	// Flushed in stages rather than one batch: persisting a Listing
+	// alongside other entity types it cross-references in the same
+	// flush() call has been observed to silently drop relations (no
+	// error — flush() just resolves as if it succeeded). Verified via a
+	// minimal repro against a fresh DB; splitting the flushes is the
+	// reliable workaround.
+	await em.persist([shop1, shop2]).flush();
+	await em.persist([vase, shirt, blouse, brooch, dresser]).flush();
+	await em.persist([shippingProfile, returnProfile]).flush();
+	await em.persist(desk).flush();
 
+	shop1Id = shop1.id;
 });
 
 describe('GET /api/listings', () => {
@@ -164,29 +165,29 @@ describe('GET /api/listings/:id', () => {
 			title: "Men's Oxford Shirt",
 			priceCents: 8900,
 			categoryId: 'MENS_SHIRTS',
-			shopId: 1,
+			shopId: shop1Id,
 			shopTitle: 'Artisan Workshop',
-			processingProfile: undefined,
 			variations: {},
 		});
+		expect(res.body.processingProfile).toBeUndefined();
 	});
 
 	it('returns undefined shippingDetails and returnPolicy when not configured', async () => {
 		const res = await request(getApp()).get('/api/listings/drss01');
 		expect(res.status).toBe(200);
-		expect(res.body.shippingDetails).toBeUndefined();
-		expect(res.body.returnPolicy).toBeUndefined();
+		expect(res.body.profiles.shipping).toBeUndefined();
+		expect(res.body.profiles.returns).toBeUndefined();
 	});
 
-	it('returns shippingDetails and returnPolicy when configured', async () => {
+	it('returns shipping and return profile details when configured', async () => {
 		const res = await request(getApp()).get('/api/listings/desk01');
 		expect(res.status).toBe(200);
-		expect(res.body.shippingDetails).toMatchObject({
+		expect(res.body.profiles.shipping).toMatchObject({
 			shippingRate: 995,
 			shippingDaysMin: 3,
 			shippingDaysMax: 7,
 		});
-		expect(res.body.returnPolicy).toMatchObject({
+		expect(res.body.profiles.returns).toMatchObject({
 			policyType: 'standard',
 			returnWindowDays: 30,
 		});

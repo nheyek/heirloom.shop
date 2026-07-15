@@ -8,10 +8,11 @@ import { useApp } from '../helpers/setupApp';
 const getApp = useApp();
 
 /**
- * Sample data (IDs in the 400s to avoid conflicts with other test files):
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
  * Shops:
- *   - Shop 40: "Search Artisan Workshop"  shortId="shop40"
- *   - Shop 41: "Woodcraft Studio"  shortId="shop41"
+ *   - "Search Artisan Workshop"  shortId="shop40"
+ *   - "Woodcraft Studio"  shortId="shop41"
  *
  * Listings:
  *   - "Handmade Ceramic Bowl" (Search Artisan Workshop)  shortId="src_bwl"
@@ -25,13 +26,11 @@ beforeAll(async () => {
 	await seedCategories(em);
 
 	const artisanShop = em.create(Shop, {
-		id: 40,
 		title: 'Search Artisan Workshop',
 		shortId: 'shop40',
 	});
 
 	const woodShop = em.create(Shop, {
-		id: 41,
 		title: 'Woodcraft Studio',
 		shortId: 'shop41',
 	});

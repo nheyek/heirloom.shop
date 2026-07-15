@@ -16,7 +16,7 @@ import { getEm } from '@server/db';
 
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
-import { ShippingProfile } from '@server/entities/generated/ShippingProfile';
+import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
 import request from 'supertest';
 import { seedCategories } from '../helpers/seedData';
@@ -30,12 +30,13 @@ const MUG_OPT_LARGE   = 'a1b2c3d4-0000-0000-0000-000000000003';
 const MUG_OPT_JUMBO   = 'a1b2c3d4-0000-0000-0000-000000000004';
 
 /**
- * Sample data (IDs in the 300s to avoid conflicts with other test files):
- * Shop 30: "Checkout Artisan Workshop"
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
+ * Shop "Checkout Artisan Workshop"
  *   - "Handmade Bowl" ($25, no shipping)  shortId="cbwl01"
  *   - "Ceramic Mug" ($15 base, $5 shipping) shortId="cmug01"
  *       Size variation: Small=$15, Large=$18
- * Shop 31: "Wood Crafts"
+ * Shop "Wood Crafts"
  *   - "Cutting Board" ($45, $8 shipping)  shortId="cbrd01"
  */
 beforeAll(async () => {
@@ -43,13 +44,11 @@ beforeAll(async () => {
 	await seedCategories(em);
 
 	const shop1 = em.create(Shop, {
-		id: 30,
 		title: 'Checkout Artisan Workshop',
 		shortId: 'shop30',
 	});
 
 	const shop2 = em.create(Shop, {
-		id: 31,
 		title: 'Wood Crafts',
 		shortId: 'shop31',
 	});
@@ -61,10 +60,10 @@ beforeAll(async () => {
 		shop: shop1,
 		category: 'CERAMICS',
 		imageUuids: ['img-bowl-01'],
+		available: true,
 	});
 
-	const mugShipping = em.create(ShippingProfile, {
-		id: 30,
+	const mugShipping = em.create(ListingShippingProfile, {
 		name: 'Standard Shipping',
 		flatShippingRateCents: 500,
 		shippingDaysMin: 3,
@@ -81,6 +80,7 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 		shippingProfile: mugShipping,
 		imageUuids: ['img-mug-01'],
+		available: true,
 		variations: {
 			[MUG_VAR_ID]: {
 				name: 'Size',
@@ -100,8 +100,7 @@ beforeAll(async () => {
 		},
 	});
 
-	const boardShipping = em.create(ShippingProfile, {
-		id: 31,
+	const boardShipping = em.create(ListingShippingProfile, {
 		name: 'Heavy Item Shipping',
 		flatShippingRateCents: 800,
 		shippingDaysMin: 5,
@@ -118,17 +117,19 @@ beforeAll(async () => {
 		category: 'CERAMICS',
 		shippingProfile: boardShipping,
 		imageUuids: ['img-board-01'],
+		available: true,
 	});
 
-	await em.persist([
-		shop1,
-		shop2,
-		bowl,
-		mugShipping,
-		mug,
-		boardShipping,
-		cuttingBoard,
-	]).flush();
+	// Flushed in stages rather than one batch: persisting a Listing
+	// alongside other entity types it cross-references in the same
+	// flush() call has been observed to silently drop relations (no
+	// error — flush() just resolves as if it succeeded). Verified via a
+	// minimal repro against a fresh DB; splitting the flushes is the
+	// reliable workaround.
+	await em.persist([shop1, shop2]).flush();
+	await em.persist(bowl).flush();
+	await em.persist([mugShipping, boardShipping]).flush();
+	await em.persist([mug, cuttingBoard]).flush();
 });
 
 describe('POST /api/checkout/calculateTax', () => {
@@ -259,15 +260,24 @@ describe('POST /api/checkout/calculateTax', () => {
 		expect(res.body.error).toMatch(/unavailable/i);
 	});
 
-	it('handles empty cart and unknown items', async () => {
-		const emptyRes = await request(getApp())
+	it('returns zero tax for an empty cart', async () => {
+		const res = await request(getApp())
 			.post('/api/checkout/calculateTax')
 			.send({ items: [], shippingAddress: illinoisAddress });
 
-		expect(emptyRes.status).toBe(200);
-		expect(emptyRes.body.TaxTotalCents).toBe(0);
+		expect(res.status).toBe(200);
+		expect(res.body.TaxTotalCents).toBe(0);
+	});
 
-		const unknownRes = await request(getApp())
+	// Matches the other "item can't be resolved" cases above (unknown
+	// variation/option ID, disabled combination) — an unknown listing
+	// shortId is rejected with 400 rather than silently priced at zero.
+	// In normal use the cart provider already filters out any listing it
+	// couldn't find before calling this endpoint (see
+	// ShoppingCartProvider.tsx), so this only matters for a client that
+	// bypasses that filtering.
+	it('returns 400 when the cart references an unknown listing', async () => {
+		const res = await request(getApp())
 			.post('/api/checkout/calculateTax')
 			.send({
 				items: [
@@ -280,8 +290,8 @@ describe('POST /api/checkout/calculateTax', () => {
 				shippingAddress: illinoisAddress,
 			});
 
-		expect(unknownRes.status).toBe(200);
-		expect(unknownRes.body.TaxTotalCents).toBe(0);
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/no longer available/i);
 	});
 });
 

@@ -7,15 +7,18 @@ import { useApp } from '../helpers/setupApp';
 const getApp = useApp();
 
 /**
- * Sample data (explicit IDs in the 1000s to avoid conflicts with other test files):
- * - Order with ID 1001, shortId "whk001", status PENDING
- * - Order with ID 1002, shortId "whk002", status PENDING
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
+ * - Order shortId "whk001", status PENDING
+ * - Order shortId "whk002", status PENDING
  */
+let order1Id: number;
+let order2Id: number;
+
 beforeAll(async () => {
 	const em = getEm();
 
 	const order1 = em.create(AppOrder, {
-		id: 1001,
 		shortId: 'whk001',
 		email: 'customer@example.com',
 
@@ -37,7 +40,6 @@ beforeAll(async () => {
 	});
 
 	const order2 = em.create(AppOrder, {
-		id: 1002,
 		shortId: 'whk002',
 		email: 'another@example.com',
 
@@ -59,6 +61,9 @@ beforeAll(async () => {
 	});
 
 	await em.persist([order1, order2]).flush();
+
+	order1Id = order1.id;
+	order2Id = order2.id;
 });
 
 describe('POST /webhooks/stripe', () => {
@@ -69,7 +74,7 @@ describe('POST /webhooks/stripe', () => {
 				object: {
 					id: 'pi_test123',
 					metadata: {
-						orderId: '1001',
+						orderId: String(order1Id),
 					},
 				},
 			},
@@ -95,7 +100,7 @@ describe('POST /webhooks/stripe', () => {
 				object: {
 					id: 'pi_test456',
 					metadata: {
-						orderId: '1002',
+						orderId: String(order2Id),
 					},
 				},
 			},

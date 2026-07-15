@@ -9,10 +9,11 @@ const getApp = useApp();
 const AUTH = { Authorization: 'Bearer test' };
 
 /**
- * Sample data (IDs in the 500s to avoid conflicts with other test files):
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
  *
- * Shop 50: "Favorite Test Shop"   shortId="fav_shop50"
- * Shop 51: "Favorite Test Shop 2" shortId="fav_shop51"
+ * Shop "Favorite Test Shop"   shortId="fav_shop50"
+ * Shop "Favorite Test Shop 2" shortId="fav_shop51"
  */
 beforeAll(async () => {
 	const em = getEm();
@@ -21,13 +22,11 @@ beforeAll(async () => {
 	await request(getApp()).get('/api/me').set(AUTH);
 
 	const shop50 = em.create(Shop, {
-		id: 50,
 		title: 'Favorite Test Shop',
 		shortId: 'fav_shop50',
 	});
 
 	const shop51 = em.create(Shop, {
-		id: 51,
 		title: 'Favorite Test Shop 2',
 		shortId: 'fav_shop51',
 	});

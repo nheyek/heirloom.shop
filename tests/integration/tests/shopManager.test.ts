@@ -43,14 +43,12 @@ beforeAll(async () => {
 	const testUser = await findOrCreateUser(TEST_USER_EMAIL);
 
 	const shop = em.create(Shop, {
-		id: 80,
 		shortId: 'mgr80',
 		title: 'Manager Validation Shop',
 		directFulfillment: false,
 	});
 
 	const ownerRole = em.create(ShopUserRole, {
-		id: 800,
 		shop,
 		user: testUser,
 		shopRole: 'owner',
@@ -180,7 +178,6 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 	it('returns 403 for a user without a role on the shop', async () => {
 		const em = getEm();
 		const otherShop = em.create(Shop, {
-			id: 81,
 			shortId: 'mgr81',
 			title: 'No Role Shop',
 			directFulfillment: false,
@@ -350,7 +347,6 @@ describe('using real database references not owned by another shop', () => {
 	beforeAll(async () => {
 		const em = getEm();
 		const otherShop = em.create(Shop, {
-			id: 82,
 			shortId: 'mgr82',
 			title: 'Foreign Profile Shop',
 			directFulfillment: false,
