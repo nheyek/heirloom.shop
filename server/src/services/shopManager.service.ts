@@ -9,10 +9,10 @@ import {
 } from '@heirloom/common/contract';
 import { validateListingFields } from '@heirloom/common/validation/listing';
 import {
-	validatePersonalizationProfileInput,
-	validateProcessingProfileInput,
-	validateReturnProfileInput,
-	validateShippingProfileInput,
+	validatePersonalizationProfileFields,
+	validateProcessingProfileFields,
+	validateReturnProfileFields,
+	validateShippingProfileFields,
 } from '@heirloom/common/validation/profiles';
 import {
 	FieldError,
@@ -459,13 +459,11 @@ export const createProcessingProfile = async (
 	data: { name: string; minDays: number; maxDays: number },
 ) => {
 	const em = getEm();
-	// Duplicate names are a DB-level conflict (409, via the unique constraint
-	// caught below), not a 400 field-validation error, so existingNames is
-	// intentionally empty here.
-	const fieldErrors = validateProcessingProfileInput({
-		...data,
-		existingNames: [],
-	});
+	// Duplicate names are a DB-level conflict (409, via the unique
+	// constraint caught below), not a 400 field-validation error, so this
+	// calls the fields-only inner validator (no existingNames/uniqueness
+	// check) rather than the client-facing wrapper.
+	const fieldErrors = validateProcessingProfileFields(data);
 	if (fieldErrors.length > 0)
 		throw new ListingValidationError(fieldErrors);
 
@@ -495,12 +493,12 @@ export const createShippingProfile = async (
 	},
 ) => {
 	const em = getEm();
-	// Duplicate names are a DB-level conflict (409, via the unique constraint
-	// caught below), not a 400 field-validation error, so existingNames is
-	// intentionally empty here.
-	const fieldErrors = validateShippingProfileInput({
+	// Duplicate names are a DB-level conflict (409, via the unique
+	// constraint caught below), not a 400 field-validation error, so this
+	// calls the fields-only inner validator (no existingNames/uniqueness
+	// check) rather than the client-facing wrapper.
+	const fieldErrors = validateShippingProfileFields({
 		...data,
-		existingNames: [],
 		isFlatRate: data.flatShippingRateCents != null,
 	});
 	if (fieldErrors.length > 0)
@@ -536,13 +534,11 @@ export const createReturnProfile = async (
 	},
 ) => {
 	const em = getEm();
-	// Duplicate names are a DB-level conflict (409, via the unique constraint
-	// caught below), not a 400 field-validation error, so existingNames is
-	// intentionally empty here.
-	const fieldErrors = validateReturnProfileInput({
-		...data,
-		existingNames: [],
-	});
+	// Duplicate names are a DB-level conflict (409, via the unique
+	// constraint caught below), not a 400 field-validation error, so this
+	// calls the fields-only inner validator (no existingNames/uniqueness
+	// check) rather than the client-facing wrapper.
+	const fieldErrors = validateReturnProfileFields(data);
 	if (fieldErrors.length > 0)
 		throw new ListingValidationError(fieldErrors);
 
@@ -572,13 +568,11 @@ export const createPersonalizationProfile = async (
 	},
 ) => {
 	const em = getEm();
-	// Duplicate names are a DB-level conflict (409, via the unique constraint
-	// caught below), not a 400 field-validation error, so existingNames is
-	// intentionally empty here.
-	const fieldErrors = validatePersonalizationProfileInput({
-		...data,
-		existingNames: [],
-	});
+	// Duplicate names are a DB-level conflict (409, via the unique
+	// constraint caught below), not a 400 field-validation error, so this
+	// calls the fields-only inner validator (no existingNames/uniqueness
+	// check) rather than the client-facing wrapper.
+	const fieldErrors = validatePersonalizationProfileFields(data);
 	if (fieldErrors.length > 0)
 		throw new ListingValidationError(fieldErrors);
 

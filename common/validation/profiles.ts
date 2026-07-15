@@ -12,9 +12,14 @@ import {
 	ValidationField,
 } from './shared.js';
 
-export const validateProfileName = (
+// Required/length only — no uniqueness, since that needs a list of the
+// shop's other profile names that only the caller has. The server checks
+// uniqueness via the DB's unique constraint (see DuplicateProfileNameError
+// in shopManager.service.ts) rather than this check, so it calls this
+// directly; the client calls `validateProfileNameUniqueness` too, for
+// immediate feedback before it ever hits the server.
+export const validateProfileNameFields = (
 	name: string,
-	existingNames: string[],
 ): FieldError | null => {
 	const trimmed = name.trim();
 	if (!trimmed)
@@ -25,6 +30,14 @@ export const validateProfileName = (
 			message: `Name must be ${LISTING_LIMITS.maxProfileNameLength} characters or fewer.`,
 		};
 	}
+	return null;
+};
+
+export const validateProfileNameUniqueness = (
+	name: string,
+	existingNames: string[],
+): FieldError | null => {
+	const trimmed = name.trim();
 	if (
 		existingNames.some(
 			(n) => n.toLowerCase() === trimmed.toLowerCase(),
@@ -56,23 +69,21 @@ export const validateDayRange = (
 	return { min, max };
 };
 
-export type ProcessingProfileInput = Omit<
+export type ProcessingProfileFieldsInput = Omit<
 	CreateProcessingProfileBody,
 	'minDays' | 'maxDays'
 > & {
-	existingNames: string[];
 	minDays: number | string;
 	maxDays: number | string;
 };
 
-export const validateProcessingProfileInput = (
-	input: ProcessingProfileInput,
+// Called directly by the server (no existingNames — see the comment on
+// validateProfileNameFields).
+export const validateProcessingProfileFields = (
+	input: ProcessingProfileFieldsInput,
 ): FieldError[] => {
 	const errors: FieldError[] = [];
-	const nameError = validateProfileName(
-		input.name,
-		input.existingNames,
-	);
+	const nameError = validateProfileNameFields(input.name);
 	if (nameError) errors.push(nameError);
 	if (!validateDayRange(input.minDays, input.maxDays)) {
 		errors.push({
@@ -83,29 +94,42 @@ export const validateProcessingProfileInput = (
 	return errors;
 };
 
-export type ShippingProfileInput = Omit<
-	CreateShippingProfileBody,
-	'flatShippingRateCents' | 'shippingDaysMin' | 'shippingDaysMax'
-> & {
+export type ProcessingProfileInput = ProcessingProfileFieldsInput & {
 	existingNames: string[];
+};
+
+// Called by the client, which has the shop's existing profile names loaded
+// in memory and can surface a duplicate-name error immediately.
+export const validateProcessingProfileInput = (
+	input: ProcessingProfileInput,
+): FieldError[] => {
+	const errors = validateProcessingProfileFields(input);
+	const uniquenessError = validateProfileNameUniqueness(
+		input.name,
+		input.existingNames,
+	);
+	if (uniquenessError) errors.push(uniquenessError);
+	return errors;
+};
+
+export type ShippingProfileFieldsInput = Omit<
+	CreateShippingProfileBody,
+	'shippingDaysMin' | 'shippingDaysMax'
+> & {
 	// Distinct from `flatShippingRateCents` being null: a null rate is only
 	// a validation error if the user picked "flat rate" pricing in the
 	// first place (vs. free shipping), and the wire body has no field that
 	// distinguishes those two cases once a rate is absent.
 	isFlatRate: boolean;
-	flatShippingRateCents: number | null;
 	shippingDaysMin: number | string;
 	shippingDaysMax: number | string;
 };
 
-export const validateShippingProfileInput = (
-	input: ShippingProfileInput,
+export const validateShippingProfileFields = (
+	input: ShippingProfileFieldsInput,
 ): FieldError[] => {
 	const errors: FieldError[] = [];
-	const nameError = validateProfileName(
-		input.name,
-		input.existingNames,
-	);
+	const nameError = validateProfileNameFields(input.name);
 	if (nameError) errors.push(nameError);
 
 	if (!/^\d{5}$/.test(input.originZip.trim())) {
@@ -123,10 +147,7 @@ export const validateShippingProfileInput = (
 				LISTING_LIMITS.maxPriceCents,
 			))
 	) {
-		errors.push({
-			field: ValidationField.FlatRate,
-			message: 'Enter a valid price.',
-		});
+		errors.push({ field: ValidationField.FlatRate, message: 'Enter a valid price.' });
 	}
 
 	if (!validateDayRange(input.shippingDaysMin, input.shippingDaysMax)) {
@@ -139,23 +160,34 @@ export const validateShippingProfileInput = (
 	return errors;
 };
 
-export type ReturnProfileInput = Omit<
-	CreateReturnProfileBody,
-	'returnWindowDays' | 'policyDescrRichText'
-> & {
+export type ShippingProfileInput = ShippingProfileFieldsInput & {
 	existingNames: string[];
-	returnWindowDays: number | string | null | undefined;
-	policyDescrRichText: string | null;
 };
 
-export const validateReturnProfileInput = (
-	input: ReturnProfileInput,
+export const validateShippingProfileInput = (
+	input: ShippingProfileInput,
 ): FieldError[] => {
-	const errors: FieldError[] = [];
-	const nameError = validateProfileName(
+	const errors = validateShippingProfileFields(input);
+	const uniquenessError = validateProfileNameUniqueness(
 		input.name,
 		input.existingNames,
 	);
+	if (uniquenessError) errors.push(uniquenessError);
+	return errors;
+};
+
+export type ReturnProfileFieldsInput = Omit<
+	CreateReturnProfileBody,
+	'returnWindowDays'
+> & {
+	returnWindowDays: number | string | null;
+};
+
+export const validateReturnProfileFields = (
+	input: ReturnProfileFieldsInput,
+): FieldError[] => {
+	const errors: FieldError[] = [];
+	const nameError = validateProfileNameFields(input.name);
 	if (nameError) errors.push(nameError);
 
 	if (input.policyType !== ReturnPolicyType.NO_RETURNS) {
@@ -191,22 +223,34 @@ export const validateReturnProfileInput = (
 	return errors;
 };
 
-export type PersonalizationProfileInput = Omit<
-	CreatePersonalizationProfileBody,
-	'costCents'
-> & {
+export type ReturnProfileInput = ReturnProfileFieldsInput & {
 	existingNames: string[];
-	costCents: number | null;
 };
 
-export const validatePersonalizationProfileInput = (
-	input: PersonalizationProfileInput,
+export const validateReturnProfileInput = (
+	input: ReturnProfileInput,
 ): FieldError[] => {
-	const errors: FieldError[] = [];
-	const nameError = validateProfileName(
+	const errors = validateReturnProfileFields(input);
+	const uniquenessError = validateProfileNameUniqueness(
 		input.name,
 		input.existingNames,
 	);
+	if (uniquenessError) errors.push(uniquenessError);
+	return errors;
+};
+
+export type PersonalizationProfileFieldsInput = Omit<
+	CreatePersonalizationProfileBody,
+	'costCents'
+> & {
+	costCents: number | null;
+};
+
+export const validatePersonalizationProfileFields = (
+	input: PersonalizationProfileFieldsInput,
+): FieldError[] => {
+	const errors: FieldError[] = [];
+	const nameError = validateProfileNameFields(input.name);
 	if (nameError) errors.push(nameError);
 
 	if (
@@ -230,5 +274,21 @@ export const validatePersonalizationProfileInput = (
 		});
 	}
 
+	return errors;
+};
+
+export type PersonalizationProfileInput = PersonalizationProfileFieldsInput & {
+	existingNames: string[];
+};
+
+export const validatePersonalizationProfileInput = (
+	input: PersonalizationProfileInput,
+): FieldError[] => {
+	const errors = validatePersonalizationProfileFields(input);
+	const uniquenessError = validateProfileNameUniqueness(
+		input.name,
+		input.existingNames,
+	);
+	if (uniquenessError) errors.push(uniquenessError);
 	return errors;
 };

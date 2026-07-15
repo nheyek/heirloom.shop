@@ -2,30 +2,46 @@ import { describe, expect, it } from '@jest/globals';
 import { ReturnPolicyType } from '../constants.js';
 import {
 	validateDayRange,
+	validatePersonalizationProfileFields,
 	validatePersonalizationProfileInput,
+	validateProcessingProfileFields,
 	validateProcessingProfileInput,
-	validateProfileName,
+	validateProfileNameFields,
+	validateProfileNameUniqueness,
+	validateReturnProfileFields,
 	validateReturnProfileInput,
+	validateShippingProfileFields,
 	validateShippingProfileInput,
 } from './profiles.js';
 import { ValidationField } from './shared.js';
 
-describe('validateProfileName', () => {
+describe('validateProfileNameFields', () => {
 	it('requires a name', () => {
-		expect(validateProfileName('  ', [])?.field).toBe(ValidationField.Name);
-	});
-	it('rejects names over the max length', () => {
-		expect(validateProfileName('a'.repeat(65), [])?.field).toBe(
+		expect(validateProfileNameFields('  ')?.field).toBe(
 			ValidationField.Name,
 		);
 	});
+	it('rejects names over the max length', () => {
+		expect(validateProfileNameFields('a'.repeat(65))?.field).toBe(
+			ValidationField.Name,
+		);
+	});
+	it('accepts a valid name', () => {
+		expect(validateProfileNameFields('Standard')).toBeNull();
+	});
+});
+
+describe('validateProfileNameUniqueness', () => {
 	it('rejects case-insensitive duplicates', () => {
 		expect(
-			validateProfileName('Standard', ['standard'])?.message,
+			validateProfileNameUniqueness('Standard', ['standard'])
+				?.message,
 		).toMatch(/already exists/);
 	});
-	it('accepts a valid unique name', () => {
-		expect(validateProfileName('Standard', ['Express'])).toBeNull();
+	it('accepts a unique name', () => {
+		expect(
+			validateProfileNameUniqueness('Standard', ['Express']),
+		).toBeNull();
 	});
 });
 
@@ -48,17 +64,41 @@ describe('validateDayRange', () => {
 	});
 });
 
-describe('validateProcessingProfileInput', () => {
+describe('validateProcessingProfileFields', () => {
 	it('flags an invalid day range', () => {
-		const errors = validateProcessingProfileInput({
+		const errors = validateProcessingProfileFields({
 			name: 'Default',
-			existingNames: [],
 			minDays: 5,
 			maxDays: 2,
 		});
-		expect(errors.some((e) => e.field === ValidationField.Days)).toBe(true);
+		expect(errors.some((e) => e.field === ValidationField.Days)).toBe(
+			true,
+		);
 	});
-	it('accepts valid input', () => {
+	it('accepts valid input without needing existingNames', () => {
+		expect(
+			validateProcessingProfileFields({
+				name: 'Default',
+				minDays: 1,
+				maxDays: 3,
+			}),
+		).toHaveLength(0);
+	});
+});
+
+describe('validateProcessingProfileInput', () => {
+	it('additionally rejects a duplicate name', () => {
+		const errors = validateProcessingProfileInput({
+			name: 'Default',
+			existingNames: ['default'],
+			minDays: 1,
+			maxDays: 3,
+		});
+		expect(errors.some((e) => e.field === ValidationField.Name)).toBe(
+			true,
+		);
+	});
+	it('accepts valid, unique input', () => {
 		expect(
 			validateProcessingProfileInput({
 				name: 'Default',
@@ -70,10 +110,9 @@ describe('validateProcessingProfileInput', () => {
 	});
 });
 
-describe('validateShippingProfileInput', () => {
+describe('validateShippingProfileFields', () => {
 	const base = {
 		name: 'Standard',
-		existingNames: [] as string[],
 		originZip: '02134',
 		isFlatRate: false,
 		flatShippingRateCents: null,
@@ -81,21 +120,23 @@ describe('validateShippingProfileInput', () => {
 		shippingDaysMax: 5,
 	};
 
-	it('accepts a valid free-shipping profile', () => {
-		expect(validateShippingProfileInput(base)).toHaveLength(0);
+	it('accepts a valid free-shipping profile without needing existingNames', () => {
+		expect(validateShippingProfileFields(base)).toHaveLength(0);
 	});
 
 	it('rejects a zip code that is not exactly 5 digits', () => {
-		const errors = validateShippingProfileInput({
+		const errors = validateShippingProfileFields({
 			...base,
 			originZip: '213',
 		});
-		expect(errors.some((e) => e.field === ValidationField.OriginZip)).toBe(true);
+		expect(
+			errors.some((e) => e.field === ValidationField.OriginZip),
+		).toBe(true);
 	});
 
 	it('preserves leading zeros in the zip format check', () => {
 		expect(
-			validateShippingProfileInput({
+			validateShippingProfileFields({
 				...base,
 				originZip: '02134',
 			}).some((e) => e.field === ValidationField.OriginZip),
@@ -103,84 +144,138 @@ describe('validateShippingProfileInput', () => {
 	});
 
 	it('requires a positive flat rate when isFlatRate is true', () => {
-		const errors = validateShippingProfileInput({
+		const errors = validateShippingProfileFields({
 			...base,
 			isFlatRate: true,
 			flatShippingRateCents: null,
 		});
-		expect(errors.some((e) => e.field === ValidationField.FlatRate)).toBe(true);
+		expect(errors.some((e) => e.field === ValidationField.FlatRate)).toBe(
+			true,
+		);
 	});
 
 	it('does not require a flat rate when shipping is free', () => {
-		const errors = validateShippingProfileInput({
+		const errors = validateShippingProfileFields({
 			...base,
 			isFlatRate: false,
 			flatShippingRateCents: null,
 		});
-		expect(errors.some((e) => e.field === ValidationField.FlatRate)).toBe(false);
+		expect(errors.some((e) => e.field === ValidationField.FlatRate)).toBe(
+			false,
+		);
 	});
 });
 
-describe('validateReturnProfileInput', () => {
-	it('requires a return window unless NO_RETURNS', () => {
-		const errors = validateReturnProfileInput({
+describe('validateShippingProfileInput', () => {
+	it('additionally rejects a duplicate name', () => {
+		const errors = validateShippingProfileInput({
 			name: 'Standard',
-			existingNames: [],
+			existingNames: ['standard'],
+			originZip: '02134',
+			isFlatRate: false,
+			flatShippingRateCents: null,
+			shippingDaysMin: 2,
+			shippingDaysMax: 5,
+		});
+		expect(errors.some((e) => e.field === ValidationField.Name)).toBe(
+			true,
+		);
+	});
+});
+
+describe('validateReturnProfileFields', () => {
+	it('requires a return window unless NO_RETURNS', () => {
+		const errors = validateReturnProfileFields({
+			name: 'Standard',
 			policyType: ReturnPolicyType.STANDARD,
 			returnWindowDays: null,
 			policyDescrRichText: '',
 		});
-		expect(errors.some((e) => e.field === ValidationField.WindowDays)).toBe(true);
+		expect(
+			errors.some((e) => e.field === ValidationField.WindowDays),
+		).toBe(true);
 	});
 	it('does not require a window for NO_RETURNS', () => {
-		const errors = validateReturnProfileInput({
+		const errors = validateReturnProfileFields({
 			name: 'No Returns',
-			existingNames: [],
 			policyType: ReturnPolicyType.NO_RETURNS,
 			returnWindowDays: null,
 			policyDescrRichText: '',
 		});
-		expect(errors.some((e) => e.field === ValidationField.WindowDays)).toBe(false);
+		expect(
+			errors.some((e) => e.field === ValidationField.WindowDays),
+		).toBe(false);
 	});
 	it('requires custom text for CUSTOM policies', () => {
-		const errors = validateReturnProfileInput({
+		const errors = validateReturnProfileFields({
 			name: 'Custom',
-			existingNames: [],
 			policyType: ReturnPolicyType.CUSTOM,
 			returnWindowDays: 30,
 			policyDescrRichText: '<p></p>',
 		});
-		expect(errors.some((e) => e.field === ValidationField.CustomText)).toBe(true);
+		expect(
+			errors.some((e) => e.field === ValidationField.CustomText),
+		).toBe(true);
 	});
 });
 
-describe('validatePersonalizationProfileInput', () => {
+describe('validateReturnProfileInput', () => {
+	it('additionally rejects a duplicate name', () => {
+		const errors = validateReturnProfileInput({
+			name: 'Standard',
+			existingNames: ['standard'],
+			policyType: ReturnPolicyType.STANDARD,
+			returnWindowDays: 30,
+			policyDescrRichText: '',
+		});
+		expect(errors.some((e) => e.field === ValidationField.Name)).toBe(
+			true,
+		);
+	});
+});
+
+describe('validatePersonalizationProfileFields', () => {
 	it('requires a positive cost', () => {
-		const errors = validatePersonalizationProfileInput({
+		const errors = validatePersonalizationProfileFields({
 			name: 'Engraving',
-			existingNames: [],
 			costCents: 0,
 			helperText: null,
 		});
-		expect(errors.some((e) => e.field === ValidationField.Cost)).toBe(true);
+		expect(errors.some((e) => e.field === ValidationField.Cost)).toBe(
+			true,
+		);
 	});
 	it('rejects helper text over the max length', () => {
-		const errors = validatePersonalizationProfileInput({
+		const errors = validatePersonalizationProfileFields({
 			name: 'Engraving',
-			existingNames: [],
 			costCents: 500,
 			helperText: 'a'.repeat(257),
 		});
-		expect(errors.some((e) => e.field === ValidationField.HelperText)).toBe(true);
-	});
-	it('accepts valid input', () => {
 		expect(
-			validatePersonalizationProfileInput({
+			errors.some((e) => e.field === ValidationField.HelperText),
+		).toBe(true);
+	});
+	it('accepts valid input without needing existingNames', () => {
+		expect(
+			validatePersonalizationProfileFields({
 				name: 'Engraving',
-				existingNames: [],
 				costCents: 500,
 				helperText: 'Up to 20 characters',
 			}),
 		).toHaveLength(0);
+	});
+});
+
+describe('validatePersonalizationProfileInput', () => {
+	it('additionally rejects a duplicate name', () => {
+		const errors = validatePersonalizationProfileInput({
+			name: 'Engraving',
+			existingNames: ['engraving'],
+			costCents: 500,
+			helperText: null,
+		});
+		expect(errors.some((e) => e.field === ValidationField.Name)).toBe(
+			true,
+		);
 	});
 });
