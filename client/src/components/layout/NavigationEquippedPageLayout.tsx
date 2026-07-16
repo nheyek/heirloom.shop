@@ -183,7 +183,6 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 									<NavMenuItem
 										key={route}
 										value={route}
-										isFirst={index === 0}
 									>
 										<Box
 											fontSize={20}
