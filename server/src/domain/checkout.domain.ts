@@ -15,6 +15,9 @@ const resolveUnitPrice = (
 	const key = getCombinationKey(selectedOptions);
 	const combination = combinations[key];
 	if (combination?.disabled) throw new Error('Selected combination is unavailable');
+	if (personalizationText && personalizationCostCents == null) {
+		throw new Error('Personalization is not available for this listing');
+	}
 	const basePrice = resolveEffectiveCombinationPrice(selectedOptions, combinations, variations, priceCents) ?? priceCents;
 	return personalizationText && personalizationCostCents != null
 		? basePrice + personalizationCostCents

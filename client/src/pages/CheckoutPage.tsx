@@ -20,6 +20,7 @@ import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
+import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -112,10 +113,6 @@ export const CheckoutPage = () => {
 			}
 		};
 
-		// Only synchronous, local checks gate entering the loading state —
-		// anything requiring a network round-trip (deliverability, order
-		// submission, payment confirmation) happens after the button is
-		// already showing as loading.
 		if (!validateLocalCheckoutFields()) {
 			scrollToShippingForm();
 			return;
@@ -142,9 +139,19 @@ export const CheckoutPage = () => {
 					items: simplifyCartItems(items),
 					email: checkoutEmail,
 					shippingAddress,
+					totalCents: orderTotal,
 				},
 			}),
 		);
+
+		if (intentResult.status === 409) {
+			setPendingSubmit(false);
+			toastError(
+				'Prices have changed',
+				'Please refresh the page and try again.',
+			);
+			return;
+		}
 
 		if (intentResult.error !== null) {
 			setPendingSubmit(false);

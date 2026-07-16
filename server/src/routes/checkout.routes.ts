@@ -1,5 +1,6 @@
 import { checkoutContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
+import { ERROR_MESSAGES } from '@server/constants';
 import {
 	calculateCheckoutTotals,
 	createOrderItemSnapshots,
@@ -75,6 +76,14 @@ export const checkoutRouter = s.router(checkoutContract, {
 
 			const preTaxTotal = subtotalCents + shippingCents;
 			const taxTotal = getTaxTotal(preTaxTotal, body.shippingAddress);
+			const chargeTotal = preTaxTotal + taxTotal;
+
+			if (chargeTotal !== body.totalCents) {
+				return {
+					status: 409 as const,
+					body: { error: ERROR_MESSAGES.checkout.priceMismatch },
+				};
+			}
 
 			const user = req.userClaims?.email
 				? await findOrCreateUser(req.userClaims.email)
@@ -91,7 +100,7 @@ export const checkoutRouter = s.router(checkoutContract, {
 			);
 
 			const paymentIntent = await createPaymentIntent(
-				preTaxTotal + taxTotal,
+				chargeTotal,
 				{ orderId: order.id },
 			);
 			await updateOrderPaymentIntent(order.id, paymentIntent.id);

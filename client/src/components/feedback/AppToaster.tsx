@@ -7,8 +7,6 @@ import {
 	FaInfoCircle,
 } from 'react-icons/fa';
 
-const TOAST_ICON_SIZE = 20;
-
 export const AppToaster = () => {
 	return (
 		<Toaster toaster={toaster}>
@@ -53,7 +51,7 @@ export const AppToaster = () => {
 								</Toast.Title>
 								<Toast.Description
 									fontSize={16}
-									maxW={150}
+									maxW={250}
 									truncate
 								>
 									{toast.description}

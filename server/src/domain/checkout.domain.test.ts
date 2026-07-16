@@ -15,6 +15,8 @@ const makeListing = (
 		shippingDaysMax: number;
 		processingMinDays: number;
 		processingMaxDays: number;
+		personalizationCostCents: number;
+		personalizationName: string;
 		title: string;
 		shopTitle: string;
 		shopShortId: string;
@@ -41,6 +43,13 @@ const makeListing = (
 						flatShippingRateCents: overrides.flatShippingRateCents,
 						shippingDaysMin: overrides.shippingDaysMin ?? 0,
 						shippingDaysMax: overrides.shippingDaysMax ?? 0,
+					}
+				: undefined,
+		personalizationProfile:
+			overrides.personalizationCostCents !== undefined
+				? {
+						name: overrides.personalizationName ?? 'Engraving',
+						costCents: overrides.personalizationCostCents,
 					}
 				: undefined,
 	}) as unknown as Listing;
@@ -232,6 +241,31 @@ describe('calculateCheckoutTotals', () => {
 		).toThrow('Selected combination is unavailable');
 	});
 
+	it('adds the personalization surcharge when the listing supports personalization', () => {
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, { personalizationCostCents: 250 }),
+			],
+		};
+		const result = calculateCheckoutTotals(
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1, personalizationText: 'Happy Birthday' }],
+			queryData,
+		);
+		expect(result.subtotalCents).toBe(1250);
+	});
+
+	it('throws when personalization text is provided but the listing has no personalization profile', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000)],
+		};
+		expect(() =>
+			calculateCheckoutTotals(
+				[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1, personalizationText: 'Happy Birthday' }],
+				queryData,
+			),
+		).toThrow('Personalization is not available for this listing');
+	});
+
 	it('accumulates totals across multiple items', () => {
 		const queryData: CheckoutCartData = {
 			listings: [
@@ -410,5 +444,35 @@ describe('createOrderItemSnapshots', () => {
 				queryData,
 			),
 		).toThrow('Selected combination is unavailable');
+	});
+
+	it('includes personalization text and name in the snapshot when supported', () => {
+		const queryData: CheckoutCartData = {
+			listings: [
+				makeListing('abc', 1000, {
+					personalizationCostCents: 250,
+					personalizationName: 'Engraving',
+				}),
+			],
+		};
+		const [snapshot] = createOrderItemSnapshots(
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1, personalizationText: 'Happy Birthday' }],
+			queryData,
+		);
+		expect(snapshot.unitPriceCents).toBe(1250);
+		expect(snapshot.personalizationText).toBe('Happy Birthday');
+		expect(snapshot.personalizationName).toBe('Engraving');
+	});
+
+	it('throws when personalization text is provided but the listing has no personalization profile', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000)],
+		};
+		expect(() =>
+			createOrderItemSnapshots(
+				[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1, personalizationText: 'Happy Birthday' }],
+				queryData,
+			),
+		).toThrow('Personalization is not available for this listing');
 	});
 });

@@ -10,19 +10,31 @@ jest.unstable_mockModule('@server/services/payment.service', () => ({
 	}),
 }));
 
+import { ShippingAddress } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
 import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { Listing } from '@server/entities/generated/Listing';
+import { ListingPersonalizationProfile } from '@server/entities/generated/ListingPersonalizationProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
+import { getTaxTotal } from '@server/services/tax.service';
 import request from 'supertest';
 import { seedCategories } from '../helpers/seedData';
 import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
+
+const expectedTotalCents = (
+	subtotalCents: number,
+	shippingCents: number,
+	address: ShippingAddress,
+) =>
+	subtotalCents +
+	shippingCents +
+	getTaxTotal(subtotalCents + shippingCents, address);
 
 const MUG_VAR_ID      = 'a1b2c3d4-0000-0000-0000-000000000001';
 const MUG_OPT_SMALL   = 'a1b2c3d4-0000-0000-0000-000000000002';
@@ -120,6 +132,26 @@ beforeAll(async () => {
 		available: true,
 	});
 
+	const braceletPersonalization = em.create(
+		ListingPersonalizationProfile,
+		{
+			name: 'Engraving',
+			costCents: 500,
+			shop: shop1,
+		},
+	);
+
+	const bracelet = em.create(Listing, {
+		shortId: 'cbrc01',
+		title: 'Engraved Bracelet',
+		priceCents: 3000,
+		shop: shop1,
+		category: 'CERAMICS',
+		personalizationProfile: braceletPersonalization,
+		imageUuids: ['img-bracelet-01'],
+		available: true,
+	});
+
 	// Flushed in stages rather than one batch: persisting a Listing
 	// alongside other entity types it cross-references in the same
 	// flush() call has been observed to silently drop relations (no
@@ -128,8 +160,10 @@ beforeAll(async () => {
 	// reliable workaround.
 	await em.persist([shop1, shop2]).flush();
 	await em.persist(bowl).flush();
-	await em.persist([mugShipping, boardShipping]).flush();
-	await em.persist([mug, cuttingBoard]).flush();
+	await em
+		.persist([mugShipping, boardShipping, braceletPersonalization])
+		.flush();
+	await em.persist([mug, cuttingBoard, bracelet]).flush();
 });
 
 describe('POST /api/checkout/calculateTax', () => {
@@ -309,13 +343,19 @@ describe('POST /api/checkout/submitOrder', () => {
 	it('rejects empty cart with 400 error', async () => {
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
-			.send({ items: [], shippingAddress: address, email: 'test@example.com' });
+			.send({
+				items: [],
+				shippingAddress: address,
+				email: 'test@example.com',
+				totalCents: 0,
+			});
 
 		expect(res.status).toBe(400);
 		expect(res.body).toHaveProperty('error');
 	});
 
 	it('creates order with correct totals, payment intent, status, and address', async () => {
+		const totalCents = expectedTotalCents(2500, 0, address);
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
 			.send({
@@ -328,6 +368,7 @@ describe('POST /api/checkout/submitOrder', () => {
 				],
 				shippingAddress: address,
 				email: 'buyer@example.com',
+				totalCents,
 			});
 
 		expect(res.status).toBe(200);
@@ -349,6 +390,7 @@ describe('POST /api/checkout/submitOrder', () => {
 	});
 
 	it('handles multiple items with variations and captures snapshots correctly', async () => {
+		const totalCents = expectedTotalCents(6100, 1000, address);
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
 			.send({
@@ -366,6 +408,7 @@ describe('POST /api/checkout/submitOrder', () => {
 				],
 				shippingAddress: address,
 				email: 'buyer@example.com',
+				totalCents,
 			});
 
 		expect(res.status).toBe(200);
@@ -396,6 +439,84 @@ describe('POST /api/checkout/submitOrder', () => {
 		});
 	});
 
+	it('includes the personalization surcharge in the subtotal and snapshot when supported', async () => {
+		const totalCents = expectedTotalCents(3500, 0, address);
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'cbrc01',
+						selectedOptions: {},
+						quantity: 1,
+						personalizationText: 'Happy Birthday',
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents,
+			});
+
+		expect(res.status).toBe(200);
+
+		const em = getEm();
+		const order = await em.findOne(AppOrder, {
+			shortId: res.body.orderShortId,
+		}, { populate: ['appOrderItemCollection'] });
+
+		expect(order!.subtotal).toBe(3500); // $30 + $5 personalization
+
+		const [item] = order!.appOrderItemCollection.getItems();
+		expect(item.snapshot).toMatchObject({
+			unitPriceCents: 3500,
+			personalizationText: 'Happy Birthday',
+			personalizationName: 'Engraving',
+		});
+	});
+
+	it('returns 400 when personalization text is provided but the listing has no personalization profile', async () => {
+		const totalCents = expectedTotalCents(2500, 0, address);
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+						personalizationText: 'Happy Birthday',
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/personalization/i);
+	});
+
+	it('returns 409 when the submitted total no longer matches the calculated total', async () => {
+		const totalCents = expectedTotalCents(2500, 0, address) + 100;
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents,
+			});
+
+		expect(res.status).toBe(409);
+		expect(res.body.error).toMatch(/price/i);
+	});
+
 	it('returns 400 when selectedOptions references an unknown variation ID', async () => {
 		const res = await request(getApp())
 			.post('/api/checkout/submitOrder')
@@ -403,6 +524,7 @@ describe('POST /api/checkout/submitOrder', () => {
 				items: [{ listingShortId: 'cmug01', selectedOptions: { 'bad-var-id': MUG_OPT_SMALL }, quantity: 1 }],
 				shippingAddress: address,
 				email: 'buyer@example.com',
+				totalCents: 0,
 			});
 
 		expect(res.status).toBe(400);
@@ -416,6 +538,7 @@ describe('POST /api/checkout/submitOrder', () => {
 				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: 'bad-opt-id' }, quantity: 1 }],
 				shippingAddress: address,
 				email: 'buyer@example.com',
+				totalCents: 0,
 			});
 
 		expect(res.status).toBe(400);
@@ -429,6 +552,7 @@ describe('POST /api/checkout/submitOrder', () => {
 				items: [{ listingShortId: 'cmug01', selectedOptions: { [MUG_VAR_ID]: MUG_OPT_JUMBO }, quantity: 1 }],
 				shippingAddress: address,
 				email: 'buyer@example.com',
+				totalCents: 0,
 			});
 
 		expect(res.status).toBe(400);

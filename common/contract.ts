@@ -79,6 +79,7 @@ const TaxRequestSchema = z.object({
 
 const CheckoutBodySchema = TaxRequestSchema.extend({
 	email: z.string(),
+	totalCents: z.number(),
 });
 
 const TaxResponseSchema = z.object({ TaxTotalCents: z.number() });
@@ -107,6 +108,7 @@ export const checkoutContract = c.router({
 		responses: {
 			200: PaymentIntentResponseSchema,
 			400: ErrorSchema,
+			409: ErrorSchema,
 			500: ErrorSchema,
 		},
 	},

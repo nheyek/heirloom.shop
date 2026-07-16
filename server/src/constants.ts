@@ -20,4 +20,8 @@ export const ERROR_MESSAGES = {
 	order: {
 		notFound: 'Order not found',
 	},
+	checkout: {
+		priceMismatch:
+			'Prices have changed since you added items to your cart. Please refresh the page and try again.',
+	},
 };
