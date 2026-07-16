@@ -34,7 +34,6 @@ Like other marketplaces, Heirloom will charge a commission on each sale. Unlike 
 * Database: PostgreSQL, accessed via MikroORM; schema migrations managed with [dbmate](https://github.com/amacneil/dbmate) (`db/migrations`, `db/schema.sql`)
 * Auth: Auth0 (`@auth0/auth0-react` on the front-end, `express-oauth2-jwt-bearer` on the back-end)
 * Payments: Stripe (Stripe Elements on the front-end, Stripe webhooks on the back-end)
-* Storage: AWS S3 for listing/shop images
 * Email: Resend
 * Testing: Jest for unit and integration tests (`supertest` against the Express app), separate configs for `test:unit` and `test:integration`
 
