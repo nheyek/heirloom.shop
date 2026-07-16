@@ -44,7 +44,7 @@ export const ShopCard = (props: Props) => {
 			</RouterLink>
 			<Card.Body
 				p={3}
-				gap={1.5}
+				gap={1}
 				fontFamily={displayFontFamily}
 			>
 				<Stack gap={0}>
