@@ -91,7 +91,7 @@ export const LandingPage = () => {
 						Welcome to
 					</Text>
 					<Box
-						width={{ base: 120, lg: 150 }}
+						width={130}
 						flexShrink={0}
 						ml={0.5}
 						mt={1.5}
