@@ -28,9 +28,15 @@ Like other marketplaces, Heirloom will charge a commission on each sale. Unlike 
 * Dev: https://dev.heirloom.shop
 
 # Stack
-* Back-end: TypeScript (Node/Express)
-* Front-end: TypeScript (React)
-* Database: PostgreSQL
+* Back-end: TypeScript (Node/Express 5), with [ts-rest](https://ts-rest.com/) for contract-first API definitions shared with the front-end
+* Front-end: TypeScript (React 19), Chakra UI, webpack/webpack-dev-server
+* Shared: a `common` workspace holding the ts-rest/zod API contract and validation/domain logic used by both `server` and `client`
+* Database: PostgreSQL, accessed via MikroORM; schema migrations managed with [dbmate](https://github.com/amacneil/dbmate) (`db/migrations`, `db/schema.sql`)
+* Auth: Auth0 (`@auth0/auth0-react` on the front-end, `express-oauth2-jwt-bearer` on the back-end)
+* Payments: Stripe (Stripe Elements on the front-end, Stripe webhooks on the back-end)
+* Storage: AWS S3 for listing/shop images
+* Email: Resend
+* Testing: Jest for unit and integration tests (`supertest` against the Express app), separate configs for `test:unit` and `test:integration`
 
 # Documentation
 * [Development Guide](https://github.com/nheyek/heirloom.shop/wiki/Development-Guide)
