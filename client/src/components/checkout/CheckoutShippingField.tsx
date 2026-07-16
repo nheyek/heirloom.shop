@@ -1,13 +1,13 @@
 import { Input, InputProps } from '@chakra-ui/react';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 
-export const TextField = ({
+export const CheckoutShippingField = ({
 	invalid,
 	...rest
 }: InputProps & { invalid?: boolean }) => (
 	<Input
 		variant="subtle"
-		fontSize={16}
+		fontSize={18}
 		p={3}
 		height={12}
 		borderRadius={5}

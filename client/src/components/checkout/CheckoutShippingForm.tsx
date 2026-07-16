@@ -10,8 +10,8 @@ import {
 	Stack,
 } from '@chakra-ui/react';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
-import { TextField } from '@client/components/input/TextField';
-import { TextFieldError } from '@client/components/input/TextFieldError';
+import { CheckoutShippingField } from '@client/components/checkout/CheckoutShippingField';
+import { CheckoutShippingFieldError } from '@client/components/checkout/CheckoutShippingFieldError';
 import { Layout, US_STATES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FIELD_ERROR_COLOR } from '@client/theme';
@@ -127,7 +127,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				disabled={props.disabled}
 			>
 				<Field.Root gap={0}>
-					<TextField
+					<CheckoutShippingField
 						placeholder="Email address"
 						name="email"
 						type="email"
@@ -138,7 +138,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						}}
 						invalid={!!checkoutEmailError}
 					/>
-					<TextFieldError errorText={checkoutEmailError} />
+					<CheckoutShippingFieldError errorText={checkoutEmailError} />
 				</Field.Root>
 
 				<Flex
@@ -150,7 +150,7 @@ export const CheckoutShippingForm = (props: Props) => {
 					}
 				>
 					<Field.Root>
-						<TextField
+						<CheckoutShippingField
 							placeholder="First name"
 							name="given-name"
 							value={shippingAddress.firstName}
@@ -163,7 +163,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						/>
 					</Field.Root>
 					<Field.Root gap={0}>
-						<TextField
+						<CheckoutShippingField
 							placeholder="Last name"
 							name="family-name"
 							value={shippingAddress.lastName}
@@ -176,7 +176,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.lastName}
 						/>
-						<TextFieldError
+						<CheckoutShippingFieldError
 							errorText={shippingAddressErrors.lastName}
 						/>
 					</Field.Root>
@@ -189,7 +189,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						width="100%"
 					>
 						<InputGroup startElement={<FaSearch />}>
-							<TextField
+							<CheckoutShippingField
 								placeholder="Address"
 								name="address-line1"
 								value={
@@ -248,7 +248,7 @@ export const CheckoutShippingForm = (props: Props) => {
 												px={3}
 												py={2}
 												cursor="pointer"
-												fontSize={14}
+												fontSize={18}
 												_hover={{
 													bg: 'gray.100',
 												}}
@@ -268,13 +268,13 @@ export const CheckoutShippingForm = (props: Props) => {
 									)}
 								</Box>
 							)}
-						<TextFieldError
+						<CheckoutShippingFieldError
 							errorText={shippingAddressErrors.line1}
 						/>
 					</Box>
 				</Field.Root>
 				<Field.Root>
-					<TextField
+					<CheckoutShippingField
 						name="address-line2"
 						placeholder="Apartment, suite, etc. (optional)"
 						value={shippingAddress.line2}
@@ -296,7 +296,7 @@ export const CheckoutShippingForm = (props: Props) => {
 					}
 				>
 					<Field.Root gap={0}>
-						<TextField
+						<CheckoutShippingField
 							placeholder="City"
 							name="city"
 							value={shippingAddress.city}
@@ -309,7 +309,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.city}
 						/>
-						<TextFieldError
+						<CheckoutShippingFieldError
 							errorText={shippingAddressErrors.city}
 						/>
 					</Field.Root>
@@ -323,7 +323,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								name="address-level1"
 								autoComplete="address-level1"
 								height={12}
-								fontSize={16}
+								fontSize={18}
 								value={shippingAddress.state}
 								onChange={(e) => {
 									setShippingAddress({
@@ -352,12 +352,12 @@ export const CheckoutShippingForm = (props: Props) => {
 
 							<NativeSelect.Indicator />
 						</NativeSelect.Root>
-						<TextFieldError
+						<CheckoutShippingFieldError
 							errorText={shippingAddressErrors.state}
 						/>
 					</Field.Root>
 					<Field.Root gap={0}>
-						<TextField
+						<CheckoutShippingField
 							placeholder="Zip code"
 							name="postal-code"
 							value={shippingAddress.zip}
@@ -370,7 +370,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.zip}
 						/>
-						<TextFieldError
+						<CheckoutShippingFieldError
 							errorText={shippingAddressErrors.zip}
 						/>
 					</Field.Root>

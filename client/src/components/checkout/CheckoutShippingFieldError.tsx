@@ -1,7 +1,7 @@
 import { Collapsible, Text } from '@chakra-ui/react';
 import { FIELD_ERROR_COLOR } from '@client/theme';
 
-export const TextFieldError = (props: {
+export const CheckoutShippingFieldError = (props: {
 	errorText?: String | null;
 }) => (
 	<Collapsible.Root open={Boolean(props.errorText)}>

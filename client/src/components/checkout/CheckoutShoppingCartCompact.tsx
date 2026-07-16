@@ -34,12 +34,13 @@ export const CheckoutShoppingCartCompact = () => {
 					overflowX="scroll"
 					m={-5}
 					p={5}
+					alignItems="flex-start"
 				>
 					{shoppingCart.items.map((item, index) => (
 						<OrderItemCard
 							key={index}
 							item={getOrderItemDisplayData(item)}
-							cardProps={{ minW: 250, maxW: 300 }}
+							cardProps={{ minW: 300 }}
 						/>
 					))}
 				</HStack>
