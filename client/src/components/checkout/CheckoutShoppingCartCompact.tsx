@@ -1,7 +1,6 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
-import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
 
 export const CheckoutShoppingCartCompact = () => {

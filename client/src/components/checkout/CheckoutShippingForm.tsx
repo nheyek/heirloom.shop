@@ -138,7 +138,9 @@ export const CheckoutShippingForm = (props: Props) => {
 						}}
 						invalid={!!checkoutEmailError}
 					/>
-					<CheckoutShippingFieldError errorText={checkoutEmailError} />
+					<CheckoutShippingFieldError
+						errorText={checkoutEmailError}
+					/>
 				</Field.Root>
 
 				<Flex
