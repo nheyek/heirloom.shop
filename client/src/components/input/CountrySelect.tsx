@@ -8,6 +8,10 @@ type CountrySelectProps = {
 	onChange: (value: CountryCode) => void;
 };
 
+const sortedCountryCodes = Object.values(CountryCode).sort((a, b) =>
+	countryDisplayName[a].localeCompare(countryDisplayName[b]),
+);
+
 export const CountrySelect = ({
 	value,
 	onChange,
@@ -37,7 +41,7 @@ export const CountrySelect = ({
 					maxH={300}
 					overflowY="auto"
 				>
-					{Object.values(CountryCode).map((code) => (
+					{sortedCountryCodes.map((code) => (
 						<Menu.Item
 							key={code}
 							value={code}
