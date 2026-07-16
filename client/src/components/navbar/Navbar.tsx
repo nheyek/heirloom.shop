@@ -18,7 +18,7 @@ import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCart
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { NAVBAR_HEIGHT } from '@client/theme';
+import { FONT_SANS, NAVBAR_HEIGHT } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
 
@@ -188,8 +188,9 @@ export const Navbar = () => {
 											right={-1}
 											p={1.5}
 											borderRadius="full"
-											fontSize={16}
+											fontSize={13}
 											fontWeight={700}
+											fontFamily={FONT_SANS}
 										>
 											{
 												shoppingCart.itemQuantityTotal
