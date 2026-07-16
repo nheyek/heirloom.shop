@@ -2,7 +2,11 @@ import {
 	CartItemData,
 	OrderItemDisplayData,
 } from '@heirloom/common/contract';
-import { getCombinationKey, resolveEffectiveCombinationPrice } from '@heirloom/common/domain/listing';
+import {
+	getCombinationKey,
+	isValidCombinationSelection,
+	resolveEffectiveCombinationPrice,
+} from '@heirloom/common/domain/listing';
 
 export type ShoppingCartItem = {
 	listingData: CartItemData;
@@ -62,4 +66,20 @@ export const calculateItemPrice = (
 		listingData.personalizationCostCents != null
 		? basePrice + listingData.personalizationCostCents
 		: basePrice;
+};
+
+export const isCartItemValid = (
+	selectedOptions: Record<string, string>,
+	listingData: CartItemData | undefined,
+	personalizationText?: string | null,
+): boolean => {
+	if (!listingData) return false;
+	if (!listingData.available) return false;
+	if (personalizationText && listingData.personalizationName == null)
+		return false;
+	return isValidCombinationSelection(
+		selectedOptions,
+		listingData.variations,
+		listingData.combinations,
+	);
 };

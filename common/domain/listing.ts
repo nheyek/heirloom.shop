@@ -305,6 +305,23 @@ export const isVariationOptionDisabled = (
 	return combinations[key]?.disabled ?? true;
 };
 
+export const isValidCombinationSelection = (
+	selectedOptions: Record<string, string>,
+	variations: Variations,
+	combinations: Combinations,
+): boolean => {
+	const variationIds = Object.keys(variations);
+	if (variationIds.length === 0) return true;
+
+	for (const varId of variationIds) {
+		const optionId = selectedOptions[varId];
+		if (!optionId || !variations[varId].options[optionId])
+			return false;
+	}
+	const key = getCombinationKey(selectedOptions);
+	return !(combinations[key]?.disabled ?? true);
+};
+
 export const syncVariationOptions = (
 	combinations: Combinations,
 	varId: string,

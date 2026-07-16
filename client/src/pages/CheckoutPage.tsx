@@ -51,11 +51,16 @@ export const CheckoutPage = () => {
 		shippingAddress,
 		validateLocalCheckoutFields,
 		validateAddressDeliverable,
+		hydrateCart,
 		clearCart,
 	} = useShoppingCart();
 
 	const [pendingSubmit, setPendingSubmit] = useState(false);
 	const shippingFormRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		hydrateCart();
+	}, []);
 
 	useEffect(() => {
 		return () => {

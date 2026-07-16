@@ -5,7 +5,11 @@ import {
 	ShippingAddressErrors,
 	simplifyCartItems,
 } from '@client/domain/checkout';
-import { calculateItemPrice } from '@client/domain/shoppingCart';
+import {
+	calculateItemPrice,
+	isCartItemValid,
+	ShoppingCartItem,
+} from '@client/domain/shoppingCart';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { usePersistedState } from '@client/hooks/usePersistedState';
@@ -16,8 +20,6 @@ import {
 	CheckoutItemData,
 	ShippingAddress,
 } from '@heirloom/common/contract';
-
-import { ShoppingCartItem } from '@client/domain/shoppingCart';
 import {
 	createContext,
 	useContext,
@@ -28,7 +30,6 @@ import {
 
 type PersistedCartItem = CheckoutItemData & {
 	addedAt: number;
-	personalizationText?: string;
 };
 
 type ShoppingCartContext = {
@@ -70,6 +71,7 @@ type ShoppingCartContext = {
 	// Everything that requires a network round-trip (address deliverability).
 	// Callers should already be in a loading state before calling this.
 	validateAddressDeliverable: () => Promise<boolean>;
+	hydrateCart: () => Promise<void>;
 	clearShippingAddressError: (key: keyof ShippingAddress) => void;
 	clearEmailError: () => void;
 	clearCart: () => void;
@@ -156,7 +158,7 @@ export const ShoppingCartProvider = (props: {
 			calculateItemPrice(
 				listingData,
 				p.selectedOptions,
-				p.personalizationText,
+				p.personalizationText ?? undefined,
 			) *
 				p.quantity
 		);
@@ -168,13 +170,12 @@ export const ShoppingCartProvider = (props: {
 		return sum + (listingData.shippingPrice || 0) * p.quantity;
 	}, 0);
 
-	// Hydrate listing data from server on mount
-	useEffect(() => {
+	const hydrateCart = async () => {
 		if (persistedItems.length === 0) return;
 
 		setCartLoading(true);
 
-		callApi(
+		const result = await callApi(
 			apiClient.listings.getCartData({
 				body: {
 					items: persistedItems.map(
@@ -182,28 +183,34 @@ export const ShoppingCartProvider = (props: {
 					),
 				},
 			}),
-		).then((result) => {
-			if (result.error !== null) {
-				setCartLoading(false);
-				return;
-			}
+		);
 
-			const listingMap: Record<string, CartItemData> = {};
-			for (const listing of result.data) {
-				listingMap[listing.shortId] = listing;
-			}
-			setCartListingData(listingMap);
-
-			// Drop any persisted items whose listing was not found
-			const foundShortIds = new Set(Object.keys(listingMap));
-			setPersistedItems((prev) =>
-				prev.filter((p) =>
-					foundShortIds.has(p.listingShortId),
-				),
-			);
-
+		if (result.error !== null) {
 			setCartLoading(false);
-		});
+			return;
+		}
+
+		const listingMap: Record<string, CartItemData> = {};
+		for (const listing of result.data) {
+			listingMap[listing.shortId] = listing;
+		}
+		setCartListingData(listingMap);
+
+		setPersistedItems((prev) =>
+			prev.filter((p) =>
+				isCartItemValid(
+					p.selectedOptions,
+					listingMap[p.listingShortId],
+					p.personalizationText,
+				),
+			),
+		);
+
+		setCartLoading(false);
+	};
+
+	useEffect(() => {
+		hydrateCart();
 	}, []);
 
 	useEffect(() => {
@@ -408,6 +415,7 @@ export const ShoppingCartProvider = (props: {
 				setShippingAddress,
 				validateLocalCheckoutFields,
 				validateAddressDeliverable,
+				hydrateCart,
 				clearShippingAddressError,
 				clearEmailError: () => setCheckoutEmailError(null),
 				clearCart: () => {
@@ -437,7 +445,7 @@ export const useShoppingCart = () => {
 const getItemKey = (
 	listingId: string,
 	selectedOptions: Record<string, string>,
-	personalizationText?: string,
+	personalizationText?: string | null,
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort()

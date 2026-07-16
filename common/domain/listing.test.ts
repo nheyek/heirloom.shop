@@ -4,6 +4,7 @@ import {
 	Variations,
 	getCombinationKey,
 	getListingDisplayPrice,
+	isValidCombinationSelection,
 	isVariationOptionDisabled,
 } from './listing.js';
 
@@ -332,6 +333,87 @@ describe('isVariationOptionDisabled', () => {
 				'm',
 				{},
 				singleVariation,
+				combinations,
+			),
+		).toBe(true);
+	});
+});
+
+describe('isValidCombinationSelection', () => {
+	const variations: Variations = {
+		size: makeVariation('Size', 0, false, {
+			s: { order: 0 },
+			m: { order: 1 },
+		}),
+		color: makeVariation('Color', 1, false, {
+			red: { order: 0 },
+			blue: { order: 1 },
+		}),
+	};
+
+	it('is valid with no variations regardless of selection', () => {
+		expect(isValidCombinationSelection({}, {}, {})).toBe(true);
+	});
+
+	it('is invalid when a variation has no selection', () => {
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm' },
+				variations,
+				{},
+			),
+		).toBe(false);
+	});
+
+	it('is invalid when a selected option no longer exists on the variation', () => {
+		expect(
+			isValidCombinationSelection(
+				{ size: 'xl', color: 'red' },
+				variations,
+				{},
+			),
+		).toBe(false);
+	});
+
+	it('defaults to invalid when every option exists but no combination entry exists', () => {
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				variations,
+				{},
+			),
+		).toBe(false);
+	});
+
+	it('is invalid when the combination is explicitly disabled', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: true,
+			},
+		};
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				variations,
+				combinations,
+			),
+		).toBe(false);
+	});
+
+	it('is valid when every option exists and the combination is enabled', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+			},
+		};
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				variations,
 				combinations,
 			),
 		).toBe(true);
