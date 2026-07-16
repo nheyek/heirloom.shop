@@ -41,10 +41,7 @@ export const NavbarMenu = () => {
 				<Menu.Positioner>
 					<NavMenuContent width={150}>
 						<Link to={`/${CLIENT_ROUTES.orders}`}>
-							<NavMenuItem
-								value="orders"
-								isFirst
-							>
+							<NavMenuItem value="orders">
 								<FaScroll />
 								<Text>Orders</Text>
 							</NavMenuItem>
