@@ -11,7 +11,7 @@ jobs:
             DEV_DATABASE_ID: ${{ secrets.DEV_DATABASE_ID }}
         steps:
             - name: Checkout repo
-              uses: actions/checkout@v4
+              uses: actions/checkout@v7
 
             - id: fw
               uses: ./.github/actions/db-firewall-runner-ip-add
