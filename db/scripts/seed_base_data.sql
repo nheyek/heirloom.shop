@@ -86,7 +86,10 @@ BEGIN
         ('AT', 'Austria'),
         ('CH', 'Switzerland'),
         ('PT', 'Portugal'),
-        ('DK', 'Denmark')
+        ('DK', 'Denmark'),
+        ('IS', 'Iceland'),
+        ('NO', 'Norway'),
+        ('JP', 'Japan')
     ON CONFLICT (code) DO UPDATE SET
         name = EXCLUDED.name;
 

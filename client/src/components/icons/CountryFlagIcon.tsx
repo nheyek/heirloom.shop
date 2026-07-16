@@ -238,6 +238,52 @@ export const CountryFlagIcon = (props: {
 						/>
 					</>
 				)}
+				{props.countryCode === CountryCode.IS && (
+					<>
+						<path
+							fill="#0052b4"
+							d="M0 0h512v512H0z"
+						/>
+						<path
+							fill="#eee"
+							d="M160 0h96v512h-96zM0 208h512v96H0z"
+						/>
+						<path
+							fill="#d80027"
+							d="M184 0h48v512h-48zM0 232h512v48H0z"
+						/>
+					</>
+				)}
+				{props.countryCode === CountryCode.NO && (
+					<>
+						<path
+							fill="#ba0c2f"
+							d="M0 0h512v512H0z"
+						/>
+						<path
+							fill="#eee"
+							d="M160 0h96v512h-96zM0 208h512v96H0z"
+						/>
+						<path
+							fill="#00205b"
+							d="M184 0h48v512h-48zM0 232h512v48H0z"
+						/>
+					</>
+				)}
+				{props.countryCode === CountryCode.JP && (
+					<>
+						<path
+							fill="#eee"
+							d="M0 0h512v512H0z"
+						/>
+						<circle
+							cx="256"
+							cy="256"
+							r="96"
+							fill="#d80027"
+						/>
+					</>
+				)}
 			</g>
 		</svg>
 	);
