@@ -14,7 +14,11 @@ import {
 	NavMenuContent,
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
-import { displayFontFamily, sidebarWidth } from '@client/theme';
+import {
+	displayFontFamily,
+	navbarHeight,
+	sidebarWidth,
+} from '@client/theme';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -52,7 +56,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={0}
+			top={navbarHeight.DESKTOP}
 			overflowY="auto"
 		>
 			{navItems.map(({ label, icon: Icon, route }) => {
