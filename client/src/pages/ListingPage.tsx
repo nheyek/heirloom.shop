@@ -44,7 +44,7 @@ import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FONT_DECORATIVE } from '@client/theme';
-import { toaster } from '@client/toaster';
+import { toastSuccess } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { getListingDataForCart } from '@client/utils/mappers';
 import {
@@ -106,10 +106,7 @@ export const ListingPage = () => {
 				: undefined,
 		);
 
-		toaster.create({
-			title: 'Added to Cart',
-			description: listingData.title,
-			type: 'success',
+		toastSuccess('Added to Cart', listingData.title, {
 			action: {
 				label: 'View',
 				onClick: shoppingCart.openDrawer,

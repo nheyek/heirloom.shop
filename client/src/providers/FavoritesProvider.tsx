@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { CLIENT_ROUTES, StorageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
-import { toaster } from '@client/toaster';
+import { toastInfo, toastSuccess } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -148,20 +148,14 @@ export const FavoritesProvider = (props: {
 				}
 				return reverted;
 			});
+		} else if (wasFavorited) {
+			toastInfo('Removed from favorites', shop.title);
 		} else {
-			toaster.create({
-				title: wasFavorited
-					? 'Removed from favorites'
-					: 'Favorited',
-				description: shop.title,
-				type: wasFavorited ? 'info' : 'success',
-				action: wasFavorited
-					? undefined
-					: {
-							label: 'View',
-							onClick: () =>
-								navigate(CLIENT_ROUTES.favorites),
-						},
+			toastSuccess('Favorited', shop.title, {
+				action: {
+					label: 'View',
+					onClick: () => navigate(CLIENT_ROUTES.favorites),
+				},
 			});
 		}
 	};
@@ -214,20 +208,14 @@ export const FavoritesProvider = (props: {
 				}
 				return reverted;
 			});
+		} else if (wasFavorited) {
+			toastInfo('Removed from favorites', listing.title);
 		} else {
-			toaster.create({
-				title: wasFavorited
-					? 'Removed from favorites'
-					: 'Favorited',
-				description: listing.title,
-				type: wasFavorited ? 'info' : 'success',
-				action: wasFavorited
-					? undefined
-					: {
-							label: 'View',
-							onClick: () =>
-								navigate(CLIENT_ROUTES.favorites),
-						},
+			toastSuccess('Favorited', listing.title, {
+				action: {
+					label: 'View',
+					onClick: () => navigate(CLIENT_ROUTES.favorites),
+				},
 			});
 		}
 	};

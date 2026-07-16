@@ -16,15 +16,7 @@ export const NavMenuContent = (props: NavMenuContentProps) => (
 	/>
 );
 
-type NavMenuItemProps = MenuItemProps & {
-	// Suppresses the top border separator for the first item in the list
-	isFirst?: boolean;
-};
-
-export const NavMenuItem = ({
-	isFirst,
-	...props
-}: NavMenuItemProps) => (
+export const NavMenuItem = (props: MenuItemProps) => (
 	<Menu.Item
 		fontSize={20}
 		cursor="pointer"
@@ -33,7 +25,6 @@ export const NavMenuItem = ({
 		gap={4}
 		width="100%"
 		borderRadius={0}
-		{...(!isFirst && { borderTopWidth: 1 })}
 		{...props}
 	/>
 );
