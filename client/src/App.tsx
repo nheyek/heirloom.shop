@@ -4,7 +4,7 @@ import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPage
 import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
-import { NAVBAR_HEIGHT } from '@client/theme';
+import { navbarHeight } from '@client/theme';
 import React from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
@@ -52,8 +52,8 @@ const App = () => {
 				transition="opacity 0.25s"
 				overflowY="auto"
 				pt={{
-					base: NAVBAR_HEIGHT.MOBILE,
-					md: NAVBAR_HEIGHT.DESKTOP,
+					base: navbarHeight.MOBILE,
+					md: navbarHeight.DESKTOP,
 				}}
 				zIndex="docked"
 			>

@@ -13,7 +13,7 @@ import {
 	CLIENT_ROUTES,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { formatDateCompact } from '@client/utils/dateUtils';
 import {
 	OrderItemDisplayData,
@@ -128,7 +128,7 @@ export const OrderItemPreview = ({ order }: Props) => {
 						<Heading
 							fontSize={24}
 							fontWeight={500}
-							fontFamily={FONT_DECORATIVE}
+							fontFamily={displayFontFamily}
 						>
 							{order.shortId}
 						</Heading>

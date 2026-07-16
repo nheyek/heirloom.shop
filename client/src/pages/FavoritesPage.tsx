@@ -6,7 +6,7 @@ import { AppError } from '@client/components/feedback/AppError';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { SIDEBAR_GRID_COLUMNS } from '@client/theme';
+import { sidebarGridCols } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -65,7 +65,7 @@ export const FavoritesPage = () => {
 		return <AppError title={error} />;
 	}
 
-	const gridColumns = SIDEBAR_GRID_COLUMNS;
+	const gridColumns = sidebarGridCols;
 
 	const isEmpty =
 		!isLoading && listings.length === 0 && shops.length === 0;

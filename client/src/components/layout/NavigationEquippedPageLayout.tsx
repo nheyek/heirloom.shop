@@ -14,7 +14,7 @@ import {
 	NavMenuContent,
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
-import { FONT_DECORATIVE, SIDEBAR_WIDTH_PX } from '@client/theme';
+import { displayFontFamily, sidebarWidth } from '@client/theme';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -48,7 +48,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 		<Stack
 			gap={2}
 			p={3}
-			w={SIDEBAR_WIDTH_PX}
+			w={sidebarWidth}
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
@@ -217,7 +217,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 			<Heading
 				fontSize={36}
 				fontWeight={500}
-				fontFamily={FONT_DECORATIVE}
+				fontFamily={displayFontFamily}
 			>
 				{match.navItem.title}
 			</Heading>
@@ -227,7 +227,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	return (
 		<Heading
 			fontSize={32}
-			fontFamily={FONT_DECORATIVE}
+			fontFamily={displayFontFamily}
 		>
 			<Link
 				asChild

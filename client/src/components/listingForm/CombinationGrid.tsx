@@ -7,12 +7,15 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
-import { Combination, Variation } from '@client/components/listingForm/useListingForm';
+import {
+	Combination,
+	Variation,
+} from '@client/components/listingForm/useListingForm';
 import {
 	InputSize,
 	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { FIELD_ERROR_COLOR } from '@client/theme';
+import { fieldErrorColor } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	deriveCombinationsList,
@@ -69,7 +72,7 @@ export const CombinationGrid = ({
 	return (
 		<Table.ScrollArea
 			borderWidth={1}
-			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
+			borderColor={invalid ? fieldErrorColor : 'gray.200'}
 			borderRadius="md"
 			alignSelf="flex-start"
 			maxH={500}
@@ -91,7 +94,7 @@ export const CombinationGrid = ({
 						{...(invalidKeys?.has(
 							combinationsList[0].key,
 						) && {
-							borderBottomColor: FIELD_ERROR_COLOR,
+							borderBottomColor: fieldErrorColor,
 						})}
 					>
 						{showImage && (
@@ -156,7 +159,7 @@ export const CombinationGrid = ({
 								})}
 								{...(errorBottomBorder && {
 									borderBottomColor:
-										FIELD_ERROR_COLOR,
+										fieldErrorColor,
 								})}
 							>
 								{/* Image */}

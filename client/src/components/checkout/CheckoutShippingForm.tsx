@@ -14,7 +14,7 @@ import { CheckoutShippingField } from '@client/components/checkout/CheckoutShipp
 import { CheckoutShippingFieldError } from '@client/components/checkout/CheckoutShippingFieldError';
 import { Layout, US_STATES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FIELD_ERROR_COLOR } from '@client/theme';
+import { fieldErrorColor } from '@client/theme';
 import { extractAddressFields } from '@client/utils/addressUtils';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
@@ -338,7 +338,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								}}
 								border={
 									shippingAddressErrors.state
-										? `1px solid ${FIELD_ERROR_COLOR}`
+										? `1px solid ${fieldErrorColor}`
 										: undefined
 								}
 							>

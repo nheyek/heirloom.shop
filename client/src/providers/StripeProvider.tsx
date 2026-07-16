@@ -1,5 +1,5 @@
 import { useToken } from '@chakra-ui/react';
-import { breakpoints, FONT_DISPLAY } from '@client/theme';
+import { breakpoints, defaultFontFamily } from '@client/theme';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
@@ -44,7 +44,7 @@ export const StripeProvider = ({ children }: Props) => {
 				labels: 'floating',
 				variables: {
 					spacingUnit: '4px',
-					fontFamily: `${FONT_DISPLAY}, sans-serif`,
+					fontFamily: `${defaultFontFamily}, sans-serif`,
 				},
 				rules: {
 					'.Input': {

@@ -1,7 +1,7 @@
 import { Breadcrumb, HStack, Link } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { Fragment } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
@@ -30,7 +30,7 @@ export const CategoryBreadcrumb = ({
 		<Breadcrumb.Root>
 			<Breadcrumb.List
 				fontSize={fontSize}
-				fontFamily={FONT_DECORATIVE}
+				fontFamily={displayFontFamily}
 				flexWrap="wrap"
 				rowGap={2}
 			>

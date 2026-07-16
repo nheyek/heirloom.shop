@@ -8,7 +8,7 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { FIELD_ERROR_COLOR } from '@client/theme';
+import { fieldErrorColor } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaSignature } from 'react-icons/fa';
 
@@ -91,7 +91,7 @@ export const PersonalizationOption = ({
 							placeholder={profile.name}
 							borderColor={
 								textError
-									? FIELD_ERROR_COLOR
+									? fieldErrorColor
 									: undefined
 							}
 						/>

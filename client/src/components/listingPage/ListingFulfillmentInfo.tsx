@@ -1,9 +1,15 @@
-import { Box, HStack, Popover, Portal, Stack } from '@chakra-ui/react';
+import {
+	Box,
+	HStack,
+	Popover,
+	Portal,
+	Stack,
+} from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { IconText } from '@client/components/textDisplay/IconText';
 import { ReturnPolicyDisplay } from '@client/domain/listingPage';
-import { COLOR_BRAND } from '@client/theme';
+import { brandColor } from '@client/theme';
 import { ListingFulfillmentProfiles } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaExchangeAlt } from 'react-icons/fa';
@@ -94,7 +100,7 @@ export const ListingFulfillmentInfo = ({
 				<HStack gap={1}>
 					Fulfilled by
 					<Box width={76}>
-						<Logo fill={COLOR_BRAND} />
+						<Logo fill={brandColor} />
 					</Box>
 				</HStack>
 			</IconText>

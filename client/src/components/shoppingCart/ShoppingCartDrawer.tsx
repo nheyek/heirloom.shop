@@ -14,7 +14,7 @@ import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/Shoppi
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
@@ -43,7 +43,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 						<Drawer.Title
 							fontSize={32}
 							fontWeight={500}
-							fontFamily={FONT_DECORATIVE}
+							fontFamily={displayFontFamily}
 						>
 							Shopping Cart
 						</Drawer.Title>
@@ -136,7 +136,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 											fontSize={26}
 											fontWeight={600}
 											fontFamily={
-												FONT_DECORATIVE
+												displayFontFamily
 											}
 											paddingBottom={1}
 										>

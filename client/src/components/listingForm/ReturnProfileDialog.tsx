@@ -14,7 +14,7 @@ import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { RichTextEditor } from '@client/components/richText/RichTextEditor';
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
-import { FONT_SANS } from '@client/theme';
+import { sansFontFamily } from '@client/theme';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { validateReturnProfileInput } from '@heirloom/common/validation/profiles';
 import {
@@ -234,7 +234,7 @@ export const ReturnProfileDialog = ({
 								size="lg"
 								w={16}
 								fontSize={16}
-								fontFamily={FONT_SANS}
+								fontFamily={sansFontFamily}
 								value={windowDays}
 								onChange={(e) => {
 									setWindowDays(

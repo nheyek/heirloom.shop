@@ -22,7 +22,7 @@ import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -159,7 +159,7 @@ export const ShopPage = () => {
 						{/* Text block */}
 						<Stack
 							gap={0}
-							fontFamily={FONT_DECORATIVE}
+							fontFamily={displayFontFamily}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
@@ -167,7 +167,7 @@ export const ShopPage = () => {
 								display="block"
 								fontSize={titleFontSize}
 								fontWeight={700}
-								fontFamily={FONT_DECORATIVE}
+								fontFamily={displayFontFamily}
 								lineHeight={1}
 							>
 								{shopData?.title}

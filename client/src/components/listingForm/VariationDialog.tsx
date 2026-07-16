@@ -18,7 +18,7 @@ import { Variation } from '@client/components/listingForm/useListingForm';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { FIELD_ERROR_COLOR } from '@client/theme';
+import { fieldErrorColor } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	DndContext,
@@ -211,7 +211,7 @@ const OptionRow = ({
 					? {
 							bg: 'white',
 							...(invalid && {
-								borderColor: FIELD_ERROR_COLOR,
+								borderColor: fieldErrorColor,
 							}),
 						}
 					: {
@@ -473,8 +473,9 @@ export const VariationDialog = ({
 			existingNames,
 		);
 		const nameErrorMessage =
-			errors.find((e) => e.field === ValidationField.VariationName)
-				?.message ?? null;
+			errors.find(
+				(e) => e.field === ValidationField.VariationName,
+			)?.message ?? null;
 		const optionsErrorMessage =
 			errors.find(
 				(e) => e.field === ValidationField.VariationOptions,
@@ -622,7 +623,7 @@ export const VariationDialog = ({
 									borderWidth={1}
 									borderColor={
 										optionsError
-											? FIELD_ERROR_COLOR
+											? fieldErrorColor
 											: 'gray.200'
 									}
 									borderRadius="md"
@@ -656,7 +657,7 @@ export const VariationDialog = ({
 																			1
 																	],
 															  )
-															? FIELD_ERROR_COLOR
+															? fieldErrorColor
 															: 'gray.200'
 												}
 												deletable={

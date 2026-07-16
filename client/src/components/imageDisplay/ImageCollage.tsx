@@ -5,7 +5,7 @@ import {
 	GridItem,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { FONT_SANS } from '@client/theme';
+import { sansFontFamily } from '@client/theme';
 import { useState } from 'react';
 import { FaImages } from 'react-icons/fa';
 import { AppImage } from './AppImage';
@@ -112,7 +112,7 @@ export const ImageCollage = (props: Props) => {
 							right={3}
 							bottom={3}
 							onClick={() => setLightBoxPage(0)}
-							fontFamily={FONT_SANS}
+							fontFamily={sansFontFamily}
 						>
 							<FaImages />
 							{props.urls.length} images

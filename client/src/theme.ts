@@ -7,24 +7,24 @@ import {
 	defineTextStyles,
 } from '@chakra-ui/react';
 
-export const COLOR_BRAND = '#121212';
-export const FIELD_ERROR_COLOR = '#df1b41';
-export const CHAKRA_SPACING_UNIT = 4;
-export const FONT_SANS = 'Roboto';
-export const FONT_DECORATIVE = 'Alegreya';
-export const FONT_DISPLAY = 'Alegreya Sans';
+export const brandColor = '#121212';
+export const fieldErrorColor = '#df1b41';
+export const chakraSpacingUnit = 4;
+export const sansFontFamily = 'Roboto';
+export const displayFontFamily = 'Alegreya';
+export const defaultFontFamily = 'Alegreya Sans';
 
-export const ANIMATION_NAME = {
+export const animationName = {
 	itemGridEnter: 'item-grid-enter',
 };
 
-export const NAVBAR_HEIGHT = {
+export const navbarHeight = {
 	DESKTOP: 68, // Spacing units
 	MOBILE: 120, // Pixels
 };
-export const SIDEBAR_WIDTH_PX = 250;
+export const sidebarWidth = 250;
 
-const BASE_BREAKPOINTS = {
+const baseBreakpoints = {
 	sm: 600,
 	md: 900,
 	lg: 1200,
@@ -39,7 +39,7 @@ export const sidebarBreakpoint = {
 	'2xl': '2xl_sb',
 };
 
-export const SIDEBAR_GRID_COLUMNS = {
+export const sidebarGridCols = {
 	base: 1,
 	[sidebarBreakpoint.sm]: 2,
 	[sidebarBreakpoint.md]: 3,
@@ -48,15 +48,15 @@ export const SIDEBAR_GRID_COLUMNS = {
 
 export const breakpoints = {
 	...Object.fromEntries(
-		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
+		Object.entries(baseBreakpoints).map(([key, value]) => [
 			key,
 			`${value}px`,
 		]),
 	),
 	...Object.fromEntries(
-		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
+		Object.entries(baseBreakpoints).map(([key, value]) => [
 			`${key}_sb`,
-			`${value + SIDEBAR_WIDTH_PX}px`,
+			`${value + sidebarWidth}px`,
 		]),
 	),
 };
@@ -84,8 +84,8 @@ const buttonRecipe = defineRecipe({
 			},
 			outline: {
 				borderWidth: 2,
-				color: COLOR_BRAND,
-				borderColor: COLOR_BRAND,
+				color: brandColor,
+				borderColor: brandColor,
 			},
 		},
 		size: {
@@ -146,7 +146,7 @@ const textStyles = defineTextStyles({
 export const config = defineConfig({
 	globalCss: {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${ANIMATION_NAME.itemGridEnter}`]: {
+		[`@keyframes ${animationName.itemGridEnter}`]: {
 			from: { transform: 'translateY(-10px)' },
 			to: { transform: 'translateY(0)' },
 		} as any,
@@ -178,20 +178,20 @@ export const config = defineConfig({
 		breakpoints,
 		tokens: {
 			spacing: {
-				1: { value: `${CHAKRA_SPACING_UNIT}px` },
+				1: { value: `${chakraSpacingUnit}px` },
 			},
 			fonts: {
-				body: { value: FONT_DISPLAY },
+				body: { value: defaultFontFamily },
 				heading: {
-					value: FONT_DECORATIVE,
+					value: displayFontFamily,
 				},
 			},
 		},
 		semanticTokens: {
 			colors: {
 				brand: {
-					DEFAULT: { value: COLOR_BRAND },
-					solid: { value: COLOR_BRAND },
+					DEFAULT: { value: brandColor },
+					solid: { value: brandColor },
 				},
 			},
 		},

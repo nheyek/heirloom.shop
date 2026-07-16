@@ -1,6 +1,6 @@
 import { Box, Button, Center, Stack, Text } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { FaScroll } from 'react-icons/fa';
 import { FaArrowRight, FaCircleCheck } from 'react-icons/fa6';
 import { Link, Navigate, useLocation } from 'react-router-dom';
@@ -37,7 +37,7 @@ export const OrderConfirmedPage = () => {
 
 					<Text
 						fontSize={44}
-						fontFamily={FONT_DECORATIVE}
+						fontFamily={displayFontFamily}
 					>
 						Order Confirmed
 					</Text>

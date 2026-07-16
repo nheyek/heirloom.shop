@@ -32,12 +32,12 @@ import {
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
-import { CHAKRA_SPACING_UNIT } from '@client/theme';
+import { chakraSpacingUnit } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useState } from 'react';
 
 const IMAGES_W =
-	3 * THUMBNAIL_WIDTH + 2 * (CHAKRA_SPACING_UNIT * THUMBNAIL_GAP);
+	3 * THUMBNAIL_WIDTH + 2 * (chakraSpacingUnit * THUMBNAIL_GAP);
 
 type ListingFormFieldsProps = {
 	form: ListingFormState;

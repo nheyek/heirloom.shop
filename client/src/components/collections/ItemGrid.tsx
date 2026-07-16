@@ -9,7 +9,7 @@ import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { ANIMATION_NAME } from '@client/theme';
+import { animationName } from '@client/theme';
 import { ReactNode } from 'react';
 
 const STAGGER_INTERVAL = 0;
@@ -50,7 +50,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			key={key}
 			minWidth={minItemWidth}
 			maxWidth={maxItemWidth}
-			animation={`${ANIMATION_NAME.itemGridEnter} 0.25s ease-out`}
+			animation={`${animationName.itemGridEnter} 0.25s ease-out`}
 		>
 			{child}
 		</Box>

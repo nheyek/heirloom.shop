@@ -9,7 +9,7 @@ import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -82,7 +82,7 @@ export const LandingPage = () => {
 					alignItems="center"
 				>
 					<Text
-						fontFamily={FONT_DECORATIVE}
+						fontFamily={displayFontFamily}
 						fontSize={36}
 						fontWeight={400}
 						pr="7px"

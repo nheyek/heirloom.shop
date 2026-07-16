@@ -12,7 +12,7 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { ShopCardData } from '@heirloom/common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
@@ -45,7 +45,7 @@ export const ShopCard = (props: Props) => {
 			<Card.Body
 				p={3}
 				gap={1.5}
-				fontFamily={FONT_DECORATIVE}
+				fontFamily={displayFontFamily}
 			>
 				<Stack gap={0}>
 					<RouterLink to={shopUrl}>

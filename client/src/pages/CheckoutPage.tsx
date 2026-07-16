@@ -19,7 +19,7 @@ import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -96,7 +96,10 @@ export const CheckoutPage = () => {
 
 	const handleConfirmation = async () => {
 		const scrollToShippingForm = () => {
-			if (layout === Layout.COMPACT && shippingFormRef.current) {
+			if (
+				layout === Layout.COMPACT &&
+				shippingFormRef.current
+			) {
 				const top =
 					shippingFormRef.current.getBoundingClientRect()
 						.top;
@@ -287,7 +290,7 @@ export const CheckoutPage = () => {
 							<Text
 								fontSize={26}
 								fontWeight={600}
-								fontFamily={FONT_DECORATIVE}
+								fontFamily={displayFontFamily}
 								paddingBottom={1}
 							>
 								{formatCentsAsDollars(orderTotal)}

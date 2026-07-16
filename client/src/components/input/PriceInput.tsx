@@ -1,6 +1,6 @@
 import { Input, InputGroup } from '@chakra-ui/react';
 import { InputSize } from '@client/constants';
-import { FIELD_ERROR_COLOR, FONT_SANS } from '@client/theme';
+import { fieldErrorColor, sansFontFamily } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import React, { useState } from 'react';
 import { FaDollarSign } from 'react-icons/fa6';
@@ -68,7 +68,7 @@ export const PriceInput = ({
 		<InputGroup startElement={<FaDollarSign size={iconSize} />}>
 			<Input
 				name="price"
-				fontFamily={FONT_SANS}
+				fontFamily={sansFontFamily}
 				fontSize={fontSize}
 				w={w}
 				h={h}
@@ -76,7 +76,7 @@ export const PriceInput = ({
 				disabled={disabled}
 				{...(enclosed && { bg: 'white' })}
 				{...(!enclosed && { border: 'none' })}
-				{...(invalid && { borderColor: FIELD_ERROR_COLOR })}
+				{...(invalid && { borderColor: fieldErrorColor })}
 				{...(inherited && !focused && { color: 'gray.500' })}
 				onKeyDown={onKeyDown}
 				onChange={(e) => {

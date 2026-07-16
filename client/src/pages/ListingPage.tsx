@@ -43,7 +43,7 @@ import { useShareListing } from '@client/hooks/useShareListing';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FONT_DECORATIVE } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { toastSuccess } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { getListingDataForCart } from '@client/utils/mappers';
@@ -206,7 +206,7 @@ export const ListingPage = () => {
 						<Stack gap={4}>
 							<Stack
 								gap={1}
-								fontFamily={FONT_DECORATIVE}
+								fontFamily={displayFontFamily}
 								mr={5}
 							>
 								<Text
@@ -244,7 +244,7 @@ export const ListingPage = () => {
 							</Stack>
 							<Stack
 								fontSize={20}
-								fontFamily={FONT_DECORATIVE}
+								fontFamily={displayFontFamily}
 								gap={1.5}
 							>
 								<Text>{listingData?.subtitle}</Text>
@@ -346,7 +346,7 @@ export const ListingPage = () => {
 												fontSize={26}
 												fontWeight={600}
 												fontFamily={
-													FONT_DECORATIVE
+													displayFontFamily
 												}
 												paddingBottom={1}
 											>

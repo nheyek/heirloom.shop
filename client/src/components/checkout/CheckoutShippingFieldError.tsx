@@ -1,5 +1,5 @@
 import { Collapsible, Text } from '@chakra-ui/react';
-import { FIELD_ERROR_COLOR } from '@client/theme';
+import { fieldErrorColor } from '@client/theme';
 
 export const CheckoutShippingFieldError = (props: {
 	errorText?: String | null;
@@ -8,7 +8,7 @@ export const CheckoutShippingFieldError = (props: {
 		<Collapsible.Content>
 			<Text
 				fontSize={15}
-				color={FIELD_ERROR_COLOR}
+				color={fieldErrorColor}
 				lineHeight={1}
 				paddingTop={2.5}
 			>

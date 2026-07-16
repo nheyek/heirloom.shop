@@ -5,7 +5,7 @@ import { ListingEditCard } from '@client/components/itemDisplay/ListingEditCard'
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { SIDEBAR_GRID_COLUMNS } from '@client/theme';
+import { sidebarGridCols } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ListingCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
@@ -69,7 +69,7 @@ export const ShopManagerListingsPage = () => {
 					items={listings}
 					isLoading={isLoading}
 					getItemKey={(listing) => listing.id}
-					columns={SIDEBAR_GRID_COLUMNS}
+					columns={sidebarGridCols}
 					renderItem={(listing, isMobile) => (
 						<ListingEditCard
 							{...listing}
