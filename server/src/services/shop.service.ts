@@ -13,7 +13,7 @@ import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { findOrCreateUser } from '@server/services/user.service';
-import { encodeShortId } from '@server/utils/hashids';
+import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
 export class DuplicateShopTitleError extends Error {}
 
@@ -65,7 +65,7 @@ export const createShop = async (
 	const country = em.getReference(Country, body.countryCode);
 	const shop = em.create(Shop, {
 		id: nextId,
-		shortId: encodeShortId(nextId),
+		shortId: encodeShortId(nextId, ShortIdEntityType.Shop),
 		title: body.title,
 		classification: body.classification,
 		shopLocation: body.location,

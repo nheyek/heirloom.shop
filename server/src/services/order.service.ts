@@ -7,7 +7,7 @@ import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppOrderItem } from '@server/entities/generated/AppOrderItem';
 import { AppUser } from '@server/entities/generated/AppUser';
-import { encodeShortId } from '@server/utils/hashids';
+import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 import { randomBytes } from 'crypto';
 
 export const createOrder = async (
@@ -28,7 +28,7 @@ export const createOrder = async (
 
 	const order = em.create(AppOrder, {
 		id: nextId,
-		shortId: encodeShortId(nextId),
+		shortId: encodeShortId(nextId, ShortIdEntityType.Order),
 		accessKey: randomBytes(16).toString('hex'),
 		shippingAddress,
 		subtotal: subtotalCents,

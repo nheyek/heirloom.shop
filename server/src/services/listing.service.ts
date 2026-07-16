@@ -3,7 +3,7 @@ import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { Shop } from '@server/entities/generated/Shop';
-import { encodeShortId } from '@server/utils/hashids';
+import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
 export const findListingsComplete = async (): Promise<Listing[]> => {
 	const em = getEm();
@@ -114,7 +114,7 @@ export const createListing = async (
 
 	const listing = em.create(Listing, {
 		id: nextId,
-		shortId: encodeShortId(nextId),
+		shortId: encodeShortId(nextId, ShortIdEntityType.Listing),
 		title: profileApiRequest.title,
 		fullDescr: profileApiRequest.desc,
 		shop: em.getReference(Shop, shopId),

@@ -28,7 +28,7 @@ import { ListingProcessingProfile } from '@server/entities/generated/ListingProc
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
 import { Shop } from '@server/entities/generated/Shop';
-import { encodeShortId } from '@server/utils/hashids';
+import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
 export class ListingValidationError extends Error {
 	constructor(public readonly fieldErrors: FieldError[]) {
@@ -237,7 +237,7 @@ export const createListing = async (
 
 	const listing = em.create(Listing, {
 		id: nextId,
-		shortId: encodeShortId(nextId),
+		shortId: encodeShortId(nextId, ShortIdEntityType.Listing),
 		title: data.title,
 		subtitle: data.subtitle ?? undefined,
 		category: category!,
