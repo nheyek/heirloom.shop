@@ -1,8 +1,8 @@
 import { useToken } from '@chakra-ui/react';
+import { breakpoints, FONT_DISPLAY } from '@client/theme';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
-import { breakpoints } from '@client/theme';
 
 const stripePromise = loadStripe(
 	'pk_test_51T45cDQ5g6WbwJsUBcf1MIcU1OLAfvZ3dKWFQf1ly9DOIFU9mFqUvbylLBLkOYoVHpaMinK7Zst2l68Js0Ez0MPt00g6hawzCL',
@@ -25,7 +25,9 @@ export const StripeProvider = ({ children }: Props) => {
 		'gray.500',
 	]);
 
-	const useDarkMode = !window.matchMedia(`(min-width: ${breakpoints.md})`).matches;
+	const useDarkMode = !window.matchMedia(
+		`(min-width: ${breakpoints.md})`,
+	).matches;
 
 	const optionsRef = useRef<object | null>(null);
 	if (!optionsRef.current && gray100) {
@@ -33,12 +35,20 @@ export const StripeProvider = ({ children }: Props) => {
 			mode: 'payment',
 			amount: 99999,
 			currency: 'usd',
+			fonts: [
+				{
+					cssSrc: 'https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&display=swap',
+				},
+			],
 			appearance: {
 				labels: 'floating',
-				variables: { spacingUnit: '4px' },
+				variables: {
+					spacingUnit: '4px',
+					fontFamily: `${FONT_DISPLAY}, sans-serif`,
+				},
 				rules: {
 					'.Input': {
-						fontSize: '16px',
+						fontSize: '18px',
 						borderRadius: '5px',
 						boxShadow: 'none',
 						backgroundColor: useDarkMode
@@ -55,16 +65,20 @@ export const StripeProvider = ({ children }: Props) => {
 					'.Input:focus': {
 						outline: `1px solid ${useDarkMode ? 'white' : gray400}`,
 						boxShadow: 'none',
-						border: useDarkMode
-							? '1px solid white'
-							: '0',
+						border: useDarkMode ? '1px solid white' : '0',
 					},
 					'.Error': {
-						fontSize: '15px',
-						paddingTop: '6px',
+						fontSize: '16px',
+						paddingTop: '2px',
 					},
 					'.Label': {
 						color: useDarkMode ? gray200 : gray500,
+					},
+					'.Label--resting': {
+						fontSize: '18px',
+					},
+					'.Label--floating': {
+						fontSize: '14px',
 					},
 				},
 			},
