@@ -8,7 +8,11 @@ import * as favoriteShopService from '@server/services/favoriteShop.service';
 import * as listingService from '@server/services/listing.service';
 import * as shopService from '@server/services/shop.service';
 import { DuplicateShopTitleError } from '@server/services/shop.service';
-import { generateListingImageUploadUrl, generateShopImageUploadUrl } from '@server/services/storage.service';
+import {
+	generateListingImageUploadUrl,
+	generateShopImageUploadUrl,
+	InvalidContentTypeError,
+} from '@server/services/storage.service';
 import * as userService from '@server/services/user.service';
 
 const s = initServer();
@@ -164,8 +168,18 @@ export const shopRouter = s.router(shopsContract, {
 					body: { error: ERROR_MESSAGES.shop.forbidden },
 				};
 			}
-			const result = await generateShopImageUploadUrl(body.contentType);
-			return { status: 200 as const, body: result };
+			try {
+				const result = await generateShopImageUploadUrl(body.contentType);
+				return { status: 200 as const, body: result };
+			} catch (e) {
+				if (e instanceof InvalidContentTypeError) {
+					return {
+						status: 400 as const,
+						body: { error: ERROR_MESSAGES.image.invalidContentType },
+					};
+				}
+				throw e;
+			}
 		},
 	},
 	getListingImageUploadUrl: {
@@ -189,8 +203,18 @@ export const shopRouter = s.router(shopsContract, {
 					body: { error: ERROR_MESSAGES.shop.forbidden },
 				};
 			}
-			const result = await generateListingImageUploadUrl(id, body.contentType);
-			return { status: 200 as const, body: result };
+			try {
+				const result = await generateListingImageUploadUrl(id, body.contentType);
+				return { status: 200 as const, body: result };
+			} catch (e) {
+				if (e instanceof InvalidContentTypeError) {
+					return {
+						status: 400 as const,
+						body: { error: ERROR_MESSAGES.image.invalidContentType },
+					};
+				}
+				throw e;
+			}
 		},
 	},
 	unfavorite: {

@@ -7,6 +7,13 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 			uuid: 'img-test-uuid',
 			uploadUrl: 'https://example.com/shop-upload',
 		}),
+	generateListingImageUploadUrl: jest
+		.fn<() => Promise<{ uuid: string; uploadUrl: string }>>()
+		.mockResolvedValue({
+			uuid: 'listing-test-uuid',
+			uploadUrl: 'https://example.com/listing-upload',
+		}),
+	InvalidContentTypeError: class InvalidContentTypeError extends Error {},
 }));
 
 import { getEm } from '@server/db';
