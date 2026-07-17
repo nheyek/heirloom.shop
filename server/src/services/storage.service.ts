@@ -20,6 +20,21 @@ const CONTENT_TYPE_TO_EXT: Record<string, string> = {
 	'image/avif': 'avif',
 };
 
+export class InvalidContentTypeError extends Error {
+	constructor(contentType: string) {
+		super(`Unsupported image content type: ${contentType}`);
+		this.name = 'InvalidContentTypeError';
+	}
+}
+
+const assertValidImageContentType = (contentType: string): string => {
+	const ext = CONTENT_TYPE_TO_EXT[contentType];
+	if (!ext) {
+		throw new InvalidContentTypeError(contentType);
+	}
+	return ext;
+};
+
 const generateUploadUrl = async (
 	key: string,
 	contentType: string,
@@ -40,7 +55,7 @@ const generateUploadUrl = async (
 export const generateShopImageUploadUrl = async (
 	contentType: string,
 ): Promise<{ uuid: string; uploadUrl: string }> => {
-	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
+	const ext = assertValidImageContentType(contentType);
 	const uuid = randomUUID();
 	return generateUploadUrl(
 		`shop-profile-images/${uuid}.${ext}`,
@@ -52,7 +67,7 @@ export const generateListingImageUploadUrl = async (
 	shopShortId: string,
 	contentType: string,
 ): Promise<{ uuid: string; uploadUrl: string }> => {
-	const ext = CONTENT_TYPE_TO_EXT[contentType] ?? 'jpg';
+	const ext = assertValidImageContentType(contentType);
 	const uuid = randomUUID();
 	return generateUploadUrl(
 		`listing-images/${shopShortId}/${uuid}.${ext}`,

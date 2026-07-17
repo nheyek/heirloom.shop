@@ -14,6 +14,9 @@ export const ERROR_MESSAGES = {
 		forbidden:
 			'Forbidden: You do not have permission to perform this action on the shop',
 	},
+	image: {
+		invalidContentType: 'Unsupported image content type',
+	},
 	user: {
 		notFound: 'User not found',
 	},

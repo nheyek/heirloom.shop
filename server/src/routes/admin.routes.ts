@@ -9,7 +9,7 @@ import {
 	getShopFulfillment,
 	updateShopFulfillment,
 } from '@server/services/shop.service';
-import { generateShopImageUploadUrl } from '@server/services/storage.service';
+import { generateShopImageUploadUrl, InvalidContentTypeError } from '@server/services/storage.service';
 import { initServer } from '@ts-rest/express';
 
 const s = initServer();
@@ -55,10 +55,22 @@ export const adminRouter = s.router(adminContract, {
 	},
 	getShopImageUploadUrl: {
 		middleware: [adminAuth],
-		handler: async ({ body }) => ({
-			status: 200 as const,
-			body: await generateShopImageUploadUrl(body.contentType),
-		}),
+		handler: async ({ body }) => {
+			try {
+				return {
+					status: 200 as const,
+					body: await generateShopImageUploadUrl(body.contentType),
+				};
+			} catch (e) {
+				if (e instanceof InvalidContentTypeError) {
+					return {
+						status: 400 as const,
+						body: { error: ERROR_MESSAGES.image.invalidContentType },
+					};
+				}
+				throw e;
+			}
+		},
 	},
 	getShopFulfillment: {
 		middleware: [adminAuth],

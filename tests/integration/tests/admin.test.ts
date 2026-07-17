@@ -16,6 +16,7 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 			uuid: 'test-uuid-456',
 			uploadUrl: 'https://example.com/listing-upload',
 		}),
+	InvalidContentTypeError: class InvalidContentTypeError extends Error {},
 }));
 
 import { getEm } from '@server/db';
