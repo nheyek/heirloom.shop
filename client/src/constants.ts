@@ -67,6 +67,7 @@ export enum CountryCode {
 	IS = 'IS',
 	NO = 'NO',
 	JP = 'JP',
+	NL = 'NL',
 }
 
 export const US_STATES = [
@@ -139,6 +140,7 @@ export const countryDisplayName = {
 	[CountryCode.IS]: 'Iceland',
 	[CountryCode.NO]: 'Norway',
 	[CountryCode.JP]: 'Japan',
+	[CountryCode.NL]: 'Netherlands',
 };
 
 export enum FulfillmentType {

@@ -284,6 +284,22 @@ export const CountryFlagIcon = (props: {
 						/>
 					</>
 				)}
+				{props.countryCode === CountryCode.NL && (
+					<>
+						<path
+							fill="#cd1f2a"
+							d="M0 0h512v171H0z"
+						/>
+						<path
+							fill="#eee"
+							d="M0 171h512v170H0z"
+						/>
+						<path
+							fill="#1d4185"
+							d="M0 341h512v171H0z"
+						/>
+					</>
+				)}
 			</g>
 		</svg>
 	);
