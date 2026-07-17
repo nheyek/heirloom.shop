@@ -23,6 +23,10 @@ const AUTH = { Authorization: 'Bearer test' };
  * Shop "The Glass Studio" — no optional fields, shortId="glas21"
  *   (no listings)
  *
+ * Shop "The Metalworks" — no optional fields, shortId="metl22"
+ *   testUser has a non-owner ("staff") role assignment here
+ *   (no listings)
+ *
  * IDs are DB-generated (not hardcoded) to avoid collisions with other test
  * files sharing the same database; woodworkersId captures the generated id
  * for assertions below that check it.
@@ -45,6 +49,10 @@ beforeAll(async () => {
 		shortId: 'glas21',
 		title: 'The Glass Studio',
 	});
+	const metalworks = em.create(Shop, {
+		shortId: 'metl22',
+		title: 'The Metalworks',
+	});
 
 	const table = em.create(Listing, {
 		shortId: 'tbl001',
@@ -66,13 +74,18 @@ beforeAll(async () => {
 		user: testUser,
 		shopRole: 'owner',
 	});
+	const staffRole = em.create(ShopUserRole, {
+		shop: metalworks,
+		user: testUser,
+		shopRole: 'staff',
+	});
 
 	await seedCountries(em);
 
 	await em
-		.persist([woodworkers, glassStudio, table, bookshelf])
+		.persist([woodworkers, glassStudio, metalworks, table, bookshelf])
 		.flush();
-	await em.persist(ownerRole).flush();
+	await em.persist([ownerRole, staffRole]).flush();
 
 	woodworkersId = woodworkers.id;
 });
@@ -240,6 +253,17 @@ describe('PATCH /api/shops/:id', () => {
 			.patch('/api/shops/glas21')
 			.set(AUTH)
 			.send({ ...validUpdate, title: 'The Glass Studio' });
+		expect(res.status).toBe(403);
+		expect(res.body).toMatchObject({
+			error: ERROR_MESSAGES.shop.forbidden,
+		});
+	});
+
+	it('returns 403 for a user with a non-owner role assignment on the shop', async () => {
+		const res = await request(getApp())
+			.patch('/api/shops/metl22')
+			.set(AUTH)
+			.send({ ...validUpdate, title: 'The Metalworks' });
 		expect(res.status).toBe(403);
 		expect(res.body).toMatchObject({
 			error: ERROR_MESSAGES.shop.forbidden,

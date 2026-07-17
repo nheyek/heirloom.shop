@@ -199,6 +199,7 @@ export const updateShopFulfillment = async (
 export const authorizeShopAction = async (
 	shopId: number,
 	userEmail: string,
+	allowedRoles: ShopRole[] = [ShopRole.OWNER],
 ) => {
 	const em = getEm();
 
@@ -210,7 +211,10 @@ export const authorizeShopAction = async (
 		user: { email: userEmail },
 	});
 
-	if (!roleAssignment) {
+	if (
+		!roleAssignment ||
+		!allowedRoles.includes(roleAssignment.shopRole as ShopRole)
+	) {
 		throw new Error(
 			'No role assignment found for user with this shop',
 		);
