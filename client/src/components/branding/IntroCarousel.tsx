@@ -8,9 +8,7 @@ import {
 import { displayFontFamily } from '@client/theme';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
-import { FaHandshakeSimple } from 'react-icons/fa6';
-import { PiShieldCheckeredFill } from 'react-icons/pi';
-import { TbLaurelWreath } from 'react-icons/tb';
+import { FaBox, FaCrown, FaHeart } from 'react-icons/fa6';
 
 type IntroItem = {
 	Icon: IconType;
@@ -19,39 +17,39 @@ type IntroItem = {
 
 const introItems: IntroItem[] = [
 	{
-		Icon: TbLaurelWreath,
+		Icon: FaCrown,
 		text: (
 			<>
 				An exhibition of
 				<br />
-				world-class craftsmanship
+				premier craftsmanship
 			</>
 		),
 	},
 	{
-		Icon: FaHandshakeSimple,
+		Icon: FaHeart,
 		text: (
 			<>
-				Connecting buyers
+				Discover and save
 				<br />
-				and makers directly
+				shops and listings
 			</>
 		),
 	},
 	{
-		Icon: PiShieldCheckeredFill,
+		Icon: FaBox,
 		text: (
 			<>
-				No ads, no gimmicks,
+				Free shipping & returns
 				<br />
-				guaranteed authenticity
+				on all orders
 			</>
 		),
 	},
 ];
 
 export const IntroCarousel = () => {
-	const slidesPerPage = useBreakpointValue({ base: 1, lg: 3 }) || 1;
+	const slidesPerPage = useBreakpointValue({ base: 1, md: 3 }) || 1;
 	const showControls = slidesPerPage < introItems.length;
 
 	return (
@@ -59,13 +57,14 @@ export const IntroCarousel = () => {
 			slideCount={introItems.length}
 			slidesPerPage={slidesPerPage}
 			loop
+			width="100%"
+			maxW={1000}
 		>
 			<Carousel.ItemGroup>
 				{introItems.map((item, index) => (
 					<Carousel.Item
 						key={index}
 						index={index}
-						mx={{ base: 0, lg: 10 }}
 					>
 						<Stack
 							alignItems="center"
@@ -73,7 +72,7 @@ export const IntroCarousel = () => {
 							gap={3}
 							py={2}
 						>
-							<item.Icon size={32} />
+							<item.Icon size={24} />
 							<Text
 								fontSize={22}
 								textAlign="center"

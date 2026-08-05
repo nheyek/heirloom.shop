@@ -1,11 +1,9 @@
-import { Box, Flex, Heading, Stack, Text } from '@chakra-ui/react';
+import { Box, Flex, Stack, Text } from '@chakra-ui/react';
 import { IntroCarousel } from '@client/components/branding/IntroCarousel';
 import { Logo } from '@client/components/branding/Logo';
-import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { NUM_TOP_LEVEL_CATEGORIES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -70,11 +68,11 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={10}
+			gap={6}
 			mt={8}
 		>
 			<Stack
-				gap={2}
+				gap={4}
 				alignItems="center"
 			>
 				<Flex
@@ -91,7 +89,7 @@ export const LandingPage = () => {
 						Welcome to
 					</Text>
 					<Box
-						width={130}
+						width={140}
 						flexShrink={0}
 						ml={0.5}
 						mt={1.5}
@@ -103,49 +101,50 @@ export const LandingPage = () => {
 				<IntroCarousel />
 			</Stack>
 
-			{categoriesError ? (
-				<AppError title="Failed to load categories" />
-			) : (
-				<CategoryGrid
-					isLoading={showCategoriesLoading}
-					categories={getChildCategories(null)}
-					numPlaceholders={NUM_TOP_LEVEL_CATEGORIES}
-				/>
-			)}
+			<Stack
+				px={5}
+				pb={5}
+				gap={10}
+			>
+				{shopsError ? (
+					<AppError title="Failed to load makers" />
+				) : (
+					<Stack gap={2}>
+						<Text
+							fontSize={32}
+							fontWeight={500}
+							fontFamily={displayFontFamily}
+						>
+							Featured Shops
+						</Text>
 
-			{shopsError ? (
-				<AppError title="Failed to load makers" />
-			) : (
-				<Stack
-					px={5}
-					gap={3}
-				>
-					<Heading fontSize={36}>Shops</Heading>
+						<ShopGrid
+							shops={shops}
+							isLoading={isLoading}
+						/>
+					</Stack>
+				)}
 
-					<ShopGrid
-						shops={shops}
-						isLoading={isLoading}
-					/>
-				</Stack>
-			)}
+				{listingsError ? (
+					<AppError title={listingsError} />
+				) : (
+					<Stack gap={2}>
+						<Text
+							fontSize={32}
+							fontWeight={500}
+							fontFamily={displayFontFamily}
+						>
+							Featured Listings
+						</Text>
 
-			{listingsError ? (
-				<AppError title={listingsError} />
-			) : (
-				<Stack
-					px={5}
-					pb={5}
-					gap={3}
-				>
-					<Heading fontSize={36}>Featured Listings</Heading>
-
-					<ListingGrid
-						listings={listings}
-						isLoading={isLoading}
-						showShopTitle
-					/>
-				</Stack>
-			)}
+						<ListingGrid
+							listings={listings}
+							isLoading={isLoading}
+							showShopTitle
+						/>
+					</Stack>
+				)}
+			</Stack>
 		</Stack>
 	);
 };
