@@ -44,6 +44,9 @@ DECLARE
     housewares_category_name CONSTANT VARCHAR := 'Housewares';
     houseware_image_uuid CONSTANT VARCHAR := '4C479374-B58F-46CB-AEAD-191336294E78';
 
+    accessories_category_id CONSTANT VARCHAR := 'ACCESSORIES';
+    accessories_category_name CONSTANT VARCHAR := 'Accessories';
+
 BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
@@ -57,7 +60,8 @@ BEGIN
         (ring_category_id, ring_category_name, NULL, ring_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (leather_goods_category_id, leather_goods_category_name, NULL, leather_goods_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (leather_bags_category_id, leather_bags_category_name, NULL, leather_bags_image_uuid, leather_goods_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (housewares_category_id, housewares_category_name, NULL, houseware_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (housewares_category_id, housewares_category_name, NULL, houseware_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (accessories_category_id, accessories_category_name, NULL, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	ON CONFLICT (id) DO UPDATE SET
 		title = EXCLUDED.title,
 		subtitle = EXCLUDED.subtitle,

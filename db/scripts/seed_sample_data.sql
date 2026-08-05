@@ -38,7 +38,7 @@ DECLARE
     sample_listing_1_id INT := 1;
     sample_listing_1_short_id VARCHAR := '4K93K';
     sample_listing_1_shop_id INT := sample_shop_1_id;
-    sample_listing_1_category_id VARCHAR := 'JEWELRY';
+    sample_listing_1_category_id VARCHAR := 'ACCESSORIES';
     sample_listing_1_title VARCHAR := 'Pocket Sundial';
     sample_listing_1_subtitle VARCHAR := 'Tell the true solar time anywhere in the world using just the power of the sun';
     sample_listing_1_price_cents INT := 8300;
@@ -55,6 +55,29 @@ DECLARE
         {
             "title": "Specifications",
             "richText": "<ul><li><p>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</p></li><li><p>Fully assembled weight: 40 g.</p></li><li><p>Ø 60 mm / 2.36 inches diameter.</p></li><li><p>Includes 10 language instruction manual.</p></li><li><p>Comes with an organic cork inlay and an elegant white slider case.</p></li><li><p>The outer and inner rings can be folded together for easy transport.</p></li></ul><p></p>"
+        }
+    ]';
+
+    sample_listing_2_id INT := 2;
+    sample_listing_2_short_id VARCHAR := 'Yb3Hn';
+    sample_listing_2_shop_id INT := sample_shop_3_id;
+    sample_listing_2_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_2_title VARCHAR := 'Sonora Small Pan';
+    sample_listing_2_subtitle VARCHAR := 'Hand-forged carbon steel pan with a short handle, gently sloping sidewalls, and hammered texture.';
+    sample_listing_2_price_cents INT := 15500;
+    sample_listing_2_image_uuids text[] := '{"3DE08646-9C92-4B2E-94A3-8EEE7AB5C6C0", "202AE1CC-8A97-4A99-8AAC-E2D0C37DD2B4", "21B3D03E-DEF2-4712-8030-D3DCBCF2370B", "4A672E7C-AE45-4D43-A148-9E0A7B718BC7", "53B8648E-BD2B-4D51-AF64-FF15F4ECC078"}';
+    sample_listing_2_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>With a short hand-forged handle, gently sloping sidewalls, and hammered texture, our small carbon steel Sonora pan is an extremely versatile utensil for any kitchen. Fantastic for omelets, vegetables, and single meat cuts.</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Total length (handle to rim): 15.5\"</p></li><li><p>Rim to rim: 8.75\"</p></li><li><p>Flat interior cooking surface: 6.25\"</p></li><li><p>Height from table to handle top: 4\"</p></li><li><p>Height from table to bowl lip: 1.25\"</p></li><li><p>Handle length: 7.25\"</p></li><li><p>Weight: approximately 3 lbs</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
         }
     ]';
 
@@ -87,7 +110,8 @@ BEGIN
 
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, created_at, updated_at)
     VALUES
-        (sample_listing_1_id, sample_listing_1_short_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_full_descr, sample_listing_1_price_cents, NULL, NULL, sample_listing_1_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_listing_1_id, sample_listing_1_short_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_full_descr, sample_listing_1_price_cents, NULL, NULL, sample_listing_1_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
