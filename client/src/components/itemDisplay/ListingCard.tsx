@@ -10,10 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
-import {
-	CLIENT_ROUTES,
-	STANDARD_IMAGE_ASPECT_RATIO,
-} from '@client/constants';
+import { CLIENT_ROUTES } from '@client/constants';
 import { ListingCardData } from '@heirloom/common/contract';
 import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
@@ -94,7 +91,7 @@ export const ListingCard = ({
 				onImageClick={() => {
 					navigate(listingUrl);
 				}}
-				aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+				aspectRatio={1}
 				urls={
 					props.multiImage
 						? props.imageUuids.map(getImageUrl)

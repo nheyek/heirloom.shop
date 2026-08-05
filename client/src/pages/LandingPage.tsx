@@ -115,7 +115,7 @@ export const LandingPage = () => {
 							fontWeight={500}
 							fontFamily={displayFontFamily}
 						>
-							Featured Shops
+							Featured Makers
 						</Text>
 
 						<ShopGrid

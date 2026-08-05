@@ -8,7 +8,7 @@ import {
 import { displayFontFamily } from '@client/theme';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
-import { FaBox, FaCrown, FaHeart } from 'react-icons/fa6';
+import { FaBoxOpen, FaCrown, FaHeart } from 'react-icons/fa6';
 
 type IntroItem = {
 	Icon: IconType;
@@ -30,19 +30,19 @@ const introItems: IntroItem[] = [
 		Icon: FaHeart,
 		text: (
 			<>
-				Discover and save
+				Discover and share
 				<br />
-				shops and listings
+				makers and listings
 			</>
 		),
 	},
 	{
-		Icon: FaBox,
+		Icon: FaBoxOpen,
 		text: (
 			<>
-				Free shipping & returns
+				Free shipping &
 				<br />
-				on all orders
+				returns on all orders
 			</>
 		),
 	},
