@@ -4,7 +4,7 @@ import {
 	SimpleGrid,
 	Stack,
 } from '@chakra-ui/react';
-import { Layout, STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { Layout, LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
 
 export const ListingPageSkeleton = (props: {
 	layout?: Layout;
@@ -68,7 +68,7 @@ export const ListingPageSkeleton = (props: {
 			<Stack gap={10}>
 				<Skeleton
 					width="100%"
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				></Skeleton>
 
 				<Stack
@@ -100,29 +100,29 @@ export const ListingPageSkeleton = (props: {
 						rowSpan={2}
 					>
 						<Skeleton
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 							height="100%"
 							width="100%"
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 					<GridItem>
 						<Skeleton
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						></Skeleton>
 					</GridItem>
 				</SimpleGrid>

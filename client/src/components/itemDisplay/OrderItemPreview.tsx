@@ -11,7 +11,7 @@ import {
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import {
 	CLIENT_ROUTES,
-	STANDARD_IMAGE_ASPECT_RATIO,
+	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { displayFontFamily } from '@client/theme';
 import { formatDateCompact } from '@client/utils/dateUtils';
@@ -24,7 +24,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const MAX_ORDER_ITEM_PREVIEW_WIDTH = 450;
 const CARD_WIDTH = 150;
-const CARD_HEIGHT = CARD_WIDTH / STANDARD_IMAGE_ASPECT_RATIO;
+const CARD_HEIGHT = CARD_WIDTH / LISTING_IMAGE_ASPECT_RATIO;
 const ROTATIONS = [0, 2, -1.5, 1, -2];
 const OFFSETS = [
 	{ x: 0, y: 0 },
@@ -84,7 +84,7 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 						flexShrink={0}
 					>
 						<MultiImage
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 							urls={
 								item.imageUuid
 									? [

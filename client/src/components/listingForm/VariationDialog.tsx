@@ -17,7 +17,7 @@ import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/components/listingForm/useListingForm';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { fieldErrorColor } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {
@@ -138,7 +138,7 @@ const OptionRow = ({
 					as="button"
 					w={OPTION_IMG_W}
 					flexShrink={0}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					display="flex"
 					alignItems="center"
 					justifyContent="center"

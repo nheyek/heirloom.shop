@@ -16,7 +16,7 @@ DECLARE
     sample_shop_2_title VARCHAR := 'Klimchi';
     sample_shop_2_profile_image_uuid VARCHAR := 'FCA75979-783E-48BF-81E6-30FAE96BAADA';
     sample_shop_2_location VARCHAR := 'Kamenický Šenov';
-    sample_shop_2_classification VARCHAR := 'Ceramics & Pottery';
+    sample_shop_2_classification VARCHAR := 'Handcrafted Bohemian glassware';
     sample_shop_2_country_code CHAR(2) := 'CZ';
 
     sample_shop_3_id INT := 3;

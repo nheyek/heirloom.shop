@@ -8,7 +8,7 @@ import {
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import {
-	STANDARD_IMAGE_ASPECT_RATIO,
+	LISTING_IMAGE_ASPECT_RATIO,
 	THUMBNAIL_GAP,
 	THUMBNAIL_WIDTH,
 } from '@client/constants';
@@ -74,7 +74,7 @@ const SortableThumbnail = ({
 				<Image
 					src={entry.previewUrl}
 					w="100%"
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					objectFit="cover"
 					borderRadius="md"
 					display="block"

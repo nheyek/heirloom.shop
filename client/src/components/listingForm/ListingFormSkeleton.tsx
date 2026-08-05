@@ -1,5 +1,5 @@
 import { Skeleton, Stack, Wrap } from '@chakra-ui/react';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
 
 export const ListingFormSkeleton = () => (
 	<Stack gap={5}>
@@ -52,17 +52,17 @@ export const ListingFormSkeleton = () => (
 			<Wrap gap={5}>
 				<Skeleton
 					w={225}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					borderRadius="md"
 				/>
 				<Skeleton
 					w={225}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					borderRadius="md"
 				/>
 				<Skeleton
 					w={225}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					borderRadius="md"
 				/>
 			</Wrap>

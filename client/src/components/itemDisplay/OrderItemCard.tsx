@@ -11,7 +11,7 @@ import {
 	Wrap,
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import { LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
@@ -45,7 +45,7 @@ export const OrderItemCard = (props: Props) => {
 		>
 			<Box position="relative">
 				<MultiImage
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={imageUrl ? [imageUrl] : []}
 				/>
 				{props.actionElements}

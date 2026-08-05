@@ -31,7 +31,7 @@ import {
 	CountryCode,
 	countryDisplayName,
 	Layout,
-	STANDARD_IMAGE_ASPECT_RATIO,
+	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -180,7 +180,7 @@ export const ListingPage = () => {
 						<ImageCollage
 							urls={imageUrls}
 							maxWidth={maxWidth}
-							aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						/>
 					</Center>
 				</Box>
@@ -188,7 +188,7 @@ export const ListingPage = () => {
 			{layout === Layout.COMPACT && (
 				<MultiImage
 					urls={imageUrls}
-					aspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				/>
 			)}
 			<Box

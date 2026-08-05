@@ -13,7 +13,7 @@ import {
 } from '@client/components/listingForm/useListingForm';
 import {
 	InputSize,
-	STANDARD_IMAGE_ASPECT_RATIO,
+	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { fieldErrorColor } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
@@ -221,7 +221,7 @@ export const CombinationGrid = ({
 														THUMB_WIDTH
 													}
 													aspectRatio={
-														STANDARD_IMAGE_ASPECT_RATIO
+														LISTING_IMAGE_ASPECT_RATIO
 													}
 													overflow="hidden"
 													cursor="pointer"

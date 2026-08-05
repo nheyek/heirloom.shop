@@ -1,12 +1,10 @@
 import {
-	AspectRatio,
+	Box,
 	Carousel,
 	Dialog,
-	HStack,
 	IconButton,
 	IconButtonProps,
 	Image,
-	useCarouselContext,
 } from '@chakra-ui/react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
@@ -27,19 +25,20 @@ export const LightBox = (props: Props) => {
 			onInteractOutside={() => {
 				props.setPage(null);
 			}}
-			size="xl"
+			size="cover"
 		>
 			<Dialog.Backdrop />
 			<Dialog.Positioner>
 				<Dialog.Content
 					bg="transparent"
-					shadow="none"
+					width="fit-content"
 				>
 					<Dialog.Body
 						display="flex"
 						alignItems="center"
 						justifyContent="center"
 						p={0}
+						height="100%"
 					>
 						<Carousel.Root
 							slideCount={props.urls.length}
@@ -47,6 +46,10 @@ export const LightBox = (props: Props) => {
 							onPageChange={(e) =>
 								props.setPage(e.page)
 							}
+							height="100%"
+							maxHeight="100%"
+							width="fit-content"
+							position="relative"
 						>
 							<ActionButton
 								onClick={() => props.setPage(null)}
@@ -56,7 +59,12 @@ export const LightBox = (props: Props) => {
 							>
 								<IoClose />
 							</ActionButton>
-							<Carousel.Control>
+							<Carousel.Control
+								height="100%"
+								display="flex"
+								alignItems="center"
+								justifyContent="center"
+							>
 								{props.urls.length > 1 && (
 									<Carousel.PrevTrigger
 										asChild
@@ -69,6 +77,7 @@ export const LightBox = (props: Props) => {
 								)}
 
 								<Carousel.ItemGroup
+									height="100%"
 									aspectRatio={props.aspectRatio}
 								>
 									{props.urls.map((src, index) => (
@@ -76,9 +85,13 @@ export const LightBox = (props: Props) => {
 											key={index}
 											index={index}
 											overflow="hidden"
+											height="100%"
 										>
 											<Image
 												src={src}
+												height="100%"
+												width="auto"
+												mx="auto"
 												objectFit="cover"
 												aspectRatio={
 													props.aspectRatio
@@ -102,49 +115,25 @@ export const LightBox = (props: Props) => {
 							</Carousel.Control>
 
 							{props.urls.length > 1 && (
-								<CarouselThumbnails
-									urls={props.urls}
-									aspectRatio={props.aspectRatio}
-								/>
+								<Box
+									position="absolute"
+									bottom={5}
+									width="full"
+								>
+									<Carousel.Indicators
+										opacity="0.5"
+										_current={{
+											bg: 'colorPalette.subtle',
+											opacity: 1,
+										}}
+									/>
+								</Box>
 							)}
 						</Carousel.Root>
 					</Dialog.Body>
 				</Dialog.Content>
 			</Dialog.Positioner>
 		</Dialog.Root>
-	);
-};
-
-const CarouselThumbnails = (props: {
-	urls: string[];
-	aspectRatio: number;
-}) => {
-	const carousel = useCarouselContext();
-
-	return (
-		<HStack justify="center">
-			<Carousel.ProgressText
-				mr={5}
-				fontWeight="bold"
-			/>
-			{props.urls.map((src, index) => (
-				<AspectRatio
-					key={index}
-					ratio={props.aspectRatio}
-					width={20}
-					cursor="button"
-					onClick={() => carousel.scrollTo(index)}
-				>
-					<Image
-						src={src}
-						w="100%"
-						h="100%"
-						objectFit="cover"
-						borderRadius={5}
-					/>
-				</AspectRatio>
-			))}
-		</HStack>
 	);
 };
 

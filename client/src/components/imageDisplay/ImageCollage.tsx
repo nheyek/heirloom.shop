@@ -44,6 +44,7 @@ export const ImageCollage = (props: Props) => {
 
 	const renderCollageImage = (index: number) => (
 		<AppImage
+			aspectRatio={props.aspectRatio}
 			imageProps={{
 				src: props.urls[index],
 				onClick: () => setLightBoxPage(index),
