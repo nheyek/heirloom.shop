@@ -1,7 +1,6 @@
 import {
 	CardRootProps,
 	Group,
-	HStack,
 	IconButton,
 	Text,
 } from '@chakra-ui/react';
@@ -32,11 +31,9 @@ export const ShoppingCartCard = (props: Props) => {
 			size="sm"
 			variant="ghost"
 			bg="gray.100"
-			{...(!isStandard && {
-				position: 'absolute' as const,
-				top: 3,
-				right: 3,
-			})}
+			position="absolute"
+			top={3}
+			right={3}
 			onClick={() =>
 				shoppingCart.removeFromCart(
 					props.item.listingData.shortId,
@@ -57,11 +54,9 @@ export const ShoppingCartCard = (props: Props) => {
 			attached
 			bg="gray.100"
 			borderRadius="full"
-			{...(!isStandard && {
-				position: 'absolute' as const,
-				bottom: 3,
-				right: 3,
-			})}
+			position="absolute"
+			bottom={3}
+			left={3}
 		>
 			<IconButton
 				size="xs"
@@ -107,15 +102,9 @@ export const ShoppingCartCard = (props: Props) => {
 			item={displayData}
 			cardProps={props.cardProps}
 			layout={props.layout}
-			actionElements={
+			imageActionElements={
 				isStandard ? (
-					<HStack
-						justifyContent="space-between"
-						width="100%"
-					>
-						{quantityControl}
-						{deleteButton}
-					</HStack>
+					quantityControl
 				) : (
 					<>
 						{deleteButton}
@@ -123,6 +112,7 @@ export const ShoppingCartCard = (props: Props) => {
 					</>
 				)
 			}
+			bodyActionElements={isStandard ? deleteButton : undefined}
 		/>
 	);
 };

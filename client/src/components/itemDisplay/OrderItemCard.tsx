@@ -23,7 +23,7 @@ import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
-const STANDARD_THUMBNAIL_WIDTH = 175;
+const STANDARD_THUMBNAIL_WIDTH = 150;
 
 const truncatePersonalizationText = (text: string): string =>
 	text.length > PERSONALIZATION_BADGE_MAX_CHARS
@@ -33,7 +33,8 @@ const truncatePersonalizationText = (text: string): string =>
 type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
-	actionElements?: ReactNode;
+	imageActionElements?: ReactNode;
+	bodyActionElements?: ReactNode;
 	layout?: Layout;
 };
 
@@ -45,7 +46,10 @@ export const OrderItemCard = (props: Props) => {
 		: undefined;
 
 	const basicInfo = (
-		<Stack gap={0}>
+		<Stack
+			gap={0}
+			pr={isStandard ? 12 : 0}
+		>
 			<Heading
 				size="2xl"
 				fontWeight="semibold"
@@ -97,7 +101,7 @@ export const OrderItemCard = (props: Props) => {
 		</Wrap>
 	);
 
-	const priceShipping = (
+	const priceAndShipping = (
 		<Flex
 			alignItems="center"
 			justifyContent="space-between"
@@ -140,11 +144,13 @@ export const OrderItemCard = (props: Props) => {
 				<Box
 					width={STANDARD_THUMBNAIL_WIDTH}
 					flexShrink={0}
+					position="relative"
 				>
 					<MultiImage
 						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						urls={imageUrl ? [imageUrl] : []}
 					/>
+					{props.imageActionElements}
 				</Box>
 
 				<Card.Body
@@ -153,14 +159,14 @@ export const OrderItemCard = (props: Props) => {
 					justifyContent="space-between"
 					minW={0}
 					flex="1"
+					position="relative"
 				>
+					{props.bodyActionElements}
 					<Stack gap={2}>
 						{basicInfo}
 						{badges}
-						{priceShipping}
 					</Stack>
-
-					{props.actionElements}
+					{priceAndShipping}
 				</Card.Body>
 			</Card.Root>
 		);
@@ -177,7 +183,7 @@ export const OrderItemCard = (props: Props) => {
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={imageUrl ? [imageUrl] : []}
 				/>
-				{props.actionElements}
+				{props.imageActionElements}
 			</Box>
 
 			<Card.Body
@@ -187,7 +193,7 @@ export const OrderItemCard = (props: Props) => {
 			>
 				{basicInfo}
 				{badges}
-				{priceShipping}
+				{priceAndShipping}
 			</Card.Body>
 		</Card.Root>
 	);
