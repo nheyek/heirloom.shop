@@ -62,79 +62,87 @@ export const ShoppingCartDrawer = (props: Props) => {
 						</Drawer.CloseTrigger>
 					</Drawer.Header>
 
-					<Drawer.Body
-						display="flex"
-						flexDir="column"
-						pb={5}
-					>
-						{shoppingCart.cartLoading ? (
+					<Drawer.Body pb={5}>
+						<Stack
+							height="100%"
+							justifyContent="space-between"
+							gap={5}
+						>
 							<Stack gap={5}>
-								{Array.from({
-									length: shoppingCart.pendingItemCount,
-								}).map((_, i) => (
-									<Skeleton
-										key={i}
-										height={300}
-										width="100%"
-										borderRadius="md"
+								{shoppingCart.cartLoading ? (
+									<>
+										{Array.from({
+											length: shoppingCart.pendingItemCount,
+										}).map((_, i) => (
+											<Skeleton
+												key={i}
+												height={300}
+												width="100%"
+												borderRadius="md"
+											/>
+										))}
+									</>
+								) : shoppingCart.itemQuantityTotal ===
+								  0 ? (
+									<ShoppingCartEmptyMessage
+										onClick={props.onClose}
 									/>
-								))}
+								) : (
+									<>
+										{shoppingCart.items
+											.sort(
+												(itemA, itemB) =>
+													itemB.addedAt -
+													itemA.addedAt,
+											)
+											.map((item) => (
+												<ShoppingCartCard
+													key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
+													item={item}
+													onNavigate={
+														props.onClose
+													}
+												/>
+											))}
+									</>
+								)}
 							</Stack>
-						) : shoppingCart.itemQuantityTotal === 0 ? (
-							<ShoppingCartEmptyMessage
-								onClick={props.onClose}
-							/>
-						) : (
-							<Stack gap={5}>
-								{shoppingCart.items
-									.sort(
-										(itemA, itemB) =>
-											itemB.addedAt -
-											itemA.addedAt,
-									)
-									.map((item) => (
-										<ShoppingCartCard
-											key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
-											item={item}
-											onNavigate={props.onClose}
-										/>
-									))}
-							</Stack>
-						)}
-					</Drawer.Body>
 
-					{shoppingCart.items.length > 0 && (
-						<Drawer.Footer>
-							<Button
-								padding={26}
-								width="100%"
-								fontSize={24}
-								onClick={() => {
-									navigate(CLIENT_ROUTES.checkout);
-									props.onClose();
-								}}
-							>
-								<Text
-									fontSize={28}
-									fontWeight={600}
-									fontFamily={displayFontFamily}
-									paddingBottom={1}
+							{shoppingCart.items.length > 0 && (
+								<Button
+									padding={26}
+									width="100%"
+									fontSize={24}
+									onClick={() => {
+										navigate(
+											CLIENT_ROUTES.checkout,
+										);
+										props.onClose();
+									}}
+									alignSelf="flex-end"
 								>
-									{formatCentsAsDollars(
-										shoppingCart.itemPriceTotal,
-									)}
-								</Text>
-								<RxDotFilled />
-								<Flex
-									gap={3}
-									alignItems="center"
-								>
-									Checkout
-									<FaArrowCircleRight />
-								</Flex>
-							</Button>
-						</Drawer.Footer>
-					)}
+									<Text
+										fontSize={28}
+										fontWeight={600}
+										fontFamily={displayFontFamily}
+										paddingBottom={1}
+									>
+										{formatCentsAsDollars(
+											shoppingCart.itemPriceTotal,
+										)}
+									</Text>
+									<RxDotFilled />
+									<Flex
+										gap={3}
+										alignItems="center"
+									>
+										Checkout
+										<FaArrowCircleRight />
+									</Flex>
+								</Button>
+							)}
+						</Stack>
+					</Drawer.Body>
 				</Drawer.Content>
 			</Drawer.Positioner>
 		</Drawer.Root>
