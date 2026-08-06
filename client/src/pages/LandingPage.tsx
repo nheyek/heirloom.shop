@@ -109,8 +109,8 @@ export const LandingPage = () => {
 				) : (
 					<Stack gap={2}>
 						<Text
-							fontSize={32}
-							fontWeight={500}
+							fontSize={30}
+							fontWeight={600}
 							fontFamily={displayFontFamily}
 						>
 							Featured Makers
@@ -128,8 +128,8 @@ export const LandingPage = () => {
 				) : (
 					<Stack gap={2}>
 						<Text
-							fontSize={32}
-							fontWeight={500}
+							fontSize={30}
+							fontWeight={600}
 							fontFamily={displayFontFamily}
 						>
 							Featured Listings

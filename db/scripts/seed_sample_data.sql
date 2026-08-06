@@ -157,9 +157,10 @@ DECLARE
     sample_listing_6_title VARCHAR := 'Boule Vase';
     sample_listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
     sample_listing_6_price_cents INT := 9800;
-    -- Secondary (non-hero) images from both color galleries; each color's
-    -- own hero shot lives on its variation option instead, per imagesVary.
-    sample_listing_6_image_uuids text[] := '{"2CF8F2CE-6E68-4B97-9269-AEA7235FDCD7", "23B51B91-4EBF-4FE4-97EF-F14E7FCF703F", "19774E62-C6B1-4D0D-91BD-6E3671168CF2", "168A2FED-05EE-432F-A085-B7768FF80568", "850BBEE6-8826-46CA-8FA9-46A43E872F50", "7E6AB14D-71C7-48A0-A1B0-4436103E2CF1", "4DC42FAA-B854-4A57-A2DA-8BBB564736C1", "E9F618BE-F4B4-47F8-98D6-A5507A453F29"}';
+    -- Raffia (white) hero shot doubles as the listing's main image, followed
+    -- by the secondary images from both color galleries; Patina's own hero
+    -- shot lives only on its variation option, per imagesVary.
+    sample_listing_6_image_uuids text[] := '{"0AB209D4-DB13-4328-B5EF-28979E679303", "2CF8F2CE-6E68-4B97-9269-AEA7235FDCD7", "23B51B91-4EBF-4FE4-97EF-F14E7FCF703F", "19774E62-C6B1-4D0D-91BD-6E3671168CF2", "168A2FED-05EE-432F-A085-B7768FF80568", "850BBEE6-8826-46CA-8FA9-46A43E872F50", "7E6AB14D-71C7-48A0-A1B0-4436103E2CF1", "4DC42FAA-B854-4A57-A2DA-8BBB564736C1", "E9F618BE-F4B4-47F8-98D6-A5507A453F29"}';
     sample_listing_6_full_descr JSONB := '[
         {
             "title": "Details",
@@ -180,6 +181,145 @@ DECLARE
     sample_listing_6_color_patina_id    CONSTANT VARCHAR := '244100e9-24f7-467d-8206-5c3e695d7858';
     sample_listing_6_raffia_image_uuid  CONSTANT VARCHAR := '0AB209D4-DB13-4328-B5EF-28979E679303';
     sample_listing_6_patina_image_uuid  CONSTANT VARCHAR := 'EE8D4704-513C-4B84-A9A4-E45FD577F2F1';
+
+    sample_listing_7_id INT := 7;
+    sample_listing_7_short_id VARCHAR := 'Hn8Vc';
+    sample_listing_7_shop_id INT := sample_shop_2_id;
+    sample_listing_7_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_7_title VARCHAR := 'Crystal Hobnail Jug';
+    sample_listing_7_subtitle VARCHAR := 'All-purpose hobnail crystal glass jug that holds up to 2 litres, with a tapered handle and ice-restraining lip.';
+    sample_listing_7_price_cents INT := 17800;
+    sample_listing_7_image_uuids text[] := '{"B33110EF-C8F1-4F12-B270-9C6438B11F45", "1C503BA1-9B4E-47F9-9C0E-CA57BCD1F299", "1F446E79-C7A7-4D7F-88A8-40FCC9E2DEE8", "2A08BAED-AFA5-413E-86C6-F66EE03E3C64", "A5A49593-6F85-43F2-8929-8D3820FE20C7", "B34387C8-89F4-4C17-B2CB-579BCC23D812", "7D1EEE94-73EB-4A51-A6BD-DD2C0B3D211A", "5D59546D-9312-42FE-9A5B-D96230FF5795", "BF1EFBF4-6BB4-467A-8DDE-3E6E2F44A715", "1341C77B-BB2D-46C1-BE00-21E4F701744F", "B931E71E-7579-4741-8AB9-B5B74D10DA5F", "320B9163-F011-4FB1-8181-90841F9FC0FF", "63125E9C-1687-4A0F-A190-17857A8E78A2"}';
+    sample_listing_7_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Whether it''s wine or lemonade, prepare to liven up any casual indoor or outdoor gathering with our all-purpose hobnail crystal glass jug. A modern approach towards the Bohemian glass tradition combined with the elegance of crystal glass, your crystal hobnail jug will make your interior shine.</p><p>Premium features such as a tapered handle give you a comfortable hold on the jug while the ice lip restrains wayward ice cubes. This crystal glass jug is lead-free and dishwasher safe.</p>"
+        },
+        {
+            "title": "Specifications",
+            "richText": "<ul><li><p>Capacity: up to 2 litres</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Dishwasher safe, though hand washing is recommended to preserve the hobnail detailing and shine over time.</p>"
+        }
+    ]';
+
+    sample_listing_8_id INT := 8;
+    sample_listing_8_short_id VARCHAR := 'Rk3Tz';
+    sample_listing_8_shop_id INT := sample_shop_2_id;
+    sample_listing_8_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_8_title VARCHAR := 'Tall Crystal Hobnail Jug';
+    sample_listing_8_subtitle VARCHAR := 'Slender hobnail crystal pitcher that holds up to 1 litre, with a textured handle and ice-restraining lip.';
+    sample_listing_8_price_cents INT := 17800;
+    sample_listing_8_image_uuids text[] := '{"EE90EB07-B882-45DC-8E7E-281FAC46D260", "BF8D1C75-0A33-46B7-9121-BAC238026403", "F43B3834-098E-40AF-BE42-873270E33EBC", "B65CEDC3-1931-4D3E-8A77-35FB3650A1DD", "1158E0CA-3905-4C6B-8430-727CA87161C8", "01B9B61D-BB19-4F67-8AF5-24655A9A657F", "C388D363-C3F1-494D-8D64-2415FC15A78C", "79A744D1-E929-4391-B32C-C44E16AF9FB1"}';
+    sample_listing_8_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Our classic Bohemian crystal glassware truly comes into its own with this clear slender jug. The superior craftsmanship of the hobnail design allows light to play beautifully through its tapered sides, making it a truly stunning centrepiece for all those particularly special occasions.</p><p>Premium features such as a textured handle give you a comfortable hold on the jug while the ice lip restrains wayward ice cubes. This crystal glass jug is lead-free and dishwasher safe.</p>"
+        },
+        {
+            "title": "Specifications",
+            "richText": "<ul><li><p>Capacity: up to 1 litre</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Dishwasher safe, though hand washing is recommended to preserve the hobnail detailing and shine over time.</p>"
+        }
+    ]';
+
+    sample_listing_9_id INT := 9;
+    sample_listing_9_short_id VARCHAR := 'Tv5Qm';
+    sample_listing_9_shop_id INT := sample_shop_2_id;
+    sample_listing_9_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_9_title VARCHAR := 'Crystal Hobnail Tumblers';
+    sample_listing_9_subtitle VARCHAR := 'Avant-garde, minimalist hobnail crystal tumblers that hold up to 200ml each, available in standard and tall sizes.';
+    sample_listing_9_price_cents INT := 4500;
+    -- Composite of both sizes side by side (true-to-scale) leads the gallery,
+    -- followed by the standard-size secondary images. Both size-specific
+    -- hero shots (standard and tall) are option-only, living solely on their
+    -- variation option's imageUuid, per imagesVary on Size only.
+    sample_listing_9_image_uuids text[] := '{"42DD2634-3BEB-4725-A718-466AD7B5106E", "A3F60973-7F68-4A1E-BC2A-1CFC8B89B543", "10DE9211-36F5-4F54-8B07-3F6B44A7A498", "F8DD3CD6-A196-4ADC-BEB4-8F1CE5E93E20", "1B8B2390-B4E2-4745-A124-4336EA1DEC7E", "2118BDB8-2D64-4184-A731-76A00F52DC0F", "7C0F1D14-A3BD-441A-9EF5-0D4DDC3A9CB2", "9695586B-244F-4CB9-B555-917A30964E3F", "B73D2F91-9D25-4130-A839-B3A93BA412ED", "CB56C905-358E-4FD8-8C95-DA5211F2D096"}';
+    sample_listing_9_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Be different from the crowd and take a unique twist on a timeless classic. A modern approach to the Bohemian glass tradition, our crystal tumblers, handcrafted, have an avant-garde, yet minimalist hobnail design. This is not only bound to bring a bit of charm to your dining experience but also serves a very practical purpose, as it is comfortable and reassuring to hold.</p><p>Available in our standard size or the taller, slimmer profile for a more elongated pour.</p>"
+        },
+        {
+            "title": "Specifications",
+            "richText": "<ul><li><p>Capacity: up to 200ml per tumbler</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Dishwasher safe, though hand washing is recommended to preserve the hobnail detailing and shine over time.</p>"
+        }
+    ]';
+
+    sample_listing_9_size_variation_id CONSTANT VARCHAR := 'c6e48559-809f-4589-a54b-94c6b34dde77';
+    sample_listing_9_size_standard_id  CONSTANT VARCHAR := 'f6ab158c-2031-4a85-aa06-0277541ab632';
+    sample_listing_9_size_tall_id      CONSTANT VARCHAR := '51388297-0b35-4556-9007-d554fd0bd049';
+    sample_listing_9_qty_variation_id  CONSTANT VARCHAR := '043e9cb6-77f6-46a4-be50-7bec617f1572';
+    sample_listing_9_qty_one_id        CONSTANT VARCHAR := 'e88d7e06-7deb-42ad-aa71-cac79c67e875';
+    sample_listing_9_qty_set2_id       CONSTANT VARCHAR := 'c39e17a6-64eb-4be5-ae63-b754dfddbab6';
+    sample_listing_9_qty_set4_id       CONSTANT VARCHAR := 'e8c0c427-2620-4edd-92c3-a9ff9c2e05b1';
+    sample_listing_9_qty_set6_id       CONSTANT VARCHAR := 'fab33e56-62d3-4b3e-ac0f-be23ced6be85';
+    sample_listing_9_standard_hero_image_uuid CONSTANT VARCHAR := '3C6CBD7A-D91C-4371-92A0-A64C73B4D517';
+    sample_listing_9_tall_hero_image_uuid     CONSTANT VARCHAR := 'E79FF762-7091-482D-9D10-C68154443FF6';
+
+    sample_listing_10_id INT := 10;
+    sample_listing_10_short_id VARCHAR := 'Cn6Vz';
+    sample_listing_10_shop_id INT := sample_shop_4_id;
+    sample_listing_10_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_10_title VARCHAR := 'Cornet Vase';
+    sample_listing_10_subtitle VARCHAR := 'A vase that holds its own—designed for sweeping stems and bold florals, offering height, balance, and unmistakable character.';
+    sample_listing_10_price_cents INT := 12800;
+    -- Raffia (white) hero shot doubles as the listing's main image, followed
+    -- by the secondary images from both color galleries; Patina's own hero
+    -- shot lives only on its variation option, per imagesVary.
+    sample_listing_10_image_uuids text[] := '{"2F80CB9C-0411-42A8-97E6-B4231BF56B74", "236CD809-2713-4932-8CD9-5135C31439C5", "01DCACC4-5572-4B64-9EA5-4EDC83FE582E", "D46636E8-31FA-4B51-A44A-55363F9CD594", "FB639FFD-9AF8-483B-BFCA-5FB4A871A746", "0CDB8D60-2374-4FB7-BB89-A94E7AA59EE3"}';
+    sample_listing_10_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A 1920s Rookwood design, original mold no. 2880, designed by John D. Wareham. Revived in 2025 with an updated mold no. 2880-25 to mark its reintroduction, as part of the Heritage Collection, a rotating selection of Rookwood designs from the archives showcasing historic forms dating back to 1880.</p><p>Available in Raffia, a warm creamy white with a soft, gentle sheen, or Patina, a deep green with a reflective, mirror-like finish. Variation in glaze makes each piece uniquely its own.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Height: 9.25\"</p></li><li><p>Width at widest point: 5\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 2880-25</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Heritage ceramic. Hand wash recommended to preserve the glaze finish.</p>"
+        }
+    ]';
+
+    sample_listing_10_color_variation_id CONSTANT VARCHAR := '9ca03d37-45af-4e1e-9ceb-590169370054';
+    sample_listing_10_color_raffia_id    CONSTANT VARCHAR := '5161c2e5-f544-43fa-80e5-a63e6d39d979';
+    sample_listing_10_color_patina_id    CONSTANT VARCHAR := 'fd06615a-5966-4819-8bc7-9bbce76264cb';
+    sample_listing_10_raffia_image_uuid  CONSTANT VARCHAR := '2F80CB9C-0411-42A8-97E6-B4231BF56B74';
+    sample_listing_10_patina_image_uuid  CONSTANT VARCHAR := '309DB998-A98A-41C5-A924-5EBA1AF83560';
+
+    sample_listing_11_id INT := 11;
+    sample_listing_11_short_id VARCHAR := 'Nc7Kv';
+    sample_listing_11_shop_id INT := sample_shop_1_id;
+    sample_listing_11_category_id VARCHAR := 'ACCESSORIES';
+    sample_listing_11_title VARCHAR := 'Universal Pocket Nocturnal';
+    sample_listing_11_subtitle VARCHAR := 'Tell the time at night anywhere in the world using the fixed stars, in both the Northern and Southern Hemispheres';
+    sample_listing_11_price_cents INT := 9000;
+    sample_listing_11_image_uuids text[] := '{"E945E386-1772-4573-A72E-3867893D9FEA", "E37E90B1-4F63-4239-AEEF-2712DBFDC3D0", "2C8A5471-C274-45A2-A3C9-00C6A6E64DC5", "EB2EA53E-BA24-4FA9-8E97-4BC1F68E6E0B", "AE5324F8-2B3E-47A9-8D42-A9EF7916D908"}';
+    sample_listing_11_full_descr JSONB := '[
+        {
+            "title": "Basic Info",
+            "richText": "<ul><li><p>Own the first Nocturnal ever that can tell the time at night at any location in EITHER the Northern Hemisphere or the Southern Hemisphere using the fixed stars visible in the night sky!</p></li><li><p>Produced in collaboration with designer Tony Sprent in Tasmania to utilise Polaris in the Northern Hemisphere and multiple celestial bodies in the Southern Hemisphere (Alpha and Beta Centauri, plus the Southern Cross)!</p></li><li><p>Measures just 60mm / 2.36 inches in diameter, fitting easily in your pocket and meeting the international sizing standard for pocket watches!</p></li><li><p>Will remain accurate for many years because the variation in the direct ascension varies very little over the course of centuries, making it a truly long-lived instrument!</p></li><li><p>Produced to our designs &amp; exacting standards in a small family workshop outside of Madrid, Spain!</p></li><li><p>Solid brass construction, with every Universal Pocket Nocturnal carefully hand-checked to ensure quality!</p></li></ul><p></p>"
+        },
+        {
+            "title": "About the Nocturnal",
+            "richText": "<p>Produced in a small workshop outside Madrid, Spain, this carefully crafted instrument measures just 60 mm (approximately 2 inches) in diameter and meets international sizing standards for pocket watches. Made of solid brass, the Kala Universal Pocket Nocturnal is a contemporary take on historical models.</p><p>The Universal Pocket Nocturnal is a star clock used to determine the time at night using fixed stars visible in both the Northern and Southern Hemispheres - Polaris in the Northern Hemisphere and Alpha &amp; Beta Centauri, plus the Southern Cross, in the Southern Hemisphere.</p><p>This charming instrument will remain operationally accurate for many years because the variation in the direct ascension varies very little over the course of centuries, making it a truly long-lived instrument and unique gift.</p>"
+        },
+        {
+            "title": "Specifications",
+            "richText": "<ul><li><p>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</p></li><li><p>Fully assembled weight: 81.8 g.</p></li><li><p>Ø 60 mm / 2.36 inches diameter.</p></li><li><p>Includes 2 language instruction manual (English and German).</p></li><li><p>Comes with an organic cork inlay and an elegant grey slider case.</p></li></ul><p></p>"
+        }
+    ]';
 
 BEGIN
 
@@ -231,7 +371,62 @@ BEGIN
             jsonb_build_object(
                 sample_listing_6_color_variation_id || ':' || sample_listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false),
                 sample_listing_6_color_variation_id || ':' || sample_listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false)
-            ), true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ), true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_7_id, sample_listing_7_short_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_full_descr, sample_listing_7_price_cents, NULL, NULL, sample_listing_7_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_8_id, sample_listing_8_short_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_full_descr, sample_listing_8_price_cents, NULL, NULL, sample_listing_8_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_9_id, sample_listing_9_short_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_full_descr, sample_listing_9_price_cents, NULL, NULL, sample_listing_9_image_uuids, NULL,
+            jsonb_build_object(
+                sample_listing_9_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        sample_listing_9_size_standard_id, jsonb_build_object('name', 'Standard', 'order', 0, 'priceCents', null, 'imageUuid', sample_listing_9_standard_hero_image_uuid),
+                        sample_listing_9_size_tall_id, jsonb_build_object('name', 'Tall', 'order', 1, 'priceCents', null, 'imageUuid', sample_listing_9_tall_hero_image_uuid)
+                    )
+                ),
+                sample_listing_9_qty_variation_id, jsonb_build_object(
+                    'name', 'Quantity',
+                    'pricesVary', true,
+                    'imagesVary', false,
+                    'order', 1,
+                    'options', jsonb_build_object(
+                        sample_listing_9_qty_one_id,  jsonb_build_object('name', 'Single',      'order', 0, 'priceCents', null, 'imageUuid', null),
+                        sample_listing_9_qty_set2_id, jsonb_build_object('name', 'Set of 2',    'order', 1, 'priceCents', null, 'imageUuid', null),
+                        sample_listing_9_qty_set4_id, jsonb_build_object('name', 'Set of 4',    'order', 2, 'priceCents', null, 'imageUuid', null),
+                        sample_listing_9_qty_set6_id, jsonb_build_object('name', 'Set of 6',    'order', 3, 'priceCents', null, 'imageUuid', null)
+                    )
+                )
+            ),
+            jsonb_build_object(
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_one_id  || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_standard_id, jsonb_build_object('priceCents', 4500,  'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_one_id  || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 5800,  'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set2_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_standard_id, jsonb_build_object('priceCents', 7800,  'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set2_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 10500, 'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set4_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_standard_id, jsonb_build_object('priceCents', 14800, 'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set4_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 17800, 'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set6_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_standard_id, jsonb_build_object('priceCents', 18800, 'imageUuid', null, 'disabled', false),
+                sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set6_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 22800, 'imageUuid', null, 'disabled', false)
+            ), true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_10_id, sample_listing_10_short_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_full_descr, sample_listing_10_price_cents, NULL, NULL, sample_listing_10_image_uuids, NULL,
+            jsonb_build_object(
+                sample_listing_10_color_variation_id, jsonb_build_object(
+                    'name', 'Color',
+                    'pricesVary', false,
+                    'imagesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        sample_listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 0, 'priceCents', null, 'imageUuid', sample_listing_10_raffia_image_uuid),
+                        sample_listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 1, 'priceCents', null, 'imageUuid', sample_listing_10_patina_image_uuid)
+                    )
+                )
+            ),
+            jsonb_build_object(
+                sample_listing_10_color_variation_id || ':' || sample_listing_10_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false),
+                sample_listing_10_color_variation_id || ':' || sample_listing_10_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false)
+            ), true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_11_id, sample_listing_11_short_id, sample_listing_11_shop_id, sample_listing_11_category_id, sample_listing_11_title, sample_listing_11_subtitle, sample_listing_11_full_descr, sample_listing_11_price_cents, NULL, NULL, sample_listing_11_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
