@@ -81,6 +81,75 @@ DECLARE
         }
     ]';
 
+    sample_listing_3_id INT := 3;
+    sample_listing_3_short_id VARCHAR := 'Qz7Rk';
+    sample_listing_3_shop_id INT := sample_shop_3_id;
+    sample_listing_3_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_3_title VARCHAR := 'Sonora Large Pan with Handle';
+    sample_listing_3_subtitle VARCHAR := 'Hand-forged carbon steel large frying pan with a pineapple-twist helper handle riveted opposite the straight handle.';
+    sample_listing_3_price_cents INT := 24500;
+    sample_listing_3_image_uuids text[] := '{"C4C307F8-6130-46A9-A8CB-A0892802EFE5", "4728F288-C50F-42C4-B662-99611B97E1F6", "EE11BA0E-024C-40E1-97B2-3BC38D5EE469", "52E80887-33D6-4360-9280-7466C83B45FE", "4E187B30-37BF-4781-BE49-030C01DC6557", "4AE12AE3-DB88-4B02-A222-F29B5B563204", "8C6ACC56-0E36-4252-A50A-52D80F753D02"}';
+    sample_listing_3_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>All the beauty and functionality of the carbon steel Sonora Large Frying Pan, but with an added hand-forged pineapple-twist helper handle riveted to the rim opposite the straight handle.</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Total length (handle to opposite handle): 21.5\"</p></li><li><p>Rim to rim: 11\"</p></li><li><p>Flat interior cooking surface: 9.25\"</p></li><li><p>Height from table to long handle top: 4.5\"</p></li><li><p>Height from table to bowl lip: 1.375\"</p></li><li><p>Long handle length: 9\"</p></li><li><p>Helper handle height: 3.5\"</p></li><li><p>Weight: approximately 5.8 lbs</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
+        }
+    ]';
+
+    sample_listing_4_id INT := 4;
+    sample_listing_4_short_id VARCHAR := 'Wm2Fp';
+    sample_listing_4_shop_id INT := sample_shop_3_id;
+    sample_listing_4_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_4_title VARCHAR := 'Sonora Roaster';
+    sample_listing_4_subtitle VARCHAR := 'Hand-forged carbon steel roaster with two helper handles and a gently curving sidewall, sized for larger meals.';
+    sample_listing_4_price_cents INT := 30500;
+    sample_listing_4_image_uuids text[] := '{"6FF3E7F8-23DE-490C-A348-3CFB227FFDC7", "ADE78DEA-75CB-4CE6-AA6C-B0FE71637C26", "60830011-8454-45EC-AA45-578DBE530E6E", "FF5B2BC4-5CB4-4DC1-B48F-7A2585E29099", "39AF3CA5-4856-43B0-BB1C-AA6DBE718543", "77A728E0-90D2-42DC-A60A-276861A9B868", "5A1E2109-A2B9-42B9-A8E5-E7EE7B9521C0", "FF235BEE-6A5E-4E40-9467-E80A3558100A"}';
+    sample_listing_4_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>With two hand-forged helper handles and a gently curving sidewall, our carbon steel Sonora Roaster pan provides a versatile cooking surface that can handle several foods at once. A stunning centerpiece of any kitchen or table, this pan is ideal for cooking larger meals. Cook eggs on one side and chorizo in the other, or throw in the entire bird!</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Total width (handle to handle): 15.5\"</p></li><li><p>Rim to rim: 13.5\"</p></li><li><p>Flat interior cooking surface: 11\"</p></li><li><p>Height from table to handle top: 4\"</p></li><li><p>Height from table to bowl lip: 1.75\"</p></li><li><p>10 gauge steel (approx. 0.135\" thick)</p></li><li><p>Weight: approximately 6.3 lbs</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
+        }
+    ]';
+
+    sample_listing_5_id INT := 5;
+    sample_listing_5_short_id VARCHAR := 'Tp9Xr';
+    sample_listing_5_shop_id INT := sample_shop_4_id;
+    sample_listing_5_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_5_title VARCHAR := 'Rook Dish';
+    sample_listing_5_subtitle VARCHAR := 'A rare heritage design from the Rookwood archives, revived after more than 60 years out of production.';
+    sample_listing_5_price_cents INT := 11000;
+    sample_listing_5_image_uuids text[] := '{"436504A3-8AF9-4A69-9B27-792CB1AB6BE4", "933602E5-BF83-4664-AC34-9B9980813790", "84D75D43-D1D8-4C57-B685-2086A8992380", "C24A2AC9-9BD6-486A-BD43-5B4CEEE00835", "CDB69E96-25E0-4424-9BF6-F2A6139397A5"}';
+    sample_listing_5_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A rare heritage design from the Rookwood archives, unseen in production for over 60 years, makes its return. First introduced in the early 1900s by John D. Wareham, a pivotal figure in Rookwood''s history, the piece stands as a symbol of our namesake.</p><p>Originally designed as an ashtray, the dish now functions beautifully as a catchall or jewelry dish. Each piece features variation in glaze, making every one uniquely individual.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Height: 4\"</p></li><li><p>Width at widest point: 8\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 1139-25</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Heritage ceramic. Hand wash recommended to preserve the glaze finish.</p>"
+        }
+    ]';
+
 BEGIN
 
     -- Clear out previous sample data before reseeding
@@ -111,7 +180,10 @@ BEGIN
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, created_at, updated_at)
     VALUES
         (sample_listing_1_id, sample_listing_1_short_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_full_descr, sample_listing_1_price_cents, NULL, NULL, sample_listing_1_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_3_id, sample_listing_3_short_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_full_descr, sample_listing_3_price_cents, NULL, NULL, sample_listing_3_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_4_id, sample_listing_4_short_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_full_descr, sample_listing_4_price_cents, NULL, NULL, sample_listing_4_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_5_id, sample_listing_5_short_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr, sample_listing_5_price_cents, NULL, NULL, sample_listing_5_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
