@@ -1,5 +1,4 @@
 import {
-	Box,
 	Button,
 	Drawer,
 	Flex,
@@ -14,11 +13,7 @@ import {
 import { STANDARD_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import {
-	CLIENT_ROUTES,
-	Layout,
-	STANDARD_GRID_GAP,
-} from '@client/constants';
+import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -41,11 +36,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 	});
 	const isCompact = layout === Layout.COMPACT;
 
-	const compactCardBoxProps = isCompact
-		? { flexShrink: 0, width: 275 }
-		: {};
 	const skeletonProps = isCompact
-		? { flexShrink: 0, height: 340, width: 275 }
+		? { flexShrink: 0, height: 340, width: 300 }
 		: {
 				flexShrink: 0,
 				height: STANDARD_THUMBNAIL_WIDTH,
@@ -76,16 +68,17 @@ export const ShoppingCartDrawer = (props: Props) => {
 			.map((item) => {
 				const key = `${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`;
 				return (
-					<Box
+					<ShoppingCartCard
 						key={key}
-						{...compactCardBoxProps}
-					>
-						<ShoppingCartCard
-							item={item}
-							onNavigate={props.onClose}
-							layout={layout}
-						/>
-					</Box>
+						item={item}
+						onNavigate={props.onClose}
+						layout={layout}
+						{...(isCompact && {
+							cardProps: {
+								minW: 300,
+							},
+						})}
+					/>
 				);
 			});
 	};
@@ -138,11 +131,10 @@ export const ShoppingCartDrawer = (props: Props) => {
 						>
 							{isCompact ? (
 								<HStack
-									overflowX="auto"
-									gap={STANDARD_GRID_GAP}
-									p={5}
+									gap={5}
+									overflowX="scroll"
 									m={-5}
-									scrollbarWidth="none"
+									p={5}
 									alignItems="flex-start"
 								>
 									{cartContent}
