@@ -5,7 +5,6 @@ import {
 	Center,
 	Flex,
 	HStack,
-	Icon,
 	Link,
 	SimpleGrid,
 	Span,
@@ -25,7 +24,6 @@ import { useListingData } from '@client/components/listingPage/useListingData';
 import { usePersonalization } from '@client/components/listingPage/usePersonalization';
 import { useVariationSelection } from '@client/components/listingPage/useVariationSelection';
 import { VariationSelect } from '@client/components/listingPage/VariationSelect';
-import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import {
 	CLIENT_ROUTES,
 	CountryCode,
@@ -205,7 +203,7 @@ export const ListingPage = () => {
 					>
 						<Stack gap={4}>
 							<Stack
-								gap={1}
+								gap={0}
 								fontFamily={displayFontFamily}
 								mr={5}
 							>
@@ -220,7 +218,7 @@ export const ListingPage = () => {
 									fontWeight={500}
 									fontSize={24}
 								>
-									<Icon as={FaShop} />
+									<FaShop size={22} />
 									<Link
 										onClick={() =>
 											navigate(
@@ -231,16 +229,6 @@ export const ListingPage = () => {
 										{listingData?.shopTitle}
 									</Link>
 								</HStack>
-
-								{listingData && (
-									<CategoryBreadcrumb
-										categoryId={
-											listingData.categoryId
-										}
-										fontSize={22}
-										currentIsLink
-									/>
-								)}
 							</Stack>
 							<Stack
 								fontSize={20}

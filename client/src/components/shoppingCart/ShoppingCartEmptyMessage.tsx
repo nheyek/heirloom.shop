@@ -1,5 +1,5 @@
 import { Button, Center, Text } from '@chakra-ui/react';
-import { displayFontFamily } from '@client/theme';
+import { defaultFontFamily, displayFontFamily } from '@client/theme';
 import { FaArrowLeft } from 'react-icons/fa6';
 
 type Props = {
@@ -17,6 +17,7 @@ export const ShoppingCartEmptyMessage = (props: Props) => (
 			onClick={props.onClick}
 			size="md"
 			fontSize={18}
+			fontFamily={defaultFontFamily}
 		>
 			<FaArrowLeft />
 			Keep Looking

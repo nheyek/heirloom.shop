@@ -67,12 +67,10 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<Stack
-			gap={6}
-			mt={8}
-		>
+		<Stack gap={8}>
 			<Stack
 				gap={4}
+				pt={8}
 				alignItems="center"
 			>
 				<Flex
@@ -89,7 +87,7 @@ export const LandingPage = () => {
 						Welcome to
 					</Text>
 					<Box
-						width={140}
+						width={150}
 						flexShrink={0}
 						ml={0.5}
 						mt={1.5}
@@ -104,7 +102,7 @@ export const LandingPage = () => {
 			<Stack
 				px={5}
 				pb={5}
-				gap={10}
+				gap={8}
 			>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />

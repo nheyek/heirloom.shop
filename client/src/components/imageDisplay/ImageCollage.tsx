@@ -114,6 +114,7 @@ export const ImageCollage = (props: Props) => {
 							bottom={3}
 							onClick={() => setLightBoxPage(0)}
 							fontFamily={sansFontFamily}
+							fontSize={16}
 						>
 							<FaImages />
 							{props.urls.length} images

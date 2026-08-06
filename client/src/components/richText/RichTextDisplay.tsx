@@ -23,7 +23,7 @@ export const RichTextDisplay = (props: Props) => {
 					fontWeight: 'bold',
 				},
 				'& ul, & ol': {
-					marginLeft: 4,
+					marginLeft: 6,
 					listStyleType: 'disc',
 				},
 				'& li': {

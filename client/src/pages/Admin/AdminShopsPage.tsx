@@ -59,6 +59,7 @@ export const AdminShopsPage = () => {
 					>
 						<Table.Root
 							size="lg"
+							fontSize={18}
 							stickyHeader
 							variant="outline"
 							interactive
