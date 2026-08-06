@@ -23,7 +23,7 @@ import { IoMdPricetag } from 'react-icons/io';
 import { MdLocalShipping } from 'react-icons/md';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
-const STANDARD_THUMBNAIL_WIDTH = 150;
+export const STANDARD_THUMBNAIL_WIDTH = 150;
 
 const truncatePersonalizationText = (text: string): string =>
 	text.length > PERSONALIZATION_BADGE_MAX_CHARS

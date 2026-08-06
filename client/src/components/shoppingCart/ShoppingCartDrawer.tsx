@@ -1,7 +1,9 @@
 import {
+	Box,
 	Button,
 	Drawer,
 	Flex,
+	HStack,
 	Icon,
 	IconButton,
 	Skeleton,
@@ -9,9 +11,14 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { STANDARD_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { CLIENT_ROUTES, Layout } from '@client/constants';
+import {
+	CLIENT_ROUTES,
+	Layout,
+	STANDARD_GRID_GAP,
+} from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -32,13 +39,65 @@ export const ShoppingCartDrawer = (props: Props) => {
 		base: Layout.COMPACT,
 		md: Layout.STANDARD,
 	});
+	const isCompact = layout === Layout.COMPACT;
+
+	const compactCardBoxProps = isCompact
+		? { flexShrink: 0, width: 275 }
+		: {};
+	const skeletonProps = isCompact
+		? { flexShrink: 0, height: 340, width: 275 }
+		: {
+				flexShrink: 0,
+				height: STANDARD_THUMBNAIL_WIDTH,
+				width: '100%',
+			};
+
+	const renderCartContent = () => {
+		if (shoppingCart.cartLoading) {
+			return Array.from({
+				length: shoppingCart.pendingItemCount,
+			}).map((_, i) => (
+				<Skeleton
+					key={i}
+					borderRadius="md"
+					{...skeletonProps}
+				/>
+			));
+		}
+
+		if (shoppingCart.itemQuantityTotal === 0) {
+			return (
+				<ShoppingCartEmptyMessage onClick={props.onClose} />
+			);
+		}
+
+		return shoppingCart.items
+			.sort((itemA, itemB) => itemB.addedAt - itemA.addedAt)
+			.map((item) => {
+				const key = `${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`;
+				return (
+					<Box
+						key={key}
+						{...compactCardBoxProps}
+					>
+						<ShoppingCartCard
+							item={item}
+							onNavigate={props.onClose}
+							layout={layout}
+						/>
+					</Box>
+				);
+			});
+	};
+
+	const cartContent = renderCartContent();
 
 	return (
 		<Drawer.Root
 			open={props.isOpen}
 			onOpenChange={(e) => !e.open && props.onClose()}
 			placement="end"
-			size="lg"
+			size={shoppingCart.items.length > 0 ? 'lg' : 'sm'}
 		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
@@ -70,49 +129,27 @@ export const ShoppingCartDrawer = (props: Props) => {
 					<Drawer.Body pb={5}>
 						<Stack
 							height="100%"
-							justifyContent="space-between"
+							justifyContent={
+								shoppingCart.items.length > 0
+									? 'space-between'
+									: 'center'
+							}
 							gap={5}
 						>
-							<Stack gap={5}>
-								{shoppingCart.cartLoading ? (
-									<>
-										{Array.from({
-											length: shoppingCart.pendingItemCount,
-										}).map((_, i) => (
-											<Skeleton
-												key={i}
-												height={300}
-												width="100%"
-												borderRadius="md"
-											/>
-										))}
-									</>
-								) : shoppingCart.itemQuantityTotal ===
-								  0 ? (
-									<ShoppingCartEmptyMessage
-										onClick={props.onClose}
-									/>
-								) : (
-									<>
-										{shoppingCart.items
-											.sort(
-												(itemA, itemB) =>
-													itemB.addedAt -
-													itemA.addedAt,
-											)
-											.map((item) => (
-												<ShoppingCartCard
-													key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
-													item={item}
-													onNavigate={
-														props.onClose
-													}
-													layout={layout}
-												/>
-											))}
-									</>
-								)}
-							</Stack>
+							{isCompact ? (
+								<HStack
+									overflowX="auto"
+									gap={STANDARD_GRID_GAP}
+									p={5}
+									m={-5}
+									scrollbarWidth="none"
+									alignItems="flex-start"
+								>
+									{cartContent}
+								</HStack>
+							) : (
+								<Stack gap={5}>{cartContent}</Stack>
+							)}
 
 							{shoppingCart.items.length > 0 && (
 								<Button
