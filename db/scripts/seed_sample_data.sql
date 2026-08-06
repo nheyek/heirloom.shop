@@ -150,6 +150,37 @@ DECLARE
         }
     ]';
 
+    sample_listing_6_id INT := 6;
+    sample_listing_6_short_id VARCHAR := 'Bv4Ln';
+    sample_listing_6_shop_id INT := sample_shop_4_id;
+    sample_listing_6_category_id VARCHAR := 'HOUSEWARES';
+    sample_listing_6_title VARCHAR := 'Boule Vase';
+    sample_listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
+    sample_listing_6_price_cents INT := 9800;
+    -- Secondary (non-hero) images from both color galleries; each color's
+    -- own hero shot lives on its variation option instead, per imagesVary.
+    sample_listing_6_image_uuids text[] := '{"2CF8F2CE-6E68-4B97-9269-AEA7235FDCD7", "23B51B91-4EBF-4FE4-97EF-F14E7FCF703F", "19774E62-C6B1-4D0D-91BD-6E3671168CF2", "168A2FED-05EE-432F-A085-B7768FF80568", "850BBEE6-8826-46CA-8FA9-46A43E872F50", "7E6AB14D-71C7-48A0-A1B0-4436103E2CF1", "4DC42FAA-B854-4A57-A2DA-8BBB564736C1", "E9F618BE-F4B4-47F8-98D6-A5507A453F29"}';
+    sample_listing_6_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A 1920s Rookwood design, original mold no. 2918E, designed by John D. Wareham, who joined Rookwood in 1893 as a decorator and later served as president from 1934 to 1954. Revived in 2025 with an updated mold no. 2918E-25 as part of the Heritage Collection.</p><p>Available in Raffia, a warm creamy white with a soft, gentle sheen, or Patina, a deep green with a reflective, mirror-like finish. Variation in glaze makes each piece uniquely its own.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li><p>Height: 7.5\"</p></li><li><p>Width at widest point: 5.5\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 2918E-25</p></li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Heritage ceramic. Hand wash recommended to preserve the glaze finish.</p>"
+        }
+    ]';
+
+    sample_listing_6_color_variation_id CONSTANT VARCHAR := 'ec353f9f-d888-40f1-9fd9-4095d37ab23c';
+    sample_listing_6_color_raffia_id    CONSTANT VARCHAR := '69851e94-e5af-4ab4-bffa-1188c5239fc4';
+    sample_listing_6_color_patina_id    CONSTANT VARCHAR := '244100e9-24f7-467d-8206-5c3e695d7858';
+    sample_listing_6_raffia_image_uuid  CONSTANT VARCHAR := '0AB209D4-DB13-4328-B5EF-28979E679303';
+    sample_listing_6_patina_image_uuid  CONSTANT VARCHAR := 'EE8D4704-513C-4B84-A9A4-E45FD577F2F1';
+
 BEGIN
 
     -- Clear out previous sample data before reseeding
@@ -183,7 +214,24 @@ BEGIN
         (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_listing_3_id, sample_listing_3_short_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_full_descr, sample_listing_3_price_cents, NULL, NULL, sample_listing_3_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_listing_4_id, sample_listing_4_short_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_full_descr, sample_listing_4_price_cents, NULL, NULL, sample_listing_4_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_5_id, sample_listing_5_short_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr, sample_listing_5_price_cents, NULL, NULL, sample_listing_5_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (sample_listing_5_id, sample_listing_5_short_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr, sample_listing_5_price_cents, NULL, NULL, sample_listing_5_image_uuids, NULL, '{}', '{}', true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_6_id, sample_listing_6_short_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_full_descr, sample_listing_6_price_cents, NULL, NULL, sample_listing_6_image_uuids, NULL,
+            jsonb_build_object(
+                sample_listing_6_color_variation_id, jsonb_build_object(
+                    'name', 'Color',
+                    'pricesVary', false,
+                    'imagesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        sample_listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 0, 'priceCents', null, 'imageUuid', sample_listing_6_raffia_image_uuid),
+                        sample_listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 1, 'priceCents', null, 'imageUuid', sample_listing_6_patina_image_uuid)
+                    )
+                )
+            ),
+            jsonb_build_object(
+                sample_listing_6_color_variation_id || ':' || sample_listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false),
+                sample_listing_6_color_variation_id || ':' || sample_listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false)
+            ), true, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
