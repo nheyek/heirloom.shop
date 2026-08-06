@@ -3,6 +3,7 @@ import {
 	Button,
 	GridItem,
 	Heading,
+	HStack,
 	SimpleGrid,
 	Stack,
 	Text,
@@ -289,18 +290,22 @@ export const CheckoutPage = () => {
 						<CheckoutShoppingCart />
 						<ShoppingCartSummary pendingMessage="Enter shipping address" />
 						<Button
-							size="xl"
+							width="100%"
 							mb={10}
-							fontSize={22}
+							fontSize={24}
+							padding={26}
 							onClick={handleConfirmation}
 							disabled={pendingSubmit}
 							loading={pendingSubmit}
 						>
-							<FaCheckCircle />
-							Pay Now
+							<HStack gap={3}>
+								<FaCheckCircle />
+								Pay Now
+							</HStack>
+
 							<RxDotFilled />
 							<Text
-								fontSize={26}
+								fontSize={28}
 								fontWeight={600}
 								fontFamily={displayFontFamily}
 								paddingBottom={1}

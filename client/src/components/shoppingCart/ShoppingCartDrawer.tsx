@@ -1,5 +1,4 @@
 import {
-	Box,
 	Button,
 	Drawer,
 	Flex,
@@ -11,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
@@ -19,7 +17,7 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	isOpen: boolean;
@@ -28,6 +26,7 @@ type Props = {
 
 export const ShoppingCartDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
+	const navigate = useNavigate();
 
 	return (
 		<Drawer.Root
@@ -105,56 +104,35 @@ export const ShoppingCartDrawer = (props: Props) => {
 					</Drawer.Body>
 
 					{shoppingCart.items.length > 0 && (
-						<Drawer.Footer
-							flexDir="column"
-							alignItems="start"
-							p={4}
-							gap={4}
-							background="brand"
-							mt={0.5}
-						>
-							<ShoppingCartSummary
-								pendingMessage="Calculated at checkout"
-								textColor="white"
-							/>
-
-							<Box width="100%">
-								<Link to={CLIENT_ROUTES.checkout}>
-									<Button
-										variant="outline"
-										color="white"
-										borderColor="white"
-										_hover={{
-											background: 'gray.800',
-										}}
-										size="xl"
-										width="100%"
-										fontSize={22}
-										onClick={props.onClose}
-									>
-										<Text
-											fontSize={26}
-											fontWeight={600}
-											fontFamily={
-												displayFontFamily
-											}
-											paddingBottom={1}
-										>
-											{formatCentsAsDollars(
-												shoppingCart.itemPriceTotal,
-											)}
-										</Text>
-										<RxDotFilled />
-										<Flex
-											gap={3}
-											alignItems="center"
-										>
-											Checkout
-											<FaArrowCircleRight />
-										</Flex>
-									</Button>
-								</Link>
-							</Box>
+						<Drawer.Footer>
+							<Button
+								padding={26}
+								width="100%"
+								fontSize={24}
+								onClick={() => {
+									navigate(CLIENT_ROUTES.checkout);
+									props.onClose();
+								}}
+							>
+								<Text
+									fontSize={28}
+									fontWeight={600}
+									fontFamily={displayFontFamily}
+									paddingBottom={1}
+								>
+									{formatCentsAsDollars(
+										shoppingCart.itemPriceTotal,
+									)}
+								</Text>
+								<RxDotFilled />
+								<Flex
+									gap={3}
+									alignItems="center"
+								>
+									Checkout
+									<FaArrowCircleRight />
+								</Flex>
+							</Button>
 						</Drawer.Footer>
 					)}
 				</Drawer.Content>
