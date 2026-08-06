@@ -141,19 +141,6 @@ export const OrderItemCard = (props: Props) => {
 						)}
 					</HStack>
 				</Flex>
-
-				{props.item.estimatedDelivery && (
-					<HStack
-						fontSize={18}
-						gap={1}
-						lineHeight={1}
-					>
-						<Span>Estimated delivery</Span>
-						<Span fontWeight={500}>
-							{props.item.estimatedDelivery}
-						</Span>
-					</HStack>
-				)}
 			</Card.Body>
 		</Card.Root>
 	);
