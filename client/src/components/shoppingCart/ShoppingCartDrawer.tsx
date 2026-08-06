@@ -7,10 +7,11 @@ import {
 	Skeleton,
 	Stack,
 	Text,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { CLIENT_ROUTES } from '@client/constants';
+import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -27,13 +28,17 @@ type Props = {
 export const ShoppingCartDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const navigate = useNavigate();
+	const layout = useBreakpointValue({
+		base: Layout.COMPACT,
+		md: Layout.STANDARD,
+	});
 
 	return (
 		<Drawer.Root
 			open={props.isOpen}
 			onOpenChange={(e) => !e.open && props.onClose()}
 			placement="end"
-			size="sm"
+			size="lg"
 		>
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
@@ -102,6 +107,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 													onNavigate={
 														props.onClose
 													}
+													layout={layout}
 												/>
 											))}
 									</>
