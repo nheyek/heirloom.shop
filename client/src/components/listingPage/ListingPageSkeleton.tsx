@@ -91,7 +91,7 @@ export const ListingPageSkeleton = (props: {
 		<Flex
 			flexDir="column"
 			maxWidth={props.maxWidth}
-			gap={10}
+			gap={5}
 			my={5}
 			mx="auto"
 		>
