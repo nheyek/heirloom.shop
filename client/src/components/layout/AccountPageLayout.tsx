@@ -8,12 +8,6 @@ import {
 
 const NAV_ITEMS: SidebarNavItem[] = [
 	{
-		label: 'Orders',
-		title: 'Your Orders',
-		icon: FaScroll,
-		route: CLIENT_ROUTES.orders,
-	},
-	{
 		label: 'Favorites',
 		title: 'Your Favorites',
 		icon: FaHeart,
@@ -22,6 +16,12 @@ const NAV_ITEMS: SidebarNavItem[] = [
 			{ path: CLIENT_ROUTES.listings, label: 'Listings' },
 			{ path: CLIENT_ROUTES.shops, label: 'Shops' },
 		],
+	},
+	{
+		label: 'Orders',
+		title: 'Your Orders',
+		icon: FaScroll,
+		route: CLIENT_ROUTES.orders,
 	},
 ];
 

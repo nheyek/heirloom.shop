@@ -149,6 +149,8 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 						justifyContent="space-between"
 						fontSize={20}
 						w="100%"
+						p={5}
+						py={7}
 					>
 						<HStack gap={4}>
 							{match && (
@@ -180,10 +182,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 					<Menu.Positioner>
 						<NavMenuContent>
 							{navItems.map(
-								(
-									{ label, icon: Icon, route },
-									index,
-								) => (
+								({ label, icon: Icon, route }) => (
 									<NavMenuItem
 										key={route}
 										value={route}
