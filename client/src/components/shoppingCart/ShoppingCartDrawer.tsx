@@ -119,10 +119,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 						</Drawer.CloseTrigger>
 					</Drawer.Header>
 
-					<Drawer.Body
-						pb={5}
-						pr={0}
-					>
+					<Drawer.Body pb={5}>
 						<Stack
 							height="100%"
 							justifyContent={
