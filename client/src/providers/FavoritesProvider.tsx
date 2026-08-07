@@ -154,7 +154,10 @@ export const FavoritesProvider = (props: {
 			toastSuccess('Favorited', shop.title, {
 				action: {
 					label: 'View',
-					onClick: () => navigate(CLIENT_ROUTES.favorites),
+					onClick: () =>
+						navigate(
+							`/${CLIENT_ROUTES.favorites}/${CLIENT_ROUTES.shops}`,
+						),
 				},
 			});
 		}
@@ -214,7 +217,10 @@ export const FavoritesProvider = (props: {
 			toastSuccess('Favorited', listing.title, {
 				action: {
 					label: 'View',
-					onClick: () => navigate(CLIENT_ROUTES.favorites),
+					onClick: () =>
+						navigate(
+							`/${CLIENT_ROUTES.favorites}/${CLIENT_ROUTES.listings}`,
+						),
 				},
 			});
 		}

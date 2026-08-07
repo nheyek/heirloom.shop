@@ -14,6 +14,7 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { FaHeart } from 'react-icons/fa';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export const FavoritesPage = () => {
 	const {
@@ -22,6 +23,12 @@ export const FavoritesPage = () => {
 		isLoading: authIsLoading,
 	} = useAuth0();
 	const apiClient = useApiClient();
+	const navigate = useNavigate();
+	const { tab } = useParams<{ tab: string }>();
+	const activeTab =
+		tab === CLIENT_ROUTES.shops
+			? CLIENT_ROUTES.shops
+			: CLIENT_ROUTES.listings;
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -92,26 +99,29 @@ export const FavoritesPage = () => {
 
 	return (
 		<Tabs.Root
-			defaultValue="listings"
+			value={activeTab}
+			onValueChange={({ value }) =>
+				navigate(`/${CLIENT_ROUTES.favorites}/${value}`)
+			}
 			variant="subtle"
 			size="lg"
 		>
 			<Tabs.List>
 				<Tabs.Trigger
-					value="listings"
+					value={CLIENT_ROUTES.listings}
 					fontSize={20}
 				>
 					Listings
 				</Tabs.Trigger>
 				<Tabs.Trigger
-					value="makers"
+					value={CLIENT_ROUTES.shops}
 					fontSize={20}
 				>
 					Shops
 				</Tabs.Trigger>
 			</Tabs.List>
 
-			<Tabs.Content value="makers">
+			<Tabs.Content value={CLIENT_ROUTES.shops}>
 				{!isLoading && shops.length === 0 ? (
 					<Text fontSize={20}>
 						You haven't favorited any shops yet.
@@ -125,7 +135,7 @@ export const FavoritesPage = () => {
 				)}
 			</Tabs.Content>
 
-			<Tabs.Content value="listings">
+			<Tabs.Content value={CLIENT_ROUTES.listings}>
 				{!isLoading && listings.length === 0 ? (
 					<Text fontSize={20}>
 						You haven't favorited any listings yet.

@@ -18,6 +18,10 @@ const NAV_ITEMS: SidebarNavItem[] = [
 		title: 'Your Favorites',
 		icon: FaHeart,
 		route: CLIENT_ROUTES.favorites,
+		children: [
+			{ path: CLIENT_ROUTES.listings, label: 'Listings' },
+			{ path: CLIENT_ROUTES.shops, label: 'Shops' },
+		],
 	},
 ];
 

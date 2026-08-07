@@ -96,6 +96,15 @@ const App = () => {
 						<Route element={<AccountPageLayout />}>
 							<Route
 								path={`/${CLIENT_ROUTES.favorites}`}
+								element={
+									<Navigate
+										to={`/${CLIENT_ROUTES.favorites}/${CLIENT_ROUTES.listings}`}
+										replace
+									/>
+								}
+							/>
+							<Route
+								path={`/${CLIENT_ROUTES.favorites}/:tab`}
 								element={<FavoritesPage />}
 							/>
 							<Route
