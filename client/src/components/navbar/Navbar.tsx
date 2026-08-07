@@ -2,8 +2,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
 	Flex,
-	Grid,
-	GridItem,
 	HStack,
 	IconButton,
 	IconButtonProps,
@@ -13,7 +11,6 @@ import {
 import { Logo } from '@client/components/branding/Logo';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
-import { NavbarSearch } from '@client/components/navbar/NavbarSearch';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
@@ -60,156 +57,110 @@ export const Navbar = () => {
 	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	return (
-		<Flex
+		<HStack
 			bg="brand"
 			px={4}
-			h={{
-				base: navbarHeight.MOBILE,
-				md: navbarHeight.DESKTOP,
-			}}
+			h={navbarHeight.DESKTOP}
 			top={0}
 			left={0}
 			right={0}
 			position="fixed"
 			zIndex="docked"
+			alignItems="center"
+			justifyContent="space-between"
 		>
-			<Grid
-				gridTemplateAreas={{
-					base: `"${gridTemplateAreas.LOGO} . ${gridTemplateAreas.BUTTONS}" ". ${gridTemplateAreas.SEARCH} ."`,
-					md: `"${gridTemplateAreas.LOGO} ${gridTemplateAreas.SEARCH} ${gridTemplateAreas.BUTTONS}"`,
-				}}
-				templateColumns={{
-					base: '150px 1fr 150px',
-					md: '250px 1fr 250px',
-				}}
+			<HStack
+				gap={3}
 				alignItems="center"
-				gapX={5}
-				gapY={0}
-				w="100%"
-				py={2}
 			>
-				<GridItem area={gridTemplateAreas.LOGO}>
-					<HStack
-						gap={3}
-						alignItems="center"
+				<Link to="/">
+					<Box
+						flexShrink={0}
+						width={150}
+						mt={1}
+						cursor="button"
 					>
-						<Link to="/">
-							<Box
-								flexShrink={0}
-								width={150}
-								mt={1}
-								cursor="button"
+						<Logo />
+					</Box>
+				</Link>
+				{(isAdminPage || isShopManagerPage) && !isMobile && (
+					<Text
+						color="white"
+						fontSize={24}
+						paddingTop={1}
+					>
+						{isShopManagerPage ? 'Manager' : 'Admin'}
+					</Text>
+				)}
+			</HStack>
+
+			<HStack gap={2}>
+				{user?.isAdmin && (
+					<Link
+						to={[
+							CLIENT_ROUTES.admin,
+							CLIENT_ROUTES.shops,
+						].join('/')}
+					>
+						<NavbarButton>
+							<FaCrown />
+						</NavbarButton>
+					</Link>
+				)}
+				{!user?.isAdmin && user?.shopShortId && (
+					<Link
+						to={[
+							CLIENT_ROUTES.shop,
+							user.shopShortId,
+							CLIENT_ROUTES.manage,
+							CLIENT_ROUTES.info,
+						].join('/')}
+					>
+						<NavbarButton>
+							<FaShop />
+						</NavbarButton>
+					</Link>
+				)}
+
+				{!authIsLoading && (
+					<HStack gap={1}>
+						{!isAuthenticated && <LoginButton />}
+						{isAuthenticated && <NavbarMenu />}
+						<Box position="relative">
+							<NavbarButton
+								onClick={shoppingCart.openDrawer}
 							>
-								<Logo />
-							</Box>
-						</Link>
-						{(isAdminPage || isShopManagerPage) &&
-							!isMobile && (
-								<Text
-									color="white"
-									fontSize={24}
-									paddingTop={1}
+								<FaShoppingCart />
+							</NavbarButton>
+							{shoppingCart.itemQuantityTotal > 0 && (
+								<Flex
+									alignItems="center"
+									background="#FFF"
+									border="2px solid #000"
+									position="absolute"
+									width="fit-content"
+									h={6}
+									overflow="hidden"
+									top={-1}
+									right={-1}
+									p={1.5}
+									borderRadius="full"
+									fontSize={13}
+									fontWeight={700}
+									fontFamily={sansFontFamily}
 								>
-									{isShopManagerPage
-										? 'Manager'
-										: 'Admin'}
-								</Text>
+									{shoppingCart.itemQuantityTotal}
+								</Flex>
 							)}
+						</Box>
 					</HStack>
-				</GridItem>
-				<GridItem
-					area={gridTemplateAreas.SEARCH}
-					justifySelf="center"
-					justifyContent="center"
-					w="100%"
-					maxW={500}
-					colSpan={{ base: 3, md: 1 }}
-				>
-					<NavbarSearch />
-				</GridItem>
-				<GridItem
-					area={gridTemplateAreas.BUTTONS}
-					justifySelf="end"
-					flexShrink={0}
-					opacity={authIsLoading ? 0 : 1}
-					transition="opacity 0.25s ease-in-out"
-				>
-					<HStack gap={2}>
-						{user?.isAdmin && (
-							<Link
-								to={[
-									CLIENT_ROUTES.admin,
-									CLIENT_ROUTES.shops,
-								].join('/')}
-							>
-								<NavbarButton>
-									<FaCrown />
-								</NavbarButton>
-							</Link>
-						)}
-						{!user?.isAdmin && user?.shopShortId && (
-							<Link
-								to={[
-									CLIENT_ROUTES.shop,
-									user.shopShortId,
-									CLIENT_ROUTES.manage,
-									CLIENT_ROUTES.info,
-								].join('/')}
-							>
-								<NavbarButton>
-									<FaShop />
-								</NavbarButton>
-							</Link>
-						)}
+				)}
 
-						{!authIsLoading && (
-							<HStack gap={1}>
-								{!isAuthenticated && <LoginButton />}
-								{isAuthenticated && <NavbarMenu />}
-								<Box position="relative">
-									<NavbarButton
-										onClick={
-											shoppingCart.openDrawer
-										}
-									>
-										<FaShoppingCart />
-									</NavbarButton>
-									{shoppingCart.itemQuantityTotal >
-										0 && (
-										<Flex
-											alignItems="center"
-											background="#FFF"
-											border="2px solid #000"
-											position="absolute"
-											width="fit-content"
-											h={6}
-											overflow="hidden"
-											top={-1}
-											right={-1}
-											p={1.5}
-											borderRadius="full"
-											fontSize={13}
-											fontWeight={700}
-											fontFamily={
-												sansFontFamily
-											}
-										>
-											{
-												shoppingCart.itemQuantityTotal
-											}
-										</Flex>
-									)}
-								</Box>
-							</HStack>
-						)}
-
-						<ShoppingCartDrawer
-							isOpen={shoppingCart.isDrawerOpen}
-							onClose={shoppingCart.closeDrawer}
-						/>
-					</HStack>
-				</GridItem>
-			</Grid>
-		</Flex>
+				<ShoppingCartDrawer
+					isOpen={shoppingCart.isDrawerOpen}
+					onClose={shoppingCart.closeDrawer}
+				/>
+			</HStack>
+		</HStack>
 	);
 };

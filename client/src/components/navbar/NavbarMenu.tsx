@@ -40,17 +40,17 @@ export const NavbarMenu = () => {
 			<Portal>
 				<Menu.Positioner>
 					<NavMenuContent width={150}>
-						<Link to={`/${CLIENT_ROUTES.orders}`}>
-							<NavMenuItem value="orders">
-								<FaScroll />
-								<Text>Orders</Text>
-							</NavMenuItem>
-						</Link>
-
 						<Link to={`/${CLIENT_ROUTES.favorites}`}>
 							<NavMenuItem value="saved">
 								<FaHeart />
 								<Text>Favorites</Text>
+							</NavMenuItem>
+						</Link>
+
+						<Link to={`/${CLIENT_ROUTES.orders}`}>
+							<NavMenuItem value="orders">
+								<FaScroll />
+								<Text>Orders</Text>
 							</NavMenuItem>
 						</Link>
 

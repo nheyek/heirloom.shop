@@ -47,10 +47,7 @@ const App = () => {
 				flexDirection="column"
 				minHeight="100dvh"
 				transition="opacity 0.25s"
-				pt={{
-					base: navbarHeight.MOBILE,
-					md: navbarHeight.DESKTOP,
-				}}
+				pt={navbarHeight.DESKTOP}
 				zIndex="docked"
 			>
 				<Box

@@ -70,7 +70,7 @@ export const LandingPage = () => {
 		<Stack gap={8}>
 			<Stack
 				gap={4}
-				pt={8}
+				pt={10}
 				alignItems="center"
 			>
 				<Flex
