@@ -147,8 +147,8 @@ export const config = defineConfig({
 	globalCss: {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[`@keyframes ${animationName.itemGridEnter}`]: {
-			from: { transform: 'translateY(-10px)' },
-			to: { transform: 'translateY(0)' },
+			from: { opacity: 0 },
+			to: { opacity: 1 },
 		} as any,
 		'html, body': {
 			touchAction: 'pan-y',
