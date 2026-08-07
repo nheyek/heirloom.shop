@@ -168,59 +168,57 @@ export const ShopPage = () => {
 							>
 								{shopData?.title}
 							</Text>
-							<Text
-								display="block"
-								fontSize={Object.entries(
-									titleFontSize,
-								).reduce(
-									(acc, [key, value]) => ({
-										...acc,
-										[key]: value * 0.65,
-									}),
-									{},
-								)}
-								fontWeight="600"
-							>
-								{shopData?.classification}
-							</Text>
-							<Box
-								display="flex"
-								alignItems="center"
-								gap={{ base: 2, lg: 3 }}
-							>
-								<Box
-									width={{
-										base: 5,
-										md: 7,
-										lg: 9,
-									}}
-								>
-									<CountryFlagIcon
-										countryCode={
-											shopData?.countryCode as CountryCode | null
-										}
-										svgProps={{
-											style: {
-												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-											},
-										}}
-									/>
-								</Box>
+							<Stack gap={1}>
 								<Text
-									fontWeight={500}
+									display="block"
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: value * 0.55,
+											[key]: value * 0.65,
 										}),
 										{},
 									)}
+									fontWeight="600"
 								>
-									{shopData?.location}
+									{shopData?.classification}
 								</Text>
-							</Box>
+								<HStack gap={{ base: 3, md: 4 }}>
+									<Box
+										width={{
+											base: 5,
+											md: 7,
+											lg: 9,
+										}}
+									>
+										<CountryFlagIcon
+											countryCode={
+												shopData?.countryCode as CountryCode | null
+											}
+											svgProps={{
+												style: {
+													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+												},
+											}}
+										/>
+									</Box>
+									<Text
+										fontWeight={500}
+										fontSize={Object.entries(
+											titleFontSize,
+										).reduce(
+											(acc, [key, value]) => ({
+												...acc,
+												[key]: value * 0.55,
+											}),
+											{},
+										)}
+									>
+										{shopData?.location}
+									</Text>
+								</HStack>
+							</Stack>
 						</Stack>
 						<HStack gap={2}>
 							{shopData?.profileRichText && (
