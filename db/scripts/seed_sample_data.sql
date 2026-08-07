@@ -327,13 +327,15 @@ DECLARE
 
 BEGIN
 
-    -- Clear out previous sample data before reseeding
-    DELETE FROM listing WHERE shop_id = ANY(old_sample_shop_ids);
+    -- Clear out unused profile tables tied to the sample shops. Note: shop
+    -- and listing themselves are intentionally NOT deleted here (they're
+    -- upserted below instead) — deleting them would cascade through
+    -- ON DELETE CASCADE to user_favorite_shop/user_favorite_listing and
+    -- silently wipe out real users' favorites on every reseed.
     DELETE FROM listing_processing_profile WHERE shop_id = ANY(old_sample_shop_ids);
     DELETE FROM listing_shipping_profile WHERE shop_id = ANY(old_sample_shop_ids);
     DELETE FROM listing_return_profile WHERE shop_id = ANY(old_sample_shop_ids);
     DELETE FROM listing_personalization_profile WHERE shop_id = ANY(old_sample_shop_ids);
-    DELETE FROM shop WHERE id = ANY(old_sample_shop_ids);
 
     INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, direct_fulfillment, created_at, updated_at)
     VALUES

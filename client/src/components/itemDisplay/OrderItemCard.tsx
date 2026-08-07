@@ -20,7 +20,7 @@ import { ReactNode } from 'react';
 import { FaSignature } from 'react-icons/fa';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
-export const STANDARD_THUMBNAIL_WIDTH = 150;
+export const STANDARD_THUMBNAIL_WIDTH = 160;
 
 const truncatePersonalizationText = (text: string): string =>
 	text.length > PERSONALIZATION_BADGE_MAX_CHARS
