@@ -1,5 +1,5 @@
 import { Input, InputProps } from '@chakra-ui/react';
-import { fieldErrorColor } from '@client/theme';
+import { fieldErrorColor, sansFontFamily } from '@client/theme';
 
 export const CheckoutShippingField = ({
 	invalid,
@@ -7,7 +7,8 @@ export const CheckoutShippingField = ({
 }: InputProps & { invalid?: boolean }) => (
 	<Input
 		variant="subtle"
-		fontSize={18}
+		fontFamily={sansFontFamily}
+		fontSize={16}
 		p={3}
 		height={12}
 		borderRadius={5}

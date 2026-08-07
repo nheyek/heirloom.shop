@@ -1,5 +1,5 @@
 import { useToken } from '@chakra-ui/react';
-import { breakpoints, defaultFontFamily } from '@client/theme';
+import { breakpoints, sansFontFamily } from '@client/theme';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
@@ -37,18 +37,18 @@ export const StripeProvider = ({ children }: Props) => {
 			currency: 'usd',
 			fonts: [
 				{
-					cssSrc: 'https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@400;500;700&display=swap',
+					cssSrc: 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap',
 				},
 			],
 			appearance: {
 				labels: 'floating',
 				variables: {
 					spacingUnit: '4px',
-					fontFamily: `${defaultFontFamily}, sans-serif`,
+					fontFamily: `${sansFontFamily}, sans-serif`,
 				},
 				rules: {
 					'.Input': {
-						fontSize: '18px',
+						fontSize: '16px',
 						borderRadius: '5px',
 						boxShadow: 'none',
 						backgroundColor: useDarkMode
@@ -68,14 +68,14 @@ export const StripeProvider = ({ children }: Props) => {
 						border: useDarkMode ? '1px solid white' : '0',
 					},
 					'.Error': {
-						fontSize: '16px',
+						fontSize: '14px',
 						paddingTop: '2px',
 					},
 					'.Label': {
 						color: useDarkMode ? gray200 : gray500,
 					},
 					'.Label--resting': {
-						fontSize: '18px',
+						fontSize: '16px',
 					},
 					'.Label--floating': {
 						fontSize: '14px',

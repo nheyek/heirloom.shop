@@ -14,7 +14,7 @@ import { CheckoutShippingField } from '@client/components/checkout/CheckoutShipp
 import { CheckoutShippingFieldError } from '@client/components/checkout/CheckoutShippingFieldError';
 import { Layout, US_STATES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { fieldErrorColor } from '@client/theme';
+import { fieldErrorColor, sansFontFamily } from '@client/theme';
 import { extractAddressFields } from '@client/utils/addressUtils';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
@@ -250,7 +250,7 @@ export const CheckoutShippingForm = (props: Props) => {
 												px={3}
 												py={2}
 												cursor="pointer"
-												fontSize={18}
+												fontSize={16}
 												_hover={{
 													bg: 'gray.100',
 												}}
@@ -325,7 +325,8 @@ export const CheckoutShippingForm = (props: Props) => {
 								name="address-level1"
 								autoComplete="address-level1"
 								height={12}
-								fontSize={18}
+								fontFamily={sansFontFamily}
+								fontSize={16}
 								value={shippingAddress.state}
 								onChange={(e) => {
 									setShippingAddress({
