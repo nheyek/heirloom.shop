@@ -63,17 +63,33 @@ export const RichTextEditor = ({
 		isOrderedList,
 	} = useEditorState({
 		editor,
-		selector: (ctx) => ({
-			isBold: ctx.editor?.isActive('bold') ?? false,
-			isItalic: ctx.editor?.isActive('italic') ?? false,
-			isUnderline: ctx.editor?.isActive('underline') ?? false,
-			isHeading:
-				ctx.editor?.isActive('heading', { level: 1 }) ??
-				false,
-			isBulletList: ctx.editor?.isActive('bulletList') ?? false,
-			isOrderedList:
-				ctx.editor?.isActive('orderedList') ?? false,
-		}),
+		selector: (ctx) => {
+			// Before the editor has actual focus, ProseMirror still
+			// reports a selection (its unfocused default: position 0),
+			// so isActive() would reflect whatever formatting sits at
+			// the very start of the document rather than "nothing is
+			// selected". Gate on isFocused so the toolbar stays neutral
+			// until the user has a real cursor position.
+			const isFocused = ctx.editor?.isFocused ?? false;
+			return {
+				isBold: isFocused && (ctx.editor?.isActive('bold') ?? false),
+				isItalic:
+					isFocused && (ctx.editor?.isActive('italic') ?? false),
+				isUnderline:
+					isFocused &&
+					(ctx.editor?.isActive('underline') ?? false),
+				isHeading:
+					isFocused &&
+					(ctx.editor?.isActive('heading', { level: 1 }) ??
+						false),
+				isBulletList:
+					isFocused &&
+					(ctx.editor?.isActive('bulletList') ?? false),
+				isOrderedList:
+					isFocused &&
+					(ctx.editor?.isActive('orderedList') ?? false),
+			};
+		},
 	});
 
 	if (!editor) return null;
@@ -187,7 +203,21 @@ export const RichTextEditor = ({
 					maxHeight={maxHeight}
 					overflow="scroll"
 					cursor="text"
-					onClick={() => editor.commands.focus()}
+					onClick={(e) =>
+						// A click that lands on the actual text is already
+						// resolved to the right position by ProseMirror's own
+						// DOM handling. A click on the surrounding padding
+						// (e.target === this Box, not a descendant) never
+						// reaches that handling, so focus() has nothing to
+						// preserve and falls back to position 0 — send it to
+						// the end instead, matching where a click in empty
+						// space below the text should land.
+						editor.commands.focus(
+							e.target === e.currentTarget
+								? 'end'
+								: undefined,
+						)
+					}
 					css={{
 						'& .tiptap': {
 							padding: 4,
