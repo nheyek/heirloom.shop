@@ -1,4 +1,6 @@
 import {
+	Box,
+	Flex,
 	GridItem,
 	SimpleGrid,
 	Skeleton,
@@ -86,54 +88,65 @@ export const ListingPageSkeleton = (props: {
 	}
 
 	return (
-		<SimpleGrid
-			maxW={props.maxWidth}
-			columns={2}
+		<Flex
+			flexDir="column"
+			maxWidth={props.maxWidth}
 			gap={10}
 			my={5}
 			mx="auto"
 		>
-			<GridItem colSpan={2}>
-				<SimpleGrid
-					columns={4}
-					gap={3}
+			<SimpleGrid
+				columns={4}
+				gap={3}
+			>
+				<GridItem
+					colSpan={2}
+					rowSpan={2}
 				>
-					<GridItem
-						colSpan={2}
-						rowSpan={2}
-					>
-						<Skeleton
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-							height="100%"
-							width="100%"
-						></Skeleton>
-					</GridItem>
-					<GridItem>
-						<Skeleton
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						></Skeleton>
-					</GridItem>
-					<GridItem>
-						<Skeleton
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						></Skeleton>
-					</GridItem>
-					<GridItem>
-						<Skeleton
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						></Skeleton>
-					</GridItem>
-					<GridItem>
-						<Skeleton
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						></Skeleton>
-					</GridItem>
-				</SimpleGrid>
-			</GridItem>
-			<GridItem>{renderBasicInfoSection()}</GridItem>
-			<GridItem>
-				{renderButtonsAndFulfillmentSection()}
-			</GridItem>
-		</SimpleGrid>
+					<Skeleton
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+						height="100%"
+						width="100%"
+					></Skeleton>
+				</GridItem>
+				<GridItem>
+					<Skeleton
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					></Skeleton>
+				</GridItem>
+				<GridItem>
+					<Skeleton
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					></Skeleton>
+				</GridItem>
+				<GridItem>
+					<Skeleton
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					></Skeleton>
+				</GridItem>
+				<GridItem>
+					<Skeleton
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					></Skeleton>
+				</GridItem>
+			</SimpleGrid>
+			<Flex
+				direction={{ base: 'column', md: 'row' }}
+				gap={10}
+			>
+				<Box
+					flex="1"
+					minW={0}
+				>
+					{renderBasicInfoSection()}
+				</Box>
+				<Box
+					flexShrink={0}
+					width={{ base: '100%', md: 375 }}
+				>
+					{renderButtonsAndFulfillmentSection()}
+				</Box>
+			</Flex>
+		</Flex>
 	);
 };
