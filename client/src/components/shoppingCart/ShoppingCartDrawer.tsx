@@ -17,6 +17,7 @@ import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { ReactNode } from 'react';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
@@ -84,6 +85,36 @@ export const ShoppingCartDrawer = (props: Props) => {
 	};
 
 	const cartContent = renderCartContent();
+	const isEmpty =
+		!shoppingCart.cartLoading && shoppingCart.itemQuantityTotal === 0;
+
+	let listSection: ReactNode;
+	if (isEmpty) {
+		listSection = cartContent;
+	} else if (isCompact) {
+		listSection = (
+			<HStack
+				gap={5}
+				overflowX="scroll"
+				mx={-6}
+				my={-5}
+				px={6}
+				py={5}
+				alignItems="flex-start"
+			>
+				{cartContent}
+			</HStack>
+		);
+	} else {
+		listSection = (
+			<Stack
+				gap={5}
+				pr={5}
+			>
+				{cartContent}
+			</Stack>
+		);
+	}
 
 	return (
 		<Drawer.Root
@@ -129,26 +160,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							}
 							gap={5}
 						>
-							{isCompact ? (
-								<HStack
-									gap={5}
-									overflowX="scroll"
-									mx={-6}
-									my={-5}
-									px={6}
-									py={5}
-									alignItems="flex-start"
-								>
-									{cartContent}
-								</HStack>
-							) : (
-								<Stack
-									gap={5}
-									pr={5}
-								>
-									{cartContent}
-								</Stack>
-							)}
+							{listSection}
 
 							{shoppingCart.items.length > 0 && (
 								<Button
