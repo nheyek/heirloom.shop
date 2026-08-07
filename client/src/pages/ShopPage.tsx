@@ -32,7 +32,6 @@ import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
 import { FaHeart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
-import { IoChatbox } from 'react-icons/io5';
 import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
@@ -250,10 +249,6 @@ export const ShopPage = () => {
 									shopData &&
 									toggleFavoriteShop(shopData)
 								}
-							/>
-							<ActionButton
-								icon={IoChatbox}
-								label="Message"
 							/>
 						</HStack>
 					</Stack>
