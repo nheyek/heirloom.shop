@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { HStack, Span, Stack, Tabs, Text } from '@chakra-ui/react';
+import { Tabs, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
@@ -13,7 +13,6 @@ import {
 	ShopCardData,
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
-import { FaHeart } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const FavoritesPage = () => {
@@ -73,29 +72,6 @@ export const FavoritesPage = () => {
 	}
 
 	const gridColumns = sidebarGridCols;
-
-	const isEmpty =
-		!isLoading && listings.length === 0 && shops.length === 0;
-
-	if (isEmpty) {
-		return (
-			<Stack gap={1}>
-				<Text fontSize={22}>
-					You haven't favorited anything yet.
-				</Text>
-				<HStack
-					fontSize={20}
-					gap={1.5}
-				>
-					<Span>Click</Span>
-					<FaHeart />
-					<Span>
-						on any listing or shop to favorite it.
-					</Span>
-				</HStack>
-			</Stack>
-		);
-	}
 
 	return (
 		<Tabs.Root
