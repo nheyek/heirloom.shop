@@ -195,7 +195,7 @@ export const RichTextEditor = ({
 							fontSize: 18,
 						},
 						'& .tiptap p': {
-							marginBottom: 3,
+							marginBottom: 4,
 						},
 						'& .tiptap h1': {
 							fontSize: 22,

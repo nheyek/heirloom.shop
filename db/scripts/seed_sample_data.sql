@@ -19,6 +19,7 @@ DECLARE
     sample_shop_2_location VARCHAR := 'Kamenický Šenov';
     sample_shop_2_classification VARCHAR := 'Handcrafted Bohemian glassware';
     sample_shop_2_country_code CHAR(2) := 'CZ';
+    sample_shop_2_profile_rich_text TEXT := '<h1>Our Story</h1><p>Klimchi was revived in 2019 by Lukáš Klimčák, who returned to his stepfather''s glassworks in Kamenický Šenov to continue a family tradition of Bohemian glassmaking. Working alongside creative director František Jungvirt, he set out to bring a contemporary eye to techniques passed down through generations.</p><h1>A Factory Built to Last</h1><p>Our kilns sit inside a factory built in 1905 by the same French engineers who constructed the Eiffel Tower, in a town known as Crystal Valley for glassmaking traditions that stretch back to the 16th century, when local farmers turned to glass to survive poor harvests.</p><h1>Color Melted In, Not Sprayed On</h1><p>Rather than spray color onto a finished piece, we melt pigment directly into the glass itself, producing the deep violets, crystalline roses, and glistening aquamarines that give each collection its signature look.</p><h1>Three Days, One Piece</h1><p>Every piece, including our signature hobnail glassware, is shaped by hand: blown into wooden molds, then sculpted and finished while the glass is still hot, a process that can take up to three days from first breath to finished form.</p><h1>A Legacy, Recognized</h1><p>In December 2023, traditional Czech glassmaking craftsmanship was added to UNESCO''s Representative List of the Intangible Cultural Heritage of Humanity, honoring the same techniques still used in our workshop today.</p>';
 
     sample_shop_3_id INT := 3;
     sample_shop_3_short_id VARCHAR := 'sF7t';
@@ -26,6 +27,7 @@ DECLARE
     sample_shop_3_profile_image_uuid VARCHAR := '41582661-49C7-41E2-8B35-F5ECC74BF465';
     sample_shop_3_location VARCHAR := 'Santa Barbara, CA';
     sample_shop_3_classification VARCHAR := 'Hand-Forged Ironwork';
+    sample_shop_3_profile_rich_text TEXT := '<h1>Our Story</h1><p>Santa Barbara''s blacksmithing tradition dates back to 1916, when the Craviotto Bros. opened a steel shop that became the heart of ironwork in the city, until the brothers retired in the mid-1990s and the forge fell silent.</p><h1>Passing the Torch</h1><p>In 2010, we took over the Craviotto Bros.'' original workshop, meeting with the family directly to carry their craft forward &mdash; a passing of the torch in the truest sense. What started as one small forge has grown into a full workshop for architectural ironwork, bespoke furniture, and cookware.</p><h1>From Railings to Ranges</h1><p>We added cookware to the shop wanting to give customers something more intimate than a custom gate or staircase. The first pan was built small on purpose, so it would fit in any kitchen, before the line grew to include larger pans, spatulas, ladles, and hand-forged cleavers.</p><h1>Why Hand-Forged Steel</h1><p>Hammering steel by hand compresses and aligns its grain in a way casting never can, so our pans season faster, heat more evenly, and end up lighter and less porous than cast iron of the same size.</p><h1>Made to Be Handed Down</h1><p>Every piece that leaves our forge, from a stair rail to a skillet, still carries the mark of the hammer and the hands that shaped it, built the same way the Craviotto Bros. built things a century ago: to outlast the person who bought it.</p>';
     sample_shop_3_country_code CHAR(2) := 'US';
 
     sample_shop_4_id INT := 4;
@@ -336,8 +338,8 @@ BEGIN
     INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, direct_fulfillment, created_at, updated_at)
     VALUES
         (sample_shop_1_id, sample_shop_1_short_id, sample_shop_1_title, sample_shop_1_profile_rich_text, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_2_id, sample_shop_2_short_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_shop_3_id, sample_shop_3_short_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_2_id, sample_shop_2_short_id, sample_shop_2_title, sample_shop_2_profile_rich_text, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_3_id, sample_shop_3_short_id, sample_shop_3_title, sample_shop_3_profile_rich_text, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_shop_4_id, sample_shop_4_short_id, sample_shop_4_title, sample_shop_4_profile_rich_text, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,

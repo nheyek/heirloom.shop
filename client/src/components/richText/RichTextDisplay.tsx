@@ -14,7 +14,7 @@ export const RichTextDisplay = (props: Props) => {
 				'& p': {
 					fontSize,
 					lineHeight: 'base',
-					marginBottom: 3,
+					marginBottom: 4,
 				},
 				'& h1': {
 					fontSize: fontSize + 4,
