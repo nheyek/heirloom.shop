@@ -1,5 +1,6 @@
 import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
+import { FeaturedListing } from '@server/entities/generated/FeaturedListing';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
@@ -22,6 +23,10 @@ const getApp = useApp();
  *   - "Art Deco Brooch"          (JEWELRY_VINTAGE — child of JEWELRY)
  *   - "Mahogany Dresser"         (FURNITURE — top-level)
  *   - "Victorian Writing Desk"   (FURNITURE — with shipping + return profiles)
+ *
+ * Featured, in this deliberately-not-creation-order sequence (so an order
+ * assertion can't pass by accident): Dresser, Vase, Blouse. Shirt, Brooch,
+ * and Desk are left unfeatured to prove the endpoint excludes them.
  *
  * IDs are DB-generated (not hardcoded) to avoid collisions with other test
  * files sharing the same database; shop1Id captures the generated id for
@@ -115,6 +120,16 @@ beforeAll(async () => {
 	await em.persist(desk).flush();
 
 	shop1Id = shop1.id;
+
+	// Featured in a deliberately-not-creation-order sequence — see the
+	// comment above. Persisted in its own flush() per the same
+	// relation-dropping pitfall noted above.
+	const featuredDresser = em.create(FeaturedListing, { listing: dresser });
+	const featuredVase = em.create(FeaturedListing, { listing: vase });
+	const featuredBlouse = em.create(FeaturedListing, { listing: blouse });
+	await em
+		.persist([featuredDresser, featuredVase, featuredBlouse])
+		.flush();
 });
 
 describe('GET /api/listings', () => {
@@ -124,10 +139,20 @@ describe('GET /api/listings', () => {
 		res = await request(getApp()).get('/api/listings');
 	});
 
-	it('returns 200 with an array capped at the limit of 8', () => {
+	it('returns exactly the featured listings, in featured order', () => {
 		expect(res.status).toBe(200);
-		expect(Array.isArray(res.body)).toBe(true);
-		expect(res.body.length).toBeLessThanOrEqual(8);
+		expect(res.body.map((l: any) => l.title)).toEqual([
+			'Mahogany Dresser',
+			'Handmade Vase',
+			'Linen Blouse',
+		]);
+	});
+
+	it('excludes listings that are not featured', () => {
+		const titles = res.body.map((l: any) => l.title);
+		expect(titles).not.toContain("Men's Oxford Shirt");
+		expect(titles).not.toContain('Art Deco Brooch');
+		expect(titles).not.toContain('Victorian Writing Desk');
 	});
 
 	it('returns listings with the expected shape', () => {

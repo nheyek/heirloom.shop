@@ -1,5 +1,6 @@
 import { ERROR_MESSAGES } from '@server/constants';
 import { getEm } from '@server/db';
+import { FeaturedShop } from '@server/entities/generated/FeaturedShop';
 import { Listing } from '@server/entities/generated/Listing';
 import { Shop } from '@server/entities/generated/Shop';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
@@ -26,6 +27,10 @@ const AUTH = { Authorization: 'Bearer test' };
  * Shop "The Metalworks" — no optional fields, shortId="metl22"
  *   testUser has a non-owner ("staff") role assignment here
  *   (no listings)
+ *
+ * Featured, in this order: Glass Studio, then Woodworkers (deliberately not
+ * creation order, so an order assertion can't pass by accident). Metalworks
+ * is left unfeatured to prove the endpoint excludes it.
  *
  * IDs are DB-generated (not hardcoded) to avoid collisions with other test
  * files sharing the same database; woodworkersId captures the generated id
@@ -88,6 +93,16 @@ beforeAll(async () => {
 	await em.persist([ownerRole, staffRole]).flush();
 
 	woodworkersId = woodworkers.id;
+
+	const featuredGlassStudio = em.create(FeaturedShop, {
+		shop: glassStudio,
+	});
+	const featuredWoodworkers = em.create(FeaturedShop, {
+		shop: woodworkers,
+	});
+	await em
+		.persist([featuredGlassStudio, featuredWoodworkers])
+		.flush();
 });
 
 describe('GET /api/shops', () => {
@@ -123,6 +138,27 @@ describe('GET /api/shops', () => {
 		expect(glassStudio.location).toBeNull();
 		expect(glassStudio.classification).toBeNull();
 		expect(glassStudio.countryCode).toBeNull();
+	});
+});
+
+describe('GET /api/shops/featured', () => {
+	let res: any;
+
+	beforeAll(async () => {
+		res = await request(getApp()).get('/api/shops/featured');
+	});
+
+	it('returns exactly the featured shops, in featured order', () => {
+		expect(res.status).toBe(200);
+		expect(res.body.map((s: any) => s.title)).toEqual([
+			'The Glass Studio',
+			'The Woodworkers',
+		]);
+	});
+
+	it('excludes shops that are not featured', () => {
+		const titles = res.body.map((s: any) => s.title);
+		expect(titles).not.toContain('The Metalworks');
 	});
 });
 

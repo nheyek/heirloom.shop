@@ -15,6 +15,7 @@ import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { AppUser } from '@server/entities/generated/AppUser';
 import { Country } from '@server/entities/generated/Country';
+import { FeaturedShop } from '@server/entities/generated/FeaturedShop';
 import { Shop } from '@server/entities/generated/Shop';
 import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { findOrCreateUser } from '@server/services/user.service';
@@ -31,6 +32,19 @@ export class ShopValidationError extends Error {
 export const findShops = async () => {
 	const em = getEm();
 	return em.find(Shop, {}, { populate: ['country'] });
+};
+
+export const findFeaturedShops = async (): Promise<Shop[]> => {
+	const em = getEm();
+	const featured = await em.find(
+		FeaturedShop,
+		{},
+		{
+			populate: ['shop', 'shop.country'],
+			orderBy: { id: 'asc' },
+		},
+	);
+	return featured.map((f) => f.shop);
 };
 
 export const findShopById = async (id: number) => {

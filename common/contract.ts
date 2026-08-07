@@ -291,6 +291,14 @@ export const shopsContract = c.router({
 		path: '/api/shops',
 		responses: { 200: z.array(ShopCardDataSchema) },
 	},
+	// Must stay registered before getById — Express matches routes in
+	// registration order, and getById's `/api/shops/:id` would otherwise
+	// swallow `/api/shops/featured` (see the same ordering in shop.routes.ts).
+	getFeatured: {
+		method: 'GET',
+		path: '/api/shops/featured',
+		responses: { 200: z.array(ShopCardDataSchema) },
+	},
 	getById: {
 		method: 'GET',
 		path: '/api/shops/:id',

@@ -1,21 +1,21 @@
-import { sql } from '@mikro-orm/core';
 import { getEm } from '@server/db';
+import { FeaturedListing } from '@server/entities/generated/FeaturedListing';
 import { Listing } from '@server/entities/generated/Listing';
 import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { Shop } from '@server/entities/generated/Shop';
 import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
-export const findListingsComplete = async (): Promise<Listing[]> => {
+export const findFeaturedListings = async (): Promise<Listing[]> => {
 	const em = getEm();
-	return em.find(
-		Listing,
+	const featured = await em.find(
+		FeaturedListing,
 		{},
 		{
-			populate: ['shop', 'shop.country'],
-			orderBy: { [sql`RANDOM()`]: 'asc' },
-			limit: 8,
+			populate: ['listing', 'listing.shop', 'listing.shop.country'],
+			orderBy: { id: 'asc' },
 		},
 	);
+	return featured.map((f) => f.listing);
 };
 
 export const findListingsByCategory = async (

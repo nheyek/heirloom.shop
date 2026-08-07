@@ -1,6 +1,7 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Entity, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Country } from './Country.js';
+import { FeaturedShop } from './FeaturedShop.js';
 import { Listing } from './Listing.js';
 import { ListingPersonalizationProfile } from './ListingPersonalizationProfile.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
@@ -44,6 +45,9 @@ export class Shop {
 
   @Property({ type: 'boolean' })
   directFulfillment: boolean & Opt = true;
+
+  @OneToOne({ entity: () => FeaturedShop, mappedBy: 'shop' })
+  featuredShop?: Rel<FeaturedShop>;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'shop' })
   listingCollection = new Collection<Listing>(this);

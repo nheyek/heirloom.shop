@@ -138,6 +138,66 @@ CREATE TABLE public.country (
 
 
 --
+-- Name: featured_listing; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.featured_listing (
+    id integer NOT NULL,
+    listing_id integer NOT NULL
+);
+
+
+--
+-- Name: featured_listing_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.featured_listing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: featured_listing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.featured_listing_id_seq OWNED BY public.featured_listing.id;
+
+
+--
+-- Name: featured_shop; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.featured_shop (
+    id integer NOT NULL,
+    shop_id integer NOT NULL
+);
+
+
+--
+-- Name: featured_shop_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.featured_shop_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: featured_shop_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.featured_shop_id_seq OWNED BY public.featured_shop.id;
+
+
+--
 -- Name: listing; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -550,6 +610,20 @@ ALTER TABLE ONLY public.app_user ALTER COLUMN id SET DEFAULT nextval('public.app
 
 
 --
+-- Name: featured_listing id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_listing ALTER COLUMN id SET DEFAULT nextval('public.featured_listing_id_seq'::regclass);
+
+
+--
+-- Name: featured_shop id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_shop ALTER COLUMN id SET DEFAULT nextval('public.featured_shop_id_seq'::regclass);
+
+
+--
 -- Name: listing id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -657,6 +731,38 @@ ALTER TABLE ONLY public.app_user
 
 ALTER TABLE ONLY public.country
     ADD CONSTRAINT country_pkey PRIMARY KEY (code);
+
+
+--
+-- Name: featured_listing featured_listing_listing_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_listing
+    ADD CONSTRAINT featured_listing_listing_id_key UNIQUE (listing_id);
+
+
+--
+-- Name: featured_listing featured_listing_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_listing
+    ADD CONSTRAINT featured_listing_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: featured_shop featured_shop_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_shop
+    ADD CONSTRAINT featured_shop_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: featured_shop featured_shop_shop_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_shop
+    ADD CONSTRAINT featured_shop_shop_id_key UNIQUE (shop_id);
 
 
 --
@@ -887,6 +993,22 @@ ALTER TABLE ONLY public.app_order
 
 
 --
+-- Name: featured_listing featured_listing_listing_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_listing
+    ADD CONSTRAINT featured_listing_listing_id_fkey FOREIGN KEY (listing_id) REFERENCES public.listing(id) ON DELETE CASCADE;
+
+
+--
+-- Name: featured_shop featured_shop_shop_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.featured_shop
+    ADD CONSTRAINT featured_shop_shop_id_fkey FOREIGN KEY (shop_id) REFERENCES public.shop(id) ON DELETE CASCADE;
+
+
+--
 -- Name: listing listing_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1064,4 +1186,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260630000000'),
     ('20260630000001'),
     ('20260710000000'),
-    ('20260714000000');
+    ('20260714000000'),
+    ('20260807000000');

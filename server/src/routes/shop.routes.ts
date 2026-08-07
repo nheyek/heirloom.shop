@@ -25,6 +25,12 @@ export const shopRouter = s.router(shopsContract, {
 		const shops = await shopService.findShops();
 		return { status: 200 as const, body: shops.map(mapShopToApiResponseData) };
 	},
+	// Must stay registered before getById — see the comment on this route
+	// in the contract.
+	getFeatured: async () => {
+		const shops = await shopService.findFeaturedShops();
+		return { status: 200 as const, body: shops.map(mapShopToApiResponseData) };
+	},
 	getById: async ({ params: { id } }) => {
 		const shop = await shopService.findShopByShortId(id);
 		if (!shop) {

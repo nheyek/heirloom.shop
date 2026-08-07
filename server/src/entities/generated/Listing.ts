@@ -1,5 +1,6 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Entity, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { FeaturedListing } from './FeaturedListing.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingPersonalizationProfile } from './ListingPersonalizationProfile.js';
 import { ListingProcessingProfile } from './ListingProcessingProfile.js';
@@ -67,6 +68,9 @@ export class Listing {
 
   @ManyToOne({ entity: () => ListingPersonalizationProfile, updateRule: 'no action', nullable: true })
   personalizationProfile?: Rel<ListingPersonalizationProfile>;
+
+  @OneToOne({ entity: () => FeaturedListing, mappedBy: 'listing' })
+  featuredListing?: Rel<FeaturedListing>;
 
   @OneToMany({ entity: () => UserFavoriteListing, mappedBy: 'listing' })
   userFavoriteListingCollection = new Collection<UserFavoriteListing>(this);

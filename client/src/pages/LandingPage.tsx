@@ -38,7 +38,7 @@ export const LandingPage = () => {
 	const apiClient = useApiClient();
 
 	const loadShopData = async () => {
-		const result = await callApi(apiClient.shops.getAll());
+		const result = await callApi(apiClient.shops.getFeatured());
 		if (result.error !== null) {
 			setShopsError('Failed to load makers');
 		} else {

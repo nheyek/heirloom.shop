@@ -453,6 +453,29 @@ BEGIN
     PERFORM setval(pg_get_serial_sequence('shop', 'id'), COALESCE((SELECT MAX(id) FROM shop), 1));
     PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
 
+    -- These two tables are owned entirely by this script, so a full
+    -- reseed (rather than a targeted delete) keeps the featured order
+    -- easy to redefine on every run.
+    DELETE FROM featured_shop;
+    DELETE FROM featured_listing;
+
+    INSERT INTO featured_shop (shop_id)
+    VALUES
+        (sample_shop_3_id), -- Santa Barbara Forge
+        (sample_shop_2_id), -- Klimchi
+        (sample_shop_4_id), -- Rookwood
+        (sample_shop_1_id); -- H.M. Kala
+
+    INSERT INTO featured_listing (listing_id)
+    VALUES
+        (sample_listing_1_id), -- Pocket Sundial
+        (sample_listing_2_id), -- Sonora Small Pan
+        (sample_listing_4_id), -- Sonora Roaster
+        (sample_listing_7_id), -- Crystal Hobnail Jug
+        (sample_listing_9_id), -- Crystal Hobnail Tumblers
+        (sample_listing_6_id), -- Boule Vase
+        (sample_listing_5_id); -- Rook Dish
+
 COMMIT;
 
 END $$;

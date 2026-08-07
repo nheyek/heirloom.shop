@@ -16,7 +16,7 @@ const s = initServer();
 
 export const listingRouter = s.router(listingsContract, {
 	getAll: async () => {
-		const listings = await listingService.findListingsComplete();
+		const listings = await listingService.findFeaturedListings();
 		return {
 			status: 200 as const,
 			body: listings.map(mapListingToApiResponseData),
