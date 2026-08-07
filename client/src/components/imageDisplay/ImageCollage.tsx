@@ -18,7 +18,8 @@ type Props = {
 };
 
 export const ImageCollage = (props: Props) => {
-	let numGridCols = useBreakpointValue({ base: 2, lg: 3 }) || 2;
+	let numGridCols =
+		useBreakpointValue({ base: 2, lg: 3 }, { ssr: false }) || 3;
 	numGridCols = Math.min(numGridCols, props.urls.length);
 
 	const numThumbnailTiles = numGridCols * 2 - 2;
