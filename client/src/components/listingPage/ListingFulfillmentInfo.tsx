@@ -1,23 +1,19 @@
 import {
-	Box,
+	Flex,
 	HStack,
 	Popover,
 	Portal,
 	Stack,
 } from '@chakra-ui/react';
-import { Logo } from '@client/components/branding/Logo';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
-import { IconText } from '@client/components/textDisplay/IconText';
 import { ReturnPolicyDisplay } from '@client/domain/listingPage';
-import { brandColor } from '@client/theme';
 import { ListingFulfillmentProfiles } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { IconType } from 'react-icons';
 import { FaExchangeAlt } from 'react-icons/fa';
 import {
-	FaCheckDouble,
 	FaCircleInfo,
 	FaHourglassStart,
-	FaLocationDot,
 	FaTruck,
 } from 'react-icons/fa6';
 
@@ -25,14 +21,12 @@ type Props = {
 	profiles: ListingFulfillmentProfiles | null;
 	deliveryEstimate: string;
 	returnPolicy: ReturnPolicyDisplay;
-	directFulfillment: boolean;
 };
 
 export const ListingFulfillmentInfo = ({
 	profiles,
 	deliveryEstimate,
 	returnPolicy,
-	directFulfillment,
 }: Props) => (
 	<Stack gap={1}>
 		<IconText icon={FaHourglassStart}>
@@ -88,22 +82,20 @@ export const ListingFulfillmentInfo = ({
 				</Popover.Root>
 			)}
 		</IconText>
-		{directFulfillment ? (
-			profiles?.shipping && (
-				<IconText icon={FaLocationDot}>
-					Ships from
-					<b>{profiles.shipping.originZip}</b>
-				</IconText>
-			)
-		) : (
-			<IconText icon={FaCheckDouble}>
-				<HStack gap={1}>
-					Fulfilled by
-					<Box width={76}>
-						<Logo fill={brandColor} />
-					</Box>
-				</HStack>
-			</IconText>
-		)}
 	</Stack>
+);
+
+const IconText = (props: {
+	icon: IconType;
+	children: React.ReactNode;
+}) => (
+	<HStack
+		gap={3}
+		fontSize={20}
+		height={30}
+	>
+		{<props.icon />}
+
+		<Flex gap={1}>{props.children}</Flex>
+	</HStack>
 );

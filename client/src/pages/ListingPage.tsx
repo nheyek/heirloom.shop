@@ -401,9 +401,6 @@ export const ListingPage = () => {
 								profiles={profiles}
 								deliveryEstimate={deliveryEstimate}
 								returnPolicy={returnPolicyDisplay}
-								directFulfillment={
-									!!listingData?.directFulfillment
-								}
 							/>
 						</Stack>
 					</Box>
