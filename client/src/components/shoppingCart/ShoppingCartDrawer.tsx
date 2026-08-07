@@ -119,7 +119,10 @@ export const ShoppingCartDrawer = (props: Props) => {
 						</Drawer.CloseTrigger>
 					</Drawer.Header>
 
-					<Drawer.Body pb={5}>
+					<Drawer.Body
+						pb={5}
+						pr={0}
+					>
 						<Stack
 							height="100%"
 							justifyContent={
@@ -140,7 +143,12 @@ export const ShoppingCartDrawer = (props: Props) => {
 									{cartContent}
 								</HStack>
 							) : (
-								<Stack gap={5}>{cartContent}</Stack>
+								<Stack
+									gap={5}
+									pr={5}
+								>
+									{cartContent}
+								</Stack>
 							)}
 
 							{shoppingCart.items.length > 0 && (

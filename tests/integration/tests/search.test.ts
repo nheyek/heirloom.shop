@@ -95,17 +95,6 @@ describe('GET /api/search', () => {
 		expect(shopIds).toContain('shop41');
 	});
 
-	it('searches categories by title', async () => {
-		const res = await request(getApp()).get('/api/search?q=jewelry');
-
-		expect(res.status).toBe(200);
-		expect(res.body).toHaveProperty('categoryResults');
-		expect(res.body.categoryResults.length).toBeGreaterThan(0);
-
-		const categoryIds = res.body.categoryResults.map((r: any) => r.id);
-		expect(categoryIds).toContain('jewelry');
-	});
-
 	it('returns empty results for non-matching query', async () => {
 		const res = await request(getApp()).get('/api/search?q=nonexistent');
 
@@ -113,7 +102,6 @@ describe('GET /api/search', () => {
 		expect(res.body).toEqual({
 			listingResults: [],
 			shopResults: [],
-			categoryResults: [],
 		});
 	});
 
@@ -150,7 +138,6 @@ describe('GET /api/search', () => {
 		expect(res.body).toEqual({
 			listingResults: [],
 			shopResults: [],
-			categoryResults: [],
 		});
 	});
 });

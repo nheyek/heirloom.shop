@@ -13,7 +13,6 @@ import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { CLIENT_ROUTES } from './constants';
 import { AdminShopsPage } from './pages/Admin/AdminShopsPage';
 import { AuthCallback } from './pages/AuthCallback';
-import { CategoryPage } from './pages/CategoryPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
@@ -128,10 +127,6 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.order}/:shortId`}
 							element={<OrderIsolatedPage />}
-						/>
-						<Route
-							path={`/${CLIENT_ROUTES.category}/:id`}
-							element={<CategoryPage />}
 						/>
 						<Route
 							path={`/${CLIENT_ROUTES.shop}/:id`}

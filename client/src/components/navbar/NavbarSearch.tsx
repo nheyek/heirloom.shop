@@ -21,7 +21,7 @@ import {
 import { FaSearch } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
 import { IoClose } from 'react-icons/io5';
-import { TbCategoryFilled, TbSquaresFilled } from 'react-icons/tb';
+import { TbSquaresFilled } from 'react-icons/tb';
 
 export const NavbarSearch = () => {
 	const apiClient = useApiClient();
@@ -178,7 +178,6 @@ export const NavbarSearch = () => {
 						{results && (
 							<>
 								{[
-									results.categoryResults,
 									results.listingResults,
 									results.shopResults,
 								].every(
@@ -188,17 +187,6 @@ export const NavbarSearch = () => {
 									renderSearchException(
 										'No results found',
 									)}
-
-								{results.categoryResults.length > 0 &&
-									renderSearchResultGroupLabel(
-										<TbCategoryFilled />,
-										'Categories',
-									)}
-								{renderSearchResults(
-									results.categoryResults,
-									CLIENT_ROUTES.category,
-									onResultClick,
-								)}
 
 								{results.shopResults.length > 0 &&
 									renderSearchResultGroupLabel(

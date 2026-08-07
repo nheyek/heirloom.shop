@@ -668,7 +668,6 @@ const SearchResultSchema = z.object({
 const SearchResultCollectionSchema = z.object({
 	listingResults: z.array(SearchResultSchema),
 	shopResults: z.array(SearchResultSchema),
-	categoryResults: z.array(SearchResultSchema),
 });
 
 export const searchContract = c.router({

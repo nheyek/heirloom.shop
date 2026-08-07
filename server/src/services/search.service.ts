@@ -4,7 +4,6 @@ import {
 } from '@heirloom/common/contract';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
-import { ListingCategory } from '@server/entities/generated/ListingCategory';
 import { Shop } from '@server/entities/generated/Shop';
 
 const MAX_RESULTS_PER_TYPE = 5;
@@ -20,7 +19,7 @@ export const search = async (
 	const em = getEm();
 	const pattern = `%${escapeLikePattern(query)}%`;
 
-	const [listings, shops, categories] = await Promise.all([
+	const [listings, shops] = await Promise.all([
 		em.find(
 			Listing,
 			{ title: { $ilike: pattern } },
@@ -31,11 +30,6 @@ export const search = async (
 		),
 		em.find(
 			Shop,
-			{ title: { $ilike: pattern } },
-			{ limit: MAX_RESULTS_PER_TYPE },
-		),
-		em.find(
-			ListingCategory,
 			{ title: { $ilike: pattern } },
 			{ limit: MAX_RESULTS_PER_TYPE },
 		),
@@ -52,12 +46,6 @@ export const search = async (
 			(s): SearchResult => ({
 				id: String(s.shortId),
 				label: s.title,
-			}),
-		),
-		categoryResults: categories.map(
-			(c): SearchResult => ({
-				id: c.id.toLowerCase(),
-				label: c.title,
 			}),
 		),
 	};
