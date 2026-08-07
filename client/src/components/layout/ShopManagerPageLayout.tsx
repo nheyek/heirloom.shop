@@ -2,11 +2,11 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Box, Center, Spinner } from '@chakra-ui/react';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { IoGrid, IoMail, IoSettingsSharp } from 'react-icons/io5';
+import { IoGrid } from 'react-icons/io5';
 import { Navigate, useParams } from 'react-router-dom';
 
 import { ShopManagerProvider } from '@client/providers/ShopManagerProvider';
-import { FaScroll, FaShop } from 'react-icons/fa6';
+import { FaShop } from 'react-icons/fa6';
 import {
 	NavigationEquippedPageLayout,
 	SidebarNavItem,
@@ -28,24 +28,6 @@ const getNavItems = (shortId: string): SidebarNavItem[] => [
 			{ path: CLIENT_ROUTES.new, label: 'New Listing' },
 			{ path: ':shortId', label: 'Edit Listing' },
 		],
-	},
-	{
-		label: 'Orders',
-		title: 'Orders',
-		icon: FaScroll,
-		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`,
-	},
-	{
-		label: 'Messages',
-		title: 'Messages',
-		icon: IoMail,
-		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`,
-	},
-	{
-		label: 'Settings',
-		title: 'Settings',
-		icon: IoSettingsSharp,
-		route: `${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`,
 	},
 ];
 

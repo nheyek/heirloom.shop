@@ -24,8 +24,6 @@ import { ShopManagerInfoPage } from './pages/ShopManager/ShopManagerInfoPage';
 import { ShopManagerListingCreatePage } from './pages/ShopManager/ShopManagerListingCreatePage';
 import { ShopManagerListingEditPage } from './pages/ShopManager/ShopManagerListingEditPage';
 import { ShopManagerListingsPage } from './pages/ShopManager/ShopManagerListingsPage';
-import { ShopManagerMessagesPage } from './pages/ShopManager/ShopManagerMessagesPage';
-import { ShopManagerOrdersPage } from './pages/ShopManager/ShopManagerOrdersPage';
 import { ShopPage } from './pages/ShopPage';
 
 const ShopManagerDefaultRedirect = () => {
@@ -96,18 +94,6 @@ const App = () => {
 								element={
 									<ShopManagerListingEditPage />
 								}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.orders}`}
-								element={<ShopManagerOrdersPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.messages}`}
-								element={<ShopManagerMessagesPage />}
-							/>
-							<Route
-								path={`/${CLIENT_ROUTES.shop}/:shortId/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.settings}`}
-								element={null}
 							/>
 						</Route>
 						<Route element={<AccountPageLayout />}>
