@@ -50,3 +50,14 @@ jobs:
 
                   echo "Timed out waiting for deployment after ${TIMEOUT}s"
                   exit 1
+
+            - name: Clean up old registry images
+              # Only runs if "Deploy app" succeeded. Each push overwrites the
+              # `:latest` tag rather than adding a new one, so every prior
+              # image becomes an untagged, orphaned manifest still taking up
+              # registry storage — this reclaims that space, keeping only
+              # the image just deployed.
+              run: |
+                  doctl registry garbage-collection start heirloom-shop \
+                    --include-untagged-manifests \
+                    --force
