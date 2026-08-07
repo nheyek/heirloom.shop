@@ -6,6 +6,11 @@ import {
 	UpdateShopBody,
 	UpdateShopFulfillmentBody,
 } from '@heirloom/common/contract';
+import { FieldError } from '@heirloom/common/validation/shared';
+import {
+	validateProfileRichText,
+	validateShopFields,
+} from '@heirloom/common/validation/shop';
 import { UniqueConstraintViolationException } from '@mikro-orm/core';
 import { getEm } from '@server/db';
 import { AppUser } from '@server/entities/generated/AppUser';
@@ -16,6 +21,12 @@ import { findOrCreateUser } from '@server/services/user.service';
 import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
 export class DuplicateShopTitleError extends Error {}
+
+export class ShopValidationError extends Error {
+	constructor(public readonly fieldErrors: FieldError[]) {
+		super(fieldErrors.map((e) => e.message).join('; '));
+	}
+}
 
 export const findShops = async () => {
 	const em = getEm();
@@ -56,6 +67,9 @@ export const createShop = async (
 	body: CreateShopBody,
 ): Promise<AdminShopListItem> => {
 	const em = getEm();
+
+	const fieldErrors = validateShopFields(body);
+	if (fieldErrors.length > 0) throw new ShopValidationError(fieldErrors);
 
 	const [{ nextval }] = await em
 		.getConnection()
@@ -109,6 +123,12 @@ export const updateShop = async (
 	body: UpdateShopBody,
 ): Promise<Shop | null> => {
 	const em = getEm();
+
+	const fieldErrors = validateShopFields(body);
+	const richTextError = validateProfileRichText(body.profileRichText);
+	if (richTextError) fieldErrors.push(richTextError);
+	if (fieldErrors.length > 0) throw new ShopValidationError(fieldErrors);
+
 	const shop = await em.findOne(
 		Shop,
 		{ shortId },

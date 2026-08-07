@@ -28,6 +28,7 @@ import {
 	ShopFulfillment,
 } from '@heirloom/common/contract';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
+import { validateProfileRichText } from '@heirloom/common/validation/shop';
 import { useCallback, useEffect, useState } from 'react';
 import {
 	FaCheckCircle,
@@ -166,6 +167,9 @@ const ShopInfoForm = ({
 	const [richText, setRichText] = useState(
 		shopData.profileRichText ?? '',
 	);
+	const [richTextError, setRichTextError] = useState<
+		string | null
+	>(null);
 
 	const form = useShopForm({ initialData: shopData });
 
@@ -190,10 +194,16 @@ const ShopInfoForm = ({
 
 	const handleRichTextChange = useCallback((html: string) => {
 		setRichText(html);
+		setRichTextError(null);
 	}, []);
 
 	const handleSave = async () => {
-		if (!form.validateSharedFields()) return;
+		const sharedValid = form.validateSharedFields();
+
+		const richTextFieldError = validateProfileRichText(richText);
+		setRichTextError(richTextFieldError?.message ?? null);
+
+		if (!sharedValid || richTextFieldError) return;
 
 		setIsSaving(true);
 		const result = await callApi(
@@ -295,6 +305,8 @@ const ShopInfoForm = ({
 				<RichTextEditor
 					initialHtml={shopData.profileRichText}
 					onChange={handleRichTextChange}
+					invalid={!!richTextError}
+					error={richTextError}
 					maxHeight={500}
 				/>
 			</Field.Root>

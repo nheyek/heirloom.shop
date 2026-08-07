@@ -7,6 +7,7 @@ import {
 	DuplicateShopTitleError,
 	findShopsForAdmin,
 	getShopFulfillment,
+	ShopValidationError,
 	updateShopFulfillment,
 } from '@server/services/shop.service';
 import { generateShopImageUploadUrl, InvalidContentTypeError } from '@server/services/storage.service';
@@ -43,6 +44,12 @@ export const adminRouter = s.router(adminContract, {
 				const shop = await createShop(body);
 				return { status: 201 as const, body: shop };
 			} catch (e) {
+				if (e instanceof ShopValidationError) {
+					return {
+						status: 400 as const,
+						body: { error: e.message },
+					};
+				}
 				if (e instanceof DuplicateShopTitleError) {
 					return {
 						status: 409 as const,

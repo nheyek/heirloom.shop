@@ -7,7 +7,10 @@ import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as favoriteShopService from '@server/services/favoriteShop.service';
 import * as listingService from '@server/services/listing.service';
 import * as shopService from '@server/services/shop.service';
-import { DuplicateShopTitleError } from '@server/services/shop.service';
+import {
+	DuplicateShopTitleError,
+	ShopValidationError,
+} from '@server/services/shop.service';
 import {
 	generateListingImageUploadUrl,
 	generateShopImageUploadUrl,
@@ -82,6 +85,12 @@ export const shopRouter = s.router(shopsContract, {
 					body: mapShopToApiResponseData(updated),
 				};
 			} catch (e) {
+				if (e instanceof ShopValidationError) {
+					return {
+						status: 400 as const,
+						body: { error: e.message },
+					};
+				}
 				if (e instanceof DuplicateShopTitleError) {
 					return {
 						status: 409 as const,

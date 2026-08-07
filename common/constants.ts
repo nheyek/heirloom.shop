@@ -24,6 +24,15 @@ export const LISTING_LIMITS = {
 	maxPersonalizationHelperTextLength: 256,
 };
 
+export const SHOP_LIMITS = {
+	maxTitleLength: 128,
+	maxClassificationLength: 32,
+	maxLocationLength: 64,
+
+	// Rich text character limit (stripped HTML)
+	maxProfileRichTextChars: 5000,
+};
+
 export const SEARCH_QUERY_LIMITS = {
 	minChars: 3,
 	maxChars: 48,

@@ -3,6 +3,8 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useImageUpload } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
 import { ShopCardData } from '@heirloom/common/contract';
+import { ValidationField } from '@heirloom/common/validation/shared';
+import { validateShopFields } from '@heirloom/common/validation/shop';
 import { useRef, useState } from 'react';
 
 type UseShopFormOptions = {
@@ -56,24 +58,27 @@ export const useShopForm = ({
 		uuids[0] ?? existingImageUuid.current ?? undefined;
 
 	const validateSharedFields = (): boolean => {
-		let valid = true;
+		const errors = validateShopFields({
+			title,
+			classification,
+			location,
+		});
 
-		if (!title.trim()) {
-			setTitleError('Title is required.');
-			valid = false;
-		} else setTitleError(null);
+		setTitleError(
+			errors.find((e) => e.field === ValidationField.Title)
+				?.message ?? null,
+		);
+		setClassificationError(
+			errors.find(
+				(e) => e.field === ValidationField.Classification,
+			)?.message ?? null,
+		);
+		setLocationError(
+			errors.find((e) => e.field === ValidationField.Location)
+				?.message ?? null,
+		);
 
-		if (!classification.trim()) {
-			setClassificationError('Classification is required.');
-			valid = false;
-		} else setClassificationError(null);
-
-		if (!location.trim()) {
-			setLocationError('Location is required.');
-			valid = false;
-		} else setLocationError(null);
-
-		return valid;
+		return errors.length === 0;
 	};
 
 	return {
