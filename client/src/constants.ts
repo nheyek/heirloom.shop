@@ -149,4 +149,4 @@ export enum FulfillmentType {
 }
 
 export const STANDARD_RETURN_POLICY_HTML =
-	'<ul><li>Customer is responsible for return shipping costs.</li><li>Refunds applied to the original payment method within 7 days of return delivery.</li><li>Exchanges can be discussed with the seller on a case-by-case basis.</li></ul>';
+	'<ul><li>A free return label will be sent to the customer via email upon initiation of a return.</li><li>A refund will be issued to the original payment method within 7 days of receipt of the returned items.</li><li>Returned items must be in their original condition and packaging.</li></ul>';
