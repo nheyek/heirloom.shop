@@ -152,7 +152,7 @@ export const config = defineConfig({
 		} as any,
 		'html, body': {
 			touchAction: 'pan-y',
-			minHeight: '100dvh',
+			minHeight: '100svh',
 			overflowAnchor: 'none',
 		},
 		// Prevents outline on accordion section headers on mobile

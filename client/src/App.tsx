@@ -45,7 +45,7 @@ const App = () => {
 			<Box
 				display="flex"
 				flexDirection="column"
-				minHeight="100dvh"
+				minHeight="100svh"
 				transition="opacity 0.25s"
 				pt={navbarHeight.DESKTOP}
 				zIndex="docked"

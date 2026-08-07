@@ -62,7 +62,7 @@ export const ListingFulfillmentInfo = ({
 						pl={1}
 						cursor="pointer"
 					>
-						<FaCircleInfo size={16} />
+						<FaCircleInfo size={18} />
 					</Popover.Trigger>
 					<Portal>
 						<Popover.Positioner>
