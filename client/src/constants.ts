@@ -15,7 +15,6 @@ export const STANDARD_GRID_COLUMNS = {
 	sm: 2,
 	md: 3,
 	lg: 4,
-	xl: 5,
 };
 
 export const STANDARD_GRID_GAP = 5;
