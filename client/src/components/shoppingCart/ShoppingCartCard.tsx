@@ -56,7 +56,8 @@ export const ShoppingCartCard = (props: Props) => {
 			borderRadius="full"
 			position="absolute"
 			bottom={3}
-			left={3}
+			left={isStandard ? undefined : 3}
+			right={isStandard ? 3 : undefined}
 		>
 			<IconButton
 				size="xs"
@@ -103,16 +104,21 @@ export const ShoppingCartCard = (props: Props) => {
 			cardProps={props.cardProps}
 			layout={props.layout}
 			imageActionElements={
-				isStandard ? (
-					quantityControl
-				) : (
+				isStandard ? undefined : (
 					<>
 						{deleteButton}
 						{quantityControl}
 					</>
 				)
 			}
-			bodyActionElements={isStandard ? deleteButton : undefined}
+			bodyActionElements={
+				isStandard ? (
+					<>
+						{deleteButton}
+						{quantityControl}
+					</>
+				) : undefined
+			}
 		/>
 	);
 };

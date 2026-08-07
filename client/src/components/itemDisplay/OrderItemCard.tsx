@@ -20,7 +20,6 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
 import { FaSignature } from 'react-icons/fa';
 import { IoMdPricetag } from 'react-icons/io';
-import { MdLocalShipping } from 'react-icons/md';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
 export const STANDARD_THUMBNAIL_WIDTH = 150;
@@ -116,19 +115,6 @@ export const OrderItemCard = (props: Props) => {
 					{props.item.quantity > 1 &&
 						` (${props.item.quantity})`}
 				</Span>
-			</HStack>
-
-			<HStack gap={2}>
-				<MdLocalShipping size={24} />
-				{props.item.shippingPriceCents ? (
-					<Span mb="3px">
-						{formatCentsAsDollars(
-							props.item.shippingPriceCents,
-						)}
-					</Span>
-				) : (
-					<Span fontSize={20}>Free</Span>
-				)}
 			</HStack>
 		</Flex>
 	);
