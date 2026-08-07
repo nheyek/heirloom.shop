@@ -1,10 +1,13 @@
 import {
 	GridItem,
-	Skeleton,
 	SimpleGrid,
+	Skeleton,
 	Stack,
 } from '@chakra-ui/react';
-import { Layout, LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
+import {
+	Layout,
+	LISTING_IMAGE_ASPECT_RATIO,
+} from '@client/constants';
 
 export const ListingPageSkeleton = (props: {
 	layout?: Layout;
@@ -87,7 +90,7 @@ export const ListingPageSkeleton = (props: {
 			maxW={props.maxWidth}
 			columns={2}
 			gap={10}
-			p={10}
+			my={5}
 			mx="auto"
 		>
 			<GridItem colSpan={2}>
