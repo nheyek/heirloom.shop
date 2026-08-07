@@ -44,7 +44,7 @@ export const PriceTag = (props: Props) => {
 				{props.isMinimum && '+'}
 				{props.quantity &&
 					props.quantity > 1 &&
-					`(${props.quantity})`}
+					` (${props.quantity})`}
 			</Text>
 		</Flex>
 	);

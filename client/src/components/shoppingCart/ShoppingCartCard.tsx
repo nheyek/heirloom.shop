@@ -56,8 +56,7 @@ export const ShoppingCartCard = (props: Props) => {
 			borderRadius="full"
 			position="absolute"
 			bottom={3}
-			left={isStandard ? undefined : 3}
-			right={isStandard ? 3 : undefined}
+			right={3}
 		>
 			<IconButton
 				size="xs"

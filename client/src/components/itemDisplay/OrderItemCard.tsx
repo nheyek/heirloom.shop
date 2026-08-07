@@ -5,21 +5,19 @@ import {
 	CardRootProps,
 	Flex,
 	Heading,
-	HStack,
 	Span,
 	Stack,
 	Wrap,
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
-import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
 import { FaSignature } from 'react-icons/fa';
-import { IoMdPricetag } from 'react-icons/io';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
 export const STANDARD_THUMBNAIL_WIDTH = 150;
@@ -104,18 +102,11 @@ export const OrderItemCard = (props: Props) => {
 		<Flex
 			alignItems="center"
 			justifyContent="space-between"
-			lineHeight={1}
-			fontSize={22}
-			fontWeight={500}
 		>
-			<HStack gap={1.5}>
-				<IoMdPricetag size={24} />
-				<Span mb="3px">
-					{formatCentsAsDollars(props.item.unitPriceCents)}
-					{props.item.quantity > 1 &&
-						` (${props.item.quantity})`}
-				</Span>
-			</HStack>
+			<PriceTag
+				priceCents={props.item.unitPriceCents}
+				quantity={props.item.quantity}
+			/>
 		</Flex>
 	);
 
