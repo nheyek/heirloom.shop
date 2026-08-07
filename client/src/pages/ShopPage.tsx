@@ -30,8 +30,7 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FaHeart } from 'react-icons/fa';
-import { FaShop } from 'react-icons/fa6';
+import { FaBook, FaHeart } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { useParams } from 'react-router-dom';
 
@@ -226,7 +225,7 @@ export const ShopPage = () => {
 						<HStack gap={2}>
 							{shopData?.profileRichText && (
 								<ActionButton
-									icon={FaShop}
+									icon={FaBook}
 									label="About"
 									onClick={() => setAboutOpen(true)}
 								/>
@@ -266,7 +265,10 @@ export const ShopPage = () => {
 					<Dialog.Positioner>
 						<Dialog.Content>
 							<Dialog.Header>
-								<Dialog.Title fontSize={20}>
+								<Dialog.Title
+									fontSize={32}
+									fontWeight={500}
+								>
 									{shopData?.title}
 								</Dialog.Title>
 								<Dialog.CloseTrigger asChild>
@@ -284,7 +286,7 @@ export const ShopPage = () => {
 									</IconButton>
 								</Dialog.CloseTrigger>
 							</Dialog.Header>
-							<Dialog.Body>
+							<Dialog.Body pt={0}>
 								{shopData?.profileRichText && (
 									<RichTextDisplay
 										htmlString={

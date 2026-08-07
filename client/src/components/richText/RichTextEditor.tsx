@@ -1,6 +1,7 @@
 import { Box, HStack, IconButton, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import { fieldErrorColor } from '@client/theme';
+import Heading from '@tiptap/extension-heading';
 import {
 	EditorContent,
 	useEditor,
@@ -9,6 +10,7 @@ import {
 import StarterKit from '@tiptap/starter-kit';
 import {
 	FaBold,
+	FaHeading,
 	FaItalic,
 	FaListOl,
 	FaListUl,
@@ -33,7 +35,12 @@ export const RichTextEditor = ({
 	disabled,
 }: Props) => {
 	const editor = useEditor({
-		extensions: [StarterKit],
+		extensions: [
+			StarterKit.configure({ heading: false }),
+			Heading.extend({ marks: '' }).configure({
+				levels: [1],
+			}),
+		],
 		content: initialHtml ?? '',
 		editable: !disabled,
 		onUpdate: ({ editor }) => {
@@ -51,6 +58,7 @@ export const RichTextEditor = ({
 		isBold,
 		isItalic,
 		isUnderline,
+		isHeading,
 		isBulletList,
 		isOrderedList,
 	} = useEditorState({
@@ -59,6 +67,9 @@ export const RichTextEditor = ({
 			isBold: ctx.editor?.isActive('bold') ?? false,
 			isItalic: ctx.editor?.isActive('italic') ?? false,
 			isUnderline: ctx.editor?.isActive('underline') ?? false,
+			isHeading:
+				ctx.editor?.isActive('heading', { level: 1 }) ??
+				false,
 			isBulletList: ctx.editor?.isActive('bulletList') ?? false,
 			isOrderedList:
 				ctx.editor?.isActive('orderedList') ?? false,
@@ -72,12 +83,14 @@ export const RichTextEditor = ({
 		onClick: () => void,
 		icon: React.ReactNode,
 		label: string,
+		disabledButton?: boolean,
 	) => (
 		<IconButton
 			key={label}
 			size="sm"
 			variant={active ? 'solid' : 'ghost'}
 			onClick={onClick}
+			disabled={disabledButton}
 			tabIndex={-1}
 		>
 			{icon}
@@ -104,11 +117,23 @@ export const RichTextEditor = ({
 					borderColor="gray.200"
 				>
 					{MenuButton(
+						isHeading,
+						() =>
+							editor
+								.chain()
+								.focus()
+								.toggleHeading({ level: 1 })
+								.run(),
+						<FaHeading size={13} />,
+						'Heading',
+					)}
+					{MenuButton(
 						isBold,
 						() =>
 							editor.chain().focus().toggleBold().run(),
 						<FaBold size={13} />,
 						'Bold',
+						isHeading,
 					)}
 					{MenuButton(
 						isItalic,
@@ -120,6 +145,7 @@ export const RichTextEditor = ({
 								.run(),
 						<FaItalic size={13} />,
 						'Italic',
+						isHeading,
 					)}
 					{MenuButton(
 						isUnderline,
@@ -131,6 +157,7 @@ export const RichTextEditor = ({
 								.run(),
 						<FaUnderline size={13} />,
 						'Underline',
+						isHeading,
 					)}
 					{MenuButton(
 						isBulletList,
@@ -168,7 +195,13 @@ export const RichTextEditor = ({
 							fontSize: 18,
 						},
 						'& .tiptap p': {
-							marginBottom: 2,
+							marginBottom: 3,
+						},
+						'& .tiptap h1': {
+							fontSize: 22,
+							fontWeight: 500,
+							marginTop: 2,
+							marginBottom: 1,
 						},
 						'& .tiptap ul, & .tiptap ol': {
 							marginLeft: 5,

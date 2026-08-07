@@ -14,13 +14,13 @@ export const RichTextDisplay = (props: Props) => {
 				'& p': {
 					fontSize,
 					lineHeight: 'base',
-					marginBottom: 2,
+					marginBottom: 3,
 				},
 				'& h1': {
 					fontSize: fontSize + 4,
-					marginTop: 4,
-					marginBottom: 2,
-					fontWeight: 'bold',
+					marginTop: 2,
+					marginBottom: 1,
+					fontWeight: 500,
 				},
 				'& ul, & ol': {
 					marginLeft: 6,

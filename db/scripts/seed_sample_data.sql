@@ -10,6 +10,7 @@ DECLARE
     sample_shop_1_location VARCHAR := 'Graz';
     sample_shop_1_classification VARCHAR := 'Sundials';
     sample_shop_1_country_code CHAR(2) := 'AT';
+    sample_shop_1_profile_rich_text TEXT := '<h1>Our Story</h1><p>H.M. Kala is a family workshop just outside Graz, Austria, founded by watchmaker Michael Kala and now in its third generation of hand-finishing precision sundials and nocturnals in solid brass and steel, for over 25 years.</p><h1>Ancient Design, Modern Precision</h1><p>Each instrument is a faithful study of the Universal Equinoctial Ring Sundial, a design used by sailors and mathematicians for centuries and now on permanent display at the Royal Observatory in Greenwich. We rework the historic form to modern tolerances so it keeps true solar time to within 10 minutes, anywhere in the world, using nothing but the sun.</p><h1>More Than a Clock</h1><p>Once its center dial is set to the date, the sundial doubles as a precise compass and a small model of the Earth, since its bridge sits parallel to the planet''s axis and points true north. Every sundial weighs just 40 grams and measures 60mm across, the same size as a classic pocket watch, small enough to wear as a pendant or carry in a pocket.</p><h1>Handmade, Start to Finish</h1><p>The pieces are still cut, pressed, and inked on machines Michael built himself, then assembled, checked, and packaged by hand in the same small workshop where the family started, with every third unit fully disassembled for quality control. Each sundial ships with a detailed instruction booklet and gift packaging, ready to give as a keepsake.</p><h1>The Nocturnal</h1><p>In 2022, customer requests led the family to add a Nocturnal to the lineup, a companion star dial that tells the time at night using the fixed stars, for the Northern and Southern Hemispheres alike.</p>';
 
     sample_shop_2_id INT := 2;
     sample_shop_2_short_id VARCHAR := 'pQ2w';
@@ -333,7 +334,7 @@ BEGIN
 
     INSERT INTO shop (id, short_id, title, profile_rich_text, profile_image_uuid, shop_location, classification, country_code, direct_fulfillment, created_at, updated_at)
     VALUES
-        (sample_shop_1_id, sample_shop_1_short_id, sample_shop_1_title, NULL, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_shop_1_id, sample_shop_1_short_id, sample_shop_1_title, sample_shop_1_profile_rich_text, sample_shop_1_profile_image_uuid, sample_shop_1_location, sample_shop_1_classification, sample_shop_1_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_shop_2_id, sample_shop_2_short_id, sample_shop_2_title, NULL, sample_shop_2_profile_image_uuid, sample_shop_2_location, sample_shop_2_classification, sample_shop_2_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_shop_3_id, sample_shop_3_short_id, sample_shop_3_title, NULL, sample_shop_3_profile_image_uuid, sample_shop_3_location, sample_shop_3_classification, sample_shop_3_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_shop_4_id, sample_shop_4_short_id, sample_shop_4_title, NULL, sample_shop_4_profile_image_uuid, sample_shop_4_location, sample_shop_4_classification, sample_shop_4_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)

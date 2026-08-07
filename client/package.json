@@ -25,6 +25,7 @@
 		"@react-google-maps/api": "^2.20.8",
 		"@stripe/react-stripe-js": "^6.8.0",
 		"@stripe/stripe-js": "^9.10.0",
+		"@tiptap/extension-heading": "^3.28.0",
 		"@tiptap/extension-underline": "^3.26.0",
 		"@tiptap/react": "^3.26.0",
 		"@tiptap/starter-kit": "^3.26.0",
