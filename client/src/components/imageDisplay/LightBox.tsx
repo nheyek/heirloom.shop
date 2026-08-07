@@ -46,6 +46,7 @@ export const LightBox = (props: Props) => {
 							onPageChange={(e) =>
 								props.setPage(e.page)
 							}
+							loop
 							height="100%"
 							maxHeight="100%"
 							width="fit-content"
