@@ -86,7 +86,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 
 	const cartContent = renderCartContent();
 	const isEmpty =
-		!shoppingCart.cartLoading && shoppingCart.itemQuantityTotal === 0;
+		!shoppingCart.cartLoading &&
+		shoppingCart.itemQuantityTotal === 0;
 
 	let listSection: ReactNode;
 	if (isEmpty) {
@@ -106,14 +107,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 			</HStack>
 		);
 	} else {
-		listSection = (
-			<Stack
-				gap={5}
-				pr={5}
-			>
-				{cartContent}
-			</Stack>
-		);
+		listSection = <Stack gap={5}>{cartContent}</Stack>;
 	}
 
 	return (
