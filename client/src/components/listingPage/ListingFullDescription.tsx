@@ -29,10 +29,7 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 					<Accordion.ItemIndicator />
 				</Accordion.ItemTrigger>
 				<Accordion.ItemContent>
-					<Accordion.ItemBody
-						pt={0}
-						pb={2}
-					>
+					<Accordion.ItemBody py={0}>
 						<RichTextDisplay htmlString={item.richText} />
 					</Accordion.ItemBody>
 				</Accordion.ItemContent>

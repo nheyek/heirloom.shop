@@ -72,9 +72,12 @@ export const RichTextEditor = ({
 			// until the user has a real cursor position.
 			const isFocused = ctx.editor?.isFocused ?? false;
 			return {
-				isBold: isFocused && (ctx.editor?.isActive('bold') ?? false),
+				isBold:
+					isFocused &&
+					(ctx.editor?.isActive('bold') ?? false),
 				isItalic:
-					isFocused && (ctx.editor?.isActive('italic') ?? false),
+					isFocused &&
+					(ctx.editor?.isActive('italic') ?? false),
 				isUnderline:
 					isFocused &&
 					(ctx.editor?.isActive('underline') ?? false),
@@ -225,7 +228,7 @@ export const RichTextEditor = ({
 							fontSize: 18,
 						},
 						'& .tiptap p': {
-							marginBottom: 4,
+							marginBottom: 2,
 						},
 						'& .tiptap h1': {
 							fontSize: 22,
