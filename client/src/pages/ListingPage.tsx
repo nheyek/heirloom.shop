@@ -164,7 +164,6 @@ export const ListingPage = () => {
 	return (
 		<Flex
 			flexDir="column"
-			width="fit-content"
 			alignItems="center"
 			mx="auto"
 		>
@@ -192,6 +191,7 @@ export const ListingPage = () => {
 			<Box
 				m={5}
 				maxWidth={maxWidth}
+				width="100%"
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
