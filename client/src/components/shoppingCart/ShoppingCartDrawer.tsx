@@ -77,6 +77,9 @@ export const ShoppingCartDrawer = (props: Props) => {
 						{...(isCompact && {
 							cardProps: {
 								minW: 300,
+								...(shoppingCart.items.length === 1 && {
+									width: '100%',
+								}),
 							},
 						})}
 					/>
