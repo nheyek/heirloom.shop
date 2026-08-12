@@ -18,7 +18,7 @@
 			crossorigin
 		/>
 		<link
-			href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Alegreya+Sans:wght@400;500&display=swap"
 			rel="stylesheet"
 		/>
 
@@ -44,8 +44,10 @@
 				align-items: center;
 				justify-content: center;
 				min-height: 100vh;
+				min-height: 100dvh;
 				box-sizing: border-box;
 				padding: 24px;
+				overflow: hidden;
 			}
 
 			.wrap {
@@ -79,6 +81,28 @@
 				letter-spacing: 0.04em;
 				text-transform: uppercase;
 			}
+
+			.dev-link {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				margin: 32px 0 0;
+				height: 44px;
+				padding: 0 28px;
+				border-radius: 9999px;
+				background: #ffffff;
+				color: #121212;
+				font-family: 'Alegreya Sans', sans-serif;
+				font-weight: 500;
+				font-size: 22px;
+				text-decoration: none;
+				white-space: nowrap;
+				transition: opacity 0.15s ease-in-out;
+			}
+
+			.dev-link:hover {
+				opacity: 0.85;
+			}
 		</style>
 	</head>
 	<body>
@@ -99,6 +123,11 @@
 				An exhibition of world-class craftsmanship
 			</p>
 			<p class="coming-soon">Coming soon</p>
+			<a
+				class="dev-link"
+				href="https://dev.heirloom.shop"
+				>Preview</a
+			>
 		</div>
 	</body>
 </html>
