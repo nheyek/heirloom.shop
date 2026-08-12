@@ -41,15 +41,13 @@ export const SEARCH_QUERY_LIMITS = {
 export enum ImageVariant {
 	FULL = 'full',
 	SMALL = 'small',
-	THUMB = 'thumb',
 }
 
 // Target pixel width each variant is downscaled to (never upscaled). FULL
 // is unbounded since it keeps the originally uploaded size.
 export const IMAGE_VARIANT_WIDTHS: Record<ImageVariant, number> = {
 	[ImageVariant.FULL]: Infinity,
-	[ImageVariant.SMALL]: 500,
-	[ImageVariant.THUMB]: 200,
+	[ImageVariant.SMALL]: 800,
 };
 
 // Suffix inserted before the file extension for a variant's storage key,

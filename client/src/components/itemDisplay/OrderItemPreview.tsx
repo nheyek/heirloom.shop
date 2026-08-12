@@ -65,7 +65,7 @@ const getImageSource = (item: OrderItemDisplayData): ImageSource | null =>
 				url: listingImageUrl(
 					item.shopShortId,
 					item.imageUuid,
-					ImageVariant.THUMB,
+					ImageVariant.SMALL,
 				),
 				fallback: listingImageUrl(
 					item.shopShortId,

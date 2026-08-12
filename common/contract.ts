@@ -7,7 +7,6 @@ const c = initContract();
 const ImageUploadUrlsSchema = z.object({
 	full: z.string(),
 	small: z.string(),
-	thumb: z.string(),
 });
 
 const CategoryTileDataSchema = z.object({

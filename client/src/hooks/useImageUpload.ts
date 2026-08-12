@@ -65,7 +65,7 @@ const encodeJpegVariant = (
 		);
 	});
 
-// Produces the full/small/thumb JPEG copies of an uploaded image, resized
+// Produces the full/small JPEG copies of an uploaded image, resized
 // entirely client-side so we never upload more bytes than a given view needs.
 const createImageVariants = async (
 	file: File,
