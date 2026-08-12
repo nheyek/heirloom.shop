@@ -18,7 +18,7 @@
 			crossorigin
 		/>
 		<link
-			href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Alegreya+Sans:wght@400;500&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Alegreya+Sans:wght@400;500;700&display=swap"
 			rel="stylesheet"
 		/>
 
@@ -86,6 +86,7 @@
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
+				gap: 10px;
 				margin: 32px 0 0;
 				height: 44px;
 				padding: 0 28px;
@@ -93,11 +94,16 @@
 				background: #ffffff;
 				color: #121212;
 				font-family: 'Alegreya Sans', sans-serif;
-				font-weight: 500;
-				font-size: 22px;
+				font-size: 24px;
 				text-decoration: none;
 				white-space: nowrap;
 				transition: opacity 0.15s ease-in-out;
+			}
+
+			.dev-link svg {
+				width: 24px;
+				height: 24px;
+				fill: #121212;
 			}
 
 			.dev-link:hover {
@@ -126,6 +132,10 @@
 			<a
 				class="dev-link"
 				href="https://dev.heirloom.shop"
+				><svg viewBox="0 0 576 512">
+					<path
+						d="M572.52 241.4C518.29 135.59 410.93 64 288 64S57.68 135.64 3.48 241.41a32.35 32.35 0 0 0 0 29.19C57.71 376.41 165.07 448 288 448s230.32-71.64 284.52-177.41a32.35 32.35 0 0 0 0-29.19zM288 400a144 144 0 1 1 144-144 143.93 143.93 0 0 1-144 144zm0-240a95.31 95.31 0 0 0-25.31 3.79 47.85 47.85 0 0 1-66.9 66.9A95.78 95.78 0 1 0 288 160z"
+					/></svg
 				>Preview</a
 			>
 		</div>
