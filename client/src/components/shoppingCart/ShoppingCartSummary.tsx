@@ -15,7 +15,7 @@ export const ShoppingCartSummary = (props: Props) => {
 	return (
 		<DataList.Root
 			orientation="horizontal"
-			gap={2}
+			gap={1}
 		>
 			{[
 				{
