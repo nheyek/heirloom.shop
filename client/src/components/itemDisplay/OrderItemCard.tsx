@@ -45,7 +45,7 @@ export const OrderItemCard = (props: Props) => {
 				url: listingImageUrl(
 					props.item.shopShortId,
 					props.item.imageUuid,
-					ImageVariant.THUMB,
+					ImageVariant.SMALL,
 				),
 				fallback: listingImageUrl(
 					props.item.shopShortId,
