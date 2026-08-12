@@ -56,6 +56,8 @@ export const MultiImage = (props: Props) => {
 								fallbackSrc={source.fallback}
 								imageProps={{
 									src: source.url,
+									loading:
+										index === 0 ? undefined : 'lazy',
 									onClick: props.onImageClick,
 									cursor: props.onImageClick
 										? 'pointer'

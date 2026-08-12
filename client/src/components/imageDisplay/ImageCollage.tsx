@@ -48,6 +48,7 @@ export const ImageCollage = (props: Props) => {
 			aspectRatio={props.aspectRatio}
 			imageProps={{
 				src: props.urls[index],
+				loading: index === 0 ? undefined : 'lazy',
 				onClick: () => setLightBoxPage(index),
 				borderRadius: 5,
 				cursor: 'button',
