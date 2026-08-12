@@ -190,7 +190,7 @@ export const ListingPage = () => {
 				/>
 			)}
 			<Box
-				m={5}
+				p={5}
 				maxWidth={maxWidth}
 				width="100%"
 			>
