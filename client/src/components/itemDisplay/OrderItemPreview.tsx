@@ -15,6 +15,8 @@ import {
 } from '@client/constants';
 import { displayFontFamily } from '@client/theme';
 import { formatDateCompact } from '@client/utils/dateUtils';
+import { ImageSource, listingImageUrl } from '@client/utils/imageUtils';
+import { ImageVariant } from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
@@ -57,6 +59,22 @@ const LabeledValue = ({
 	</Stack>
 );
 
+const getImageSource = (item: OrderItemDisplayData): ImageSource | null =>
+	item.imageUuid
+		? {
+				url: listingImageUrl(
+					item.shopShortId,
+					item.imageUuid,
+					ImageVariant.THUMB,
+				),
+				fallback: listingImageUrl(
+					item.shopShortId,
+					item.imageUuid,
+					ImageVariant.FULL,
+				),
+			}
+		: null;
+
 const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 	const visibleItems = items.slice(0, MAX_STACK_CARDS);
 	const n = visibleItems.length;
@@ -66,36 +84,33 @@ const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
 			width={CARD_WIDTH}
 			height={CARD_HEIGHT}
 		>
-			{visibleItems.map((item, index) => (
-				<Box
-					key={index}
-					position="absolute"
-					top={OFFSETS[index % OFFSETS.length].y}
-					left={OFFSETS[index % OFFSETS.length].x}
-					zIndex={n - index}
-					style={{
-						transform: `rotate(${ROTATIONS[index % ROTATIONS.length]}deg)`,
-						transformOrigin: 'center center',
-					}}
-				>
-					<Card.Root
-						variant="elevated"
-						width={CARD_WIDTH}
-						flexShrink={0}
+			{visibleItems.map((item, index) => {
+				const source = getImageSource(item);
+				return (
+					<Box
+						key={index}
+						position="absolute"
+						top={OFFSETS[index % OFFSETS.length].y}
+						left={OFFSETS[index % OFFSETS.length].x}
+						zIndex={n - index}
+						style={{
+							transform: `rotate(${ROTATIONS[index % ROTATIONS.length]}deg)`,
+							transformOrigin: 'center center',
+						}}
 					>
-						<MultiImage
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-							urls={
-								item.imageUuid
-									? [
-											`${process.env.LISTING_IMAGES_URL}/${item.shopShortId}/${item.imageUuid}.jpg`,
-										]
-									: []
-							}
-						/>
-					</Card.Root>
-				</Box>
-			))}
+						<Card.Root
+							variant="elevated"
+							width={CARD_WIDTH}
+							flexShrink={0}
+						>
+							<MultiImage
+								aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+								urls={source ? [source] : []}
+							/>
+						</Card.Root>
+					</Box>
+				);
+			})}
 		</Box>
 	);
 };

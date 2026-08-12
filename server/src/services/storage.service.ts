@@ -1,5 +1,9 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import {
+	ImageVariant,
+	imageVariantSuffix,
+} from '@heirloom/common/constants';
 import { randomUUID } from 'crypto';
 
 const s3 = new S3Client({
@@ -35,42 +39,49 @@ const assertValidImageContentType = (contentType: string): string => {
 	return ext;
 };
 
-const generateUploadUrl = async (
+const presignPut = async (
 	key: string,
 	contentType: string,
-): Promise<{ uuid: string; uploadUrl: string }> => {
-	const uuid = key.split('/').pop()!.split('.')[0];
+): Promise<string> => {
 	const command = new PutObjectCommand({
 		Bucket: process.env.DO_SPACES_BUCKET!,
 		Key: key,
 		ContentType: contentType,
 		ACL: 'public-read',
 	});
-	const uploadUrl = await getSignedUrl(s3, command, {
-		expiresIn: 300,
-	});
-	return { uuid, uploadUrl };
+	return getSignedUrl(s3, command, { expiresIn: 300 });
 };
 
-export const generateShopImageUploadUrl = async (
+const generateVariantUploadUrls = async (
+	directory: string,
 	contentType: string,
-): Promise<{ uuid: string; uploadUrl: string }> => {
+): Promise<{ uuid: string; uploadUrls: Record<ImageVariant, string> }> => {
 	const ext = assertValidImageContentType(contentType);
 	const uuid = randomUUID();
-	return generateUploadUrl(
-		`shop-profile-images/${uuid}.${ext}`,
-		contentType,
+
+	const entries = await Promise.all(
+		Object.values(ImageVariant).map(async (variant) => {
+			const key = `${directory}/${uuid}${imageVariantSuffix(variant)}.${ext}`;
+			return [variant, await presignPut(key, contentType)] as const;
+		}),
 	);
+
+	return {
+		uuid,
+		uploadUrls: Object.fromEntries(entries) as Record<
+			ImageVariant,
+			string
+		>,
+	};
 };
 
-export const generateListingImageUploadUrl = async (
+export const generateShopImageUploadUrl = (
+	contentType: string,
+): Promise<{ uuid: string; uploadUrls: Record<ImageVariant, string> }> =>
+	generateVariantUploadUrls('shop-profile-images', contentType);
+
+export const generateListingImageUploadUrl = (
 	shopShortId: string,
 	contentType: string,
-): Promise<{ uuid: string; uploadUrl: string }> => {
-	const ext = assertValidImageContentType(contentType);
-	const uuid = randomUUID();
-	return generateUploadUrl(
-		`listing-images/${shopShortId}/${uuid}.${ext}`,
-		contentType,
-	);
-};
+): Promise<{ uuid: string; uploadUrls: Record<ImageVariant, string> }> =>
+	generateVariantUploadUrls(`listing-images/${shopShortId}`, contentType);

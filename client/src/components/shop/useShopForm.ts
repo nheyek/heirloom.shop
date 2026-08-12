@@ -2,6 +2,7 @@ import { CountryCode } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useImageUpload } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
+import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import { ShopCardData } from '@heirloom/common/contract';
 import { ValidationField } from '@heirloom/common/validation/shared';
 import { validateShopFields } from '@heirloom/common/validation/shop';
@@ -37,7 +38,7 @@ export const useShopForm = ({
 		initialData?.profileImageUuid ?? null,
 	);
 	const existingPreviewUrl = initialData?.profileImageUuid
-		? `${process.env.SHOP_PROFILE_IMAGES_URL}/${initialData.profileImageUuid}.jpg`
+		? shopProfileImageUrl(initialData.profileImageUuid)
 		: null;
 
 	const { imageEntries, addFiles, isUploading, uuids } =

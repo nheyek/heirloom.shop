@@ -24,6 +24,7 @@ import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
+import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import {
 	ListingCardData,
 	ShopCardData,
@@ -135,7 +136,9 @@ export const ShopPage = () => {
 									responsiveBannerAspectRatio
 								}
 								imageProps={{
-									src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${shopData.profileImageUuid}.jpg`,
+									src: shopProfileImageUrl(
+										shopData.profileImageUuid,
+									),
 								}}
 							/>
 						) : (

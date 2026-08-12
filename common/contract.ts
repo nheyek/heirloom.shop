@@ -4,6 +4,12 @@ import { OrderStatus, ReturnPolicyType } from './constants.js';
 
 const c = initContract();
 
+const ImageUploadUrlsSchema = z.object({
+	full: z.string(),
+	small: z.string(),
+	thumb: z.string(),
+});
+
 const CategoryTileDataSchema = z.object({
 	id: z.string(),
 	parentId: z.string().optional(),
@@ -373,7 +379,7 @@ export const shopsContract = c.router({
 		responses: {
 			200: z.object({
 				uuid: z.string(),
-				uploadUrl: z.string(),
+				uploadUrls: ImageUploadUrlsSchema,
 			}),
 			400: ErrorSchema,
 			401: ErrorSchema,
@@ -389,7 +395,7 @@ export const shopsContract = c.router({
 		responses: {
 			200: z.object({
 				uuid: z.string(),
-				uploadUrl: z.string(),
+				uploadUrls: ImageUploadUrlsSchema,
 			}),
 			400: ErrorSchema,
 			401: ErrorSchema,
@@ -799,7 +805,7 @@ export const adminContract = c.router({
 		responses: {
 			200: z.object({
 				uuid: z.string(),
-				uploadUrl: z.string(),
+				uploadUrls: ImageUploadUrlsSchema,
 			}),
 			400: ErrorSchema,
 			401: ErrorSchema,

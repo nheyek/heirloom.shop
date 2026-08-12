@@ -15,6 +15,8 @@ import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
+import { ImageSource, listingImageUrl } from '@client/utils/imageUtils';
+import { ImageVariant } from '@heirloom/common/constants';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { ReactNode } from 'react';
 import { FaSignature } from 'react-icons/fa';
@@ -38,8 +40,19 @@ type Props = {
 export const OrderItemCard = (props: Props) => {
 	const isStandard = props.layout === Layout.STANDARD;
 
-	const imageUrl = props.item.imageUuid
-		? `${process.env.LISTING_IMAGES_URL}/${props.item.shopShortId}/${props.item.imageUuid}.jpg`
+	const imageSource: ImageSource | undefined = props.item.imageUuid
+		? {
+				url: listingImageUrl(
+					props.item.shopShortId,
+					props.item.imageUuid,
+					ImageVariant.THUMB,
+				),
+				fallback: listingImageUrl(
+					props.item.shopShortId,
+					props.item.imageUuid,
+					ImageVariant.FULL,
+				),
+			}
 		: undefined;
 
 	const basicInfo = (
@@ -125,7 +138,7 @@ export const OrderItemCard = (props: Props) => {
 				>
 					<MultiImage
 						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						urls={imageUrl ? [imageUrl] : []}
+						urls={imageSource ? [imageSource] : []}
 					/>
 					{props.imageActionElements}
 				</Box>
@@ -158,7 +171,7 @@ export const OrderItemCard = (props: Props) => {
 			<Box position="relative">
 				<MultiImage
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					urls={imageUrl ? [imageUrl] : []}
+					urls={imageSource ? [imageSource] : []}
 				/>
 				{props.imageActionElements}
 			</Box>

@@ -20,16 +20,16 @@ type Props = {
 	aspectRatio?: number;
 	containerProps?: SkeletonProps;
 	imageProps?: ImageProps;
+	fallbackSrc?: string;
 };
 
 export const AppImage = ({
 	aspectRatio = STANDARD_IMAGE_ASPECT_RATIO,
+	fallbackSrc,
 	...props
 }: Props) => {
 	const [status, setStatus] = useState(ImageStatus.LOADING);
-	// Once an image reports loaded/error, keep showing the skeleton for a
-	// short minimum stretch rather than flashing it on/off for images that
-	// load near-instantly (e.g. from cache).
+	const [url, setUrl] = useState(props.imageProps?.src);
 	const showSkeleton = useMinDuration(
 		status === ImageStatus.LOADING,
 	);
@@ -59,11 +59,16 @@ export const AppImage = ({
 				objectFit="cover"
 				aspectRatio={aspectRatio}
 				{...props.imageProps}
+				src={url}
 				onLoad={(e) => {
 					setStatus(ImageStatus.LOADED);
 					props.imageProps?.onLoad?.(e);
 				}}
 				onError={(e) => {
+					if (fallbackSrc) {
+						setUrl(fallbackSrc);
+						return;
+					}
 					setStatus(ImageStatus.ERROR);
 					props.imageProps?.onError?.(e);
 				}}

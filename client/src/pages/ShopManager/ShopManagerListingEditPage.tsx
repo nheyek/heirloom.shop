@@ -19,6 +19,7 @@ import { useUnsavedChangesGuard } from '@client/hooks/useUnsavedChangesGuard';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
+import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	CombinationsData,
 	ListingEditData,
@@ -103,7 +104,6 @@ type FormProps = {
 	shippingProfiles: ShippingProfile[];
 	returnProfiles: ReturnProfile[];
 	personalizationProfiles: PersonalizationProfile[];
-	listingImageBaseUrl: string;
 };
 
 const ListingEditForm = ({
@@ -114,7 +114,6 @@ const ListingEditForm = ({
 	shippingProfiles,
 	returnProfiles,
 	personalizationProfiles,
-	listingImageBaseUrl,
 }: FormProps) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const apiClient = useApiClient();
@@ -125,7 +124,7 @@ const ListingEditForm = ({
 
 	const initialImageEntries: ImageEntry[] =
 		listingData.imageUuids.map((uuid) => ({
-			previewUrl: `${listingImageBaseUrl}/${uuid}.jpg`,
+			previewUrl: listingImageUrl(shopShortId, uuid),
 			uuid,
 			isUploading: false,
 			uploadFailed: false,
@@ -340,7 +339,6 @@ export const ShopManagerListingEditPage = () => {
 			shippingProfiles={shippingProfiles}
 			returnProfiles={returnProfiles}
 			personalizationProfiles={personalizationProfiles}
-			listingImageBaseUrl={`${process.env.LISTING_IMAGES_URL}/${shopShortId}`}
 		/>
 	);
 };

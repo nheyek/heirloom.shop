@@ -13,6 +13,8 @@ import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlacehold
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { displayFontFamily } from '@client/theme';
+import { shopProfileImageUrl } from '@client/utils/imageUtils';
+import { ImageVariant } from '@heirloom/common/constants';
 import { ShopCardData } from '@heirloom/common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
@@ -34,9 +36,16 @@ export const ShopCard = (props: Props) => {
 				{props.profileImageUuid ? (
 					<AppImage
 						imageProps={{
-							src: `${process.env.SHOP_PROFILE_IMAGES_URL}/${props.profileImageUuid}.jpg`,
+							src: shopProfileImageUrl(
+								props.profileImageUuid,
+								ImageVariant.SMALL,
+							),
 							cursor: 'button',
 						}}
+						fallbackSrc={shopProfileImageUrl(
+							props.profileImageUuid,
+							ImageVariant.FULL,
+						)}
 					/>
 				) : (
 					<ImagePlaceholder />

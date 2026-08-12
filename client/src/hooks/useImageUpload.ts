@@ -1,5 +1,9 @@
 import { toastError } from '@client/toaster';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
+import {
+	IMAGE_VARIANT_WIDTHS,
+	ImageVariant,
+	LISTING_LIMITS,
+} from '@heirloom/common/constants';
 import { useCallback, useRef, useState } from 'react';
 
 export type ImageEntry = {
@@ -9,42 +13,20 @@ export type ImageEntry = {
 	uploadFailed: boolean;
 };
 
-type GetUploadUrl = (
-	contentType: string,
-) => Promise<{ uuid: string; uploadUrl: string } | null>;
+type GetUploadUrl = (contentType: string) => Promise<{
+	uuid: string;
+	uploadUrls: Record<ImageVariant, string>;
+} | null>;
 
-const convertToJpeg = (file: File): Promise<File> =>
+const JPEG_QUALITY = 0.85;
+
+const loadImageElement = (file: File): Promise<HTMLImageElement> =>
 	new Promise((resolve, reject) => {
 		const img = new Image();
 		const objectUrl = URL.createObjectURL(file);
 		img.onload = () => {
 			URL.revokeObjectURL(objectUrl);
-			const canvas = document.createElement('canvas');
-			canvas.width = img.naturalWidth;
-			canvas.height = img.naturalHeight;
-			const ctx = canvas.getContext('2d');
-			if (!ctx)
-				return reject(
-					new Error('Could not get canvas context'),
-				);
-			ctx.drawImage(img, 0, 0);
-			canvas.toBlob(
-				(blob) => {
-					if (!blob)
-						return reject(
-							new Error('Canvas toBlob failed'),
-						);
-					resolve(
-						new File(
-							[blob],
-							file.name.replace(/\.[^.]+$/, '.jpg'),
-							{ type: 'image/jpeg' },
-						),
-					);
-				},
-				'image/jpeg',
-				0.85,
-			);
+			resolve(img);
 		};
 		img.onerror = () => {
 			URL.revokeObjectURL(objectUrl);
@@ -52,6 +34,74 @@ const convertToJpeg = (file: File): Promise<File> =>
 		};
 		img.src = objectUrl;
 	});
+
+// Draws `img` onto a canvas, downscaled to `targetWidth` (never upscaled),
+// and encodes it as a JPEG File.
+const encodeJpegVariant = (
+	img: HTMLImageElement,
+	targetWidth: number,
+	fileName: string,
+): Promise<File> =>
+	new Promise((resolve, reject) => {
+		const scale = Math.min(1, targetWidth / img.naturalWidth);
+		const width = Math.round(img.naturalWidth * scale);
+		const height = Math.round(img.naturalHeight * scale);
+
+		const canvas = document.createElement('canvas');
+		canvas.width = width;
+		canvas.height = height;
+		const ctx = canvas.getContext('2d');
+		if (!ctx)
+			return reject(new Error('Could not get canvas context'));
+		ctx.drawImage(img, 0, 0, width, height);
+		canvas.toBlob(
+			(blob) => {
+				if (!blob)
+					return reject(new Error('Canvas toBlob failed'));
+				resolve(new File([blob], fileName, { type: 'image/jpeg' }));
+			},
+			'image/jpeg',
+			JPEG_QUALITY,
+		);
+	});
+
+// Produces the full/small/thumb JPEG copies of an uploaded image, resized
+// entirely client-side so we never upload more bytes than a given view needs.
+const createImageVariants = async (
+	file: File,
+): Promise<Record<ImageVariant, File>> => {
+	const img = await loadImageElement(file);
+	const baseName = file.name.replace(/\.[^.]+$/, '');
+
+	const entries = await Promise.all(
+		Object.values(ImageVariant).map(async (variant) => {
+			const encoded = await encodeJpegVariant(
+				img,
+				IMAGE_VARIANT_WIDTHS[variant],
+				`${baseName}.jpg`,
+			);
+			return [variant, encoded] as const;
+		}),
+	);
+
+	return Object.fromEntries(entries) as Record<ImageVariant, File>;
+};
+
+const uploadVariants = async (
+	variants: Record<ImageVariant, File>,
+	uploadUrls: Record<ImageVariant, string>,
+): Promise<boolean> => {
+	const results = await Promise.all(
+		Object.values(ImageVariant).map((variant) =>
+			fetch(uploadUrls[variant], {
+				method: 'PUT',
+				body: variants[variant],
+				headers: { 'Content-Type': 'image/jpeg' },
+			}),
+		),
+	);
+	return results.every((res) => res.ok);
+};
 
 const hashFile = async (file: File): Promise<string> => {
 	const buffer = await file.arrayBuffer();
@@ -76,9 +126,9 @@ export const useImageUpload = (
 
 	const uploadFile = useCallback(
 		async (file: File, index: number) => {
-			let converted: File;
+			let variants: Record<ImageVariant, File>;
 			try {
-				converted = await convertToJpeg(file);
+				variants = await createImageVariants(file);
 			} catch {
 				toastError(
 					'Could not process image. Please try a different file.',
@@ -97,14 +147,15 @@ export const useImageUpload = (
 				return;
 			}
 
-			const previewUrl = URL.createObjectURL(converted);
+			const fullVariant = variants[ImageVariant.FULL];
+			const previewUrl = URL.createObjectURL(fullVariant);
 			setImageEntries((prev) =>
 				prev.map((e, i) =>
 					i === index ? { ...e, previewUrl } : e,
 				),
 			);
 
-			const hash = await hashFile(converted);
+			const hash = await hashFile(fullVariant);
 
 			if (uploadCache.current.has(hash)) {
 				const uuid = uploadCache.current.get(hash)!;
@@ -118,8 +169,7 @@ export const useImageUpload = (
 				return;
 			}
 
-			const result =
-				await getUploadUrlRef.current('image/jpeg');
+			const result = await getUploadUrlRef.current('image/jpeg');
 
 			if (result === null) {
 				toastError('Failed to prepare image upload.');
@@ -137,14 +187,10 @@ export const useImageUpload = (
 				return;
 			}
 
-			const { uuid, uploadUrl } = result;
-			const uploadRes = await fetch(uploadUrl, {
-				method: 'PUT',
-				body: converted,
-				headers: { 'Content-Type': 'image/jpeg' },
-			});
+			const { uuid, uploadUrls } = result;
+			const ok = await uploadVariants(variants, uploadUrls);
 
-			if (!uploadRes.ok) {
+			if (!ok) {
 				toastError('Failed to upload image.');
 				setImageEntries((prev) =>
 					prev.map((e, i) =>
@@ -217,9 +263,9 @@ export const useImageUpload = (
 
 	const uploadImage = useCallback(
 		async (file: File): Promise<string | null> => {
-			let converted: File;
+			let variants: Record<ImageVariant, File>;
 			try {
-				converted = await convertToJpeg(file);
+				variants = await createImageVariants(file);
 			} catch {
 				toastError(
 					'Could not process image. Please try a different file.',
@@ -227,27 +273,22 @@ export const useImageUpload = (
 				return null;
 			}
 
-			const hash = await hashFile(converted);
+			const hash = await hashFile(variants[ImageVariant.FULL]);
 
 			if (uploadCache.current.has(hash)) {
 				return uploadCache.current.get(hash)!;
 			}
 
-			const result =
-				await getUploadUrlRef.current('image/jpeg');
+			const result = await getUploadUrlRef.current('image/jpeg');
 			if (result === null) {
 				toastError('Failed to prepare image upload.');
 				return null;
 			}
 
-			const { uuid, uploadUrl } = result;
-			const uploadRes = await fetch(uploadUrl, {
-				method: 'PUT',
-				body: converted,
-				headers: { 'Content-Type': 'image/jpeg' },
-			});
+			const { uuid, uploadUrls } = result;
+			const ok = await uploadVariants(variants, uploadUrls);
 
-			if (!uploadRes.ok) {
+			if (!ok) {
 				toastError('Failed to upload image.');
 				return null;
 			}

@@ -117,6 +117,7 @@ export const ListingPage = () => {
 				listingImageUrl(listingData.shopShortId, uuid),
 			)
 		: [];
+	const imageSources = imageUrls.map((url) => ({ url }));
 
 	const personalizationProfile =
 		listingData?.profiles?.personalization;
@@ -184,7 +185,7 @@ export const ListingPage = () => {
 			)}
 			{layout === Layout.COMPACT && (
 				<MultiImage
-					urls={imageUrls}
+					urls={imageSources}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				/>
 			)}

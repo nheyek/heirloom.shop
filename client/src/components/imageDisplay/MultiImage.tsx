@@ -1,11 +1,12 @@
 import type { IconButtonProps } from '@chakra-ui/react';
 import { Box, Carousel, IconButton } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { ImageSource } from '@client/utils/imageUtils';
 import { ReactElement, useRef, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Props = {
-	urls: string[];
+	urls: ImageSource[];
 	aspectRatio?: number;
 	onImageClick?: () => void;
 };
@@ -45,15 +46,16 @@ export const MultiImage = (props: Props) => {
 					width="100%"
 					height="100%"
 				>
-					{props.urls.map((src, index) => (
+					{props.urls.map((source, index) => (
 						<Carousel.Item
 							key={index}
 							index={index}
 						>
 							<AppImage
 								aspectRatio={props.aspectRatio}
+								fallbackSrc={source.fallback}
 								imageProps={{
-									src,
+									src: source.url,
 									onClick: props.onImageClick,
 									cursor: props.onImageClick
 										? 'pointer'
