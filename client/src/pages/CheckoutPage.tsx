@@ -290,10 +290,10 @@ export const CheckoutPage = () => {
 						<CheckoutShoppingCart />
 						<ShoppingCartSummary pendingMessage="Enter shipping address" />
 						<Button
+							size="xl"
 							width="100%"
 							mb={10}
 							fontSize={24}
-							padding={26}
 							onClick={handleConfirmation}
 							disabled={pendingSubmit}
 							loading={pendingSubmit}
