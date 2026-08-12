@@ -24,7 +24,11 @@ export const CheckoutPaymentForm = ({ disabled }: Props) => {
 			<Presence present={!ready}>
 				<FormSkeleton />
 			</Presence>
-			<Box visibility={ready ? 'visible' : 'hidden'}>
+			<Box
+				visibility={ready ? 'visible' : 'hidden'}
+				opacity={disabled ? 0.5 : 1}
+				transition="opacity 0.2s"
+			>
 				<PaymentElement
 					options={{ layout: 'tabs', readOnly: disabled }}
 					onReady={() => setReady(true)}
