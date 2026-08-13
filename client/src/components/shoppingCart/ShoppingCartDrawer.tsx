@@ -8,12 +8,12 @@ import {
 	Skeleton,
 	Stack,
 	Text,
-	useBreakpointValue,
 } from '@chakra-ui/react';
 import { STANDARD_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { CLIENT_ROUTES, Layout } from '@client/constants';
+import { CLIENT_ROUTES } from '@client/constants';
+import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -31,11 +31,9 @@ type Props = {
 export const ShoppingCartDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const navigate = useNavigate();
-	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.STANDARD,
-	});
-	const isCompact = layout === Layout.COMPACT;
+	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
+		shoppingCart.items.length,
+	);
 
 	const skeletonProps = isCompact
 		? { flexShrink: 0, height: 340, width: 300 }
@@ -74,14 +72,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 						item={item}
 						onNavigate={props.onClose}
 						layout={layout}
-						{...(isCompact && {
-							cardProps: {
-								minW: 300,
-								...(shoppingCart.items.length === 1 && {
-									width: '100%',
-								}),
-							},
-						})}
+						cardProps={cardProps}
 					/>
 				);
 			});

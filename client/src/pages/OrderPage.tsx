@@ -6,18 +6,71 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import {
+	OrderItemCard,
+	STANDARD_THUMBNAIL_WIDTH,
+} from '@client/components/itemDisplay/OrderItemCard';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { sidebarBreakpoint } from '@client/theme';
+import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { callApi } from '@client/utils/apiUtils';
-import { OrderResponse } from '@heirloom/common/contract';
+import {
+	OrderItemDisplayData,
+	OrderResponse,
+} from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
+
+const SKELETON_ITEM_COUNT = 2;
+
+const OrderItemsList = ({
+	items,
+	loading,
+}: {
+	items: OrderItemDisplayData[];
+	loading?: boolean;
+}) => {
+	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
+		loading ? SKELETON_ITEM_COUNT : items.length,
+	);
+
+	const children = loading
+		? Array.from({ length: SKELETON_ITEM_COUNT }).map((_, i) => (
+				<Skeleton
+					key={i}
+					borderRadius="md"
+					flexShrink={0}
+					height={
+						isCompact ? 340 : STANDARD_THUMBNAIL_WIDTH
+					}
+					width={isCompact ? 300 : '100%'}
+				/>
+			))
+		: items.map((item, index) => (
+				<OrderItemCard
+					key={index}
+					item={item}
+					layout={layout}
+					cardProps={cardProps}
+				/>
+			));
+
+	return isCompact ? (
+		<HStack
+			gap={5}
+			overflowX="scroll"
+			pb={2}
+			alignItems="flex-start"
+		>
+			{children}
+		</HStack>
+	) : (
+		<Stack gap={5}>{children}</Stack>
+	);
+};
 
 export const OrderPage = () => {
 	const apiClient = useApiClient();
@@ -62,9 +115,9 @@ export const OrderPage = () => {
 				height={100}
 				width={250}
 			/>
-			<Skeleton
-				width={350}
-				height={350}
+			<OrderItemsList
+				items={[]}
+				loading
 			/>
 		</>
 	);
@@ -139,18 +192,7 @@ export const OrderPage = () => {
 				</Stack>
 			</HStack>
 
-			<ItemGrid
-				items={order.items}
-				isLoading={false}
-				getItemKey={(_, index) => index}
-				columns={{
-					base: 1,
-					[sidebarBreakpoint.md]: 2,
-					[sidebarBreakpoint.lg]: 3,
-				}}
-				maxItemWidth={350}
-				renderItem={(item) => <OrderItemCard item={item} />}
-			/>
+			<OrderItemsList items={order.items} />
 		</>
 	);
 
@@ -165,6 +207,7 @@ export const OrderPage = () => {
 			{!error && (showSkeleton || orderDetails) && (
 				<Stack
 					w="100%"
+					maxWidth={600}
 					gap={5}
 				>
 					{showSkeleton
