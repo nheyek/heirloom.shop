@@ -74,8 +74,9 @@ const OrderItemsList = ({
 	return isCompact ? (
 		<HStack
 			gap={5}
+			m={-5}
+			p={5}
 			overflowX="scroll"
-			pb={2}
 			alignItems="flex-start"
 		>
 			{children}
@@ -295,6 +296,7 @@ export const OrderPage = () => {
 					w="100%"
 					maxWidth={600}
 					gap={5}
+					mb={10}
 				>
 					{showSkeleton
 						? renderSkeleton()
