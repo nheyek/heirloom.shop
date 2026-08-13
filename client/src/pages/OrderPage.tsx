@@ -232,7 +232,8 @@ export const OrderPage = () => {
 					w="fit-content"
 					flexShrink={0}
 					position="relative"
-					p={5}
+					px={5}
+					py={7}
 					pr={65}
 					borderRadius="lg"
 					{...PANEL_BACKGROUND}
@@ -266,8 +267,8 @@ export const OrderPage = () => {
 						))}
 					<Box
 						position="absolute"
-						top={2}
-						right={1.5}
+						top={3}
+						right={2.5}
 					>
 						<Icon
 							color="gray.800"
