@@ -5,6 +5,7 @@ import {
 	CardRootProps,
 	Flex,
 	Heading,
+	HStack,
 	Span,
 	Stack,
 	Wrap,
@@ -15,11 +16,18 @@ import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { ImageSource, listingImageUrl } from '@client/utils/imageUtils';
-import { ImageVariant } from '@heirloom/common/constants';
+import {
+	ImageSource,
+	listingImageUrl,
+} from '@client/utils/imageUtils';
+import {
+	DELIVERY_ESTIMATE_UNAVAILABLE_TEXT,
+	ImageVariant,
+} from '@heirloom/common/constants';
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { ReactNode } from 'react';
 import { FaSignature } from 'react-icons/fa';
+import { FaTruck } from 'react-icons/fa6';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
 export const STANDARD_THUMBNAIL_WIDTH = 160;
@@ -123,6 +131,29 @@ export const OrderItemCard = (props: Props) => {
 		</Flex>
 	);
 
+	const estimatedDelivery = (
+		<HStack
+			fontSize={18}
+			lineHeight={1}
+			mt={1}
+			gap={1.5}
+		>
+			<FaTruck size={20} />
+			{props.item.estimatedDelivery ? (
+				<>
+					<Span>Delivery estimate:</Span>
+					<Span fontWeight={500}>
+						{props.item.estimatedDelivery}
+					</Span>
+				</>
+			) : (
+				<Span fontWeight={500}>
+					{DELIVERY_ESTIMATE_UNAVAILABLE_TEXT}
+				</Span>
+			)}
+		</HStack>
+	);
+
 	if (isStandard) {
 		return (
 			<Card.Root
@@ -145,18 +176,18 @@ export const OrderItemCard = (props: Props) => {
 
 				<Card.Body
 					p={3}
-					gap={2}
 					justifyContent="space-between"
 					minW={0}
 					flex="1"
 					position="relative"
 				>
 					{props.bodyActionElements}
-					<Stack gap={2}>
+					<Stack>
 						{basicInfo}
 						{badges}
+						{priceAndShipping}
 					</Stack>
-					{priceAndShipping}
+					{estimatedDelivery}
 				</Card.Body>
 			</Card.Root>
 		);
@@ -184,6 +215,7 @@ export const OrderItemCard = (props: Props) => {
 				{basicInfo}
 				{badges}
 				{priceAndShipping}
+				{estimatedDelivery}
 			</Card.Body>
 		</Card.Root>
 	);

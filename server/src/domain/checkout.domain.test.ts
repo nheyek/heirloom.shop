@@ -20,6 +20,7 @@ const makeListing = (
 		title: string;
 		shopTitle: string;
 		shopShortId: string;
+		directFulfillment: boolean;
 		imageUuids: string[];
 		variations: Record<string, unknown>;
 		combinations: Record<string, unknown>;
@@ -29,7 +30,11 @@ const makeListing = (
 		shortId,
 		priceCents,
 		title: overrides.title ?? 'Test Listing',
-		shop: { title: overrides.shopTitle ?? 'Test Shop', shortId: overrides.shopShortId ?? 'shop1' },
+		shop: {
+			title: overrides.shopTitle ?? 'Test Shop',
+			shortId: overrides.shopShortId ?? 'shop1',
+			directFulfillment: overrides.directFulfillment ?? true,
+		},
 		imageUuids: overrides.imageUuids ?? [],
 		variations: overrides.variations ?? {},
 		combinations: overrides.combinations ?? {},
@@ -374,7 +379,7 @@ describe('createOrderItemSnapshots', () => {
 		expect(snapshot.estimatedDelivery).not.toBeNull();
 	});
 
-	it('sets estimatedDelivery to null when listing has no shipping profile', () => {
+	it('sets estimatedDelivery to null when a direct-fulfillment listing has no shipping profile', () => {
 		const queryData: CheckoutCartData = {
 			listings: [makeListing('abc', 1000)],
 		};
@@ -383,6 +388,20 @@ describe('createOrderItemSnapshots', () => {
 			queryData,
 		);
 		expect(snapshot.estimatedDelivery).toBeNull();
+	});
+
+	it('falls back to the standard Heirloom profile for estimatedDelivery/shippingPriceCents when the shop is not direct-fulfillment', () => {
+		const queryData: CheckoutCartData = {
+			listings: [makeListing('abc', 1000, { directFulfillment: false })],
+		};
+		const [snapshot] = createOrderItemSnapshots(
+			[{ listingShortId: 'abc', selectedOptions: {}, quantity: 1 }],
+			queryData,
+		);
+		expect(snapshot.estimatedDelivery).toMatch(
+			/^\d{2}\/\d{2}-\d{2}\/\d{2}$/,
+		);
+		expect(snapshot.shippingPriceCents).toBe(0);
 	});
 
 	it('skips items whose listing is not found', () => {

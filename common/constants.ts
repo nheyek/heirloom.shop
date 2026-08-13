@@ -38,6 +38,9 @@ export const SEARCH_QUERY_LIMITS = {
 	maxChars: 48,
 };
 
+export const DELIVERY_ESTIMATE_UNAVAILABLE_TEXT =
+	'Delivery estimate unavailable';
+
 export enum ImageVariant {
 	FULL = 'full',
 	SMALL = 'small',

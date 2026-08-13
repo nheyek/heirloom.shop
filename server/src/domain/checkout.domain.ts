@@ -1,8 +1,42 @@
 import { CheckoutItemData, CombinationsData, OrderItemDisplayData, VariationsData } from '@heirloom/common/contract';
-import { getCombinationKey, resolveEffectiveCombinationPrice } from '@heirloom/common/domain/listing';
-import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
+import {
+	getCombinationKey,
+	HEIRLOOM_LISTING_PROFILES,
+	resolveEffectiveCombinationPrice,
+} from '@heirloom/common/domain/listing';
+import {
+	calculateDeliveryEstimate,
+	formatDateRangeNumeric,
+} from '@heirloom/common/utils/dateUtils';
+import { Listing } from '@server/entities/generated/Listing';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
+
+// Heirloom-fulfilled listings (shop.directFulfillment === false) have no
+// listing-specific processing/shipping profile of their own — fall back to
+// the same standard profile the client shows on the listing page, rather
+// than treating shipping cost/delivery estimate as zero/unavailable.
+export const resolveShippingRateCents = (listing: Listing): number =>
+	listing.shop.directFulfillment
+		? (listing.shippingProfile?.flatShippingRateCents ?? 0)
+		: HEIRLOOM_LISTING_PROFILES.shipping.shippingRate;
+
+export const resolveDeliveryEstimate = (listing: Listing): string | null => {
+	const processingProfile = listing.shop.directFulfillment
+		? listing.processingProfile
+		: HEIRLOOM_LISTING_PROFILES.processing;
+	const shippingProfile = listing.shop.directFulfillment
+		? listing.shippingProfile
+		: HEIRLOOM_LISTING_PROFILES.shipping;
+
+	return processingProfile && shippingProfile
+		? calculateDeliveryEstimate(
+				processingProfile,
+				shippingProfile,
+				formatDateRangeNumeric,
+			)
+		: null;
+};
 
 const resolveUnitPrice = (
 	priceCents: number,
@@ -62,8 +96,7 @@ export const calculateCheckoutTotals = (
 		);
 
 		subtotalCents += unitPriceCents * item.quantity;
-		shippingCents +=
-			(listing.shippingProfile?.flatShippingRateCents ?? 0) * item.quantity;
+		shippingCents += resolveShippingRateCents(listing) * item.quantity;
 	}
 
 	return { subtotalCents, shippingCents };
@@ -98,14 +131,9 @@ export const createOrderItemSnapshots = (
 			shopShortId: listing.shop.shortId,
 			imageUuid: listing.imageUuids[0] ?? null,
 			unitPriceCents,
-			shippingPriceCents: listing.shippingProfile?.flatShippingRateCents ?? 0,
+			shippingPriceCents: resolveShippingRateCents(listing),
 			quantity: item.quantity,
-			estimatedDelivery: listing.processingProfile && listing.shippingProfile
-				? calculateDeliveryEstimate(
-						listing.processingProfile,
-						listing.shippingProfile,
-					)
-				: null,
+			estimatedDelivery: resolveDeliveryEstimate(listing),
 			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
 			personalizationText: item.personalizationText ?? null,
 			personalizationName: listing.personalizationProfile?.name ?? null,

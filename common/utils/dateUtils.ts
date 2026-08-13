@@ -75,22 +75,6 @@ const addBusinessDays = (start: Date, days: number): Date => {
 	return result;
 };
 
-export const calculateDeliveryEstimate = (
-	processingProfile: { minDays: number; maxDays: number },
-	shippingProfile: { shippingDaysMin: number; shippingDaysMax: number },
-): string => {
-	const today = new Date();
-	const date1 = addBusinessDays(
-		today,
-		processingProfile.minDays + shippingProfile.shippingDaysMin,
-	);
-	const date2 = addBusinessDays(
-		today,
-		processingProfile.maxDays + shippingProfile.shippingDaysMax,
-	);
-	return formatDateRange(date1, date2);
-};
-
 export const formatDateRange = (date1: Date, date2: Date) => {
 	const monthFormat = new Intl.DateTimeFormat('en-US', {
 		month: 'short',
@@ -107,4 +91,27 @@ export const formatDateRange = (date1: Date, date2: Date) => {
 	} else {
 		return `${month1} ${day1} - ${month2} ${day2}`;
 	}
+};
+
+export const formatDateRangeNumeric = (date1: Date, date2: Date) => {
+	const pad = (n: number) => String(n).padStart(2, '0');
+	const fmt = (d: Date) => `${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
+	return `${fmt(date1)}-${fmt(date2)}`;
+};
+
+export const calculateDeliveryEstimate = (
+	processingProfile: { minDays: number; maxDays: number },
+	shippingProfile: { shippingDaysMin: number; shippingDaysMax: number },
+	format: (date1: Date, date2: Date) => string = formatDateRange,
+): string => {
+	const today = new Date();
+	const date1 = addBusinessDays(
+		today,
+		processingProfile.minDays + shippingProfile.shippingDaysMin,
+	);
+	const date2 = addBusinessDays(
+		today,
+		processingProfile.maxDays + shippingProfile.shippingDaysMax,
+	);
+	return format(date1, date2);
 };

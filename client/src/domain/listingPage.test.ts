@@ -1,7 +1,7 @@
 import { STANDARD_RETURN_POLICY_HTML } from '@client/constants';
-import { HEIRLOOM_LISTING_PROFILES } from '@client/constants/heirloomProfiles';
 import { ReturnPolicyType } from '@heirloom/common/constants';
 import { ListingFulfillmentProfiles } from '@heirloom/common/contract';
+import { HEIRLOOM_LISTING_PROFILES } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import {
 	getDeliveryEstimateDisplay,

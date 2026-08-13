@@ -1,7 +1,10 @@
 import { listingsContract } from '@heirloom/common/contract';
-import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
+import {
+	resolveDeliveryEstimate,
+	resolveShippingRateCents,
+} from '@server/domain/checkout.domain';
 import * as favoriteListingService from '@server/services/favoriteListing.service';
 import * as listingService from '@server/services/listing.service';
 import * as userService from '@server/services/user.service';
@@ -33,13 +36,9 @@ export const listingRouter = s.router(listingsContract, {
 			[...itemsByShortId.entries()].map(async ([shortId, selectedOptionSets]) => {
 				const listing = await listingService.findAvailableFullListingDataByShortId(shortId);
 				if (!listing) return null;
-				const shippingPrice = Number(listing.shippingProfile?.flatShippingRateCents || 0);
-				const deliveryEstimate = listing.processingProfile && listing.shippingProfile
-					? calculateDeliveryEstimate(
-							listing.processingProfile,
-							listing.shippingProfile,
-						)
-					: 'Delivery estimate unavailable';
+
+				const shippingPrice = resolveShippingRateCents(listing);
+				const deliveryEstimate = resolveDeliveryEstimate(listing);
 				return mapListingToCartItemData(listing, selectedOptionSets, shippingPrice, deliveryEstimate);
 			}),
 		);

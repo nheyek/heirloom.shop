@@ -1,3 +1,22 @@
+import { ReturnPolicyType } from '../constants.js';
+
+export const HEIRLOOM_LISTING_PROFILES = {
+	processing: {
+		minDays: 1,
+		maxDays: 3,
+	},
+	shipping: {
+		originZip: '60622',
+		shippingDaysMin: 3,
+		shippingDaysMax: 5,
+		shippingRate: 0,
+	},
+	returns: {
+		policyType: ReturnPolicyType.STANDARD,
+		returnWindowDays: 30,
+	},
+};
+
 export type VariationOption = {
 	name: string;
 	order: number;
