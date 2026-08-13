@@ -136,16 +136,15 @@ export const OrderItemCard = (props: Props) => {
 			fontSize={18}
 			lineHeight={1}
 			mt={1}
-			gap={1.5}
 		>
 			<FaTruck size={20} />
 			{props.item.estimatedDelivery ? (
-				<>
-					<Span>Delivery estimate:</Span>
+				<HStack gap={1}>
+					<Span>Estimated delivery</Span>
 					<Span fontWeight={500}>
 						{props.item.estimatedDelivery}
 					</Span>
-				</>
+				</HStack>
 			) : (
 				<Span fontWeight={500}>
 					{DELIVERY_ESTIMATE_UNAVAILABLE_TEXT}

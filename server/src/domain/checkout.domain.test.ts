@@ -399,7 +399,7 @@ describe('createOrderItemSnapshots', () => {
 			queryData,
 		);
 		expect(snapshot.estimatedDelivery).toMatch(
-			/^\d{2}\/\d{2}-\d{2}\/\d{2}$/,
+			/^[A-Z][a-z]{2} \d{1,2}-(\d{1,2}|[A-Z][a-z]{2} \d{1,2})$/,
 		);
 		expect(snapshot.shippingPriceCents).toBe(0);
 	});

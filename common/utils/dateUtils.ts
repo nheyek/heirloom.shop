@@ -87,16 +87,10 @@ export const formatDateRange = (date1: Date, date2: Date) => {
 	const day2 = date2.getDate();
 
 	if (month1 === month2) {
-		return `${month1} ${day1} - ${day2}`;
+		return `${month1} ${day1}-${day2}`;
 	} else {
-		return `${month1} ${day1} - ${month2} ${day2}`;
+		return `${month1} ${day1}-${month2} ${day2}`;
 	}
-};
-
-export const formatDateRangeNumeric = (date1: Date, date2: Date) => {
-	const pad = (n: number) => String(n).padStart(2, '0');
-	const fmt = (d: Date) => `${pad(d.getMonth() + 1)}/${pad(d.getDate())}`;
-	return `${fmt(date1)}-${fmt(date2)}`;
 };
 
 export const calculateDeliveryEstimate = (

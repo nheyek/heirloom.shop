@@ -4,10 +4,7 @@ import {
 	HEIRLOOM_LISTING_PROFILES,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
-import {
-	calculateDeliveryEstimate,
-	formatDateRangeNumeric,
-} from '@heirloom/common/utils/dateUtils';
+import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { Listing } from '@server/entities/generated/Listing';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
 import { ShoppingCartPreTaxTotals } from '@server/types/ShoppingCartPreTaxTotals';
@@ -30,11 +27,7 @@ export const resolveDeliveryEstimate = (listing: Listing): string | null => {
 		: HEIRLOOM_LISTING_PROFILES.shipping;
 
 	return processingProfile && shippingProfile
-		? calculateDeliveryEstimate(
-				processingProfile,
-				shippingProfile,
-				formatDateRangeNumeric,
-			)
+		? calculateDeliveryEstimate(processingProfile, shippingProfile)
 		: null;
 };
 
