@@ -29,6 +29,9 @@ import { useParams, useSearchParams } from 'react-router-dom';
 
 const SKELETON_ITEM_COUNT = 2;
 
+const RECEIPT_ZIGZAG_CLIP_PATH =
+	'polygon(0.00% 0%, 6.25% 5%, 12.50% 0%, 18.75% 5%, 25.00% 0%, 31.25% 5%, 37.50% 0%, 43.75% 5%, 50.00% 0%, 56.25% 5%, 62.50% 0%, 68.75% 5%, 75.00% 0%, 81.25% 5%, 87.50% 0%, 93.75% 5%, 100.00% 0%, 100.00% 100%, 93.75% 95%, 87.50% 100%, 81.25% 95%, 75.00% 100%, 68.75% 95%, 62.50% 100%, 56.25% 95%, 50.00% 100%, 43.75% 95%, 37.50% 100%, 31.25% 95%, 25.00% 100%, 18.75% 95%, 12.50% 100%, 6.25% 95%, 0.00% 100%)';
+
 const OrderItemsList = ({
 	items,
 	loading,
@@ -130,17 +133,17 @@ export const OrderPage = () => {
 			<OrderItemsList items={order.items} />
 			<HStack
 				gap={5}
-				overflowX="auto"
+				overflowX={{ base: 'scroll', md: 'visible' }}
 				alignItems="start"
 			>
 				<Stack
 					w="fit-content"
 					gap={2}
-					borderWidth={0}
-					backgroundColor="gray.100"
-					p={5}
-					borderRadius="sm"
+					backgroundColor="gray.200"
+					px={5}
+					py={7}
 					position="relative"
+					clipPath={RECEIPT_ZIGZAG_CLIP_PATH}
 				>
 					<Text
 						fontWeight={500}
@@ -208,13 +211,12 @@ export const OrderPage = () => {
 
 				<Stack
 					w="fit-content"
-					gap={2}
-					backgroundColor="gray.100"
+					flexShrink={0}
+					position="relative"
 					p={5}
 					pr={65}
 					borderRadius="lg"
-					position="relative"
-					flexShrink={0}
+					backgroundColor="gray.200"
 				>
 					<Text
 						fontWeight={500}
@@ -236,7 +238,7 @@ export const OrderPage = () => {
 									whiteSpace="pre-wrap"
 									wordBreak="break-all"
 									lineHeight={1.25}
-									pr={3}
+									pr={5}
 								>
 									{line}
 								</Text>
