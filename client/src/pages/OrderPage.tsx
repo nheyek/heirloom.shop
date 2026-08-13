@@ -3,6 +3,7 @@ import {
 	Box,
 	DataList,
 	HStack,
+	Icon,
 	Separator,
 	Skeleton,
 	Stack,
@@ -135,9 +136,8 @@ export const OrderPage = () => {
 				<Stack
 					w="fit-content"
 					gap={2}
-					borderWidth={2}
-					borderColor="brand"
-					backgroundColor="gray.50"
+					borderWidth={0}
+					backgroundColor="gray.100"
 					p={5}
 					borderRadius="sm"
 					position="relative"
@@ -186,7 +186,7 @@ export const OrderPage = () => {
 						))}
 						<Separator
 							my={2}
-							borderColor="brand"
+							borderColor="black"
 						/>
 						<DataList.Item
 							lineHeight={1.25}
@@ -209,9 +209,7 @@ export const OrderPage = () => {
 				<Stack
 					w="fit-content"
 					gap={2}
-					borderWidth={2}
-					borderColor="brand"
-					backgroundColor="gray.50"
+					backgroundColor="gray.100"
 					p={5}
 					pr={65}
 					borderRadius="lg"
@@ -242,7 +240,7 @@ export const OrderPage = () => {
 								>
 									{line}
 								</Text>
-								<Separator borderColor="gray.800" />
+								<Separator borderColor="black" />
 							</Stack>
 						))}
 					<Box
@@ -250,7 +248,12 @@ export const OrderPage = () => {
 						top={2}
 						right={2}
 					>
-						<BsPostage size={32} />
+						<Icon
+							color="gray.600"
+							as={BsPostage}
+							width={30}
+							height={30}
+						/>
 					</Box>
 				</Stack>
 			</HStack>
