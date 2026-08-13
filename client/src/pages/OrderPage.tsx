@@ -124,14 +124,26 @@ export const OrderPage = () => {
 
 	const renderSkeleton = () => (
 		<>
-			<Skeleton
-				height={100}
-				width={250}
-			/>
 			<OrderItemsList
 				items={[]}
 				loading
 			/>
+			<HStack
+				gap={5}
+				overflowX={{ base: 'scroll', md: 'visible' }}
+				alignItems="start"
+			>
+				<Skeleton
+					flexShrink={0}
+					width={200}
+					height={200}
+				/>
+				<Skeleton
+					flexShrink={0}
+					width={200}
+					height={200}
+				/>
+			</HStack>
 		</>
 	);
 
@@ -255,10 +267,10 @@ export const OrderPage = () => {
 					<Box
 						position="absolute"
 						top={2}
-						right={2}
+						right={1.5}
 					>
 						<Icon
-							color="gray.600"
+							color="gray.800"
 							as={BsPostage}
 							width={30}
 							height={30}
