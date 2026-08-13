@@ -32,6 +32,13 @@ const SKELETON_ITEM_COUNT = 2;
 const RECEIPT_ZIGZAG_CLIP_PATH =
 	'polygon(0.00% 0%, 6.25% 5%, 12.50% 0%, 18.75% 5%, 25.00% 0%, 31.25% 5%, 37.50% 0%, 43.75% 5%, 50.00% 0%, 56.25% 5%, 62.50% 0%, 68.75% 5%, 75.00% 0%, 81.25% 5%, 87.50% 0%, 93.75% 5%, 100.00% 0%, 100.00% 100%, 93.75% 95%, 87.50% 100%, 81.25% 95%, 75.00% 100%, 68.75% 95%, 62.50% 100%, 56.25% 95%, 50.00% 100%, 43.75% 95%, 37.50% 100%, 31.25% 95%, 25.00% 100%, 18.75% 95%, 12.50% 100%, 6.25% 95%, 0.00% 100%)';
 
+const PANEL_BACKGROUND = {
+	bgGradient: 'to-br',
+	gradientFrom: 'gray.50',
+	gradientTo: 'gray.100',
+	boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 0.04)',
+};
+
 const OrderItemsList = ({
 	items,
 	loading,
@@ -139,7 +146,7 @@ export const OrderPage = () => {
 				<Stack
 					w="fit-content"
 					gap={2}
-					backgroundColor="gray.200"
+					{...PANEL_BACKGROUND}
 					px={5}
 					py={7}
 					position="relative"
@@ -216,7 +223,7 @@ export const OrderPage = () => {
 					p={5}
 					pr={65}
 					borderRadius="lg"
-					backgroundColor="gray.200"
+					{...PANEL_BACKGROUND}
 				>
 					<Text
 						fontWeight={500}
