@@ -9,3 +9,4 @@ terraform.tfstate.backup
 /dist
 client/localhost+3.pem
 client/localhost+3-key.pem
+*.info

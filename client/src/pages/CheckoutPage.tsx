@@ -49,6 +49,7 @@ export const CheckoutPage = () => {
 		itemPriceTotal,
 		shippingTotal,
 		taxTotal,
+		taxCalcLoading,
 		checkoutEmail,
 		shippingAddress,
 		validateLocalCheckoutFields,
@@ -241,7 +242,7 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
-						disabled={pendingSubmit}
+						disabled={pendingSubmit || taxCalcLoading}
 						loading={pendingSubmit}
 					>
 						<FaCheckCircle />
@@ -295,7 +296,7 @@ export const CheckoutPage = () => {
 							mb={10}
 							fontSize={24}
 							onClick={handleConfirmation}
-							disabled={pendingSubmit}
+							disabled={pendingSubmit || taxCalcLoading}
 							loading={pendingSubmit}
 						>
 							<HStack gap={3}>

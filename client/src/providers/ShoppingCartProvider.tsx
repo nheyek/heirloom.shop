@@ -221,7 +221,7 @@ export const ShoppingCartProvider = (props: {
 			taxDebounceRef.current &&
 				clearTimeout(taxDebounceRef.current);
 		};
-	}, [shippingAddress]);
+	}, [shippingAddress, itemPriceTotal, shippingTotal]);
 
 	const setShippingAddress = (address: ShippingAddress) => {
 		_setShippingAddress(address);
@@ -449,7 +449,10 @@ const getItemKey = (
 ): string => {
 	const optionsString = Object.keys(selectedOptions)
 		.sort()
-		.map((variationId) => `${variationId}:${selectedOptions[variationId]}`)
+		.map(
+			(variationId) =>
+				`${variationId}:${selectedOptions[variationId]}`,
+		)
 		.join('|');
 	// Distinct personalization text makes for a distinct line item — each is
 	// effectively its own custom-made unit, so they shouldn't merge quantities.
