@@ -68,7 +68,7 @@ export const ListingPageSkeleton = (props: {
 		</Stack>
 	);
 
-	if (props.layout === Layout.COMPACT) {
+	if (props.layout === Layout.MOBILE) {
 		return (
 			<Stack gap={10}>
 				<Skeleton

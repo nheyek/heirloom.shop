@@ -24,7 +24,7 @@ type Props = {
 export const ShoppingCartCard = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const displayData = getOrderItemDisplayData(props.item);
-	const isStandard = props.layout === Layout.STANDARD;
+	const isStandard = props.layout === Layout.DESKTOP;
 
 	const deleteButton = (
 		<IconButton

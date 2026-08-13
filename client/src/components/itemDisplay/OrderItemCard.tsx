@@ -30,7 +30,7 @@ import { FaSignature } from 'react-icons/fa';
 import { FaTruck } from 'react-icons/fa6';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
-export const STANDARD_THUMBNAIL_WIDTH = 160;
+export const STANDARD_THUMBNAIL_WIDTH = 190;
 
 const truncatePersonalizationText = (text: string): string =>
 	text.length > PERSONALIZATION_BADGE_MAX_CHARS
@@ -46,7 +46,7 @@ type Props = {
 };
 
 export const OrderItemCard = (props: Props) => {
-	const isStandard = props.layout === Layout.STANDARD;
+	const isDesktop = props.layout === Layout.DESKTOP;
 
 	const imageSource: ImageSource | undefined = props.item.imageUuid
 		? {
@@ -66,7 +66,7 @@ export const OrderItemCard = (props: Props) => {
 	const basicInfo = (
 		<Stack
 			gap={0}
-			pr={isStandard ? 12 : 0}
+			pr={isDesktop ? 12 : 0}
 		>
 			<Heading
 				size="2xl"
@@ -153,7 +153,7 @@ export const OrderItemCard = (props: Props) => {
 		</HStack>
 	);
 
-	if (isStandard) {
+	if (isDesktop) {
 		return (
 			<Card.Root
 				variant="elevated"
@@ -181,7 +181,7 @@ export const OrderItemCard = (props: Props) => {
 					position="relative"
 				>
 					{props.bodyActionElements}
-					<Stack>
+					<Stack gap={2}>
 						{basicInfo}
 						{badges}
 						{priceAndShipping}
@@ -208,7 +208,7 @@ export const OrderItemCard = (props: Props) => {
 
 			<Card.Body
 				p={3}
-				gap={2}
+				gap={3}
 				justifyContent="space-between"
 			>
 				{basicInfo}

@@ -146,7 +146,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				<Flex
 					gap={fieldGap}
 					direction={
-						props.layout === Layout.COMPACT
+						props.layout === Layout.MOBILE
 							? 'column'
 							: 'row'
 					}
@@ -292,7 +292,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				<Flex
 					gap={fieldGap}
 					direction={
-						props.layout === Layout.COMPACT
+						props.layout === Layout.MOBILE
 							? 'column'
 							: 'row'
 					}

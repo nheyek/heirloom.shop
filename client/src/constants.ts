@@ -6,8 +6,8 @@ export enum InputSize {
 }
 
 export enum Layout {
-	COMPACT,
-	STANDARD,
+	MOBILE,
+	DESKTOP,
 }
 
 export const STANDARD_GRID_COLUMNS = {

@@ -108,10 +108,7 @@ export const CheckoutPage = () => {
 
 	const handleConfirmation = async () => {
 		const scrollToShippingForm = () => {
-			if (
-				layout === Layout.COMPACT &&
-				shippingFormRef.current
-			) {
+			if (layout === Layout.MOBILE && shippingFormRef.current) {
 				const top =
 					shippingFormRef.current.getBoundingClientRect()
 						.top;
@@ -194,8 +191,8 @@ export const CheckoutPage = () => {
 	};
 
 	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.STANDARD,
+		base: Layout.MOBILE,
+		md: Layout.DESKTOP,
 	});
 
 	if (itemQuantityTotal === 0) {
@@ -214,7 +211,7 @@ export const CheckoutPage = () => {
 		);
 	}
 
-	if (layout === Layout.COMPACT) {
+	if (layout === Layout.MOBILE) {
 		return (
 			<Stack gap={0}>
 				<Stack

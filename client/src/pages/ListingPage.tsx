@@ -65,8 +65,8 @@ export const ListingPage = () => {
 	const navigate = useNavigate();
 
 	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.STANDARD,
+		base: Layout.MOBILE,
+		md: Layout.DESKTOP,
 	});
 
 	const maxWidth = 1200;
@@ -168,7 +168,7 @@ export const ListingPage = () => {
 			alignItems="center"
 			mx="auto"
 		>
-			{layout === Layout.STANDARD && (
+			{layout === Layout.DESKTOP && (
 				<Box
 					mx={5}
 					mt={5}
@@ -183,7 +183,7 @@ export const ListingPage = () => {
 					</Center>
 				</Box>
 			)}
-			{layout === Layout.COMPACT && (
+			{layout === Layout.MOBILE && (
 				<MultiImage
 					urls={imageSources}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
@@ -196,7 +196,7 @@ export const ListingPage = () => {
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
-					gap={layout === Layout.COMPACT ? 5 : 10}
+					gap={layout === Layout.MOBILE ? 5 : 10}
 				>
 					<Box
 						flex="1"
@@ -257,7 +257,7 @@ export const ListingPage = () => {
 								)}
 							</Stack>
 
-							{layout === Layout.STANDARD && (
+							{layout === Layout.DESKTOP && (
 								<ListingFullDescription
 									fullDescr={listingData?.fullDescr}
 								/>
@@ -405,7 +405,7 @@ export const ListingPage = () => {
 							/>
 						</Stack>
 					</Box>
-					{layout === Layout.COMPACT && (
+					{layout === Layout.MOBILE && (
 						<ListingFullDescription
 							fullDescr={listingData?.fullDescr}
 						/>

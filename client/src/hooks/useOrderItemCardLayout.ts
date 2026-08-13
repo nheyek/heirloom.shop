@@ -7,10 +7,10 @@ import { Layout } from '@client/constants';
 // instead of a fixed min width when there's only one item).
 export const useOrderItemCardLayout = (itemCount: number) => {
 	const layout = useBreakpointValue({
-		base: Layout.COMPACT,
-		md: Layout.STANDARD,
+		base: Layout.MOBILE,
+		md: Layout.DESKTOP,
 	});
-	const isCompact = layout === Layout.COMPACT;
+	const isCompact = layout === Layout.MOBILE;
 
 	const cardProps: CardRootProps | undefined = isCompact
 		? {
