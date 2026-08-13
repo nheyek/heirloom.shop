@@ -2,8 +2,8 @@ import { ReturnPolicyType } from '../constants.js';
 
 export const HEIRLOOM_LISTING_PROFILES = {
 	processing: {
-		minDays: 1,
-		maxDays: 3,
+		minDays: 0,
+		maxDays: 2,
 	},
 	shipping: {
 		originZip: '60622',
