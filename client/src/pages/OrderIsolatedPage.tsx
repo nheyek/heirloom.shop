@@ -1,4 +1,9 @@
-import { Heading, Span, Stack } from '@chakra-ui/react';
+import {
+	Heading,
+	Span,
+	Stack,
+	useBreakpointValue,
+} from '@chakra-ui/react';
 import { OrderPage } from '@client/pages/OrderPage';
 import { displayFontFamily } from '@client/theme';
 import { useParams } from 'react-router-dom';
@@ -6,10 +11,14 @@ import { useParams } from 'react-router-dom';
 export const OrderIsolatedPage = () => {
 	const { shortId } = useParams<{ shortId: string }>();
 
+	const isDesktop = useBreakpointValue({ base: false, md: true });
+
 	return (
 		<Stack
-			p={{ base: 5, md: 8 }}
+			p={5}
 			gap={5}
+			width="fit-content"
+			{...(isDesktop && { mx: 'auto', mt: 5, minWidth: 600 })}
 		>
 			<Heading
 				fontSize={36}

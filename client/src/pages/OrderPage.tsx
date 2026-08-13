@@ -1,7 +1,9 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
+	Box,
 	DataList,
 	HStack,
+	Separator,
 	Skeleton,
 	Stack,
 	Text,
@@ -20,8 +22,8 @@ import {
 	OrderResponse,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
+import { BsPostage } from 'react-icons/bs';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const SKELETON_ITEM_COUNT = 2;
@@ -124,13 +126,28 @@ export const OrderPage = () => {
 
 	const renderContent = (order: OrderResponse) => (
 		<>
+			<OrderItemsList items={order.items} />
 			<HStack
-				gap={10}
+				gap={5}
+				overflowX="auto"
 				alignItems="start"
-				fontSize={18}
 			>
-				<Stack gap={1}>
-					<Text fontWeight={600}>Summary</Text>
+				<Stack
+					w="fit-content"
+					gap={2}
+					borderWidth={2}
+					borderColor="brand"
+					backgroundColor="gray.50"
+					p={5}
+					borderRadius="sm"
+					position="relative"
+				>
+					<Text
+						fontWeight={500}
+						fontSize={18}
+					>
+						SUMMARY
+					</Text>
 					<DataList.Root
 						orientation="horizontal"
 						gap={0}
@@ -154,45 +171,89 @@ export const OrderPage = () => {
 									order.taxCents,
 								),
 							},
-							{
-								label: 'Total',
-								value: formatCentsAsDollars(
-									order.subtotalCents +
-										order.shippingCents +
-										order.taxCents,
-								),
-							},
 						].map(({ label, value }) => (
 							<DataList.Item
 								key={label}
 								lineHeight={1.25}
 							>
-								<DataList.ItemLabel
-									minWidth={65}
-									fontSize={18}
-								>
+								<DataList.ItemLabel fontSize={18}>
 									{label}
 								</DataList.ItemLabel>
-								<DataList.ItemValue fontSize={18}>
+								<DataList.ItemValue fontSize={20}>
 									{value}
 								</DataList.ItemValue>
 							</DataList.Item>
 						))}
+						<Separator
+							my={2}
+							borderColor="brand"
+						/>
+						<DataList.Item
+							lineHeight={1.25}
+							fontWeight={500}
+						>
+							<DataList.ItemLabel fontSize={18}>
+								Total
+							</DataList.ItemLabel>
+							<DataList.ItemValue fontSize={20}>
+								{formatCentsAsDollars(
+									order.subtotalCents +
+										order.shippingCents +
+										order.taxCents,
+								)}
+							</DataList.ItemValue>
+						</DataList.Item>
 					</DataList.Root>
 				</Stack>
-				<Stack gap={1}>
-					<Text fontWeight={600}>Shipping to</Text>
+
+				<Stack
+					w="fit-content"
+					gap={2}
+					borderWidth={2}
+					borderColor="brand"
+					backgroundColor="gray.50"
+					p={5}
+					pr={65}
+					borderRadius="lg"
+					position="relative"
+					flexShrink={0}
+				>
 					<Text
-						whiteSpace="pre-wrap"
-						wordBreak="break-all"
-						lineHeight={1.25}
+						fontWeight={500}
+						fontSize={18}
 					>
-						{formatShippingAddress(order.shippingAddress)}
+						SHIP TO
 					</Text>
+					{[
+						`${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
+						order.shippingAddress.line1,
+						order.shippingAddress.line2,
+						`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}`,
+					]
+						.filter(Boolean)
+						.map((line, index) => (
+							<Stack gap={1}>
+								<Text
+									key={index}
+									whiteSpace="pre-wrap"
+									wordBreak="break-all"
+									lineHeight={1.25}
+									pr={3}
+								>
+									{line}
+								</Text>
+								<Separator borderColor="gray.800" />
+							</Stack>
+						))}
+					<Box
+						position="absolute"
+						top={2}
+						right={2}
+					>
+						<BsPostage size={32} />
+					</Box>
 				</Stack>
 			</HStack>
-
-			<OrderItemsList items={order.items} />
 		</>
 	);
 
