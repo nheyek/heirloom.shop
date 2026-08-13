@@ -98,6 +98,10 @@ export const CheckoutPage = () => {
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				clearInterval(pollIntervalRef.current!);
 				setPendingSubmit(false);
+				toastError(
+					'Payment confirmation is taking longer than expected',
+					'Check your email for order confirmation, or contact support if you were charged.',
+				);
 			}
 		}, POLL_INTERVAL_MS);
 	};
@@ -132,6 +136,11 @@ export const CheckoutPage = () => {
 		const { error } = await elements.submit();
 		if (error) {
 			setPendingSubmit(false);
+			toastError(
+				'Invalid payment details',
+				error.message ??
+					'Please check your payment details and try again.',
+			);
 			return;
 		}
 
@@ -157,6 +166,7 @@ export const CheckoutPage = () => {
 
 		if (intentResult.error !== null) {
 			setPendingSubmit(false);
+			toastError('Failed to submit order', intentResult.error);
 			return;
 		}
 
@@ -173,6 +183,11 @@ export const CheckoutPage = () => {
 
 		if (confirmError) {
 			setPendingSubmit(false);
+			toastError(
+				'Payment failed',
+				confirmError.message ??
+					'Please check your payment details and try again.',
+			);
 		} else {
 			startPollingOrderStatus(orderShortId, accessKey);
 		}

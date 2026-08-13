@@ -14,7 +14,8 @@ export const AppToaster = () => {
 				const iconType = getToastIcon(toast.type as string);
 				return (
 					<Toast.Root
-						width="auto"
+						maxW="90vw"
+						w="auto"
 						px={4}
 						py={2}
 						borderRadius={5}
@@ -45,14 +46,18 @@ export const AppToaster = () => {
 							<Flex
 								direction="column"
 								gap={0}
+								minW={0}
+								flex="1"
 							>
-								<Toast.Title fontSize={18}>
+								<Toast.Title
+									fontSize={18}
+									wordBreak="break-word"
+								>
 									{toast.title}
 								</Toast.Title>
 								<Toast.Description
 									fontSize={16}
-									maxW={250}
-									truncate
+									wordBreak="break-word"
 								>
 									{toast.description}
 								</Toast.Description>
