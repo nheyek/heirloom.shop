@@ -1,16 +1,28 @@
-import { Box, Center, Flex, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Flex,
+	HStack,
+	Link,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
+import { Logo } from '@client/components/branding/Logo';
 import { CLIENT_ROUTES } from '@client/constants';
-import { RxDotFilled } from 'react-icons/rx';
+import { displayFontFamily } from '@client/theme';
+import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 
 const hideFooterPages = [CLIENT_ROUTES.checkout];
+const SUPPORT_EMAIL = 'support@heirloom.shop';
+const SUPPORT_PHONE = '(312) 617-6523';
+const SUPPORT_PHONE_TEL = '+13126176523';
 
 export const Footer = () => {
 	const { pathname } = useLocation();
 
-	const hideFooter = [`/${CLIENT_ROUTES.checkout}`].includes(
-		pathname,
-	);
+	const hideFooter = hideFooterPages
+		.map((page) => `/${page}`)
+		.includes(pathname);
 
 	if (hideFooter) {
 		return null;
@@ -19,23 +31,88 @@ export const Footer = () => {
 	return (
 		<Box
 			width="100%"
-			height={75}
 			background="brand"
 			color="#FFF"
 			mt={{ base: 5, md: 10 }}
 			flexShrink={0}
+			px={{ base: 6, md: 10 }}
+			py={10}
+			fontSize={18}
 		>
-			<Center height="100%">
-				<Flex
-					gap={1}
-					fontSize={16}
+			<Flex
+				wrap="wrap"
+				gap={10}
+				justifyContent="space-between"
+				maxW={1000}
+				mx="auto"
+			>
+				<Stack
+					gap={0}
+					minW={200}
 					alignItems="center"
 				>
-					<Text>©{new Date().getFullYear()} Heirloom</Text>
-					<RxDotFilled />
-					<Text>support@heirloom.shop</Text>
-				</Flex>
-			</Center>
+					<Box width={200}>
+						<Logo />
+					</Box>
+					<Text
+						fontFamily={displayFontFamily}
+						fontSize={24}
+					>
+						2026 • Chicago, IL
+					</Text>
+				</Stack>
+
+				<Stack
+					gap={2}
+					minW={200}
+				>
+					<Text
+						fontSize={24}
+						fontWeight={600}
+						fontFamily={displayFontFamily}
+					>
+						Contact
+					</Text>
+					<Stack gap={1}>
+						<HStack gap={2}>
+							<FaEnvelope />
+							<Link
+								href={`mailto:${SUPPORT_EMAIL}`}
+								color="#FFF"
+							>
+								{SUPPORT_EMAIL}
+							</Link>
+						</HStack>
+						<HStack gap={2}>
+							<FaPhoneAlt />
+							<Link
+								href={`tel:${SUPPORT_PHONE_TEL}`}
+								color="#FFF"
+							>
+								{SUPPORT_PHONE}
+							</Link>
+						</HStack>
+					</Stack>
+				</Stack>
+
+				<Stack
+					gap={2}
+					minW={200}
+				>
+					<Text
+						fontSize={24}
+						fontWeight={600}
+						fontFamily={displayFontFamily}
+					>
+						Info
+					</Text>
+					<Stack gap={0}>
+						<Link color="#FFF">Shipping & Returns</Link>
+						<Link color="#FFF">Privacy Policy</Link>
+						<Link color="#FFF">Terms of Service</Link>
+					</Stack>
+				</Stack>
+			</Flex>
 		</Box>
 	);
 };
