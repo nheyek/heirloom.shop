@@ -1,6 +1,9 @@
+import {
+	findOrCreateUser,
+	findUserByEmail,
+} from '@server/services/user.service';
 import { NextFunction, Request, Response } from 'express';
 import { UnauthorizedError, auth } from 'express-oauth2-jwt-bearer';
-import { findUserByEmail } from '@server/services/user.service';
 
 export const TEST_USER_EMAIL = 'test@heirloom.shop';
 
@@ -22,19 +25,33 @@ export const authAndSetUser = (
 			return res.status(401).end();
 		}
 		req.userClaims = { email: TEST_USER_EMAIL };
-		return next();
+		findOrCreateUser(TEST_USER_EMAIL)
+			.then(() => next())
+			.catch(next);
+		return;
 	}
 
-	authenticate!(req, res, (err) => {
+	authenticate!(req, res, async (err) => {
 		// express-oauth2-jwt-bearer raises UnauthorizedError for expired/invalid
 		// tokens — that's a normal occurrence, not an application error.
-		if (err instanceof UnauthorizedError) return res.status(401).end();
+		if (err instanceof UnauthorizedError)
+			return res.status(401).end();
 		if (err) return next(err);
 
 		if (req.auth?.payload) {
 			req.userClaims = req.auth.payload;
 		}
-		next();
+
+		if (!req.userClaims?.email) {
+			return next();
+		}
+
+		try {
+			await findOrCreateUser(req.userClaims.email);
+			next();
+		} catch (dbErr) {
+			next(dbErr);
+		}
 	});
 };
 
@@ -48,7 +65,8 @@ export const adminAuth = (
 		if (!req.userClaims?.email) return res.status(401).end();
 
 		const user = await findUserByEmail(req.userClaims.email);
-		if (!user?.isAdmin) return res.status(403).json({ error: 'Forbidden' });
+		if (!user?.isAdmin)
+			return res.status(403).json({ error: 'Forbidden' });
 
 		next();
 	});
@@ -71,7 +89,8 @@ export const optionalAuthAndSetUser = (
 	}
 
 	authenticate!(req, res, (err) => {
-		if (err instanceof UnauthorizedError) return res.status(401).end();
+		if (err instanceof UnauthorizedError)
+			return res.status(401).end();
 		if (err) return next(err);
 
 		if (req.auth?.payload) {

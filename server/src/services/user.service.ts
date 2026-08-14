@@ -12,6 +12,10 @@ export const findOrCreateUser = async (
 	email: string,
 ): Promise<AppUser> => {
 	const em = getEm();
+	const existing = await em.findOne(AppUser, { email });
+	if (existing) {
+		return existing;
+	}
 	try {
 		const user = em.create(AppUser, { username: email, email });
 		await em.persist(user).flush();
