@@ -211,6 +211,20 @@ export const OrderPage = () => {
 					</Text>
 				</Stack>
 			</Flex>
+
+			<Stack
+				gap={1}
+				fontSize={20}
+				pt={5}
+			>
+				<Text fontSize={20}>Need help with your order?</Text>
+				<HStack gap={1}>
+					<Text>Reach us at</Text>
+					<Text fontWeight={500}>
+						support@heirloom.shop
+					</Text>
+				</HStack>
+			</Stack>
 		</>
 	);
 
