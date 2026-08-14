@@ -48,10 +48,10 @@ export const Footer = () => {
 			>
 				<Stack
 					gap={0}
-					minW={200}
+					minW={180}
 					alignItems="center"
 				>
-					<Box width={200}>
+					<Box width={180}>
 						<Logo />
 					</Box>
 					<Text
