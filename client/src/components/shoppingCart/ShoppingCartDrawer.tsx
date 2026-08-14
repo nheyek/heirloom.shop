@@ -140,7 +140,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 
 					<Drawer.Body pb={5}>
 						<Stack
-							height="100%"
+							minH="100%"
 							justifyContent={
 								shoppingCart.items.length > 0
 									? 'space-between'
@@ -162,6 +162,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 										props.onClose();
 									}}
 									alignSelf="flex-end"
+									marginTop={5}
 								>
 									<Text
 										fontSize={30}
