@@ -23,6 +23,7 @@ import {
 	OrderResponse,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
@@ -148,17 +149,14 @@ export const OrderPage = () => {
 
 			<Flex
 				direction={isMobile ? 'column' : 'row'}
-				gapX={10}
+				gapX={20}
 				gapY={5}
 				alignItems="start"
 				fontSize={18}
 			>
-				<Stack
-					width={isMobile ? '100%' : 300}
-					flexShrink={0}
-				>
+				<Stack width={isMobile ? '100%' : 250}>
 					<SectionHeading>Summary</SectionHeading>
-					<Stack gap={1}>
+					<Stack gap={0.5}>
 						{[
 							{
 								label: 'Item(s) Subtotal',
@@ -184,7 +182,7 @@ export const OrderPage = () => {
 								justifyContent="space-between"
 							>
 								<Text>{label}</Text>
-								<Text>{value}</Text>
+								<Text fontSize={20}>{value}</Text>
 							</HStack>
 						))}
 						<HStack
@@ -192,7 +190,7 @@ export const OrderPage = () => {
 							fontWeight={500}
 						>
 							<Text>Total</Text>
-							<Text>
+							<Text fontSize={20}>
 								{formatCentsAsDollars(
 									order.subtotalCents +
 										order.shippingCents +
@@ -204,19 +202,13 @@ export const OrderPage = () => {
 				</Stack>
 
 				<Stack>
-					<SectionHeading>Shipping To</SectionHeading>
-					<Stack gap={1}>
-						{[
-							`${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
-							order.shippingAddress.line1,
-							order.shippingAddress.line2,
-							`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}`,
-						]
-							.filter(Boolean)
-							.map((line, index) => (
-								<Text key={index}>{line}</Text>
-							))}
-					</Stack>
+					<SectionHeading>Shipping Address</SectionHeading>
+					<Text
+						whiteSpace="pre-line"
+						lineHeight={1.5}
+					>
+						{formatShippingAddress(order.shippingAddress)}
+					</Text>
 				</Stack>
 			</Flex>
 		</>
