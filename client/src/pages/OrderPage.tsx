@@ -1,17 +1,18 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-	DataList,
+	Flex,
 	HStack,
 	Skeleton,
 	Stack,
 	Text,
-	Wrap,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import {
 	OrderItemCard,
 	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/components/itemDisplay/OrderItemCard';
+import { Layout } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
@@ -78,6 +79,11 @@ export const OrderPage = () => {
 	const apiClient = useApiClient();
 	const { shortId } = useParams<{ shortId: string }>();
 	const { isLoading: authIsLoading } = useAuth0();
+	const layout = useBreakpointValue({
+		base: Layout.MOBILE,
+		md: Layout.DESKTOP,
+	});
+	const isMobile = layout === Layout.MOBILE;
 
 	const [searchParams] = useSearchParams();
 	const key = searchParams.get('key') ?? '';
@@ -140,18 +146,19 @@ export const OrderPage = () => {
 		<>
 			<OrderItemsList items={order.items} />
 
-			<Wrap
+			<Flex
+				direction={isMobile ? 'column' : 'row'}
 				gapX={10}
 				gapY={5}
-				overflowX={{ base: 'scroll', md: 'visible' }}
 				alignItems="start"
+				fontSize={18}
 			>
-				<Stack w="fit-content">
+				<Stack
+					width={isMobile ? '100%' : 300}
+					flexShrink={0}
+				>
 					<SectionHeading>Summary</SectionHeading>
-					<DataList.Root
-						orientation="horizontal"
-						gap={1}
-					>
+					<Stack gap={1}>
 						{[
 							{
 								label: 'Item(s) Subtotal',
@@ -172,31 +179,31 @@ export const OrderPage = () => {
 								),
 							},
 						].map(({ label, value }) => (
-							<DataList.Item key={label}>
-								<DataList.ItemLabel fontSize={18}>
-									{label}
-								</DataList.ItemLabel>
-								<DataList.ItemValue fontSize={20}>
-									{value}
-								</DataList.ItemValue>
-							</DataList.Item>
+							<HStack
+								key={label}
+								justifyContent="space-between"
+							>
+								<Text>{label}</Text>
+								<Text>{value}</Text>
+							</HStack>
 						))}
-						<DataList.Item fontWeight={500}>
-							<DataList.ItemLabel fontSize={18}>
-								Total
-							</DataList.ItemLabel>
-							<DataList.ItemValue fontSize={20}>
+						<HStack
+							justifyContent="space-between"
+							fontWeight={500}
+						>
+							<Text>Total</Text>
+							<Text>
 								{formatCentsAsDollars(
 									order.subtotalCents +
 										order.shippingCents +
 										order.taxCents,
 								)}
-							</DataList.ItemValue>
-						</DataList.Item>
-					</DataList.Root>
+							</Text>
+						</HStack>
+					</Stack>
 				</Stack>
 
-				<Stack flexShrink={0}>
+				<Stack>
 					<SectionHeading>Shipping To</SectionHeading>
 					<Stack gap={1}>
 						{[
@@ -207,16 +214,11 @@ export const OrderPage = () => {
 						]
 							.filter(Boolean)
 							.map((line, index) => (
-								<Text
-									key={index}
-									fontSize={18}
-								>
-									{line}
-								</Text>
+								<Text key={index}>{line}</Text>
 							))}
 					</Stack>
 				</Stack>
-			</Wrap>
+			</Flex>
 		</>
 	);
 
