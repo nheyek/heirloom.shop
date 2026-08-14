@@ -1,21 +1,23 @@
 import {
 	Box,
 	Card,
-	Center,
-	Heading,
+	CardRootProps,
 	HStack,
 	Link,
-	Stack,
 	Text,
 } from '@chakra-ui/react';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import {
 	CLIENT_ROUTES,
+	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { displayFontFamily } from '@client/theme';
-import { formatDateCompact } from '@client/utils/dateUtils';
-import { ImageSource, listingImageUrl } from '@client/utils/imageUtils';
+import { formatDateLong } from '@client/utils/dateUtils';
+import {
+	ImageSource,
+	listingImageUrl,
+} from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
@@ -24,42 +26,11 @@ import {
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { Link as RouterLink } from 'react-router-dom';
 
-const MAX_ORDER_ITEM_PREVIEW_WIDTH = 450;
-const CARD_WIDTH = 150;
-const CARD_HEIGHT = CARD_WIDTH / LISTING_IMAGE_ASPECT_RATIO;
-const ROTATIONS = [0, 2, -1.5, 1, -2];
-const OFFSETS = [
-	{ x: 0, y: 0 },
-	{ x: 3, y: 3 },
-	{ x: -3, y: -3 },
-];
-const MAX_STACK_CARDS = 3;
+export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 100;
 
-const LabeledValue = ({
-	label,
-	value,
-}: {
-	label: string;
-	value: string;
-}) => (
-	<Stack gap={0.5}>
-		<Text
-			fontSize={15}
-			color="fg.muted"
-			textTransform="uppercase"
-		>
-			{label}
-		</Text>
-		<Text
-			fontSize={20}
-			lineHeight={1}
-		>
-			{value}
-		</Text>
-	</Stack>
-);
-
-const getImageSource = (item: OrderItemDisplayData): ImageSource | null =>
+const getImageSource = (
+	item: OrderItemDisplayData,
+): ImageSource | null =>
 	item.imageUuid
 		? {
 				url: listingImageUrl(
@@ -75,96 +46,106 @@ const getImageSource = (item: OrderItemDisplayData): ImageSource | null =>
 			}
 		: null;
 
-const CardStack = ({ items }: { items: OrderItemDisplayData[] }) => {
-	const visibleItems = items.slice(0, MAX_STACK_CARDS);
-	const n = visibleItems.length;
-	return (
-		<Box
-			position="relative"
-			width={CARD_WIDTH}
-			height={CARD_HEIGHT}
-		>
-			{visibleItems.map((item, index) => {
-				const source = getImageSource(item);
-				return (
-					<Box
-						key={index}
-						position="absolute"
-						top={OFFSETS[index % OFFSETS.length].y}
-						left={OFFSETS[index % OFFSETS.length].x}
-						zIndex={n - index}
-						style={{
-							transform: `rotate(${ROTATIONS[index % ROTATIONS.length]}deg)`,
-							transformOrigin: 'center center',
-						}}
-					>
-						<Card.Root
-							variant="elevated"
-							width={CARD_WIDTH}
-							flexShrink={0}
-						>
-							<MultiImage
-								aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-								urls={source ? [source] : []}
-							/>
-						</Card.Root>
-					</Box>
-				);
-			})}
-		</Box>
-	);
-};
-
 type Props = {
 	order: OrderResponse;
+	layout?: Layout;
+	cardProps?: CardRootProps;
 };
 
-export const OrderItemPreview = ({ order }: Props) => {
+export const OrderItemPreview = ({ order, layout, cardProps }: Props) => {
+	const isDesktop = layout === Layout.DESKTOP;
 	const total =
 		order.subtotalCents + order.shippingCents + order.taxCents;
+	const [firstItem] = order.items;
+	const imageSource = firstItem ? getImageSource(firstItem) : null;
+	const itemCount = order.items.length;
+	const remainingItemCount = itemCount - 1;
 
 	return (
-		<HStack
-			width="100%"
-			maxW={{
-				base: undefined,
-				md: MAX_ORDER_ITEM_PREVIEW_WIDTH,
-			}}
-			alignItems="center"
-		>
-			<Stack
-				gap={2}
-				pr={2}
+		<RouterLink to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}>
+			<Card.Root
+				variant="elevated"
+				flexDirection={isDesktop ? 'row' : 'column'}
+				width="100%"
+				{...cardProps}
 			>
-				<Link asChild>
-					<RouterLink
-						to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
-					>
-						<Heading
-							fontSize={24}
-							fontWeight={500}
-							fontFamily={displayFontFamily}
-						>
-							{order.shortId}
-						</Heading>
-					</RouterLink>
-				</Link>
-				<HStack gap={4}>
-					{order.createdAt && (
-						<LabeledValue
-							label="Placed"
-							value={formatDateCompact(order.createdAt)}
-						/>
-					)}
-					<LabeledValue
-						label="Total"
-						value={formatCentsAsDollars(total)}
+				<Box
+					position="relative"
+					width={
+						isDesktop
+							? DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH
+							: '100%'
+					}
+					flexShrink={0}
+				>
+					<MultiImage
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+						urls={imageSource ? [imageSource] : []}
 					/>
-				</HStack>
-			</Stack>
-			<Center width="100%">
-				<CardStack items={order.items} />
-			</Center>
-		</HStack>
+				</Box>
+
+				<Card.Body
+					p={3}
+					gap={2}
+					justifyContent="space-between"
+					minW={0}
+					fontFamily={displayFontFamily}
+				>
+					<HStack justifyContent="space-between">
+						<Link asChild>
+							<Text
+								fontSize={24}
+								fontWeight={500}
+								truncate
+							>
+								{order.shortId}
+							</Text>
+						</Link>
+						<Text
+							fontSize={20}
+							color="fg.muted"
+							flexShrink={0}
+						>
+							{order.createdAt &&
+								formatDateLong(order.createdAt)}
+						</Text>
+					</HStack>
+					<HStack justifyContent="space-between">
+						<HStack
+							gap={1}
+							flex={1}
+							minW={0}
+						>
+							<Text
+								fontSize={20}
+								color="fg.muted"
+								truncate
+								minW={0}
+							>
+								{firstItem?.title}
+							</Text>
+							{remainingItemCount > 0 && (
+								<Text
+									fontSize={20}
+									color="fg.muted"
+									flexShrink={0}
+								>
+									+{remainingItemCount}{' '}
+									{remainingItemCount === 1
+										? 'item'
+										: 'items'}
+								</Text>
+							)}
+						</HStack>
+						<Text
+							fontSize={22}
+							flexShrink={0}
+						>
+							{formatCentsAsDollars(total)}
+						</Text>
+					</HStack>
+				</Card.Body>
+			</Card.Root>
+		</RouterLink>
 	);
 };

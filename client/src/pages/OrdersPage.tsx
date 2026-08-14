@@ -1,14 +1,19 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { SimpleGrid, Skeleton, Text } from '@chakra-ui/react';
+import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { sidebarBreakpoint } from '@client/theme';
+import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
+
+const ORDER_PREVIEW_LIST_MAX_WIDTH = 500;
+const SKELETON_ITEM_COUNT = 3;
+const COMPACT_SKELETON_HEIGHT = 380;
+const STANDARD_SKELETON_HEIGHT = 110;
 
 export const OrdersPage = () => {
 	const {
@@ -48,46 +53,60 @@ export const OrdersPage = () => {
 	}, [authIsLoading]);
 
 	const isLoading = useMinDuration(dataIsLoading || authIsLoading);
+	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
+		isLoading ? SKELETON_ITEM_COUNT : orders.length,
+	);
 
 	if (error) {
 		return <AppError title={error} />;
 	}
 
-	return (
-		<SimpleGrid
-			columns={{
-				base: 1,
-				[sidebarBreakpoint.md]: 2,
-				[sidebarBreakpoint.xl]: 3,
-			}}
-			maxW={{
-				[sidebarBreakpoint.md]: 800,
-				[sidebarBreakpoint.xl]: 1200,
-			}}
-			gapX={10}
-			gapY={7}
+	if (!isLoading && orders.length === 0) {
+		return (
+			<Text fontSize={22}>You haven't placed any orders yet.</Text>
+		);
+	}
+
+	const content = isLoading
+		? Array.from({ length: SKELETON_ITEM_COUNT }).map((_, i) => (
+				<Skeleton
+					key={i}
+					borderRadius="md"
+					width={cardProps?.width}
+					minW={cardProps?.minW}
+					height={
+						isCompact
+							? COMPACT_SKELETON_HEIGHT
+							: STANDARD_SKELETON_HEIGHT
+					}
+				/>
+			))
+		: orders.map((order) => (
+				<OrderItemPreview
+					key={order.shortId}
+					order={order}
+					layout={layout}
+					cardProps={cardProps}
+				/>
+			));
+
+	return isCompact ? (
+		<HStack
+			gap={5}
+			m={-5}
+			p={5}
+			overflowX="scroll"
+			alignItems="flex-start"
 		>
-			{isLoading &&
-				Array.from({ length: 3 }).map((_, i) => (
-					<Skeleton
-						key={i}
-						width="100%"
-						height={150}
-					/>
-				))}
-			{!isLoading && orders.length === 0 && (
-				<Text fontSize={22}>
-					You haven't placed any orders yet.
-				</Text>
-			)}
-			{!isLoading &&
-				orders.length > 0 &&
-				orders.map((order) => (
-					<OrderItemPreview
-						key={order.shortId}
-						order={order}
-					/>
-				))}
-		</SimpleGrid>
+			{content}
+		</HStack>
+	) : (
+		<Stack
+			width="100%"
+			maxW={ORDER_PREVIEW_LIST_MAX_WIDTH}
+			gap={5}
+		>
+			{content}
+		</Stack>
 	);
 };
