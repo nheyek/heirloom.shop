@@ -154,7 +154,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 								<Button
 									padding={26}
 									width="100%"
-									fontSize={24}
+									fontSize={26}
 									onClick={() => {
 										navigate(
 											CLIENT_ROUTES.checkout,
@@ -164,7 +164,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 									alignSelf="flex-end"
 								>
 									<Text
-										fontSize={28}
+										fontSize={30}
 										fontWeight={600}
 										fontFamily={displayFontFamily}
 										paddingBottom={1}

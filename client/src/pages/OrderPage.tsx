@@ -1,13 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
-	Box,
 	DataList,
 	HStack,
-	Icon,
-	Separator,
 	Skeleton,
 	Stack,
 	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import {
@@ -17,6 +15,7 @@ import {
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	OrderItemDisplayData,
@@ -24,20 +23,9 @@ import {
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useEffect, useState } from 'react';
-import { BsPostage } from 'react-icons/bs';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const SKELETON_ITEM_COUNT = 2;
-
-const RECEIPT_ZIGZAG_CLIP_PATH =
-	'polygon(0.00% 0%, 6.25% 5%, 12.50% 0%, 18.75% 5%, 25.00% 0%, 31.25% 5%, 37.50% 0%, 43.75% 5%, 50.00% 0%, 56.25% 5%, 62.50% 0%, 68.75% 5%, 75.00% 0%, 81.25% 5%, 87.50% 0%, 93.75% 5%, 100.00% 0%, 100.00% 100%, 93.75% 95%, 87.50% 100%, 81.25% 95%, 75.00% 100%, 68.75% 95%, 62.50% 100%, 56.25% 95%, 50.00% 100%, 43.75% 95%, 37.50% 100%, 31.25% 95%, 25.00% 100%, 18.75% 95%, 12.50% 100%, 6.25% 95%, 0.00% 100%)';
-
-const PANEL_BACKGROUND = {
-	bgGradient: 'to-br',
-	gradientFrom: 'gray.50',
-	gradientTo: 'gray.100',
-	boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, 0.04)',
-};
 
 const OrderItemsList = ({
 	items,
@@ -151,33 +139,22 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<OrderItemsList items={order.items} />
-			<HStack
-				gap={5}
+
+			<Wrap
+				gapX={10}
+				gapY={5}
 				overflowX={{ base: 'scroll', md: 'visible' }}
 				alignItems="start"
 			>
-				<Stack
-					w="fit-content"
-					gap={2}
-					{...PANEL_BACKGROUND}
-					px={5}
-					py={7}
-					position="relative"
-					clipPath={RECEIPT_ZIGZAG_CLIP_PATH}
-				>
-					<Text
-						fontWeight={500}
-						fontSize={18}
-					>
-						SUMMARY
-					</Text>
+				<Stack w="fit-content">
+					<SectionHeading>Summary</SectionHeading>
 					<DataList.Root
 						orientation="horizontal"
-						gap={0}
+						gap={1}
 					>
 						{[
 							{
-								label: 'Subtotal',
+								label: 'Item(s) Subtotal',
 								value: formatCentsAsDollars(
 									order.subtotalCents,
 								),
@@ -195,10 +172,7 @@ export const OrderPage = () => {
 								),
 							},
 						].map(({ label, value }) => (
-							<DataList.Item
-								key={label}
-								lineHeight={1.25}
-							>
+							<DataList.Item key={label}>
 								<DataList.ItemLabel fontSize={18}>
 									{label}
 								</DataList.ItemLabel>
@@ -207,14 +181,7 @@ export const OrderPage = () => {
 								</DataList.ItemValue>
 							</DataList.Item>
 						))}
-						<Separator
-							my={2}
-							borderColor="black"
-						/>
-						<DataList.Item
-							lineHeight={1.25}
-							fontWeight={500}
-						>
+						<DataList.Item fontWeight={500}>
 							<DataList.ItemLabel fontSize={18}>
 								Total
 							</DataList.ItemLabel>
@@ -229,57 +196,27 @@ export const OrderPage = () => {
 					</DataList.Root>
 				</Stack>
 
-				<Stack
-					w="fit-content"
-					flexShrink={0}
-					position="relative"
-					px={5}
-					py={7}
-					pr={65}
-					borderRadius="lg"
-					{...PANEL_BACKGROUND}
-				>
-					<Text
-						fontWeight={500}
-						fontSize={18}
-					>
-						SHIP TO
-					</Text>
-					{[
-						`${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
-						order.shippingAddress.line1,
-						order.shippingAddress.line2,
-						`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}`,
-					]
-						.filter(Boolean)
-						.map((line, index) => (
-							<Stack gap={1}>
+				<Stack flexShrink={0}>
+					<SectionHeading>Shipping To</SectionHeading>
+					<Stack gap={1}>
+						{[
+							`${order.shippingAddress.firstName} ${order.shippingAddress.lastName}`,
+							order.shippingAddress.line1,
+							order.shippingAddress.line2,
+							`${order.shippingAddress.city}, ${order.shippingAddress.state} ${order.shippingAddress.zip}`,
+						]
+							.filter(Boolean)
+							.map((line, index) => (
 								<Text
 									key={index}
-									whiteSpace="pre-wrap"
-									wordBreak="break-all"
-									lineHeight={1.25}
-									pr={5}
+									fontSize={18}
 								>
 									{line}
 								</Text>
-								<Separator borderColor="black" />
-							</Stack>
-						))}
-					<Box
-						position="absolute"
-						top={3}
-						right={2.5}
-					>
-						<Icon
-							color="gray.800"
-							as={BsPostage}
-							width={30}
-							height={30}
-						/>
-					</Box>
+							))}
+					</Stack>
 				</Stack>
-			</HStack>
+			</Wrap>
 		</>
 	);
 
@@ -296,7 +233,6 @@ export const OrderPage = () => {
 					w="100%"
 					maxWidth={600}
 					gap={5}
-					mb={10}
 				>
 					{showSkeleton
 						? renderSkeleton()
@@ -306,3 +242,13 @@ export const OrderPage = () => {
 		</>
 	);
 };
+
+const SectionHeading = ({ children }: { children: string }) => (
+	<Text
+		fontWeight={500}
+		fontSize={24}
+		fontFamily={displayFontFamily}
+	>
+		{children}
+	</Text>
+);
