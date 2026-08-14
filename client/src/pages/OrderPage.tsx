@@ -27,7 +27,7 @@ import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 
-const SKELETON_ITEM_COUNT = 2;
+const SKELETON_ITEM_COUNT = 1;
 
 const OrderItemsList = ({
 	items,
@@ -124,22 +124,24 @@ export const OrderPage = () => {
 				items={[]}
 				loading
 			/>
-			<HStack
-				gap={5}
-				overflowX={{ base: 'scroll', md: 'visible' }}
+
+			<Flex
+				direction={isMobile ? 'column' : 'row'}
+				gapX={20}
+				gapY={5}
 				alignItems="start"
 			>
 				<Skeleton
 					flexShrink={0}
-					width={200}
-					height={200}
+					width={isMobile ? '100%' : 250}
+					height={150}
 				/>
 				<Skeleton
 					flexShrink={0}
-					width={200}
-					height={200}
+					width={180}
+					height={150}
 				/>
-			</HStack>
+			</Flex>
 		</>
 	);
 
