@@ -51,7 +51,7 @@ const App = () => {
 				zIndex="docked"
 			>
 				<Box
-					flex="1"
+					minHeight="100svh"
 					width="100%"
 					mx="auto"
 					position="relative"
