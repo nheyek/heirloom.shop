@@ -2,11 +2,7 @@ import {
 	AspectRatio,
 	Box,
 	Button,
-	Dialog,
 	HStack,
-	Icon,
-	IconButton,
-	Portal,
 	Skeleton,
 	Stack,
 	Text,
@@ -17,7 +13,7 @@ import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
-import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
+import { RichTextDialog } from '@client/components/richText/RichTextDialog';
 import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -31,8 +27,8 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { IconType } from 'react-icons';
-import { FaBook, FaHeart } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
+import { FaHeart } from 'react-icons/fa';
+import { FaShop } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
@@ -226,7 +222,7 @@ export const ShopPage = () => {
 						<HStack gap={2}>
 							{shopData?.profileRichText && (
 								<ActionButton
-									icon={FaBook}
+									icon={FaShop}
 									label="About"
 									onClick={() => setAboutOpen(true)}
 								/>
@@ -255,51 +251,14 @@ export const ShopPage = () => {
 				</Box>
 			)}
 
-			<Dialog.Root
-				open={aboutOpen}
-				onOpenChange={(e) => setAboutOpen(e.open)}
-				scrollBehavior="inside"
-				size={{ base: 'full', md: 'lg' }}
-			>
-				<Portal>
-					<Dialog.Backdrop />
-					<Dialog.Positioner>
-						<Dialog.Content>
-							<Dialog.Header>
-								<Dialog.Title
-									fontSize={32}
-									fontWeight={500}
-								>
-									{shopData?.title}
-								</Dialog.Title>
-								<Dialog.CloseTrigger asChild>
-									<IconButton
-										variant="ghost"
-										w={10}
-										h={10}
-									>
-										<Icon
-											h={6}
-											w={6}
-										>
-											<MdClose />
-										</Icon>
-									</IconButton>
-								</Dialog.CloseTrigger>
-							</Dialog.Header>
-							<Dialog.Body pt={0}>
-								{shopData?.profileRichText && (
-									<RichTextDisplay
-										htmlString={
-											shopData.profileRichText
-										}
-									/>
-								)}
-							</Dialog.Body>
-						</Dialog.Content>
-					</Dialog.Positioner>
-				</Portal>
-			</Dialog.Root>
+			{shopData?.profileRichText && (
+				<RichTextDialog
+					title={shopData.title}
+					open={aboutOpen}
+					onClose={() => setAboutOpen(false)}
+					htmlString={shopData.profileRichText}
+				/>
+			)}
 
 			{listingsError ? (
 				<AppError

@@ -10,6 +10,7 @@ import { Logo } from '@client/components/branding/Logo';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import { AboutDialog } from '@client/components/misc/AboutDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -23,6 +24,8 @@ import { useEffect, useState } from 'react';
 import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 
 export const LandingPage = () => {
+	const [aboutOpen, setAboutOpen] = useState<boolean>(false);
+
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [shopsLoading, setShopsLoading] = useState<boolean>(false);
 	const [shopsError, setShopsError] = useState<string | null>(null);
@@ -113,11 +116,11 @@ export const LandingPage = () => {
 					>
 						An exhibition of world-class craftsmanship.
 					</Text>
-					<Button>
+					<Button onClick={() => setAboutOpen(true)}>
 						<Icon
 							as={FaArrowUpRightFromSquare}
-							h={18}
-							w={18}
+							h={4}
+							w={4}
 						/>
 						Learn more
 					</Button>
@@ -168,6 +171,11 @@ export const LandingPage = () => {
 					</Stack>
 				)}
 			</Stack>
+
+			<AboutDialog
+				open={aboutOpen}
+				onClose={() => setAboutOpen(false)}
+			/>
 		</Stack>
 	);
 };
