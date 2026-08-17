@@ -1,5 +1,11 @@
-import { Box, Flex, Stack, Text } from '@chakra-ui/react';
-import { IntroCarousel } from '@client/components/branding/IntroCarousel';
+import {
+	Box,
+	Button,
+	Flex,
+	Icon,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
@@ -14,6 +20,7 @@ import {
 	ShopCardData,
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
+import { FaArrowUpRightFromSquare } from 'react-icons/fa6';
 
 export const LandingPage = () => {
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -67,9 +74,8 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<Stack gap={8}>
+		<Stack gap={10}>
 			<Stack
-				gap={4}
 				pt={10}
 				alignItems="center"
 			>
@@ -96,7 +102,26 @@ export const LandingPage = () => {
 					</Box>
 				</Flex>
 
-				<IntroCarousel />
+				<Stack
+					gap={3}
+					alignItems="center"
+				>
+					<Text
+						fontFamily={displayFontFamily}
+						fontSize={24}
+						textAlign="center"
+					>
+						An exhibition of world-class craftsmanship.
+					</Text>
+					<Button>
+						<Icon
+							as={FaArrowUpRightFromSquare}
+							h={18}
+							w={18}
+						/>
+						Learn more
+					</Button>
+				</Stack>
 			</Stack>
 
 			<Stack
