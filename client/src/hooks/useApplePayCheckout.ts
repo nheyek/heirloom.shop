@@ -140,97 +140,106 @@ export const useApplePayCheckout = (onClose: () => void) => {
 		pr.on('paymentmethod', async (event) => {
 			setPending(true);
 
-			const address = event.shippingAddress;
-			const { firstName, lastName } = splitRecipientName(
-				address?.recipient,
-			);
-			const shippingAddress: ShippingAddress = {
-				firstName,
-				lastName,
-				line1: address?.addressLine?.[0] ?? '',
-				line2: address?.addressLine?.[1] ?? '',
-				city: address?.city ?? '',
-				state: address?.region ?? '',
-				zip: address?.postalCode ?? '',
-			};
-
-			const current = cartRef.current;
-			const totalCents =
-				current.itemPriceTotal +
-				current.shippingTotal +
-				taxCentsRef.current;
-
-			const submitResult = await callApi(
-				apiClient.checkout.submitOrder({
-					body: {
-						items: current.items,
-						email: event.payerEmail ?? '',
-						shippingAddress,
-						totalCents,
-					},
-				}),
-			);
-
-			if (submitResult.status === 409) {
-				event.complete('fail');
-				setPending(false);
-				toastError(
-					'Prices have changed',
-					'Please refresh the page and try again.',
+			try {
+				const address = event.shippingAddress;
+				const { firstName, lastName } = splitRecipientName(
+					address?.recipient,
 				);
-				return;
-			}
+				const shippingAddress: ShippingAddress = {
+					firstName,
+					lastName,
+					line1: address?.addressLine?.[0] ?? '',
+					line2: address?.addressLine?.[1] ?? '',
+					city: address?.city ?? '',
+					state: address?.region ?? '',
+					zip: address?.postalCode ?? '',
+				};
 
-			if (submitResult.error !== null) {
-				event.complete('fail');
-				setPending(false);
-				toastError('Failed to submit order', submitResult.error);
-				return;
-			}
+				const current = cartRef.current;
+				const totalCents =
+					current.itemPriceTotal +
+					current.shippingTotal +
+					taxCentsRef.current;
 
-			const { clientSecret, orderShortId, accessKey } =
-				submitResult.data;
-
-			const { paymentIntent, error: confirmError } =
-				await stripe.confirmCardPayment(
-					clientSecret,
-					{ payment_method: event.paymentMethod.id },
-					{ handleActions: false },
+				const submitResult = await callApi(
+					apiClient.checkout.submitOrder({
+						body: {
+							items: current.items,
+							email: event.payerEmail ?? '',
+							shippingAddress,
+							totalCents,
+						},
+					}),
 				);
 
-			if (confirmError) {
-				event.complete('fail');
-				setPending(false);
-				toastError(
-					'Payment failed',
-					confirmError.message ??
-						'Please check your payment details and try again.',
-				);
-				return;
-			}
+				if (submitResult.status === 409) {
+					event.complete('fail');
+					setPending(false);
+					toastError(
+						'Prices have changed',
+						'Please refresh the page and try again.',
+					);
+					return;
+				}
 
-			// The sheet must be dismissed before any further authentication
-			// (e.g. 3D Secure) can run.
-			event.complete('success');
+				if (submitResult.error !== null) {
+					event.complete('fail');
+					setPending(false);
+					toastError('Failed to submit order', submitResult.error);
+					return;
+				}
 
-			if (paymentIntent?.status === 'requires_action') {
-				const { error: actionError } =
-					await stripe.confirmCardPayment(clientSecret);
-				if (actionError) {
+				const { clientSecret, orderShortId, accessKey } =
+					submitResult.data;
+
+				const { paymentIntent, error: confirmError } =
+					await stripe.confirmCardPayment(
+						clientSecret,
+						{ payment_method: event.paymentMethod.id },
+						{ handleActions: false },
+					);
+
+				if (confirmError) {
+					event.complete('fail');
 					setPending(false);
 					toastError(
 						'Payment failed',
-						actionError.message ??
+						confirmError.message ??
 							'Please check your payment details and try again.',
 					);
 					return;
 				}
-			}
 
-			onClose();
-			pollUntilPaid(orderShortId, accessKey, () =>
-				setPending(false),
-			);
+				// The sheet must be dismissed before any further authentication
+				// (e.g. 3D Secure) can run.
+				event.complete('success');
+
+				if (paymentIntent?.status === 'requires_action') {
+					const { error: actionError } =
+						await stripe.confirmCardPayment(clientSecret);
+					if (actionError) {
+						setPending(false);
+						toastError(
+							'Payment failed',
+							actionError.message ??
+								'Please check your payment details and try again.',
+						);
+						return;
+					}
+				}
+
+				onClose();
+				pollUntilPaid(orderShortId, accessKey, () =>
+					setPending(false),
+				);
+			} catch {
+				event.complete('fail');
+				setPending(false);
+				toastError(
+					'Failed to submit order',
+					'Something went wrong processing your payment. Please try again.',
+				);
+			}
 		});
 
 		setPaymentRequest(pr);

@@ -1,7 +1,6 @@
 import {
 	Button,
 	Drawer,
-	Flex,
 	HStack,
 	Icon,
 	IconButton,
@@ -14,6 +13,7 @@ import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { CLIENT_ROUTES } from '@client/constants';
+import { useApplePayCheckout } from '@client/hooks/useApplePayCheckout';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
@@ -21,7 +21,6 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode } from 'react';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
-import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -35,6 +34,12 @@ export const ShoppingCartDrawer = (props: Props) => {
 	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
 		shoppingCart.items.length,
 	);
+	// Called unconditionally (not just while the drawer is open) so Apple
+	// Pay availability is detected in the background ahead of time instead
+	// of the moment the drawer opens, and so a poll kicked off on payment
+	// success isn't cancelled by the drawer (and this hook along with it)
+	// unmounting when props.onClose() closes it.
+	const applePay = useApplePayCheckout(props.onClose);
 
 	const skeletonProps = isCompact
 		? { flexShrink: 0, height: 340, width: 300 }
@@ -152,43 +157,57 @@ export const ShoppingCartDrawer = (props: Props) => {
 							{listSection}
 
 							{shoppingCart.items.length > 0 && (
-								<ApplePayButton
-									onClose={props.onClose}
-								/>
-							)}
-
-							{shoppingCart.items.length > 0 && (
-								<Button
-									padding={26}
-									width="100%"
-									fontSize={26}
-									onClick={() => {
-										navigate(
-											CLIENT_ROUTES.checkout,
-										);
-										props.onClose();
-									}}
-									alignSelf="flex-end"
-								>
-									<Text
-										fontSize={30}
-										fontWeight={600}
+								<Stack>
+									<HStack
 										fontFamily={displayFontFamily}
-										paddingBottom={1}
 									>
-										{formatCentsAsDollars(
-											shoppingCart.itemPriceTotal,
-										)}
-									</Text>
-									<RxDotFilled />
-									<Flex
-										gap={3}
-										alignItems="center"
-									>
-										Checkout
-										<FaArrowCircleRight />
-									</Flex>
-								</Button>
+										<Text
+											fontSize={26}
+
+											paddingBottom={1}
+										>
+											Item total:
+										</Text>
+										<Text
+											fontSize={32}
+											fontWeight={600}
+											paddingBottom={1}
+										>
+											{formatCentsAsDollars(
+												shoppingCart.itemPriceTotal,
+											)}
+										</Text>
+									</HStack>
+
+									<HStack>
+										{applePay.available &&
+											applePay.paymentRequest && (
+												<ApplePayButton
+													paymentRequest={
+														applePay.paymentRequest
+													}
+													pending={
+														applePay.pending
+													}
+												/>
+											)}
+										<Button
+											padding={26}
+											fontSize={26}
+											flex={1}
+											onClick={() => {
+												navigate(
+													CLIENT_ROUTES.checkout,
+												);
+												props.onClose();
+											}}
+											alignSelf="flex-end"
+										>
+											Checkout
+											<FaArrowCircleRight />
+										</Button>
+									</HStack>
+								</Stack>
 							)}
 						</Stack>
 					</Drawer.Body>

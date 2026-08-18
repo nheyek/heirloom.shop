@@ -1,37 +1,29 @@
-import { Box } from '@chakra-ui/react';
-import { useApplePayCheckout } from '@client/hooks/useApplePayCheckout';
-import { PaymentRequestButtonElement } from '@stripe/react-stripe-js';
+import { Button, Icon } from '@chakra-ui/react';
+import { PaymentRequest } from '@stripe/stripe-js';
+import { FaApplePay } from 'react-icons/fa6';
 
 type Props = {
-	onClose: () => void;
+	paymentRequest: PaymentRequest;
+	pending: boolean;
 };
 
-export const ApplePayButton = ({ onClose }: Props) => {
-	const { paymentRequest, available, pending } =
-		useApplePayCheckout(onClose);
-
-	if (!available || !paymentRequest) {
-		return null;
-	}
-
-	return (
-		<Box
-			width="100%"
-			opacity={pending ? 0.6 : 1}
-			pointerEvents={pending ? 'none' : 'auto'}
+export const ApplePayButton = ({
+	paymentRequest,
+	pending,
+}: Props) => (
+	<Button
+		p={26}
+		variant="outline"
+		flex={1}
+		onClick={() => paymentRequest.show()}
+		disabled={pending}
+		loading={pending}
+	>
+		<Icon
+			w={16}
+			h={16}
 		>
-			<PaymentRequestButtonElement
-				options={{
-					paymentRequest,
-					style: {
-						paymentRequestButton: {
-							type: 'buy',
-							theme: 'dark',
-							height: '55px',
-						},
-					},
-				}}
-			/>
-		</Box>
-	);
-};
+			<FaApplePay />
+		</Icon>
+	</Button>
+);
