@@ -10,6 +10,7 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { STANDARD_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
+import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { CLIENT_ROUTES } from '@client/constants';
@@ -151,6 +152,12 @@ export const ShoppingCartDrawer = (props: Props) => {
 							{listSection}
 
 							{shoppingCart.items.length > 0 && (
+								<ApplePayButton
+									onClose={props.onClose}
+								/>
+							)}
+
+							{shoppingCart.items.length > 0 && (
 								<Button
 									padding={26}
 									width="100%"
@@ -162,7 +169,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 										props.onClose();
 									}}
 									alignSelf="flex-end"
-									marginTop={5}
 								>
 									<Text
 										fontSize={30}

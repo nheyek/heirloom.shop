@@ -19,11 +19,11 @@ import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCar
 import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
-import { OrderStatus } from '@heirloom/common/constants';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef, useState } from 'react';
@@ -32,17 +32,12 @@ import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
-const POLL_INTERVAL_MS = 2000;
-const POLL_MAX_ATTEMPTS = 30;
-
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
 	const stripe = useStripe();
 	const elements = useElements();
 	const apiClient = useApiClient();
-	const pollIntervalRef = useRef<ReturnType<
-		typeof setInterval
-	> | null>(null);
+	const { pollUntilPaid } = useOrderStatusPoll();
 	const {
 		items,
 		itemQuantityTotal,
@@ -55,7 +50,6 @@ export const CheckoutPage = () => {
 		validateLocalCheckoutFields,
 		validateAddressDeliverable,
 		hydrateCart,
-		clearCart,
 	} = useShoppingCart();
 
 	const [pendingSubmit, setPendingSubmit] = useState(false);
@@ -65,46 +59,8 @@ export const CheckoutPage = () => {
 		hydrateCart();
 	}, []);
 
-	useEffect(() => {
-		return () => {
-			if (pollIntervalRef.current)
-				clearInterval(pollIntervalRef.current);
-		};
-	}, []);
-
 	const orderTotal =
 		itemPriceTotal + shippingTotal + (taxTotal || 0);
-
-	const startPollingOrderStatus = (
-		shortId: string,
-		accessKey: string,
-	) => {
-		let attempts = 0;
-		pollIntervalRef.current = setInterval(async () => {
-			attempts++;
-			const result = await callApi(
-				apiClient.orders.getStatus({ params: { shortId } }),
-			);
-			if (
-				result.error === null &&
-				result.data.orderStatus ===
-					OrderStatus.PAYMENT_SUCCEEDED
-			) {
-				clearInterval(pollIntervalRef.current!);
-				clearCart();
-				navigate(`/${CLIENT_ROUTES.orderConfirmed}`, {
-					state: { shortId, accessKey },
-				});
-			} else if (attempts >= POLL_MAX_ATTEMPTS) {
-				clearInterval(pollIntervalRef.current!);
-				setPendingSubmit(false);
-				toastError(
-					'Payment confirmation is taking longer than expected',
-					'Check your email for order confirmation, or contact support if you were charged.',
-				);
-			}
-		}, POLL_INTERVAL_MS);
-	};
 
 	const handleConfirmation = async () => {
 		const scrollToShippingForm = () => {
@@ -186,7 +142,9 @@ export const CheckoutPage = () => {
 					'Please check your payment details and try again.',
 			);
 		} else {
-			startPollingOrderStatus(orderShortId, accessKey);
+			pollUntilPaid(orderShortId, accessKey, () =>
+				setPendingSubmit(false),
+			);
 		}
 	};
 
