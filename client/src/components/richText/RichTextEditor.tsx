@@ -105,6 +105,7 @@ export const RichTextEditor = ({
 		disabledButton?: boolean,
 	) => (
 		<IconButton
+			borderRadius="full"
 			key={label}
 			size="sm"
 			variant={active ? 'solid' : 'ghost'}

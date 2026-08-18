@@ -83,6 +83,7 @@ const SortableThumbnail = ({
 				/>
 			</Skeleton>
 			<IconButton
+				borderRadius="full"
 				size="xs"
 				variant="subtle"
 				position="absolute"

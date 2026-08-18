@@ -6,7 +6,11 @@ import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { ShippingAddress } from '@heirloom/common/contract';
 import { useStripe } from '@stripe/react-stripe-js';
-import { PaymentRequest, PaymentRequestShippingOption } from '@stripe/stripe-js';
+import {
+	PaymentRequest,
+	PaymentRequestItem,
+	PaymentRequestShippingOption,
+} from '@stripe/stripe-js';
 import { useEffect, useRef, useState } from 'react';
 
 const PAYMENT_REQUEST_LABEL = 'Heirloom';
@@ -23,8 +27,14 @@ const buildShippingOptions = (
 	},
 ];
 
-// Splits an Apple Pay "recipient" (a single free-text name) into first/last —
-// there's no better signal available once the sheet only hands back one string.
+const buildDisplayItems = (
+	itemPriceTotal: number,
+	taxCents: number,
+): PaymentRequestItem[] => [
+	{ label: 'Subtotal', amount: itemPriceTotal },
+	{ label: 'Tax', amount: taxCents },
+];
+
 const splitRecipientName = (recipient: string | undefined) => {
 	const [firstName = '', ...rest] = (recipient ?? '').trim().split(/\s+/);
 	return { firstName, lastName: rest.join(' ') || firstName };
@@ -36,11 +46,6 @@ type CartSnapshot = {
 	shippingTotal: number;
 };
 
-// Drives the Apple Pay (Payment Request Button) flow for the shopping cart
-// drawer. Reuses the same server endpoints and order-confirmation path as the
-// standard checkout flow (see CheckoutPage.tsx / useOrderStatusPoll) — this
-// hook only owns getting a shipping address, email, and payment method out of
-// the native payment sheet.
 export const useApplePayCheckout = (onClose: () => void) => {
 	const stripe = useStripe();
 	const apiClient = useApiClient();
@@ -52,17 +57,11 @@ export const useApplePayCheckout = (onClose: () => void) => {
 	const [available, setAvailable] = useState(false);
 	const [pending, setPending] = useState(false);
 
-	// Event handlers below are registered once (when `stripe` becomes ready)
-	// and must not close over stale cart data, so the latest snapshot lives in
-	// a ref that's kept in sync every render instead.
 	const cartRef = useRef<CartSnapshot>({
 		items: simplifyCartItems(items),
 		itemPriceTotal,
 		shippingTotal,
 	});
-	// The last tax quote returned for whatever address is currently on the
-	// sheet — submitOrder's totalCents has to match it exactly (see
-	// checkout.routes.ts's price-mismatch check).
 	const taxCentsRef = useRef<number>(0);
 
 	useEffect(() => {
@@ -83,6 +82,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 				label: PAYMENT_REQUEST_LABEL,
 				amount: itemPriceTotal + shippingTotal,
 			},
+			displayItems: buildDisplayItems(itemPriceTotal, 0),
 			shippingOptions: buildShippingOptions(shippingTotal),
 			requestPayerName: true,
 			requestPayerEmail: true,
@@ -131,6 +131,10 @@ export const useApplePayCheckout = (onClose: () => void) => {
 						current.shippingTotal +
 						result.data.TaxTotalCents,
 				},
+				displayItems: buildDisplayItems(
+					current.itemPriceTotal,
+					result.data.TaxTotalCents,
+				),
 				shippingOptions: buildShippingOptions(
 					current.shippingTotal,
 				),
@@ -210,8 +214,6 @@ export const useApplePayCheckout = (onClose: () => void) => {
 					return;
 				}
 
-				// The sheet must be dismissed before any further authentication
-				// (e.g. 3D Secure) can run.
 				event.complete('success');
 
 				if (paymentIntent?.status === 'requires_action') {
@@ -228,10 +230,10 @@ export const useApplePayCheckout = (onClose: () => void) => {
 					}
 				}
 
-				onClose();
-				pollUntilPaid(orderShortId, accessKey, () =>
-					setPending(false),
-				);
+				pollUntilPaid(orderShortId, accessKey, {
+					onSuccess: onClose,
+					onSettled: () => setPending(false),
+				});
 			} catch {
 				event.complete('fail');
 				setPending(false);
@@ -243,9 +245,6 @@ export const useApplePayCheckout = (onClose: () => void) => {
 		});
 
 		setPaymentRequest(pr);
-		// Only (re)create the PaymentRequest when `stripe` itself changes —
-		// totals are kept current via cartRef and the .update() effect below,
-		// not by tearing down and recreating this object every render.
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [stripe]);
 
@@ -257,6 +256,10 @@ export const useApplePayCheckout = (onClose: () => void) => {
 				amount:
 					itemPriceTotal + shippingTotal + taxCentsRef.current,
 			},
+			displayItems: buildDisplayItems(
+				itemPriceTotal,
+				taxCentsRef.current,
+			),
 			shippingOptions: buildShippingOptions(shippingTotal),
 		});
 	}, [paymentRequest, itemPriceTotal, shippingTotal]);

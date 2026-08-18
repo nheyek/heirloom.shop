@@ -97,6 +97,7 @@ export const ShopCard = (props: Props) => {
 					</Text>
 				</HStack>
 				<IconButton
+					borderRadius="full"
 					position="absolute"
 					bottom={2}
 					right={2}

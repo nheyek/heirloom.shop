@@ -1,5 +1,5 @@
-import type { IconButtonProps } from '@chakra-ui/react';
-import { Box, Carousel, IconButton } from '@chakra-ui/react';
+import type { IconButton, IconButtonProps } from '@chakra-ui/react';
+import { Box, Carousel } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
 import { ReactElement, useRef, useState } from 'react';
@@ -105,6 +105,7 @@ type ActionButtonProps = IconButtonProps & {
 };
 const ActionButton = ({ visible, ...props }: ActionButtonProps) => (
 	<IconButton
+		borderRadius="full"
 		{...props}
 		size="2xs"
 		variant="surface"

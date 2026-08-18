@@ -142,9 +142,9 @@ export const CheckoutPage = () => {
 					'Please check your payment details and try again.',
 			);
 		} else {
-			pollUntilPaid(orderShortId, accessKey, () =>
-				setPendingSubmit(false),
-			);
+			pollUntilPaid(orderShortId, accessKey, {
+				onSettled: () => setPendingSubmit(false),
+			});
 		}
 	};
 

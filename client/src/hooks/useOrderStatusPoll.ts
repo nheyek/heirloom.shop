@@ -10,9 +10,6 @@ import { useNavigate } from 'react-router-dom';
 const POLL_INTERVAL_MS = 2000;
 const POLL_MAX_ATTEMPTS = 30;
 
-// Shared between the standard checkout flow and any express-payment flow
-// (e.g. Apple Pay) so both land on the same order-confirmed experience once
-// the webhook has flipped the order to PAYMENT_SUCCEEDED.
 export const useOrderStatusPoll = () => {
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
@@ -33,8 +30,12 @@ export const useOrderStatusPoll = () => {
 	const pollUntilPaid = (
 		shortId: string,
 		accessKey: string,
-		onTimeout: () => void,
+		callbacks: {
+			onSuccess?: () => void;
+			onSettled?: () => void;
+		} = {},
 	) => {
+		const { onSuccess, onSettled } = callbacks;
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
@@ -47,13 +48,15 @@ export const useOrderStatusPoll = () => {
 					OrderStatus.PAYMENT_SUCCEEDED
 			) {
 				stopPolling();
+				onSuccess?.();
+				onSettled?.();
 				clearCart();
 				navigate(`/${CLIENT_ROUTES.orderConfirmed}`, {
 					state: { shortId, accessKey },
 				});
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				stopPolling();
-				onTimeout();
+				onSettled?.();
 				toastError(
 					'Payment confirmation is taking longer than expected',
 					'Check your email for order confirmation, or contact support if you were charged.',

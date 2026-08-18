@@ -39,6 +39,7 @@ export const ListingCardIconMenu = ({
 	>
 		{items.map((item, i) => (
 			<IconButton
+				borderRadius="full"
 				key={i}
 				variant="ghost"
 				size="lg"

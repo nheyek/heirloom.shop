@@ -34,11 +34,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
 		shoppingCart.items.length,
 	);
-	// Called unconditionally (not just while the drawer is open) so Apple
-	// Pay availability is detected in the background ahead of time instead
-	// of the moment the drawer opens, and so a poll kicked off on payment
-	// success isn't cancelled by the drawer (and this hook along with it)
-	// unmounting when props.onClose() closes it.
 	const applePay = useApplePayCheckout(props.onClose);
 
 	const skeletonProps = isCompact
@@ -130,6 +125,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 						</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton
+								borderRadius="full"
 								variant="ghost"
 								w={10}
 								h={10}
@@ -157,7 +153,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							{listSection}
 
 							{shoppingCart.items.length > 0 && (
-								<Stack>
+								<Stack gap={1}>
 									<HStack
 										fontFamily={displayFontFamily}
 									>
@@ -179,7 +175,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 										</Text>
 									</HStack>
 
-									<HStack>
+									<HStack h={55}>
 										{applePay.available &&
 											applePay.paymentRequest && (
 												<ApplePayButton
@@ -192,7 +188,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 												/>
 											)}
 										<Button
-											padding={26}
+											h="100%"
 											fontSize={26}
 											flex={1}
 											onClick={() => {

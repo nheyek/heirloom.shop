@@ -36,6 +36,7 @@ export const RichTextDialog = ({
 						</Dialog.Title>
 						<Dialog.CloseTrigger asChild>
 							<IconButton
+								borderRadius="full"
 								variant="ghost"
 								w={10}
 								h={10}

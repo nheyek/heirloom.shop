@@ -29,6 +29,7 @@ enum gridTemplateAreas {
 
 export const NavbarButton = (props: IconButtonProps) => (
 	<IconButton
+		borderRadius="full"
 		size="lg"
 		color="white"
 		variant="ghost"

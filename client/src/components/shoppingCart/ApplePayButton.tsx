@@ -12,7 +12,7 @@ export const ApplePayButton = ({
 	pending,
 }: Props) => (
 	<Button
-		p={26}
+		h="100%"
 		variant="outline"
 		flex={1}
 		onClick={() => paymentRequest.show()}

@@ -28,6 +28,7 @@ export const ShoppingCartCard = (props: Props) => {
 
 	const deleteButton = (
 		<IconButton
+			borderRadius="full"
 			size="sm"
 			variant="ghost"
 			bg="gray.100"
@@ -59,6 +60,7 @@ export const ShoppingCartCard = (props: Props) => {
 			right={3}
 		>
 			<IconButton
+				borderRadius="full"
 				size="xs"
 				variant="ghost"
 				onClick={() =>
@@ -81,6 +83,7 @@ export const ShoppingCartCard = (props: Props) => {
 				{props.item.quantity}
 			</Text>
 			<IconButton
+				borderRadius="full"
 				size="xs"
 				variant="ghost"
 				onClick={() =>

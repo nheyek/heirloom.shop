@@ -73,7 +73,6 @@ const inputRecipe = defineRecipe({
 
 const buttonRecipe = defineRecipe({
 	base: {
-		borderRadius: 'full',
 		width: 'fit-content',
 	},
 	defaultVariants: {},
