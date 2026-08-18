@@ -1,5 +1,6 @@
 import { Dialog, Icon, IconButton, Portal } from '@chakra-ui/react';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
+import { displayFontFamily } from '@client/theme';
 import { MdClose } from 'react-icons/md';
 
 type Props = {
@@ -29,6 +30,7 @@ export const RichTextDialog = ({
 						<Dialog.Title
 							fontSize={32}
 							fontWeight={500}
+							fontFamily={displayFontFamily}
 						>
 							{title}
 						</Dialog.Title>
