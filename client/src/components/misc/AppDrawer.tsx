@@ -37,7 +37,6 @@ export const AppDrawer = ({
 					</Drawer.Title>
 					<Drawer.CloseTrigger asChild>
 						<IconButton
-							borderRadius="full"
 							variant="ghost"
 							w={10}
 							h={10}

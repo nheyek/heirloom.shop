@@ -15,6 +15,7 @@ export const ApplePayButton = ({
 		h="100%"
 		variant="outline"
 		flex={1}
+		borderRadius="lg"
 		onClick={() => paymentRequest.show()}
 		disabled={pending}
 		loading={pending}

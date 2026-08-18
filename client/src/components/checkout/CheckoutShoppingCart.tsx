@@ -33,7 +33,6 @@ export const CheckoutShoppingCart = () => {
 				<HStack>
 					<Carousel.PrevTrigger asChild>
 						<IconButton
-							borderRadius="full"
 							size="xs"
 							variant="subtle"
 						>
@@ -42,7 +41,6 @@ export const CheckoutShoppingCart = () => {
 					</Carousel.PrevTrigger>
 					<Carousel.NextTrigger asChild>
 						<IconButton
-							borderRadius="full"
 							size="xs"
 							variant="subtle"
 						>

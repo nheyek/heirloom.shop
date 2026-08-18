@@ -73,7 +73,6 @@ const SortableFieldItem = ({
 				gap={3}
 			>
 				<IconButton
-					borderRadius="full"
 					size="xs"
 					variant="ghost"
 					cursor={disabled ? 'default' : 'grab'}
@@ -95,7 +94,6 @@ const SortableFieldItem = ({
 				</Text>
 				<HStack gap={1}>
 					<IconButton
-						borderRadius="full"
 						size="xs"
 						variant="ghost"
 						onClick={onEdit}
@@ -104,7 +102,6 @@ const SortableFieldItem = ({
 						<FaPencilAlt />
 					</IconButton>
 					<IconButton
-						borderRadius="full"
 						size="xs"
 						variant="ghost"
 						color={fieldErrorColor}

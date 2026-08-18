@@ -120,7 +120,6 @@ const OptionRow = ({
 		>
 			{/* Drag handle */}
 			<IconButton
-				borderRadius="full"
 				size="sm"
 				variant="ghost"
 				cursor="grab"
@@ -243,7 +242,6 @@ const OptionRow = ({
 
 			{/* Delete */}
 			<IconButton
-				borderRadius="full"
 				size="sm"
 				variant="ghost"
 				color="red.500"

@@ -105,7 +105,6 @@ type ActionButtonProps = IconButtonProps & {
 };
 const ActionButton = ({ visible, ...props }: ActionButtonProps) => (
 	<IconButton
-		borderRadius="full"
 		{...props}
 		size="2xs"
 		variant="surface"

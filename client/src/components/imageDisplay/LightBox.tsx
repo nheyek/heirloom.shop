@@ -140,7 +140,6 @@ export const LightBox = (props: Props) => {
 
 const ActionButton = (props: IconButtonProps) => (
 	<IconButton
-		borderRadius="full"
 		size="sm"
 		variant="subtle"
 		position="absolute"

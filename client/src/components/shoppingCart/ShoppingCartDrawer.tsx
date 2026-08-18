@@ -125,7 +125,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 						</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton
-								borderRadius="full"
 								variant="ghost"
 								w={10}
 								h={10}
@@ -153,7 +152,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 							{listSection}
 
 							{shoppingCart.items.length > 0 && (
-								<Stack gap={1}>
+								<Stack>
 									<HStack
 										fontFamily={displayFontFamily}
 									>
@@ -175,7 +174,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 										</Text>
 									</HStack>
 
-									<HStack h={55}>
+									<HStack h={50}>
 										{applePay.available &&
 											applePay.paymentRequest && (
 												<ApplePayButton
@@ -191,6 +190,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 											h="100%"
 											fontSize={26}
 											flex={1}
+											borderRadius="lg"
 											onClick={() => {
 												navigate(
 													CLIENT_ROUTES.checkout,
