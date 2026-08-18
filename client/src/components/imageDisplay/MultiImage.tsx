@@ -1,8 +1,8 @@
-import type { IconButton, IconButtonProps } from '@chakra-ui/react';
-import { Box, Carousel } from '@chakra-ui/react';
+import type { IconButtonProps } from '@chakra-ui/react';
+import { Box, Carousel, IconButton } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Props = {
@@ -12,8 +12,6 @@ type Props = {
 };
 
 export const MultiImage = (props: Props) => {
-	const loadedImagesCount = useRef<number>(0);
-
 	const [isHovered, setIsHovered] = useState<boolean>(false);
 	const showArrows = isHovered && props.urls.length > 1;
 
@@ -57,7 +55,9 @@ export const MultiImage = (props: Props) => {
 								imageProps={{
 									src: source.url,
 									loading:
-										index === 0 ? undefined : 'lazy',
+										index === 0
+											? undefined
+											: 'lazy',
 									onClick: props.onImageClick,
 									cursor: props.onImageClick
 										? 'pointer'

@@ -143,7 +143,6 @@ const ActionButton = (props: IconButtonProps) => (
 		borderRadius="full"
 		size="sm"
 		variant="subtle"
-		borderRadius="full"
 		position="absolute"
 		{...props}
 	/>

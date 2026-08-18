@@ -2,7 +2,6 @@ import {
 	Box,
 	Button,
 	ButtonProps,
-	Center,
 	Flex,
 	HStack,
 	Link,
@@ -170,17 +169,16 @@ export const ListingPage = () => {
 		>
 			{layout === Layout.DESKTOP && (
 				<Box
-					mx={5}
+					px={5}
 					mt={5}
+					maxWidth={maxWidth}
 					width="100%"
 				>
-					<Center>
-						<ImageCollage
-							urls={imageUrls}
-							maxWidth={maxWidth}
-							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						/>
-					</Center>
+					<ImageCollage
+						urls={imageUrls}
+						maxWidth={maxWidth}
+						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					/>
 				</Box>
 			)}
 			{layout === Layout.MOBILE && (
