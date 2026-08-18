@@ -152,18 +152,19 @@ export const STANDARD_RETURN_POLICY_HTML =
 	'<ul><li>A free return label will be sent to the customer via email upon initiation of a return.</li><li>A refund will be issued to the original payment method within 7 days of receipt of the returned items.</li><li>Returned items must be in their original condition and packaging.</li></ul>';
 
 export const ABOUT_HEIRLOOM_HTML =
-	'<p>Heirloom is an online store and marketplace featuring a wide range of products from makers that exhibit the highest level of craftsmanship.</p><p />' +
+	'<p>Heirloom is an online store and marketplace featuring a range of products from makers that exhibit the highest level of craftsmanship.</p><p />' +
 	'<h1>Background</h1>' +
 	'<p>Throw-away culture is, sadly, a defining feature of the present historical moment.</p>' +
-	"<p>Disillusionment is on the rise, though. People are beginning to ask questions about where their products come from, how they're made, and what they're made of.</p><p />" +
+	"<p>Disillusionment is growing. People are beginning to ask questions about where their products come from, how they're made, and what they're made of.</p><p />" +
 	'<h1>The Idea</h1>' +
-	'<p>"They don\'t make them like they used to" is a common refrain, but we\'ve found that there are many who do. They are just often hard to find.</p>' +
-	'<p>Heirloom seeks to make it easy to find these makers and purchase their work.</p>' +
+	'<p>"They don\'t make them like they used to" is a common refrain. But while "they" may not, there are others that do. They are just often hard to find.</p>' +
+	'<p>Heirloom seeks to make it easy to find these makers and purchase their work.</p><p />' +
+	'<h1>The Experience</h1>' +
 	'<p>The site is designed to prioritize authentic discovery and simplicity over maximizing sales. We will not send you unsolicited emails. You will never serve you ads or promoted content.</p>' +
 	'<p>Orders are professionally packed and shipped within 1 business day. All orders ship free and are guaranteed against damage in transit.</p>' +
 	"<p>If, for any reason, what you received doesn't meet your expectations, we'll take it back for a full refund within 30 days.</p><p />" +
 	'<h1>Who We Are</h1>' +
-	'<p>Heirloom was founded and developed by Nick Heyek, a Chicago-based software engineer and admirer of craftsmanship.</p>' +
+	'<p>Heirloom was founded and developed by Nick Heyek, a Chicago-based software engineer and manufacturer.</p>' +
 	"<p>Our facility is located at 3100 W Grand Ave in Chicago's Humboldt Park neighborhood.</p><p />" +
 	'<h1>Get in Touch</h1>' +
 	'<p>For questions, feedback, or any other reason, reach us at support@heirloom.shop.</p>';
