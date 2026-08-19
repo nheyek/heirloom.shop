@@ -152,19 +152,19 @@ export const ShoppingCartDrawer = (props: Props) => {
 							{listSection}
 
 							{shoppingCart.items.length > 0 && (
-								<Stack>
+								<Stack gap={1}>
 									<HStack
 										fontFamily={displayFontFamily}
 									>
 										<Text
-											fontSize={26}
+											fontSize={24}
 
 											paddingBottom={1}
 										>
 											Item total:
 										</Text>
 										<Text
-											fontSize={32}
+											fontSize={28}
 											fontWeight={600}
 											paddingBottom={1}
 										>

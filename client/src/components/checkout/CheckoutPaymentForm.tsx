@@ -30,7 +30,11 @@ export const CheckoutPaymentForm = ({ disabled }: Props) => {
 				transition="opacity 0.2s"
 			>
 				<PaymentElement
-					options={{ layout: 'tabs', readOnly: disabled }}
+					options={{
+						layout: 'tabs',
+						readOnly: disabled,
+						wallets: { applePay: 'never', googlePay: 'never' },
+					}}
 					onReady={() => setReady(true)}
 				/>
 				{disabled && (
