@@ -220,7 +220,9 @@ CREATE TABLE public.listing (
     variations jsonb,
     combinations jsonb,
     available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL,
-    personalization_profile_id integer
+    personalization_profile_id integer,
+    inventory integer,
+    CONSTRAINT listing_inventory_nonnegative CHECK ((inventory >= 0))
 );
 
 
@@ -1187,4 +1189,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260630000001'),
     ('20260710000000'),
     ('20260714000000'),
-    ('20260807000000');
+    ('20260807000000'),
+    ('20260819000000');

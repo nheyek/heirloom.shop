@@ -69,6 +69,9 @@ export class Listing {
   @ManyToOne({ entity: () => ListingPersonalizationProfile, updateRule: 'no action', nullable: true })
   personalizationProfile?: Rel<ListingPersonalizationProfile>;
 
+  @Property({ nullable: true })
+  inventory?: number;
+
   @OneToOne({ entity: () => FeaturedListing, mappedBy: 'listing' })
   featuredListing?: Rel<FeaturedListing>;
 

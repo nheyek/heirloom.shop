@@ -36,6 +36,7 @@ export type Combination = {
 	priceCents: number | null;
 	imageUuid: string | null;
 	disabled: boolean;
+	inventory?: number | null;
 };
 
 export type Variations = Record<string, Variation>;
