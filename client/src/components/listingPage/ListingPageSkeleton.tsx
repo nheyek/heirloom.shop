@@ -94,6 +94,7 @@ export const ListingPageSkeleton = (props: {
 			gap={5}
 			my={5}
 			mx="auto"
+			px={5}
 		>
 			<SimpleGrid
 				columns={4}
