@@ -6,6 +6,7 @@ import {
 	Table,
 	Text,
 } from '@chakra-ui/react';
+import { InventoryInput } from '@client/components/input/InventoryInput';
 import { PriceInput } from '@client/components/input/PriceInput';
 import {
 	Combination,
@@ -36,6 +37,7 @@ type Props = {
 	disabled?: boolean;
 	uploadImage: (file: File) => Promise<string | null>;
 	shopShortId: string;
+	trackInventory?: boolean;
 };
 
 const DEFAULT_ENTRY: Combination = {
@@ -53,6 +55,7 @@ export const CombinationGrid = ({
 	disabled,
 	uploadImage,
 	shopShortId,
+	trackInventory,
 }: Props) => {
 	const [uploadingKeys, setUploadingKeys] = useState<Set<string>>(
 		new Set(),
@@ -62,6 +65,7 @@ export const CombinationGrid = ({
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
 	const showImage = sortedVariations.some(([, v]) => v.imagesVary);
+	const showInventory = !!trackInventory;
 
 	const combinationsList = deriveCombinationsList(variations);
 	if (combinationsList.length === 0) return null;
@@ -113,6 +117,11 @@ export const CombinationGrid = ({
 						{showPrice && (
 							<Table.ColumnHeader>
 								Price
+							</Table.ColumnHeader>
+						)}
+						{showInventory && (
+							<Table.ColumnHeader>
+								Inventory
 							</Table.ColumnHeader>
 						)}
 						<Table.ColumnHeader textAlign="center">
@@ -314,6 +323,32 @@ export const CombinationGrid = ({
 												key,
 											)}
 											enclosed={showImage}
+										/>
+									</Table.Cell>
+								)}
+
+								{/* Inventory */}
+								{showInventory && (
+									<Table.Cell
+										opacity={isDisabled ? 0.5 : 1}
+										py={0}
+									>
+										<InventoryInput
+											size={InputSize.Md}
+											value={String(
+												entry.inventory ?? 0,
+											)}
+											onChange={(v) =>
+												onUpdate(key, {
+													inventory:
+														v === ''
+															? null
+															: Number(v),
+												})
+											}
+											disabled={
+												disabled || isDisabled
+											}
 										/>
 									</Table.Cell>
 								)}

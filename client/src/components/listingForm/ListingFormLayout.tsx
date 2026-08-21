@@ -31,6 +31,7 @@ export const ListingFormLayout = ({
 					combinations={form.combinations}
 					uploadImage={form.uploadImage}
 					shopShortId={form.shopShortId}
+					trackInventory={form.trackInventory}
 					disabled={disabled}
 					onUpdate={(key, patch) => {
 						form.setCombinationField(key, patch);

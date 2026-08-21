@@ -233,13 +233,13 @@ export const ListingFormFields = ({
 						</Box>
 					</FormField>
 
-					<Wrap
-						gap={5}
-						align="start"
-					>
-						{!sortedVariations.some(
-							([, v]) => v.pricesVary,
-						) && (
+					{!sortedVariations.some(
+						([, v]) => v.pricesVary,
+					) && (
+						<Wrap
+							gap={5}
+							align="start"
+						>
 							<WrapItem>
 								<FormField
 									label="Price"
@@ -262,8 +262,8 @@ export const ListingFormFields = ({
 									/>
 								</FormField>
 							</WrapItem>
-						)}
-					</Wrap>
+						</Wrap>
+					)}
 
 					<Stack gap={4}>
 						<HStack gap={1}>
@@ -295,13 +295,14 @@ export const ListingFormFields = ({
 								disabled.
 							</InfoPopover>
 						</HStack>
-						{form.trackInventory && (
-							<InventoryInput
-								value={form.inventory}
-								onChange={form.setInventory}
-								disabled={disabled}
-							/>
-						)}
+						{form.trackInventory &&
+							sortedVariations.length === 0 && (
+								<InventoryInput
+									value={form.inventory}
+									onChange={form.setInventory}
+									disabled={disabled}
+								/>
+							)}
 					</Stack>
 
 					{directFulfillment && (
