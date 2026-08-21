@@ -37,6 +37,7 @@ const CombinationSchema = z.object({
 	priceCents: z.number().nullable(),
 	imageUuid: z.string().nullable(),
 	disabled: z.boolean(),
+	inventory: z.number().nullable().optional(),
 });
 
 const CombinationsSchema = z.record(z.string(), CombinationSchema);
@@ -457,6 +458,7 @@ const ListingEditDataSchema = z.object({
 	fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
+	inventory: z.number().nullable().optional(),
 });
 
 // Create and update take an identical body; the only difference between

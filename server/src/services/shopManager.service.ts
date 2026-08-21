@@ -142,6 +142,7 @@ export const findListingForEdit = async (
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ??
 			{}) as CombinationsData,
+		inventory: listing.inventory ?? null,
 	};
 };
 
@@ -252,6 +253,7 @@ export const createListing = async (
 		variations: data.variations,
 		combinations: data.combinations,
 		available: true,
+		inventory: data.inventory ?? undefined,
 	});
 
 	await em.persist(listing).flush();
@@ -272,6 +274,7 @@ export const createListing = async (
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ??
 			{}) as CombinationsData,
+		inventory: listing.inventory ?? null,
 	};
 };
 
@@ -388,6 +391,7 @@ export const updateListing = async (
 	listing.fullDescr = data.fullDescr;
 	listing.variations = data.variations;
 	listing.combinations = data.combinations;
+	listing.inventory = data.inventory ?? undefined;
 
 	await em.flush();
 
@@ -407,6 +411,7 @@ export const updateListing = async (
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations: (listing.combinations ??
 			{}) as CombinationsData,
+		inventory: listing.inventory ?? null,
 	};
 };
 

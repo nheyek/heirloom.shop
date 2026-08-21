@@ -99,6 +99,24 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 		expect(res.body.title).toBe('A nice mug');
 	});
 
+	it('defaults inventory to null when not provided', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send(validListingBody());
+		expect(res.status).toBe(200);
+		expect(res.body.inventory).toBeNull();
+	});
+
+	it('returns 200 and echoes a provided inventory value', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), inventory: 15 });
+		expect(res.status).toBe(200);
+		expect(res.body.inventory).toBe(15);
+	});
+
 	it('returns 400 for a title over the max length', async () => {
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -484,7 +502,7 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		const createRes = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
 			.set(AUTH)
-			.send(validListingBody());
+			.send({ ...validListingBody(), inventory: 8 });
 		const listingShortId = createRes.body.shortId;
 
 		const res = await request(getApp())
@@ -495,7 +513,50 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 			shortId: listingShortId,
 			title: 'A nice mug',
 			priceCents: 2500,
+			inventory: 8,
 		});
+	});
+
+	it('preserves per-combination inventory for a listing with variations', async () => {
+		const variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations = {
+			'v1:a': {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 3,
+			},
+			'v1:b': {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 7,
+			},
+		};
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), variations, combinations });
+		expect(createRes.status).toBe(200);
+		const listingShortId = createRes.body.shortId;
+
+		const res = await request(getApp())
+			.get(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH);
+		expect(res.status).toBe(200);
+		expect(res.body.combinations['v1:a'].inventory).toBe(3);
+		expect(res.body.combinations['v1:b'].inventory).toBe(7);
 	});
 });
 
@@ -533,6 +594,21 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		expect(res.status).toBe(200);
 		expect(res.body.title).toBe('An updated mug');
 		expect(res.body.priceCents).toBe(3000);
+	});
+
+	it('persists an updated inventory value', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), inventory: 4 });
+		const listingShortId = createRes.body.shortId;
+
+		const res = await request(getApp())
+			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH)
+			.send({ ...validListingBody(), inventory: 12 });
+		expect(res.status).toBe(200);
+		expect(res.body.inventory).toBe(12);
 	});
 
 	it('returns 400 when updating with an invalid payload', async () => {
