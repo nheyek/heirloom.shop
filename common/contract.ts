@@ -210,6 +210,7 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
 	outOfStock: z.boolean(),
+	trackInventory: z.boolean(),
 });
 
 const CartItemDataSchema = ListingCardDataSchema.extend({
@@ -217,6 +218,7 @@ const CartItemDataSchema = ListingCardDataSchema.extend({
 	deliveryEstimate: z.string().nullable().optional(),
 	personalizationCostCents: z.number().nullable(),
 	personalizationName: z.string().nullable(),
+	trackInventory: z.boolean(),
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });

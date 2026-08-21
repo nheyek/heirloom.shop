@@ -77,9 +77,5 @@ export const isCartItemValid = (
 	if (!listingData.available) return false;
 	if (personalizationText && listingData.personalizationName == null)
 		return false;
-	return isValidCombinationSelection(
-		selectedOptions,
-		listingData.variations,
-		listingData.combinations,
-	);
+	return isValidCombinationSelection(selectedOptions, listingData);
 };

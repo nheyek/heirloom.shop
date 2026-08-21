@@ -53,7 +53,9 @@ export const isListingOutOfStock = (
 	if (allCombinations.length === 0) return inventory === 0;
 	return allCombinations
 		.filter(({ key }) => !combinations[key]?.disabled)
-		.every(({ key }) => (combinations[key]?.inventory ?? 0) === 0);
+		.every(
+			({ key }) => (combinations[key]?.inventory ?? 0) === 0,
+		);
 };
 
 export const DEFAULT_COMBINATION: Combination = {
@@ -217,16 +219,9 @@ export const resolveEffectiveCombinationPrice = (
 
 export type ListingDisplayPrice = {
 	priceCents: number;
-	// True when the price is the lowest of several possible combination
-	// prices rather than an exact price (rendered with a trailing "+").
 	isMinimum: boolean;
 } | null;
 
-// Personalization (e.g. engraving) is an opt-in add-on rather than part of
-// a listing's intrinsic combination pricing. It's folded into
-// getListingDisplayPrice — the single method for computing a listing's
-// price — as a final surcharge step, rather than a separate function
-// callers could forget to apply.
 export type PersonalizationSelection = {
 	costCents: number | null | undefined;
 	selected: boolean;
@@ -261,10 +256,7 @@ export const getListingDisplayPrice = (
 				}
 			: null;
 	}
-	// Only combinations consistent with the current selections can still
-	// be purchased, so the floor is the cheapest of those. The price is
-	// exact (not a minimum) when every reachable combination costs the
-	// same — e.g. once all price-sensitive variations are selected.
+
 	let min: number | null = null;
 	let max: number | null = null;
 	for (const { key, optionMap } of deriveCombinationsList(
@@ -318,16 +310,19 @@ export const resolveEffectiveCombinationImage = (
 	return null;
 };
 
-// An option is only known to be unavailable once every other variation has
-// a selection — before that the combination key is incomplete, so we can't
-// yet tell which combination it would resolve to.
+export type ListingInventoryContext = {
+	variations: Variations;
+	combinations: Combinations;
+	trackInventory: boolean;
+};
+
 export const isVariationOptionDisabled = (
 	varId: string,
 	optionId: string,
 	selectedOptions: Record<string, string>,
-	variations: Variations,
-	combinations: Combinations,
+	listing: ListingInventoryContext,
 ): boolean => {
+	const { variations, combinations, trackInventory } = listing;
 	const othersSelected = Object.keys(variations)
 		.filter((id) => id !== varId)
 		.every((id) => selectedOptions[id] != null);
@@ -337,14 +332,18 @@ export const isVariationOptionDisabled = (
 		...selectedOptions,
 		[varId]: optionId,
 	});
-	return combinations[key]?.disabled ?? true;
+	const combination = combinations[key];
+	return (
+		(combination?.disabled ?? true) ||
+		(!!trackInventory && (combination?.inventory ?? 0) === 0)
+	);
 };
 
 export const isValidCombinationSelection = (
 	selectedOptions: Record<string, string>,
-	variations: Variations,
-	combinations: Combinations,
+	listing: ListingInventoryContext,
 ): boolean => {
+	const { variations, combinations, trackInventory } = listing;
 	const variationIds = Object.keys(variations);
 	if (variationIds.length === 0) return true;
 
@@ -354,7 +353,9 @@ export const isValidCombinationSelection = (
 			return false;
 	}
 	const key = getCombinationKey(selectedOptions);
-	return !(combinations[key]?.disabled ?? true);
+	const combination = combinations[key];
+	if (combination?.disabled ?? true) return false;
+	return !(trackInventory && (combination?.inventory ?? 0) === 0);
 };
 
 export const syncVariationOptions = (

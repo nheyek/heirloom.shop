@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals';
 import {
 	Combinations,
+	ListingInventoryContext,
 	Variations,
 	getCombinationKey,
 	getListingDisplayPrice,
@@ -415,9 +416,23 @@ describe('isVariationOptionDisabled', () => {
 		}),
 	};
 
+	const context = (
+		combinations: Combinations,
+		trackInventory = false,
+	): ListingInventoryContext => ({
+		variations,
+		combinations,
+		trackInventory,
+	});
+
 	it('is never disabled until every other variation has a selection', () => {
 		expect(
-			isVariationOptionDisabled('size', 'm', {}, variations, {}),
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{},
+				context({}),
+			),
 		).toBe(false);
 	});
 
@@ -427,8 +442,7 @@ describe('isVariationOptionDisabled', () => {
 				'size',
 				'm',
 				{ color: 'red' },
-				variations,
-				{},
+				context({}),
 			),
 		).toBe(true);
 	});
@@ -446,8 +460,7 @@ describe('isVariationOptionDisabled', () => {
 				'size',
 				'm',
 				{ color: 'red' },
-				variations,
-				combinations,
+				context(combinations),
 			),
 		).toBe(true);
 	});
@@ -465,8 +478,7 @@ describe('isVariationOptionDisabled', () => {
 				'size',
 				'm',
 				{ color: 'red' },
-				variations,
-				combinations,
+				context(combinations),
 			),
 		).toBe(false);
 	});
@@ -483,14 +495,69 @@ describe('isVariationOptionDisabled', () => {
 			},
 		};
 		expect(
+			isVariationOptionDisabled('size', 'm', {}, {
+				variations: singleVariation,
+				combinations,
+				trackInventory: false,
+			}),
+		).toBe(true);
+	});
+
+	it('is disabled when tracking inventory and the combination has zero inventory, even though it is not marked disabled', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 0,
+			},
+		};
+		expect(
 			isVariationOptionDisabled(
 				'size',
 				'm',
-				{},
-				singleVariation,
-				combinations,
+				{ color: 'red' },
+				context(combinations, true),
 			),
 		).toBe(true);
+	});
+
+	it('is not disabled by inventory when tracking is off, even at zero inventory', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 0,
+			},
+		};
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{ color: 'red' },
+				context(combinations, false),
+			),
+		).toBe(false);
+	});
+
+	it('is not disabled when tracking inventory and the combination has positive inventory', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 5,
+			},
+		};
+		expect(
+			isVariationOptionDisabled(
+				'size',
+				'm',
+				{ color: 'red' },
+				context(combinations, true),
+			),
+		).toBe(false);
 	});
 });
 
@@ -506,17 +573,28 @@ describe('isValidCombinationSelection', () => {
 		}),
 	};
 
+	const context = (
+		combinations: Combinations,
+		trackInventory = false,
+	): ListingInventoryContext => ({
+		variations,
+		combinations,
+		trackInventory,
+	});
+
 	it('is valid with no variations regardless of selection', () => {
-		expect(isValidCombinationSelection({}, {}, {})).toBe(true);
+		expect(
+			isValidCombinationSelection({}, {
+				variations: {},
+				combinations: {},
+				trackInventory: false,
+			}),
+		).toBe(true);
 	});
 
 	it('is invalid when a variation has no selection', () => {
 		expect(
-			isValidCombinationSelection(
-				{ size: 'm' },
-				variations,
-				{},
-			),
+			isValidCombinationSelection({ size: 'm' }, context({})),
 		).toBe(false);
 	});
 
@@ -524,8 +602,7 @@ describe('isValidCombinationSelection', () => {
 		expect(
 			isValidCombinationSelection(
 				{ size: 'xl', color: 'red' },
-				variations,
-				{},
+				context({}),
 			),
 		).toBe(false);
 	});
@@ -534,8 +611,7 @@ describe('isValidCombinationSelection', () => {
 		expect(
 			isValidCombinationSelection(
 				{ size: 'm', color: 'red' },
-				variations,
-				{},
+				context({}),
 			),
 		).toBe(false);
 	});
@@ -551,8 +627,7 @@ describe('isValidCombinationSelection', () => {
 		expect(
 			isValidCombinationSelection(
 				{ size: 'm', color: 'red' },
-				variations,
-				combinations,
+				context(combinations),
 			),
 		).toBe(false);
 	});
@@ -568,8 +643,58 @@ describe('isValidCombinationSelection', () => {
 		expect(
 			isValidCombinationSelection(
 				{ size: 'm', color: 'red' },
-				variations,
-				combinations,
+				context(combinations),
+			),
+		).toBe(true);
+	});
+
+	it('is invalid when tracking inventory and the combination has zero inventory', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 0,
+			},
+		};
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				context(combinations, true),
+			),
+		).toBe(false);
+	});
+
+	it('is valid at zero inventory when tracking is off', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 0,
+			},
+		};
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				context(combinations, false),
+			),
+		).toBe(true);
+	});
+
+	it('is valid when tracking inventory and the combination has positive inventory', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm', color: 'red' })]: {
+				priceCents: null,
+				imageUuid: null,
+				disabled: false,
+				inventory: 5,
+			},
+		};
+		expect(
+			isValidCombinationSelection(
+				{ size: 'm', color: 'red' },
+				context(combinations, true),
 			),
 		).toBe(true);
 	});

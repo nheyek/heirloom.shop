@@ -45,6 +45,10 @@ const VASE_VAR_ID     = 'a1b2c3d4-0000-0000-0000-000000000005';
 const VASE_OPT_SMALL  = 'a1b2c3d4-0000-0000-0000-000000000006';
 const VASE_OPT_LARGE  = 'a1b2c3d4-0000-0000-0000-000000000007';
 
+const TUMBLER_VAR_ID     = 'a1b2c3d4-0000-0000-0000-000000000008';
+const TUMBLER_OPT_SMALL  = 'a1b2c3d4-0000-0000-0000-000000000009';
+const TUMBLER_OPT_LARGE  = 'a1b2c3d4-0000-0000-0000-00000000000a';
+
 /**
  * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
  * with other test files sharing the same database):
@@ -114,6 +118,32 @@ beforeAll(async () => {
 		combinations: {
 			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_SMALL })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
 			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_LARGE })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
+		},
+	});
+
+	const partiallyStockedTumblerSet = em.create(Listing, {
+		shortId: 'ctum01',
+		title: 'Stoneware Tumbler Set',
+		priceCents: 2000,
+		shop: shop1,
+		category: 'CERAMICS',
+		imageUuids: ['img-tumbler-01'],
+		available: true,
+		trackInventory: true,
+		variations: {
+			[TUMBLER_VAR_ID]: {
+				name: 'Size',
+				pricesVary: false,
+				order: 0,
+				options: {
+					[TUMBLER_OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					[TUMBLER_OPT_LARGE]: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		},
+		combinations: {
+			[getCombinationKey({ [TUMBLER_VAR_ID]: TUMBLER_OPT_SMALL })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 5 },
+			[getCombinationKey({ [TUMBLER_VAR_ID]: TUMBLER_OPT_LARGE })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
 		},
 	});
 
@@ -201,7 +231,14 @@ beforeAll(async () => {
 	// minimal repro against a fresh DB; splitting the flushes is the
 	// reliable workaround.
 	await em.persist([shop1, shop2]).flush();
-	await em.persist([bowl, outOfStockLamp, outOfStockVase]).flush();
+	await em
+		.persist([
+			bowl,
+			outOfStockLamp,
+			outOfStockVase,
+			partiallyStockedTumblerSet,
+		])
+		.flush();
 	await em
 		.persist([mugShipping, boardShipping, braceletPersonalization])
 		.flush();
@@ -404,6 +441,45 @@ describe('POST /api/checkout/calculateTax', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/no longer available/i);
+	});
+
+	it('rejects a specific out-of-stock combination even when the listing overall is available', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [
+					{
+						listingShortId: 'ctum01',
+						selectedOptions: {
+							[TUMBLER_VAR_ID]: TUMBLER_OPT_LARGE,
+						},
+						quantity: 1,
+					},
+				],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/unavailable/i);
+	});
+
+	it('accepts an in-stock combination on a listing that also has an out-of-stock combination', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [
+					{
+						listingShortId: 'ctum01',
+						selectedOptions: {
+							[TUMBLER_VAR_ID]: TUMBLER_OPT_SMALL,
+						},
+						quantity: 1,
+					},
+				],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(200);
 	});
 });
 
@@ -675,6 +751,28 @@ describe('POST /api/checkout/submitOrder', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/no longer available/i);
+	});
+
+	it('rejects a specific out-of-stock combination even when the listing overall is available', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'ctum01',
+						selectedOptions: {
+							[TUMBLER_VAR_ID]: TUMBLER_OPT_LARGE,
+						},
+						quantity: 1,
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents: 0,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/unavailable/i);
 	});
 });
 

@@ -62,6 +62,7 @@ export const mapListingToCompleteApiResponseData = (
 		...mapListingToApiResponseData(listing),
 		directFulfillment: listing.shop.directFulfillment,
 		fullDescr: listing.fullDescr,
+		trackInventory: listing.trackInventory,
 		outOfStock: isListingOutOfStock(
 			listing.trackInventory,
 			listing.inventory,
@@ -122,5 +123,6 @@ export const mapListingToCartItemData = (
 		personalizationName: listing.personalizationProfile?.name ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
 		combinations,
+		trackInventory: listing.trackInventory,
 	};
 };
