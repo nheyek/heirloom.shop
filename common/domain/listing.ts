@@ -42,6 +42,11 @@ export type Combination = {
 export type Variations = Record<string, Variation>;
 export type Combinations = Record<string, Combination>;
 
+export const isListingOutOfStock = (
+	trackInventory: boolean,
+	inventory: number | null | undefined,
+): boolean => trackInventory && inventory === 0;
+
 export const DEFAULT_COMBINATION: Combination = {
 	priceCents: null,
 	imageUuid: null,

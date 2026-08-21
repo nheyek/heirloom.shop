@@ -138,6 +138,10 @@ export const ListingPage = () => {
 		? resolveEffectiveProfiles(listingData)
 		: null;
 
+	const isPurchasable = !!(
+		listingData?.available && !listingData?.outOfStock
+	);
+
 	const deliveryEstimate = getDeliveryEstimateDisplay(profiles);
 	const returnPolicyDisplay = getReturnPolicyDisplay(
 		profiles?.returns,
@@ -317,14 +321,13 @@ export const ListingPage = () => {
 									size="xl"
 									onClick={handleAddToCart}
 									disabled={
-										!listingData?.available ||
+										!isPurchasable ||
 										!profiles?.shipping ||
 										!allVariationsSelected ||
 										!displayPrice
 									}
 								>
-									{listingData?.available &&
-									displayPrice ? (
+									{isPurchasable && displayPrice ? (
 										<>
 											<FaPlusCircle />
 											Add to Cart

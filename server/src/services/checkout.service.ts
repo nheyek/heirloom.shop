@@ -1,4 +1,5 @@
 import { CheckoutItemData } from '@heirloom/common/contract';
+import { isListingOutOfStock } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
 import { CheckoutCartData } from '@server/types/CheckoutCartData';
@@ -24,5 +25,13 @@ export const loadCheckoutData = async (
 		},
 	);
 
-	return { listings };
+	return {
+		listings: listings.filter(
+			(listing) =>
+				!isListingOutOfStock(
+					listing.trackInventory,
+					listing.inventory,
+				),
+		),
+	};
 };

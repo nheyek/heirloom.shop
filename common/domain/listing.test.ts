@@ -4,6 +4,7 @@ import {
 	Variations,
 	getCombinationKey,
 	getListingDisplayPrice,
+	isListingOutOfStock,
 	isValidCombinationSelection,
 	isVariationOptionDisabled,
 } from './listing.js';
@@ -29,6 +30,28 @@ const makeVariation = (
 			},
 		]),
 	),
+});
+
+describe('isListingOutOfStock', () => {
+	it('is false when tracking is disabled, regardless of inventory', () => {
+		expect(isListingOutOfStock(false, 0)).toBe(false);
+		expect(isListingOutOfStock(false, null)).toBe(false);
+		expect(isListingOutOfStock(false, undefined)).toBe(false);
+	});
+
+	it('is true when tracking is enabled and inventory is exactly 0', () => {
+		expect(isListingOutOfStock(true, 0)).toBe(true);
+	});
+
+	it('is false when tracking is enabled and inventory is above 0', () => {
+		expect(isListingOutOfStock(true, 1)).toBe(false);
+		expect(isListingOutOfStock(true, 10)).toBe(false);
+	});
+
+	it('is false when tracking is enabled but inventory is null/undefined', () => {
+		expect(isListingOutOfStock(true, null)).toBe(false);
+		expect(isListingOutOfStock(true, undefined)).toBe(false);
+	});
 });
 
 describe('getListingDisplayPrice', () => {

@@ -75,6 +75,18 @@ beforeAll(async () => {
 		available: true,
 	});
 
+	const outOfStockLamp = em.create(Listing, {
+		shortId: 'clmp01',
+		title: 'Ceramic Lamp',
+		priceCents: 4000,
+		shop: shop1,
+		category: 'CERAMICS',
+		imageUuids: ['img-lamp-01'],
+		available: true,
+		trackInventory: true,
+		inventory: 0,
+	});
+
 	const mugShipping = em.create(ListingShippingProfile, {
 		name: 'Standard Shipping',
 		flatShippingRateCents: 500,
@@ -159,7 +171,7 @@ beforeAll(async () => {
 	// minimal repro against a fresh DB; splitting the flushes is the
 	// reliable workaround.
 	await em.persist([shop1, shop2]).flush();
-	await em.persist(bowl).flush();
+	await em.persist([bowl, outOfStockLamp]).flush();
 	await em
 		.persist([mugShipping, boardShipping, braceletPersonalization])
 		.flush();
@@ -317,6 +329,24 @@ describe('POST /api/checkout/calculateTax', () => {
 				items: [
 					{
 						listingShortId: 'unknown',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/no longer available/i);
+	});
+
+	it('treats an out-of-stock listing the same as an unavailable one', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [
+					{
+						listingShortId: 'clmp01',
 						selectedOptions: {},
 						quantity: 1,
 					},
@@ -557,5 +587,53 @@ describe('POST /api/checkout/submitOrder', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/unavailable/i);
+	});
+
+	it('treats an out-of-stock listing the same as an unavailable one', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'clmp01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents: 0,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/no longer available/i);
+	});
+});
+
+describe('POST /api/listings/cartData', () => {
+	it('excludes an out-of-stock listing the same way it excludes an unavailable one', async () => {
+		const res = await request(getApp())
+			.post('/api/listings/cartData')
+			.send({
+				items: [
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+					{
+						listingShortId: 'clmp01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+			});
+
+		expect(res.status).toBe(200);
+		const shortIds = res.body.map(
+			(l: { shortId: string }) => l.shortId,
+		);
+		expect(shortIds).toContain('cbwl01');
+		expect(shortIds).not.toContain('clmp01');
 	});
 });

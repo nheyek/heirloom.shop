@@ -209,6 +209,7 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
+	outOfStock: z.boolean(),
 });
 
 const CartItemDataSchema = ListingCardDataSchema.extend({

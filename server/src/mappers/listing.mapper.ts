@@ -6,7 +6,10 @@ import {
 	ShopManagerListingCardData,
 	VariationsData,
 } from '@heirloom/common/contract';
-import { getCombinationKey } from '@heirloom/common/domain/listing';
+import {
+	getCombinationKey,
+	isListingOutOfStock,
+} from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
 
 export const mapListingToApiResponseData = (
@@ -59,6 +62,10 @@ export const mapListingToCompleteApiResponseData = (
 		...mapListingToApiResponseData(listing),
 		directFulfillment: listing.shop.directFulfillment,
 		fullDescr: listing.fullDescr,
+		outOfStock: isListingOutOfStock(
+			listing.trackInventory,
+			listing.inventory,
+		),
 		profiles: listing.shop.directFulfillment
 			? {
 					processing: listing.processingProfile

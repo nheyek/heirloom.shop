@@ -1,3 +1,4 @@
+import { isListingOutOfStock } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 import { FeaturedListing } from '@server/entities/generated/FeaturedListing';
 import { Listing } from '@server/entities/generated/Listing';
@@ -81,7 +82,7 @@ export const findAvailableFullListingDataByShortId = async (
 	shortId: string,
 ) => {
 	const em = getEm();
-	return em.findOne(
+	const listing = await em.findOne(
 		Listing,
 		{ shortId, available: true },
 		{
@@ -95,6 +96,10 @@ export const findAvailableFullListingDataByShortId = async (
 			],
 		},
 	);
+	if (!listing) return null;
+	if (isListingOutOfStock(listing.trackInventory, listing.inventory))
+		return null;
+	return listing;
 };
 
 export const createListing = async (
