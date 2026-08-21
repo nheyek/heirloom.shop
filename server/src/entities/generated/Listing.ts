@@ -72,6 +72,9 @@ export class Listing {
   @Property({ nullable: true })
   inventory?: number;
 
+  @Property({ type: 'boolean' })
+  trackInventory: boolean & Opt = false;
+
   @OneToOne({ entity: () => FeaturedListing, mappedBy: 'listing' })
   featuredListing?: Rel<FeaturedListing>;
 

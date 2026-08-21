@@ -459,6 +459,7 @@ const ListingEditDataSchema = z.object({
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
 	inventory: z.number().nullable().optional(),
+	trackInventory: z.boolean().default(false),
 });
 
 // Create and update take an identical body; the only difference between

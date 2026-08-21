@@ -250,14 +250,15 @@ export const findInvalidCombinations = (
 
 // Derived from the wire body type rather than redeclared: title, subtitle,
 // imageUuids, fullDescr, variations, and combinations all flow straight
-// from ListingWriteBody. `personalizationProfileId` is dropped entirely —
-// it has no "required" rule (personalization is always optional) and is
-// checked for existence directly against the DB by the caller, not through
-// this shared validator. The remaining fields below are widened because
-// validation has to accept in-progress (not-yet-valid) form state that the
-// wire type deliberately disallows — e.g. a price the user hasn't entered
-// yet, or a profile id still held as the `<select>`'s string value rather
-// than the number the API expects.
+// from ListingWriteBody. `personalizationProfileId` and `trackInventory`
+// are dropped entirely — neither has a "required" rule (personalization is
+// always optional, and trackInventory is a plain toggle with no validity
+// constraint of its own) and any DB-existence checks happen directly in the
+// caller, not through this shared validator. The remaining fields below are
+// widened because validation has to accept in-progress (not-yet-valid) form
+// state that the wire type deliberately disallows — e.g. a price the user
+// hasn't entered yet, or a profile id still held as the `<select>`'s string
+// value rather than the number the API expects.
 export type ListingFieldsInput = Omit<
 	ListingWriteBody,
 	| 'categoryId'
@@ -266,6 +267,7 @@ export type ListingFieldsInput = Omit<
 	| 'returnProfileId'
 	| 'processingProfileId'
 	| 'personalizationProfileId'
+	| 'trackInventory'
 > & {
 	categoryId: string | null;
 	priceCents: number | null;

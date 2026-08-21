@@ -117,6 +117,24 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 		expect(res.body.inventory).toBe(15);
 	});
 
+	it('defaults trackInventory to false when not provided', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send(validListingBody());
+		expect(res.status).toBe(200);
+		expect(res.body.trackInventory).toBe(false);
+	});
+
+	it('returns 200 and echoes a provided trackInventory value', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), trackInventory: true });
+		expect(res.status).toBe(200);
+		expect(res.body.trackInventory).toBe(true);
+	});
+
 	it('returns 400 for a title over the max length', async () => {
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -502,7 +520,7 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		const createRes = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
 			.set(AUTH)
-			.send({ ...validListingBody(), inventory: 8 });
+			.send({ ...validListingBody(), inventory: 8, trackInventory: true });
 		const listingShortId = createRes.body.shortId;
 
 		const res = await request(getApp())
@@ -514,6 +532,7 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 			title: 'A nice mug',
 			priceCents: 2500,
 			inventory: 8,
+			trackInventory: true,
 		});
 	});
 
@@ -609,6 +628,21 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 			.send({ ...validListingBody(), inventory: 12 });
 		expect(res.status).toBe(200);
 		expect(res.body.inventory).toBe(12);
+	});
+
+	it('persists an updated trackInventory value', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), trackInventory: false });
+		const listingShortId = createRes.body.shortId;
+
+		const res = await request(getApp())
+			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH)
+			.send({ ...validListingBody(), trackInventory: true });
+		expect(res.status).toBe(200);
+		expect(res.body.trackInventory).toBe(true);
 	});
 
 	it('returns 400 when updating with an invalid payload', async () => {

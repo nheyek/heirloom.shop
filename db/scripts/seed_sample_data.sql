@@ -3,6 +3,7 @@ DO $$
 DECLARE
     old_sample_shop_ids CONSTANT INT[] := ARRAY[1, 2, 3, 4, 5, 6];
     sample_listing_default_inventory CONSTANT INT := 10;
+    sample_listing_default_track_inventory CONSTANT BOOLEAN := true;
 
     sample_shop_1_id INT := 1;
     sample_shop_1_short_id VARCHAR := 'nK4z';
@@ -355,13 +356,13 @@ BEGIN
         direct_fulfillment = EXCLUDED.direct_fulfillment,
         updated_at = CURRENT_TIMESTAMP;
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
-        (sample_listing_1_id, sample_listing_1_short_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_full_descr, sample_listing_1_price_cents, NULL, NULL, sample_listing_1_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_3_id, sample_listing_3_short_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_full_descr, sample_listing_3_price_cents, NULL, NULL, sample_listing_3_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_4_id, sample_listing_4_short_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_full_descr, sample_listing_4_price_cents, NULL, NULL, sample_listing_4_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_5_id, sample_listing_5_short_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr, sample_listing_5_price_cents, NULL, NULL, sample_listing_5_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_1_id, sample_listing_1_short_id, sample_listing_1_shop_id, sample_listing_1_category_id, sample_listing_1_title, sample_listing_1_subtitle, sample_listing_1_full_descr, sample_listing_1_price_cents, NULL, NULL, sample_listing_1_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_2_id, sample_listing_2_short_id, sample_listing_2_shop_id, sample_listing_2_category_id, sample_listing_2_title, sample_listing_2_subtitle, sample_listing_2_full_descr, sample_listing_2_price_cents, NULL, NULL, sample_listing_2_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_3_id, sample_listing_3_short_id, sample_listing_3_shop_id, sample_listing_3_category_id, sample_listing_3_title, sample_listing_3_subtitle, sample_listing_3_full_descr, sample_listing_3_price_cents, NULL, NULL, sample_listing_3_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_4_id, sample_listing_4_short_id, sample_listing_4_shop_id, sample_listing_4_category_id, sample_listing_4_title, sample_listing_4_subtitle, sample_listing_4_full_descr, sample_listing_4_price_cents, NULL, NULL, sample_listing_4_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_5_id, sample_listing_5_short_id, sample_listing_5_shop_id, sample_listing_5_category_id, sample_listing_5_title, sample_listing_5_subtitle, sample_listing_5_full_descr, sample_listing_5_price_cents, NULL, NULL, sample_listing_5_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_listing_6_id, sample_listing_6_short_id, sample_listing_6_shop_id, sample_listing_6_category_id, sample_listing_6_title, sample_listing_6_subtitle, sample_listing_6_full_descr, sample_listing_6_price_cents, NULL, NULL, sample_listing_6_image_uuids, NULL,
             jsonb_build_object(
                 sample_listing_6_color_variation_id, jsonb_build_object(
@@ -378,9 +379,9 @@ BEGIN
             jsonb_build_object(
                 sample_listing_6_color_variation_id || ':' || sample_listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory),
                 sample_listing_6_color_variation_id || ':' || sample_listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory)
-            ), true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_7_id, sample_listing_7_short_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_full_descr, sample_listing_7_price_cents, NULL, NULL, sample_listing_7_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_8_id, sample_listing_8_short_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_full_descr, sample_listing_8_price_cents, NULL, NULL, sample_listing_8_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ), true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_7_id, sample_listing_7_short_id, sample_listing_7_shop_id, sample_listing_7_category_id, sample_listing_7_title, sample_listing_7_subtitle, sample_listing_7_full_descr, sample_listing_7_price_cents, NULL, NULL, sample_listing_7_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_8_id, sample_listing_8_short_id, sample_listing_8_shop_id, sample_listing_8_category_id, sample_listing_8_title, sample_listing_8_subtitle, sample_listing_8_full_descr, sample_listing_8_price_cents, NULL, NULL, sample_listing_8_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_listing_9_id, sample_listing_9_short_id, sample_listing_9_shop_id, sample_listing_9_category_id, sample_listing_9_title, sample_listing_9_subtitle, sample_listing_9_full_descr, sample_listing_9_price_cents, NULL, NULL, sample_listing_9_image_uuids, NULL,
             jsonb_build_object(
                 sample_listing_9_size_variation_id, jsonb_build_object(
@@ -415,7 +416,7 @@ BEGIN
                 sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set4_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 17800, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory),
                 sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set6_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_standard_id, jsonb_build_object('priceCents', 18800, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory),
                 sample_listing_9_qty_variation_id || ':' || sample_listing_9_qty_set6_id || '|' || sample_listing_9_size_variation_id || ':' || sample_listing_9_size_tall_id,     jsonb_build_object('priceCents', 22800, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory)
-            ), true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+            ), true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (sample_listing_10_id, sample_listing_10_short_id, sample_listing_10_shop_id, sample_listing_10_category_id, sample_listing_10_title, sample_listing_10_subtitle, sample_listing_10_full_descr, sample_listing_10_price_cents, NULL, NULL, sample_listing_10_image_uuids, NULL,
             jsonb_build_object(
                 sample_listing_10_color_variation_id, jsonb_build_object(
@@ -432,8 +433,8 @@ BEGIN
             jsonb_build_object(
                 sample_listing_10_color_variation_id || ':' || sample_listing_10_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory),
                 sample_listing_10_color_variation_id || ':' || sample_listing_10_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', sample_listing_default_inventory)
-            ), true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (sample_listing_11_id, sample_listing_11_short_id, sample_listing_11_shop_id, sample_listing_11_category_id, sample_listing_11_title, sample_listing_11_subtitle, sample_listing_11_full_descr, sample_listing_11_price_cents, NULL, NULL, sample_listing_11_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ), true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (sample_listing_11_id, sample_listing_11_short_id, sample_listing_11_shop_id, sample_listing_11_category_id, sample_listing_11_title, sample_listing_11_subtitle, sample_listing_11_full_descr, sample_listing_11_price_cents, NULL, NULL, sample_listing_11_image_uuids, NULL, '{}', '{}', true, NULL, sample_listing_default_inventory, sample_listing_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -451,6 +452,7 @@ BEGIN
         available = EXCLUDED.available,
         personalization_profile_id = EXCLUDED.personalization_profile_id,
         inventory = EXCLUDED.inventory,
+        track_inventory = EXCLUDED.track_inventory,
         updated_at = CURRENT_TIMESTAMP;
 
     -- Resync sequences for tables seeded with explicit IDs

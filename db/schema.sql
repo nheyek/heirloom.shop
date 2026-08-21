@@ -222,6 +222,7 @@ CREATE TABLE public.listing (
     available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL,
     personalization_profile_id integer,
     inventory integer,
+    track_inventory boolean DEFAULT false NOT NULL,
     CONSTRAINT listing_inventory_nonnegative CHECK ((inventory >= 0))
 );
 
@@ -1190,4 +1191,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260710000000'),
     ('20260714000000'),
     ('20260807000000'),
-    ('20260819000000');
+    ('20260819000000'),
+    ('20260821000000');
