@@ -107,6 +107,12 @@ export type ListingFormState = {
 	setPriceCents: (v: number | null) => void;
 	priceError: string | null;
 	setPriceError: (v: string | null) => void;
+
+	trackInventory: boolean;
+	setTrackInventory: (v: boolean) => void;
+	inventory: string;
+	setInventory: (v: string) => void;
+
 	combinationError: string | null;
 	setCombinationError: (v: string | null) => void;
 	invalidCombinationKeys: Set<string>;
@@ -173,6 +179,8 @@ type UseListingFormOptions = {
 	initialSubtitle?: string;
 	initialCategoryId?: string | null;
 	initialPriceCents?: number | null;
+	initialTrackInventory?: boolean;
+	initialInventory?: string;
 	initialImageEntries?: ImageEntry[];
 	initialProcessingProfileId?: string | null;
 	initialShippingProfileId?: string | null;
@@ -193,6 +201,8 @@ export const useListingForm = ({
 	initialSubtitle = '',
 	initialCategoryId = null,
 	initialPriceCents = null,
+	initialTrackInventory = false,
+	initialInventory = '',
 	initialImageEntries,
 	initialProcessingProfileId = null,
 	initialShippingProfileId = null,
@@ -229,6 +239,12 @@ export const useListingForm = ({
 		initialPriceCents,
 	);
 	const [priceError, setPriceError] = useState<string | null>(null);
+
+	const [trackInventory, setTrackInventory] = useState(
+		initialTrackInventory,
+	);
+	const [inventory, setInventory] = useState(initialInventory);
+
 	const [combinationError, setCombinationError] = useState<
 		string | null
 	>(null);
@@ -423,6 +439,8 @@ export const useListingForm = ({
 			subtitle,
 			categoryId,
 			priceCents,
+			trackInventory,
+			inventory,
 			imageUuids: imageEntries.map((e) => e.uuid),
 			processingProfileId,
 			shippingProfileId,
@@ -444,6 +462,8 @@ export const useListingForm = ({
 				subtitle,
 				categoryId,
 				priceCents,
+				trackInventory,
+				inventory: inventory === '' ? null : Number(inventory),
 				imageUuids: uuids,
 				shippingProfileId,
 				returnProfileId,
@@ -524,6 +544,10 @@ export const useListingForm = ({
 		setPriceCents,
 		priceError,
 		setPriceError,
+		trackInventory,
+		setTrackInventory,
+		inventory,
+		setInventory,
 		combinationError,
 		setCombinationError,
 		invalidCombinationKeys,

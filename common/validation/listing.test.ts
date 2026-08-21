@@ -1,8 +1,10 @@
 import { describe, expect, it } from '@jest/globals';
+import { LISTING_LIMITS } from '../constants.js';
 import { Combinations, Variations } from '../domain/listing.js';
 import {
 	validateDescrSectionEntry,
 	validateImageUuids,
+	validateInventory,
 	validateListingFields,
 	validateSubtitle,
 	validateTitle,
@@ -32,6 +34,48 @@ describe('validateSubtitle', () => {
 	});
 	it('rejects subtitles over the max length', () => {
 		expect(validateSubtitle('a'.repeat(257))?.field).toBe(ValidationField.Subtitle);
+	});
+});
+
+describe('validateInventory', () => {
+	it('allows any inventory value (including null) when not tracking', () => {
+		expect(validateInventory(false, null)).toBeNull();
+		expect(validateInventory(false, undefined)).toBeNull();
+		expect(validateInventory(false, -5)).toBeNull();
+	});
+
+	it('requires a value when tracking is enabled', () => {
+		expect(validateInventory(true, null)?.field).toBe(
+			ValidationField.Inventory,
+		);
+		expect(validateInventory(true, undefined)?.field).toBe(
+			ValidationField.Inventory,
+		);
+	});
+
+	it('rejects negative inventory when tracking is enabled', () => {
+		expect(validateInventory(true, -1)?.field).toBe(
+			ValidationField.Inventory,
+		);
+	});
+
+	it('rejects non-integer inventory when tracking is enabled', () => {
+		expect(validateInventory(true, 1.5)?.field).toBe(
+			ValidationField.Inventory,
+		);
+	});
+
+	it('rejects inventory over the postgres integer max', () => {
+		expect(
+			validateInventory(true, LISTING_LIMITS.maxInventory + 1)?.field,
+		).toBe(ValidationField.Inventory);
+	});
+
+	it('accepts zero and the postgres integer max when tracking is enabled', () => {
+		expect(validateInventory(true, 0)).toBeNull();
+		expect(
+			validateInventory(true, LISTING_LIMITS.maxInventory),
+		).toBeNull();
 	});
 });
 
@@ -183,6 +227,7 @@ describe('validateListingFields', () => {
 		fullDescr: null,
 		variations: {} as Variations,
 		combinations: {} as Combinations,
+		trackInventory: false,
 	};
 
 	it('accepts a minimal valid listing', () => {
@@ -299,5 +344,35 @@ describe('validateListingFields', () => {
 			{ directFulfillment: false },
 		);
 		expect(errors.some((e) => e.field === ValidationField.DescrSections)).toBe(true);
+	});
+
+	it('requires an inventory value when trackInventory is enabled', () => {
+		const errors = validateListingFields(
+			{ ...baseInput, trackInventory: true, inventory: null },
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Inventory)).toBe(
+			true,
+		);
+	});
+
+	it('accepts a valid inventory value when trackInventory is enabled', () => {
+		const errors = validateListingFields(
+			{ ...baseInput, trackInventory: true, inventory: 10 },
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Inventory)).toBe(
+			false,
+		);
+	});
+
+	it('ignores an invalid inventory value when trackInventory is disabled', () => {
+		const errors = validateListingFields(
+			{ ...baseInput, trackInventory: false, inventory: -1 },
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Inventory)).toBe(
+			false,
+		);
 	});
 });

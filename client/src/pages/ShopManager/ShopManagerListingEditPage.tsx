@@ -136,6 +136,11 @@ const ListingEditForm = ({
 		initialSubtitle: listingData.subtitle ?? '',
 		initialCategoryId: listingData.categoryId,
 		initialPriceCents: listingData.priceCents,
+		initialTrackInventory: listingData.trackInventory,
+		initialInventory:
+			listingData.inventory != null
+				? String(listingData.inventory)
+				: '',
 		initialImageEntries,
 		initialProcessingProfileId:
 			listingData.processingProfileId != null
@@ -186,6 +191,10 @@ const ListingEditForm = ({
 					subtitle: form.subtitle || null,
 					categoryId: form.categoryId!,
 					priceCents: form.priceCents ?? 0,
+					trackInventory: form.trackInventory,
+					inventory: form.trackInventory
+						? Number(form.inventory)
+						: null,
 					imageUuids: form.uploadedUuids,
 					processingProfileId:
 						form.processingProfileId != null

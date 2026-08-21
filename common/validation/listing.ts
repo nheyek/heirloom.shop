@@ -6,9 +6,9 @@ import {
 } from '../contract.js';
 import {
 	Combinations,
-	Variations,
 	deriveCombinationsList,
 	resolveEffectiveCombinationPrice,
+	Variations,
 } from '../domain/listing.js';
 import {
 	FieldError,
@@ -20,7 +20,10 @@ import {
 export const validateTitle = (title: string): FieldError | null => {
 	const trimmed = title.trim();
 	if (!trimmed)
-		return { field: ValidationField.Title, message: 'Title is required.' };
+		return {
+			field: ValidationField.Title,
+			message: 'Title is required.',
+		};
 	if (trimmed.length > LISTING_LIMITS.maxTitleLength) {
 		return {
 			field: ValidationField.Title,
@@ -38,6 +41,25 @@ export const validateSubtitle = (
 		return {
 			field: ValidationField.Subtitle,
 			message: `Subtitle must be ${LISTING_LIMITS.maxSubtitleLength} characters or fewer.`,
+		};
+	}
+	return null;
+};
+
+export const validateInventory = (
+	trackInventory: boolean,
+	inventory: number | null | undefined,
+): FieldError | null => {
+	if (!trackInventory) return null;
+	if (
+		inventory == null ||
+		!Number.isInteger(inventory) ||
+		inventory < 0 ||
+		inventory > LISTING_LIMITS.maxInventory
+	) {
+		return {
+			field: ValidationField.Inventory,
+			message: `Must be a whole number between 0 and ${LISTING_LIMITS.maxInventory.toLocaleString()}.`,
 		};
 	}
 	return null;
@@ -108,7 +130,9 @@ export const validateVariationEntry = (
 		});
 	}
 
-	const trimmedOptions = variation.options.map((o) => o.name.trim());
+	const trimmedOptions = variation.options.map((o) =>
+		o.name.trim(),
+	);
 	const lowered = trimmedOptions.map((n) => n.toLowerCase());
 	if (variation.options.length < 2) {
 		errors.push({
@@ -116,7 +140,8 @@ export const validateVariationEntry = (
 			message: 'At least two options are required.',
 		});
 	} else if (
-		variation.options.length > LISTING_LIMITS.maxOptionsPerVariation
+		variation.options.length >
+		LISTING_LIMITS.maxOptionsPerVariation
 	) {
 		errors.push({
 			field: ValidationField.VariationOptions,
@@ -128,7 +153,9 @@ export const validateVariationEntry = (
 			message: 'All options must have a name.',
 		});
 	} else if (
-		trimmedOptions.some((n) => n.length > LISTING_LIMITS.maxNameLength)
+		trimmedOptions.some(
+			(n) => n.length > LISTING_LIMITS.maxNameLength,
+		)
 	) {
 		errors.push({
 			field: ValidationField.VariationOptions,
@@ -145,7 +172,10 @@ export const validateVariationEntry = (
 		variation.options.some(
 			(o) =>
 				o.priceCents != null &&
-				!isValidPriceCents(o.priceCents, LISTING_LIMITS.maxPriceCents),
+				!isValidPriceCents(
+					o.priceCents,
+					LISTING_LIMITS.maxPriceCents,
+				),
 		)
 	) {
 		errors.push({
@@ -194,7 +224,9 @@ export const validateDescrSectionEntry = (
 			field: ValidationField.DescrSectionTitle,
 			message: `Title must be ${LISTING_LIMITS.maxNameLength} characters or fewer.`,
 		});
-	} else if (existingTitles.some((t) => t.trim() === trimmedTitle)) {
+	} else if (
+		existingTitles.some((t) => t.trim() === trimmedTitle)
+	) {
 		errors.push({
 			field: ValidationField.DescrSectionTitle,
 			message: 'A section with this title already exists.',
@@ -225,7 +257,9 @@ export const findInvalidCombinations = (
 	basePriceCents: number | null,
 ): { hasActive: boolean; missingPriceKeys: string[] } => {
 	const allCombinations = deriveCombinationsList(variations);
-	const pricesVary = Object.values(variations).some((v) => v.pricesVary);
+	const pricesVary = Object.values(variations).some(
+		(v) => v.pricesVary,
+	);
 	let hasActive = allCombinations.length === 0;
 	const missingPriceKeys: string[] = [];
 
@@ -249,16 +283,16 @@ export const findInvalidCombinations = (
 };
 
 // Derived from the wire body type rather than redeclared: title, subtitle,
-// imageUuids, fullDescr, variations, and combinations all flow straight
-// from ListingWriteBody. `personalizationProfileId` and `trackInventory`
-// are dropped entirely — neither has a "required" rule (personalization is
-// always optional, and trackInventory is a plain toggle with no validity
-// constraint of its own) and any DB-existence checks happen directly in the
-// caller, not through this shared validator. The remaining fields below are
-// widened because validation has to accept in-progress (not-yet-valid) form
-// state that the wire type deliberately disallows — e.g. a price the user
-// hasn't entered yet, or a profile id still held as the `<select>`'s string
-// value rather than the number the API expects.
+// imageUuids, fullDescr, variations, combinations, inventory, and
+// trackInventory all flow straight from ListingWriteBody.
+// `personalizationProfileId` is dropped entirely — it has no "required" rule
+// (personalization is always optional) and is checked for existence
+// directly against the DB by the caller, not through this shared validator.
+// The remaining fields below are widened because validation has to accept
+// in-progress (not-yet-valid) form state that the wire type deliberately
+// disallows — e.g. a price the user hasn't entered yet, or a profile id
+// still held as the `<select>`'s string value rather than the number the
+// API expects.
 export type ListingFieldsInput = Omit<
 	ListingWriteBody,
 	| 'categoryId'
@@ -267,7 +301,6 @@ export type ListingFieldsInput = Omit<
 	| 'returnProfileId'
 	| 'processingProfileId'
 	| 'personalizationProfileId'
-	| 'trackInventory'
 > & {
 	categoryId: string | null;
 	priceCents: number | null;
@@ -297,7 +330,10 @@ export const validateListingFields = (
 		});
 	}
 
-	if (options.directFulfillment && input.shippingProfileId == null) {
+	if (
+		options.directFulfillment &&
+		input.shippingProfileId == null
+	) {
 		errors.push({
 			field: ValidationField.ShippingProfile,
 			message: 'Profile is required.',
@@ -309,7 +345,10 @@ export const validateListingFields = (
 			message: 'Profile is required.',
 		});
 	}
-	if (options.directFulfillment && input.processingProfileId == null) {
+	if (
+		options.directFulfillment &&
+		input.processingProfileId == null
+	) {
 		errors.push({
 			field: ValidationField.ProcessingProfile,
 			message: 'Profile is required.',
@@ -319,13 +358,22 @@ export const validateListingFields = (
 	const imageError = validateImageUuids(input.imageUuids);
 	if (imageError) errors.push(imageError);
 
+	const inventoryError = validateInventory(
+		input.trackInventory,
+		input.inventory,
+	);
+	if (inventoryError) errors.push(inventoryError);
+
 	const variationEntries = Object.values(input.variations);
 	const pricesVary = variationEntries.some((v) => v.pricesVary);
 
 	if (!pricesVary) {
 		if (
 			input.priceCents == null ||
-			!isValidPriceCents(input.priceCents, LISTING_LIMITS.maxPriceCents)
+			!isValidPriceCents(
+				input.priceCents,
+				LISTING_LIMITS.maxPriceCents,
+			)
 		) {
 			errors.push({
 				field: ValidationField.Price,
@@ -348,10 +396,12 @@ export const validateListingFields = (
 			...validateVariationEntry(
 				{
 					name: variation.name,
-					options: Object.values(variation.options).map((o) => ({
-						name: o.name,
-						priceCents: o.priceCents,
-					})),
+					options: Object.values(variation.options).map(
+						(o) => ({
+							name: o.name,
+							priceCents: o.priceCents,
+						}),
+					),
 				},
 				siblingNames,
 			),
@@ -363,7 +413,9 @@ export const validateListingFields = (
 		input.combinations,
 		input.priceCents,
 	);
-	const derivedCombinations = deriveCombinationsList(input.variations);
+	const derivedCombinations = deriveCombinationsList(
+		input.variations,
+	);
 	if (derivedCombinations.length > 0 && !hasActive) {
 		errors.push({
 			field: ValidationField.Combinations,

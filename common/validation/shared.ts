@@ -31,6 +31,7 @@ export const ValidationField = {
 	DescrSections: 'descrSections',
 	DescrSectionTitle: 'descrSectionTitle',
 	DescrSectionBody: 'descrSectionBody',
+	Inventory: 'inventory',
 } as const;
 
 export type ValidationFieldKey =

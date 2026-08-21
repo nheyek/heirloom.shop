@@ -18,7 +18,7 @@ export const MoreActionsCollapsible = ({
 			disabled={disabled}
 		>
 			<HStack>
-				More Actions
+				More actions
 				<Collapsible.Indicator
 					transition="transform 0.2s"
 					_open={{

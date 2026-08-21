@@ -117,6 +117,28 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 		expect(res.body.inventory).toBe(15);
 	});
 
+	it('returns 400 when trackInventory is enabled without an inventory value', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), trackInventory: true });
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/whole number/i);
+	});
+
+	it('returns 400 when trackInventory is enabled with a negative inventory value', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: -1,
+			});
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/whole number/i);
+	});
+
 	it('defaults trackInventory to false when not provided', async () => {
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -130,7 +152,11 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
 			.set(AUTH)
-			.send({ ...validListingBody(), trackInventory: true });
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: 10,
+			});
 		expect(res.status).toBe(200);
 		expect(res.body.trackInventory).toBe(true);
 	});
@@ -640,7 +666,11 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		const res = await request(getApp())
 			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)
 			.set(AUTH)
-			.send({ ...validListingBody(), trackInventory: true });
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: 10,
+			});
 		expect(res.status).toBe(200);
 		expect(res.body.trackInventory).toBe(true);
 	});

@@ -22,6 +22,9 @@ export const LISTING_LIMITS = {
 	maxReturnPolicyChars: 2000,
 
 	maxPersonalizationHelperTextLength: 256,
+
+	// Inventory bounds
+	maxInventory: 9_999,
 };
 
 export const SHOP_LIMITS = {

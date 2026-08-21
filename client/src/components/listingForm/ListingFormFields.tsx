@@ -1,6 +1,8 @@
 import {
 	Box,
+	Checkbox,
 	Fieldset,
+	HStack,
 	Stack,
 	Wrap,
 	WrapItem,
@@ -11,6 +13,7 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
+import { InventoryInput } from '@client/components/input/InventoryInput';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
@@ -26,6 +29,7 @@ import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/components/listingForm/useListingForm';
+import { InfoPopover } from '@client/components/misc/InfoPopover';
 import {
 	InputSize,
 	THUMBNAIL_GAP,
@@ -103,7 +107,7 @@ export const ListingFormFields = ({
 	return (
 		<>
 			<Fieldset.Root>
-				<Stack gap={5}>
+				<Stack gap={8}>
 					<Wrap
 						columnGap={8}
 						rowGap={5}
@@ -260,6 +264,45 @@ export const ListingFormFields = ({
 							</WrapItem>
 						)}
 					</Wrap>
+
+					<Stack gap={4}>
+						<HStack gap={1}>
+							<Checkbox.Root
+								checked={form.trackInventory}
+								onCheckedChange={(e) => {
+									const checked = !!e.checked;
+									form.setTrackInventory(checked);
+									if (
+										checked &&
+										form.inventory === ''
+									)
+										form.setInventory('0');
+								}}
+								size="lg"
+								disabled={disabled}
+							>
+								<Checkbox.HiddenInput />
+								<Checkbox.Control />
+								<Checkbox.Label fontSize={18}>
+									Track inventory
+								</Checkbox.Label>
+							</Checkbox.Root>
+							<InfoPopover>
+								Tracking inventory determines how many
+								of this listing can be purchased.
+								Un-tracked listings allow unlimited
+								purchases unless the listing is
+								disabled.
+							</InfoPopover>
+						</HStack>
+						{form.trackInventory && (
+							<InventoryInput
+								value={form.inventory}
+								onChange={form.setInventory}
+								disabled={disabled}
+							/>
+						)}
+					</Stack>
 
 					{directFulfillment && (
 						<Wrap
