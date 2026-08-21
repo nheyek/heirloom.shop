@@ -4,7 +4,7 @@ import { ERROR_MESSAGES } from '@server/constants';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import { authorizeShopAction, findShopByShortId } from '@server/services/shop.service';
 import { createPersonalizationProfile, createListing, createProcessingProfile, createReturnProfile, createShippingProfile, deleteListing, DuplicateProfileNameError, findAllListingsForShop, findListingForEdit, findShopProfiles, ListingValidationError, setListingAvailable, updateListing } from '@server/services/shopManager.service';
-import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
+import { mapListingToShopManagerCardData } from '@server/mappers/listing.mapper';
 
 const s = initServer();
 
@@ -22,7 +22,7 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
 			const listings = await findAllListingsForShop(shop.id);
-			return { status: 200 as const, body: listings.map(mapListingToApiResponseData) };
+			return { status: 200 as const, body: listings.map(mapListingToShopManagerCardData) };
 		},
 	},
 

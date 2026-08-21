@@ -56,12 +56,14 @@ type Props = ListingCardData & {
 	actionMenu?: ReactNode;
 	showShopTitle?: boolean;
 	topRight?: ReactNode;
+	topLeft?: ReactNode;
 };
 
 export const ListingCard = ({
 	actionMenu,
 	showShopTitle,
 	topRight,
+	topLeft,
 	...props
 }: Props) => {
 	const navigate = useNavigate();
@@ -96,6 +98,16 @@ export const ListingCard = ({
 					zIndex={1}
 				>
 					{topRight}
+				</Box>
+			)}
+			{topLeft && (
+				<Box
+					position="absolute"
+					top={2}
+					left={2}
+					zIndex={1}
+				>
+					{topLeft}
 				</Box>
 			)}
 			<MultiImage

@@ -1,12 +1,12 @@
-import { Button, Stack, Switch, Text } from '@chakra-ui/react';
+import { Badge, Button, Stack, Switch, Text } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData } from '@heirloom/common/contract';
+import { ShopManagerListingCardData } from '@heirloom/common/contract';
 import { useState } from 'react';
-import { FaPencil } from 'react-icons/fa6';
+import { FaPenToSquare } from 'react-icons/fa6';
 import { ListingCard } from './ListingCard';
 
 type ListingAvailableDialogProps = {
@@ -74,7 +74,7 @@ const ListingAvailableDialog = ({
 	</AppDialog>
 );
 
-type Props = ListingCardData & {
+type Props = ShopManagerListingCardData & {
 	multiImage?: boolean;
 	onEdit: () => void;
 };
@@ -128,12 +128,25 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 					<Button
 						size="sm"
 						variant="subtle"
+						borderRadius="md"
 						onClick={onEdit}
 						fontSize={20}
 					>
-						<FaPencil />
+						<FaPenToSquare />
 						Edit
 					</Button>
+				}
+				topLeft={
+					props.trackInventory &&
+					props.inventory === 0 && (
+						<Badge
+							colorPalette="red"
+							size="lg"
+							fontSize={18}
+						>
+							Out of Stock
+						</Badge>
+					)
 				}
 				actionMenu={
 					<Switch.Root

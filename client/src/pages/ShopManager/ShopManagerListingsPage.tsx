@@ -7,7 +7,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { sidebarGridCols } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData } from '@heirloom/common/contract';
+import { ShopManagerListingCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { FaPlusCircle } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -17,7 +17,9 @@ export const ShopManagerListingsPage = () => {
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
 
-	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listings, setListings] = useState<
+		ShopManagerListingCardData[]
+	>([]);
 	const [dataLoading, setDataLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const isLoading = useMinDuration(dataLoading);

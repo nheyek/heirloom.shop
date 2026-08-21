@@ -487,6 +487,29 @@ describe('GET /api/shops/:shopId/manager/listings', () => {
 		const shortIds = res.body.map((l: { shortId: string }) => l.shortId);
 		expect(shortIds).toContain(createRes.body.shortId);
 	});
+
+	it('includes inventory and trackInventory for each listing', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: 0,
+			});
+		expect(createRes.status).toBe(200);
+
+		const res = await request(getApp())
+			.get('/api/shops/mgr80/manager/listings')
+			.set(AUTH);
+		expect(res.status).toBe(200);
+		const listing = res.body.find(
+			(l: { shortId: string }) =>
+				l.shortId === createRes.body.shortId,
+		);
+		expect(listing.trackInventory).toBe(true);
+		expect(listing.inventory).toBe(0);
+	});
 });
 
 describe('GET /api/shops/:shopId/manager/profiles', () => {

@@ -3,6 +3,7 @@ import {
 	CombinationsData,
 	ListingCardData,
 	ListingPageData,
+	ShopManagerListingCardData,
 	VariationsData,
 } from '@heirloom/common/contract';
 import { getCombinationKey } from '@heirloom/common/domain/listing';
@@ -25,6 +26,17 @@ export const mapListingToApiResponseData = (
 	available: listing.available,
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.combinations ?? {}) as CombinationsData,
+});
+
+// Shop-owner-only variant of mapListingToApiResponseData that additionally
+// exposes inventory fields — only ever sent to the shop manager's own
+// listings endpoint, not to any public-facing listing response.
+export const mapListingToShopManagerCardData = (
+	listing: Listing,
+): ShopManagerListingCardData => ({
+	...mapListingToApiResponseData(listing),
+	inventory: listing.inventory ?? null,
+	trackInventory: listing.trackInventory,
 });
 
 export const mapListingToCompleteApiResponseData = (

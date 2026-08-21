@@ -59,6 +59,15 @@ const ListingCardDataSchema = z.object({
 	combinations: CombinationsSchema,
 });
 
+// Adds shop-owner-only inventory fields on top of the public listing card
+// shape — used solely by the shop manager's own listings endpoint, never by
+// the public-facing listing/shop/category/favorites endpoints that reuse
+// ListingCardDataSchema, so stock counts aren't exposed to customers.
+const ShopManagerListingCardDataSchema = ListingCardDataSchema.extend({
+	inventory: z.number().nullable().optional(),
+	trackInventory: z.boolean(),
+});
+
 const ErrorSchema = z.object({ error: z.string() });
 
 const ShippingAddressSchema = z.object({
@@ -500,7 +509,7 @@ export const shopManagerContract = c.router({
 		path: '/api/shops/:shopId/manager/listings',
 		pathParams: z.object({ shopId: z.string() }),
 		responses: {
-			200: z.array(ListingCardDataSchema),
+			200: z.array(ShopManagerListingCardDataSchema),
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,
@@ -900,6 +909,9 @@ export type CombinationsData = z.infer<typeof CombinationsSchema>;
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
+export type ShopManagerListingCardData = z.infer<
+	typeof ShopManagerListingCardDataSchema
+>;
 export type ListingDescrSection = z.infer<
 	typeof ListingDescrSectionSchema
 >;
