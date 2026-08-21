@@ -45,12 +45,22 @@ export type Combinations = Record<string, Combination>;
 export const isListingOutOfStock = (
 	trackInventory: boolean,
 	inventory: number | null | undefined,
-): boolean => trackInventory && inventory === 0;
+	variations: Variations,
+	combinations: Combinations,
+): boolean => {
+	if (!trackInventory) return false;
+	const allCombinations = deriveCombinationsList(variations);
+	if (allCombinations.length === 0) return inventory === 0;
+	return allCombinations
+		.filter(({ key }) => !combinations[key]?.disabled)
+		.every(({ key }) => (combinations[key]?.inventory ?? 0) === 0);
+};
 
 export const DEFAULT_COMBINATION: Combination = {
 	priceCents: null,
 	imageUuid: null,
 	disabled: false,
+	inventory: 0,
 };
 
 export const getCombinationKey = (

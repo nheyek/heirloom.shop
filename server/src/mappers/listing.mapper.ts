@@ -65,6 +65,8 @@ export const mapListingToCompleteApiResponseData = (
 		outOfStock: isListingOutOfStock(
 			listing.trackInventory,
 			listing.inventory,
+			(listing.variations ?? {}) as VariationsData,
+			(listing.combinations ?? {}) as CombinationsData,
 		),
 		profiles: listing.shop.directFulfillment
 			? {

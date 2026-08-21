@@ -1,3 +1,7 @@
+import {
+	CombinationsData,
+	VariationsData,
+} from '@heirloom/common/contract';
 import { isListingOutOfStock } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 import { FeaturedListing } from '@server/entities/generated/FeaturedListing';
@@ -97,7 +101,14 @@ export const findAvailableFullListingDataByShortId = async (
 		},
 	);
 	if (!listing) return null;
-	if (isListingOutOfStock(listing.trackInventory, listing.inventory))
+	if (
+		isListingOutOfStock(
+			listing.trackInventory,
+			listing.inventory,
+			(listing.variations ?? {}) as VariationsData,
+			(listing.combinations ?? {}) as CombinationsData,
+		)
+	)
 		return null;
 	return listing;
 };

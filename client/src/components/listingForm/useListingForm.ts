@@ -496,6 +496,7 @@ export const useListingForm = ({
 			variations,
 			combinations,
 			priceCents,
+			trackInventory,
 		);
 		const hasCombinations =
 			deriveCombinationsList(variations).length > 0;

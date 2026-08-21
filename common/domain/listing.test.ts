@@ -34,23 +34,155 @@ const makeVariation = (
 
 describe('isListingOutOfStock', () => {
 	it('is false when tracking is disabled, regardless of inventory', () => {
-		expect(isListingOutOfStock(false, 0)).toBe(false);
-		expect(isListingOutOfStock(false, null)).toBe(false);
-		expect(isListingOutOfStock(false, undefined)).toBe(false);
+		expect(isListingOutOfStock(false, 0, {}, {})).toBe(false);
+		expect(isListingOutOfStock(false, null, {}, {})).toBe(false);
+		expect(isListingOutOfStock(false, undefined, {}, {})).toBe(false);
 	});
 
-	it('is true when tracking is enabled and inventory is exactly 0', () => {
-		expect(isListingOutOfStock(true, 0)).toBe(true);
+	describe('without variations', () => {
+		it('is true when tracking is enabled and inventory is exactly 0', () => {
+			expect(isListingOutOfStock(true, 0, {}, {})).toBe(true);
+		});
+
+		it('is false when tracking is enabled and inventory is above 0', () => {
+			expect(isListingOutOfStock(true, 1, {}, {})).toBe(false);
+			expect(isListingOutOfStock(true, 10, {}, {})).toBe(false);
+		});
+
+		it('is false when tracking is enabled but inventory is null/undefined', () => {
+			expect(isListingOutOfStock(true, null, {}, {})).toBe(false);
+			expect(isListingOutOfStock(true, undefined, {}, {})).toBe(
+				false,
+			);
+		});
 	});
 
-	it('is false when tracking is enabled and inventory is above 0', () => {
-		expect(isListingOutOfStock(true, 1)).toBe(false);
-		expect(isListingOutOfStock(true, 10)).toBe(false);
-	});
+	describe('with variations', () => {
+		const VAR_ID = 'var1';
+		const variations: Variations = {
+			[VAR_ID]: makeVariation('Size', 0, false, {
+				a: { order: 0 },
+				b: { order: 1 },
+			}),
+		};
+		const keyA = getCombinationKey({ [VAR_ID]: 'a' });
+		const keyB = getCombinationKey({ [VAR_ID]: 'b' });
 
-	it('is false when tracking is enabled but inventory is null/undefined', () => {
-		expect(isListingOutOfStock(true, null)).toBe(false);
-		expect(isListingOutOfStock(true, undefined)).toBe(false);
+		it('ignores the listing-level inventory value entirely', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 5,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 5,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, 0, variations, combinations),
+			).toBe(false);
+		});
+
+		it('is true when every active combination has zero inventory', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 0,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 0,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, null, variations, combinations),
+			).toBe(true);
+		});
+
+		it('is false when at least one active combination has positive inventory', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 0,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 5,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, null, variations, combinations),
+			).toBe(false);
+		});
+
+		it('ignores a disabled combination even if it has positive inventory', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+					inventory: 0,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: true,
+					inventory: 5,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, null, variations, combinations),
+			).toBe(true);
+		});
+
+		it('treats a missing inventory value on an active combination as zero', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: false,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, null, variations, combinations),
+			).toBe(true);
+		});
+
+		it('is true when there are no active combinations at all', () => {
+			const combinations: Combinations = {
+				[keyA]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: true,
+				},
+				[keyB]: {
+					priceCents: null,
+					imageUuid: null,
+					disabled: true,
+				},
+			};
+			expect(
+				isListingOutOfStock(true, null, variations, combinations),
+			).toBe(true);
+		});
 	});
 });
 

@@ -1,4 +1,8 @@
-import { CheckoutItemData } from '@heirloom/common/contract';
+import {
+	CheckoutItemData,
+	CombinationsData,
+	VariationsData,
+} from '@heirloom/common/contract';
 import { isListingOutOfStock } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 import { Listing } from '@server/entities/generated/Listing';
@@ -31,6 +35,8 @@ export const loadCheckoutData = async (
 				!isListingOutOfStock(
 					listing.trackInventory,
 					listing.inventory,
+					(listing.variations ?? {}) as VariationsData,
+					(listing.combinations ?? {}) as CombinationsData,
 				),
 		),
 	};

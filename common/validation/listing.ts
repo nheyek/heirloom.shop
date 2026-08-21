@@ -51,12 +51,7 @@ export const validateInventory = (
 	inventory: number | null | undefined,
 ): FieldError | null => {
 	if (!trackInventory) return null;
-	if (
-		inventory == null ||
-		!Number.isInteger(inventory) ||
-		inventory < 0 ||
-		inventory > LISTING_LIMITS.maxInventory
-	) {
+	if (!isValidInventoryValue(inventory)) {
 		return {
 			field: ValidationField.Inventory,
 			message: `Must be a whole number between 0 and ${LISTING_LIMITS.maxInventory.toLocaleString()}.`,
@@ -251,17 +246,31 @@ export const validateDescrSectionEntry = (
 	return errors;
 };
 
+const isValidInventoryValue = (
+	inventory: number | null | undefined,
+): boolean =>
+	inventory != null &&
+	Number.isInteger(inventory) &&
+	inventory >= 0 &&
+	inventory <= LISTING_LIMITS.maxInventory;
+
 export const findInvalidCombinations = (
 	variations: Variations,
 	combinations: Combinations,
 	basePriceCents: number | null,
-): { hasActive: boolean; missingPriceKeys: string[] } => {
+	trackInventory: boolean,
+): {
+	hasActive: boolean;
+	missingPriceKeys: string[];
+	missingInventoryKeys: string[];
+} => {
 	const allCombinations = deriveCombinationsList(variations);
 	const pricesVary = Object.values(variations).some(
 		(v) => v.pricesVary,
 	);
 	let hasActive = allCombinations.length === 0;
 	const missingPriceKeys: string[] = [];
+	const missingInventoryKeys: string[] = [];
 
 	for (const { key, optionMap } of allCombinations) {
 		const entry = combinations[key];
@@ -277,9 +286,14 @@ export const findInvalidCombinations = (
 			if (!(effectivePrice && effectivePrice > 0))
 				missingPriceKeys.push(key);
 		}
+		if (
+			trackInventory &&
+			!isValidInventoryValue(entry?.inventory)
+		)
+			missingInventoryKeys.push(key);
 	}
 
-	return { hasActive, missingPriceKeys };
+	return { hasActive, missingPriceKeys, missingInventoryKeys };
 };
 
 // Derived from the wire body type rather than redeclared: title, subtitle,
@@ -358,11 +372,19 @@ export const validateListingFields = (
 	const imageError = validateImageUuids(input.imageUuids);
 	if (imageError) errors.push(imageError);
 
-	const inventoryError = validateInventory(
-		input.trackInventory,
-		input.inventory,
+	const derivedCombinations = deriveCombinationsList(
+		input.variations,
 	);
-	if (inventoryError) errors.push(inventoryError);
+	// Inventory is tracked per-combination once variations exist (see the
+	// combinations table below), so the single listing-level value isn't
+	// used or validated in that case.
+	if (derivedCombinations.length === 0) {
+		const inventoryError = validateInventory(
+			input.trackInventory,
+			input.inventory,
+		);
+		if (inventoryError) errors.push(inventoryError);
+	}
 
 	const variationEntries = Object.values(input.variations);
 	const pricesVary = variationEntries.some((v) => v.pricesVary);
@@ -408,14 +430,13 @@ export const validateListingFields = (
 		);
 	});
 
-	const { hasActive, missingPriceKeys } = findInvalidCombinations(
-		input.variations,
-		input.combinations,
-		input.priceCents,
-	);
-	const derivedCombinations = deriveCombinationsList(
-		input.variations,
-	);
+	const { hasActive, missingPriceKeys, missingInventoryKeys } =
+		findInvalidCombinations(
+			input.variations,
+			input.combinations,
+			input.priceCents,
+			input.trackInventory,
+		);
 	if (derivedCombinations.length > 0 && !hasActive) {
 		errors.push({
 			field: ValidationField.Combinations,
@@ -425,6 +446,11 @@ export const validateListingFields = (
 		errors.push({
 			field: ValidationField.Combinations,
 			message: 'Price is required for every combination.',
+		});
+	} else if (missingInventoryKeys.length > 0) {
+		errors.push({
+			field: ValidationField.Combinations,
+			message: 'Inventory is required for every combination.',
 		});
 	}
 

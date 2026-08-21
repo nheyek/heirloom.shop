@@ -41,6 +41,10 @@ const MUG_OPT_SMALL   = 'a1b2c3d4-0000-0000-0000-000000000002';
 const MUG_OPT_LARGE   = 'a1b2c3d4-0000-0000-0000-000000000003';
 const MUG_OPT_JUMBO   = 'a1b2c3d4-0000-0000-0000-000000000004';
 
+const VASE_VAR_ID     = 'a1b2c3d4-0000-0000-0000-000000000005';
+const VASE_OPT_SMALL  = 'a1b2c3d4-0000-0000-0000-000000000006';
+const VASE_OPT_LARGE  = 'a1b2c3d4-0000-0000-0000-000000000007';
+
 /**
  * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
  * with other test files sharing the same database):
@@ -77,7 +81,7 @@ beforeAll(async () => {
 
 	const outOfStockLamp = em.create(Listing, {
 		shortId: 'clmp01',
-		title: 'Ceramic Lamp',
+		title: 'Brass Lamp',
 		priceCents: 4000,
 		shop: shop1,
 		category: 'CERAMICS',
@@ -85,6 +89,32 @@ beforeAll(async () => {
 		available: true,
 		trackInventory: true,
 		inventory: 0,
+	});
+
+	const outOfStockVase = em.create(Listing, {
+		shortId: 'cvse01',
+		title: 'Glazed Stoneware Urn',
+		priceCents: 3500,
+		shop: shop1,
+		category: 'CERAMICS',
+		imageUuids: ['img-vase-01'],
+		available: true,
+		trackInventory: true,
+		variations: {
+			[VASE_VAR_ID]: {
+				name: 'Size',
+				pricesVary: false,
+				order: 0,
+				options: {
+					[VASE_OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					[VASE_OPT_LARGE]: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		},
+		combinations: {
+			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_SMALL })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
+			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_LARGE })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
+		},
 	});
 
 	const mugShipping = em.create(ListingShippingProfile, {
@@ -171,7 +201,7 @@ beforeAll(async () => {
 	// minimal repro against a fresh DB; splitting the flushes is the
 	// reliable workaround.
 	await em.persist([shop1, shop2]).flush();
-	await em.persist([bowl, outOfStockLamp]).flush();
+	await em.persist([bowl, outOfStockLamp, outOfStockVase]).flush();
 	await em
 		.persist([mugShipping, boardShipping, braceletPersonalization])
 		.flush();
@@ -348,6 +378,24 @@ describe('POST /api/checkout/calculateTax', () => {
 					{
 						listingShortId: 'clmp01',
 						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/no longer available/i);
+	});
+
+	it('treats a listing with all active combinations out of stock the same as an unavailable one', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [
+					{
+						listingShortId: 'cvse01',
+						selectedOptions: { [VASE_VAR_ID]: VASE_OPT_SMALL },
 						quantity: 1,
 					},
 				],
@@ -608,6 +656,26 @@ describe('POST /api/checkout/submitOrder', () => {
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/no longer available/i);
 	});
+
+	it('treats a listing with all active combinations out of stock the same as an unavailable one', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'cvse01',
+						selectedOptions: { [VASE_VAR_ID]: VASE_OPT_LARGE },
+						quantity: 1,
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents: 0,
+			});
+
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/no longer available/i);
+	});
 });
 
 describe('POST /api/listings/cartData', () => {
@@ -635,5 +703,31 @@ describe('POST /api/listings/cartData', () => {
 		);
 		expect(shortIds).toContain('cbwl01');
 		expect(shortIds).not.toContain('clmp01');
+	});
+
+	it('excludes a listing whose active combinations are all out of stock', async () => {
+		const res = await request(getApp())
+			.post('/api/listings/cartData')
+			.send({
+				items: [
+					{
+						listingShortId: 'cbwl01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+					{
+						listingShortId: 'cvse01',
+						selectedOptions: { [VASE_VAR_ID]: VASE_OPT_SMALL },
+						quantity: 1,
+					},
+				],
+			});
+
+		expect(res.status).toBe(200);
+		const shortIds = res.body.map(
+			(l: { shortId: string }) => l.shortId,
+		);
+		expect(shortIds).toContain('cbwl01');
+		expect(shortIds).not.toContain('cvse01');
 	});
 });

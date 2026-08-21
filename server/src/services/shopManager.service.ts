@@ -7,6 +7,7 @@ import {
 	ShopProfilesData,
 	VariationsData,
 } from '@heirloom/common/contract';
+import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { validateListingFields } from '@heirloom/common/validation/listing';
 import {
 	validatePersonalizationProfileFields,
@@ -37,6 +38,16 @@ export class ListingValidationError extends Error {
 }
 
 export class DuplicateProfileNameError extends Error {}
+
+// Once a listing has variations, inventory is tracked per-combination
+// instead — the listing-level value is meaningless in that case, so it's
+// nulled out here regardless of what the client sent.
+const resolveInventory = (
+	data: ListingWriteBody,
+): number | undefined =>
+	deriveCombinationsList(data.variations).length > 0
+		? undefined
+		: (data.inventory ?? undefined);
 
 const hasFieldError = (
 	fieldErrors: FieldError[],
@@ -254,7 +265,7 @@ export const createListing = async (
 		variations: data.variations,
 		combinations: data.combinations,
 		available: true,
-		inventory: data.inventory ?? undefined,
+		inventory: resolveInventory(data),
 		trackInventory: data.trackInventory,
 	});
 
@@ -394,7 +405,7 @@ export const updateListing = async (
 	listing.fullDescr = data.fullDescr;
 	listing.variations = data.variations;
 	listing.combinations = data.combinations;
-	listing.inventory = data.inventory ?? undefined;
+	listing.inventory = resolveInventory(data);
 	listing.trackInventory = data.trackInventory;
 
 	await em.flush();

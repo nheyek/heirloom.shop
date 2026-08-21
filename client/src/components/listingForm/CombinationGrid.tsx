@@ -44,6 +44,7 @@ const DEFAULT_ENTRY: Combination = {
 	imageUuid: null,
 	priceCents: null,
 	disabled: false,
+	inventory: 0,
 };
 
 export const CombinationGrid = ({
@@ -342,7 +343,7 @@ export const CombinationGrid = ({
 												onUpdate(key, {
 													inventory:
 														v === ''
-															? null
+															? 0
 															: Number(v),
 												})
 											}

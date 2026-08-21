@@ -161,6 +161,69 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 		expect(res.body.trackInventory).toBe(true);
 	});
 
+	it('returns 400 when trackInventory is enabled and an active combination is missing inventory', async () => {
+		const variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+		};
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				variations,
+				combinations,
+			});
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/inventory/i);
+	});
+
+	it('ignores the listing-level inventory value and nulls it out when the listing has variations', async () => {
+		const variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 7 },
+		};
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: 999,
+				variations,
+				combinations,
+			});
+		expect(res.status).toBe(200);
+		expect(res.body.inventory).toBeNull();
+		expect(res.body.combinations['v1:a'].inventory).toBe(3);
+		expect(res.body.combinations['v1:b'].inventory).toBe(7);
+	});
+
 	it('returns 400 for a title over the max length', async () => {
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -696,6 +759,43 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 			});
 		expect(res.status).toBe(200);
 		expect(res.body.trackInventory).toBe(true);
+	});
+
+	it('nulls out the listing-level inventory value on update when the listing has variations', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), trackInventory: true, inventory: 5 });
+		const listingShortId = createRes.body.shortId;
+
+		const variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 7 },
+		};
+		const res = await request(getApp())
+			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH)
+			.send({
+				...validListingBody(),
+				trackInventory: true,
+				inventory: 999,
+				variations,
+				combinations,
+			});
+		expect(res.status).toBe(200);
+		expect(res.body.inventory).toBeNull();
 	});
 
 	it('returns 400 when updating with an invalid payload', async () => {

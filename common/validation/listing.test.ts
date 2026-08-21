@@ -375,4 +375,127 @@ describe('validateListingFields', () => {
 			false,
 		);
 	});
+
+	it('ignores the listing-level inventory value once variations exist', () => {
+		const variations: Variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations: Combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 5 },
+		};
+		const errors = validateListingFields(
+			{
+				...baseInput,
+				trackInventory: true,
+				inventory: null,
+				variations,
+				combinations,
+			},
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Inventory)).toBe(
+			false,
+		);
+	});
+
+	it('requires an inventory value on every active combination when trackInventory is enabled', () => {
+		const variations: Variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations: Combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+		};
+		const errors = validateListingFields(
+			{
+				...baseInput,
+				trackInventory: true,
+				variations,
+				combinations,
+			},
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Combinations)).toBe(
+			true,
+		);
+	});
+
+	it('does not require inventory on a disabled combination', () => {
+		const variations: Variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations: Combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: true },
+		};
+		const errors = validateListingFields(
+			{
+				...baseInput,
+				trackInventory: true,
+				variations,
+				combinations,
+			},
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Combinations)).toBe(
+			false,
+		);
+	});
+
+	it('accepts valid per-combination inventory values when trackInventory is enabled', () => {
+		const variations: Variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations: Combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 10 },
+		};
+		const errors = validateListingFields(
+			{
+				...baseInput,
+				trackInventory: true,
+				variations,
+				combinations,
+			},
+			{ directFulfillment: false },
+		);
+		expect(errors).toHaveLength(0);
+	});
 });
