@@ -33,7 +33,6 @@ export const Footer = () => {
 			width="100%"
 			background="brand"
 			color="#FFF"
-			mt={{ base: 5, md: 10 }}
 			flexShrink={0}
 			px={{ base: 6, md: 10 }}
 			py={10}

@@ -60,7 +60,7 @@ export const Navbar = () => {
 		<HStack
 			bg="brand"
 			px={4}
-			h={navbarHeight.DESKTOP}
+			h={navbarHeight}
 			top={0}
 			left={0}
 			right={0}

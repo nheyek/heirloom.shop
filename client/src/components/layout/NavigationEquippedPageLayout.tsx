@@ -56,7 +56,7 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={navbarHeight.DESKTOP}
+			top={navbarHeight}
 			overflowY="auto"
 		>
 			{navItems.map(({ label, icon: Icon, route }) => {

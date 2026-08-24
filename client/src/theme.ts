@@ -18,10 +18,7 @@ export const animationName = {
 	itemGridEnter: 'item-grid-enter',
 };
 
-export const navbarHeight = {
-	DESKTOP: 68, // Spacing units
-	MOBILE: 120, // Pixels
-};
+export const navbarHeight = 68;
 export const sidebarWidth = 250;
 
 const baseBreakpoints = {

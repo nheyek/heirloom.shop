@@ -45,13 +45,13 @@ const App = () => {
 			<Box
 				display="flex"
 				flexDirection="column"
-				minHeight="100svh"
 				transition="opacity 0.25s"
-				pt={navbarHeight.DESKTOP}
+				pt={navbarHeight}
 				zIndex="docked"
 			>
 				<Box
-					minHeight="100svh"
+					minHeight={`calc(100svh - ${navbarHeight}px)`}
+					pb={10}
 					width="100%"
 					mx="auto"
 					position="relative"
