@@ -58,23 +58,23 @@ const OrderItemsList = ({
 					item={item}
 					layout={layout}
 					cardProps={cardProps}
-					imageBadge={
+					bodyOverlayElements={
 						item.quantity > 1 && (
 							<Flex
 								justifyContent="center"
 								alignItems="center"
-								background="gray.100"
 								position="absolute"
 								h={8}
 								minW={8}
 								top={2}
-								left={2}
+								right={2}
 								px={2}
 								borderRadius="full"
-								fontSize={18}
+								fontSize={20}
 								lineHeight={1.3}
-								fontWeight={700}
+								fontWeight={600}
 								fontFamily={sansFontFamily}
+								background="gray.100"
 							>
 								{item.quantity}
 							</Flex>

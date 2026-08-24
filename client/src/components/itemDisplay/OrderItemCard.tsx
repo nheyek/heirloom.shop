@@ -40,9 +40,8 @@ const truncatePersonalizationText = (text: string): string =>
 type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
-	imageBadge?: ReactNode;
-	imageActionElements?: ReactNode;
-	bodyActionElements?: ReactNode;
+	imageOverlayElements?: ReactNode;
+	bodyOverlayElements?: ReactNode;
 	layout?: Layout;
 };
 
@@ -171,8 +170,7 @@ export const OrderItemCard = (props: Props) => {
 						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						urls={imageSource ? [imageSource] : []}
 					/>
-					{props.imageBadge}
-					{props.imageActionElements}
+					{props.imageOverlayElements}
 				</Box>
 
 				<Card.Body
@@ -182,7 +180,7 @@ export const OrderItemCard = (props: Props) => {
 					flex="1"
 					position="relative"
 				>
-					{props.bodyActionElements}
+					{props.bodyOverlayElements}
 					<Stack gap={3}>
 						{basicInfo}
 						{secondaryInfoBadges}
@@ -196,18 +194,17 @@ export const OrderItemCard = (props: Props) => {
 
 	return (
 		<Card.Root
+			position="relative"
 			variant="elevated"
 			maxWidth={400}
 			{...props.cardProps}
 		>
 			<Box position="relative">
-				{props.imageBadge}
 				<MultiImage
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={imageSource ? [imageSource] : []}
 				/>
-				{props.imageBadge}
-				{props.imageActionElements}
+				{props.imageOverlayElements}
 			</Box>
 
 			<Card.Body
@@ -220,6 +217,8 @@ export const OrderItemCard = (props: Props) => {
 				{priceAndShipping}
 				{estimatedDelivery}
 			</Card.Body>
+
+			{props.bodyOverlayElements}
 		</Card.Root>
 	);
 };

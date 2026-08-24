@@ -18,7 +18,6 @@ import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { ReactNode } from 'react';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
@@ -44,66 +43,49 @@ export const ShoppingCartDrawer = (props: Props) => {
 				width: '100%',
 			};
 
-	const renderCartContent = () => {
-		if (shoppingCart.cartLoading) {
-			return Array.from({
-				length: shoppingCart.pendingItemCount,
-			}).map((_, i) => (
-				<Skeleton
-					key={i}
-					borderRadius="md"
-					{...skeletonProps}
-				/>
-			));
-		}
+	const isEmpty =
+		!shoppingCart.cartLoading &&
+		shoppingCart.itemQuantityTotal === 0;
 
-		if (shoppingCart.itemQuantityTotal === 0) {
-			return (
-				<ShoppingCartEmptyMessage onClick={props.onClose} />
-			);
-		}
-
-		return shoppingCart.items
-			.sort((itemA, itemB) => itemB.addedAt - itemA.addedAt)
-			.map((item) => {
-				const key = `${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`;
-				return (
+	const items = shoppingCart.cartLoading
+		? Array.from({ length: shoppingCart.pendingItemCount }).map(
+				(_, i) => (
+					<Skeleton
+						key={i}
+						borderRadius="md"
+						{...skeletonProps}
+					/>
+				),
+			)
+		: shoppingCart.items
+				.sort((itemA, itemB) => itemB.addedAt - itemA.addedAt)
+				.map((item) => (
 					<ShoppingCartCard
-						key={key}
+						key={`${item.listingData.id}-${JSON.stringify(item.selectedOptions)}`}
 						item={item}
 						onNavigate={props.onClose}
 						layout={layout}
 						cardProps={cardProps}
 					/>
-				);
-			});
-	};
+				));
 
-	const cartContent = renderCartContent();
-	const isEmpty =
-		!shoppingCart.cartLoading &&
-		shoppingCart.itemQuantityTotal === 0;
-
-	let listSection: ReactNode;
-	if (isEmpty) {
-		listSection = cartContent;
-	} else if (isCompact) {
-		listSection = (
-			<HStack
-				gap={5}
-				overflowX="scroll"
-				mx={-6}
-				my={-5}
-				px={6}
-				py={5}
-				alignItems="flex-start"
-			>
-				{cartContent}
-			</HStack>
-		);
-	} else {
-		listSection = <Stack gap={5}>{cartContent}</Stack>;
-	}
+	const listSection = isEmpty ? (
+		<ShoppingCartEmptyMessage onClick={props.onClose} />
+	) : isCompact ? (
+		<HStack
+			gap={5}
+			overflowX="scroll"
+			mx={-6}
+			my={-5}
+			px={6}
+			py={5}
+			alignItems="flex-start"
+		>
+			{items}
+		</HStack>
+	) : (
+		<Stack gap={5}>{items}</Stack>
+	);
 
 	return (
 		<Drawer.Root

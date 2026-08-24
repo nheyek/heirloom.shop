@@ -102,7 +102,7 @@ export const ShoppingCartCard = (props: Props) => {
 			item={displayData}
 			cardProps={props.cardProps}
 			layout={props.layout}
-			imageActionElements={
+			imageOverlayElements={
 				isStandard ? undefined : (
 					<>
 						{deleteButton}
@@ -110,7 +110,7 @@ export const ShoppingCartCard = (props: Props) => {
 					</>
 				)
 			}
-			bodyActionElements={
+			bodyOverlayElements={
 				isStandard ? (
 					<>
 						{deleteButton}
