@@ -23,8 +23,8 @@ export const LISTING_IMAGE_ASPECT_RATIO = 1;
 
 export const MAX_IMAGE_SIZE_MB = 5;
 
-export const THUMBNAIL_WIDTH = 225;
-export const THUMBNAIL_GAP = 3;
+export const STANDARD_THUMBNAIL_WIDTH = 225;
+export const STANDARD_THUMBNAIL_GAP = 3;
 
 export const CLIENT_ROUTES = {
 	admin: 'admin',

@@ -9,11 +9,10 @@ import { ImageDropzone } from '@client/components/input/ImageDropzone';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import {
 	LISTING_IMAGE_ASPECT_RATIO,
-	THUMBNAIL_GAP,
-	THUMBNAIL_WIDTH,
+	STANDARD_THUMBNAIL_GAP,
+	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/constants';
 import { ImageEntry } from '@client/hooks/useImageUpload';
-import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	DndContext,
 	DragEndEvent,
@@ -30,6 +29,7 @@ import {
 	useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { FaTrashAlt } from 'react-icons/fa';
 
 type ThumbnailProps = {
@@ -61,7 +61,7 @@ const SortableThumbnail = ({
 				opacity: isDragging ? 0.5 : 1,
 			}}
 			position="relative"
-			w={THUMBNAIL_WIDTH}
+			w={STANDARD_THUMBNAIL_WIDTH}
 			flexShrink={0}
 			cursor={disabled ? 'default' : 'grab'}
 			{...attributes}
@@ -159,7 +159,7 @@ export const ListingImageUpload = ({
 					strategy={rectSortingStrategy}
 				>
 					<Wrap
-						gap={THUMBNAIL_GAP}
+						gap={STANDARD_THUMBNAIL_GAP}
 						alignItems="flex-start"
 						mb={3}
 					>

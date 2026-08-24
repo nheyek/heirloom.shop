@@ -8,7 +8,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { STANDARD_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
+import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
 import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
@@ -40,7 +40,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 		? { flexShrink: 0, height: 340, width: 300 }
 		: {
 				flexShrink: 0,
-				height: STANDARD_THUMBNAIL_WIDTH,
+				height: ORDER_ITEM_THUMBNAIL_WIDTH,
 				width: '100%',
 			};
 

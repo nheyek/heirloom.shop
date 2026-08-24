@@ -30,7 +30,7 @@ import { FaSignature } from 'react-icons/fa';
 import { FaTruck } from 'react-icons/fa6';
 
 const PERSONALIZATION_BADGE_MAX_CHARS = 16;
-export const STANDARD_THUMBNAIL_WIDTH = 190;
+export const ORDER_ITEM_THUMBNAIL_WIDTH = 200;
 
 const truncatePersonalizationText = (text: string): string =>
 	text.length > PERSONALIZATION_BADGE_MAX_CHARS
@@ -41,7 +41,6 @@ type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
 	imageBadge?: ReactNode;
-
 	imageActionElements?: ReactNode;
 	bodyActionElements?: ReactNode;
 	layout?: Layout;
@@ -164,7 +163,7 @@ export const OrderItemCard = (props: Props) => {
 				{...props.cardProps}
 			>
 				<Box
-					width={STANDARD_THUMBNAIL_WIDTH}
+					width={ORDER_ITEM_THUMBNAIL_WIDTH}
 					flexShrink={0}
 					position="relative"
 				>
@@ -184,7 +183,7 @@ export const OrderItemCard = (props: Props) => {
 					position="relative"
 				>
 					{props.bodyActionElements}
-					<Stack gap={2}>
+					<Stack gap={3}>
 						{basicInfo}
 						{secondaryInfoBadges}
 						{priceAndShipping}

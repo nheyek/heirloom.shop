@@ -9,8 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import {
+	ORDER_ITEM_THUMBNAIL_WIDTH,
 	OrderItemCard,
-	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/components/itemDisplay/OrderItemCard';
 import { Layout } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -47,7 +47,7 @@ const OrderItemsList = ({
 					borderRadius="md"
 					flexShrink={0}
 					height={
-						isCompact ? 340 : STANDARD_THUMBNAIL_WIDTH
+						isCompact ? 340 : ORDER_ITEM_THUMBNAIL_WIDTH
 					}
 					width={isCompact ? 300 : '100%'}
 				/>
