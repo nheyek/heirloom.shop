@@ -52,7 +52,7 @@ type Props = {
 	cardProps?: CardRootProps;
 };
 
-export const OrderItemPreview = ({
+export const OrderPreviewCard = ({
 	order,
 	layout,
 	cardProps,

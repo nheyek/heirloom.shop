@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import { OrderItemPreview } from '@client/components/itemDisplay/OrderItemPreview';
+import { OrderPreviewCard } from '@client/components/itemDisplay/OrderPreviewCard';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -63,7 +63,9 @@ export const OrdersPage = () => {
 
 	if (!isLoading && orders.length === 0) {
 		return (
-			<Text fontSize={22}>You haven't placed any orders yet.</Text>
+			<Text fontSize={22}>
+				You haven't placed any orders yet.
+			</Text>
 		);
 	}
 
@@ -82,7 +84,7 @@ export const OrdersPage = () => {
 				/>
 			))
 		: orders.map((order) => (
-				<OrderItemPreview
+				<OrderPreviewCard
 					key={order.shortId}
 					order={order}
 					layout={layout}
