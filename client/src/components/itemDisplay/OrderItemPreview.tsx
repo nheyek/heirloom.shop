@@ -26,7 +26,7 @@ import {
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 100;
+export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 120;
 
 const getImageSource = (
 	item: OrderItemDisplayData,
@@ -52,7 +52,11 @@ type Props = {
 	cardProps?: CardRootProps;
 };
 
-export const OrderItemPreview = ({ order, layout, cardProps }: Props) => {
+export const OrderItemPreview = ({
+	order,
+	layout,
+	cardProps,
+}: Props) => {
 	const isDesktop = layout === Layout.DESKTOP;
 	const total =
 		order.subtotalCents + order.shippingCents + order.taxCents;
@@ -94,7 +98,7 @@ export const OrderItemPreview = ({ order, layout, cardProps }: Props) => {
 					<HStack justifyContent="space-between">
 						<Link asChild>
 							<Text
-								fontSize={24}
+								fontSize={28}
 								fontWeight={500}
 								truncate
 							>
@@ -103,7 +107,6 @@ export const OrderItemPreview = ({ order, layout, cardProps }: Props) => {
 						</Link>
 						<Text
 							fontSize={20}
-							color="fg.muted"
 							flexShrink={0}
 						>
 							{order.createdAt &&
@@ -115,30 +118,22 @@ export const OrderItemPreview = ({ order, layout, cardProps }: Props) => {
 							gap={1}
 							flex={1}
 							minW={0}
+							fontSize={20}
 						>
 							<Text
-								fontSize={20}
-								color="fg.muted"
 								truncate
 								minW={0}
 							>
 								{firstItem?.title}
 							</Text>
 							{remainingItemCount > 0 && (
-								<Text
-									fontSize={20}
-									color="fg.muted"
-									flexShrink={0}
-								>
-									+{remainingItemCount}{' '}
-									{remainingItemCount === 1
-										? 'item'
-										: 'items'}
+								<Text flexShrink={0}>
+									{` + ${remainingItemCount} `}
 								</Text>
 							)}
 						</HStack>
 						<Text
-							fontSize={22}
+							fontSize={24}
 							flexShrink={0}
 						>
 							{formatCentsAsDollars(total)}

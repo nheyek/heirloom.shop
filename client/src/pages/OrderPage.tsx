@@ -147,7 +147,16 @@ export const OrderPage = () => {
 
 	const renderContent = (order: OrderResponse) => (
 		<>
-			<OrderItemsList items={order.items} />
+			<Stack gap={2}>
+				<Text
+					fontSize={26}
+					fontWeight={500}
+					fontFamily={displayFontFamily}
+				>
+					Item(s)
+				</Text>
+				<OrderItemsList items={order.items} />
+			</Stack>
 
 			<Flex
 				direction={isMobile ? 'column' : 'row'}
@@ -156,7 +165,10 @@ export const OrderPage = () => {
 				alignItems="start"
 				fontSize={18}
 			>
-				<Stack width={isMobile ? '100%' : 250}>
+				<Stack
+					width={isMobile ? '100%' : 250}
+					gap={1}
+				>
 					<SectionHeading>Summary</SectionHeading>
 					<Stack gap={0.5}>
 						{[
@@ -203,8 +215,8 @@ export const OrderPage = () => {
 					</Stack>
 				</Stack>
 
-				<Stack>
-					<SectionHeading>Shipping Address</SectionHeading>
+				<Stack gap={1}>
+					<SectionHeading>Ship To</SectionHeading>
 					<Text
 						whiteSpace="pre-line"
 						lineHeight={1.5}
@@ -217,7 +229,6 @@ export const OrderPage = () => {
 			<Stack
 				gap={1}
 				fontSize={20}
-				pt={5}
 			>
 				<Text fontSize={20}>Need help with your order?</Text>
 				<HStack gap={1}>
@@ -242,7 +253,7 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					maxWidth={600}
-					gap={5}
+					gap={7}
 				>
 					{showSkeleton
 						? renderSkeleton()
@@ -256,7 +267,7 @@ export const OrderPage = () => {
 const SectionHeading = ({ children }: { children: string }) => (
 	<Text
 		fontWeight={500}
-		fontSize={24}
+		fontSize={22}
 		fontFamily={displayFontFamily}
 	>
 		{children}
