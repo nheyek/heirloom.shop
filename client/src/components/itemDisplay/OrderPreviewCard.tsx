@@ -128,7 +128,10 @@ export const OrderPreviewCard = ({
 							</Text>
 							{remainingItemCount > 0 && (
 								<Text flexShrink={0}>
-									{` + ${remainingItemCount} `}
+									+ {remainingItemCount}{' '}
+									{remainingItemCount === 1
+										? 'item'
+										: 'items'}
 								</Text>
 							)}
 						</HStack>

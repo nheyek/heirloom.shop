@@ -10,7 +10,7 @@ import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 
-const ORDER_PREVIEW_LIST_MAX_WIDTH = 500;
+const ORDER_PREVIEW_LIST_MAX_WIDTH = 600;
 const SKELETON_ITEM_COUNT = 3;
 const COMPACT_SKELETON_HEIGHT = 380;
 const STANDARD_SKELETON_HEIGHT = 110;
