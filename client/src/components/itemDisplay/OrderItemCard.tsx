@@ -40,6 +40,8 @@ const truncatePersonalizationText = (text: string): string =>
 type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
+	imageBadge?: ReactNode;
+
 	imageActionElements?: ReactNode;
 	bodyActionElements?: ReactNode;
 	layout?: Layout;
@@ -90,7 +92,7 @@ export const OrderItemCard = (props: Props) => {
 		</Stack>
 	);
 
-	const badges = (props.item.variations.length > 0 ||
+	const secondaryInfoBadges = (props.item.variations.length > 0 ||
 		props.item.personalizationText) && (
 		<Wrap gap={2}>
 			{props.item.variations.map(({ name, value }) => (
@@ -170,6 +172,7 @@ export const OrderItemCard = (props: Props) => {
 						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						urls={imageSource ? [imageSource] : []}
 					/>
+					{props.imageBadge}
 					{props.imageActionElements}
 				</Box>
 
@@ -183,7 +186,7 @@ export const OrderItemCard = (props: Props) => {
 					{props.bodyActionElements}
 					<Stack gap={2}>
 						{basicInfo}
-						{badges}
+						{secondaryInfoBadges}
 						{priceAndShipping}
 					</Stack>
 					{estimatedDelivery}
@@ -199,10 +202,12 @@ export const OrderItemCard = (props: Props) => {
 			{...props.cardProps}
 		>
 			<Box position="relative">
+				{props.imageBadge}
 				<MultiImage
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={imageSource ? [imageSource] : []}
 				/>
+				{props.imageBadge}
 				{props.imageActionElements}
 			</Box>
 
@@ -212,7 +217,7 @@ export const OrderItemCard = (props: Props) => {
 				justifyContent="space-between"
 			>
 				{basicInfo}
-				{badges}
+				{secondaryInfoBadges}
 				{priceAndShipping}
 				{estimatedDelivery}
 			</Card.Body>

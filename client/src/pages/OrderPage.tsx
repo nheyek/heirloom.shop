@@ -16,7 +16,7 @@ import { Layout } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
-import { displayFontFamily } from '@client/theme';
+import { displayFontFamily, sansFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	OrderItemDisplayData,
@@ -58,6 +58,28 @@ const OrderItemsList = ({
 					item={item}
 					layout={layout}
 					cardProps={cardProps}
+					imageBadge={
+						item.quantity > 1 && (
+							<Flex
+								justifyContent="center"
+								alignItems="center"
+								background="gray.100"
+								position="absolute"
+								h={8}
+								minW={8}
+								top={2}
+								left={2}
+								px={2}
+								borderRadius="full"
+								fontSize={18}
+								lineHeight={1.3}
+								fontWeight={700}
+								fontFamily={sansFontFamily}
+							>
+								{item.quantity}
+							</Flex>
+						)
+					}
 				/>
 			));
 
