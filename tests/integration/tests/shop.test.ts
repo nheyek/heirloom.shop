@@ -222,9 +222,6 @@ describe('GET /api/shops/:id/listings', () => {
 		expect(res.status).toBe(200);
 		const ids = res.body.map((l: any) => l.id);
 		expect(ids).toEqual([...ids].sort((a, b) => a - b));
-		// tbl001 (Oak Dining Table) is created before bk0001 (Walnut
-		// Bookshelf) in the same flush, so it has the lower id and should
-		// come first — the opposite of shortId alphabetical order.
 		expect(res.body[0].shortId).toBe('tbl001');
 	});
 

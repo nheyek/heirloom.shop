@@ -3,6 +3,7 @@ import { ShoppingCartItem } from '@client/domain/shoppingCart';
 
 export type ShippingAddressErrors = { [K in keyof ShippingAddress]?: string };
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
+import { isValidUsState } from '@heirloom/common/validation/shippingAddress';
 
 export const getEmailFieldError = (email: string): string | null => {
 	if (!email.trim()) return 'Email is required.';
@@ -29,6 +30,9 @@ export const getShippingAddressFieldErrors = (
 
 	if (!shippingAddress.state.trim()) {
 		errors.state = 'State is required.';
+	} else if (!isValidUsState(shippingAddress.state)) {
+		errors.state =
+			'We can only ship to the contiguous US states and DC.';
 	}
 
 	if (!shippingAddress.zip.trim()) {

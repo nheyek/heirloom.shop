@@ -31,9 +31,6 @@ export const mapListingToApiResponseData = (
 	combinations: (listing.combinations ?? {}) as CombinationsData,
 });
 
-// Shop-owner-only variant of mapListingToApiResponseData that additionally
-// exposes inventory fields — only ever sent to the shop manager's own
-// listings endpoint, not to any public-facing listing response.
 export const mapListingToShopManagerCardData = (
 	listing: Listing,
 ): ShopManagerListingCardData => ({

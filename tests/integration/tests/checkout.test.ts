@@ -481,6 +481,36 @@ describe('POST /api/checkout/calculateTax', () => {
 
 		expect(res.status).toBe(200);
 	});
+
+	it('rejects Alaska and Hawaii shipping addresses', async () => {
+		const requestBody = {
+			items: [
+				{
+					listingShortId: 'cbwl01',
+					selectedOptions: {},
+					quantity: 1,
+				},
+			],
+		};
+
+		const alaskaRes = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				...requestBody,
+				shippingAddress: { ...illinoisAddress, state: 'AK' },
+			});
+		expect(alaskaRes.status).toBe(400);
+		expect(alaskaRes.body.error).toMatch(/contiguous/i);
+
+		const hawaiiRes = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				...requestBody,
+				shippingAddress: { ...illinoisAddress, state: 'HI' },
+			});
+		expect(hawaiiRes.status).toBe(400);
+		expect(hawaiiRes.body.error).toMatch(/contiguous/i);
+	});
 });
 
 describe('POST /api/checkout/submitOrder', () => {
@@ -773,6 +803,38 @@ describe('POST /api/checkout/submitOrder', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/unavailable/i);
+	});
+
+	it('rejects Alaska and Hawaii shipping addresses', async () => {
+		const requestBody = {
+			items: [
+				{
+					listingShortId: 'cbwl01',
+					selectedOptions: {},
+					quantity: 1,
+				},
+			],
+			email: 'buyer@example.com',
+			totalCents: 0,
+		};
+
+		const alaskaRes = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				...requestBody,
+				shippingAddress: { ...address, state: 'AK' },
+			});
+		expect(alaskaRes.status).toBe(400);
+		expect(alaskaRes.body.error).toMatch(/contiguous/i);
+
+		const hawaiiRes = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				...requestBody,
+				shippingAddress: { ...address, state: 'HI' },
+			});
+		expect(hawaiiRes.status).toBe(400);
+		expect(hawaiiRes.body.error).toMatch(/contiguous/i);
 	});
 });
 

@@ -296,17 +296,6 @@ export const findInvalidCombinations = (
 	return { hasActive, missingPriceKeys, missingInventoryKeys };
 };
 
-// Derived from the wire body type rather than redeclared: title, subtitle,
-// imageUuids, fullDescr, variations, combinations, inventory, and
-// trackInventory all flow straight from ListingWriteBody.
-// `personalizationProfileId` is dropped entirely — it has no "required" rule
-// (personalization is always optional) and is checked for existence
-// directly against the DB by the caller, not through this shared validator.
-// The remaining fields below are widened because validation has to accept
-// in-progress (not-yet-valid) form state that the wire type deliberately
-// disallows — e.g. a price the user hasn't entered yet, or a profile id
-// still held as the `<select>`'s string value rather than the number the
-// API expects.
 export type ListingFieldsInput = Omit<
 	ListingWriteBody,
 	| 'categoryId'
@@ -375,9 +364,6 @@ export const validateListingFields = (
 	const derivedCombinations = deriveCombinationsList(
 		input.variations,
 	);
-	// Inventory is tracked per-combination once variations exist (see the
-	// combinations table below), so the single listing-level value isn't
-	// used or validated in that case.
 	if (derivedCombinations.length === 0) {
 		const inventoryError = validateInventory(
 			input.trackInventory,

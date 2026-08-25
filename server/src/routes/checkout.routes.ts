@@ -1,4 +1,5 @@
 import { checkoutContract } from '@heirloom/common/contract';
+import { isValidUsState } from '@heirloom/common/validation/shippingAddress';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import {
@@ -15,10 +16,19 @@ import { createPaymentIntent } from '@server/services/payment.service';
 import { getTaxTotal } from '@server/services/tax.service';
 import { findOrCreateUser } from '@server/services/user.service';
 
+const INVALID_STATE_ERROR =
+	'We can only ship to the contiguous US states and DC.';
+
 const s = initServer();
 
 export const checkoutRouter = s.router(checkoutContract, {
 	calculateTax: async ({ body }) => {
+		if (!isValidUsState(body.shippingAddress.state)) {
+			return {
+				status: 400 as const,
+				body: { error: INVALID_STATE_ERROR },
+			};
+		}
 		const cartData = await loadCheckoutData(body.items);
 		const availableShortIds = new Set(cartData.listings.map((l) => l.shortId));
 		if (body.items.some((item) => !availableShortIds.has(item.listingShortId))) {
@@ -52,6 +62,13 @@ export const checkoutRouter = s.router(checkoutContract, {
 				return {
 					status: 400 as const,
 					body: { error: 'Cart cannot be empty' },
+				};
+			}
+
+			if (!isValidUsState(body.shippingAddress.state)) {
+				return {
+					status: 400 as const,
+					body: { error: INVALID_STATE_ERROR },
 				};
 			}
 

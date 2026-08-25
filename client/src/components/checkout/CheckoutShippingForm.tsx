@@ -12,10 +12,11 @@ import {
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutShippingField } from '@client/components/checkout/CheckoutShippingField';
 import { CheckoutShippingFieldError } from '@client/components/checkout/CheckoutShippingFieldError';
-import { Layout, US_STATES } from '@client/constants';
+import { Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { fieldErrorColor, sansFontFamily } from '@client/theme';
 import { extractAddressFields } from '@client/utils/addressUtils';
+import { US_STATES } from '@heirloom/common/constants';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';

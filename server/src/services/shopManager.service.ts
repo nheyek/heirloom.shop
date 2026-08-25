@@ -39,9 +39,6 @@ export class ListingValidationError extends Error {
 
 export class DuplicateProfileNameError extends Error {}
 
-// Once a listing has variations, inventory is tracked per-combination
-// instead — the listing-level value is meaningless in that case, so it's
-// nulled out here regardless of what the client sent.
 const resolveInventory = (
 	data: ListingWriteBody,
 ): number | undefined =>
