@@ -215,6 +215,19 @@ describe('GET /api/shops/:id/listings', () => {
 		);
 	});
 
+	it('orders listings by id ascending, not by shortId', async () => {
+		const res = await request(getApp()).get(
+			'/api/shops/wood20/listings',
+		);
+		expect(res.status).toBe(200);
+		const ids = res.body.map((l: any) => l.id);
+		expect(ids).toEqual([...ids].sort((a, b) => a - b));
+		// tbl001 (Oak Dining Table) is created before bk0001 (Walnut
+		// Bookshelf) in the same flush, so it has the lower id and should
+		// come first — the opposite of shortId alphabetical order.
+		expect(res.body[0].shortId).toBe('tbl001');
+	});
+
 	it('only returns listings belonging to that shop', async () => {
 		const res = await request(getApp()).get(
 			'/api/shops/wood20/listings',
