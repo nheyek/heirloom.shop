@@ -16,7 +16,7 @@ import { Layout } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
-import { displayFontFamily, sansFontFamily } from '@client/theme';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	OrderItemDisplayData,
@@ -62,18 +62,18 @@ const OrderItemsList = ({
 						item.quantity > 1 && (
 							<Flex
 								justifyContent="center"
-								alignItems="center"
+								alignItems="start"
 								position="absolute"
-								h={8}
-								minW={8}
+								h={10}
+								minW={10}
 								top={2}
 								right={2}
-								px={2}
+								px={3}
 								borderRadius="full"
-								fontSize={20}
+								fontSize={28}
 								lineHeight={1.3}
-								fontWeight={600}
-								fontFamily={sansFontFamily}
+								fontWeight={500}
+								fontFamily={displayFontFamily}
 								background="gray.100"
 							>
 								{item.quantity}

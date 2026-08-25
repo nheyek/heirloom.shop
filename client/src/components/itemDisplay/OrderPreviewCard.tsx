@@ -136,7 +136,7 @@ export const OrderPreviewCard = ({
 							)}
 						</HStack>
 						<Text
-							fontSize={24}
+							fontSize={22}
 							flexShrink={0}
 						>
 							{formatCentsAsDollars(total)}
