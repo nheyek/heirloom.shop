@@ -176,18 +176,16 @@ export const OrderPage = () => {
 	const renderContent = (order: OrderResponse) => (
 		<>
 			<Stack gap={4}>
-				{order.createdAt && (
-					<HStack
-						fontSize={24}
-						fontFamily={displayFontFamily}
-					>
-						<FaRegCalendarAlt size={22} />
-						<Text>Placed:</Text>
-						<Text fontWeight={500}>
-							{formatDateLong(order.createdAt)}
-						</Text>
-					</HStack>
-				)}
+				<HStack
+					fontSize={24}
+					fontFamily={displayFontFamily}
+				>
+					<FaRegCalendarAlt size={22} />
+					<Text>Placed:</Text>
+					<Text fontWeight={500}>
+						{formatDateLong(order.createdAt)}
+					</Text>
+				</HStack>
 
 				<Stack gap={2}>
 					<Text

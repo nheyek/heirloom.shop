@@ -22,11 +22,11 @@ export class ListingReturnProfile {
   @Property({ type: 'text', nullable: true })
   policyDescrRichText?: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @Property({ type: 'string', length: 16 })
   policyType: string & Opt = 'standard';

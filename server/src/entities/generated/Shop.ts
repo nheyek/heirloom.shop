@@ -19,11 +19,11 @@ export class Shop {
   @Property({ length: 128, unique: 'shop_title_key' })
   title!: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @Property({ type: 'text', nullable: true })
   profileRichText?: string;

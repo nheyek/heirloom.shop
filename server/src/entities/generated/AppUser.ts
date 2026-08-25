@@ -17,11 +17,11 @@ export class AppUser {
   @Property({ length: 128 })
   email!: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @Property({ type: 'boolean' })
   isAdmin: boolean & Opt = false;

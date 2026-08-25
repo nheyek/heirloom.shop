@@ -30,8 +30,8 @@ CREATE TABLE public.app_order (
     tax_total integer NOT NULL,
     order_status character varying(32) NOT NULL,
     payment_intent_id character varying(64),
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     shipping_price integer NOT NULL,
     short_id character varying(10) NOT NULL,
     email character varying(255) NOT NULL,
@@ -101,8 +101,8 @@ CREATE TABLE public.app_user (
     id integer NOT NULL,
     username character varying(64) NOT NULL,
     email character varying(128) NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     is_admin boolean DEFAULT false NOT NULL
 );
 
@@ -204,8 +204,8 @@ ALTER SEQUENCE public.featured_shop_id_seq OWNED BY public.featured_shop.id;
 CREATE TABLE public.listing (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     category_id character varying(64) NOT NULL,
     subtitle character varying(256),
     price_cents integer DEFAULT 0 NOT NULL,
@@ -237,8 +237,8 @@ CREATE TABLE public.listing_category (
     subtitle character varying(256),
     image_uuid character varying(36),
     parent_id character varying(64),
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -272,8 +272,8 @@ CREATE TABLE public.listing_personalization_profile (
     shop_id integer NOT NULL,
     cost_cents integer NOT NULL,
     helper_text character varying(256),
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -307,8 +307,8 @@ CREATE TABLE public.listing_processing_profile (
     shop_id integer NOT NULL,
     min_days smallint NOT NULL,
     max_days smallint NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -342,8 +342,8 @@ CREATE TABLE public.listing_return_profile (
     shop_id integer NOT NULL,
     return_window_days smallint,
     policy_descr_rich_text text,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     policy_type character varying(16) DEFAULT 'standard'::character varying NOT NULL
 );
 
@@ -378,8 +378,8 @@ CREATE TABLE public.listing_shipping_profile (
     flat_shipping_rate_cents integer,
     shipping_days_min integer CONSTRAINT shipping_profile_shipping_days_min_not_null NOT NULL,
     shipping_days_max integer CONSTRAINT shipping_profile_shipping_days_max_not_null NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     shop_id integer CONSTRAINT shipping_profile_shop_id_not_null NOT NULL,
     origin_zip character varying(5) CONSTRAINT shipping_profile_origin_zip_not_null NOT NULL
 );
@@ -400,7 +400,7 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.server_error_log (
     id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status_code integer,
     method character varying(10),
     path text,
@@ -461,8 +461,8 @@ ALTER SEQUENCE public.shipping_profile_id_seq OWNED BY public.listing_shipping_p
 CREATE TABLE public.shop (
     id integer NOT NULL,
     title character varying(128) NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     profile_rich_text text,
     profile_image_uuid character varying(36),
     shop_location character varying(64),
@@ -502,8 +502,8 @@ CREATE TABLE public.shop_user_role (
     shop_id integer NOT NULL,
     user_id integer NOT NULL,
     shop_role character varying(32) NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -535,7 +535,7 @@ CREATE TABLE public.user_favorite_listing (
     id integer NOT NULL,
     user_id integer NOT NULL,
     listing_id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -547,7 +547,7 @@ CREATE TABLE public.user_favorite_shop (
     id integer NOT NULL,
     user_id integer NOT NULL,
     shop_id integer NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP
+    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 
@@ -1192,4 +1192,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260714000000'),
     ('20260807000000'),
     ('20260819000000'),
-    ('20260821000000');
+    ('20260821000000'),
+    ('20260825000000');

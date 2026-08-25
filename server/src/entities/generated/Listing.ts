@@ -18,11 +18,11 @@ export class Listing {
   @Property({ length: 128 })
   title!: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', deleteRule: 'restrict' })
   category!: Rel<ListingCategory>;

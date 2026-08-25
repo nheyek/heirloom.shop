@@ -63,10 +63,12 @@ const ListingCardDataSchema = z.object({
 // shape — used solely by the shop manager's own listings endpoint, never by
 // the public-facing listing/shop/category/favorites endpoints that reuse
 // ListingCardDataSchema, so stock counts aren't exposed to customers.
-const ShopManagerListingCardDataSchema = ListingCardDataSchema.extend({
-	inventory: z.number().nullable().optional(),
-	trackInventory: z.boolean(),
-});
+const ShopManagerListingCardDataSchema = ListingCardDataSchema.extend(
+	{
+		inventory: z.number().nullable().optional(),
+		trackInventory: z.boolean(),
+	},
+);
 
 const ErrorSchema = z.object({ error: z.string() });
 
@@ -453,7 +455,9 @@ const ShopProfilesDataSchema = z.object({
 	processingProfiles: z.array(ShopManagerProcessingProfileSchema),
 	shippingProfiles: z.array(ShopManagerShippingProfileSchema),
 	returnProfiles: z.array(ShopManagerReturnProfileSchema),
-	personalizationProfiles: z.array(ShopManagerPersonalizationProfileSchema),
+	personalizationProfiles: z.array(
+		ShopManagerPersonalizationProfileSchema,
+	),
 });
 
 const ListingEditDataSchema = z.object({
@@ -477,7 +481,9 @@ const ListingEditDataSchema = z.object({
 // Create and update take an identical body; the only difference between
 // the two operations is the URL. Also reused as the canonical shape for
 // listing validation, so the two aren't declared independently.
-const ListingWriteBodySchema = ListingEditDataSchema.omit({ shortId: true });
+const ListingWriteBodySchema = ListingEditDataSchema.omit({
+	shortId: true,
+});
 
 const CreateProcessingProfileBodySchema = z.object({
 	name: z.string(),
@@ -728,7 +734,7 @@ export const OrderItemDisplayDataSchema = z.object({
 
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
-	createdAt: z.string().nullable(),
+	createdAt: z.string(),
 	orderStatus: z.nativeEnum(OrderStatus),
 	shippingAddress: ShippingAddressSchema,
 	items: z.array(OrderItemDisplayDataSchema),

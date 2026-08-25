@@ -1,4 +1,4 @@
-import { type Rel } from '@mikro-orm/core';
+import { type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
 import { AppUser } from './AppUser.js';
 import { Listing } from './Listing.js';
@@ -16,7 +16,7 @@ export class UserFavoriteListing {
   @ManyToOne({ entity: () => Listing, updateRule: 'no action', deleteRule: 'cascade', index: 'idx_user_favorite_listing_listing_id' })
   listing!: Rel<Listing>;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
 }

@@ -1,4 +1,4 @@
-import { Collection, type Rel } from '@mikro-orm/core';
+import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property, Unique } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 import { Shop } from './Shop.js';
@@ -22,11 +22,11 @@ export class ListingPersonalizationProfile {
   @Property({ length: 256, nullable: true })
   helperText?: string;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'personalizationProfile' })
   listingCollection = new Collection<Listing>(this);

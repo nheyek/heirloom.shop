@@ -1,4 +1,4 @@
-import { Collection, type Rel } from '@mikro-orm/core';
+import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { Listing } from './Listing.js';
 
@@ -20,11 +20,11 @@ export class ListingCategory {
   @ManyToOne({ entity: () => ListingCategory, updateRule: 'no action', nullable: true })
   parent?: Rel<ListingCategory>;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  updatedAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  updatedAt!: Date & Opt;
 
   @OneToMany({ entity: () => Listing, mappedBy: 'category' })
   listingCollection = new Collection<Listing>(this);

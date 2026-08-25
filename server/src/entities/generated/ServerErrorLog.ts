@@ -1,3 +1,4 @@
+import { type Opt } from '@mikro-orm/core';
 import { Entity, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 
 @Entity()
@@ -6,8 +7,8 @@ export class ServerErrorLog {
   @PrimaryKey()
   id!: number;
 
-  @Property({ nullable: true, defaultRaw: `CURRENT_TIMESTAMP` })
-  createdAt?: Date;
+  @Property({ type: 'datetime', defaultRaw: `CURRENT_TIMESTAMP` })
+  createdAt!: Date & Opt;
 
   @Property({ nullable: true })
   statusCode?: number;
