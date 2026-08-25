@@ -8,16 +8,14 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import {
-	ORDER_ITEM_THUMBNAIL_WIDTH,
-	OrderItemCard,
-} from '@client/components/itemDisplay/OrderItemCard';
+import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
 import { Layout } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
+import { formatDateLong } from '@client/utils/dateUtils';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
@@ -25,9 +23,12 @@ import {
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
+import { FaRegCalendarAlt } from 'react-icons/fa';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const SKELETON_ITEM_COUNT = 1;
+
+const DESKTOP_ORDER_ITEM_HEIGHT = 220;
 
 const OrderItemsList = ({
 	items,
@@ -47,7 +48,7 @@ const OrderItemsList = ({
 					borderRadius="md"
 					flexShrink={0}
 					height={
-						isCompact ? 340 : ORDER_ITEM_THUMBNAIL_WIDTH
+						isCompact ? 340 : DESKTOP_ORDER_ITEM_HEIGHT
 					}
 					width={isCompact ? 300 : '100%'}
 				/>
@@ -64,16 +65,15 @@ const OrderItemsList = ({
 								justifyContent="center"
 								alignItems="start"
 								position="absolute"
-								h={9}
-								minW={9}
+								h={8}
+								minW={8}
 								top={2}
 								right={2}
 								px={3}
 								borderRadius="full"
-								fontSize={24}
+								fontSize={22}
 								lineHeight={1.3}
 								fontWeight={500}
-								fontFamily={displayFontFamily}
 								background="gray.100"
 							>
 								{item.quantity}
@@ -142,10 +142,16 @@ export const OrderPage = () => {
 
 	const renderSkeleton = () => (
 		<>
-			<OrderItemsList
-				items={[]}
-				loading
-			/>
+			<Stack gap={4}>
+				<Skeleton
+					height={7}
+					width={220}
+				/>
+				<OrderItemsList
+					items={[]}
+					loading
+				/>
+			</Stack>
 
 			<Flex
 				direction={isMobile ? 'column' : 'row'}
@@ -169,15 +175,30 @@ export const OrderPage = () => {
 
 	const renderContent = (order: OrderResponse) => (
 		<>
-			<Stack gap={2}>
-				<Text
-					fontSize={26}
-					fontWeight={500}
-					fontFamily={displayFontFamily}
-				>
-					Item(s)
-				</Text>
-				<OrderItemsList items={order.items} />
+			<Stack gap={4}>
+				{order.createdAt && (
+					<HStack
+						fontSize={24}
+						fontFamily={displayFontFamily}
+					>
+						<FaRegCalendarAlt size={22} />
+						<Text>Placed:</Text>
+						<Text fontWeight={500}>
+							{formatDateLong(order.createdAt)}
+						</Text>
+					</HStack>
+				)}
+
+				<Stack gap={2}>
+					<Text
+						fontFamily={displayFontFamily}
+						fontSize={26}
+						fontWeight={500}
+					>
+						Item(s)
+					</Text>
+					<OrderItemsList items={order.items} />
+				</Stack>
 			</Stack>
 
 			<Flex
@@ -275,7 +296,7 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					maxWidth={600}
-					gap={7}
+					gap={8}
 				>
 					{showSkeleton
 						? renderSkeleton()

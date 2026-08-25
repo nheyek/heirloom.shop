@@ -66,36 +66,38 @@ export const OrderPreviewCard = ({
 	const remainingItemCount = itemCount - 1;
 
 	return (
-		<RouterLink to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}>
-			<Card.Root
-				variant="elevated"
-				flexDirection={isDesktop ? 'row' : 'column'}
-				width="100%"
-				{...cardProps}
+		<Card.Root
+			variant="elevated"
+			flexDirection={isDesktop ? 'row' : 'column'}
+			width="100%"
+			{...cardProps}
+		>
+			<Box
+				position="relative"
+				width={
+					isDesktop
+						? DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH
+						: '100%'
+				}
+				flexShrink={0}
 			>
-				<Box
-					position="relative"
-					width={
-						isDesktop
-							? DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH
-							: '100%'
-					}
-					flexShrink={0}
-				>
-					<MultiImage
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						urls={imageSource ? [imageSource] : []}
-					/>
-				</Box>
+				<MultiImage
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					urls={imageSource ? [imageSource] : []}
+				/>
+			</Box>
 
-				<Card.Body
-					p={3}
-					gap={2}
-					justifyContent="space-between"
-					minW={0}
-					fontFamily={displayFontFamily}
-				>
-					<HStack justifyContent="space-between">
+			<Card.Body
+				p={3}
+				gap={2}
+				justifyContent="space-between"
+				minW={0}
+				fontFamily={displayFontFamily}
+			>
+				<HStack justifyContent="space-between">
+					<RouterLink
+						to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
+					>
 						<Link asChild>
 							<Text
 								fontSize={28}
@@ -105,45 +107,46 @@ export const OrderPreviewCard = ({
 								{order.shortId}
 							</Text>
 						</Link>
+					</RouterLink>
+
+					<Text
+						fontSize={20}
+						flexShrink={0}
+					>
+						{order.createdAt &&
+							formatDateLong(order.createdAt)}
+					</Text>
+				</HStack>
+				<HStack justifyContent="space-between">
+					<HStack
+						gap={1}
+						flex={1}
+						minW={0}
+						fontSize={20}
+					>
 						<Text
-							fontSize={20}
-							flexShrink={0}
-						>
-							{order.createdAt &&
-								formatDateLong(order.createdAt)}
-						</Text>
-					</HStack>
-					<HStack justifyContent="space-between">
-						<HStack
-							gap={1}
-							flex={1}
+							truncate
 							minW={0}
-							fontSize={20}
 						>
-							<Text
-								truncate
-								minW={0}
-							>
-								{firstItem?.title}
-							</Text>
-							{remainingItemCount > 0 && (
-								<Text flexShrink={0}>
-									+ {remainingItemCount}{' '}
-									{remainingItemCount === 1
-										? 'item'
-										: 'items'}
-								</Text>
-							)}
-						</HStack>
-						<Text
-							fontSize={22}
-							flexShrink={0}
-						>
-							{formatCentsAsDollars(total)}
+							{firstItem?.title}
 						</Text>
+						{remainingItemCount > 0 && (
+							<Text flexShrink={0}>
+								+ {remainingItemCount}{' '}
+								{remainingItemCount === 1
+									? 'item'
+									: 'items'}
+							</Text>
+						)}
 					</HStack>
-				</Card.Body>
-			</Card.Root>
-		</RouterLink>
+					<Text
+						fontSize={22}
+						flexShrink={0}
+					>
+						{formatCentsAsDollars(total)}
+					</Text>
+				</HStack>
+			</Card.Body>
+		</Card.Root>
 	);
 };
