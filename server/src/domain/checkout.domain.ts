@@ -39,12 +39,19 @@ const resolveUnitPrice = (
 	personalizationCostCents: number | null | undefined,
 	personalizationText: string | null | undefined,
 	trackInventory: boolean,
+	listingInventory: number | null | undefined,
 ): number => {
 	const key = getCombinationKey(selectedOptions);
 	const combination = combinations[key];
+	const hasVariations = Object.keys(variations).length > 0;
 	if (combination?.disabled) throw new Error('Selected combination is unavailable');
-	if (trackInventory && (combination?.inventory ?? 0) === 0)
-		throw new Error('Selected combination is unavailable');
+	if (trackInventory) {
+		const relevantInventory = hasVariations
+			? (combination?.inventory ?? 0)
+			: (listingInventory ?? 0);
+		if (relevantInventory === 0)
+			throw new Error('Selected combination is unavailable');
+	}
 	if (personalizationText && personalizationCostCents == null) {
 		throw new Error('Personalization is not available for this listing');
 	}
@@ -90,6 +97,7 @@ export const calculateCheckoutTotals = (
 			listing.personalizationProfile?.costCents,
 			item.personalizationText,
 			listing.trackInventory,
+			listing.inventory,
 		);
 
 		subtotalCents += unitPriceCents * item.quantity;
@@ -121,6 +129,7 @@ export const createOrderItemSnapshots = (
 			listing.personalizationProfile?.costCents,
 			item.personalizationText,
 			listing.trackInventory,
+			listing.inventory,
 		);
 
 		snapshots.push({

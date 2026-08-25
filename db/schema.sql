@@ -37,6 +37,7 @@ CREATE TABLE public.app_order (
     email character varying(255) NOT NULL,
     access_key character varying(64) NOT NULL,
     user_id integer,
+    timeline jsonb DEFAULT '[]'::jsonb NOT NULL,
     CONSTRAINT app_order_short_id_nonempty CHECK (((short_id)::text <> ''::text))
 );
 
@@ -1193,4 +1194,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260807000000'),
     ('20260819000000'),
     ('20260821000000'),
-    ('20260825000000');
+    ('20260825000000'),
+    ('20260826000000');

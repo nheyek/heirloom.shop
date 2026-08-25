@@ -42,10 +42,7 @@ export const handleStripeWebhook = async (
 		const paymentIntent = event.data.object;
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
-			await updateOrderStatus(
-				orderId,
-				OrderStatus.PAYMENT_SUCCEEDED,
-			);
+			await updateOrderStatus(orderId, OrderStatus.CONFIRMED);
 
 			const order = await getOrderById(orderId);
 

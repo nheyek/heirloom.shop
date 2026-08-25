@@ -14,9 +14,9 @@ export const useOrderStatusPoll = () => {
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
 	const { clearCart } = useShoppingCart();
-	const pollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(
-		null,
-	);
+	const pollIntervalRef = useRef<ReturnType<
+		typeof setInterval
+	> | null>(null);
 
 	const stopPolling = () => {
 		if (pollIntervalRef.current) {
@@ -44,8 +44,7 @@ export const useOrderStatusPoll = () => {
 			);
 			if (
 				result.error === null &&
-				result.data.orderStatus ===
-					OrderStatus.PAYMENT_SUCCEEDED
+				result.data.orderStatus === OrderStatus.CONFIRMED
 			) {
 				stopPolling();
 				onSuccess?.();

@@ -10,7 +10,7 @@ const getApp = useApp();
 /**
  * Sample data:
  * - Order 1: shortId "ord123", status PENDING
- * - Order 2: shortId "ord456", status PAYMENT_SUCCEEDED
+ * - Order 2: shortId "ord456", status CONFIRMED
  */
 beforeAll(async () => {
 	const em = getEm();
@@ -50,7 +50,7 @@ beforeAll(async () => {
 		taxTotal: 0,
 		shippingPrice: 800,
 		accessKey: 'testkey2',
-		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+		orderStatus: OrderStatus.CONFIRMED,
 	});
 
 	await em.persist([order1, order2]).flush();
@@ -66,12 +66,12 @@ describe('GET /api/orders/:shortId/status', () => {
 		});
 	});
 
-	it('returns PAYMENT_SUCCEEDED status for completed order', async () => {
+	it('returns CONFIRMED status for completed order', async () => {
 		const res = await request(getApp()).get('/api/orders/ord456/status');
 
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({
-			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+			orderStatus: OrderStatus.CONFIRMED,
 		});
 	});
 

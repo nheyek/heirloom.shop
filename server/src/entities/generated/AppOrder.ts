@@ -45,6 +45,9 @@ export class AppOrder {
   @ManyToOne({ entity: () => AppUser, updateRule: 'no action', deleteRule: 'no action', nullable: true })
   user?: Rel<AppUser>;
 
+  @Property({ type: 'json' })
+  timeline: any & Opt = '[]';
+
   @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
   appOrderItemCollection = new Collection<AppOrderItem>(this);
 

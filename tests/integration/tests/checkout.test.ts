@@ -95,6 +95,18 @@ beforeAll(async () => {
 		inventory: 0,
 	});
 
+	const inStockCandle = em.create(Listing, {
+		shortId: 'ccnd01',
+		title: 'Soy Candle',
+		priceCents: 1800,
+		shop: shop1,
+		category: 'CERAMICS',
+		imageUuids: ['img-candle-01'],
+		available: true,
+		trackInventory: true,
+		inventory: 5,
+	});
+
 	const outOfStockVase = em.create(Listing, {
 		shortId: 'cvse01',
 		title: 'Glazed Stoneware Urn',
@@ -235,6 +247,7 @@ beforeAll(async () => {
 		.persist([
 			bowl,
 			outOfStockLamp,
+			inStockCandle,
 			outOfStockVase,
 			partiallyStockedTumblerSet,
 		])
@@ -443,6 +456,23 @@ describe('POST /api/checkout/calculateTax', () => {
 		expect(res.body.error).toMatch(/no longer available/i);
 	});
 
+	it('accepts an in-stock listing with no variations that tracks inventory', async () => {
+		const res = await request(getApp())
+			.post('/api/checkout/calculateTax')
+			.send({
+				items: [
+					{
+						listingShortId: 'ccnd01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: illinoisAddress,
+			});
+
+		expect(res.status).toBe(200);
+	});
+
 	it('rejects a specific out-of-stock combination even when the listing overall is available', async () => {
 		const res = await request(getApp())
 			.post('/api/checkout/calculateTax')
@@ -571,6 +601,7 @@ describe('POST /api/checkout/submitOrder', () => {
 		expect(order!.orderStatus).toBe(OrderStatus.PENDING);
 		expect(order!.paymentIntentId).toContain('pi_');
 		expect(order!.shippingAddress).toMatchObject(address);
+		expect(order!.timeline).toEqual([]);
 	});
 
 	it('handles multiple items with variations and captures snapshots correctly', async () => {
@@ -781,6 +812,26 @@ describe('POST /api/checkout/submitOrder', () => {
 
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/no longer available/i);
+	});
+
+	it('accepts an in-stock listing with no variations that tracks inventory', async () => {
+		const totalCents = expectedTotalCents(1800, 0, address);
+		const res = await request(getApp())
+			.post('/api/checkout/submitOrder')
+			.send({
+				items: [
+					{
+						listingShortId: 'ccnd01',
+						selectedOptions: {},
+						quantity: 1,
+					},
+				],
+				shippingAddress: address,
+				email: 'buyer@example.com',
+				totalCents,
+			});
+
+		expect(res.status).toBe(200);
 	});
 
 	it('rejects a specific out-of-stock combination even when the listing overall is available', async () => {

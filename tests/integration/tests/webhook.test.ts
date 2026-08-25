@@ -90,7 +90,13 @@ describe('POST /webhooks/stripe', () => {
 		// Verify order status was updated
 		const em = getEm();
 		const order = await em.findOne(AppOrder, { shortId: 'whk001' });
-		expect(order!.orderStatus).toBe(OrderStatus.PAYMENT_SUCCEEDED);
+		expect(order!.orderStatus).toBe(OrderStatus.CONFIRMED);
+		expect(order!.timeline).toHaveLength(1);
+		expect(order!.timeline[0]).toMatchObject({
+			status: OrderStatus.CONFIRMED,
+			info: '',
+		});
+		expect(typeof order!.timeline[0].timestamp).toBe('string');
 	});
 
 	it('handles multiple payment_intent.succeeded events', async () => {
@@ -114,7 +120,7 @@ describe('POST /webhooks/stripe', () => {
 
 		const em = getEm();
 		const order = await em.findOne(AppOrder, { shortId: 'whk002' });
-		expect(order!.orderStatus).toBe(OrderStatus.PAYMENT_SUCCEEDED);
+		expect(order!.orderStatus).toBe(OrderStatus.CONFIRMED);
 	});
 
 	it('acknowledges non-payment_intent.succeeded events without processing', async () => {

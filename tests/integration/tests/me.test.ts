@@ -51,7 +51,7 @@ describe('GET /api/me', () => {
 /**
  * Seed data (ids are DB-generated, not hardcoded, to avoid collisions with
  * other test files sharing the same database):
- * - AppOrder: shortId="me_ord01", status PAYMENT_SUCCEEDED, linked to test user
+ * - AppOrder: shortId="me_ord01", status CONFIRMED, linked to test user
  *     - AppOrderItem with a snapshot
  * - AppOrder: shortId="me_ord02", status PENDING, linked to test user
  */
@@ -77,7 +77,7 @@ describe('GET /api/me/orders', () => {
 			taxTotal: 156,
 			shippingPrice: 0,
 			accessKey: 'me_test_key',
-			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+			orderStatus: OrderStatus.CONFIRMED,
 			paymentIntentId: 'pi_metest01',
 		});
 
@@ -129,7 +129,7 @@ describe('GET /api/me/orders', () => {
 		const order = res.body.find((o: any) => o.shortId === 'me_ord01');
 		expect(order).toMatchObject({
 			shortId: 'me_ord01',
-			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+			orderStatus: OrderStatus.CONFIRMED,
 			subtotalCents: 2500,
 			shippingCents: 0,
 			taxCents: 156,

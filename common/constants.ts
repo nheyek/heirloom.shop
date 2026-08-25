@@ -63,7 +63,8 @@ export const imageVariantSuffix = (variant: ImageVariant): string =>
 
 export enum OrderStatus {
 	PENDING = 'PENDING',
-	PAYMENT_SUCCEEDED = 'PAYMENT_SUCCEEDED',
+	CONFIRMED = 'CONFIRMED',
+	SHIPPED = 'SHIPPED',
 }
 
 export enum ShopRole {

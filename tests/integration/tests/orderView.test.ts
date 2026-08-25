@@ -51,7 +51,7 @@ beforeAll(async () => {
 		taxTotal: 100,
 		shippingPrice: 200,
 		accessKey: ACCESS_KEY,
-		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+		orderStatus: OrderStatus.CONFIRMED,
 	});
 
 	const ownedOrder = em.create(AppOrder, {
@@ -62,7 +62,7 @@ beforeAll(async () => {
 		taxTotal: 200,
 		shippingPrice: 300,
 		accessKey: 'viewkey2',
-		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+		orderStatus: OrderStatus.CONFIRMED,
 		user: testUser,
 	});
 
@@ -74,7 +74,7 @@ beforeAll(async () => {
 		taxTotal: 300,
 		shippingPrice: 400,
 		accessKey: 'viewkey3',
-		orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+		orderStatus: OrderStatus.CONFIRMED,
 		user: otherUser,
 	});
 
@@ -174,7 +174,7 @@ describe('GET /api/me/orders', () => {
 			subtotalCents: 2000,
 			shippingCents: 300,
 			taxCents: 200,
-			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
+			orderStatus: OrderStatus.CONFIRMED,
 		});
 		expect(Array.isArray(order.items)).toBe(true);
 	});

@@ -5,6 +5,7 @@ import {
 	Skeleton,
 	Stack,
 	Text,
+	Timeline,
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
@@ -16,19 +17,57 @@ import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { formatDateLong } from '@client/utils/dateUtils';
+import { OrderStatus } from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
+	OrderTimelineEntry,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { useEffect, useState } from 'react';
-import { FaRegCalendarAlt } from 'react-icons/fa';
+import { FaCheck } from 'react-icons/fa';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const SKELETON_ITEM_COUNT = 1;
 
 const DESKTOP_ORDER_ITEM_HEIGHT = 220;
+
+const formatOrderStatus = (status: OrderStatus): string =>
+	status.charAt(0) + status.slice(1).toLowerCase();
+
+const OrderTimeline = ({
+	timeline,
+}: {
+	timeline: OrderTimelineEntry[];
+}) => {
+	if (timeline.length === 0) return null;
+
+	return (
+		<Timeline.Root>
+			{timeline.map((entry, i) => (
+				<Timeline.Item key={i}>
+					<Timeline.Connector>
+						<Timeline.Separator />
+						<Timeline.Indicator>
+							{entry.status ===
+								OrderStatus.CONFIRMED && <FaCheck />}
+						</Timeline.Indicator>
+					</Timeline.Connector>
+					<Timeline.Content>
+						<Timeline.Title fontSize={22}>
+							{formatOrderStatus(entry.status)}
+						</Timeline.Title>
+						<Timeline.Description fontSize={18}>
+							{formatDateLong(entry.timestamp)}
+							{entry.info && ` — ${entry.info}`}
+						</Timeline.Description>
+					</Timeline.Content>
+				</Timeline.Item>
+			))}
+		</Timeline.Root>
+	);
+};
 
 const OrderItemsList = ({
 	items,
@@ -175,18 +214,9 @@ export const OrderPage = () => {
 
 	const renderContent = (order: OrderResponse) => (
 		<>
-			<Stack gap={4}>
-				<HStack
-					fontSize={24}
-					fontFamily={displayFontFamily}
-				>
-					<FaRegCalendarAlt size={20} />
-					<Text>Placed:</Text>
-					<Text fontWeight={500}>
-						{formatDateLong(order.createdAt)}
-					</Text>
-				</HStack>
+			<OrderTimeline timeline={order.timeline} />
 
+			<Stack gap={5}>
 				<Stack gap={2}>
 					<Text
 						fontFamily={displayFontFamily}
@@ -197,75 +227,77 @@ export const OrderPage = () => {
 					</Text>
 					<OrderItemsList items={order.items} />
 				</Stack>
-			</Stack>
 
-			<Flex
-				direction={isMobile ? 'column' : 'row'}
-				gapX={20}
-				gapY={5}
-				alignItems="start"
-				fontSize={18}
-			>
-				<Stack
-					width={isMobile ? '100%' : 250}
-					gap={1}
+				<Flex
+					direction={isMobile ? 'column' : 'row'}
+					gapX={20}
+					gapY={5}
+					alignItems="start"
+					fontSize={18}
 				>
-					<SectionHeading>Summary</SectionHeading>
-					<Stack gap={0.5}>
-						{[
-							{
-								label: 'Item(s) Subtotal',
-								value: formatCentsAsDollars(
-									order.subtotalCents,
-								),
-							},
-							{
-								label: 'Shipping',
-								value: formatCentsAsDollars(
-									order.shippingCents,
-								),
-							},
-							{
-								label: 'Tax',
-								value: formatCentsAsDollars(
-									order.taxCents,
-								),
-							},
-						].map(({ label, value }) => (
-							<HStack
-								key={label}
-								justifyContent="space-between"
-							>
-								<Text>{label}</Text>
-								<Text fontSize={20}>{value}</Text>
-							</HStack>
-						))}
-						<HStack
-							justifyContent="space-between"
-							fontWeight={500}
-						>
-							<Text>Total</Text>
-							<Text fontSize={20}>
-								{formatCentsAsDollars(
-									order.subtotalCents +
-										order.shippingCents +
-										order.taxCents,
-								)}
-							</Text>
-						</HStack>
-					</Stack>
-				</Stack>
-
-				<Stack gap={1}>
-					<SectionHeading>Ship To</SectionHeading>
-					<Text
-						whiteSpace="pre-line"
-						lineHeight={1.5}
+					<Stack
+						width={isMobile ? '100%' : 250}
+						gap={1}
 					>
-						{formatShippingAddress(order.shippingAddress)}
-					</Text>
-				</Stack>
-			</Flex>
+						<SectionHeading>Summary</SectionHeading>
+						<Stack gap={0.5}>
+							{[
+								{
+									label: 'Item(s) Subtotal',
+									value: formatCentsAsDollars(
+										order.subtotalCents,
+									),
+								},
+								{
+									label: 'Shipping',
+									value: formatCentsAsDollars(
+										order.shippingCents,
+									),
+								},
+								{
+									label: 'Tax',
+									value: formatCentsAsDollars(
+										order.taxCents,
+									),
+								},
+							].map(({ label, value }) => (
+								<HStack
+									key={label}
+									justifyContent="space-between"
+								>
+									<Text>{label}</Text>
+									<Text fontSize={20}>{value}</Text>
+								</HStack>
+							))}
+							<HStack
+								justifyContent="space-between"
+								fontWeight={500}
+							>
+								<Text>Total</Text>
+								<Text fontSize={20}>
+									{formatCentsAsDollars(
+										order.subtotalCents +
+											order.shippingCents +
+											order.taxCents,
+									)}
+								</Text>
+							</HStack>
+						</Stack>
+					</Stack>
+
+					<Stack gap={1}>
+						<SectionHeading>Ship To</SectionHeading>
+						<Text
+							whiteSpace="pre-line"
+							lineHeight={1.5}
+						>
+							{formatShippingAddress(
+								order.shippingAddress,
+							)}
+						</Text>
+					</Stack>
+				</Flex>
+			</Stack>
 
 			<Stack
 				gap={1}
@@ -294,7 +326,7 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					maxWidth={600}
-					gap={8}
+					gap={10}
 				>
 					{showSkeleton
 						? renderSkeleton()

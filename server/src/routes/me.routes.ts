@@ -1,6 +1,7 @@
 import {
 	meContract,
 	OrderItemDisplayData,
+	OrderTimelineEntry,
 } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
 import { ERROR_MESSAGES } from '@server/constants';
@@ -120,6 +121,9 @@ export const meRouter = s.router(meContract, {
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,
 					taxCents: order.taxTotal,
+					timeline: (Array.isArray(order.timeline)
+						? order.timeline
+						: []) as OrderTimelineEntry[],
 				})),
 			};
 		},

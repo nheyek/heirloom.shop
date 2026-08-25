@@ -1,6 +1,7 @@
 import { OrderStatus } from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
+	OrderTimelineEntry,
 	ShippingAddress,
 } from '@heirloom/common/contract';
 import { getEm } from '@server/db';
@@ -35,6 +36,7 @@ export const createOrder = async (
 		shippingPrice: shippingCents,
 		taxTotal: taxTotalCents,
 		orderStatus: OrderStatus.PENDING,
+		timeline: [],
 		email,
 		...(user && { user }),
 	});
@@ -57,10 +59,18 @@ export const createOrder = async (
 export const updateOrderStatus = async (
 	orderId: number,
 	status: OrderStatus,
+	info: string = '',
 ): Promise<void> => {
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { id: orderId });
 	order.orderStatus = status;
+	const timeline = (
+		Array.isArray(order.timeline) ? order.timeline : []
+	) as OrderTimelineEntry[];
+	order.timeline = [
+		...timeline,
+		{ status, timestamp: new Date().toISOString(), info },
+	];
 	await em.flush();
 };
 

@@ -1,4 +1,4 @@
-import { ordersContract, OrderItemDisplayData } from '@heirloom/common/contract';
+import { ordersContract, OrderItemDisplayData, OrderTimelineEntry } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
@@ -63,6 +63,9 @@ export const orderRouter = s.router(ordersContract, {
 						subtotalCents: order.subtotal,
 						shippingCents: order.shippingPrice,
 						taxCents: order.taxTotal,
+						timeline: (Array.isArray(order.timeline)
+							? order.timeline
+							: []) as OrderTimelineEntry[],
 					},
 				};
 			} catch (err) {

@@ -732,6 +732,12 @@ export const OrderItemDisplayDataSchema = z.object({
 	personalizationName: z.string().nullable().optional(),
 });
 
+export const OrderTimelineEntrySchema = z.object({
+	status: z.nativeEnum(OrderStatus),
+	timestamp: z.string(),
+	info: z.string(),
+});
+
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
 	createdAt: z.string(),
@@ -741,6 +747,7 @@ const OrderResponseSchema = z.object({
 	subtotalCents: z.number(),
 	shippingCents: z.number(),
 	taxCents: z.number(),
+	timeline: z.array(OrderTimelineEntrySchema),
 });
 
 export const ordersContract = c.router({
@@ -946,6 +953,9 @@ export type OrderItemDisplayData = z.infer<
 	typeof OrderItemDisplayDataSchema
 >;
 export type OrderResponse = z.infer<typeof OrderResponseSchema>;
+export type OrderTimelineEntry = z.infer<
+	typeof OrderTimelineEntrySchema
+>;
 export type SearchResultCollection = z.infer<
 	typeof SearchResultCollectionSchema
 >;
