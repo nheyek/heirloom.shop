@@ -31,6 +31,7 @@ export const RichTextDisplay = (props: Props) => {
 				},
 				'& li': {
 					fontSize,
+					marginBottom: 2,
 				},
 				'& em': {
 					fontStyle: 'italic',

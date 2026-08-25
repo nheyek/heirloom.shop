@@ -52,7 +52,7 @@ DECLARE
     sample_listing_1_full_descr JSONB := '[
         {
             "title": "Basic Info",
-            "richText": "<ul><li><p>Tells the true solar time anywhere in the world using just the power of the sun, achieving surprising accuracy estimated by experts to be better than +/- 10 minutes!</p></li><li><p>Crafted by our family of watchmakers for over 27 years in the same small workshop near Graz in Austria!</p></li><li><p>Measures just 60mm / 2.36 inches in diameter, fitting easily in your pocket and meeting the international sizing standard for pocket watches too!</p></li><li><p>Solid brass &amp; steel construction, with artisan black ink and every third sundial fully disassembled &amp; checked to ensure quality!</p></li><li><p>Inspired by the historic Universal Equinoctial Ring Sundial, currently on display at the Royal Observatory in Greenwich!</p></li><li><p>Can also be used as a precise compass once set up, making a truly versatile instrument!</p></li></ul><p></p>"
+            "richText": "<ul><li>Tells the true solar time anywhere in the world using just the power of the sun, achieving surprising accuracy estimated by experts to be better than +/- 10 minutes!</li><li>Crafted by our family of watchmakers for over 27 years in the same small workshop near Graz in Austria!</li><li>Measures just 60mm / 2.36 inches in diameter, fitting easily in your pocket and meeting the international sizing standard for pocket watches too!</li><li>Solid brass &amp; steel construction, with artisan black ink and every third sundial fully disassembled &amp; checked to ensure quality!</li><li>Inspired by the historic Universal Equinoctial Ring Sundial, currently on display at the Royal Observatory in Greenwich!</li><li>Can also be used as a precise compass once set up, making a truly versatile instrument!</li></ul><p></p>"
         },
         {
             "title": "About the Sundial",
@@ -60,7 +60,7 @@ DECLARE
         },
         {
             "title": "Specifications",
-            "richText": "<ul><li><p>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</p></li><li><p>Fully assembled weight: 40 g.</p></li><li><p>Ø 60 mm / 2.36 inches diameter.</p></li><li><p>Includes 10 language instruction manual.</p></li><li><p>Comes with an organic cork inlay and an elegant white slider case.</p></li><li><p>The outer and inner rings can be folded together for easy transport.</p></li></ul><p></p>"
+            "richText": "<ul><li>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</li><li>Fully assembled weight: 40 g.</li><li>Ø 60 mm / 2.36 inches diameter.</li><li>Includes 10 language instruction manual.</li><li>Comes with an organic cork inlay and an elegant white slider case.</li><li>The outer and inner rings can be folded together for easy transport.</li></ul><p></p>"
         }
     ]';
 
@@ -79,7 +79,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Total length (handle to rim): 15.5\"</p></li><li><p>Rim to rim: 8.75\"</p></li><li><p>Flat interior cooking surface: 6.25\"</p></li><li><p>Height from table to handle top: 4\"</p></li><li><p>Height from table to bowl lip: 1.25\"</p></li><li><p>Handle length: 7.25\"</p></li><li><p>Weight: approximately 3 lbs</p></li></ul>"
+            "richText": "<ul><li>Total length (handle to rim): 15.5\"</li><li>Rim to rim: 8.75\"</li><li>Flat interior cooking surface: 6.25\"</li><li>Height from table to handle top: 4\"</li><li>Height from table to bowl lip: 1.25\"</li><li>Handle length: 7.25\"</li><li>Weight: approximately 3 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -102,7 +102,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Total length (handle to opposite handle): 21.5\"</p></li><li><p>Rim to rim: 11\"</p></li><li><p>Flat interior cooking surface: 9.25\"</p></li><li><p>Height from table to long handle top: 4.5\"</p></li><li><p>Height from table to bowl lip: 1.375\"</p></li><li><p>Long handle length: 9\"</p></li><li><p>Helper handle height: 3.5\"</p></li><li><p>Weight: approximately 5.8 lbs</p></li></ul>"
+            "richText": "<ul><li>Total length (handle to opposite handle): 21.5\"</li><li>Rim to rim: 11\"</li><li>Flat interior cooking surface: 9.25\"</li><li>Height from table to long handle top: 4.5\"</li><li>Height from table to bowl lip: 1.375\"</li><li>Long handle length: 9\"</li><li>Helper handle height: 3.5\"</li><li>Weight: approximately 5.8 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -125,7 +125,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Total width (handle to handle): 15.5\"</p></li><li><p>Rim to rim: 13.5\"</p></li><li><p>Flat interior cooking surface: 11\"</p></li><li><p>Height from table to handle top: 4\"</p></li><li><p>Height from table to bowl lip: 1.75\"</p></li><li><p>10 gauge steel (approx. 0.135\" thick)</p></li><li><p>Weight: approximately 6.3 lbs</p></li></ul>"
+            "richText": "<ul><li>Total width (handle to handle): 15.5\"</li><li>Rim to rim: 13.5\"</li><li>Flat interior cooking surface: 11\"</li><li>Height from table to handle top: 4\"</li><li>Height from table to bowl lip: 1.75\"</li><li>10 gauge steel (approx. 0.135\" thick)</li><li>Weight: approximately 6.3 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -148,7 +148,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Height: 4\"</p></li><li><p>Width at widest point: 8\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 1139-25</p></li></ul>"
+            "richText": "<ul><li>Height: 4\"</li><li>Width at widest point: 8\"</li><li>Designer: John D. Wareham</li><li>Mold number: 1139-25</li></ul>"
         },
         {
             "title": "Care",
@@ -174,7 +174,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Height: 7.5\"</p></li><li><p>Width at widest point: 5.5\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 2918E-25</p></li></ul>"
+            "richText": "<ul><li>Height: 7.5\"</li><li>Width at widest point: 5.5\"</li><li>Designer: John D. Wareham</li><li>Mold number: 2918E-25</li></ul>"
         },
         {
             "title": "Care",
@@ -203,7 +203,7 @@ DECLARE
         },
         {
             "title": "Specifications",
-            "richText": "<ul><li><p>Capacity: up to 2 litres</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+            "richText": "<ul><li>Capacity: up to 2 litres</li><li>Handcrafted by Bohemian glass artisans</li><li>Lead-free crystal glass</li><li>Dishwasher safe</li></ul>"
         },
         {
             "title": "Care",
@@ -226,7 +226,7 @@ DECLARE
         },
         {
             "title": "Specifications",
-            "richText": "<ul><li><p>Capacity: up to 1 litre</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+            "richText": "<ul><li>Capacity: up to 1 litre</li><li>Handcrafted by Bohemian glass artisans</li><li>Lead-free crystal glass</li><li>Dishwasher safe</li></ul>"
         },
         {
             "title": "Care",
@@ -253,7 +253,7 @@ DECLARE
         },
         {
             "title": "Specifications",
-            "richText": "<ul><li><p>Capacity: up to 200ml per tumbler</p></li><li><p>Handcrafted by Bohemian glass artisans</p></li><li><p>Lead-free crystal glass</p></li><li><p>Dishwasher safe</p></li></ul>"
+            "richText": "<ul><li>Capacity: up to 200ml per tumbler</li><li>Handcrafted by Bohemian glass artisans</li><li>Lead-free crystal glass</li><li>Dishwasher safe</li></ul>"
         },
         {
             "title": "Care",
@@ -290,7 +290,7 @@ DECLARE
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li><p>Height: 9.25\"</p></li><li><p>Width at widest point: 5\"</p></li><li><p>Designer: John D. Wareham</p></li><li><p>Mold number: 2880-25</p></li></ul>"
+            "richText": "<ul><li>Height: 9.25\"</li><li>Width at widest point: 5\"</li><li>Designer: John D. Wareham</li><li>Mold number: 2880-25</li></ul>"
         },
         {
             "title": "Care",
@@ -315,7 +315,7 @@ DECLARE
     sample_listing_11_full_descr JSONB := '[
         {
             "title": "Basic Info",
-            "richText": "<ul><li><p>Own the first Nocturnal ever that can tell the time at night at any location in EITHER the Northern Hemisphere or the Southern Hemisphere using the fixed stars visible in the night sky!</p></li><li><p>Produced in collaboration with designer Tony Sprent in Tasmania to utilise Polaris in the Northern Hemisphere and multiple celestial bodies in the Southern Hemisphere (Alpha and Beta Centauri, plus the Southern Cross)!</p></li><li><p>Measures just 60mm / 2.36 inches in diameter, fitting easily in your pocket and meeting the international sizing standard for pocket watches!</p></li><li><p>Will remain accurate for many years because the variation in the direct ascension varies very little over the course of centuries, making it a truly long-lived instrument!</p></li><li><p>Produced to our designs &amp; exacting standards in a small family workshop outside of Madrid, Spain!</p></li><li><p>Solid brass construction, with every Universal Pocket Nocturnal carefully hand-checked to ensure quality!</p></li></ul><p></p>"
+            "richText": "<ul><li>Own the first Nocturnal ever that can tell the time at night at any location in EITHER the Northern Hemisphere or the Southern Hemisphere using the fixed stars visible in the night sky!</li><li>Produced in collaboration with designer Tony Sprent in Tasmania to utilise Polaris in the Northern Hemisphere and multiple celestial bodies in the Southern Hemisphere (Alpha and Beta Centauri, plus the Southern Cross)!</li><li>Measures just 60mm / 2.36 inches in diameter, fitting easily in your pocket and meeting the international sizing standard for pocket watches!</li><li>Will remain accurate for many years because the variation in the direct ascension varies very little over the course of centuries, making it a truly long-lived instrument!</li><li>Produced to our designs &amp; exacting standards in a small family workshop outside of Madrid, Spain!</li><li>Solid brass construction, with every Universal Pocket Nocturnal carefully hand-checked to ensure quality!</li></ul><p></p>"
         },
         {
             "title": "About the Nocturnal",
@@ -323,7 +323,7 @@ DECLARE
         },
         {
             "title": "Specifications",
-            "richText": "<ul><li><p>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</p></li><li><p>Fully assembled weight: 81.8 g.</p></li><li><p>Ø 60 mm / 2.36 inches diameter.</p></li><li><p>Includes 2 language instruction manual (English and German).</p></li><li><p>Comes with an organic cork inlay and an elegant grey slider case.</p></li></ul><p></p>"
+            "richText": "<ul><li>Made of solid brass and steel with artisan black ink coating - for a reassuring weight.</li><li>Fully assembled weight: 81.8 g.</li><li>Ø 60 mm / 2.36 inches diameter.</li><li>Includes 2 language instruction manual (English and German).</li><li>Comes with an organic cork inlay and an elegant grey slider case.</li></ul><p></p>"
         }
     ]';
 
