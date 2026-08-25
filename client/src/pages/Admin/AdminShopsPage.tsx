@@ -135,11 +135,9 @@ export const AdminShopsPage = () => {
 													</Link>
 												</Table.Cell>
 												<Table.Cell>
-													{shop.createdAt
-														? new Date(
-																shop.createdAt,
-															).toLocaleDateString()
-														: '—'}
+													{new Date(
+														shop.createdAt,
+													).toLocaleDateString()}
 												</Table.Cell>
 												<Table.Cell>
 													{shop.directFulfillment

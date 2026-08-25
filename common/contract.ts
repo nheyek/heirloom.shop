@@ -771,7 +771,7 @@ const AdminShopListItemSchema = z.object({
 	id: z.number(),
 	shortId: z.string(),
 	title: z.string(),
-	createdAt: z.string().nullable(),
+	createdAt: z.string(),
 	listingCount: z.number(),
 	directFulfillment: z.boolean(),
 });

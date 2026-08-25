@@ -73,7 +73,7 @@ export const findShopsForAdmin = async (): Promise<
 		FROM shop s
 		LEFT JOIN listing l ON l.shop_id = s.id
 		GROUP BY s.id, s.short_id, s.title, s.created_at, s.direct_fulfillment
-		ORDER BY s.created_at DESC NULLS LAST
+		ORDER BY s.created_at DESC
 	`);
 };
 

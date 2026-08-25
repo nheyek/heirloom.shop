@@ -108,7 +108,7 @@ export const meRouter = s.router(meContract, {
 				status: 200 as const,
 				body: orders.map((order) => ({
 					shortId: order.shortId,
-					createdAt: order.createdAt?.toISOString() ?? null,
+					createdAt: order.createdAt.toISOString(),
 					orderStatus: order.orderStatus as OrderStatus,
 					shippingAddress: order.shippingAddress,
 					items: order.appOrderItemCollection

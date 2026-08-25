@@ -113,8 +113,7 @@ export const OrderPreviewCard = ({
 						fontSize={20}
 						flexShrink={0}
 					>
-						{order.createdAt &&
-							formatDateLong(order.createdAt)}
+						{formatDateLong(order.createdAt)}
 					</Text>
 				</HStack>
 				<HStack justifyContent="space-between">
