@@ -180,7 +180,7 @@ export const OrderPage = () => {
 					fontSize={24}
 					fontFamily={displayFontFamily}
 				>
-					<FaRegCalendarAlt size={22} />
+					<FaRegCalendarAlt size={20} />
 					<Text>Placed:</Text>
 					<Text fontWeight={500}>
 						{formatDateLong(order.createdAt)}

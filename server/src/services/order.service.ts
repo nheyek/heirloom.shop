@@ -98,7 +98,10 @@ export const getOrdersForUser = async (
 	const em = getEm();
 	return em.find(
 		AppOrder,
-		{ user: { id: userId } },
+		{
+			user: { id: userId },
+			orderStatus: { $ne: OrderStatus.PENDING },
+		},
 		{
 			populate: ['appOrderItemCollection'],
 			orderBy: { createdAt: 'DESC' },

@@ -51,8 +51,9 @@ describe('GET /api/me', () => {
 /**
  * Seed data (ids are DB-generated, not hardcoded, to avoid collisions with
  * other test files sharing the same database):
- * - AppOrder: shortId="me_ord01", status PENDING, linked to test user
+ * - AppOrder: shortId="me_ord01", status PAYMENT_SUCCEEDED, linked to test user
  *     - AppOrderItem with a snapshot
+ * - AppOrder: shortId="me_ord02", status PENDING, linked to test user
  */
 describe('GET /api/me/orders', () => {
 	beforeAll(async () => {
@@ -76,11 +77,32 @@ describe('GET /api/me/orders', () => {
 			taxTotal: 156,
 			shippingPrice: 0,
 			accessKey: 'me_test_key',
-			orderStatus: OrderStatus.PENDING,
+			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
 			paymentIntentId: 'pi_metest01',
 		});
 
-		await em.persist(order).flush();
+		const pendingOrder = em.create(AppOrder, {
+			shortId: 'me_ord02',
+			email: TEST_USER_EMAIL,
+			user: testUser,
+			shippingAddress: {
+				firstName: 'Nick',
+				lastName: 'Test',
+				line1: '1 Test St',
+				line2: '',
+				city: 'Chicago',
+				state: 'IL',
+				zip: '60601',
+			},
+			subtotal: 2500,
+			taxTotal: 156,
+			shippingPrice: 0,
+			accessKey: 'me_test_key_2',
+			orderStatus: OrderStatus.PENDING,
+			paymentIntentId: 'pi_metest02',
+		});
+
+		await em.persist([order, pendingOrder]).flush();
 
 		const item = em.create(AppOrderItem, {
 			order,
@@ -107,7 +129,7 @@ describe('GET /api/me/orders', () => {
 		const order = res.body.find((o: any) => o.shortId === 'me_ord01');
 		expect(order).toMatchObject({
 			shortId: 'me_ord01',
-			orderStatus: OrderStatus.PENDING,
+			orderStatus: OrderStatus.PAYMENT_SUCCEEDED,
 			subtotalCents: 2500,
 			shippingCents: 0,
 			taxCents: 156,
@@ -124,5 +146,14 @@ describe('GET /api/me/orders', () => {
 			quantity: 1,
 		});
 		expect(typeof order.createdAt).toBe('string');
+	});
+
+	it('excludes pending orders', async () => {
+		const res = await request(getApp())
+			.get('/api/me/orders')
+			.set('Authorization', 'Bearer test');
+		const shortIds = res.body.map((o: any) => o.shortId);
+		expect(shortIds).toContain('me_ord01');
+		expect(shortIds).not.toContain('me_ord02');
 	});
 });
