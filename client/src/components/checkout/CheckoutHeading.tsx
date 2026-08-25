@@ -1,4 +1,5 @@
 import { HStack, Span } from '@chakra-ui/react';
+import { displayFontFamily } from '@client/theme';
 import { IconType } from 'react-icons';
 
 type Props = {
@@ -15,6 +16,7 @@ export const CheckoutHeading = (props: Props) => (
 		<Span
 			fontSize={24}
 			fontWeight={500}
+			fontFamily={displayFontFamily}
 		>
 			{props.children}
 		</Span>

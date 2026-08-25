@@ -211,7 +211,6 @@ export const CheckoutPage = () => {
 						variant="outline"
 						color="white"
 						border="2px solid white"
-						borderRadius="md"
 						onClick={handleConfirmation}
 						disabled={pendingSubmit || taxCalcLoading}
 						loading={pendingSubmit}
@@ -264,7 +263,6 @@ export const CheckoutPage = () => {
 						<Button
 							size="xl"
 							width="100%"
-							borderRadius="md"
 							mb={10}
 							fontSize={24}
 							onClick={handleConfirmation}

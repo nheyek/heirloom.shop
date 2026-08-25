@@ -172,7 +172,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 											h="100%"
 											fontSize={26}
 											flex={1}
-											borderRadius="lg"
 											onClick={() => {
 												navigate(
 													CLIENT_ROUTES.checkout,
