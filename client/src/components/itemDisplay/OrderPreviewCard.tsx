@@ -1,4 +1,5 @@
 import {
+	Badge,
 	Box,
 	Card,
 	CardRootProps,
@@ -12,18 +13,23 @@ import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { displayFontFamily } from '@client/theme';
+import { defaultFontFamily, displayFontFamily } from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
 import {
 	ImageSource,
 	listingImageUrl,
 } from '@client/utils/imageUtils';
-import { ImageVariant } from '@heirloom/common/constants';
+import {
+	ImageVariant,
+	OrderStatus,
+} from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
 	OrderResponse,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { capitalize } from '@heirloom/common/utils/stringUtils';
+import { FaCheck } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 120;
@@ -80,6 +86,7 @@ export const OrderPreviewCard = ({
 						: '100%'
 				}
 				flexShrink={0}
+				aspectRatio={1}
 			>
 				<MultiImage
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
@@ -89,7 +96,7 @@ export const OrderPreviewCard = ({
 
 			<Card.Body
 				p={3}
-				gap={2}
+				gap={1}
 				justifyContent="space-between"
 				minW={0}
 				fontFamily={displayFontFamily}
@@ -108,36 +115,49 @@ export const OrderPreviewCard = ({
 							</Text>
 						</Link>
 					</RouterLink>
+					{order.orderStatus === OrderStatus.CONFIRMED && (
+						<Badge
+							size="lg"
+							fontSize={16}
+							alignSelf="flex-start"
+							fontFamily={defaultFontFamily}
+						>
+							<FaCheck />
+							{capitalize(order.orderStatus)}
+						</Badge>
+					)}
+				</HStack>
 
+				<HStack
+					gap={1}
+					flex={1}
+					minW={0}
+					fontSize={20}
+				>
+					<Text
+						truncate
+						minW={0}
+					>
+						{firstItem?.title}
+					</Text>
+					{remainingItemCount > 0 && (
+						<Text flexShrink={0}>
+							+ {remainingItemCount}{' '}
+							{remainingItemCount === 1
+								? 'item'
+								: 'items'}
+						</Text>
+					)}
+				</HStack>
+
+				<HStack justifyContent="space-between">
 					<Text
 						fontSize={20}
 						flexShrink={0}
 					>
 						{formatDateLong(order.createdAt)}
 					</Text>
-				</HStack>
-				<HStack justifyContent="space-between">
-					<HStack
-						gap={1}
-						flex={1}
-						minW={0}
-						fontSize={20}
-					>
-						<Text
-							truncate
-							minW={0}
-						>
-							{firstItem?.title}
-						</Text>
-						{remainingItemCount > 0 && (
-							<Text flexShrink={0}>
-								+ {remainingItemCount}{' '}
-								{remainingItemCount === 1
-									? 'item'
-									: 'items'}
-							</Text>
-						)}
-					</HStack>
+
 					<Text
 						fontSize={22}
 						flexShrink={0}
