@@ -8,6 +8,8 @@ jest.unstable_mockModule('@server/services/payment.service', () => ({
 		id: 'pi_test_mock',
 		client_secret: 'pi_test_mock_secret',
 	}),
+	retrievePaymentIntentCharge: jest.fn<() => Promise<null>>().mockResolvedValue(null),
+	extractPaymentDetails: jest.fn<() => null>().mockReturnValue(null),
 }));
 
 import { ShippingAddress } from '@heirloom/common/contract';

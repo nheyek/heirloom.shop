@@ -22,12 +22,24 @@ import {
 	OrderItemDisplayData,
 	OrderResponse,
 	OrderTimelineEntry,
+	PaymentDetails,
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { capitalize } from '@heirloom/common/utils/stringUtils';
 import { useEffect, useState } from 'react';
+import { IconType } from 'react-icons';
 import { FaCheck } from 'react-icons/fa';
+import {
+	FaCcAmex,
+	FaCcApplePay,
+	FaCcDinersClub,
+	FaCcDiscover,
+	FaCcJcb,
+	FaCcMastercard,
+	FaCcVisa,
+	FaCreditCard,
+} from 'react-icons/fa6';
 import { useParams, useSearchParams } from 'react-router-dom';
 
 const ORDER_ITEM_SKELETON_COUNT = 1;
@@ -35,6 +47,61 @@ const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
 const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
 const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
+
+const CARD_BRAND_LABELS: Record<string, string> = {
+	visa: 'Visa',
+	mastercard: 'Mastercard',
+	amex: 'American Express',
+	discover: 'Discover',
+	diners: 'Diners Club',
+	jcb: 'JCB',
+	unionpay: 'UnionPay',
+};
+
+const CARD_BRAND_ICONS: Partial<Record<string, IconType>> = {
+	visa: FaCcVisa,
+	mastercard: FaCcMastercard,
+	amex: FaCcAmex,
+	discover: FaCcDiscover,
+	diners: FaCcDinersClub,
+	jcb: FaCcJcb,
+};
+
+const WALLET_LABELS: Record<string, string> = {
+	apple_pay: 'Apple Pay',
+};
+
+const WALLET_ICONS: Partial<Record<string, IconType>> = {
+	apple_pay: FaCcApplePay,
+};
+
+const PaymentDetailsDisplay = ({
+	paymentDetails,
+}: {
+	paymentDetails: PaymentDetails;
+}) => {
+	const { cardBrand, cardLast4, walletType } = paymentDetails;
+
+	const brandLabel =
+		CARD_BRAND_LABELS[cardBrand] ?? capitalize(cardBrand);
+	const walletLabel = walletType
+		? (WALLET_LABELS[walletType] ?? capitalize(walletType))
+		: null;
+	const Icon =
+		(walletType && WALLET_ICONS[walletType]) ||
+		CARD_BRAND_ICONS[cardBrand] ||
+		FaCreditCard;
+
+	return (
+		<HStack fontSize={22}>
+			<Icon size={24} />
+			<Text>
+				{brandLabel} •••• {cardLast4}
+				{walletLabel && ` via ${walletLabel}`}
+			</Text>
+		</HStack>
+	);
+};
 
 const OrderTimeline = ({
 	timeline,
@@ -193,7 +260,7 @@ const OrderPageSkeleton = () => {
 					<Skeleton
 						flexShrink={0}
 						width={isMobile ? '100%' : 200}
-						height={150}
+						height={175}
 					/>
 					<Skeleton
 						flexShrink={0}
@@ -237,7 +304,7 @@ const OrderPageContent = ({ order }: { order: OrderResponse }) => {
 					fontSize={18}
 				>
 					<Stack
-						width={isMobile ? '100%' : 200}
+						width={isMobile ? '100%' : 250}
 						gap={1}
 					>
 						<SectionHeading>Summary</SectionHeading>
@@ -298,6 +365,15 @@ const OrderPageContent = ({ order }: { order: OrderResponse }) => {
 						</Text>
 					</Stack>
 				</Flex>
+				{order.paymentDetails && (
+					<Stack gap={1}>
+						<SectionHeading>Payment</SectionHeading>
+
+						<PaymentDetailsDisplay
+							paymentDetails={order.paymentDetails}
+						/>
+					</Stack>
+				)}
 			</Stack>
 
 			<Stack

@@ -11,9 +11,11 @@ const getApp = useApp();
  * with other test files sharing the same database):
  * - Order shortId "whk001", status PENDING
  * - Order shortId "whk002", status PENDING
+ * - Order shortId "whk003", status PENDING
  */
 let order1Id: number;
 let order2Id: number;
+let order3Id: number;
 
 beforeAll(async () => {
 	const em = getEm();
@@ -60,10 +62,32 @@ beforeAll(async () => {
 		paymentIntentId: 'pi_test456',
 	});
 
-	await em.persist([order1, order2]).flush();
+	const order3 = em.create(AppOrder, {
+		shortId: 'whk003',
+		email: 'third@example.com',
+
+		shippingAddress: {
+			firstName: 'Sam',
+			lastName: 'Lee',
+			line1: '789 Pine Rd',
+			line2: '',
+			city: 'Austin',
+			state: 'TX',
+			zip: '73301',
+		},
+		subtotal: 3000,
+		taxTotal: 200,
+		shippingPrice: 600,
+		accessKey: 'testkey3',
+		orderStatus: OrderStatus.PENDING,
+		paymentIntentId: 'pi_test999',
+	});
+
+	await em.persist([order1, order2, order3]).flush();
 
 	order1Id = order1.id;
 	order2Id = order2.id;
+	order3Id = order3.id;
 });
 
 describe('POST /webhooks/stripe', () => {
@@ -139,6 +163,45 @@ describe('POST /webhooks/stripe', () => {
 
 		expect(res.status).toBe(200);
 		expect(res.body).toEqual({ received: true });
+	});
+
+	it('captures card and wallet details from an expanded charge', async () => {
+		const webhookPayload = {
+			type: 'payment_intent.succeeded',
+			data: {
+				object: {
+					id: 'pi_test999',
+					metadata: {
+						orderId: String(order3Id),
+					},
+					latest_charge: {
+						receipt_url: 'https://pay.stripe.com/receipts/test',
+						payment_method_details: {
+							card: {
+								brand: 'visa',
+								last4: '4242',
+								wallet: { type: 'apple_pay' },
+							},
+						},
+					},
+				},
+			},
+		};
+
+		const res = await request(getApp())
+			.post('/webhooks/stripe')
+			.send(webhookPayload);
+
+		expect(res.status).toBe(200);
+
+		const em = getEm();
+		const order = await em.findOne(AppOrder, { shortId: 'whk003' });
+		expect(order!.paymentDetails).toEqual({
+			cardBrand: 'visa',
+			cardLast4: '4242',
+			walletType: 'apple_pay',
+			receiptUrl: 'https://pay.stripe.com/receipts/test',
+		});
 	});
 
 	it('handles payment_intent.succeeded without orderId metadata', async () => {

@@ -1,3 +1,4 @@
+import { PaymentDetails } from '@heirloom/common/contract';
 import Stripe from 'stripe';
 
 let _stripe: Stripe | null = null;
@@ -18,4 +19,28 @@ export const createPaymentIntent = async (
 	});
 
 	return paymentIntent;
+};
+
+export const retrievePaymentIntentCharge = async (
+	paymentIntentId: string,
+): Promise<Stripe.Charge | null> => {
+	const paymentIntent = await getStripe().paymentIntents.retrieve(
+		paymentIntentId,
+		{ expand: ['latest_charge'] },
+	);
+	return (paymentIntent.latest_charge as Stripe.Charge | null) ?? null;
+};
+
+export const extractPaymentDetails = (
+	charge: Stripe.Charge | null,
+): PaymentDetails | null => {
+	const card = charge?.payment_method_details?.card;
+	if (!card?.brand || !card.last4) return null;
+
+	return {
+		cardBrand: card.brand,
+		cardLast4: card.last4,
+		walletType: card.wallet?.type ?? null,
+		receiptUrl: charge?.receipt_url ?? null,
+	};
 };

@@ -4,8 +4,13 @@ import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import {
 	getOrderById,
+	updateOrderPaymentDetails,
 	updateOrderStatus,
 } from '@server/services/order.service';
+import {
+	extractPaymentDetails,
+	retrievePaymentIntentCharge,
+} from '@server/services/payment.service';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 
@@ -41,7 +46,15 @@ export const handleStripeWebhook = async (
 	if (event.type === 'payment_intent.succeeded') {
 		const paymentIntent = event.data.object;
 		const heirloomEnv = process.env.HEIRLOOM_ENV;
-		if (heirloomEnv && paymentIntent.metadata?.sourceEnv !== heirloomEnv) {
+		// Stripe delivers this event to every registered webhook endpoint on
+		// the account, including both a local `stripe listen` tunnel and the
+		// dev server's own endpoint. Ignore events whose PaymentIntent wasn't
+		// created by this environment.
+		if (
+			process.env.NODE_ENV !== 'testing' &&
+			heirloomEnv &&
+			paymentIntent.metadata?.sourceEnv !== heirloomEnv
+		) {
 			response.json({ received: true });
 			return;
 		}
@@ -49,6 +62,16 @@ export const handleStripeWebhook = async (
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
 			await updateOrderStatus(orderId, OrderStatus.CONFIRMED);
+
+			const charge =
+				typeof paymentIntent.latest_charge === 'string'
+					? await retrievePaymentIntentCharge(paymentIntent.id)
+					: ((paymentIntent.latest_charge as Stripe.Charge | null) ??
+						null);
+			const paymentDetails = extractPaymentDetails(charge);
+			if (paymentDetails) {
+				await updateOrderPaymentDetails(orderId, paymentDetails);
+			}
 
 			const order = await getOrderById(orderId);
 

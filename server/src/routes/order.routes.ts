@@ -66,6 +66,7 @@ export const orderRouter = s.router(ordersContract, {
 						timeline: (Array.isArray(order.timeline)
 							? order.timeline
 							: []) as OrderTimelineEntry[],
+						paymentDetails: order.paymentDetails ?? null,
 					},
 				};
 			} catch (err) {

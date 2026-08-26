@@ -124,6 +124,7 @@ export const meRouter = s.router(meContract, {
 					timeline: (Array.isArray(order.timeline)
 						? order.timeline
 						: []) as OrderTimelineEntry[],
+					paymentDetails: order.paymentDetails ?? null,
 				})),
 			};
 		},

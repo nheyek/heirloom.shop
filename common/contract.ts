@@ -738,6 +738,15 @@ export const OrderTimelineEntrySchema = z.object({
 	info: z.string(),
 });
 
+export const PaymentDetailsSchema = z.object({
+	cardBrand: z.string(),
+	cardLast4: z.string(),
+	walletType: z.string().nullable(),
+	receiptUrl: z.string().nullable(),
+});
+
+export type PaymentDetails = z.infer<typeof PaymentDetailsSchema>;
+
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
 	createdAt: z.string(),
@@ -748,6 +757,7 @@ const OrderResponseSchema = z.object({
 	shippingCents: z.number(),
 	taxCents: z.number(),
 	timeline: z.array(OrderTimelineEntrySchema),
+	paymentDetails: PaymentDetailsSchema.nullable(),
 });
 
 export const ordersContract = c.router({

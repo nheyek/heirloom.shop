@@ -2,6 +2,7 @@ import { OrderStatus } from '@heirloom/common/constants';
 import {
 	OrderItemDisplayData,
 	OrderTimelineEntry,
+	PaymentDetails,
 	ShippingAddress,
 } from '@heirloom/common/contract';
 import { getEm } from '@server/db';
@@ -126,5 +127,15 @@ export const updateOrderPaymentIntent = async (
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { id: orderId });
 	order.paymentIntentId = paymentIntentId;
+	await em.flush();
+};
+
+export const updateOrderPaymentDetails = async (
+	orderId: number,
+	paymentDetails: PaymentDetails,
+): Promise<void> => {
+	const em = getEm();
+	const order = await em.findOneOrFail(AppOrder, { id: orderId });
+	order.paymentDetails = paymentDetails;
 	await em.flush();
 };
