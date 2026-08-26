@@ -42,7 +42,7 @@ const OrderTimeline = ({
 	if (timeline.length === 0) return null;
 
 	return (
-		<Timeline.Root mt={2}>
+		<Timeline.Root>
 			{timeline.map((entry, i) => (
 				<Timeline.Item key={i}>
 					<Timeline.Connector>
