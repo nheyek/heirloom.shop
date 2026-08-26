@@ -47,6 +47,7 @@ const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
 const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
 const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
+const PAYMENT_SKELETON_HEIGHT = 60;
 
 const CARD_BRAND_LABELS: Record<string, string> = {
 	visa: 'Visa',
@@ -246,14 +247,14 @@ const OrderPageSkeleton = () => {
 				<Stack gap={2}>
 					<Skeleton
 						height={10}
-						width={220}
+						width={200}
 					/>
 					<OrderItemsListSkeleton />
 				</Stack>
 
 				<Flex
 					direction={isMobile ? 'column' : 'row'}
-					gapX={20}
+					gapX={55}
 					gapY={5}
 					alignItems="start"
 				>
@@ -268,6 +269,11 @@ const OrderPageSkeleton = () => {
 						height={150}
 					/>
 				</Flex>
+
+				<Skeleton
+					width="100%"
+					height={PAYMENT_SKELETON_HEIGHT}
+				/>
 			</Stack>
 		</>
 	);
@@ -298,13 +304,13 @@ const OrderPageContent = ({ order }: { order: OrderResponse }) => {
 
 				<Flex
 					direction={isMobile ? 'column' : 'row'}
-					gapX={20}
+					gapX={55}
 					gapY={5}
 					alignItems="start"
 					fontSize={18}
 				>
 					<Stack
-						width={isMobile ? '100%' : 250}
+						width={isMobile ? '100%' : 200}
 						gap={1}
 					>
 						<SectionHeading>Summary</SectionHeading>
@@ -441,7 +447,7 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					maxWidth={600}
-					gap={7}
+					gap={8}
 				>
 					{showSkeleton ? (
 						<OrderPageSkeleton />
