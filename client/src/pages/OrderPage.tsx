@@ -25,6 +25,7 @@ import {
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
+import { capitalize } from '@heirloom/common/utils/stringUtils';
 import { useEffect, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useParams, useSearchParams } from 'react-router-dom';
@@ -32,9 +33,6 @@ import { useParams, useSearchParams } from 'react-router-dom';
 const SKELETON_ITEM_COUNT = 1;
 
 const DESKTOP_ORDER_ITEM_HEIGHT = 220;
-
-const formatOrderStatus = (status: OrderStatus): string =>
-	status.charAt(0) + status.slice(1).toLowerCase();
 
 const OrderTimeline = ({
 	timeline,
@@ -44,7 +42,7 @@ const OrderTimeline = ({
 	if (timeline.length === 0) return null;
 
 	return (
-		<Timeline.Root>
+		<Timeline.Root mt={2}>
 			{timeline.map((entry, i) => (
 				<Timeline.Item key={i}>
 					<Timeline.Connector>
@@ -56,9 +54,9 @@ const OrderTimeline = ({
 					</Timeline.Connector>
 					<Timeline.Content>
 						<Timeline.Title fontSize={22}>
-							{formatOrderStatus(entry.status)}
+							{capitalize(entry.status)}
 						</Timeline.Title>
-						<Timeline.Description fontSize={18}>
+						<Timeline.Description fontSize={20}>
 							{formatDateLong(entry.timestamp)}
 							{entry.info && ` — ${entry.info}`}
 						</Timeline.Description>
@@ -236,14 +234,14 @@ export const OrderPage = () => {
 					fontSize={18}
 				>
 					<Stack
-						width={isMobile ? '100%' : 250}
+						width={isMobile ? '100%' : 200}
 						gap={1}
 					>
 						<SectionHeading>Summary</SectionHeading>
 						<Stack gap={0.5}>
 							{[
 								{
-									label: 'Item(s) Subtotal',
+									label: 'Subtotal',
 									value: formatCentsAsDollars(
 										order.subtotalCents,
 									),
@@ -326,7 +324,7 @@ export const OrderPage = () => {
 				<Stack
 					w="100%"
 					maxWidth={600}
-					gap={10}
+					gap={7}
 				>
 					{showSkeleton
 						? renderSkeleton()
