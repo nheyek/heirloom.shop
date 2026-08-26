@@ -99,6 +99,7 @@ export const OrderPreviewCard = ({
 				gap={1}
 				justifyContent="space-between"
 				minW={0}
+				fontSize={20}
 				fontFamily={displayFontFamily}
 			>
 				<HStack justifyContent="space-between">
@@ -132,7 +133,6 @@ export const OrderPreviewCard = ({
 					gap={1}
 					flex={1}
 					minW={0}
-					fontSize={20}
 				>
 					<Text
 						truncate
@@ -151,19 +151,9 @@ export const OrderPreviewCard = ({
 				</HStack>
 
 				<HStack justifyContent="space-between">
-					<Text
-						fontSize={20}
-						flexShrink={0}
-					>
-						{formatDateLong(order.createdAt)}
-					</Text>
+					<Text>{formatDateLong(order.createdAt)}</Text>
 
-					<Text
-						fontSize={22}
-						flexShrink={0}
-					>
-						{formatCentsAsDollars(total)}
-					</Text>
+					<Text>{formatCentsAsDollars(total)}</Text>
 				</HStack>
 			</Card.Body>
 		</Card.Root>
