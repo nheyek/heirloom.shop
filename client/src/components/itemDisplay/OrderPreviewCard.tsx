@@ -29,10 +29,35 @@ import {
 } from '@heirloom/common/contract';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { capitalize } from '@heirloom/common/utils/stringUtils';
-import { FaCheck } from 'react-icons/fa6';
+import { IconType } from 'react-icons';
+import { FaCheck, FaTruck } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 120;
+
+const STATUS_ICONS: Partial<Record<OrderStatus, IconType>> = {
+	[OrderStatus.CONFIRMED]: FaCheck,
+	[OrderStatus.SHIPPED]: FaTruck,
+};
+
+const StatusBadge = ({ status }: { status: OrderStatus }) => {
+	const Icon = STATUS_ICONS[status];
+	return (
+		<Badge
+			size="lg"
+			fontSize={16}
+			alignSelf="flex-start"
+			fontFamily={defaultFontFamily}
+			colorPalette={
+				status === OrderStatus.SHIPPED ? 'green' : undefined
+			}
+			gap={2}
+		>
+			{Icon && <Icon />}
+			{capitalize(status)}
+		</Badge>
+	);
+};
 
 const getImageSource = (
 	item: OrderItemDisplayData,
@@ -116,17 +141,7 @@ export const OrderPreviewCard = ({
 							</Text>
 						</Link>
 					</RouterLink>
-					{order.orderStatus === OrderStatus.CONFIRMED && (
-						<Badge
-							size="lg"
-							fontSize={16}
-							alignSelf="flex-start"
-							fontFamily={defaultFontFamily}
-						>
-							<FaCheck />
-							{capitalize(order.orderStatus)}
-						</Badge>
-					)}
+					<StatusBadge status={order.orderStatus} />
 				</HStack>
 
 				<HStack
