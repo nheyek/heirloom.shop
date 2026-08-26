@@ -40,6 +40,12 @@ export const handleStripeWebhook = async (
 
 	if (event.type === 'payment_intent.succeeded') {
 		const paymentIntent = event.data.object;
+		const heirloomEnv = process.env.HEIRLOOM_ENV;
+		if (heirloomEnv && paymentIntent.metadata?.sourceEnv !== heirloomEnv) {
+			response.json({ received: true });
+			return;
+		}
+
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
 			await updateOrderStatus(orderId, OrderStatus.CONFIRMED);

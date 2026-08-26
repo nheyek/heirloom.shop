@@ -118,7 +118,10 @@ export const checkoutRouter = s.router(checkoutContract, {
 
 			const paymentIntent = await createPaymentIntent(
 				chargeTotal,
-				{ orderId: order.id },
+				{
+					orderId: order.id,
+					sourceEnv: process.env.HEIRLOOM_ENV ?? '',
+				},
 			);
 			await updateOrderPaymentIntent(order.id, paymentIntent.id);
 

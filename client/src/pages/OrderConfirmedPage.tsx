@@ -50,7 +50,7 @@ export const OrderConfirmedPage = () => {
 								width="100%"
 							>
 								<FaScroll />
-								View Details
+								View details
 							</Button>
 						</Link>
 						<Link to="/">
@@ -60,7 +60,7 @@ export const OrderConfirmedPage = () => {
 								fontSize={20}
 								width="100%"
 							>
-								Keep Looking
+								Keep looking
 								<FaArrowRight />
 							</Button>
 						</Link>
