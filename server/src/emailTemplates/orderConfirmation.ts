@@ -1,7 +1,9 @@
 import {
 	OrderItemDisplayData,
+	PaymentDetails,
 	ShippingAddress,
 } from '@heirloom/common/contract';
+import { formatPaymentDetails } from '@heirloom/common/utils/paymentDisplay';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 
@@ -9,10 +11,13 @@ const formatItem = (item: OrderItemDisplayData) => {
 	const details = [
 		...item.variations.map((v) => `${v.name}: ${v.value}`),
 		...(item.personalizationText
-			? [`${item.personalizationName ?? 'Personalization'}: ${item.personalizationText}`]
+			? [
+					`${item.personalizationName ?? 'Personalization'}: ${item.personalizationText}`,
+				]
 			: []),
 	];
-	const detailsText = details.length > 0 ? ` (${details.join(', ')})` : '';
+	const detailsText =
+		details.length > 0 ? ` (${details.join(', ')})` : '';
 	const unitPrice = `${formatCentsAsDollars(item.unitPriceCents)}${item.quantity > 1 ? ` (${item.quantity})` : ''}`;
 	const lines = [
 		`${item.title}${detailsText}`,
@@ -39,6 +44,7 @@ export const orderConfirmation = (params: {
 	subtotalCents: number;
 	shippingCents: number;
 	taxCents: number;
+	paymentDetails: PaymentDetails | null;
 }) => {
 	const orderUrl = `${APP_URL}/order/${params.orderId}?key=${params.accessKey}`;
 	const totalCents =
@@ -54,7 +60,7 @@ Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
 Shipping: ${formatCentsAsDollars(params.shippingCents)}
 Tax: ${formatCentsAsDollars(params.taxCents)}
 Total: ${formatCentsAsDollars(totalCents)}
-
+${params.paymentDetails ? `Payment method: ${formatPaymentDetails(params.paymentDetails)}\n` : ''}
 Shipping to:
 ${formatShippingAddress(params.shippingAddress)}
 

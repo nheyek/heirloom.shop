@@ -24,6 +24,7 @@ import {
 	OrderTimelineEntry,
 	PaymentDetails,
 } from '@heirloom/common/contract';
+import { formatPaymentDetails } from '@heirloom/common/utils/paymentDisplay';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
 import { capitalize } from '@heirloom/common/utils/stringUtils';
@@ -49,16 +50,6 @@ const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
 const PAYMENT_SKELETON_HEIGHT = 60;
 
-const CARD_BRAND_LABELS: Record<string, string> = {
-	visa: 'Visa',
-	mastercard: 'Mastercard',
-	amex: 'American Express',
-	discover: 'Discover',
-	diners: 'Diners Club',
-	jcb: 'JCB',
-	unionpay: 'UnionPay',
-};
-
 const CARD_BRAND_ICONS: Partial<Record<string, IconType>> = {
 	visa: FaCcVisa,
 	mastercard: FaCcMastercard,
@@ -66,10 +57,6 @@ const CARD_BRAND_ICONS: Partial<Record<string, IconType>> = {
 	discover: FaCcDiscover,
 	diners: FaCcDinersClub,
 	jcb: FaCcJcb,
-};
-
-const WALLET_LABELS: Record<string, string> = {
-	apple_pay: 'Apple Pay',
 };
 
 const WALLET_ICONS: Partial<Record<string, IconType>> = {
@@ -81,13 +68,8 @@ const PaymentDetailsDisplay = ({
 }: {
 	paymentDetails: PaymentDetails;
 }) => {
-	const { cardBrand, cardLast4, walletType } = paymentDetails;
+	const { cardBrand, walletType } = paymentDetails;
 
-	const brandLabel =
-		CARD_BRAND_LABELS[cardBrand] ?? capitalize(cardBrand);
-	const walletLabel = walletType
-		? (WALLET_LABELS[walletType] ?? capitalize(walletType))
-		: null;
 	const Icon =
 		(walletType && WALLET_ICONS[walletType]) ||
 		CARD_BRAND_ICONS[cardBrand] ||
@@ -96,10 +78,7 @@ const PaymentDetailsDisplay = ({
 	return (
 		<HStack fontSize={22}>
 			<Icon size={24} />
-			<Text>
-				{brandLabel} •••• {cardLast4}
-				{walletLabel && ` via ${walletLabel}`}
-			</Text>
+			<Text>{formatPaymentDetails(paymentDetails)}</Text>
 		</HStack>
 	);
 };

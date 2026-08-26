@@ -92,6 +92,7 @@ export const handleStripeWebhook = async (
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,
 					taxCents: order.taxTotal,
+					paymentDetails,
 				}),
 			});
 		}
