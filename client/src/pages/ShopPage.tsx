@@ -186,8 +186,8 @@ export const ShopPage = () => {
 								<HStack gap={{ base: 3, md: 4 }}>
 									<Box
 										width={{
-											base: 5,
-											md: 7,
+											base: 6,
+											md: 8,
 											lg: 9,
 										}}
 									>
