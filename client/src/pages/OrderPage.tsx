@@ -30,9 +30,11 @@ import { useEffect, useState } from 'react';
 import { FaCheck } from 'react-icons/fa';
 import { useParams, useSearchParams } from 'react-router-dom';
 
-const SKELETON_ITEM_COUNT = 1;
-
-const DESKTOP_ORDER_ITEM_HEIGHT = 220;
+const ORDER_ITEM_SKELETON_COUNT = 1;
+const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
+const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
+const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
+const TIMELINE_SKELETON_HEIGHT = 90;
 
 const OrderTimeline = ({
 	timeline,
@@ -69,56 +71,42 @@ const OrderTimeline = ({
 
 const OrderItemsList = ({
 	items,
-	loading,
 }: {
 	items: OrderItemDisplayData[];
-	loading?: boolean;
 }) => {
 	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
-		loading ? SKELETON_ITEM_COUNT : items.length,
+		items.length,
 	);
 
-	const children = loading
-		? Array.from({ length: SKELETON_ITEM_COUNT }).map((_, i) => (
-				<Skeleton
-					key={i}
-					borderRadius="md"
-					flexShrink={0}
-					height={
-						isCompact ? 340 : DESKTOP_ORDER_ITEM_HEIGHT
-					}
-					width={isCompact ? 300 : '100%'}
-				/>
-			))
-		: items.map((item, index) => (
-				<OrderItemCard
-					key={index}
-					item={item}
-					layout={layout}
-					cardProps={cardProps}
-					bodyOverlayElements={
-						item.quantity > 1 && (
-							<Flex
-								justifyContent="center"
-								alignItems="start"
-								position="absolute"
-								h={8}
-								minW={8}
-								top={2}
-								right={2}
-								px={3}
-								borderRadius="full"
-								fontSize={22}
-								lineHeight={1.3}
-								fontWeight={500}
-								background="gray.100"
-							>
-								{item.quantity}
-							</Flex>
-						)
-					}
-				/>
-			));
+	const children = items.map((item, index) => (
+		<OrderItemCard
+			key={index}
+			item={item}
+			layout={layout}
+			cardProps={cardProps}
+			bodyOverlayElements={
+				item.quantity > 1 && (
+					<Flex
+						justifyContent="center"
+						alignItems="start"
+						position="absolute"
+						h={8}
+						minW={8}
+						top={2}
+						right={2}
+						px={3}
+						borderRadius="full"
+						fontSize={22}
+						lineHeight={1.3}
+						fontWeight={500}
+						background="gray.100"
+					>
+						{item.quantity}
+					</Flex>
+				)
+			}
+		/>
+	));
 
 	return isCompact ? (
 		<HStack
@@ -135,82 +123,97 @@ const OrderItemsList = ({
 	);
 };
 
-export const OrderPage = () => {
-	const apiClient = useApiClient();
-	const { shortId } = useParams<{ shortId: string }>();
-	const { isLoading: authIsLoading } = useAuth0();
+const OrderItemsListSkeleton = () => {
+	const { isCompact } = useOrderItemCardLayout(
+		ORDER_ITEM_SKELETON_COUNT,
+	);
+
+	const children = Array.from({
+		length: ORDER_ITEM_SKELETON_COUNT,
+	}).map((_, i) => (
+		<Skeleton
+			key={i}
+			borderRadius="md"
+			flexShrink={0}
+			height={
+				isCompact
+					? ORDER_ITEM_SKELETON_HEIGHT_MOBILE
+					: ORDER_ITEM_SKELETON_HEIGHT_DESKTOP
+			}
+			width={
+				isCompact ? ORDER_ITEM_SKELETON_WIDTH_MOBILE : '100%'
+			}
+		/>
+	));
+
+	return isCompact ? (
+		<HStack
+			gap={5}
+			m={-5}
+			p={5}
+			overflowX="scroll"
+			alignItems="flex-start"
+		>
+			{children}
+		</HStack>
+	) : (
+		<Stack gap={5}>{children}</Stack>
+	);
+};
+
+const OrderPageSkeleton = () => {
 	const layout = useBreakpointValue({
 		base: Layout.MOBILE,
 		md: Layout.DESKTOP,
 	});
 	const isMobile = layout === Layout.MOBILE;
 
-	const [searchParams] = useSearchParams();
-	const key = searchParams.get('key') ?? '';
-
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [orderDetails, setOrderDetails] =
-		useState<OrderResponse | null>(null);
-	const [error, setError] = useState<string | null>(null);
-	const showSkeleton = useMinDuration(isLoading || authIsLoading);
-
-	const loadOrderData = async () => {
-		if (!shortId) {
-			return;
-		}
-		setIsLoading(true);
-		const result = await callApi(
-			apiClient.orders.getByShortId({
-				params: { shortId },
-				query: { key },
-			}),
-		);
-		setIsLoading(false);
-		if (result.error !== null) {
-			setError(result.error);
-		} else {
-			setOrderDetails(result.data);
-		}
-	};
-
-	useEffect(() => {
-		loadOrderData();
-	}, [shortId, key]);
-
-	const renderSkeleton = () => (
+	return (
 		<>
-			<Stack gap={4}>
-				<Skeleton
-					height={7}
-					width={220}
-				/>
-				<OrderItemsList
-					items={[]}
-					loading
-				/>
-			</Stack>
+			<Skeleton
+				height={TIMELINE_SKELETON_HEIGHT}
+				width="100%"
+			/>
 
-			<Flex
-				direction={isMobile ? 'column' : 'row'}
-				gapX={20}
-				gapY={5}
-				alignItems="start"
-			>
-				<Skeleton
-					flexShrink={0}
-					width={isMobile ? '100%' : 250}
-					height={150}
-				/>
-				<Skeleton
-					flexShrink={0}
-					width={180}
-					height={150}
-				/>
-			</Flex>
+			<Stack gap={5}>
+				<Stack gap={2}>
+					<Skeleton
+						height={10}
+						width={220}
+					/>
+					<OrderItemsListSkeleton />
+				</Stack>
+
+				<Flex
+					direction={isMobile ? 'column' : 'row'}
+					gapX={20}
+					gapY={5}
+					alignItems="start"
+				>
+					<Skeleton
+						flexShrink={0}
+						width={isMobile ? '100%' : 200}
+						height={150}
+					/>
+					<Skeleton
+						flexShrink={0}
+						width={180}
+						height={150}
+					/>
+				</Flex>
+			</Stack>
 		</>
 	);
+};
 
-	const renderContent = (order: OrderResponse) => (
+const OrderPageContent = ({ order }: { order: OrderResponse }) => {
+	const layout = useBreakpointValue({
+		base: Layout.MOBILE,
+		md: Layout.DESKTOP,
+	});
+	const isMobile = layout === Layout.MOBILE;
+
+	return (
 		<>
 			<OrderTimeline timeline={order.timeline} />
 
@@ -311,6 +314,44 @@ export const OrderPage = () => {
 			</Stack>
 		</>
 	);
+};
+
+export const OrderPage = () => {
+	const apiClient = useApiClient();
+	const { shortId } = useParams<{ shortId: string }>();
+	const { isLoading: authIsLoading } = useAuth0();
+
+	const [searchParams] = useSearchParams();
+	const key = searchParams.get('key') ?? '';
+
+	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [orderDetails, setOrderDetails] =
+		useState<OrderResponse | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const showSkeleton = useMinDuration(isLoading || authIsLoading);
+
+	const loadOrderData = async () => {
+		if (!shortId) {
+			return;
+		}
+		setIsLoading(true);
+		const result = await callApi(
+			apiClient.orders.getByShortId({
+				params: { shortId },
+				query: { key },
+			}),
+		);
+		setIsLoading(false);
+		if (result.error !== null) {
+			setError(result.error);
+		} else {
+			setOrderDetails(result.data);
+		}
+	};
+
+	useEffect(() => {
+		loadOrderData();
+	}, [shortId, key]);
 
 	return (
 		<>
@@ -326,9 +367,11 @@ export const OrderPage = () => {
 					maxWidth={600}
 					gap={7}
 				>
-					{showSkeleton
-						? renderSkeleton()
-						: renderContent(orderDetails!)}
+					{showSkeleton ? (
+						<OrderPageSkeleton />
+					) : (
+						<OrderPageContent order={orderDetails!} />
+					)}
 				</Stack>
 			)}
 		</>
