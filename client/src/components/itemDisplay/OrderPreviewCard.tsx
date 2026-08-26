@@ -133,6 +133,7 @@ export const OrderPreviewCard = ({
 					gap={1}
 					flex={1}
 					minW={0}
+					fontWeight={500}
 				>
 					<Text
 						truncate
