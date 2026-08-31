@@ -76,8 +76,8 @@ const PaymentDetailsDisplay = ({
 		FaCreditCard;
 
 	return (
-		<HStack fontSize={22}>
-			<Icon size={24} />
+		<HStack fontSize={20}>
+			<Icon size={22} />
 			<Text>{formatPaymentDetails(paymentDetails)}</Text>
 		</HStack>
 	);

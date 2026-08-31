@@ -12,8 +12,6 @@ import {
 import { animationName } from '@client/theme';
 import { ReactNode } from 'react';
 
-const STAGGER_INTERVAL = 0;
-
 type Props<T> = {
 	items: T[];
 	renderItem: (item: T, isMobile: boolean) => ReactNode;
@@ -95,6 +93,10 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			columns={numColumns}
 			alignItems="start"
 			width="100%"
+			maxW={
+				maxItemWidth * numColumns +
+				STANDARD_GRID_GAP * (numColumns - 1)
+			}
 		>
 			{isLoading &&
 				Array.from({ length: numSkeletons }).map((_, i) => (

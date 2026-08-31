@@ -1,6 +1,6 @@
 import { adminContract } from '@heirloom/common/contract';
-import { ERROR_MESSAGES } from '@server/constants';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
+import { ERROR_MESSAGES } from '@server/constants';
 import { adminAuth } from '@server/middleware/auth0.middleware';
 import {
 	createShop,
@@ -10,7 +10,10 @@ import {
 	ShopValidationError,
 	updateShopFulfillment,
 } from '@server/services/shop.service';
-import { generateShopImageUploadUrl, InvalidContentTypeError } from '@server/services/storage.service';
+import {
+	generateShopImageUploadUrl,
+	InvalidContentTypeError,
+} from '@server/services/storage.service';
 import { initServer } from '@ts-rest/express';
 
 const s = initServer();
@@ -53,7 +56,9 @@ export const adminRouter = s.router(adminContract, {
 				if (e instanceof DuplicateShopTitleError) {
 					return {
 						status: 409 as const,
-						body: { error: 'A shop with this name already exists.' },
+						body: {
+							error: 'A shop with this name already exists.',
+						},
 					};
 				}
 				throw e;
@@ -66,13 +71,18 @@ export const adminRouter = s.router(adminContract, {
 			try {
 				return {
 					status: 200 as const,
-					body: await generateShopImageUploadUrl(body.contentType),
+					body: await generateShopImageUploadUrl(
+						body.contentType,
+					),
 				};
 			} catch (e) {
 				if (e instanceof InvalidContentTypeError) {
 					return {
 						status: 400 as const,
-						body: { error: ERROR_MESSAGES.image.invalidContentType },
+						body: {
+							error: ERROR_MESSAGES.image
+								.invalidContentType,
+						},
 					};
 				}
 				throw e;
@@ -84,7 +94,10 @@ export const adminRouter = s.router(adminContract, {
 		handler: async ({ params: { shopId } }) => {
 			const fulfillment = await getShopFulfillment(shopId);
 			if (!fulfillment) {
-				return { status: 404 as const, body: { error: ERROR_MESSAGES.shop.notFound } };
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
 			}
 			return { status: 200 as const, body: fulfillment };
 		},
@@ -106,9 +119,15 @@ export const adminRouter = s.router(adminContract, {
 					};
 				}
 			}
-			const fulfillment = await updateShopFulfillment(shopId, body);
+			const fulfillment = await updateShopFulfillment(
+				shopId,
+				body,
+			);
 			if (!fulfillment) {
-				return { status: 404 as const, body: { error: ERROR_MESSAGES.shop.notFound } };
+				return {
+					status: 404 as const,
+					body: { error: ERROR_MESSAGES.shop.notFound },
+				};
 			}
 			return { status: 200 as const, body: fulfillment };
 		},
