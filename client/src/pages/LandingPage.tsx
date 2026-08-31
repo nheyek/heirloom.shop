@@ -77,7 +77,10 @@ export const LandingPage = () => {
 	}, []);
 
 	return (
-		<Stack gap={10}>
+		<Stack
+			gap={10}
+			alignItems="center"
+		>
 			<Stack
 				pt={10}
 				alignItems="center"
@@ -131,11 +134,16 @@ export const LandingPage = () => {
 				px={5}
 				pb={5}
 				gap={8}
+				alignItems="center"
+				width="100%"
 			>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
 				) : (
-					<Stack gap={2}>
+					<Stack
+						gap={2}
+						width="100%"
+					>
 						<Text
 							fontSize={30}
 							fontWeight={600}
@@ -154,7 +162,10 @@ export const LandingPage = () => {
 				{listingsError ? (
 					<AppError title={listingsError} />
 				) : (
-					<Stack gap={2}>
+					<Stack
+						gap={2}
+						width="100%"
+					>
 						<Text
 							fontSize={30}
 							fontWeight={600}
