@@ -134,8 +134,8 @@ export const LandingPage = () => {
 				px={5}
 				pb={5}
 				gap={8}
-				alignItems="center"
 				width="100%"
+				maxW={1600}
 			>
 				{shopsError ? (
 					<AppError title="Failed to load makers" />

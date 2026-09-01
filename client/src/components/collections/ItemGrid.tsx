@@ -39,11 +39,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	const minItemWidth = 275;
 	const maxItemWidth = props.maxItemWidth ?? 400;
 
-	const animatedItem = (
-		child: ReactNode,
-		key: React.Key,
-		index: number,
-	) => (
+	const animatedItem = (child: ReactNode, key: React.Key) => (
 		<Box
 			key={key}
 			minWidth={minItemWidth}
@@ -80,7 +76,6 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					animatedItem(
 						renderItem(item, true),
 						getItemKey(item, index),
-						index,
 					),
 				)}
 			</HStack>
@@ -93,10 +88,6 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			columns={numColumns}
 			alignItems="start"
 			width="100%"
-			maxW={
-				maxItemWidth * numColumns +
-				STANDARD_GRID_GAP * (numColumns - 1)
-			}
 		>
 			{isLoading &&
 				Array.from({ length: numSkeletons }).map((_, i) => (
@@ -111,7 +102,6 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					animatedItem(
 						renderItem(item, false),
 						getItemKey(item, index),
-						index,
 					),
 				)}
 		</SimpleGrid>
