@@ -101,12 +101,12 @@ export const ABOUT_HEIRLOOM_HTML =
 	'<p>Heirloom is an online store and marketplace featuring a range of products from makers that exhibit the highest level of craftsmanship.</p><p />' +
 	'<h1>Background</h1>' +
 	'<p>Throw-away culture is, sadly, a defining feature of the present historical moment.</p>' +
-	"<p>Disillusionment is growing. People are beginning to ask questions about where their products come from, how they're made, and what they're made of.</p><p />" +
+	"<p>But disillusionment is growing. People are beginning to ask questions about where their products come from and how they're made.</p><p />" +
 	'<h1>The Idea</h1>' +
-	'<p>"They don\'t make them like they used to" is a common refrain. But while "they" may not, there are others that do. They are just often hard to find.</p>' +
-	'<p>Heirloom seeks to make it easy to find these makers and purchase their work.</p><p />' +
+	'<p>It\'s often said that "they don\'t make them like they used to". But while "they" may not, there are others that do. They are just often hard to find.</p>' +
+	'<p>Heirloom seeks to make it easy to discover these makers and purchase their work.</p><p />' +
 	'<h1>The Experience</h1>' +
-	'<p>The site is designed to prioritize authentic discovery and simplicity over maximizing sales. We will not send you unsolicited emails. You will never serve you ads or promoted content.</p>' +
+	'<p>The site is designed to prioritize authentic discovery and simplicity over maximizing sales. We will not send you unsolicited emails. We will never serve you ads or promoted content.</p>' +
 	'<p>Orders are professionally packed and shipped within 1 business day. All orders ship free and are guaranteed against damage in transit.</p>' +
 	"<p>If, for any reason, what you received doesn't meet your expectations, we'll take it back for a full refund within 30 days.</p><p />" +
 	'<h1>Who We Are</h1>' +
