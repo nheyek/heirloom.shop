@@ -2,7 +2,6 @@ import {
 	Box,
 	Card,
 	Flex,
-	Heading,
 	IconButton,
 	Link,
 	Stack,
@@ -14,7 +13,11 @@ import {
 	CLIENT_ROUTES,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { ImageSource, listingImageUrl } from '@client/utils/imageUtils';
+import { displayFontFamily } from '@client/theme';
+import {
+	ImageSource,
+	listingImageUrl,
+} from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
 import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
@@ -77,7 +80,11 @@ export const ListingCard = ({
 	) ?? { priceCents: props.priceCents, isMinimum: false };
 
 	const getImageSource = (uuid: string): ImageSource => ({
-		url: listingImageUrl(props.shopShortId, uuid, ImageVariant.SMALL),
+		url: listingImageUrl(
+			props.shopShortId,
+			uuid,
+			ImageVariant.SMALL,
+		),
 		fallback: listingImageUrl(
 			props.shopShortId,
 			uuid,
@@ -130,14 +137,15 @@ export const ListingCard = ({
 				<Stack gap={0}>
 					<RouterLink to={listingUrl}>
 						<Link asChild>
-							<Heading
-								size="2xl"
-								fontWeight="semibold"
+							<Text
+								fontSize={24}
+								fontWeight={600}
+								fontFamily={displayFontFamily}
 								truncate
 								display="block"
 							>
 								{props.title}
-							</Heading>
+							</Text>
 						</Link>
 					</RouterLink>
 					{showShopTitle && props.shopTitle && (
@@ -145,14 +153,15 @@ export const ListingCard = ({
 							to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
 						>
 							<Link asChild>
-								<Heading
+								<Text
+									fontSize={20}
+									fontFamily={displayFontFamily}
 									truncate
 									fontWeight="medium"
-									lineHeight={1.1}
 									display="block"
 								>
 									{props.shopTitle}
-								</Heading>
+								</Text>
 							</Link>
 						</RouterLink>
 					)}
