@@ -176,7 +176,7 @@ export const ListingPage = () => {
 					px={5}
 					mt={5}
 					maxWidth={maxWidth}
-					width="100%"
+					width="fit-content"
 				>
 					<ImageCollage
 						urls={imageUrls}
