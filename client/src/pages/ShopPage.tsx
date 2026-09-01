@@ -269,6 +269,7 @@ export const ShopPage = () => {
 				<Box
 					py={5}
 					px={STANDARD_GRID_GAP}
+					maxW={1600}
 				>
 					<ListingGrid
 						listings={listings}
