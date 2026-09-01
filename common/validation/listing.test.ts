@@ -334,6 +334,30 @@ describe('validateListingFields', () => {
 		expect(errors.some((e) => e.field === ValidationField.Combinations)).toBe(true);
 	});
 
+	it('requires a price for every active combination when prices vary, even if the listing has a base price', () => {
+		const variations: Variations = {
+			v1: {
+				name: 'Size',
+				pricesVary: true,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+				},
+			},
+		};
+		const combinations: Combinations = {
+			'v1:a': { priceCents: 1000, imageUuid: null, disabled: false },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+		};
+		const errors = validateListingFields(
+			{ ...baseInput, priceCents: 2500, variations, combinations },
+			{ directFulfillment: false },
+		);
+		expect(errors.some((e) => e.field === ValidationField.Combinations)).toBe(true);
+	});
+
 	it('rejects too many description sections', () => {
 		const fullDescr = Array.from({ length: 6 }, (_, i) => ({
 			title: `Section ${i}`,

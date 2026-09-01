@@ -131,6 +131,7 @@ const OrderItemsList = ({
 			item={item}
 			layout={layout}
 			cardProps={cardProps}
+			showQuantity
 		/>
 	));
 

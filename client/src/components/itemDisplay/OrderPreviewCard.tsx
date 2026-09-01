@@ -156,6 +156,13 @@ export const OrderPreviewCard = ({
 					>
 						{firstItem?.title}
 					</Text>
+					{itemCount === 1 &&
+						firstItem &&
+						firstItem.quantity > 1 && (
+							<Text flexShrink={0}>
+								({firstItem.quantity})
+							</Text>
+						)}
 					{remainingItemCount > 0 && (
 						<Text flexShrink={0}>
 							+ {remainingItemCount}{' '}

@@ -42,6 +42,7 @@ type Props = {
 	cardProps?: CardRootProps;
 	imageOverlayElements?: ReactNode;
 	layout?: Layout;
+	showQuantity?: boolean;
 };
 
 export const OrderItemCard = (props: Props) => {
@@ -78,7 +79,7 @@ export const OrderItemCard = (props: Props) => {
 				>
 					{props.item.title}
 				</Span>
-				{props.item.quantity > 0 && (
+				{props.showQuantity && props.item.quantity > 1 && (
 					<Span flexShrink={0}>
 						({props.item.quantity})
 					</Span>

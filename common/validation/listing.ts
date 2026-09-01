@@ -281,7 +281,7 @@ export const findInvalidCombinations = (
 				optionMap,
 				combinations,
 				variations,
-				basePriceCents,
+				null,
 			);
 			if (!(effectivePrice && effectivePrice > 0))
 				missingPriceKeys.push(key);
