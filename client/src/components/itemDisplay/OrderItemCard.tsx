@@ -41,7 +41,6 @@ type Props = {
 	item: OrderItemDisplayData;
 	cardProps?: CardRootProps;
 	imageOverlayElements?: ReactNode;
-	bodyOverlayElements?: ReactNode;
 	layout?: Layout;
 };
 
@@ -64,17 +63,26 @@ export const OrderItemCard = (props: Props) => {
 		: undefined;
 
 	const basicInfo = (
-		<Stack
-			gap={0}
-			pr={isDesktop ? 12 : 0}
-		>
+		<Stack gap={0}>
 			<Heading
 				size="2xl"
 				fontWeight="semibold"
-				truncate
-				display="block"
+				display="flex"
+				alignItems="baseline"
+				gap={1}
+				minW={0}
 			>
-				{props.item.title}
+				<Span
+					truncate
+					minW={0}
+				>
+					{props.item.title}
+				</Span>
+				{props.item.quantity > 0 && (
+					<Span flexShrink={0}>
+						({props.item.quantity})
+					</Span>
+				)}
 			</Heading>
 
 			{props.item.shopName && (
@@ -178,9 +186,7 @@ export const OrderItemCard = (props: Props) => {
 					justifyContent="space-between"
 					minW={0}
 					flex="1"
-					position="relative"
 				>
-					{props.bodyOverlayElements}
 					<Stack gap={3}>
 						{basicInfo}
 						{secondaryInfoBadges}
@@ -217,8 +223,6 @@ export const OrderItemCard = (props: Props) => {
 				{priceAndShipping}
 				{estimatedDelivery}
 			</Card.Body>
-
-			{props.bodyOverlayElements}
 		</Card.Root>
 	);
 };

@@ -1,4 +1,5 @@
 import {
+	Box,
 	CardRootProps,
 	Group,
 	IconButton,
@@ -97,26 +98,26 @@ export const ShoppingCartCard = (props: Props) => {
 		</Group>
 	);
 
-	return (
+	return isStandard ? (
+		<Box position="relative">
+			<OrderItemCard
+				item={displayData}
+				cardProps={props.cardProps}
+				layout={props.layout}
+			/>
+			{deleteButton}
+			{quantityControl}
+		</Box>
+	) : (
 		<OrderItemCard
 			item={displayData}
 			cardProps={props.cardProps}
 			layout={props.layout}
 			imageOverlayElements={
-				isStandard ? undefined : (
-					<>
-						{deleteButton}
-						{quantityControl}
-					</>
-				)
-			}
-			bodyOverlayElements={
-				isStandard ? (
-					<>
-						{deleteButton}
-						{quantityControl}
-					</>
-				) : undefined
+				<>
+					{deleteButton}
+					{quantityControl}
+				</>
 			}
 		/>
 	);

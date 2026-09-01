@@ -131,27 +131,6 @@ const OrderItemsList = ({
 			item={item}
 			layout={layout}
 			cardProps={cardProps}
-			bodyOverlayElements={
-				item.quantity > 1 && (
-					<Flex
-						justifyContent="center"
-						alignItems="start"
-						position="absolute"
-						h={8}
-						minW={8}
-						top={2}
-						right={2}
-						px={3}
-						borderRadius="full"
-						fontSize={22}
-						lineHeight={1.3}
-						fontWeight={500}
-						background="gray.100"
-					>
-						{item.quantity}
-					</Flex>
-				)
-			}
 		/>
 	));
 
