@@ -7,7 +7,7 @@ import {
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegImage } from 'react-icons/fa6';
 
 enum ImageStatus {
@@ -33,6 +33,10 @@ export const AppImage = ({
 	const showSkeleton = useMinDuration(
 		status === ImageStatus.LOADING,
 	);
+
+	useEffect(() => {
+		setUrl(props.imageProps?.src);
+	}, [props.imageProps?.src]);
 
 	if (status === ImageStatus.ERROR && !showSkeleton) {
 		return (
