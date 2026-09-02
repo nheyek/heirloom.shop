@@ -2,9 +2,9 @@ import { Button } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
 import { useState } from 'react';
-import { FaCheckDouble } from 'react-icons/fa6';
+import { FaTruck } from 'react-icons/fa6';
 
-export const CompleteOrderButton = () => {
+export const FulfillmentDetailsButton = () => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -14,12 +14,12 @@ export const CompleteOrderButton = () => {
 				variant="outline"
 				onClick={() => setOpen(true)}
 			>
-				<FaCheckDouble />
-				Complete
+				<FaTruck />
+				Fulfillment details
 			</Button>
 
 			<AppDialog
-				title="Complete this order?"
+				title="Fulfillment Details"
 				open={open}
 				onCancel={() => setOpen(false)}
 				size="sm"
@@ -27,7 +27,7 @@ export const CompleteOrderButton = () => {
 					<DialogConfirmFooter
 						onCancel={() => setOpen(false)}
 						onConfirm={() => setOpen(false)}
-						confirmLabel="Complete"
+						confirmLabel="Save"
 					/>
 				}
 			/>

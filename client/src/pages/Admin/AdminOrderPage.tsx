@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import { CompleteOrderButton } from '@client/components/itemDisplay/CompleteOrderButton';
+import { FulfillmentDetailsButton } from '@client/components/itemDisplay/FulfillmentDetailsButton';
 import {
 	OrderDetailItemsList,
 	OrderDetailItemsListSkeleton,
@@ -55,7 +55,7 @@ const AdminOrderPageContent = ({
 		<Stack gap={3}>
 			<OrderDetailTimeline timeline={order.timeline} />
 			{order.orderStatus === OrderStatus.CONFIRMED && (
-				<CompleteOrderButton />
+				<FulfillmentDetailsButton />
 			)}
 		</Stack>
 
