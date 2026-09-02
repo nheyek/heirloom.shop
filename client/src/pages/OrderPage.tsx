@@ -46,7 +46,10 @@ const OrderPageSkeleton = () => (
 
 const OrderPageContent = ({ order }: { order: OrderResponse }) => (
 	<>
-		<OrderDetailTimeline timeline={order.timeline} />
+		<OrderDetailTimeline
+			timeline={order.timeline}
+			shipments={order.shipments}
+		/>
 
 		<Stack gap={5}>
 			<Stack gap={2}>

@@ -8,6 +8,8 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
+import { ShippingProviderIcon } from '@client/components/icons/ShippingProviderIcon';
+import { InfoPopover } from '@client/components/misc/InfoPopover';
 import { Layout } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { displayFontFamily } from '@client/theme';
@@ -18,6 +20,7 @@ import {
 	OrderResponse,
 	OrderTimelineEntry,
 	PaymentDetails,
+	Shipment,
 } from '@heirloom/common/contract';
 import { formatPaymentDetails } from '@heirloom/common/utils/paymentDisplay';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -63,10 +66,30 @@ export const SectionHeading = ({
 	</Text>
 );
 
+const ShipmentsPopoverContent = ({
+	shipments,
+}: {
+	shipments: Shipment[];
+}) => (
+	<Stack gap={2}>
+		{shipments.map((shipment, i) => (
+			<HStack key={i}>
+				<ShippingProviderIcon
+					provider={shipment.provider}
+					size={24}
+				/>
+				<Text fontSize={16}>{shipment.tracking}</Text>
+			</HStack>
+		))}
+	</Stack>
+);
+
 export const OrderDetailTimeline = ({
 	timeline,
+	shipments,
 }: {
 	timeline: OrderTimelineEntry[];
+	shipments: Shipment[];
 }) => {
 	if (timeline.length === 0) return null;
 
@@ -86,8 +109,21 @@ export const OrderDetailTimeline = ({
 							</Timeline.Indicator>
 						</Timeline.Connector>
 						<Timeline.Content>
-							<Timeline.Title fontSize={22}>
+							<Timeline.Title
+								fontSize={22}
+								display="flex"
+								alignItems="center"
+							>
 								{capitalize(entry.status)}
+								{entry.status ===
+									OrderStatus.SHIPPED &&
+									shipments.length > 0 && (
+										<InfoPopover>
+											<ShipmentsPopoverContent
+												shipments={shipments}
+											/>
+										</InfoPopover>
+									)}
 							</Timeline.Title>
 							<Timeline.Description fontSize={20}>
 								{formatDateLong(entry.timestamp)}

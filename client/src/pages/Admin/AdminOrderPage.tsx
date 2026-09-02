@@ -55,7 +55,10 @@ const AdminOrderPageContent = ({
 }) => (
 	<>
 		<Stack gap={3}>
-			<OrderDetailTimeline timeline={order.timeline} />
+			<OrderDetailTimeline
+				timeline={order.timeline}
+				shipments={order.shipments}
+			/>
 			{order.orderStatus === OrderStatus.CONFIRMED && (
 				<ConfirmShipmentButton
 					shortId={order.shortId}
