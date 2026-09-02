@@ -33,7 +33,7 @@ import { IconType } from 'react-icons';
 import { FaCheck, FaTruck } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 120;
+export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 115;
 
 const STATUS_ICONS: Partial<Record<OrderStatus, IconType>> = {
 	[OrderStatus.CONFIRMED]: FaCheck,
@@ -123,7 +123,7 @@ export const OrderPreviewCard = ({
 
 			<Card.Body
 				p={3}
-				gap={1}
+				gap={0}
 				justifyContent="space-between"
 				minW={0}
 				fontSize={20}
@@ -138,11 +138,11 @@ export const OrderPreviewCard = ({
 					>
 						<Link asChild>
 							<Text
-								fontSize={28}
+								fontSize={24}
 								fontWeight={500}
 								truncate
 							>
-								{order.shortId}
+								#{order.shortId}
 							</Text>
 						</Link>
 					</RouterLink>
@@ -181,7 +181,9 @@ export const OrderPreviewCard = ({
 				<HStack justifyContent="space-between">
 					<Text>{formatDateLong(order.createdAt)}</Text>
 
-					<Text>{formatCentsAsDollars(total)}</Text>
+					<Text fontSize={22}>
+						{formatCentsAsDollars(total)}
+					</Text>
 				</HStack>
 			</Card.Body>
 		</Card.Root>

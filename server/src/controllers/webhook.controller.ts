@@ -1,5 +1,6 @@
 import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
+import { adminOrderConfirmation } from '@server/emailTemplates/adminOrderConfirmation';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import {
@@ -11,6 +12,7 @@ import {
 	extractPaymentDetails,
 	retrievePaymentIntentCharge,
 } from '@server/services/payment.service';
+import { findAdminEmails } from '@server/services/user.service';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 
@@ -74,6 +76,9 @@ export const handleStripeWebhook = async (
 			}
 
 			const order = await getOrderById(orderId);
+			const items = order.appOrderItemCollection
+				.getItems()
+				.map((item) => item.snapshot as OrderItemDisplayData);
 
 			sendEmail({
 				to: order.email,
@@ -83,18 +88,30 @@ export const handleStripeWebhook = async (
 					orderId: order.shortId,
 					accessKey: order.accessKey,
 					shippingAddress: order.shippingAddress,
-					items: order.appOrderItemCollection
-						.getItems()
-						.map(
-							(item) =>
-								item.snapshot as OrderItemDisplayData,
-						),
+					items,
 					subtotalCents: order.subtotal,
 					shippingCents: order.shippingPrice,
 					taxCents: order.taxTotal,
 					paymentDetails,
 				}),
 			});
+
+			const adminEmails = await findAdminEmails();
+			for (const adminEmail of adminEmails) {
+				sendEmail({
+					to: adminEmail,
+					subject: `New Order Confirmed: ${order.shortId}`,
+					text: adminOrderConfirmation({
+						orderId: order.shortId,
+						shippingAddress: order.shippingAddress,
+						items,
+						subtotalCents: order.subtotal,
+						shippingCents: order.shippingPrice,
+						taxCents: order.taxTotal,
+						paymentDetails,
+					}),
+				});
+			}
 		}
 
 	}

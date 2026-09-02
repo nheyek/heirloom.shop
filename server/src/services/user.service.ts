@@ -26,6 +26,12 @@ export const findOrCreateUser = async (
 	}
 };
 
+export const findAdminEmails = async (): Promise<string[]> => {
+	const em = getEm();
+	const admins = await em.find(AppUser, { isAdmin: true });
+	return admins.map((admin) => admin.email);
+};
+
 export const getShopShortIdForUser = async (userId: number) => {
 	const em = getEm();
 	const shopRole = await em.findOne(

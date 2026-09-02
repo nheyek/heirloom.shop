@@ -3,37 +3,10 @@ import {
 	PaymentDetails,
 	ShippingAddress,
 } from '@heirloom/common/contract';
-import { formatPaymentDetails } from '@heirloom/common/utils/paymentDisplay';
-import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
-
-const formatItem = (item: OrderItemDisplayData) => {
-	const details = [
-		...item.variations.map((v) => `${v.name}: ${v.value}`),
-		...(item.personalizationText
-			? [
-					`${item.personalizationName ?? 'Personalization'}: ${item.personalizationText}`,
-				]
-			: []),
-	];
-	const detailsText =
-		details.length > 0 ? ` (${details.join(', ')})` : '';
-	const unitPrice = `${formatCentsAsDollars(item.unitPriceCents)}${item.quantity > 1 ? ` (${item.quantity})` : ''}`;
-	const lines = [
-		`${item.title}${detailsText}`,
-		item.shopName,
-		unitPrice,
-	];
-	if (item.estimatedDelivery) {
-		lines.push(`Estimated delivery: ${item.estimatedDelivery}`);
-	}
-	return lines.join('\n');
-};
-
-const APP_URL =
-	process.env.NODE_ENV === 'development'
-		? 'https://heirloom.test:8080'
-		: 'https://dev.heirloom.shop';
+import {
+	APP_URL,
+	formatOrderDetails,
+} from '@server/emailTemplates/orderDetails';
 
 export const orderConfirmation = (params: {
 	name?: string;
@@ -47,22 +20,12 @@ export const orderConfirmation = (params: {
 	paymentDetails: PaymentDetails | null;
 }) => {
 	const orderUrl = `${APP_URL}/order/${params.orderId}?key=${params.accessKey}`;
-	const totalCents =
-		params.subtotalCents + params.shippingCents + params.taxCents;
 
 	return `Dear ${params.name || 'Customer'},
 
 We are writing to confirm your recent order (${params.orderId}) from Heirloom:
 
-${params.items.map(formatItem).join('\n\n')}
-
-Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
-Shipping: ${formatCentsAsDollars(params.shippingCents)}
-Tax: ${formatCentsAsDollars(params.taxCents)}
-Total: ${formatCentsAsDollars(totalCents)}
-${params.paymentDetails ? `Payment method: ${formatPaymentDetails(params.paymentDetails)}\n` : ''}
-Shipping to:
-${formatShippingAddress(params.shippingAddress)}
+${formatOrderDetails(params)}
 
 View your order here: ${orderUrl}
 
