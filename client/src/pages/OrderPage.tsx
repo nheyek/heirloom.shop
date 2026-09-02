@@ -36,6 +36,11 @@ const OrderPageSkeleton = () => (
 
 			<OrderDetailPaymentSectionSkeleton />
 		</Stack>
+
+		<Skeleton
+			width="100%"
+			height={55}
+		/>
 	</>
 );
 

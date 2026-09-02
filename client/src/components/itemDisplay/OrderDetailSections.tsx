@@ -41,7 +41,6 @@ const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
 const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
 const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
-const PAYMENT_SKELETON_HEIGHT = 60;
 
 export const SectionHeading = ({
 	children,
@@ -326,6 +325,6 @@ export const OrderDetailPaymentSection = ({
 export const OrderDetailPaymentSectionSkeleton = () => (
 	<Skeleton
 		width="100%"
-		height={PAYMENT_SKELETON_HEIGHT}
+		height={75}
 	/>
 );

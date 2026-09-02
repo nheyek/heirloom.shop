@@ -22,7 +22,13 @@ import { useParams } from 'react-router-dom';
 
 const AdminOrderPageSkeleton = () => (
 	<>
-		<OrderDetailTimelineSkeleton />
+		<Stack gap={3}>
+			<OrderDetailTimelineSkeleton />
+			<Skeleton
+				height={10}
+				width={120}
+			/>
+		</Stack>
 
 		<Stack gap={5}>
 			<Stack gap={2}>

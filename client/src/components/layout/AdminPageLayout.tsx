@@ -21,7 +21,6 @@ const NAV_ITEMS: SidebarNavItem[] = [
 		title: 'Orders',
 		icon: FaScroll,
 		route: `${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`,
-		children: [{ path: ':shortId', label: 'Order Details' }],
 	},
 	{
 		label: 'Analytics',
