@@ -1,7 +1,7 @@
 import { Button, Stack } from '@chakra-ui/react';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { ListingEditCard } from '@client/components/itemDisplay/ListingEditCard';
+import { ListingEditCard } from '@client/components/cards/ListingEditCard';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';

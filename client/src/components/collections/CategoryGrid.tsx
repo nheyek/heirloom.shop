@@ -5,7 +5,7 @@ import {
 } from '@chakra-ui/react';
 import { CategoryTileData } from '@heirloom/common/contract';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { CategoryTile } from '@client/components/itemDisplay/CategoryTile';
+import { CategoryTile } from '@client/components/cards/CategoryTile';
 
 const NUM_DEFAULT_PLACEHOLDERS = 4;
 

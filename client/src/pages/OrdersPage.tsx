@@ -1,7 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import { OrderPreviewList } from '@client/components/itemDisplay/OrderPreviewList';
+import { OrderPreviewList } from '@client/components/cards/OrderPreviewList';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';

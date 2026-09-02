@@ -8,7 +8,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/itemDisplay/OrderItemCard';
+import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/cards/OrderItemCard';
 import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';

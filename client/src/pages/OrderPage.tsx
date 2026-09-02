@@ -10,7 +10,7 @@ import {
 	OrderDetailSummaryAndShippingSkeleton,
 	OrderDetailTimeline,
 	OrderDetailTimelineSkeleton,
-} from '@client/components/itemDisplay/OrderDetailSections';
+} from '@client/components/orderPage/OrderDetailSections';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { displayFontFamily } from '@client/theme';

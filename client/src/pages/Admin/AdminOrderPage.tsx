@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import { FulfillmentDetailsButton } from '@client/components/itemDisplay/FulfillmentDetailsButton';
+import { FulfillmentDetailsButton } from '@client/components/misc/FulfillmentDetailsButton';
 import {
 	OrderDetailItemsList,
 	OrderDetailItemsListSkeleton,
@@ -10,7 +10,7 @@ import {
 	OrderDetailSummaryAndShippingSkeleton,
 	OrderDetailTimeline,
 	OrderDetailTimelineSkeleton,
-} from '@client/components/itemDisplay/OrderDetailSections';
+} from '@client/components/orderPage/OrderDetailSections';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { displayFontFamily } from '@client/theme';

@@ -5,7 +5,7 @@ import {
 	IconButton,
 	Text,
 } from '@chakra-ui/react';
-import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { Layout } from '@client/constants';
 import {
 	getOrderItemDisplayData,

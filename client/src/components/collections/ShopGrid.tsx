@@ -1,5 +1,5 @@
 import { ItemGrid } from '@client/components/collections/ItemGrid';
-import { ShopCard } from '@client/components/itemDisplay/ShopCard';
+import { ShopCard } from '@client/components/cards/ShopCard';
 import { STANDARD_GRID_COLUMNS } from '@client/constants';
 import { ShopCardData } from '@heirloom/common/contract';
 

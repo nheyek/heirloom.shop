@@ -7,7 +7,7 @@ import {
 	Timeline,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { Layout } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { displayFontFamily } from '@client/theme';

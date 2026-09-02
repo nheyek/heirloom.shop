@@ -1,5 +1,5 @@
 import { ItemGrid } from '@client/components/collections/ItemGrid';
-import { ListingDisplayCard } from '@client/components/itemDisplay/ListingDisplayCard';
+import { ListingDisplayCard } from '@client/components/cards/ListingDisplayCard';
 import { STANDARD_GRID_COLUMNS } from '@client/constants';
 import { ListingCardData } from '@heirloom/common/contract';
 

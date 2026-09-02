@@ -5,7 +5,7 @@ import {
 	Skeleton,
 } from '@chakra-ui/react';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
-import { OrderItemCard } from '@client/components/itemDisplay/OrderItemCard';
+import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FaShoppingCart } from 'react-icons/fa';
