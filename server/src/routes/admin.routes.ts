@@ -1,9 +1,13 @@
 import { adminContract } from '@heirloom/common/contract';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
+import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapOrderToApiResponseData } from '@server/mappers/order.mapper';
 import { adminAuth } from '@server/middleware/auth0.middleware';
-import { getOrders } from '@server/services/order.service';
+import {
+	getOrderByShortId,
+	getOrders,
+} from '@server/services/order.service';
 import {
 	createShop,
 	DuplicateShopTitleError,
@@ -142,6 +146,26 @@ export const adminRouter = s.router(adminContract, {
 				status: 200 as const,
 				body: orders.map(mapOrderToApiResponseData),
 			};
+		},
+	},
+	getOrder: {
+		middleware: [adminAuth],
+		handler: async ({ params: { shortId } }) => {
+			try {
+				const order = await getOrderByShortId(shortId);
+				return {
+					status: 200 as const,
+					body: mapOrderToApiResponseData(order),
+				};
+			} catch (e) {
+				if (e instanceof NotFoundError) {
+					return {
+						status: 404 as const,
+						body: { error: ERROR_MESSAGES.order.notFound },
+					};
+				}
+				throw e;
+			}
 		},
 	},
 });

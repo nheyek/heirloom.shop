@@ -81,12 +81,14 @@ type Props = {
 	order: OrderResponse;
 	layout?: Layout;
 	cardProps?: CardRootProps;
+	linkTo?: string;
 };
 
 export const OrderPreviewCard = ({
 	order,
 	layout,
 	cardProps,
+	linkTo,
 }: Props) => {
 	const isDesktop = layout === Layout.DESKTOP;
 	const total =
@@ -129,7 +131,10 @@ export const OrderPreviewCard = ({
 			>
 				<HStack justifyContent="space-between">
 					<RouterLink
-						to={`/${CLIENT_ROUTES.orders}/${order.shortId}`}
+						to={
+							linkTo ??
+							`/${CLIENT_ROUTES.orders}/${order.shortId}`
+						}
 					>
 						<Link asChild>
 							<Text

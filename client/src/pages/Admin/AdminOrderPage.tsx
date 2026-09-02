@@ -1,6 +1,6 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { HStack, Skeleton, Stack, Text } from '@chakra-ui/react';
+import { Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
+import { CompleteOrderButton } from '@client/components/itemDisplay/CompleteOrderButton';
 import {
 	OrderDetailItemsList,
 	OrderDetailItemsListSkeleton,
@@ -15,11 +15,12 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
+import { OrderStatus } from '@heirloom/common/constants';
 import { OrderResponse } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const OrderPageSkeleton = () => (
+const AdminOrderPageSkeleton = () => (
 	<>
 		<OrderDetailTimelineSkeleton />
 
@@ -39,9 +40,18 @@ const OrderPageSkeleton = () => (
 	</>
 );
 
-const OrderPageContent = ({ order }: { order: OrderResponse }) => (
+const AdminOrderPageContent = ({
+	order,
+}: {
+	order: OrderResponse;
+}) => (
 	<>
-		<OrderDetailTimeline timeline={order.timeline} />
+		<Stack gap={3}>
+			<OrderDetailTimeline timeline={order.timeline} />
+			{order.orderStatus === OrderStatus.CONFIRMED && (
+				<CompleteOrderButton />
+			)}
+		</Stack>
 
 		<Stack gap={5}>
 			<Stack gap={2}>
@@ -63,56 +73,33 @@ const OrderPageContent = ({ order }: { order: OrderResponse }) => (
 				/>
 			)}
 		</Stack>
-
-		<Stack
-			gap={1}
-			fontSize={20}
-		>
-			<Text fontSize={20}>Need help with your order?</Text>
-			<HStack gap={1}>
-				<Text>Reach us at</Text>
-				<Text fontWeight={500}>support@heirloom.shop</Text>
-			</HStack>
-		</Stack>
 	</>
 );
 
-export const OrderPage = () => {
+export const AdminOrderPage = () => {
 	const apiClient = useApiClient();
 	const { shortId } = useParams<{ shortId: string }>();
-	const { isLoading: authIsLoading } = useAuth0();
 
-	const [searchParams] = useSearchParams();
-	const key = searchParams.get('key') ?? '';
-
-	const [isLoading, setIsLoading] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [orderDetails, setOrderDetails] =
 		useState<OrderResponse | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const showSkeleton = useMinDuration(isLoading || authIsLoading);
-
-	const loadOrderData = async () => {
-		if (!shortId) {
-			return;
-		}
-		setIsLoading(true);
-		const result = await callApi(
-			apiClient.orders.getByShortId({
-				params: { shortId },
-				query: { key },
-			}),
-		);
-		setIsLoading(false);
-		if (result.error !== null) {
-			setError(result.error);
-		} else {
-			setOrderDetails(result.data);
-		}
-	};
 
 	useEffect(() => {
-		loadOrderData();
-	}, [shortId, key]);
+		if (!shortId) return;
+		callApi(
+			apiClient.admin.getOrder({ params: { shortId } }),
+		).then((result) => {
+			if (result.error !== null) {
+				setError(result.error);
+			} else {
+				setOrderDetails(result.data);
+			}
+			setIsLoading(false);
+		});
+	}, [shortId]);
+
+	const showSkeleton = useMinDuration(isLoading);
 
 	return (
 		<>
@@ -129,9 +116,11 @@ export const OrderPage = () => {
 					gap={8}
 				>
 					{showSkeleton ? (
-						<OrderPageSkeleton />
+						<AdminOrderPageSkeleton />
 					) : (
-						<OrderPageContent order={orderDetails!} />
+						<AdminOrderPageContent
+							order={orderDetails!}
+						/>
 					)}
 				</Stack>
 			)}

@@ -11,9 +11,14 @@ const STANDARD_SKELETON_HEIGHT = 110;
 type Props = {
 	orders: OrderResponse[];
 	isLoading: boolean;
+	linkTo?: (order: OrderResponse) => string;
 };
 
-export const OrderPreviewList = ({ orders, isLoading }: Props) => {
+export const OrderPreviewList = ({
+	orders,
+	isLoading,
+	linkTo,
+}: Props) => {
 	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
 		isLoading ? SKELETON_ITEM_COUNT : orders.length,
 	);
@@ -38,6 +43,7 @@ export const OrderPreviewList = ({ orders, isLoading }: Props) => {
 					order={order}
 					layout={layout}
 					cardProps={cardProps}
+					linkTo={linkTo?.(order)}
 				/>
 			));
 

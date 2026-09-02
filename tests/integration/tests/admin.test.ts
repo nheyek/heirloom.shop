@@ -338,6 +338,103 @@ describe('GET /api/admin/orders', () => {
 	});
 });
 
+/**
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
+ * - AppOrder: shortId="adm_ord03", status CONFIRMED, guest order (no user)
+ */
+describe('GET /api/admin/orders/:shortId', () => {
+	const adminSetup = async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = true;
+		await em.flush();
+		return user;
+	};
+
+	const adminTeardown = async () => {
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = false;
+		await em.flush();
+	};
+
+	beforeAll(async () => {
+		const em = getEm();
+
+		const order = em.create(AppOrder, {
+			shortId: 'adm_ord03',
+			email: 'guest3@example.com',
+			shippingAddress: {
+				firstName: 'Guest',
+				lastName: 'Three',
+				line1: '3 Guest St',
+				line2: '',
+				city: 'Denver',
+				state: 'CO',
+				zip: '80202',
+			},
+			subtotal: 2000,
+			taxTotal: 150,
+			shippingPrice: 400,
+			accessKey: 'adm_test_key_3',
+			orderStatus: OrderStatus.CONFIRMED,
+			paymentIntentId: 'pi_admtest03',
+		});
+
+		await em.persist(order).flush();
+	});
+
+	it('returns 401 without auth', async () => {
+		const res = await request(getApp()).get(
+			'/api/admin/orders/adm_ord03',
+		);
+		expect(res.status).toBe(401);
+	});
+
+	it('returns 403 for a non-admin authenticated user', async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const res = await request(getApp())
+			.get('/api/admin/orders/adm_ord03')
+			.set(AUTH);
+		expect(res.status).toBe(403);
+	});
+
+	it('returns 404 for an unknown shortId', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.get('/api/admin/orders/doesnotexist')
+			.set(AUTH);
+		expect(res.status).toBe(404);
+		await adminTeardown();
+	});
+
+	it('returns the order for an admin without requiring ownership or an access key', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.get('/api/admin/orders/adm_ord03')
+			.set(AUTH);
+		expect(res.status).toBe(200);
+		expect(res.body).toMatchObject({
+			shortId: 'adm_ord03',
+			orderStatus: OrderStatus.CONFIRMED,
+			subtotalCents: 2000,
+			shippingCents: 400,
+			taxCents: 150,
+			shippingAddress: expect.objectContaining({
+				city: 'Denver',
+				state: 'CO',
+			}),
+		});
+		await adminTeardown();
+	});
+});
+
 describe('POST /api/admin/shop-image-upload-url', () => {
 	const adminSetup = async () => {
 		await request(getApp()).get('/api/me').set(AUTH);

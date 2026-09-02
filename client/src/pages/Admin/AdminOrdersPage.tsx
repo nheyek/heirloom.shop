@@ -1,6 +1,7 @@
 import { Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { OrderPreviewList } from '@client/components/itemDisplay/OrderPreviewList';
+import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { callApi } from '@client/utils/apiUtils';
@@ -41,6 +42,9 @@ export const AdminOrdersPage = () => {
 		<OrderPreviewList
 			orders={orders}
 			isLoading={isLoading}
+			linkTo={(order) =>
+				`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}/${order.shortId}`
+			}
 		/>
 	);
 };
