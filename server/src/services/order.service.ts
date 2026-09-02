@@ -1,4 +1,5 @@
 import { OrderStatus } from '@heirloom/common/constants';
+import { deriveOrderStatus } from '@heirloom/common/domain/order';
 import {
 	OrderItemDisplayData,
 	OrderTimelineEntry,
@@ -37,7 +38,6 @@ export const createOrder = async (
 		subtotal: subtotalCents,
 		shippingPrice: shippingCents,
 		taxTotal: taxTotalCents,
-		orderStatus: OrderStatus.PENDING,
 		timeline: [],
 		shipments: [],
 		email,
@@ -59,19 +59,22 @@ export const createOrder = async (
 	return order;
 };
 
-export const updateOrderStatus = async (
+export const getOrderTimeline = (
+	order: AppOrder,
+): OrderTimelineEntry[] =>
+	(Array.isArray(order.timeline)
+		? order.timeline
+		: []) as OrderTimelineEntry[];
+
+export const addOrderTimelineEntry = async (
 	orderId: number,
 	status: OrderStatus,
 	info: string = '',
 ): Promise<void> => {
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { id: orderId });
-	order.orderStatus = status;
-	const timeline = (
-		Array.isArray(order.timeline) ? order.timeline : []
-	) as OrderTimelineEntry[];
 	order.timeline = [
-		...timeline,
+		...getOrderTimeline(order),
 		{ status, timestamp: new Date().toISOString(), info },
 	];
 	await em.flush();
@@ -82,7 +85,7 @@ export const getOrderStatus = async (
 ): Promise<OrderStatus> => {
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { shortId });
-	return order.orderStatus as OrderStatus;
+	return deriveOrderStatus(getOrderTimeline(order));
 };
 
 export const getOrderByShortId = async (
@@ -109,16 +112,20 @@ export const getOrders = async (
 	userId: number | null,
 ): Promise<AppOrder[]> => {
 	const em = getEm();
-	return em.find(
+	const orders = await em.find(
 		AppOrder,
 		{
 			...(userId !== null && { user: { id: userId } }),
-			orderStatus: { $ne: OrderStatus.PENDING },
 		},
 		{
 			populate: ['appOrderItemCollection'],
 			orderBy: { createdAt: 'DESC' },
 		},
+	);
+	return orders.filter(
+		(order) =>
+			deriveOrderStatus(getOrderTimeline(order)) !==
+			OrderStatus.PENDING,
 	);
 };
 

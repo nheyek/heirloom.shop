@@ -266,7 +266,13 @@ describe('GET /api/admin/orders', () => {
 			taxTotal: 100,
 			shippingPrice: 500,
 			accessKey: 'adm_test_key',
-			orderStatus: OrderStatus.CONFIRMED,
+			timeline: [
+				{
+					status: OrderStatus.CONFIRMED,
+					timestamp: new Date().toISOString(),
+					info: '',
+				},
+			],
 			paymentIntentId: 'pi_admtest01',
 		});
 
@@ -286,7 +292,7 @@ describe('GET /api/admin/orders', () => {
 			taxTotal: 100,
 			shippingPrice: 500,
 			accessKey: 'adm_test_key_2',
-			orderStatus: OrderStatus.PENDING,
+			timeline: [],
 			paymentIntentId: 'pi_admtest02',
 		});
 
@@ -386,7 +392,13 @@ describe('GET /api/admin/orders/:shortId', () => {
 			taxTotal: 150,
 			shippingPrice: 400,
 			accessKey: 'adm_test_key_3',
-			orderStatus: OrderStatus.CONFIRMED,
+			timeline: [
+				{
+					status: OrderStatus.CONFIRMED,
+					timestamp: new Date().toISOString(),
+					info: '',
+				},
+			],
 			paymentIntentId: 'pi_admtest03',
 		});
 
@@ -489,7 +501,13 @@ describe('PUT /api/admin/orders/:shortId/shipments', () => {
 			taxTotal: 175,
 			shippingPrice: 450,
 			accessKey: 'adm_test_key_4',
-			orderStatus: OrderStatus.CONFIRMED,
+			timeline: [
+				{
+					status: OrderStatus.CONFIRMED,
+					timestamp: new Date().toISOString(),
+					info: '',
+				},
+			],
 			paymentIntentId: 'pi_admtest04',
 		});
 
@@ -548,19 +566,27 @@ describe('PUT /api/admin/orders/:shortId/shipments', () => {
 		await adminTeardown();
 	});
 
-	it('sets the shipments and persists them', async () => {
+	it('sets the shipments, marks the order shipped, and persists them', async () => {
 		await adminSetup();
 		const res = await request(getApp())
 			.put('/api/admin/orders/adm_ord04/shipments')
 			.set(AUTH)
 			.send(validBody);
 		expect(res.status).toBe(200);
-		expect(res.body).toEqual(validBody);
+		expect(res.body).toMatchObject({
+			shortId: 'adm_ord04',
+			orderStatus: OrderStatus.SHIPPED,
+			shipments: validBody.shipments,
+		});
+		expect(
+			res.body.timeline[res.body.timeline.length - 1],
+		).toMatchObject({ status: OrderStatus.SHIPPED });
 
 		const getRes = await request(getApp())
 			.get('/api/admin/orders/adm_ord04')
 			.set(AUTH);
 		expect(getRes.body.shipments).toEqual(validBody.shipments);
+		expect(getRes.body.orderStatus).toBe(OrderStatus.SHIPPED);
 		await adminTeardown();
 	});
 });

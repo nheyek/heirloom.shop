@@ -28,7 +28,6 @@ CREATE TABLE public.app_order (
     shipping_address jsonb NOT NULL,
     subtotal integer NOT NULL,
     tax_total integer NOT NULL,
-    order_status character varying(32) NOT NULL,
     payment_intent_id character varying(64),
     created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -1199,4 +1198,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260825000000'),
     ('20260826000000'),
     ('20260826110324'),
-    ('20260902130450');
+    ('20260902130450'),
+    ('20260902142852');

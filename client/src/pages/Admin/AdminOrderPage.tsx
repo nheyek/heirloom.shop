@@ -48,14 +48,19 @@ const AdminOrderPageSkeleton = () => (
 
 const AdminOrderPageContent = ({
 	order,
+	onOrderUpdated,
 }: {
 	order: OrderResponse;
+	onOrderUpdated: (order: OrderResponse) => void;
 }) => (
 	<>
 		<Stack gap={3}>
 			<OrderDetailTimeline timeline={order.timeline} />
 			{order.orderStatus === OrderStatus.CONFIRMED && (
-				<ConfirmShipmentButton />
+				<ConfirmShipmentButton
+					shortId={order.shortId}
+					onSuccess={onOrderUpdated}
+				/>
 			)}
 		</Stack>
 
@@ -126,6 +131,7 @@ export const AdminOrderPage = () => {
 					) : (
 						<AdminOrderPageContent
 							order={orderDetails!}
+							onOrderUpdated={setOrderDetails}
 						/>
 					)}
 				</Stack>

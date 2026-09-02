@@ -14,6 +14,7 @@ jest.unstable_mockModule('@server/services/payment.service', () => ({
 
 import { ShippingAddress } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
+import { deriveOrderStatus } from '@heirloom/common/domain/order';
 import { getCombinationKey } from '@heirloom/common/domain/listing';
 import { getEm } from '@server/db';
 
@@ -600,7 +601,9 @@ describe('POST /api/checkout/submitOrder', () => {
 		expect(order!.subtotal).toBe(2500);
 		expect(order!.shippingPrice).toBe(0);
 		expect(order!.taxTotal).toBeGreaterThan(0);
-		expect(order!.orderStatus).toBe(OrderStatus.PENDING);
+		expect(deriveOrderStatus(order!.timeline)).toBe(
+			OrderStatus.PENDING,
+		);
 		expect(order!.paymentIntentId).toContain('pi_');
 		expect(order!.shippingAddress).toMatchObject(address);
 		expect(order!.timeline).toEqual([]);

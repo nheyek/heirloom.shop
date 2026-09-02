@@ -31,7 +31,7 @@ beforeAll(async () => {
 		taxTotal: 250,
 		shippingPrice: 500,
 		accessKey: 'testkey1',
-		orderStatus: OrderStatus.PENDING,
+		timeline: [],
 	});
 
 	const order2 = em.create(AppOrder, {
@@ -50,7 +50,13 @@ beforeAll(async () => {
 		taxTotal: 0,
 		shippingPrice: 800,
 		accessKey: 'testkey2',
-		orderStatus: OrderStatus.CONFIRMED,
+		timeline: [
+			{
+				status: OrderStatus.CONFIRMED,
+				timestamp: new Date().toISOString(),
+				info: '',
+			},
+		],
 	});
 
 	await em.persist([order1, order2]).flush();

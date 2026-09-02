@@ -911,7 +911,7 @@ export const adminContract = c.router({
 		pathParams: z.object({ shortId: z.string() }),
 		body: z.object({ shipments: z.array(ShipmentSchema) }),
 		responses: {
-			200: z.object({ shipments: z.array(ShipmentSchema) }),
+			200: OrderResponseSchema,
 			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,

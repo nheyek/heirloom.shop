@@ -18,9 +18,6 @@ export class AppOrder {
   @Property()
   taxTotal!: number;
 
-  @Property({ length: 32 })
-  orderStatus!: string;
-
   @Property({ length: 64, nullable: true })
   paymentIntentId?: string;
 

@@ -1,10 +1,12 @@
 import { adminContract } from '@heirloom/common/contract';
+import { OrderStatus } from '@heirloom/common/constants';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapOrderToApiResponseData } from '@server/mappers/order.mapper';
 import { adminAuth } from '@server/middleware/auth0.middleware';
 import {
+	addOrderTimelineEntry,
 	getOrderByShortId,
 	getOrders,
 	updateOrderShipments,
@@ -175,9 +177,11 @@ export const adminRouter = s.router(adminContract, {
 			try {
 				const order = await getOrderByShortId(shortId);
 				await updateOrderShipments(order.id, body.shipments);
+				await addOrderTimelineEntry(order.id, OrderStatus.SHIPPED);
+				const updatedOrder = await getOrderByShortId(shortId);
 				return {
 					status: 200 as const,
-					body: { shipments: body.shipments },
+					body: mapOrderToApiResponseData(updatedOrder),
 				};
 			} catch (e) {
 				if (e instanceof NotFoundError) {

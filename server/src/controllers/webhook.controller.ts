@@ -3,9 +3,9 @@ import { OrderStatus } from '@heirloom/common/constants';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import {
+	addOrderTimelineEntry,
 	getOrderById,
 	updateOrderPaymentDetails,
-	updateOrderStatus,
 } from '@server/services/order.service';
 import {
 	extractPaymentDetails,
@@ -61,7 +61,7 @@ export const handleStripeWebhook = async (
 
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
-			await updateOrderStatus(orderId, OrderStatus.CONFIRMED);
+			await addOrderTimelineEntry(orderId, OrderStatus.CONFIRMED);
 
 			const charge =
 				typeof paymentIntent.latest_charge === 'string'

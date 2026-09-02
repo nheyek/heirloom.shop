@@ -51,7 +51,13 @@ beforeAll(async () => {
 		taxTotal: 100,
 		shippingPrice: 200,
 		accessKey: ACCESS_KEY,
-		orderStatus: OrderStatus.CONFIRMED,
+		timeline: [
+			{
+				status: OrderStatus.CONFIRMED,
+				timestamp: new Date().toISOString(),
+				info: '',
+			},
+		],
 	});
 
 	const ownedOrder = em.create(AppOrder, {
@@ -62,7 +68,13 @@ beforeAll(async () => {
 		taxTotal: 200,
 		shippingPrice: 300,
 		accessKey: 'viewkey2',
-		orderStatus: OrderStatus.CONFIRMED,
+		timeline: [
+			{
+				status: OrderStatus.CONFIRMED,
+				timestamp: new Date().toISOString(),
+				info: '',
+			},
+		],
 		user: testUser,
 	});
 
@@ -74,7 +86,13 @@ beforeAll(async () => {
 		taxTotal: 300,
 		shippingPrice: 400,
 		accessKey: 'viewkey3',
-		orderStatus: OrderStatus.CONFIRMED,
+		timeline: [
+			{
+				status: OrderStatus.CONFIRMED,
+				timestamp: new Date().toISOString(),
+				info: '',
+			},
+		],
 		user: otherUser,
 	});
 

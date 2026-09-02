@@ -1,4 +1,5 @@
 import { OrderStatus } from '@heirloom/common/constants';
+import { deriveOrderStatus } from '@heirloom/common/domain/order';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import request from 'supertest';
@@ -37,7 +38,7 @@ beforeAll(async () => {
 		taxTotal: 250,
 		shippingPrice: 500,
 		accessKey: 'testkey1',
-		orderStatus: OrderStatus.PENDING,
+		timeline: [],
 		paymentIntentId: 'pi_test123',
 	});
 
@@ -58,7 +59,7 @@ beforeAll(async () => {
 		taxTotal: 0,
 		shippingPrice: 800,
 		accessKey: 'testkey2',
-		orderStatus: OrderStatus.PENDING,
+		timeline: [],
 		paymentIntentId: 'pi_test456',
 	});
 
@@ -79,7 +80,7 @@ beforeAll(async () => {
 		taxTotal: 200,
 		shippingPrice: 600,
 		accessKey: 'testkey3',
-		orderStatus: OrderStatus.PENDING,
+		timeline: [],
 		paymentIntentId: 'pi_test999',
 	});
 
@@ -114,7 +115,9 @@ describe('POST /webhooks/stripe', () => {
 		// Verify order status was updated
 		const em = getEm();
 		const order = await em.findOne(AppOrder, { shortId: 'whk001' });
-		expect(order!.orderStatus).toBe(OrderStatus.CONFIRMED);
+		expect(deriveOrderStatus(order!.timeline)).toBe(
+			OrderStatus.CONFIRMED,
+		);
 		expect(order!.timeline).toHaveLength(1);
 		expect(order!.timeline[0]).toMatchObject({
 			status: OrderStatus.CONFIRMED,
@@ -144,7 +147,9 @@ describe('POST /webhooks/stripe', () => {
 
 		const em = getEm();
 		const order = await em.findOne(AppOrder, { shortId: 'whk002' });
-		expect(order!.orderStatus).toBe(OrderStatus.CONFIRMED);
+		expect(deriveOrderStatus(order!.timeline)).toBe(
+			OrderStatus.CONFIRMED,
+		);
 	});
 
 	it('acknowledges non-payment_intent.succeeded events without processing', async () => {

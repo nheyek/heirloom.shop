@@ -77,7 +77,13 @@ describe('GET /api/me/orders', () => {
 			taxTotal: 156,
 			shippingPrice: 0,
 			accessKey: 'me_test_key',
-			orderStatus: OrderStatus.CONFIRMED,
+			timeline: [
+				{
+					status: OrderStatus.CONFIRMED,
+					timestamp: new Date().toISOString(),
+					info: '',
+				},
+			],
 			paymentIntentId: 'pi_metest01',
 		});
 
@@ -98,7 +104,7 @@ describe('GET /api/me/orders', () => {
 			taxTotal: 156,
 			shippingPrice: 0,
 			accessKey: 'me_test_key_2',
-			orderStatus: OrderStatus.PENDING,
+			timeline: [],
 			paymentIntentId: 'pi_metest02',
 		});
 

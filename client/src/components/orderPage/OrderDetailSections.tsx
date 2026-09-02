@@ -34,6 +34,7 @@ import {
 	FaCcMastercard,
 	FaCcVisa,
 	FaCreditCard,
+	FaTruck,
 } from 'react-icons/fa6';
 
 const ORDER_ITEM_SKELETON_COUNT = 1;
@@ -41,6 +42,12 @@ const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
 const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
 const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
+
+const TIMELINE_STATUS_ICONS: Partial<Record<OrderStatus, IconType>> =
+	{
+		[OrderStatus.CONFIRMED]: FaCheck,
+		[OrderStatus.SHIPPED]: FaTruck,
+	};
 
 export const SectionHeading = ({
 	children,
@@ -64,27 +71,32 @@ export const OrderDetailTimeline = ({
 	if (timeline.length === 0) return null;
 
 	return (
-		<Timeline.Root>
-			{timeline.map((entry, i) => (
-				<Timeline.Item key={i}>
-					<Timeline.Connector>
-						<Timeline.Separator />
-						<Timeline.Indicator>
-							{entry.status ===
-								OrderStatus.CONFIRMED && <FaCheck />}
-						</Timeline.Indicator>
-					</Timeline.Connector>
-					<Timeline.Content>
-						<Timeline.Title fontSize={22}>
-							{capitalize(entry.status)}
-						</Timeline.Title>
-						<Timeline.Description fontSize={20}>
-							{formatDateLong(entry.timestamp)}
-							{entry.info && ` — ${entry.info}`}
-						</Timeline.Description>
-					</Timeline.Content>
-				</Timeline.Item>
-			))}
+		<Timeline.Root
+			size="xl"
+			variant="outline"
+		>
+			{timeline.map((entry, i) => {
+				const Icon = TIMELINE_STATUS_ICONS[entry.status];
+				return (
+					<Timeline.Item key={i}>
+						<Timeline.Connector>
+							<Timeline.Separator />
+							<Timeline.Indicator>
+								{Icon && <Icon size={16} />}
+							</Timeline.Indicator>
+						</Timeline.Connector>
+						<Timeline.Content>
+							<Timeline.Title fontSize={22}>
+								{capitalize(entry.status)}
+							</Timeline.Title>
+							<Timeline.Description fontSize={20}>
+								{formatDateLong(entry.timestamp)}
+								{entry.info && ` — ${entry.info}`}
+							</Timeline.Description>
+						</Timeline.Content>
+					</Timeline.Item>
+				);
+			})}
 		</Timeline.Root>
 	);
 };
