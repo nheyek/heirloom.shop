@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Text } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
-import { AddShipmentButton } from '@client/components/misc/AddShipmentButton';
+import { ConfirmShipmentButton } from '@client/components/misc/ConfirmShipmentButton';
 import {
 	OrderDetailItemsList,
 	OrderDetailItemsListSkeleton,
@@ -55,7 +55,7 @@ const AdminOrderPageContent = ({
 		<Stack gap={3}>
 			<OrderDetailTimeline timeline={order.timeline} />
 			{order.orderStatus === OrderStatus.CONFIRMED && (
-				<AddShipmentButton />
+				<ConfirmShipmentButton />
 			)}
 		</Stack>
 

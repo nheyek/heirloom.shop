@@ -51,7 +51,6 @@ export const ShippingProviderSelect = ({
 							<HStack gap={3}>
 								<ShippingProviderIcon
 									provider={provider}
-									size={20}
 								/>
 								<Text>{provider}</Text>
 							</HStack>

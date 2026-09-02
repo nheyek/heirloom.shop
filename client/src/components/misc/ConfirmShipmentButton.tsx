@@ -5,62 +5,89 @@ import { ShipmentFormRow } from '@client/components/misc/ShipmentFormRow';
 import { ShippingProvider } from '@heirloom/common/constants';
 import { Shipment } from '@heirloom/common/contract';
 import { useState } from 'react';
-import { FaPlus } from 'react-icons/fa6';
+import { FaCheck, FaPlus, FaTruck } from 'react-icons/fa6';
 
 const DEFAULT_SHIPMENT: Shipment = {
 	provider: ShippingProvider.UPS,
 	tracking: '',
 };
 
-export const AddShipmentButton = () => {
+export const ConfirmShipmentButton = () => {
 	const [open, setOpen] = useState(false);
 	const [shipments, setShipments] = useState<Shipment[]>([
 		{ ...DEFAULT_SHIPMENT },
 	]);
+	const [draftShipments, setDraftShipments] =
+		useState<Shipment[]>(shipments);
+
+	const openDialog = () => {
+		setDraftShipments(shipments);
+		setOpen(true);
+	};
+
+	const closeDialog = () => {
+		const hasUnsavedChanges =
+			JSON.stringify(draftShipments) !==
+			JSON.stringify(shipments);
+		if (
+			hasUnsavedChanges &&
+			!window.confirm('Discard unsaved changes?')
+		) {
+			return;
+		}
+		setOpen(false);
+	};
+
+	const confirmDialog = () => {
+		setShipments(draftShipments);
+		closeDialog();
+	};
 
 	const updateShipment = (index: number, shipment: Shipment) => {
-		setShipments((prev) =>
+		setDraftShipments((prev) =>
 			prev.map((s, i) => (i === index ? shipment : s)),
 		);
 	};
 
 	const deleteShipment = (index: number) => {
-		setShipments((prev) => prev.filter((_, i) => i !== index));
+		setDraftShipments((prev) =>
+			prev.filter((_, i) => i !== index),
+		);
 	};
 
 	return (
 		<>
 			<Button
 				size="md"
-				variant="subtle"
-				onClick={() => setOpen(true)}
-				fontSize={20}
+				onClick={openDialog}
+				variant="outline"
 			>
-				<FaPlus />
-				Add shipment
+				<FaTruck />
+				Confirm shipment
 			</Button>
 
 			<AppDialog
-				title="Add Shipment"
+				title="Shipment Details"
 				open={open}
-				onCancel={() => setOpen(false)}
+				onCancel={closeDialog}
 				size="md"
 				footer={
 					<DialogConfirmFooter
-						onCancel={() => setOpen(false)}
-						onConfirm={() => setOpen(false)}
-						confirmLabel="Save"
+						onCancel={closeDialog}
+						onConfirm={confirmDialog}
+						confirmIcon={<FaCheck />}
+						confirmLabel="Confirm"
 					/>
 				}
 			>
 				<Stack gap={3}>
-					{shipments.map((shipment, index) => (
+					{draftShipments.map((shipment, index) => (
 						<ShipmentFormRow
 							key={index}
 							shipment={shipment}
 							onChange={(s) => updateShipment(index, s)}
 							onDelete={() => deleteShipment(index)}
-							deletable={shipments.length > 1}
+							deletable={draftShipments.length > 1}
 						/>
 					))}
 					<Button
@@ -68,12 +95,12 @@ export const AddShipmentButton = () => {
 						variant="subtle"
 						alignSelf="flex-start"
 						onClick={() =>
-							setShipments((prev) => [
+							setDraftShipments((prev) => [
 								...prev,
 								{ ...DEFAULT_SHIPMENT },
 							])
 						}
-						fontSize={16}
+						fontSize={18}
 					>
 						<FaPlus />
 						Add package
