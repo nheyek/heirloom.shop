@@ -103,14 +103,14 @@ export const getOrderById = async (id: number): Promise<AppOrder> => {
 	);
 };
 
-export const getOrdersForUser = async (
-	userId: number,
+export const getOrders = async (
+	userId: number | null,
 ): Promise<AppOrder[]> => {
 	const em = getEm();
 	return em.find(
 		AppOrder,
 		{
-			user: { id: userId },
+			...(userId !== null && { user: { id: userId } }),
 			orderStatus: { $ne: OrderStatus.PENDING },
 		},
 		{

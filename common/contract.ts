@@ -873,6 +873,15 @@ export const adminContract = c.router({
 			404: ErrorSchema,
 		},
 	},
+	getOrders: {
+		method: 'GET',
+		path: '/api/admin/orders',
+		responses: {
+			200: z.array(OrderResponseSchema),
+			401: ErrorSchema,
+			403: ErrorSchema,
+		},
+	},
 });
 
 export const meContract = c.router({

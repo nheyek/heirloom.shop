@@ -1,7 +1,7 @@
-import { ordersContract, OrderItemDisplayData, OrderTimelineEntry } from '@heirloom/common/contract';
-import { OrderStatus } from '@heirloom/common/constants';
+import { ordersContract } from '@heirloom/common/contract';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
+import { mapOrderToApiResponseData } from '@server/mappers/order.mapper';
 import { optionalAuthAndSetUser } from '@server/middleware/auth0.middleware';
 import {
 	getOrderByShortId,
@@ -49,25 +49,7 @@ export const orderRouter = s.router(ordersContract, {
 				}
 				return {
 					status: 200 as const,
-					body: {
-						shortId: order.shortId,
-						createdAt: order.createdAt.toISOString(),
-						orderStatus: order.orderStatus as OrderStatus,
-						shippingAddress: order.shippingAddress,
-						items: order.appOrderItemCollection
-							.getItems()
-							.map(
-								(item) =>
-									item.snapshot as OrderItemDisplayData,
-							),
-						subtotalCents: order.subtotal,
-						shippingCents: order.shippingPrice,
-						taxCents: order.taxTotal,
-						timeline: (Array.isArray(order.timeline)
-							? order.timeline
-							: []) as OrderTimelineEntry[],
-						paymentDetails: order.paymentDetails ?? null,
-					},
+					body: mapOrderToApiResponseData(order),
 				};
 			} catch (err) {
 				if (err instanceof NotFoundError) {

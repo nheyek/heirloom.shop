@@ -19,7 +19,9 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 	InvalidContentTypeError: class InvalidContentTypeError extends Error {},
 }));
 
+import { OrderStatus } from '@heirloom/common/constants';
 import { getEm } from '@server/db';
+import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppUser } from '@server/entities/generated/AppUser';
 import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import request from 'supertest';
@@ -211,6 +213,127 @@ describe('POST /api/admin/shops', () => {
 			directFulfillment: true,
 			listingCount: 0,
 		});
+		await adminTeardown();
+	});
+});
+
+/**
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
+ * - AppOrder: shortId="adm_ord01", status CONFIRMED, guest order (no user)
+ * - AppOrder: shortId="adm_ord02", status PENDING, guest order (no user)
+ */
+describe('GET /api/admin/orders', () => {
+	const adminSetup = async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = true;
+		await em.flush();
+		return user;
+	};
+
+	const adminTeardown = async () => {
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = false;
+		await em.flush();
+	};
+
+	beforeAll(async () => {
+		const em = getEm();
+
+		const order = em.create(AppOrder, {
+			shortId: 'adm_ord01',
+			email: 'guest@example.com',
+			shippingAddress: {
+				firstName: 'Guest',
+				lastName: 'Buyer',
+				line1: '1 Guest St',
+				line2: '',
+				city: 'Austin',
+				state: 'TX',
+				zip: '73301',
+			},
+			subtotal: 1500,
+			taxTotal: 100,
+			shippingPrice: 500,
+			accessKey: 'adm_test_key',
+			orderStatus: OrderStatus.CONFIRMED,
+			paymentIntentId: 'pi_admtest01',
+		});
+
+		const pendingOrder = em.create(AppOrder, {
+			shortId: 'adm_ord02',
+			email: 'guest@example.com',
+			shippingAddress: {
+				firstName: 'Guest',
+				lastName: 'Buyer',
+				line1: '1 Guest St',
+				line2: '',
+				city: 'Austin',
+				state: 'TX',
+				zip: '73301',
+			},
+			subtotal: 1500,
+			taxTotal: 100,
+			shippingPrice: 500,
+			accessKey: 'adm_test_key_2',
+			orderStatus: OrderStatus.PENDING,
+			paymentIntentId: 'pi_admtest02',
+		});
+
+		await em.persist([order, pendingOrder]).flush();
+	});
+
+	it('returns 401 without auth', async () => {
+		const res = await request(getApp()).get('/api/admin/orders');
+		expect(res.status).toBe(401);
+	});
+
+	it('returns 403 for a non-admin authenticated user', async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const res = await request(getApp())
+			.get('/api/admin/orders')
+			.set(AUTH);
+		expect(res.status).toBe(403);
+	});
+
+	it('returns orders app-wide, including guest orders not owned by the admin', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.get('/api/admin/orders')
+			.set(AUTH);
+		expect(res.status).toBe(200);
+		const order = res.body.find(
+			(o: any) => o.shortId === 'adm_ord01',
+		);
+		expect(order).toMatchObject({
+			shortId: 'adm_ord01',
+			orderStatus: OrderStatus.CONFIRMED,
+			subtotalCents: 1500,
+			shippingCents: 500,
+			taxCents: 100,
+			shippingAddress: expect.objectContaining({
+				city: 'Austin',
+				state: 'TX',
+			}),
+		});
+		await adminTeardown();
+	});
+
+	it('excludes pending orders', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.get('/api/admin/orders')
+			.set(AUTH);
+		const shortIds = res.body.map((o: any) => o.shortId);
+		expect(shortIds).toContain('adm_ord01');
+		expect(shortIds).not.toContain('adm_ord02');
 		await adminTeardown();
 	});
 });

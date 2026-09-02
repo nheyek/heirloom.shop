@@ -11,6 +11,7 @@ import { AppToaster } from './components/feedback/AppToaster';
 import { Footer } from './components/footer/Footer';
 import { AccountPageLayout } from './components/layout/AccountPageLayout';
 import { CLIENT_ROUTES } from './constants';
+import { AdminOrdersPage } from './pages/Admin/AdminOrdersPage';
 import { AdminShopsPage } from './pages/Admin/AdminShopsPage';
 import { AuthCallback } from './pages/AuthCallback';
 import { CheckoutPage } from './pages/CheckoutPage';
@@ -152,7 +153,7 @@ const App = () => {
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.orders}`}
-								element={null}
+								element={<AdminOrdersPage />}
 							/>
 							<Route
 								path={`/${CLIENT_ROUTES.admin}/${CLIENT_ROUTES.analytics}`}
