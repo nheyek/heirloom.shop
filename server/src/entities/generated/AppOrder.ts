@@ -51,6 +51,9 @@ export class AppOrder {
   @Property({ type: 'json', nullable: true })
   paymentDetails?: any;
 
+  @Property({ type: 'json' })
+  shipments: any & Opt = '[]';
+
   @OneToMany({ entity: () => AppOrderItem, mappedBy: 'order' })
   appOrderItemCollection = new Collection<AppOrderItem>(this);
 

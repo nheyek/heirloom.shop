@@ -7,6 +7,7 @@ import { adminAuth } from '@server/middleware/auth0.middleware';
 import {
 	getOrderByShortId,
 	getOrders,
+	updateOrderShipments,
 } from '@server/services/order.service';
 import {
 	createShop,
@@ -156,6 +157,27 @@ export const adminRouter = s.router(adminContract, {
 				return {
 					status: 200 as const,
 					body: mapOrderToApiResponseData(order),
+				};
+			} catch (e) {
+				if (e instanceof NotFoundError) {
+					return {
+						status: 404 as const,
+						body: { error: ERROR_MESSAGES.order.notFound },
+					};
+				}
+				throw e;
+			}
+		},
+	},
+	updateOrderShipments: {
+		middleware: [adminAuth],
+		handler: async ({ params: { shortId }, body }) => {
+			try {
+				const order = await getOrderByShortId(shortId);
+				await updateOrderShipments(order.id, body.shipments);
+				return {
+					status: 200 as const,
+					body: { shipments: body.shipments },
 				};
 			} catch (e) {
 				if (e instanceof NotFoundError) {

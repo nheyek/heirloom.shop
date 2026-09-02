@@ -1,6 +1,10 @@
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
-import { OrderStatus, ReturnPolicyType } from './constants.js';
+import {
+	OrderStatus,
+	ReturnPolicyType,
+	ShippingProvider,
+} from './constants.js';
 
 const c = initContract();
 
@@ -747,6 +751,13 @@ export const PaymentDetailsSchema = z.object({
 
 export type PaymentDetails = z.infer<typeof PaymentDetailsSchema>;
 
+export const ShipmentSchema = z.object({
+	provider: z.nativeEnum(ShippingProvider),
+	tracking: z.string().min(1),
+});
+
+export type Shipment = z.infer<typeof ShipmentSchema>;
+
 const OrderResponseSchema = z.object({
 	shortId: z.string(),
 	createdAt: z.string(),
@@ -758,6 +769,7 @@ const OrderResponseSchema = z.object({
 	taxCents: z.number(),
 	timeline: z.array(OrderTimelineEntrySchema),
 	paymentDetails: PaymentDetailsSchema.nullable(),
+	shipments: z.array(ShipmentSchema),
 });
 
 export const ordersContract = c.router({
@@ -888,6 +900,19 @@ export const adminContract = c.router({
 		pathParams: z.object({ shortId: z.string() }),
 		responses: {
 			200: OrderResponseSchema,
+			401: ErrorSchema,
+			403: ErrorSchema,
+			404: ErrorSchema,
+		},
+	},
+	updateOrderShipments: {
+		method: 'PUT',
+		path: '/api/admin/orders/:shortId/shipments',
+		pathParams: z.object({ shortId: z.string() }),
+		body: z.object({ shipments: z.array(ShipmentSchema) }),
+		responses: {
+			200: z.object({ shipments: z.array(ShipmentSchema) }),
+			400: ErrorSchema,
 			401: ErrorSchema,
 			403: ErrorSchema,
 			404: ErrorSchema,

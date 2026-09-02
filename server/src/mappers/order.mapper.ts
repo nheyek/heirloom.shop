@@ -3,6 +3,7 @@ import {
 	OrderItemDisplayData,
 	OrderResponse,
 	OrderTimelineEntry,
+	Shipment,
 } from '@heirloom/common/contract';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 
@@ -23,4 +24,7 @@ export const mapOrderToApiResponseData = (
 		? order.timeline
 		: []) as OrderTimelineEntry[],
 	paymentDetails: order.paymentDetails ?? null,
+	shipments: (Array.isArray(order.shipments)
+		? order.shipments
+		: []) as Shipment[],
 });

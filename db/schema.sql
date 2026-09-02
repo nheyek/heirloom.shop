@@ -39,6 +39,7 @@ CREATE TABLE public.app_order (
     user_id integer,
     timeline jsonb DEFAULT '[]'::jsonb NOT NULL,
     payment_details jsonb,
+    shipments jsonb DEFAULT '[]'::jsonb NOT NULL,
     CONSTRAINT app_order_short_id_nonempty CHECK (((short_id)::text <> ''::text))
 );
 
@@ -1197,4 +1198,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260821000000'),
     ('20260825000000'),
     ('20260826000000'),
-    ('20260826110324');
+    ('20260826110324'),
+    ('20260902130450');

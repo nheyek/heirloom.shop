@@ -67,6 +67,13 @@ export enum OrderStatus {
 	SHIPPED = 'SHIPPED',
 }
 
+export enum ShippingProvider {
+	UPS = 'UPS',
+	FEDEX = 'FedEx',
+	USPS = 'USPS',
+	DHL = 'DHL',
+}
+
 export enum ShopRole {
 	OWNER = 'owner',
 }

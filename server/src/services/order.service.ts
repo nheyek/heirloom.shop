@@ -3,6 +3,7 @@ import {
 	OrderItemDisplayData,
 	OrderTimelineEntry,
 	PaymentDetails,
+	Shipment,
 	ShippingAddress,
 } from '@heirloom/common/contract';
 import { getEm } from '@server/db';
@@ -38,6 +39,7 @@ export const createOrder = async (
 		taxTotal: taxTotalCents,
 		orderStatus: OrderStatus.PENDING,
 		timeline: [],
+		shipments: [],
 		email,
 		...(user && { user }),
 	});
@@ -137,5 +139,15 @@ export const updateOrderPaymentDetails = async (
 	const em = getEm();
 	const order = await em.findOneOrFail(AppOrder, { id: orderId });
 	order.paymentDetails = paymentDetails;
+	await em.flush();
+};
+
+export const updateOrderShipments = async (
+	orderId: number,
+	shipments: Shipment[],
+): Promise<void> => {
+	const em = getEm();
+	const order = await em.findOneOrFail(AppOrder, { id: orderId });
+	order.shipments = shipments;
 	await em.flush();
 };

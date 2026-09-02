@@ -19,7 +19,10 @@ jest.unstable_mockModule('@server/services/storage.service', () => ({
 	InvalidContentTypeError: class InvalidContentTypeError extends Error {},
 }));
 
-import { OrderStatus } from '@heirloom/common/constants';
+import {
+	OrderStatus,
+	ShippingProvider,
+} from '@heirloom/common/constants';
 import { getEm } from '@server/db';
 import { AppOrder } from '@server/entities/generated/AppOrder';
 import { AppUser } from '@server/entities/generated/AppUser';
@@ -431,6 +434,133 @@ describe('GET /api/admin/orders/:shortId', () => {
 				state: 'CO',
 			}),
 		});
+		await adminTeardown();
+	});
+});
+
+/**
+ * Sample data (ids are DB-generated, not hardcoded, to avoid collisions
+ * with other test files sharing the same database):
+ * - AppOrder: shortId="adm_ord04", status CONFIRMED, guest order (no user)
+ */
+describe('PUT /api/admin/orders/:shortId/shipments', () => {
+	const adminSetup = async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = true;
+		await em.flush();
+		return user;
+	};
+
+	const adminTeardown = async () => {
+		const em = getEm();
+		const user = await em.findOneOrFail(AppUser, {
+			email: TEST_USER_EMAIL,
+		});
+		user.isAdmin = false;
+		await em.flush();
+	};
+
+	const validBody = {
+		shipments: [
+			{ provider: ShippingProvider.UPS, tracking: '1Z999AA10123456784' },
+		],
+	};
+
+	beforeAll(async () => {
+		const em = getEm();
+
+		const order = em.create(AppOrder, {
+			shortId: 'adm_ord04',
+			email: 'guest4@example.com',
+			shippingAddress: {
+				firstName: 'Guest',
+				lastName: 'Four',
+				line1: '4 Guest St',
+				line2: '',
+				city: 'Seattle',
+				state: 'WA',
+				zip: '98101',
+			},
+			subtotal: 2500,
+			taxTotal: 175,
+			shippingPrice: 450,
+			accessKey: 'adm_test_key_4',
+			orderStatus: OrderStatus.CONFIRMED,
+			paymentIntentId: 'pi_admtest04',
+		});
+
+		await em.persist(order).flush();
+	});
+
+	it('returns 401 without auth', async () => {
+		const res = await request(getApp())
+			.put('/api/admin/orders/adm_ord04/shipments')
+			.send(validBody);
+		expect(res.status).toBe(401);
+	});
+
+	it('returns 403 for a non-admin authenticated user', async () => {
+		await request(getApp()).get('/api/me').set(AUTH);
+		const res = await request(getApp())
+			.put('/api/admin/orders/adm_ord04/shipments')
+			.set(AUTH)
+			.send(validBody);
+		expect(res.status).toBe(403);
+	});
+
+	it('returns 404 for an unknown shortId', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.put('/api/admin/orders/doesnotexist/shipments')
+			.set(AUTH)
+			.send(validBody);
+		expect(res.status).toBe(404);
+		await adminTeardown();
+	});
+
+	it('returns 400 for an invalid provider', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.put('/api/admin/orders/adm_ord04/shipments')
+			.set(AUTH)
+			.send({
+				shipments: [{ provider: 'NotAProvider', tracking: '123' }],
+			});
+		expect(res.status).toBe(400);
+		await adminTeardown();
+	});
+
+	it('returns 400 for an empty tracking number', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.put('/api/admin/orders/adm_ord04/shipments')
+			.set(AUTH)
+			.send({
+				shipments: [
+					{ provider: ShippingProvider.UPS, tracking: '' },
+				],
+			});
+		expect(res.status).toBe(400);
+		await adminTeardown();
+	});
+
+	it('sets the shipments and persists them', async () => {
+		await adminSetup();
+		const res = await request(getApp())
+			.put('/api/admin/orders/adm_ord04/shipments')
+			.set(AUTH)
+			.send(validBody);
+		expect(res.status).toBe(200);
+		expect(res.body).toEqual(validBody);
+
+		const getRes = await request(getApp())
+			.get('/api/admin/orders/adm_ord04')
+			.set(AUTH);
+		expect(getRes.body.shipments).toEqual(validBody.shipments);
 		await adminTeardown();
 	});
 });
