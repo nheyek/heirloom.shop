@@ -2,6 +2,7 @@ import {
 	adminContract,
 	categoryContract,
 	checkoutContract,
+	infoPagesContract,
 	listingsContract,
 	meContract,
 	ordersContract,
@@ -21,6 +22,7 @@ import { initORM } from './db.js';
 import { adminRouter } from './routes/admin.routes.js';
 import { categoryRouter } from './routes/category.routes.js';
 import { checkoutRouter } from './routes/checkout.routes.js';
+import { infoPageRouter } from './routes/infoPage.routes.js';
 import { listingRouter } from './routes/listing.routes.js';
 import { meRouter } from './routes/me.routes.js';
 import { orderRouter } from './routes/order.routes.js';
@@ -146,6 +148,12 @@ export const createApp = async () => {
 	createExpressEndpoints(
 		checkoutContract,
 		checkoutRouter,
+		app,
+		endpointOptions,
+	);
+	createExpressEndpoints(
+		infoPagesContract,
+		infoPageRouter,
 		app,
 		endpointOptions,
 	);

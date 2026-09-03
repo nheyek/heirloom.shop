@@ -1,6 +1,7 @@
 import { initContract } from '@ts-rest/core';
 import { z } from 'zod';
 import {
+	InfoPageKey,
 	OrderStatus,
 	ReturnPolicyType,
 	ShippingProvider,
@@ -174,6 +175,24 @@ export const categoryContract = c.router({
 		responses: {
 			200: z.array(ListingCardDataSchema),
 			404: ErrorSchema,
+		},
+	},
+});
+
+const InfoPageDataSchema = z.object({
+	key: z.nativeEnum(InfoPageKey),
+	contentHtml: z.string(),
+});
+
+export type InfoPageData = z.infer<typeof InfoPageDataSchema>;
+
+export const infoPagesContract = c.router({
+	getAll: {
+		method: 'GET',
+		path: '/api/infoPages',
+		responses: {
+			200: z.array(InfoPageDataSchema),
+			500: ErrorSchema,
 		},
 	},
 });
@@ -962,6 +981,7 @@ export const appContract = c.router({
 	admin: adminContract,
 	categories: categoryContract,
 	checkout: checkoutContract,
+	infoPages: infoPagesContract,
 	listings: listingsContract,
 	me: meContract,
 	orders: ordersContract,

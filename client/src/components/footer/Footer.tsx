@@ -7,8 +7,11 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
+import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
 import { CLIENT_ROUTES } from '@client/constants';
 import { displayFontFamily } from '@client/theme';
+import { InfoPageKey } from '@heirloom/common/constants';
+import { useState } from 'react';
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 
@@ -17,8 +20,17 @@ const SUPPORT_EMAIL = 'support@heirloom.shop';
 const SUPPORT_PHONE = '(312) 617-6523';
 const SUPPORT_PHONE_TEL = '+13126176523';
 
+const FOOTER_INFO_LINKS = [
+	{ label: 'Shipping & Returns', key: InfoPageKey.SHIPPING_RETURNS },
+	{ label: 'Privacy Policy', key: InfoPageKey.PRIVACY },
+	{ label: 'Terms of Service', key: InfoPageKey.TERMS_OF_SERVICE },
+];
+
 export const Footer = () => {
 	const { pathname } = useLocation();
+	const [openInfoPage, setOpenInfoPage] = useState<InfoPageKey | null>(
+		null,
+	);
 
 	const hideFooter = hideFooterPages
 		.map((page) => `/${page}`)
@@ -106,12 +118,27 @@ export const Footer = () => {
 						Info
 					</Text>
 					<Stack gap={0}>
-						<Link color="#FFF">Shipping & Returns</Link>
-						<Link color="#FFF">Privacy Policy</Link>
-						<Link color="#FFF">Terms of Service</Link>
+						{FOOTER_INFO_LINKS.map(({ label, key }) => (
+							<Link
+								key={key}
+								color="#FFF"
+								cursor="pointer"
+								onClick={() => setOpenInfoPage(key)}
+							>
+								{label}
+							</Link>
+						))}
 					</Stack>
 				</Stack>
 			</Flex>
+
+			{openInfoPage && (
+				<InfoPageDialog
+					infoPageKey={openInfoPage}
+					open
+					onClose={() => setOpenInfoPage(null)}
+				/>
+			)}
 		</Box>
 	);
 };
