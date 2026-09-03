@@ -8,7 +8,6 @@ import { StripeProvider } from '@client/providers/StripeProvider';
 import { Auth0ProviderWithNavigate } from './providers/AuthProviderWithNavigate';
 import { CategoriesProvider } from './providers/CategoriesProvider';
 import { FavoritesProvider } from './providers/FavoritesProvider';
-import { InfoPagesProvider } from './providers/InfoPagesProvider';
 import { ShoppingCartProvider } from './providers/ShoppingCartProvider';
 import { UserProvider } from './providers/UserProvider';
 import customSystem from './theme';
@@ -21,15 +20,13 @@ root.render(
 				<UserProvider>
 					<FavoritesProvider>
 						<CategoriesProvider>
-							<InfoPagesProvider>
-								<ShoppingCartProvider>
-									<ChakraProvider value={customSystem}>
-										<StripeProvider>
-											<App />
-										</StripeProvider>
-									</ChakraProvider>
-								</ShoppingCartProvider>
-							</InfoPagesProvider>
+							<ShoppingCartProvider>
+								<ChakraProvider value={customSystem}>
+									<StripeProvider>
+										<App />
+									</StripeProvider>
+								</ChakraProvider>
+							</ShoppingCartProvider>
 						</CategoriesProvider>
 					</FavoritesProvider>
 				</UserProvider>

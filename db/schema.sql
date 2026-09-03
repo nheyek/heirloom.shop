@@ -200,18 +200,6 @@ ALTER SEQUENCE public.featured_shop_id_seq OWNED BY public.featured_shop.id;
 
 
 --
--- Name: info_page; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.info_page (
-    key character varying(64) NOT NULL,
-    content_html text NOT NULL,
-    created_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at timestamp with time zone DEFAULT CURRENT_TIMESTAMP NOT NULL
-);
-
-
---
 -- Name: listing; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -783,14 +771,6 @@ ALTER TABLE ONLY public.featured_shop
 
 
 --
--- Name: info_page info_page_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.info_page
-    ADD CONSTRAINT info_page_pkey PRIMARY KEY (key);
-
-
---
 -- Name: listing_category listing_category_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1219,5 +1199,4 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260826000000'),
     ('20260826110324'),
     ('20260902130450'),
-    ('20260902142852'),
-    ('20260903000000');
+    ('20260902142852');

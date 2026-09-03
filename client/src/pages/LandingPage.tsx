@@ -10,13 +10,12 @@ import { Logo } from '@client/components/branding/Logo';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
+import { AboutDialog } from '@client/components/misc/AboutDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
-import { InfoPageKey } from '@heirloom/common/constants';
 import {
 	ListingCardData,
 	ShopCardData,
@@ -184,8 +183,7 @@ export const LandingPage = () => {
 				)}
 			</Stack>
 
-			<InfoPageDialog
-				infoPageKey={InfoPageKey.ABOUT}
+			<AboutDialog
 				open={aboutOpen}
 				onClose={() => setAboutOpen(false)}
 			/>

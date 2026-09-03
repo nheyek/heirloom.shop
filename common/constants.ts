@@ -78,13 +78,6 @@ export enum ShopRole {
 	OWNER = 'owner',
 }
 
-export enum InfoPageKey {
-	ABOUT = 'ABOUT',
-	SHIPPING_RETURNS = 'SHIPPING_RETURNS',
-	PRIVACY = 'PRIVACY',
-	TERMS_OF_SERVICE = 'TERMS_OF_SERVICE',
-}
-
 export enum ReturnPolicyType {
 	STANDARD = 'standard',
 	CUSTOM = 'custom',
