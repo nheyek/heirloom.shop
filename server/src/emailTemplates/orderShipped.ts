@@ -16,7 +16,7 @@ export const orderShipped = (params: {
 
 	return `Dear ${params.name || 'Customer'},
 
-Your order (#${params.orderId}) from Heirloom is on its way! Here is your tracking information:
+Your order (#${params.orderId}) from Heirloom is on its way!
 
 ${params.shipments.map(formatShipment).join('\n\n')}
 
