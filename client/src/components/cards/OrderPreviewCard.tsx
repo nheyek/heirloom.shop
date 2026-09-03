@@ -33,7 +33,7 @@ import { IconType } from 'react-icons';
 import { FaCheck, FaTruck } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
-export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 115;
+export const DESKTOP_ORDER_PREVIEW_THUMBNAIL_WIDTH = 120;
 
 const STATUS_ICONS: Partial<Record<OrderStatus, IconType>> = {
 	[OrderStatus.CONFIRMED]: FaCheck,
@@ -138,7 +138,7 @@ export const OrderPreviewCard = ({
 					>
 						<Link asChild>
 							<Text
-								fontSize={24}
+								fontSize={28}
 								fontWeight={500}
 								truncate
 							>

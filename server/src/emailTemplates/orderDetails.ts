@@ -21,7 +21,8 @@ const formatItem = (item: OrderItemDisplayData) => {
 				]
 			: []),
 	];
-	const detailsText = details.length > 0 ? ` (${details.join(', ')})` : '';
+	const detailsText =
+		details.length > 0 ? ` (${details.join(', ')})` : '';
 	const unitPrice = `${formatCentsAsDollars(item.unitPriceCents)}${item.quantity > 1 ? ` (${item.quantity})` : ''}`;
 	const lines = [
 		`${item.title}${detailsText}`,
@@ -47,7 +48,7 @@ export const formatOrderDetails = (params: {
 
 	return `${params.items.map(formatItem).join('\n\n')}
 
-Subtotal: ${formatCentsAsDollars(params.subtotalCents)}
+Item total: ${formatCentsAsDollars(params.subtotalCents)}
 Shipping: ${formatCentsAsDollars(params.shippingCents)}
 Tax: ${formatCentsAsDollars(params.taxCents)}
 Total: ${formatCentsAsDollars(totalCents)}

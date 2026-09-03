@@ -1,6 +1,7 @@
-import { OrderItemDisplayData } from '@heirloom/common/contract';
 import { OrderStatus } from '@heirloom/common/constants';
-import { adminOrderConfirmation } from '@server/emailTemplates/adminOrderConfirmation';
+import { OrderItemDisplayData } from '@heirloom/common/contract';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { newOrderAlert } from '@server/emailTemplates/newOrderAlert';
 import { orderConfirmation } from '@server/emailTemplates/orderConfirmation';
 import { sendEmail } from '@server/services/emailer.service';
 import {
@@ -29,7 +30,9 @@ export const handleStripeWebhook = async (
 			: JSON.stringify(request.body);
 		event = JSON.parse(raw) as Stripe.Event;
 	} else {
-		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: Stripe.API_VERSION });
+		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+			apiVersion: Stripe.API_VERSION,
+		});
 		const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 		try {
 			event = stripe.webhooks.constructEvent(
@@ -63,16 +66,24 @@ export const handleStripeWebhook = async (
 
 		const orderId = Number(paymentIntent.metadata?.orderId);
 		if (orderId) {
-			await addOrderTimelineEntry(orderId, OrderStatus.CONFIRMED);
+			await addOrderTimelineEntry(
+				orderId,
+				OrderStatus.CONFIRMED,
+			);
 
 			const charge =
 				typeof paymentIntent.latest_charge === 'string'
-					? await retrievePaymentIntentCharge(paymentIntent.id)
+					? await retrievePaymentIntentCharge(
+							paymentIntent.id,
+						)
 					: ((paymentIntent.latest_charge as Stripe.Charge | null) ??
 						null);
 			const paymentDetails = extractPaymentDetails(charge);
 			if (paymentDetails) {
-				await updateOrderPaymentDetails(orderId, paymentDetails);
+				await updateOrderPaymentDetails(
+					orderId,
+					paymentDetails,
+				);
 			}
 
 			const order = await getOrderById(orderId);
@@ -82,7 +93,7 @@ export const handleStripeWebhook = async (
 
 			sendEmail({
 				to: order.email,
-				subject: `Order Confirmed: ${order.shortId}`,
+				subject: `Order Confirmed: #${order.shortId}`,
 				text: orderConfirmation({
 					name: order.shippingAddress?.firstName,
 					orderId: order.shortId,
@@ -100,9 +111,10 @@ export const handleStripeWebhook = async (
 			for (const adminEmail of adminEmails) {
 				sendEmail({
 					to: adminEmail,
-					subject: `New Order Confirmed: ${order.shortId}`,
-					text: adminOrderConfirmation({
+					subject: `New Order: #${order.shortId} (${formatCentsAsDollars(order.subtotal)})`,
+					text: newOrderAlert({
 						orderId: order.shortId,
+						customerEmail: order.email,
 						shippingAddress: order.shippingAddress,
 						items,
 						subtotalCents: order.subtotal,
@@ -113,7 +125,6 @@ export const handleStripeWebhook = async (
 				});
 			}
 		}
-
 	}
 
 	response.json({ received: true });

@@ -25,7 +25,7 @@ export const OrderIsolatedPage = () => {
 				fontWeight={400}
 				fontFamily={displayFontFamily}
 			>
-				Order <Span fontWeight={500}>{shortId}</Span>
+				Order #<Span fontWeight={500}>{shortId}</Span>
 			</Heading>
 			<OrderPage />
 		</Stack>

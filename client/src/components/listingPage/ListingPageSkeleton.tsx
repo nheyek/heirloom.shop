@@ -5,6 +5,7 @@ import {
 	SimpleGrid,
 	Skeleton,
 	Stack,
+	useBreakpointValue,
 } from '@chakra-ui/react';
 import {
 	Layout,
@@ -15,6 +16,10 @@ export const ListingPageSkeleton = (props: {
 	layout?: Layout;
 	maxWidth: number;
 }) => {
+	const numGridCols =
+		useBreakpointValue({ base: 2, lg: 3 }, { ssr: false }) || 3;
+	const numThumbnailTiles = numGridCols * 2 - 2;
+
 	const renderBasicInfoSection = () => (
 		<Stack gap={4}>
 			<Stack gap={2}>
@@ -97,7 +102,7 @@ export const ListingPageSkeleton = (props: {
 			px={5}
 		>
 			<SimpleGrid
-				columns={4}
+				columns={numGridCols + 1}
 				gap={3}
 			>
 				<GridItem
@@ -110,26 +115,15 @@ export const ListingPageSkeleton = (props: {
 						width="100%"
 					></Skeleton>
 				</GridItem>
-				<GridItem>
-					<Skeleton
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					></Skeleton>
-				</GridItem>
-				<GridItem>
-					<Skeleton
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					></Skeleton>
-				</GridItem>
-				<GridItem>
-					<Skeleton
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					></Skeleton>
-				</GridItem>
-				<GridItem>
-					<Skeleton
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					></Skeleton>
-				</GridItem>
+				{Array.from({ length: numThumbnailTiles }, (_, i) => i).map(
+					(i) => (
+						<GridItem key={i}>
+							<Skeleton
+								aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+							></Skeleton>
+						</GridItem>
+					),
+				)}
 			</SimpleGrid>
 			<Flex
 				direction={{ base: 'column', md: 'row' }}

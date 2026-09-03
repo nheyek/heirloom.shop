@@ -22,7 +22,7 @@ import { useParams } from 'react-router-dom';
 
 const AdminOrderPageSkeleton = () => (
 	<>
-		<Stack gap={3}>
+		<Stack gap={4}>
 			<OrderDetailTimelineSkeleton />
 			<Skeleton
 				height={10}
@@ -54,7 +54,7 @@ const AdminOrderPageContent = ({
 	onOrderUpdated: (order: OrderResponse) => void;
 }) => (
 	<>
-		<Stack gap={3}>
+		<Stack gap={4}>
 			<OrderDetailTimeline
 				timeline={order.timeline}
 				shipments={order.shipments}
@@ -67,11 +67,11 @@ const AdminOrderPageContent = ({
 			)}
 		</Stack>
 
-		<Stack gap={5}>
+		<Stack gap={4}>
 			<Stack gap={2}>
 				<Text
 					fontFamily={displayFontFamily}
-					fontSize={26}
+					fontSize={28}
 					fontWeight={500}
 				>
 					Item(s)

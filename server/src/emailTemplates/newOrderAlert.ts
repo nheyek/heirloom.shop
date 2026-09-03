@@ -8,8 +8,9 @@ import {
 	formatOrderDetails,
 } from '@server/emailTemplates/orderDetails';
 
-export const adminOrderConfirmation = (params: {
+export const newOrderAlert = (params: {
 	orderId: string;
+	customerEmail: string;
 	shippingAddress: ShippingAddress;
 	items: OrderItemDisplayData[];
 	subtotalCents: number;
@@ -19,9 +20,9 @@ export const adminOrderConfirmation = (params: {
 }) => {
 	const orderUrl = `${APP_URL}/admin/orders/${params.orderId}`;
 
-	return `A new order has been confirmed (${params.orderId}):
+	return `${formatOrderDetails(params)}
 
-${formatOrderDetails(params)}
+Customer email: ${params.customerEmail}
 
-View in admin: ${orderUrl}`;
+View: ${orderUrl}`;
 };

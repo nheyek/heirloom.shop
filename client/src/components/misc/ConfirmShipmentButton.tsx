@@ -20,7 +20,10 @@ type Props = {
 	onSuccess: (order: OrderResponse) => void;
 };
 
-export const ConfirmShipmentButton = ({ shortId, onSuccess }: Props) => {
+export const ConfirmShipmentButton = ({
+	shortId,
+	onSuccess,
+}: Props) => {
 	const apiClient = useApiClient();
 	const [open, setOpen] = useState(false);
 	const [pending, setPending] = useState(false);
@@ -58,9 +61,7 @@ export const ConfirmShipmentButton = ({ shortId, onSuccess }: Props) => {
 		);
 		setPending(false);
 		if (result.error !== null) {
-			toastError(
-				'Failed to save shipment. Please try again.',
-			);
+			toastError('Failed to save shipment. Please try again.');
 			return;
 		}
 		setShipments(draftShipments);
@@ -89,7 +90,7 @@ export const ConfirmShipmentButton = ({ shortId, onSuccess }: Props) => {
 			<Button
 				size="md"
 				onClick={openDialog}
-				variant="outline"
+				variant="subtle"
 			>
 				<FaTruck />
 				Confirm shipment
