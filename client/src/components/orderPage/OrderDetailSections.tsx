@@ -1,6 +1,8 @@
 import {
 	Flex,
 	HStack,
+	Link,
+	List,
 	Skeleton,
 	Stack,
 	Text,
@@ -8,7 +10,6 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
-import { ShippingProviderIcon } from '@client/components/icons/ShippingProviderIcon';
 import { InfoPopover } from '@client/components/misc/InfoPopover';
 import { Layout } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
@@ -25,10 +26,12 @@ import {
 import { formatPaymentDetails } from '@heirloom/common/utils/paymentDisplay';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { formatShippingAddress } from '@heirloom/common/utils/shippingAddress';
+import { getShipmentTrackingUrl } from '@heirloom/common/utils/shippingTracking';
 import { capitalize } from '@heirloom/common/utils/stringUtils';
 import { IconType } from 'react-icons';
 import { FaCheck } from 'react-icons/fa';
 import {
+	FaBox,
 	FaCcAmex,
 	FaCcApplePay,
 	FaCcDinersClub,
@@ -72,15 +75,38 @@ const ShipmentsPopoverContent = ({
 	shipments: Shipment[];
 }) => (
 	<Stack gap={2}>
-		{shipments.map((shipment, i) => (
-			<HStack key={i}>
-				<ShippingProviderIcon
-					provider={shipment.provider}
-					size={24}
-				/>
-				<Text fontSize={16}>{shipment.tracking}</Text>
-			</HStack>
-		))}
+		<Text
+			fontFamily={displayFontFamily}
+			fontSize={20}
+			fontWeight={500}
+		>
+			Tracking
+		</Text>
+
+		<List.Root
+			gap={2}
+			variant="plain"
+		>
+			{shipments.map((shipment, i) => (
+				<List.Item>
+					<HStack
+						gap={1}
+						key={i}
+					>
+						<List.Indicator asChild>
+							<FaBox />
+						</List.Indicator>
+						<Link
+							href={getShipmentTrackingUrl(shipment)}
+							target="_blank"
+							fontSize={20}
+						>
+							{shipment.tracking}
+						</Link>
+					</HStack>
+				</List.Item>
+			))}
+		</List.Root>
 	</Stack>
 );
 
@@ -118,7 +144,7 @@ export const OrderDetailTimeline = ({
 								{entry.status ===
 									OrderStatus.SHIPPED &&
 									shipments.length > 0 && (
-										<InfoPopover>
+										<InfoPopover maxWidth={375}>
 											<ShipmentsPopoverContent
 												shipments={shipments}
 											/>

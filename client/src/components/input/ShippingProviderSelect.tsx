@@ -1,5 +1,4 @@
-import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
-import { ShippingProviderIcon } from '@client/components/icons/ShippingProviderIcon';
+import { Button, Menu, Portal, Text } from '@chakra-ui/react';
 import { ShippingProvider } from '@heirloom/common/constants';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
@@ -10,6 +9,8 @@ type ShippingProviderSelectProps = {
 
 const providers = Object.values(ShippingProvider);
 
+const SHIPPING_PROVIDER_SELECT_WIDTH = 90;
+
 export const ShippingProviderSelect = ({
 	value,
 	onChange,
@@ -18,6 +19,7 @@ export const ShippingProviderSelect = ({
 		onSelect={(details) =>
 			onChange(details.value as ShippingProvider)
 		}
+		positioning={{ sameWidth: true }}
 	>
 		<Menu.Trigger asChild>
 			<Button
@@ -27,10 +29,10 @@ export const ShippingProviderSelect = ({
 				px={3}
 				fontWeight={400}
 				fontSize={18}
+				width={SHIPPING_PROVIDER_SELECT_WIDTH}
+				justifyContent="space-between"
 			>
-				<HStack gap={1.5}>
-					<ShippingProviderIcon provider={value} />
-				</HStack>
+				<Text>{value}</Text>
 				<IoMdArrowDropdown />
 			</Button>
 		</Menu.Trigger>
@@ -48,12 +50,7 @@ export const ShippingProviderSelect = ({
 							fontSize={18}
 							p={2}
 						>
-							<HStack gap={3}>
-								<ShippingProviderIcon
-									provider={provider}
-								/>
-								<Text>{provider}</Text>
-							</HStack>
+							<Text>{provider}</Text>
 						</Menu.Item>
 					))}
 				</Menu.Content>
