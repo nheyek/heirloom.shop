@@ -23,7 +23,7 @@ export const orderConfirmation = (params: {
 
 	return `Dear ${params.name || 'Customer'},
 
-We are writing to confirm your recent order #${params.orderId} from Heirloom:
+We are writing to confirm your recent order (#${params.orderId}) from Heirloom:
 
 ${formatOrderDetails(params)}
 

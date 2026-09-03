@@ -13,7 +13,7 @@ import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { InfoPopover } from '@client/components/misc/InfoPopover';
 import { Layout } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
-import { displayFontFamily } from '@client/theme';
+import { displayFontFamily, sansFontFamily } from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import {
@@ -99,6 +99,7 @@ const ShipmentsPopoverContent = ({
 						<Link
 							href={getShipmentTrackingUrl(shipment)}
 							target="_blank"
+							fontFamily={sansFontFamily}
 							fontSize={20}
 						>
 							{shipment.tracking}

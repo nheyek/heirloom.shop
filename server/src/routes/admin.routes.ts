@@ -3,8 +3,10 @@ import { OrderStatus } from '@heirloom/common/constants';
 import { isValidEmail } from '@heirloom/common/utils/validationUtils';
 import { NotFoundError } from '@mikro-orm/core';
 import { ERROR_MESSAGES } from '@server/constants';
+import { orderShipped } from '@server/emailTemplates/orderShipped';
 import { mapOrderToApiResponseData } from '@server/mappers/order.mapper';
 import { adminAuth } from '@server/middleware/auth0.middleware';
+import { sendEmail } from '@server/services/emailer.service';
 import {
 	addOrderTimelineEntry,
 	getOrderByShortId,
@@ -179,6 +181,18 @@ export const adminRouter = s.router(adminContract, {
 				await updateOrderShipments(order.id, body.shipments);
 				await addOrderTimelineEntry(order.id, OrderStatus.SHIPPED);
 				const updatedOrder = await getOrderByShortId(shortId);
+
+				sendEmail({
+					to: order.email,
+					subject: `Order Shipped: #${order.shortId}`,
+					text: orderShipped({
+						name: order.shippingAddress?.firstName,
+						orderId: order.shortId,
+						accessKey: order.accessKey,
+						shipments: body.shipments,
+					}),
+				});
+
 				return {
 					status: 200 as const,
 					body: mapOrderToApiResponseData(updatedOrder),
