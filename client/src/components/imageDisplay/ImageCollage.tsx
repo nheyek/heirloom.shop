@@ -73,6 +73,7 @@ export const ImageCollage = (props: Props) => {
 					width="100%"
 					maxWidth={maxWidth}
 					aspectRatio={props.aspectRatio}
+					mx="auto"
 				>
 					{renderCollageImage(0)}
 				</Box>
@@ -81,6 +82,7 @@ export const ImageCollage = (props: Props) => {
 					position="relative"
 					width="100%"
 					maxW={maxWidth}
+					mx="auto"
 				>
 					<Grid
 						templateRows="repeat(2, 1fr)"
