@@ -90,7 +90,7 @@ const ShipmentsPopoverContent = ({
 			{shipments.map((shipment, i) => (
 				<List.Item>
 					<HStack
-						gap={1}
+						gap={0}
 						key={i}
 					>
 						<List.Indicator asChild>
@@ -100,7 +100,7 @@ const ShipmentsPopoverContent = ({
 							href={getShipmentTrackingUrl(shipment)}
 							target="_blank"
 							fontFamily={sansFontFamily}
-							fontSize={20}
+							fontSize={16}
 						>
 							{shipment.tracking}
 						</Link>
