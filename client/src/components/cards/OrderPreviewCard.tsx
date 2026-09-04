@@ -123,7 +123,7 @@ export const OrderPreviewCard = ({
 
 			<Card.Body
 				p={3}
-				gap={0}
+				gap={1}
 				justifyContent="space-between"
 				minW={0}
 				fontSize={20}

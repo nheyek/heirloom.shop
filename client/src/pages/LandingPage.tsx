@@ -1,16 +1,16 @@
 import {
-	Box,
 	Button,
-	Flex,
+	HStack,
 	Icon,
+	Span,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { Logo } from '@client/components/branding/Logo';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { AboutDialog } from '@client/components/misc/AboutDialog';
+import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
+import { InfoPageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -84,32 +84,20 @@ export const LandingPage = () => {
 			<Stack
 				pt={10}
 				alignItems="center"
+				gap={1}
 			>
-				<Flex
-					flexWrap="nowrap"
-					alignItems="center"
+				<HStack
+					fontFamily={displayFontFamily}
+					fontSize={30}
+					fontWeight={400}
+					flexShrink={0}
 				>
-					<Text
-						fontFamily={displayFontFamily}
-						fontSize={36}
-						fontWeight={400}
-						pr="7px"
-						flexShrink={0}
-					>
-						Welcome to
-					</Text>
-					<Box
-						width={150}
-						flexShrink={0}
-						ml={0.5}
-						mt={1.5}
-					>
-						<Logo fill="#000000" />
-					</Box>
-				</Flex>
+					Welcome to
+					<Span fontWeight={500}>Heirloom.shop</Span>
+				</HStack>
 
 				<Stack
-					gap={3}
+					gap={4}
 					alignItems="center"
 				>
 					<Text
@@ -117,13 +105,17 @@ export const LandingPage = () => {
 						fontSize={24}
 						textAlign="center"
 					>
-						An exhibition of world-class craftsmanship.
+						An exhibition of craftsmanship
 					</Text>
-					<Button onClick={() => setAboutOpen(true)}>
+					<Button
+						size="sm"
+						fontSize={18}
+						onClick={() => setAboutOpen(true)}
+					>
 						<Icon
 							as={FaArrowUpRightFromSquare}
-							h={4}
-							w={4}
+							w={15}
+							h={15}
 						/>
 						Learn more
 					</Button>
@@ -183,7 +175,8 @@ export const LandingPage = () => {
 				)}
 			</Stack>
 
-			<AboutDialog
+			<InfoPageDialog
+				infoPageKey={InfoPageKey.ABOUT}
 				open={aboutOpen}
 				onClose={() => setAboutOpen(false)}
 			/>
