@@ -90,7 +90,7 @@ const ShipmentsPopoverContent = ({
 			{shipments.map((shipment, i) => (
 				<List.Item>
 					<HStack
-						gap={0}
+						gap={1}
 						key={i}
 					>
 						<List.Indicator asChild>
