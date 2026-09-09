@@ -84,11 +84,11 @@ export const LandingPage = () => {
 			<Stack
 				pt={10}
 				alignItems="center"
-				gap={1}
+				gap={0}
 			>
 				<HStack
 					fontFamily={displayFontFamily}
-					fontSize={30}
+					fontSize={28}
 					fontWeight={400}
 					flexShrink={0}
 				>
@@ -97,12 +97,12 @@ export const LandingPage = () => {
 				</HStack>
 
 				<Stack
-					gap={4}
+					gap={3}
 					alignItems="center"
 				>
 					<Text
 						fontFamily={displayFontFamily}
-						fontSize={24}
+						fontSize={22}
 						textAlign="center"
 					>
 						An exhibition of craftsmanship
