@@ -48,11 +48,10 @@ export enum ImageVariant {
 	SMALL = 'small',
 }
 
-// Target pixel width each variant is downscaled to (never upscaled). FULL
-// is unbounded since it keeps the originally uploaded size.
+// Target pixel width each variant is downscaled to (never upscaled).
 export const IMAGE_VARIANT_WIDTHS: Record<ImageVariant, number> = {
-	[ImageVariant.FULL]: Infinity,
-	[ImageVariant.SMALL]: 800,
+	[ImageVariant.FULL]: 2000,
+	[ImageVariant.SMALL]: 500,
 };
 
 // Suffix inserted before the file extension for a variant's storage key,

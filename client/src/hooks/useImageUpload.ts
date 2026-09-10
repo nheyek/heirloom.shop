@@ -18,7 +18,9 @@ type GetUploadUrl = (contentType: string) => Promise<{
 	uploadUrls: Record<ImageVariant, string>;
 } | null>;
 
-const JPEG_QUALITY = 0.85;
+const FULL_JPEG_QUALITY = 0.9;
+const SMALL_JPEG_QUALITY = 0.85;
+const SKIP_COMPRESSION_MAX_BYTES = 1.5 * 1024 * 1024;
 
 const loadImageElement = (file: File): Promise<HTMLImageElement> =>
 	new Promise((resolve, reject) => {
@@ -40,6 +42,7 @@ const loadImageElement = (file: File): Promise<HTMLImageElement> =>
 const encodeJpegVariant = (
 	img: HTMLImageElement,
 	targetWidth: number,
+	quality: number,
 	fileName: string,
 ): Promise<File> =>
 	new Promise((resolve, reject) => {
@@ -61,23 +64,42 @@ const encodeJpegVariant = (
 				resolve(new File([blob], fileName, { type: 'image/jpeg' }));
 			},
 			'image/jpeg',
-			JPEG_QUALITY,
+			quality,
 		);
 	});
 
 // Produces the full/small JPEG copies of an uploaded image, resized
 // entirely client-side so we never upload more bytes than a given view needs.
+// The FULL variant skips re-encoding entirely when the source is already a
+// small, already-JPEG file that doesn't need downscaling, to avoid a pointless
+// extra generation of lossy compression.
 const createImageVariants = async (
 	file: File,
 ): Promise<Record<ImageVariant, File>> => {
 	const img = await loadImageElement(file);
 	const baseName = file.name.replace(/\.[^.]+$/, '');
 
+	const needsResize = (variant: ImageVariant) =>
+		img.naturalWidth > IMAGE_VARIANT_WIDTHS[variant];
+
+	const canSkipCompression =
+		file.type === 'image/jpeg' &&
+		file.size <= SKIP_COMPRESSION_MAX_BYTES &&
+		!needsResize(ImageVariant.FULL);
+
 	const entries = await Promise.all(
 		Object.values(ImageVariant).map(async (variant) => {
+			if (variant === ImageVariant.FULL && canSkipCompression) {
+				return [variant, file] as const;
+			}
+			const quality =
+				variant === ImageVariant.FULL
+					? FULL_JPEG_QUALITY
+					: SMALL_JPEG_QUALITY;
 			const encoded = await encodeJpegVariant(
 				img,
 				IMAGE_VARIANT_WIDTHS[variant],
+				quality,
 				`${baseName}.jpg`,
 			);
 			return [variant, encoded] as const;
