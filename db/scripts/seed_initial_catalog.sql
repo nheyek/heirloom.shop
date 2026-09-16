@@ -10,7 +10,7 @@ DECLARE
     shop_3_id INT := 3;
     shop_3_short_id VARCHAR := 'sM3k';
     shop_3_title VARCHAR := 'Smithey Ironware Co.';
-    shop_3_profile_image_uuid VARCHAR := '6aba51d1-d14f-42ba-a796-59501782c625';
+    shop_3_profile_image_uuid VARCHAR := '2226a727-50ca-47bc-8c1b-e565ef53304d';
     shop_3_location VARCHAR := 'Charleston, SC';
     shop_3_classification VARCHAR := 'Cast Iron Cookware';
     shop_3_profile_rich_text TEXT := '<h1>Our Story</h1><p>Smithey Ironware started as a backyard project. Our founder, Isaac Morton, first taught himself to restore old, forgotten cast iron in his woodshed, drawn to the smooth surfaces and timeless logos of vintage American ironware.</p><h1>From Restoration to Reinvention</h1><p>After years of studying collector''s books and bringing rusty skillets back to their 19th-century glory, Isaac set out to build something new: a cast iron line that honored the classic style of those vintage pieces while using modern manufacturing to get there.</p><h1>Forging Ahead</h1><p>In 2018, we partnered with renowned blacksmith (and workshop neighbor) Robert Thomas to expand into hand-forged carbon steel with our Farmhouse collection. Every piece in that line is individually forged by hand, so no two are exactly alike.</p><h1>Made in Charleston</h1><p>Every Smithey is still designed and crafted in Charleston, South Carolina, where our team inspects each piece multiple times throughout manufacturing. We guarantee the quality of every piece for life.</p><h1>Use It Well</h1><p>From the kitchen to the campfire, a Smithey is built to be a cherished, working possession, not a display piece &mdash; a modern heirloom meant to be handed down.</p>';
