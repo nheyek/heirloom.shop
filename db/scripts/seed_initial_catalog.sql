@@ -1,19 +1,19 @@
 DO $$
 
 DECLARE
-    old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 6, 7];
-    retired_shop_ids CONSTANT INT[] := ARRAY[1, 2];
+    old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
+    retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
 
     shop_3_id INT := 3;
-    shop_3_short_id VARCHAR := 'sF7t';
-    shop_3_title VARCHAR := 'Santa Barbara Forge';
-    shop_3_profile_image_uuid VARCHAR := '41582661-49C7-41E2-8B35-F5ECC74BF465';
-    shop_3_location VARCHAR := 'Santa Barbara, CA';
-    shop_3_classification VARCHAR := 'Hand-Forged Ironwork';
-    shop_3_profile_rich_text TEXT := '<h1>Our Story</h1><p>Santa Barbara''s blacksmithing tradition dates back to 1916, when the Craviotto Bros. opened a steel shop that became the heart of ironwork in the city, until the brothers retired in the mid-1990s and the forge fell silent.</p><h1>Passing the Torch</h1><p>In 2010, we took over the Craviotto Bros.'' original workshop, meeting with the family directly to carry their craft forward &mdash; a passing of the torch in the truest sense. What started as one small forge has grown into a full workshop for architectural ironwork, bespoke furniture, and cookware.</p><h1>From Railings to Ranges</h1><p>We added cookware to the shop wanting to give customers something more intimate than a custom gate or staircase. The first pan was built small on purpose, so it would fit in any kitchen, before the line grew to include larger pans, spatulas, ladles, and hand-forged cleavers.</p><h1>Why Hand-Forged Steel</h1><p>Hammering steel by hand compresses and aligns its grain in a way casting never can, so our pans season faster, heat more evenly, and end up lighter and less porous than cast iron of the same size.</p><h1>Made to Be Handed Down</h1><p>Every piece that leaves our forge, from a stair rail to a skillet, still carries the mark of the hammer and the hands that shaped it, built the same way the Craviotto Bros. built things a century ago: to outlast the person who bought it.</p>';
+    shop_3_short_id VARCHAR := 'sM3k';
+    shop_3_title VARCHAR := 'Smithey Ironware Co.';
+    shop_3_profile_image_uuid VARCHAR := '6aba51d1-d14f-42ba-a796-59501782c625';
+    shop_3_location VARCHAR := 'Charleston, SC';
+    shop_3_classification VARCHAR := 'Cast Iron Cookware';
+    shop_3_profile_rich_text TEXT := '<h1>Our Story</h1><p>Smithey Ironware started as a backyard project. Our founder, Isaac Morton, first taught himself to restore old, forgotten cast iron in his woodshed, drawn to the smooth surfaces and timeless logos of vintage American ironware.</p><h1>From Restoration to Reinvention</h1><p>After years of studying collector''s books and bringing rusty skillets back to their 19th-century glory, Isaac set out to build something new: a cast iron line that honored the classic style of those vintage pieces while using modern manufacturing to get there.</p><h1>Forging Ahead</h1><p>In 2018, we partnered with renowned blacksmith (and workshop neighbor) Robert Thomas to expand into hand-forged carbon steel with our Farmhouse collection. Every piece in that line is individually forged by hand, so no two are exactly alike.</p><h1>Made in Charleston</h1><p>Every Smithey is still designed and crafted in Charleston, South Carolina, where our team inspects each piece multiple times throughout manufacturing. We guarantee the quality of every piece for life.</p><h1>Use It Well</h1><p>From the kitchen to the campfire, a Smithey is built to be a cherished, working possession, not a display piece &mdash; a modern heirloom meant to be handed down.</p>';
     shop_3_country_code CHAR(2) := 'US';
 
     shop_4_id INT := 4;
@@ -34,15 +34,6 @@ DECLARE
     shop_5_country_code CHAR(2) := 'US';
     shop_5_profile_rich_text TEXT := '<h1>Our Story</h1><p>Simon Pearce learned glassblowing in Ireland and Italy before opening his first workshop in Kilkenny, Ireland in 1971. In 1981, he moved his workshop to Vermont, settling into a disused woolen mill on the Ottauquechee River in Quechee.</p><h1>The Mill at Quechee</h1><p>That mill, built in 1778, still houses our flagship glassblowing studio today, powered entirely by the same river that once ran the woolen looms. Visitors can watch our glassblowers work the furnace in person, any day of the week.</p><h1>No Fillers, No Shortcuts</h1><p>Every piece is still mouth-blown using a traditional Scandinavian glass recipe, with no fillers or coatings. We leave the pontil mark, the small scar left by a glassblower''s punty rod, on every piece &mdash; a signature of the hands that made it, not a flaw to be polished away.</p><h1>Clay, Too</h1><p>Alongside our glassblowers, a team of potters hand-throws stoneware on the wheel at our workshops in Quechee and Windsor, Vermont.</p><h1>Where to Find Us</h1><p>We now operate stores across New England and beyond, from Burlington and Stowe to Boston, Portland, and Alexandria, but every piece we sell is still made in Vermont, by hand.</p>';
 
-    shop_6_id INT := 6;
-    shop_6_short_id VARCHAR := 'fK6x';
-    shop_6_title VARCHAR := 'Farfalli';
-    shop_6_profile_image_uuid VARCHAR := '822a92af-624a-456a-9302-1aca7d542b61';
-    shop_6_location VARCHAR := 'Maniago, Italy';
-    shop_6_classification VARCHAR := 'Premium Corkscrews & Barware';
-    shop_6_country_code CHAR(2) := 'IT';
-    shop_6_profile_rich_text TEXT := '<h1>Our Story</h1><p>Farfalli was founded in 1950 by Marino Farfalli in Maniago, Italy, a town long known around the world for its knife making. The company began by producing pocket knives engraved with Italian city scenes, sold to postwar tourists.</p><h1>From Knives to Corkscrews</h1><p>Marino''s sons, Giovanni, Mario, Germano, and Armando, expanded the catalog into pocket and waiter''s corkscrews. By the 1970s, corkscrews had become the company''s core business, and have remained so ever since.</p><h1>A Family Business, Still</h1><p>Since 2000, Farfalli has been run by Marino''s nephew, Daniele, continuing four generations of family ownership. Each piece is designed in-house, often in collaboration with the ISIA design school in nearby Pordenone, and finished in the company''s own plating workshop.</p><h1>Built to Last</h1><p>Our corkscrews are made from brass, stainless steel, wood, and horn, among other materials, using two of the company''s own patented mechanisms. We hold ISO 9001 quality certification and export our work worldwide.</p>';
-
     shop_7_id INT := 7;
     shop_7_short_id VARCHAR := 'wD5n';
     shop_7_title VARCHAR := 'Big Dipper Wax Works';
@@ -53,75 +44,117 @@ DECLARE
     shop_7_profile_rich_text TEXT := '<h1>Our Story</h1><p>Big Dipper Wax Works began in the summer of 1993, when our founder, Brent Roose, was hiking Washington''s Olympic Peninsula and got the idea for a beeswax candle company while stargazing at the Big Dipper.</p><h1>Beeswax, Filtered Naturally</h1><p>We source raw beeswax primarily from beekeepers across the Pacific Northwest and British Columbia, then filter it through natural clay rather than chemicals, a process that removes impurities while keeping the wax''s natural color and faint honey scent intact.</p><h1>Hand-Poured, Hand-Dipped</h1><p>Every pillar is hand-poured and every taper is hand-dipped, some as many as twenty times, by small teams of artisans working out of our design studio in Atlanta, Georgia. Our wicks are 100% cotton, free of lead and metal, so they burn clean.</p><h1>Giving Back</h1><p>We donate 5% of our net profits to organizations working on bee sustainability, education, and outreach &mdash; work that only makes sense for a company built on what bees make.</p>';
 
     listing_2_id INT := 2;
-    listing_2_short_id VARCHAR := 'Yb3Hn';
+    listing_2_short_id VARCHAR := 'Sm6Nk';
     listing_2_shop_id INT := shop_3_id;
     listing_2_category_id VARCHAR := 'HOUSEWARES';
-    listing_2_title VARCHAR := 'Sonora Small Pan';
-    listing_2_subtitle VARCHAR := 'Hand-forged carbon steel pan with a short handle, gently sloping sidewalls, and hammered texture.';
-    listing_2_price_cents INT := 15500;
-    listing_2_image_uuids text[] := '{"3DE08646-9C92-4B2E-94A3-8EEE7AB5C6C0", "202AE1CC-8A97-4A99-8AAC-E2D0C37DD2B4", "21B3D03E-DEF2-4712-8030-D3DCBCF2370B", "4A672E7C-AE45-4D43-A148-9E0A7B718BC7", "53B8648E-BD2B-4D51-AF64-FF15F4ECC078"}';
+    listing_2_title VARCHAR := 'No. 6 Skillet';
+    listing_2_subtitle VARCHAR := 'A small but mighty 6-inch cast iron skillet with a polished cooking surface, ideal for single servings and sides.';
+    listing_2_price_cents INT := 8500;
+    listing_2_image_uuids text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9"}';
     listing_2_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>With a short hand-forged handle, gently sloping sidewalls, and hammered texture, our small carbon steel Sonora pan is an extremely versatile utensil for any kitchen. Fantastic for omelets, vegetables, and single meat cuts.</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+            "richText": "<p>Smithey''s smallest skillet, ideal for single-serve meals, sides, baking, and entertaining. Its polished interior surface is naturally non-stick and only improves with use, and the handle carries Smithey''s signature embossed lettering, exclusive to this size.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Total length (handle to rim): 15.5\"</li><li>Rim to rim: 8.75\"</li><li>Flat interior cooking surface: 6.25\"</li><li>Height from table to handle top: 4\"</li><li>Height from table to bowl lip: 1.25\"</li><li>Handle length: 7.25\"</li><li>Weight: Approximately 3 lbs</li></ul>"
+            "richText": "<ul><li>Diameter (top): 6\"</li><li>Depth: 1.3\"</li><li>Cook surface: 4.8\"</li><li>Handle to handle: 11.3\"</li><li>Weight: approximately 2.7 lbs</li></ul>"
         },
         {
             "title": "Care",
-            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
         }
     ]';
 
     listing_3_id INT := 3;
-    listing_3_short_id VARCHAR := 'Qz7Rk';
+    listing_3_short_id VARCHAR := 'Sm8Nk';
     listing_3_shop_id INT := shop_3_id;
     listing_3_category_id VARCHAR := 'HOUSEWARES';
-    listing_3_title VARCHAR := 'Sonora Large Pan';
-    listing_3_subtitle VARCHAR := 'Hand-forged carbon steel large frying pan, with an optional pineapple-twist helper handle riveted opposite the straight handle.';
-    listing_3_price_cents INT := 22500;
-    listing_3_image_uuids text[] := '{"C4C307F8-6130-46A9-A8CB-A0892802EFE5", "4728F288-C50F-42C4-B662-99611B97E1F6", "EE11BA0E-024C-40E1-97B2-3BC38D5EE469", "52E80887-33D6-4360-9280-7466C83B45FE", "4E187B30-37BF-4781-BE49-030C01DC6557", "4AE12AE3-DB88-4B02-A222-F29B5B563204", "8C6ACC56-0E36-4252-A50A-52D80F753D02"}';
+    listing_3_title VARCHAR := 'No. 8 Chef Skillet';
+    listing_3_subtitle VARCHAR := 'An 8-inch cast iron skillet with shallow, sloped sides, perfect for eggs, pancakes, and shareable sides.';
+    listing_3_price_cents INT := 12000;
+    listing_3_image_uuids text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5"}';
     listing_3_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>All the beauty and functionality of the carbon steel Sonora Large Frying Pan, available on its own or with an added hand-forged pineapple-twist helper handle riveted to the rim opposite the straight handle.</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+            "richText": "<p>The starter size for all things breakfast, from fried eggs to omelettes to pancakes. The Chef Skillet''s shallower, more sloped wall makes it easy to slide food out cleanly, and its polished interior is naturally non-stick.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Total length, standard (handle to rim): 15.5\"</li><li>Total length, with helper handle (handle to opposite handle): 21.5\"</li><li>Rim to rim: 11\"</li><li>Flat interior cooking surface: 9.25\"</li><li>Height from table to long handle top: 4.5\"</li><li>Height from table to bowl lip: 1.375\"</li><li>Long handle length: 9\"</li><li>Helper handle height: 3.5\"</li><li>Weight: Approximately 5.4-5.8 lbs</li></ul>"
+            "richText": "<ul><li>Diameter (top): 8\"</li><li>Depth: 1.6\"</li><li>Cook surface: 4.2\"</li><li>Handle to handle: 15.2\"</li><li>Weight: approximately 3.5 lbs</li></ul>"
         },
         {
             "title": "Care",
-            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
         }
     ]';
 
-    listing_3_style_variation_id CONSTANT VARCHAR := '7a1c9e2d-4f3b-4a5e-9c8d-1e2f3a4b5c6d';
-    listing_3_style_standard_id  CONSTANT VARCHAR := '8b2d0f3e-5a4c-4b6f-8d9e-2f3a4b5c6d7e';
-    listing_3_style_handle_id    CONSTANT VARCHAR := '9c3e1a4f-6b5d-4c7a-9e0f-3a4b5c6d7e8f';
-
     listing_4_id INT := 4;
-    listing_4_short_id VARCHAR := 'Wm2Fp';
+    listing_4_short_id VARCHAR := 'S10Nk';
     listing_4_shop_id INT := shop_3_id;
     listing_4_category_id VARCHAR := 'HOUSEWARES';
-    listing_4_title VARCHAR := 'Sonora Roaster Pan';
-    listing_4_subtitle VARCHAR := 'Hand-forged carbon steel roaster with two helper handles and a gently curving sidewall, sized for larger meals.';
-    listing_4_price_cents INT := 30500;
-    listing_4_image_uuids text[] := '{"6FF3E7F8-23DE-490C-A348-3CFB227FFDC7", "ADE78DEA-75CB-4CE6-AA6C-B0FE71637C26", "60830011-8454-45EC-AA45-578DBE530E6E", "FF5B2BC4-5CB4-4DC1-B48F-7A2585E29099", "39AF3CA5-4856-43B0-BB1C-AA6DBE718543", "77A728E0-90D2-42DC-A60A-276861A9B868", "5A1E2109-A2B9-42B9-A8E5-E7EE7B9521C0", "FF235BEE-6A5E-4E40-9467-E80A3558100A"}';
+    listing_4_title VARCHAR := 'No. 10 Skillet';
+    listing_4_subtitle VARCHAR := 'A 10-inch traditional cast iron skillet, the workhorse size for searing, frying, and everyday cooking.';
+    listing_4_price_cents INT := 18000;
+    listing_4_image_uuids text[] := '{"d7febef6-f853-48f2-9ea3-cf190ac5f095", "36aa90ed-e97a-4056-bcb2-8ef6075fdc4a"}';
     listing_4_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>With two hand-forged helper handles and a gently curving sidewall, our carbon steel Sonora Roaster pan provides a versatile cooking surface that can handle several foods at once. A stunning centerpiece of any kitchen or table, this pan is ideal for cooking larger meals. Cook eggs on one side and chorizo in the other, or throw in the entire bird!</p><p>Made in our shop in Santa Barbara, California. Each item we make is unique and comes with slight imperfections in shape, finish, and color. It''s all part of the character of the pieces we sell, and will not affect performance.</p>"
+            "richText": "<p>Smithey''s traditional 10-inch skillet, sized for everyday cooking for one to three people. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Total width (handle to handle): 15.5\"</li><li>Rim to rim: 13.5\"</li><li>Flat interior cooking surface: 11\"</li><li>Height from table to handle top: 4\"</li><li>Height from table to bowl lip: 1.75\"</li><li>10 gauge steel (approx. 0.135\" thick)</li><li>Weight: Approximately 6.3 lbs</li></ul>"
+            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: 2.0\"</li><li>Cook surface: 9\"</li><li>Handle to handle: 16.5\"</li><li>Weight: approximately 6.7 lbs</li></ul>"
         },
         {
             "title": "Care",
-            "richText": "<p>Like a good leather jacket, it only gets better with age. As your pan gains its season it will change gracefully and become even more non-stick.</p>"
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_23_id INT := 23;
+    listing_23_short_id VARCHAR := 'S12Nk';
+    listing_23_shop_id INT := shop_3_id;
+    listing_23_category_id VARCHAR := 'HOUSEWARES';
+    listing_23_title VARCHAR := 'No. 12 Skillet';
+    listing_23_subtitle VARCHAR := 'A 12-inch traditional cast iron skillet with room to cook for a family, from searing steaks to baking cornbread.';
+    listing_23_price_cents INT := 22000;
+    listing_23_image_uuids text[] := '{"a9ebb293-c1dc-4551-bc05-f96abb154991", "04a311bc-cd04-4f1c-b85a-5fdf680578a7"}';
+    listing_23_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Smithey''s most popular size, with enough room to cook for the whole family. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: 2.2\"</li><li>Cook surface: 10.5\"</li><li>Handle to handle: 18.2\"</li><li>Weight: approximately 8.7 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_24_id INT := 24;
+    listing_24_short_id VARCHAR := 'S14Nk';
+    listing_24_shop_id INT := shop_3_id;
+    listing_24_category_id VARCHAR := 'HOUSEWARES';
+    listing_24_title VARCHAR := 'No. 14 Skillet';
+    listing_24_subtitle VARCHAR := 'Smithey''s largest traditional skillet, a 14-inch centerpiece built for feeding a crowd.';
+    listing_24_price_cents INT := 25000;
+    listing_24_image_uuids text[] := '{"e5c9b7c3-68b7-4059-aa0b-e6aded2f44bb", "3abbdfc0-4bed-4c15-90fa-b9b756b1d4ed"}';
+    listing_24_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>The largest of Smithey''s traditional skillets, with enough surface area to feed a crowd. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 14\"</li><li>Depth: 2.2\"</li><li>Cook surface: 11.5\"</li><li>Handle to handle: 20.3\"</li><li>Weight: approximately 12 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
         }
     ]';
 
@@ -336,75 +369,6 @@ DECLARE
         }
     ]';
 
-    listing_17_id INT := 17;
-    listing_17_short_id VARCHAR := 'Lr5Vy';
-    listing_17_shop_id INT := shop_6_id;
-    listing_17_category_id VARCHAR := 'HOUSEWARES';
-    listing_17_title VARCHAR := 'King Corkscrew';
-    listing_17_subtitle VARCHAR := 'A rack-and-pinion corkscrew modeled on 18th-century designs, in solid brass with a deliberately aged finish.';
-    listing_17_price_cents INT := 18000;
-    listing_17_image_uuids text[] := '{"bf69d976-ddff-4909-a20a-bc2231abf145", "1818b009-5aa4-4d51-9096-1e006518a587", "066a5674-3cbf-413f-8edc-d0bc06344e54", "9bf55f06-701b-41c9-9c92-5f16b4cbecc7", "6d7bb022-8b2b-41aa-ba3c-078088454b35", "80a57b96-1621-4b4b-a2f1-49e29da7015e"}';
-    listing_17_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>A faithful reproduction of an 18th-century rack-and-pinion corkscrew, part of Farfalli''s Originals collection. The metal is deliberately aged to emphasize the piece''s character, and every corkscrew is hand-finished from first-choice materials.</p>"
-        },
-        {
-            "title": "Specifications",
-            "richText": "<ul><li>Structure: Brass</li><li>Spiral: Steel</li><li>Mechanism: Steel, rack-and-pinion</li><li>Made in Maniago, Italy</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Wipe clean with a dry cloth. Not dishwasher safe.</p>"
-        }
-    ]';
-
-    listing_18_id INT := 18;
-    listing_18_short_id VARCHAR := 'Mt6Wb';
-    listing_18_shop_id INT := shop_6_id;
-    listing_18_category_id VARCHAR := 'HOUSEWARES';
-    listing_18_title VARCHAR := 'Vaja Corkscrew, Olive';
-    listing_18_subtitle VARCHAR := 'A two-pin lever corkscrew with an olive wood handle, designed with Italy''s national sommelier association to keep the cork pulling perfectly straight.';
-    listing_18_price_cents INT := 14000;
-    listing_18_image_uuids text[] := '{"335eb2ba-334e-421b-9432-7485305448a9", "43a4133e-0f15-43c0-b282-0aa7f358c3ba", "09f222fc-5e6a-4f89-a458-665c72ac7056", "be3a622e-4a13-4db4-a1ca-ac5e83adda45"}';
-    listing_18_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>The Vaja uses Farfalli''s patented dual-axis system: the spiral is mounted on two pins instead of one, so the cork pulls straight up in a single, steady motion. It was developed with the Italian Sommelier Association of Veneto and named for Storm Vaja, which struck the Veneto region''s forests in 2018 &mdash; it went on to become the official corkscrew of the 53rd AIS National Congress in 2019.</p>"
-        },
-        {
-            "title": "Specifications",
-            "richText": "<ul><li>Structure: Stainless steel</li><li>Handle: Olive wood</li><li>Spiral &amp; blade: AISI 420 hardened steel</li><li>Made in Maniago, Italy</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry immediately to preserve the wood handle. Not dishwasher safe.</p>"
-        }
-    ]';
-
-    listing_19_id INT := 19;
-    listing_19_short_id VARCHAR := 'Nv7Xc';
-    listing_19_shop_id INT := shop_6_id;
-    listing_19_category_id VARCHAR := 'HOUSEWARES';
-    listing_19_title VARCHAR := 'Olive Stopper';
-    listing_19_subtitle VARCHAR := 'A stainless steel wine stopper topped with a solid olive wood cap.';
-    listing_19_price_cents INT := 4500;
-    listing_19_image_uuids text[] := '{"3758de08-8e56-45e5-ae46-47d04103be54", "d0b2394a-3301-4137-9a81-08e16eaf84f9", "d120fae7-a60d-4261-ab56-ed7d3ea0556c"}';
-    listing_19_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>Part of Farfalli''s Accessories line, this wine stopper pairs a stainless steel body and stem with a solid olive wood top. Farfalli offers the same stopper in several other woods, but olive is our pick for its fine, tight grain.</p>"
-        },
-        {
-            "title": "Specifications",
-            "richText": "<ul><li>Body &amp; stem: Stainless steel</li><li>Top: Olive wood</li><li>Made in Maniago, Italy</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry the wood promptly. Not dishwasher safe.</p>"
-        }
-    ]';
-
     listing_20_id INT := 20;
     listing_20_short_id VARCHAR := 'Pw8Zd';
     listing_20_shop_id INT := shop_7_id;
@@ -510,7 +474,6 @@ BEGIN
         (shop_3_id, shop_3_short_id, shop_3_title, shop_3_profile_rich_text, shop_3_profile_image_uuid, shop_3_location, shop_3_classification, shop_3_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (shop_4_id, shop_4_short_id, shop_4_title, shop_4_profile_rich_text, shop_4_profile_image_uuid, shop_4_location, shop_4_classification, shop_4_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (shop_5_id, shop_5_short_id, shop_5_title, shop_5_profile_rich_text, shop_5_profile_image_uuid, shop_5_location, shop_5_classification, shop_5_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (shop_6_id, shop_6_short_id, shop_6_title, shop_6_profile_rich_text, shop_6_profile_image_uuid, shop_6_location, shop_6_classification, shop_6_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (shop_7_id, shop_7_short_id, shop_7_title, shop_7_profile_rich_text, shop_7_profile_image_uuid, shop_7_location, shop_7_classification, shop_7_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
@@ -526,23 +489,7 @@ BEGIN
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_2_id, listing_2_short_id, listing_2_shop_id, listing_2_category_id, listing_2_title, listing_2_subtitle, listing_2_full_descr, listing_2_price_cents, NULL, NULL, listing_2_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_3_id, listing_3_short_id, listing_3_shop_id, listing_3_category_id, listing_3_title, listing_3_subtitle, listing_3_full_descr, listing_3_price_cents, NULL, NULL, listing_3_image_uuids, NULL,
-            jsonb_build_object(
-                listing_3_style_variation_id, jsonb_build_object(
-                    'name', 'Style',
-                    'pricesVary', true,
-                    'imagesVary', false,
-                    'order', 0,
-                    'options', jsonb_build_object(
-                        listing_3_style_standard_id, jsonb_build_object('name', 'Standard', 'order', 0, 'priceCents', null, 'imageUuid', null),
-                        listing_3_style_handle_id, jsonb_build_object('name', 'With helper handle', 'order', 1, 'priceCents', null, 'imageUuid', null)
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_3_style_variation_id || ':' || listing_3_style_standard_id, jsonb_build_object('priceCents', 22500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_3_style_variation_id || ':' || listing_3_style_handle_id,   jsonb_build_object('priceCents', 24500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_3_id, listing_3_short_id, listing_3_shop_id, listing_3_category_id, listing_3_title, listing_3_subtitle, listing_3_full_descr, listing_3_price_cents, NULL, NULL, listing_3_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
@@ -600,9 +547,8 @@ BEGIN
         (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_17_id, listing_17_short_id, listing_17_shop_id, listing_17_category_id, listing_17_title, listing_17_subtitle, listing_17_full_descr, listing_17_price_cents, NULL, NULL, listing_17_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_18_id, listing_18_short_id, listing_18_shop_id, listing_18_category_id, listing_18_title, listing_18_subtitle, listing_18_full_descr, listing_18_price_cents, NULL, NULL, listing_18_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_19_id, listing_19_short_id, listing_19_shop_id, listing_19_category_id, listing_19_title, listing_19_subtitle, listing_19_full_descr, listing_19_price_cents, NULL, NULL, listing_19_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
             jsonb_build_object(
@@ -656,16 +602,15 @@ BEGIN
 
     INSERT INTO featured_shop (shop_id)
     VALUES
-        (shop_3_id), -- Santa Barbara Forge
+        (shop_3_id), -- Smithey Ironware Co.
         (shop_4_id), -- Rookwood
         (shop_7_id), -- Big Dipper Wax Works
-        (shop_5_id), -- Simon Pearce
-        (shop_6_id); -- Farfalli
+        (shop_5_id); -- Simon Pearce
 
     INSERT INTO featured_listing (listing_id)
     VALUES
-        (listing_2_id),  -- Sonora Small Pan
-        (listing_4_id),  -- Sonora Roaster Pan
+        (listing_2_id),  -- No. 6 Skillet
+        (listing_4_id),  -- No. 10 Skillet
         (listing_6_id),  -- Boule Vase
         (listing_5_id),  -- Rook Dish
         (listing_12_id), -- Pillar Candle Holder
@@ -674,8 +619,7 @@ BEGIN
         (listing_16_id), -- Shoreham Whiskey Glasses
         (listing_14_id), -- Vintner Red Wine Glasses
         (listing_15_id), -- Vintner White Wine Glasses
-        (listing_13_id), -- Madison Wine Decanter
-        (listing_17_id); -- King Corkscrew
+        (listing_13_id); -- Madison Wine Decanter
 
 COMMIT;
 
