@@ -6,7 +6,10 @@ import {
 } from '@client/hooks/useImageUpload';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { callApi } from '@client/utils/apiUtils';
-import { ReturnPolicyType } from '@heirloom/common/constants';
+import {
+	ImageUploadKind,
+	ReturnPolicyType,
+} from '@heirloom/common/constants';
 import { ListingDescrSection } from '@heirloom/common/contract';
 import {
 	addVariationToCombinations,
@@ -429,7 +432,7 @@ export const useListingForm = ({
 			}),
 		);
 		return result.error !== null ? null : result.data;
-	}, initialImageEntries);
+	}, ImageUploadKind.LISTING, initialImageEntries);
 
 	// Dirty tracking: snapshot the user-editable fields on mount and
 	// compare against the current values each render.

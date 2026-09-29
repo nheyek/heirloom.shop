@@ -1,6 +1,11 @@
 import { toastError } from '@client/toaster';
 import {
-	IMAGE_VARIANT_WIDTHS,
+	IMAGE_JPEG_QUALITY,
+	IMAGE_LISTING_MAX_BYTES,
+	IMAGE_LISTING_MIN_WIDTH,
+	IMAGE_MAX_WIDTH,
+	IMAGE_SMALL_WIDTH,
+	ImageUploadKind,
 	ImageVariant,
 	LISTING_LIMITS,
 } from '@heirloom/common/constants';
@@ -18,10 +23,6 @@ type GetUploadUrl = (contentType: string) => Promise<{
 	uploadUrls: Record<ImageVariant, string>;
 } | null>;
 
-const FULL_JPEG_QUALITY = 0.9;
-const SMALL_JPEG_QUALITY = 0.85;
-const SKIP_COMPRESSION_MAX_BYTES = 1.5 * 1024 * 1024;
-
 const loadImageElement = (file: File): Promise<HTMLImageElement> =>
 	new Promise((resolve, reject) => {
 		const img = new Image();
@@ -37,18 +38,30 @@ const loadImageElement = (file: File): Promise<HTMLImageElement> =>
 		img.src = objectUrl;
 	});
 
-// Draws `img` onto a canvas, downscaled to `targetWidth` (never upscaled),
-// and encodes it as a JPEG File.
+type CropRect = { sx: number; sy: number; sw: number; sh: number };
+
+// Images taller than they are wide are center-cropped to the middle square
+// section, so every stored image ends up with an aspect ratio >= 1 (as wide
+// or wider than it is tall). Landscape/square sources pass through as-is.
+const getSquareCropRect = (img: HTMLImageElement): CropRect => {
+	const { naturalWidth: w, naturalHeight: h } = img;
+	if (h <= w) return { sx: 0, sy: 0, sw: w, sh: h };
+	return { sx: 0, sy: Math.round((h - w) / 2), sw: w, sh: w };
+};
+
+// Draws the cropped region of `img` onto a canvas, downscaled to
+// `targetWidth` (never upscaled), and encodes it as a JPEG File.
 const encodeJpegVariant = (
 	img: HTMLImageElement,
+	crop: CropRect,
 	targetWidth: number,
 	quality: number,
 	fileName: string,
 ): Promise<File> =>
 	new Promise((resolve, reject) => {
-		const scale = Math.min(1, targetWidth / img.naturalWidth);
-		const width = Math.round(img.naturalWidth * scale);
-		const height = Math.round(img.naturalHeight * scale);
+		const scale = Math.min(1, targetWidth / crop.sw);
+		const width = Math.round(crop.sw * scale);
+		const height = Math.round(crop.sh * scale);
 
 		const canvas = document.createElement('canvas');
 		canvas.width = width;
@@ -56,7 +69,17 @@ const encodeJpegVariant = (
 		const ctx = canvas.getContext('2d');
 		if (!ctx)
 			return reject(new Error('Could not get canvas context'));
-		ctx.drawImage(img, 0, 0, width, height);
+		ctx.drawImage(
+			img,
+			crop.sx,
+			crop.sy,
+			crop.sw,
+			crop.sh,
+			0,
+			0,
+			width,
+			height,
+		);
 		canvas.toBlob(
 			(blob) => {
 				if (!blob)
@@ -68,45 +91,95 @@ const encodeJpegVariant = (
 		);
 	});
 
-// Produces the full/small JPEG copies of an uploaded image, resized
-// entirely client-side so we never upload more bytes than a given view needs.
-// The FULL variant skips re-encoding entirely when the source is already a
-// small, already-JPEG file that doesn't need downscaling, to avoid a pointless
-// extra generation of lossy compression.
-const createImageVariants = async (
-	file: File,
-): Promise<Record<ImageVariant, File>> => {
-	const img = await loadImageElement(file);
-	const baseName = file.name.replace(/\.[^.]+$/, '');
-
-	const needsResize = (variant: ImageVariant) =>
-		img.naturalWidth > IMAGE_VARIANT_WIDTHS[variant];
-
-	const canSkipCompression =
-		file.type === 'image/jpeg' &&
-		file.size <= SKIP_COMPRESSION_MAX_BYTES &&
-		!needsResize(ImageVariant.FULL);
-
-	const entries = await Promise.all(
-		Object.values(ImageVariant).map(async (variant) => {
-			if (variant === ImageVariant.FULL && canSkipCompression) {
-				return [variant, file] as const;
-			}
-			const quality =
-				variant === ImageVariant.FULL
-					? FULL_JPEG_QUALITY
-					: SMALL_JPEG_QUALITY;
-			const encoded = await encodeJpegVariant(
-				img,
-				IMAGE_VARIANT_WIDTHS[variant],
-				quality,
-				`${baseName}.jpg`,
-			);
-			return [variant, encoded] as const;
-		}),
+// Listing full images additionally have a 1MB size budget: if the initial
+// encode at IMAGE_MAX_WIDTH/IMAGE_JPEG_QUALITY comes in over budget, the
+// width is recalculated (bytes scale roughly with width^2 at fixed quality)
+// and re-encoded, repeating a few times as the estimate is refined — but
+// never stepping below IMAGE_LISTING_MIN_WIDTH, even if still oversized.
+const pickListingFullVariant = async (
+	img: HTMLImageElement,
+	crop: CropRect,
+	fileName: string,
+): Promise<{ file: File; width: number }> => {
+	let width = Math.min(crop.sw, IMAGE_MAX_WIDTH);
+	let file = await encodeJpegVariant(
+		img,
+		crop,
+		width,
+		IMAGE_JPEG_QUALITY,
+		fileName,
 	);
 
-	return Object.fromEntries(entries) as Record<ImageVariant, File>;
+	for (
+		let attempt = 0;
+		attempt < 3 &&
+		file.size > IMAGE_LISTING_MAX_BYTES &&
+		width > IMAGE_LISTING_MIN_WIDTH;
+		attempt++
+	) {
+		const scale = Math.sqrt(IMAGE_LISTING_MAX_BYTES / file.size);
+		const nextWidth = Math.max(
+			IMAGE_LISTING_MIN_WIDTH,
+			Math.min(width - 1, Math.floor(width * scale)),
+		);
+		if (nextWidth >= width) break;
+		width = nextWidth;
+		file = await encodeJpegVariant(
+			img,
+			crop,
+			width,
+			IMAGE_JPEG_QUALITY,
+			fileName,
+		);
+	}
+
+	return { file, width };
+};
+
+// Produces the full/small JPEG copies of an uploaded image, resized
+// entirely client-side. `kind` determines which sizing rules apply: shop
+// images are always the full (capped) width at a fixed quality, while
+// listing images additionally respect a max file size, stepping the width
+// down (never below a floor) until they fit. The small variant is derived
+// from whatever width the full variant ended up at, never upscaled.
+const createImageVariants = async (
+	file: File,
+	kind: ImageUploadKind,
+): Promise<Record<ImageVariant, File>> => {
+	const img = await loadImageElement(file);
+	const fileName = `${file.name.replace(/\.[^.]+$/, '')}.jpg`;
+	const crop = getSquareCropRect(img);
+
+	let fullFile: File;
+	let fullWidth: number;
+
+	if (kind === ImageUploadKind.LISTING) {
+		({ file: fullFile, width: fullWidth } =
+			await pickListingFullVariant(img, crop, fileName));
+	} else {
+		fullWidth = Math.min(crop.sw, IMAGE_MAX_WIDTH);
+		fullFile = await encodeJpegVariant(
+			img,
+			crop,
+			fullWidth,
+			IMAGE_JPEG_QUALITY,
+			fileName,
+		);
+	}
+
+	const smallWidth = Math.min(fullWidth, IMAGE_SMALL_WIDTH);
+	const smallFile = await encodeJpegVariant(
+		img,
+		crop,
+		smallWidth,
+		IMAGE_JPEG_QUALITY,
+		fileName,
+	);
+
+	return {
+		[ImageVariant.FULL]: fullFile,
+		[ImageVariant.SMALL]: smallFile,
+	};
 };
 
 const uploadVariants = async (
@@ -135,6 +208,7 @@ const hashFile = async (file: File): Promise<string> => {
 
 export const useImageUpload = (
 	getUploadUrl: GetUploadUrl,
+	kind: ImageUploadKind,
 	initialEntries: ImageEntry[] = [],
 ) => {
 	const [imageEntries, setImageEntries] =
@@ -150,7 +224,7 @@ export const useImageUpload = (
 		async (file: File, index: number) => {
 			let variants: Record<ImageVariant, File>;
 			try {
-				variants = await createImageVariants(file);
+				variants = await createImageVariants(file, kind);
 			} catch {
 				toastError(
 					'Could not process image. Please try a different file.',
@@ -237,7 +311,7 @@ export const useImageUpload = (
 				),
 			);
 		},
-		[],
+		[kind],
 	);
 
 	const addFiles = useCallback(
@@ -287,7 +361,7 @@ export const useImageUpload = (
 		async (file: File): Promise<string | null> => {
 			let variants: Record<ImageVariant, File>;
 			try {
-				variants = await createImageVariants(file);
+				variants = await createImageVariants(file, kind);
 			} catch {
 				toastError(
 					'Could not process image. Please try a different file.',
@@ -318,7 +392,7 @@ export const useImageUpload = (
 			uploadCache.current.set(hash, uuid);
 			return uuid;
 		},
-		[],
+		[kind],
 	);
 
 	const isUploading = imageEntries.some((e) => e.isUploading);

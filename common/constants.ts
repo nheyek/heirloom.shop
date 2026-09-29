@@ -48,11 +48,28 @@ export enum ImageVariant {
 	SMALL = 'small',
 }
 
-// Target pixel width each variant is downscaled to (never upscaled).
-export const IMAGE_VARIANT_WIDTHS: Record<ImageVariant, number> = {
-	[ImageVariant.FULL]: 2000,
-	[ImageVariant.SMALL]: 500,
-};
+export enum ImageUploadKind {
+	SHOP = 'shop',
+	LISTING = 'listing',
+}
+
+// Absolute width ceiling applied to every uploaded image, in px, after the
+// portrait-to-square crop (see useImageUpload.ts) — never upscaled past
+// the source image's own width.
+export const IMAGE_MAX_WIDTH = 3000;
+
+// Small-variant target width, in px, derived from whatever width the full
+// variant ended up at — never upscaled.
+export const IMAGE_SMALL_WIDTH = 1000;
+
+export const IMAGE_JPEG_QUALITY = 0.95;
+
+// Listing images only: if encoding the full variant at IMAGE_MAX_WIDTH /
+// IMAGE_JPEG_QUALITY produces a file bigger than this, the width is
+// recalculated and stepped down until it fits — but never below
+// IMAGE_LISTING_MIN_WIDTH, even if that leaves the file oversized.
+export const IMAGE_LISTING_MAX_BYTES = 1_000_000;
+export const IMAGE_LISTING_MIN_WIDTH = 1500;
 
 // Suffix inserted before the file extension for a variant's storage key,
 // e.g. "<uuid>-small.jpg". FULL has no suffix since it reuses the

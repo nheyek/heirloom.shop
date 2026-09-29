@@ -98,6 +98,24 @@ resource "digitalocean_app" "heirloom" {
       }
 
       env {
+        key   = "DO_SPACES_BUCKET"
+        value = digitalocean_spaces_bucket.images.name
+        scope = "RUN_TIME"
+      }
+
+      env {
+        key   = "DO_SPACES_REGION"
+        value = digitalocean_spaces_bucket.images.region
+        scope = "RUN_TIME"
+      }
+
+      env {
+        key   = "DO_SPACES_ENDPOINT"
+        value = "https://${digitalocean_spaces_bucket.images.region}.digitaloceanspaces.com"
+        scope = "RUN_TIME"
+      }
+
+      env {
         key   = "STRIPE_SECRET_KEY"
         value = var.stripe_secret_key
         scope = "RUN_TIME"
@@ -136,14 +154,6 @@ resource "digitalocean_app" "heirloom" {
       name = "${var.domain_prefix != "" ? "${var.domain_prefix}." : ""}heirloom.shop"
       type = "PRIMARY"
     }
-  }
-
-  lifecycle {
-    # The DO API returns "***" for SECRET env vars, so Terraform always sees a
-    # diff on those fields. Ignore the entire env block to suppress the noise.
-    # To rotate a secret: update the value in the DO console, or temporarily
-    # remove this ignore_changes, apply, then restore it.
-    ignore_changes = [spec[0].service[0].env]
   }
 }
 

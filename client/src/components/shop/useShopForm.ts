@@ -3,6 +3,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useImageUpload } from '@client/hooks/useImageUpload';
 import { callApi } from '@client/utils/apiUtils';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
+import { ImageUploadKind } from '@heirloom/common/constants';
 import { ShopCardData } from '@heirloom/common/contract';
 import { ValidationField } from '@heirloom/common/validation/shared';
 import { validateShopFields } from '@heirloom/common/validation/shop';
@@ -49,7 +50,7 @@ export const useShopForm = ({
 				}),
 			);
 			return result.error !== null ? null : result.data;
-		});
+		}, ImageUploadKind.SHOP);
 
 	const imagePreviewUrl =
 		imageEntries[0]?.previewUrl ?? existingPreviewUrl;
