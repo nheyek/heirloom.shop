@@ -50,7 +50,7 @@ DECLARE
     listing_2_title VARCHAR := 'No. 6 Skillet';
     listing_2_subtitle VARCHAR := 'A small but mighty 6-inch cast iron skillet with a polished cooking surface, ideal for single servings and sides.';
     listing_2_price_cents INT := 8500;
-    listing_2_image_uuids text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9"}';
+    listing_2_image_uuids text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9", "a8f939a2-e8de-47e9-96a4-6bf7f20ef42e", "0a9bed81-0d7c-44cc-9532-21500d18e340", "b9c37da1-4f67-493d-a4c2-4c685e7de648"}';
     listing_2_full_descr JSONB := '[
         {
             "title": "Details",
@@ -73,7 +73,7 @@ DECLARE
     listing_3_title VARCHAR := 'No. 8 Chef Skillet';
     listing_3_subtitle VARCHAR := 'An 8-inch cast iron skillet with shallow, sloped sides, perfect for eggs, pancakes, and shareable sides.';
     listing_3_price_cents INT := 12000;
-    listing_3_image_uuids text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5"}';
+    listing_3_image_uuids text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5", "20b8a1c9-3153-43b2-b1a3-3b135a2739ce", "09b291f4-f4a7-49e1-9041-ea4f3a11481e"}';
     listing_3_full_descr JSONB := '[
         {
             "title": "Details",
@@ -96,7 +96,7 @@ DECLARE
     listing_4_title VARCHAR := 'No. 10 Skillet';
     listing_4_subtitle VARCHAR := 'A 10-inch traditional cast iron skillet, the workhorse size for searing, frying, and everyday cooking.';
     listing_4_price_cents INT := 18000;
-    listing_4_image_uuids text[] := '{"d7febef6-f853-48f2-9ea3-cf190ac5f095", "36aa90ed-e97a-4056-bcb2-8ef6075fdc4a"}';
+    listing_4_image_uuids text[] := '{"56940747-68ca-4bfa-b482-704c12cceb54", "621edbfa-13f2-4e35-bfa6-12b2f7f155df", "6f4f1b57-af79-46ae-9d8e-74ccf331bf5e", "a6ba1ada-0975-40fd-a246-4f1cac13989f", "7f560aef-ac80-4a04-a2a9-5dd604f564e8", "e37604a6-e527-42d8-a7dd-9cb7c1a77bcc", "cc59d72a-89ea-4882-8b2f-a54c99050813"}';
     listing_4_full_descr JSONB := '[
         {
             "title": "Details",
@@ -119,7 +119,7 @@ DECLARE
     listing_23_title VARCHAR := 'No. 12 Skillet';
     listing_23_subtitle VARCHAR := 'A 12-inch traditional cast iron skillet with room to cook for a family, from searing steaks to baking cornbread.';
     listing_23_price_cents INT := 22000;
-    listing_23_image_uuids text[] := '{"a9ebb293-c1dc-4551-bc05-f96abb154991", "04a311bc-cd04-4f1c-b85a-5fdf680578a7"}';
+    listing_23_image_uuids text[] := '{"cc15c622-65be-45c4-8f71-089d418c938e", "b46bc5b1-256f-4a54-a8c9-b7e25b3e07e7", "f2822221-d49d-4903-aeca-6e8c8f4af368", "21520ca4-5fa9-4424-b560-457ebcf584ca", "ff968181-133d-496a-bf15-a6f3ace1a5ab", "1eacb947-8464-4590-bba4-f473cedb3e01", "c08d7c76-9d0a-44b7-86ec-68091705d4a3"}';
     listing_23_full_descr JSONB := '[
         {
             "title": "Details",
@@ -142,7 +142,7 @@ DECLARE
     listing_24_title VARCHAR := 'No. 14 Skillet';
     listing_24_subtitle VARCHAR := 'Smithey''s largest traditional skillet, a 14-inch centerpiece built for feeding a crowd.';
     listing_24_price_cents INT := 25000;
-    listing_24_image_uuids text[] := '{"e5c9b7c3-68b7-4059-aa0b-e6aded2f44bb", "3abbdfc0-4bed-4c15-90fa-b9b756b1d4ed"}';
+    listing_24_image_uuids text[] := '{"a546fe8e-39fb-4263-9975-33539575018a", "bdcfeb33-ce6c-403e-a597-1b1e3a558c5c", "0b13ce42-752a-4ac8-9d65-5f422560723b", "4016ec42-02f4-4c74-997e-9447f2862f90", "581ebc52-38f5-4a0f-b6ba-ba67492f093b", "d19de428-d373-4a50-9456-cf0d71024e16", "c7c4c3c2-5fa3-4271-8c75-90407f64dfd2"}';
     listing_24_full_descr JSONB := '[
         {
             "title": "Details",
@@ -151,6 +151,98 @@ DECLARE
         {
             "title": "Dimensions",
             "richText": "<ul><li>Diameter (top): 14\"</li><li>Depth: 2.2\"</li><li>Cook surface: 11.5\"</li><li>Handle to handle: 20.3\"</li><li>Weight: approximately 12 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_25_id INT := 25;
+    listing_25_short_id VARCHAR := 'S1CNk';
+    listing_25_shop_id INT := shop_3_id;
+    listing_25_category_id VARCHAR := 'HOUSEWARES';
+    listing_25_title VARCHAR := 'No. 10 Chef Skillet';
+    listing_25_subtitle VARCHAR := 'Made for movement, the curved interior walls of this skillet are great for sautéing, stir-frying, egg flipping, and more.';
+    listing_25_price_cents INT := 16000;
+    listing_25_image_uuids text[] := '{"4a4853ba-0394-4968-9d67-017f308a17e3", "eefb0fed-9b2d-445f-977a-e5f46bfb341e", "87775b1f-6e2e-43ba-8a8c-e49d70867836", "5cb3df92-e07d-4567-a6d8-36c75023d34b", "ae18d0df-f561-4323-939e-30f269774e23", "f3c58ded-964e-4885-8c2f-3da50b933114", "7dd8db2e-80d6-4465-a61e-4f0a721431aa"}';
+    listing_25_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Made for movement: the No. 10 Chef Skillet''s curved interior walls and extended handle make sautéing, stir-frying, and flipping eggs effortless. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: 1.6\"</li><li>Cook surface: 6\"</li><li>Handle to handle: 17.3\"</li><li>Weight: approximately 5.0 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_26_id INT := 26;
+    listing_26_short_id VARCHAR := 'D35Nk';
+    listing_26_shop_id INT := shop_3_id;
+    listing_26_category_id VARCHAR := 'HOUSEWARES';
+    listing_26_title VARCHAR := '3.5 Qt Dutch Oven';
+    listing_26_subtitle VARCHAR := 'Perfect for sourdough and slow cooking, this Dutch oven deserves a permanent spot on your stovetop.';
+    listing_26_price_cents INT := 22500;
+    listing_26_image_uuids text[] := '{"4e3348ad-d3ee-4072-8c7e-32ee9411f55a", "a5ebec41-8ef0-4941-9cea-f6346e3570f2", "401a48d7-0e29-4b29-9699-b0f296a98b30", "8c2ef4c6-e577-44ad-9320-a544e665fe5e", "38608fb2-dcde-4d9d-a7c8-09899eef2ea2", "852f8b45-de9b-4355-aa36-04e9e26faf02", "d69f947f-89a8-416c-805e-1d412a92feca"}';
+    listing_26_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Perfect for sourdough and slow cooking, the 3.5 Qt Dutch Oven deserves a permanent spot on your stovetop. Its completely polished interior is naturally non-stick, and lid channels recirculate moisture for better braises and bakes.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Volume: 3.5 Qt</li><li>Depth: 4\"</li><li>Handle to handle: 12.2\"</li><li>Total height: approximately 7\"</li><li>Weight (with lid): approximately 12.1 lbs</li><li>Weight (pot only): approximately 8.1 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_27_id INT := 27;
+    listing_27_short_id VARCHAR := 'D55Nk';
+    listing_27_shop_id INT := shop_3_id;
+    listing_27_category_id VARCHAR := 'HOUSEWARES';
+    listing_27_title VARCHAR := '5.5 Qt Dutch Oven';
+    listing_27_subtitle VARCHAR := 'A true stovetop stunner for family-style slow-cooking, baking, frying and more.';
+    listing_27_price_cents INT := 30000;
+    listing_27_image_uuids text[] := '{"e94aa370-c161-4906-8799-43f1ce224ea5", "e8eb0db5-da4b-46ce-8b73-3d7b830521f3", "bcf87210-192d-4990-b989-0b1cab365c19", "74f000f5-7e63-4674-b65d-c0c199a03512", "c6ba3a5f-961a-4a42-90b4-a4b56dbe6d86", "d320ff84-5511-4e8b-b2fd-7a8547a5fbfd", "25386fef-6726-4653-9855-a0d094d1271d"}';
+    listing_27_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A true stovetop stunner, the 5.5 Qt Dutch Oven is built for family-style slow-cooking, baking, and frying. Its completely polished interior is naturally non-stick, and the multi-use domed lid features channels to recirculate moisture.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Volume: 5.5 Qt</li><li>Depth: 4.6\"</li><li>Handle to handle: 13.3\"</li><li>Total height: approximately 8.2\"</li><li>Weight (with lid): approximately 14.5 lbs</li><li>Weight (pot only): approximately 9.2 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_28_id INT := 28;
+    listing_28_short_id VARCHAR := 'D75Nk';
+    listing_28_shop_id INT := shop_3_id;
+    listing_28_category_id VARCHAR := 'HOUSEWARES';
+    listing_28_title VARCHAR := '7.25 Qt Dutch Oven';
+    listing_28_subtitle VARCHAR := 'Our largest Dutch oven, a favorite for large families and famous chili recipes.';
+    listing_28_price_cents INT := 37500;
+    listing_28_image_uuids text[] := '{"273cdd9b-2fde-4fcf-9c93-7f8f39d43139", "d96e9702-5a4b-4f52-9fe4-a01e4192547b", "0090b7fd-e06d-4e68-9193-a7871ab457cb", "72447b8b-5387-4646-81bd-4642d60605d3", "e9311c51-9657-4ff0-afa5-17affbf6c1f0", "6fdd0b79-ee43-44ae-8c1b-be1fb9076317", "6ecc2fbb-b10e-4346-8aaa-b107ad509a71"}';
+    listing_28_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Smithey''s largest Dutch oven, the 7.25 Qt size is a favorite for large families and famous chili recipes. Its completely polished interior is naturally non-stick, and the multi-use domed lid features channels to recirculate moisture.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Volume: 7.25 Qt</li><li>Depth: 4.7\"</li><li>Handle to handle: 14.9\"</li><li>Total height: approximately 8.2\"</li><li>Weight (with lid): approximately 17.3 lbs</li><li>Weight (pot only): approximately 11.5 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -549,6 +641,10 @@ BEGIN
         (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_27_id, listing_27_short_id, listing_27_shop_id, listing_27_category_id, listing_27_title, listing_27_subtitle, listing_27_full_descr, listing_27_price_cents, NULL, NULL, listing_27_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_28_id, listing_28_short_id, listing_28_shop_id, listing_28_category_id, listing_28_title, listing_28_subtitle, listing_28_full_descr, listing_28_price_cents, NULL, NULL, listing_28_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
             jsonb_build_object(

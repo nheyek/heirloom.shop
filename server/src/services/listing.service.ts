@@ -58,7 +58,7 @@ export const findListingsByShop = async (
 	return em.find(
 		Listing,
 		{ shop: { id: shopId } },
-		{ populate: ['shop', 'category'], orderBy: { id: 'asc' } },
+		{ populate: ['shop', 'category'], orderBy: { title: 'asc' } },
 	);
 };
 
