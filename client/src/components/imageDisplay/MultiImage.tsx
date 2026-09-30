@@ -2,7 +2,7 @@ import type { IconButtonProps } from '@chakra-ui/react';
 import { Box, Carousel, IconButton } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 type Props = {
@@ -13,10 +13,18 @@ type Props = {
 
 export const MultiImage = (props: Props) => {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
+	const [page, setPage] = useState<number>(0);
 	const showArrows = isHovered && props.urls.length > 1;
+	const primaryImage = props.urls[0] || null;
+
+	useEffect(() => {
+		setPage(0);
+	}, [primaryImage]);
 
 	return (
 		<Carousel.Root
+			page={page}
+			onPageChange={(details) => setPage(details.page)}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			slideCount={props.urls.length}

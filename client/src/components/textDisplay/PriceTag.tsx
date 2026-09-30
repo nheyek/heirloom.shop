@@ -32,13 +32,13 @@ export const PriceTag = (props: Props) => {
 			}}
 		>
 			<Text
-				fontSize={23}
+				fontSize={22}
 				fontWeight={500}
 				fontFamily={displayFontFamily}
 				paddingLeft={6}
 				paddingRight="12px"
-				paddingTop="3px"
-				paddingBottom="6px"
+				paddingTop="2px"
+				paddingBottom="5px"
 			>
 				{formatCentsAsDollars(props.priceCents)}
 				{props.isMinimum && '+'}

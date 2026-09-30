@@ -20,7 +20,7 @@ export const ShoppingCartEmptyMessage = (props: Props) => (
 			fontFamily={defaultFontFamily}
 		>
 			<FaArrowLeft />
-			Keep looking
+			Keep Looking
 		</Button>
 	</Center>
 );

@@ -117,7 +117,7 @@ export const LandingPage = () => {
 							w={15}
 							h={15}
 						/>
-						Learn more
+						Learn More
 					</Button>
 				</Stack>
 			</Stack>

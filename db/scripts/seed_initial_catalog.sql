@@ -188,7 +188,7 @@ DECLARE
     listing_26_title VARCHAR := '3.5 Qt Dutch Oven';
     listing_26_subtitle VARCHAR := 'Perfect for sourdough and slow cooking, this Dutch oven deserves a permanent spot on your stovetop.';
     listing_26_price_cents INT := 22500;
-    listing_26_image_uuids text[] := '{"4e3348ad-d3ee-4072-8c7e-32ee9411f55a", "a5ebec41-8ef0-4941-9cea-f6346e3570f2", "401a48d7-0e29-4b29-9699-b0f296a98b30", "8c2ef4c6-e577-44ad-9320-a544e665fe5e", "38608fb2-dcde-4d9d-a7c8-09899eef2ea2", "852f8b45-de9b-4355-aa36-04e9e26faf02", "d69f947f-89a8-416c-805e-1d412a92feca"}';
+    listing_26_image_uuids text[] := '{"a5ebec41-8ef0-4941-9cea-f6346e3570f2", "4e3348ad-d3ee-4072-8c7e-32ee9411f55a", "401a48d7-0e29-4b29-9699-b0f296a98b30", "8c2ef4c6-e577-44ad-9320-a544e665fe5e", "38608fb2-dcde-4d9d-a7c8-09899eef2ea2", "852f8b45-de9b-4355-aa36-04e9e26faf02", "d69f947f-89a8-416c-805e-1d412a92feca"}';
     listing_26_full_descr JSONB := '[
         {
             "title": "Details",
@@ -211,7 +211,7 @@ DECLARE
     listing_27_title VARCHAR := '5.5 Qt Dutch Oven';
     listing_27_subtitle VARCHAR := 'A true stovetop stunner for family-style slow-cooking, baking, frying and more.';
     listing_27_price_cents INT := 30000;
-    listing_27_image_uuids text[] := '{"e94aa370-c161-4906-8799-43f1ce224ea5", "e8eb0db5-da4b-46ce-8b73-3d7b830521f3", "bcf87210-192d-4990-b989-0b1cab365c19", "74f000f5-7e63-4674-b65d-c0c199a03512", "c6ba3a5f-961a-4a42-90b4-a4b56dbe6d86", "d320ff84-5511-4e8b-b2fd-7a8547a5fbfd", "25386fef-6726-4653-9855-a0d094d1271d"}';
+    listing_27_image_uuids text[] := '{"e8eb0db5-da4b-46ce-8b73-3d7b830521f3", "e94aa370-c161-4906-8799-43f1ce224ea5", "bcf87210-192d-4990-b989-0b1cab365c19", "74f000f5-7e63-4674-b65d-c0c199a03512", "c6ba3a5f-961a-4a42-90b4-a4b56dbe6d86", "d320ff84-5511-4e8b-b2fd-7a8547a5fbfd", "25386fef-6726-4653-9855-a0d094d1271d"}';
     listing_27_full_descr JSONB := '[
         {
             "title": "Details",
@@ -234,7 +234,7 @@ DECLARE
     listing_28_title VARCHAR := '7.25 Qt Dutch Oven';
     listing_28_subtitle VARCHAR := 'Our largest Dutch oven, a favorite for large families and famous chili recipes.';
     listing_28_price_cents INT := 37500;
-    listing_28_image_uuids text[] := '{"273cdd9b-2fde-4fcf-9c93-7f8f39d43139", "d96e9702-5a4b-4f52-9fe4-a01e4192547b", "0090b7fd-e06d-4e68-9193-a7871ab457cb", "72447b8b-5387-4646-81bd-4642d60605d3", "e9311c51-9657-4ff0-afa5-17affbf6c1f0", "6fdd0b79-ee43-44ae-8c1b-be1fb9076317", "6ecc2fbb-b10e-4346-8aaa-b107ad509a71"}';
+    listing_28_image_uuids text[] := '{"d96e9702-5a4b-4f52-9fe4-a01e4192547b", "273cdd9b-2fde-4fcf-9c93-7f8f39d43139", "0090b7fd-e06d-4e68-9193-a7871ab457cb", "72447b8b-5387-4646-81bd-4642d60605d3", "e9311c51-9657-4ff0-afa5-17affbf6c1f0", "6fdd0b79-ee43-44ae-8c1b-be1fb9076317", "6ecc2fbb-b10e-4346-8aaa-b107ad509a71"}';
     listing_28_full_descr JSONB := '[
         {
             "title": "Details",
@@ -243,6 +243,121 @@ DECLARE
         {
             "title": "Dimensions",
             "richText": "<ul><li>Volume: 7.25 Qt</li><li>Depth: 4.7\"</li><li>Handle to handle: 14.9\"</li><li>Total height: approximately 8.2\"</li><li>Weight (with lid): approximately 17.3 lbs</li><li>Weight (pot only): approximately 11.5 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_29_id INT := 29;
+    listing_29_short_id VARCHAR := 'G10Nk';
+    listing_29_shop_id INT := shop_3_id;
+    listing_29_category_id VARCHAR := 'HOUSEWARES';
+    listing_29_title VARCHAR := 'No. 10 Flat Top Griddle';
+    listing_29_subtitle VARCHAR := 'A stand alone griddle for pancakes, pizzas and more, the No. 10 Flat Top also works as a custom fit lid for your No. 10 Skillet!';
+    listing_29_price_cents INT := 12500;
+    listing_29_image_uuids text[] := '{"7498c359-d296-46c4-bed5-02c007268b39", "34b54d45-4a2d-4150-a4b2-50771193bae9", "d54dc965-0f48-4bbe-932f-40d4e4bea41d", "9eb54d52-7d1d-45bf-841d-61587c10e3c4", "6e27f127-66d1-4e80-bcf3-e8f599a56ada", "c31f5213-ef84-4de3-b77c-89964fa1d899", "97f63d44-fb2b-4914-8c96-f0f925651c08"}';
+    listing_29_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A stand-alone griddle for pancakes, pizzas, and more, the No. 10 Flat Top also works as a custom-fit lid for your No. 10 Skillet. Its satin-smooth, polished finish is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: .3\"</li><li>Cook surface: 9.3\"</li><li>Handle to handle: 16.5\"</li><li>Weight: approximately 5.5 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_30_id INT := 30;
+    listing_30_short_id VARCHAR := 'G12Nk';
+    listing_30_shop_id INT := shop_3_id;
+    listing_30_category_id VARCHAR := 'HOUSEWARES';
+    listing_30_title VARCHAR := 'No. 12 Flat Top Griddle';
+    listing_30_subtitle VARCHAR := 'A top-tier griddle for everything from grilled cheeses to fajitas, plus a custom-fit lid for your No. 12 skillet.';
+    listing_30_price_cents INT := 14000;
+    listing_30_image_uuids text[] := '{"22c86c8a-fd2a-4817-89cc-8ef2ad839d0c", "590e6880-fe56-41fe-9222-81a2dbd8661b", "a14507dd-db41-4438-8b66-b830874888e6", "87ff3340-1c53-4c97-b28a-2db2aaad38f9", "677dad8c-ff2e-4d18-a9c3-e52c149d0c0a", "0b32d9d8-0d65-4eb4-a17a-85d68778d594", "1f36ab03-ead2-4c4e-acf4-f39ca27a16be"}';
+    listing_30_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A top-tier griddle for everything from grilled cheeses to fajitas, the No. 12 Flat Top also works as a custom-fit lid for your No. 12 Skillet. Its satin-smooth, polished finish is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: .3\"</li><li>Cook surface: 10.5\"</li><li>Handle to handle: 18.2\"</li><li>Weight: approximately 7 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_31_id INT := 31;
+    listing_31_short_id VARCHAR := 'P12Nk';
+    listing_31_shop_id INT := shop_3_id;
+    listing_31_category_id VARCHAR := 'HOUSEWARES';
+    listing_31_title VARCHAR := 'No. 12 Grill Pan';
+    listing_31_subtitle VARCHAR := 'The Smithey Grill Pan is our go-to for year-round grilling indoors or out.';
+    listing_31_price_cents INT := 22000;
+    listing_31_image_uuids text[] := '{"c3c45b3d-29d9-4871-88a8-1088c00ad2f0", "d8c4b76f-e4e6-4cb0-83ad-e9cd1abacae5", "9afaed51-2943-49aa-ad90-2a5636e1389e", "0289afb9-3960-4cfe-9e40-793dfab88398", "1d484325-ccf5-4bfd-ac25-5081f799737f"}';
+    listing_31_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>The Smithey Grill Pan is our go-to for year-round grilling, indoors or out. Polished grilling lines and dual ergonomic handles make it easy to sear steaks, vegetables, and more with genuine grill marks.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Width (top): 12\"</li><li>Depth: 2\"</li><li>Cook surface: 9.4\" x 9.4\"</li><li>Handle to handle: 15\"</li><li>Weight: approximately 11.3 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_32_id INT := 32;
+    listing_32_short_id VARCHAR := 'H12Nk';
+    listing_32_shop_id INT := shop_3_id;
+    listing_32_category_id VARCHAR := 'HOUSEWARES';
+    listing_32_title VARCHAR := 'No. 12 Dual Handle Skillet';
+    listing_32_subtitle VARCHAR := 'Our best-selling size, now with a dual handle design, making it easier to move from range or oven to table.';
+    listing_32_price_cents INT := 22000;
+    listing_32_image_uuids text[] := '{"7590e86c-f4de-4905-a99a-5219870e95ee", "291e684a-5940-4f3f-8d0a-85212724142a", "1c407e7d-df86-4eab-b66e-78c8a6d296f7", "c8248d8b-b529-46e1-aa11-07cbaa0e74c8", "bd7df71f-ed18-469c-a506-b8f5965f9ec2", "909acd80-654e-4108-8d0e-88298c3d1a7b", "7908cb4a-41f9-400f-86f1-959bd527976d"}';
+    listing_32_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Our best-selling size, now with a dual handle design that makes it easier to move from range or oven to table. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: 2.0\"</li><li>Cook surface: 10.0\"</li><li>Handle to handle: 15\"</li><li>Weight: approximately 8 lbs</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
+        }
+    ]';
+
+    listing_33_id INT := 33;
+    listing_33_short_id VARCHAR := 'H14Nk';
+    listing_33_shop_id INT := shop_3_id;
+    listing_33_category_id VARCHAR := 'HOUSEWARES';
+    listing_33_title VARCHAR := 'No. 14 Dual Handle Skillet';
+    listing_33_subtitle VARCHAR := 'A skillet perfectly fit for your Big Green Egg with two handles that make it an ideal serving piece.';
+    listing_33_price_cents INT := 25000;
+    listing_33_image_uuids text[] := '{"b9cfefe0-0ac1-4e09-b9d2-33cbe6c05daf", "211d5705-40e2-4e7e-ac29-44aa66aa1f4d", "8c215c4d-7ea1-4a67-add4-01066b59d6f7", "c6f9b8ea-9f88-476c-bca1-8790c838a77b", "b57bf597-80d6-4a0b-b016-b687f25c6b2f", "8be4b2d5-0ac3-4b66-a6f0-d43756887784", "6f738693-5947-462f-8b3b-9fa487e91036"}';
+    listing_33_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>A skillet perfectly fit for your Big Green Egg, the No. 14 Dual Handle Skillet''s two handles make it an ideal serving piece straight from the fire to the table. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Diameter (top): 14\"</li><li>Depth: 2.4\"</li><li>Cook surface: 11\"</li><li>Handle to handle: 17\"</li><li>Weight: approximately 10.5 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -280,10 +395,13 @@ DECLARE
     listing_6_title VARCHAR := 'Boule Vase';
     listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
     listing_6_price_cents INT := 9800;
-    -- Raffia (white) hero shot doubles as the listing's main image, followed
-    -- by the secondary images from both color galleries; Patina's own hero
-    -- shot lives only on its variation option, per imagesVary.
-    listing_6_image_uuids text[] := '{"9906200e-e023-4c67-bc1c-f0471edddc0f", "6c2cc985-e30e-4931-9e5c-f68c4b4bb022", "8f522584-142e-4ce2-8c2f-35080f3cdc8c", "ef72f50e-2852-480b-a3cf-c6e666ec18af", "097f50f0-3ef4-43f3-bacf-4cc77d0a3b35", "9f8b657e-9f64-4a28-9ba6-db75443c3259"}';
+    -- Combined both-colors shot, then secondary images from both color
+    -- galleries (styled group, detail shots, lifestyle). The solo raffia/
+    -- patina hero shots (below) are deliberately NOT in this list — a color
+    -- option's own image gets promoted to the front of this same list
+    -- whenever that option is selected, so keeping it in here too would
+    -- duplicate it in the gallery.
+    listing_6_image_uuids text[] := '{"72162203-35a1-4031-b129-9b7ffe3bb1dd", "4a7a09c0-5be7-4c84-bead-89cd07714e65", "e540902f-cabc-4c5b-9337-19ddb0522acd", "b9d4783b-fe29-4566-807e-25c8b27a23ce", "4d207eb2-061f-43eb-abd8-c3eb536a67f4", "3990790f-4cd8-4cba-a63e-c2f4ef793f37", "dc74a0d4-f0b2-49b8-8f21-98dbeb5c318f", "61c1a2a1-67bd-4000-bf80-e6434d80d3e7", "4634067c-fe8c-460b-8893-d81ebe215aa0"}';
     listing_6_full_descr JSONB := '[
         {
             "title": "Details",
@@ -302,8 +420,8 @@ DECLARE
     listing_6_color_variation_id CONSTANT VARCHAR := 'ec353f9f-d888-40f1-9fd9-4095d37ab23c';
     listing_6_color_raffia_id    CONSTANT VARCHAR := '69851e94-e5af-4ab4-bffa-1188c5239fc4';
     listing_6_color_patina_id    CONSTANT VARCHAR := '244100e9-24f7-467d-8206-5c3e695d7858';
-    listing_6_raffia_image_uuid  CONSTANT VARCHAR := '9906200e-e023-4c67-bc1c-f0471edddc0f';
-    listing_6_patina_image_uuid  CONSTANT VARCHAR := 'ab62ad13-0208-4547-9aa4-4bf4f53cd1dd';
+    listing_6_raffia_image_uuid  CONSTANT VARCHAR := '2d2d82a4-f973-47fa-bf3b-d7da38045648';
+    listing_6_patina_image_uuid  CONSTANT VARCHAR := 'e0b69ba8-dbc4-4dd5-bd7a-c0daf657f054';
 
     listing_10_id INT := 10;
     listing_10_short_id VARCHAR := 'Cn6Vz';
@@ -312,10 +430,7 @@ DECLARE
     listing_10_title VARCHAR := 'Cornet Vase';
     listing_10_subtitle VARCHAR := 'A vase that holds its own—designed for sweeping stems and bold florals, offering height, balance, and unmistakable character.';
     listing_10_price_cents INT := 12800;
-    -- Raffia (white) hero shot doubles as the listing's main image, followed
-    -- by the secondary images from both color galleries; Patina's own hero
-    -- shot lives only on its variation option, per imagesVary.
-    listing_10_image_uuids text[] := '{"fdaf290c-c774-4e7a-9361-ebac5b1f0da6", "97acb04f-56a6-4a78-8ddc-f6753f4072d5", "e8ccabe8-9b2f-40db-a6de-185381ca42a6", "bff4491b-41e3-478f-ae66-dd11c6031b6f", "7f72607f-2ef2-420e-a88d-bb8031366eb6", "0d0b90b0-5400-455d-af36-2cb77e2d6b8e", "289bd6b9-b501-463b-ba33-443b7f665109"}';
+    listing_10_image_uuids text[] := '{"fdaf290c-c774-4e7a-9361-ebac5b1f0da6", "7f72607f-2ef2-420e-a88d-bb8031366eb6", "0d0b90b0-5400-455d-af36-2cb77e2d6b8e", "289bd6b9-b501-463b-ba33-443b7f665109", "97acb04f-56a6-4a78-8ddc-f6753f4072d5", "e8ccabe8-9b2f-40db-a6de-185381ca42a6", "bff4491b-41e3-478f-ae66-dd11c6031b6f"}';
     listing_10_full_descr JSONB := '[
         {
             "title": "Details",
@@ -334,7 +449,7 @@ DECLARE
     listing_10_color_variation_id CONSTANT VARCHAR := '9ca03d37-45af-4e1e-9ceb-590169370054';
     listing_10_color_raffia_id    CONSTANT VARCHAR := '5161c2e5-f544-43fa-80e5-a63e6d39d979';
     listing_10_color_patina_id    CONSTANT VARCHAR := 'fd06615a-5966-4819-8bc7-9bbce76264cb';
-    listing_10_raffia_image_uuid  CONSTANT VARCHAR := 'fdaf290c-c774-4e7a-9361-ebac5b1f0da6';
+    listing_10_raffia_image_uuid  CONSTANT VARCHAR := '5950b9f5-25e0-45e7-ba15-3e3d72a61d44';
     listing_10_patina_image_uuid  CONSTANT VARCHAR := '2a6bedc5-2397-43b4-80ef-c1ca3de733f0';
 
     listing_12_id INT := 12;
@@ -344,10 +459,7 @@ DECLARE
     listing_12_title VARCHAR := 'Pillar Candle Holder';
     listing_12_subtitle VARCHAR := 'Ceramic pillar candle holder that fits candles up to 3 inches in diameter, in your choice of glaze.';
     listing_12_price_cents INT := 3200;
-    -- Raffia (white) hero shot doubles as the listing's main image, followed
-    -- by the secondary images from both color galleries; Patina's own hero
-    -- shot lives only on its variation option, per imagesVary.
-    listing_12_image_uuids text[] := '{"86e03348-2ead-426d-9333-b650491ccd9f", "e4c59c78-aaba-4cbf-ab0b-ecf977021bd3", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f", "045e400d-9603-48ca-a2ca-4efd501e2b7c", "ce668962-3c3f-4118-ad44-e03bb6bceadd", "b8418f2c-77dd-4e9a-b200-0027c72ef705", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "020453e9-55e0-453f-8a30-524ad5f82278", "f2d5f95d-e850-483c-8898-b58e896048a2"}';
+    listing_12_image_uuids text[] := '{"86e03348-2ead-426d-9333-b650491ccd9f", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "020453e9-55e0-453f-8a30-524ad5f82278", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2", "045e400d-9603-48ca-a2ca-4efd501e2b7c", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f"}';
     listing_12_full_descr JSONB := '[
         {
             "title": "Details",
@@ -366,7 +478,7 @@ DECLARE
     listing_12_color_variation_id CONSTANT VARCHAR := 'a1b2c3d4-1111-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_raffia_id    CONSTANT VARCHAR := 'a1b2c3d4-2222-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_patina_id    CONSTANT VARCHAR := 'a1b2c3d4-3333-4a5b-8c9d-e1f2a3b4c5d6';
-    listing_12_raffia_image_uuid  CONSTANT VARCHAR := '86e03348-2ead-426d-9333-b650491ccd9f';
+    listing_12_raffia_image_uuid  CONSTANT VARCHAR := 'b4160501-969f-4a2f-8798-a5f8c02562c4';
     listing_12_patina_image_uuid  CONSTANT VARCHAR := '1d56dad8-75a6-468c-9f2a-f8ff364ffde5';
 
     listing_13_id INT := 13;
@@ -592,8 +704,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 0, 'priceCents', null, 'imageUuid', listing_6_raffia_image_uuid),
-                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 1, 'priceCents', null, 'imageUuid', listing_6_patina_image_uuid)
+                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_6_patina_image_uuid),
+                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_6_raffia_image_uuid)
                     )
                 )
             ),
@@ -609,8 +721,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 0, 'priceCents', null, 'imageUuid', listing_10_raffia_image_uuid),
-                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 1, 'priceCents', null, 'imageUuid', listing_10_patina_image_uuid)
+                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_10_patina_image_uuid),
+                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_10_raffia_image_uuid)
                     )
                 )
             ),
@@ -626,8 +738,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 0, 'priceCents', null, 'imageUuid', listing_12_raffia_image_uuid),
-                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 1, 'priceCents', null, 'imageUuid', listing_12_patina_image_uuid)
+                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_12_patina_image_uuid),
+                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_12_raffia_image_uuid)
                     )
                 )
             ),
@@ -645,6 +757,11 @@ BEGIN
         (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_27_id, listing_27_short_id, listing_27_shop_id, listing_27_category_id, listing_27_title, listing_27_subtitle, listing_27_full_descr, listing_27_price_cents, NULL, NULL, listing_27_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_28_id, listing_28_short_id, listing_28_shop_id, listing_28_category_id, listing_28_title, listing_28_subtitle, listing_28_full_descr, listing_28_price_cents, NULL, NULL, listing_28_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_30_id, listing_30_short_id, listing_30_shop_id, listing_30_category_id, listing_30_title, listing_30_subtitle, listing_30_full_descr, listing_30_price_cents, NULL, NULL, listing_30_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_33_id, listing_33_short_id, listing_33_shop_id, listing_33_category_id, listing_33_title, listing_33_subtitle, listing_33_full_descr, listing_33_price_cents, NULL, NULL, listing_33_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
             jsonb_build_object(
