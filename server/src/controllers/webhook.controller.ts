@@ -14,6 +14,7 @@ import {
 	retrievePaymentIntentCharge,
 } from '@server/services/payment.service';
 import { findAdminEmails } from '@server/services/user.service';
+import { logError } from '@server/services/log.service';
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
 
@@ -41,6 +42,14 @@ export const handleStripeWebhook = async (
 				webhookSecret,
 			);
 		} catch (err) {
+			logError({
+				statusCode: 400,
+				method: request.method,
+				path: request.path,
+				message:
+					'Stripe webhook signature verification failed. This usually means STRIPE_WEBHOOK_SECRET is missing or incorrect on this environment.',
+				stack: err instanceof Error ? err.stack : undefined,
+			});
 			response
 				.status(400)
 				.send('Webhook signature verification failed');

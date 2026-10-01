@@ -6,8 +6,8 @@ import { OrderStatus } from '@heirloom/common/constants';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const POLL_INTERVAL_MS = 2000;
-const POLL_MAX_ATTEMPTS = 30;
+const POLL_INTERVAL_MS = 1000;
+const POLL_MAX_ATTEMPTS = 10;
 
 export const useOrderStatusPoll = () => {
 	const apiClient = useApiClient();
