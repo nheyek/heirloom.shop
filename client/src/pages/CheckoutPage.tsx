@@ -65,14 +65,6 @@ export const CheckoutPage = () => {
 		hydrateCart();
 	}, []);
 
-	useEffect(() => {
-		// TEMP: simulate pending -> timeout progression for visual check
-		startPending();
-		const timeout = setTimeout(() => triggerTimeout(), 4000);
-		return () => clearTimeout(timeout);
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
-
 	const orderTotal =
 		itemPriceTotal + shippingTotal + (taxTotal || 0);
 
