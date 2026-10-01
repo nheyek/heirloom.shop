@@ -46,7 +46,6 @@ const StatusBadge = ({ status }: { status: OrderStatus }) => {
 		<Badge
 			size="lg"
 			fontSize={16}
-			alignSelf="flex-start"
 			fontFamily={defaultFontFamily}
 			colorPalette={
 				status === OrderStatus.SHIPPED ? 'green' : undefined
