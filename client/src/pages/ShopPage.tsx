@@ -32,8 +32,8 @@ import { FaShop } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
-	base: 40,
-	md: 60,
+	base: 30,
+	md: 50,
 };
 
 export const ShopPage = () => {
@@ -153,7 +153,7 @@ export const ShopPage = () => {
 						alignItems="flex-start"
 					>
 						<Stack
-							gap={0}
+							gap={1}
 							fontFamily={displayFontFamily}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
@@ -167,57 +167,55 @@ export const ShopPage = () => {
 							>
 								{shopData?.title}
 							</Text>
-							<Stack gap={1}>
+							<Text
+								display="block"
+								fontSize={Object.entries(
+									titleFontSize,
+								).reduce(
+									(acc, [key, value]) => ({
+										...acc,
+										[key]: value * 0.65,
+									}),
+									{},
+								)}
+								fontWeight="600"
+							>
+								{shopData?.classification}
+							</Text>
+							<HStack gap={{ base: 3, md: 4 }}>
+								<Box
+									width={{
+										base: 6,
+										md: 8,
+										lg: 9,
+									}}
+								>
+									<CountryFlagIcon
+										countryCode={
+											shopData?.countryCode as CountryCode | null
+										}
+										svgProps={{
+											style: {
+												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+											},
+										}}
+									/>
+								</Box>
 								<Text
-									display="block"
+									fontWeight={500}
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: value * 0.65,
+											[key]: value * 0.55,
 										}),
 										{},
 									)}
-									fontWeight="600"
 								>
-									{shopData?.classification}
+									{shopData?.location}
 								</Text>
-								<HStack gap={{ base: 3, md: 4 }}>
-									<Box
-										width={{
-											base: 6,
-											md: 8,
-											lg: 9,
-										}}
-									>
-										<CountryFlagIcon
-											countryCode={
-												shopData?.countryCode as CountryCode | null
-											}
-											svgProps={{
-												style: {
-													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-												},
-											}}
-										/>
-									</Box>
-									<Text
-										fontWeight={500}
-										fontSize={Object.entries(
-											titleFontSize,
-										).reduce(
-											(acc, [key, value]) => ({
-												...acc,
-												[key]: value * 0.55,
-											}),
-											{},
-										)}
-									>
-										{shopData?.location}
-									</Text>
-								</HStack>
-							</Stack>
+							</HStack>
 						</Stack>
 						<HStack gap={2}>
 							{shopData?.profileRichText && (
