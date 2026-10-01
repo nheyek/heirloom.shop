@@ -12,6 +12,14 @@ locals {
 }
 
 terraform {
+  cloud {
+    organization = "Heirloom"
+
+    workspaces {
+      name = "heirloom-dev"
+    }
+  }
+
   required_providers {
     digitalocean = {
       source  = "digitalocean/digitalocean"
