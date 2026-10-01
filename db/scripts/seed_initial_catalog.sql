@@ -573,6 +573,43 @@ DECLARE
         }
     ]';
 
+    listing_34_id INT := 34;
+    listing_34_short_id VARCHAR := 'Nt7Hc';
+    listing_34_shop_id INT := shop_5_id;
+    listing_34_category_id VARCHAR := 'HOUSEWARES';
+    listing_34_title VARCHAR := 'Nantucket Hurricane';
+    listing_34_subtitle VARCHAR := 'Straight sides and a modern foot, in four sizes to scale.';
+    listing_34_price_cents INT := 17000;
+    -- Group shot of all four sizes together leads the gallery, followed by
+    -- secondary lifestyle and detail images. Each size's own studio hero
+    -- shot lives only on its variation option's imageUuid, per imagesVary,
+    -- and is promoted to the front of this list when that size is selected.
+    listing_34_image_uuids text[] := '{"867fae0f-7f75-4e0a-9008-95aac1918e2c", "dedb7c8d-97e8-4652-a2ef-67e9ba5cfb6b", "bcfad4d4-0ab8-4d67-b23b-3d7ff32a2b3e", "60fe9d88-4109-460a-8d4b-7f081f25544f", "c445827a-7dcf-44c3-8c8a-76151362dbc0"}';
+    listing_34_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Blown by hand in a single straight-sided cylinder, the Nantucket Hurricane is one of Simon Pearce''s most versatile shapes, equally at home holding a candle, anchoring a centerpiece, or sitting on an outdoor table. A compact turned foot lifts the glass off the surface without interrupting its clean line.</p><p>As with all of our glass, each piece keeps its pontil mark, the small mark left by the glassblower''s punty rod, a signature of the hands that made it.</p>"
+        },
+        {
+            "title": "Specifications",
+            "richText": "<ul><li>Small (4.25\"W x 4.25\"D x 6\"H): 22 oz</li><li>Medium (5.625\"W x 5.625\"D x 6.75\"H): 54 oz</li><li>Large (6.25\"W x 6.25\"D x 9\"H): 92 oz</li><li>Extra Large (7.75\"W x 7.75\"D x 13.5\"H): 148 oz</li></ul>"
+        },
+        {
+            "title": "Care",
+            "richText": "<p>Clean with a glass cleaner and a soft cloth; remove wax residue carefully before cleaning. Avoid sudden temperature changes, which can cause fractures.</p>"
+        }
+    ]';
+
+    listing_34_size_variation_id CONSTANT VARCHAR := 'd4e5f6a7-1111-4b6c-9d0e-f3a4b5c6d7e8';
+    listing_34_size_small_id     CONSTANT VARCHAR := 'd4e5f6a7-2222-4b6c-9d0e-f3a4b5c6d7e8';
+    listing_34_size_medium_id    CONSTANT VARCHAR := 'd4e5f6a7-3333-4b6c-9d0e-f3a4b5c6d7e8';
+    listing_34_size_large_id     CONSTANT VARCHAR := 'd4e5f6a7-4444-4b6c-9d0e-f3a4b5c6d7e8';
+    listing_34_size_xl_id        CONSTANT VARCHAR := 'd4e5f6a7-5555-4b6c-9d0e-f3a4b5c6d7e8';
+    listing_34_small_hero_image_uuid  CONSTANT VARCHAR := 'd6d40d5c-463c-4ca6-bbe6-e3c8be7107c7';
+    listing_34_medium_hero_image_uuid CONSTANT VARCHAR := '4eeae928-da11-4475-8fba-504a75540731';
+    listing_34_large_hero_image_uuid  CONSTANT VARCHAR := 'f49b02a6-dfb1-427d-9ea6-b665322aa44b';
+    listing_34_xl_hero_image_uuid     CONSTANT VARCHAR := 'bf02f4d0-9ad6-463b-b912-279c67e473fd';
+
     listing_20_id INT := 20;
     listing_20_short_id VARCHAR := 'Pw8Zd';
     listing_20_shop_id INT := shop_7_id;
@@ -751,6 +788,27 @@ BEGIN
         (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_34_id, listing_34_short_id, listing_34_shop_id, listing_34_category_id, listing_34_title, listing_34_subtitle, listing_34_full_descr, listing_34_price_cents, NULL, NULL, listing_34_image_uuids, NULL,
+            jsonb_build_object(
+                listing_34_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', null, 'imageUuid', listing_34_small_hero_image_uuid),
+                        listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', null, 'imageUuid', listing_34_medium_hero_image_uuid),
+                        listing_34_size_large_id,  jsonb_build_object('name', 'Large',       'order', 2, 'priceCents', null, 'imageUuid', listing_34_large_hero_image_uuid),
+                        listing_34_size_xl_id,     jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', null, 'imageUuid', listing_34_xl_hero_image_uuid)
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_34_size_variation_id || ':' || listing_34_size_small_id,  jsonb_build_object('priceCents', 17000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_medium_id, jsonb_build_object('priceCents', 22000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_large_id,  jsonb_build_object('priceCents', 27000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_xl_id,     jsonb_build_object('priceCents', 43000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
