@@ -22,6 +22,14 @@ export const animationName = {
 	signalArcThree: 'signal-arc-three',
 };
 
+export const CARD_SWIPE_DURATION_MS = 2400;
+export const CARD_SWIPE_RESTING_TOP = '0px';
+export const CARD_SWIPE_HIDDEN_TOP = '-87px';
+export const CARD_SWIPE_OUT_END_PERCENT = 45;
+export const CARD_SWIPE_IN_START_PERCENT = 55;
+export const CARD_SWIPE_IN_END_PERCENT = 75;
+export const CARD_SWIPE_OUT_START_PERCENT = 85;
+
 export const navbarHeight = 68;
 export const sidebarWidth = 250;
 
@@ -153,12 +161,20 @@ export const config = defineConfig({
 		} as any,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[`@keyframes ${animationName.cardSwipe}`]: {
-			'0%': { top: '0px' },
-			'45%': { top: '0px' },
-			'55%': { top: '-87px' },
-			'75%': { top: '-87px' },
-			'85%': { top: '0px' },
-			'100%': { top: '0px' },
+			'0%': { top: CARD_SWIPE_RESTING_TOP },
+			[`${CARD_SWIPE_OUT_END_PERCENT}%`]: {
+				top: CARD_SWIPE_RESTING_TOP,
+			},
+			[`${CARD_SWIPE_IN_START_PERCENT}%`]: {
+				top: CARD_SWIPE_HIDDEN_TOP,
+			},
+			[`${CARD_SWIPE_IN_END_PERCENT}%`]: {
+				top: CARD_SWIPE_HIDDEN_TOP,
+			},
+			[`${CARD_SWIPE_OUT_START_PERCENT}%`]: {
+				top: CARD_SWIPE_RESTING_TOP,
+			},
+			'100%': { top: CARD_SWIPE_RESTING_TOP },
 		} as any,
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		[`@keyframes ${animationName.signalArcOne}`]: {

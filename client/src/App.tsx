@@ -1,9 +1,11 @@
 import { Box } from '@chakra-ui/react';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
+import { PaymentProcessingDialog } from '@client/components/checkout/PaymentProcessingDialog';
 import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
+import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
 import { navbarHeight } from '@client/theme';
 import React from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
@@ -39,10 +41,17 @@ const ShopManagerDefaultRedirect = () => {
 };
 
 const App = () => {
+	const checkoutStatus = useCheckoutStatus();
+
 	return (
 		<React.Fragment>
 			<ScrollToTop />
 			<AppToaster />
+			<PaymentProcessingDialog
+				pending={checkoutStatus.pending}
+				timedOut={checkoutStatus.timedOut}
+				onDismissTimeout={checkoutStatus.dismissTimeout}
+			/>
 			<Navbar />
 			<Box
 				display="flex"

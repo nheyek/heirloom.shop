@@ -1,4 +1,4 @@
-import { Button, Stack, Text } from '@chakra-ui/react';
+import { Stack, Text } from '@chakra-ui/react';
 import { PaymentProcessingAnimation } from '@client/components/checkout/PaymentProcessingAnimation';
 import { AppDialog } from '@client/components/misc/AppDialog';
 
@@ -8,7 +8,7 @@ type Props = {
 	onDismissTimeout: () => void;
 };
 
-export const OrderConfirmationDialog = ({
+export const PaymentProcessingDialog = ({
 	pending,
 	timedOut,
 	onDismissTimeout,
@@ -20,7 +20,7 @@ export const OrderConfirmationDialog = ({
 		open={pending || timedOut}
 		onCancel={onDismissTimeout}
 		pending={pending}
-		hideCloseButton
+		hideCloseButton={pending}
 		size="sm"
 		titleProps={{
 			textAlign: 'center',
@@ -28,26 +28,26 @@ export const OrderConfirmationDialog = ({
 			marginRight: 0,
 			width: '100%',
 		}}
-		footer={
-			timedOut ? (
-				<Button onClick={onDismissTimeout}>Close</Button>
-			) : undefined
-		}
 	>
-		{timedOut ? (
-			<Text>
-				Payment confirmation is taking longer than expected.
-				Check your email for order confirmation, or contact
-				support if you were charged.
-			</Text>
-		) : (
-			<Stack
-				align="center"
-				pt={2}
-				pb={5}
-			>
-				<PaymentProcessingAnimation />
-			</Stack>
-		)}
+		<Stack
+			align="center"
+			pt={2}
+			pb={5}
+			gap={4}
+		>
+			<PaymentProcessingAnimation timedOut={timedOut} />
+			{timedOut && (
+				<Stack
+					gap={1}
+					textAlign="center"
+					fontSize={20}
+				>
+					<Text fontWeight={500}>
+						You will not be charged for this order.
+					</Text>
+					<Text>Please try again later.</Text>
+				</Stack>
+			)}
+		</Stack>
 	</AppDialog>
 );

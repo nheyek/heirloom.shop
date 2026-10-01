@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react';
-import { animationName } from '@client/theme';
+import { CARD_SWIPE_DURATION_MS, animationName } from '@client/theme';
 
 const CARD_WIDTH = 108;
 const CARD_HEIGHT = 148;
@@ -17,6 +17,9 @@ const SIGNAL_ICON_SCALE = SIGNAL_ICON_SIZE / SIGNAL_ICON_VIEWBOX;
 const SIGNAL_DOT_CY = 19;
 const SIGNAL_DOT_RADIUS = 1.8;
 const SIGNAL_BOX_BOTTOM_OFFSET = 16;
+const SIGNAL_BOX_LEFT_OFFSET = 16;
+const SIGNAL_ICON_CENTER_X =
+	SIGNAL_BOX_LEFT_OFFSET + SIGNAL_ICON_SIZE / 2;
 const SIGNAL_BOX_TOP_WITHIN_CARD =
 	CARD_HEIGHT - SIGNAL_BOX_BOTTOM_OFFSET - SIGNAL_ICON_SIZE;
 const STRIPE_BOTTOM_WITHIN_CARD =
@@ -27,8 +30,37 @@ const STRIPE_WIDE_WIDTH = 9.9;
 const STRIPE_NARROW_TOP = 24;
 const STRIPE_NARROW_WIDTH = 7.7;
 const STRIPE_LOWER_TOP = 66;
+const CARD_GRADIENT_ACTIVE =
+	'linear-gradient(135deg, #6b6b6b 0%, #454545 33%, #202020 66%, #0a0a0a 100%)';
+const CARD_GRADIENT_TIMED_OUT =
+	'linear-gradient(135deg, #b55454 0%, #7a2626 33%, #3d0f0f 66%, #1a0505 100%)';
+const TIMEOUT_X_CENTER_X = 12;
+const TIMEOUT_X_CENTER_Y = 12;
+const TIMEOUT_X_ARM_OFFSET = 5.3;
+const TIMEOUT_X_ROUND_CAP_EXTENSION =
+	(SIGNAL_ARC_STROKE_WIDTH / 2) * Math.sin(Math.PI / 4);
+const TIMEOUT_ICON_SIZE = 34;
+const TIMEOUT_ICON_SCALE = TIMEOUT_ICON_SIZE / SIGNAL_ICON_VIEWBOX;
+const TIMEOUT_X_BOTTOM_WITHIN_ICON =
+	(TIMEOUT_X_CENTER_Y +
+		TIMEOUT_X_ARM_OFFSET +
+		TIMEOUT_X_ROUND_CAP_EXTENSION) *
+	TIMEOUT_ICON_SCALE;
+const TIMEOUT_BOX_BOTTOM_OFFSET =
+	CARD_HEIGHT -
+	TIMEOUT_ICON_SIZE +
+	TIMEOUT_X_BOTTOM_WITHIN_ICON -
+	STRIPE_BOTTOM_WITHIN_CARD;
+const TIMEOUT_BOX_LEFT_OFFSET =
+	SIGNAL_ICON_CENTER_X - TIMEOUT_ICON_SIZE / 2;
 
-export const PaymentProcessingAnimation = () => (
+type Props = {
+	timedOut?: boolean;
+};
+
+export const PaymentProcessingAnimation = ({
+	timedOut = false,
+}: Props) => (
 	<Box
 		position="relative"
 		width={`${SLOT_WIDTH}px`}
@@ -66,10 +98,18 @@ export const PaymentProcessingAnimation = () => (
 			height={`${CARD_HEIGHT}px`}
 			marginLeft={`-${CARD_WIDTH / 2}px`}
 			borderRadius="10px"
-			background="linear-gradient(135deg, #6b6b6b 0%, #454545 33%, #202020 66%, #0a0a0a 100%)"
+			background={
+				timedOut
+					? CARD_GRADIENT_TIMED_OUT
+					: CARD_GRADIENT_ACTIVE
+			}
 			boxShadow="md"
 			zIndex={1}
-			animation={`${animationName.cardSwipe} 2.4s ease-in-out infinite`}
+			animation={
+				timedOut
+					? undefined
+					: `${animationName.cardSwipe} ${CARD_SWIPE_DURATION_MS}ms ease-in-out infinite`
+			}
 		>
 			<Box
 				position="absolute"
@@ -109,45 +149,102 @@ export const PaymentProcessingAnimation = () => (
 			/>
 			<Box
 				position="absolute"
-				bottom={`${SIGNAL_BOX_BOTTOM_OFFSET}px`}
-				left="16px"
-				width={`${SIGNAL_ICON_SIZE}px`}
-				height={`${SIGNAL_ICON_SIZE}px`}
+				bottom={`${timedOut ? TIMEOUT_BOX_BOTTOM_OFFSET : SIGNAL_BOX_BOTTOM_OFFSET}px`}
+				left={`${timedOut ? TIMEOUT_BOX_LEFT_OFFSET : SIGNAL_BOX_LEFT_OFFSET}px`}
+				width={`${timedOut ? TIMEOUT_ICON_SIZE : SIGNAL_ICON_SIZE}px`}
+				height={`${timedOut ? TIMEOUT_ICON_SIZE : SIGNAL_ICON_SIZE}px`}
 			>
 				<svg
 					viewBox={`0 0 ${SIGNAL_ICON_VIEWBOX} ${SIGNAL_ICON_VIEWBOX}`}
-					width={SIGNAL_ICON_SIZE}
-					height={SIGNAL_ICON_SIZE}
+					width={
+						timedOut
+							? TIMEOUT_ICON_SIZE
+							: SIGNAL_ICON_SIZE
+					}
+					height={
+						timedOut
+							? TIMEOUT_ICON_SIZE
+							: SIGNAL_ICON_SIZE
+					}
 				>
-					<circle
-						cx="12"
-						cy={SIGNAL_DOT_CY}
-						r={SIGNAL_DOT_RADIUS}
-						fill="white"
-						style={{
-							animation: `${animationName.signalArcOne} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
-						}}
-					/>
-					<path
-						d="M8 15 a6 6 0 0 1 8 0"
-						stroke="white"
-						strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
-						fill="none"
-						strokeLinecap="round"
-						style={{
-							animation: `${animationName.signalArcTwo} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
-						}}
-					/>
-					<path
-						d="M4.5 10.5 a11 11 0 0 1 15 0"
-						stroke="white"
-						strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
-						fill="none"
-						strokeLinecap="round"
-						style={{
-							animation: `${animationName.signalArcThree} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
-						}}
-					/>
+					{timedOut ? (
+						<>
+							<line
+								x1={
+									TIMEOUT_X_CENTER_X -
+									TIMEOUT_X_ARM_OFFSET
+								}
+								y1={
+									TIMEOUT_X_CENTER_Y -
+									TIMEOUT_X_ARM_OFFSET
+								}
+								x2={
+									TIMEOUT_X_CENTER_X +
+									TIMEOUT_X_ARM_OFFSET
+								}
+								y2={
+									TIMEOUT_X_CENTER_Y +
+									TIMEOUT_X_ARM_OFFSET
+								}
+								stroke="white"
+								strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
+								strokeLinecap="round"
+							/>
+							<line
+								x1={
+									TIMEOUT_X_CENTER_X +
+									TIMEOUT_X_ARM_OFFSET
+								}
+								y1={
+									TIMEOUT_X_CENTER_Y -
+									TIMEOUT_X_ARM_OFFSET
+								}
+								x2={
+									TIMEOUT_X_CENTER_X -
+									TIMEOUT_X_ARM_OFFSET
+								}
+								y2={
+									TIMEOUT_X_CENTER_Y +
+									TIMEOUT_X_ARM_OFFSET
+								}
+								stroke="white"
+								strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
+								strokeLinecap="round"
+							/>
+						</>
+					) : (
+						<>
+							<circle
+								cx="12"
+								cy={SIGNAL_DOT_CY}
+								r={SIGNAL_DOT_RADIUS}
+								fill="white"
+								style={{
+									animation: `${animationName.signalArcOne} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
+								}}
+							/>
+							<path
+								d="M8 15 a6 6 0 0 1 8 0"
+								stroke="white"
+								strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
+								fill="none"
+								strokeLinecap="round"
+								style={{
+									animation: `${animationName.signalArcTwo} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
+								}}
+							/>
+							<path
+								d="M4.5 10.5 a11 11 0 0 1 15 0"
+								stroke="white"
+								strokeWidth={SIGNAL_ARC_STROKE_WIDTH}
+								fill="none"
+								strokeLinecap="round"
+								style={{
+									animation: `${animationName.signalArcThree} ${SIGNAL_ANIMATION_DURATION} steps(1, jump-end) infinite`,
+								}}
+							/>
+						</>
+					)}
 				</svg>
 			</Box>
 		</Box>

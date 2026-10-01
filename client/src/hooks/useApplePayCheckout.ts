@@ -1,6 +1,7 @@
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
+import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
@@ -55,12 +56,12 @@ export const useApplePayCheckout = (onClose: () => void) => {
 	const { items, itemPriceTotal, shippingTotal } =
 		useShoppingCart();
 
+	const { pending, startPending, settlePending, triggerTimeout } =
+		useCheckoutStatus();
+
 	const [paymentRequest, setPaymentRequest] =
 		useState<PaymentRequest | null>(null);
 	const [available, setAvailable] = useState(false);
-	const [pending, setPending] = useState(false);
-	const [confirmationTimedOut, setConfirmationTimedOut] =
-		useState(false);
 
 	const cartRef = useRef<CartSnapshot>({
 		items: simplifyCartItems(items),
@@ -147,8 +148,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 		});
 
 		pr.on('paymentmethod', async (event) => {
-			setPending(true);
-			setConfirmationTimedOut(false);
+			startPending();
 
 			try {
 				const address = event.shippingAddress;
@@ -184,7 +184,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 
 				if (submitResult.status === 409) {
 					event.complete('fail');
-					setPending(false);
+					settlePending();
 					toastError(
 						'Prices have changed',
 						'Please refresh the page and try again.',
@@ -194,7 +194,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 
 				if (submitResult.error !== null) {
 					event.complete('fail');
-					setPending(false);
+					settlePending();
 					toastError(
 						'Failed to submit order',
 						submitResult.error,
@@ -214,7 +214,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 
 				if (confirmError) {
 					event.complete('fail');
-					setPending(false);
+					settlePending();
 					toastError(
 						'Payment failed',
 						confirmError.message ??
@@ -229,7 +229,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 					const { error: actionError } =
 						await stripe.confirmCardPayment(clientSecret);
 					if (actionError) {
-						setPending(false);
+						settlePending();
 						toastError(
 							'Payment failed',
 							actionError.message ??
@@ -240,13 +240,15 @@ export const useApplePayCheckout = (onClose: () => void) => {
 				}
 
 				pollUntilPaid(orderShortId, accessKey, {
-					onSuccess: onClose,
-					onSettled: () => setPending(false),
-					onTimeout: () => setConfirmationTimedOut(true),
+					onSuccess: () => {
+						settlePending();
+						onClose();
+					},
+					onTimeout: triggerTimeout,
 				});
 			} catch {
 				event.complete('fail');
-				setPending(false);
+				settlePending();
 				toastError(
 					'Failed to submit order',
 					'Something went wrong processing your payment. Please try again.',
@@ -280,8 +282,5 @@ export const useApplePayCheckout = (onClose: () => void) => {
 		paymentRequest,
 		available,
 		pending,
-		confirmationTimedOut,
-		dismissConfirmationTimeout: () =>
-			setConfirmationTimedOut(false),
 	};
 };

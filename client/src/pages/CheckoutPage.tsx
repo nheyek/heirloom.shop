@@ -14,20 +14,20 @@ import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPayment
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
-import { OrderConfirmationDialog } from '@client/components/checkout/OrderConfirmationDialog';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
+import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
@@ -53,13 +53,24 @@ export const CheckoutPage = () => {
 		hydrateCart,
 	} = useShoppingCart();
 
-	const [pendingSubmit, setPendingSubmit] = useState(true); // TEMP: force open for visual check
-	const [confirmationTimedOut, setConfirmationTimedOut] =
-		useState(false);
+	const {
+		pending: pendingSubmit,
+		startPending,
+		settlePending,
+		triggerTimeout,
+	} = useCheckoutStatus();
 	const shippingFormRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		hydrateCart();
+	}, []);
+
+	useEffect(() => {
+		// TEMP: simulate pending -> timeout progression for visual check
+		startPending();
+		const timeout = setTimeout(() => triggerTimeout(), 4000);
+		return () => clearTimeout(timeout);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	const orderTotal =
@@ -81,18 +92,17 @@ export const CheckoutPage = () => {
 		}
 		if (!stripe || !elements) return;
 
-		setPendingSubmit(true);
-		setConfirmationTimedOut(false);
+		startPending();
 
 		if (!(await validateAddressDeliverable())) {
-			setPendingSubmit(false);
+			settlePending();
 			scrollToShippingForm();
 			return;
 		}
 
 		const { error } = await elements.submit();
 		if (error) {
-			setPendingSubmit(false);
+			settlePending();
 			toastError(
 				'Invalid payment details',
 				error.message ??
@@ -113,7 +123,7 @@ export const CheckoutPage = () => {
 		);
 
 		if (intentResult.status === 409) {
-			setPendingSubmit(false);
+			settlePending();
 			toastError(
 				'Prices have changed',
 				'Please refresh the page and try again.',
@@ -122,7 +132,7 @@ export const CheckoutPage = () => {
 		}
 
 		if (intentResult.error !== null) {
-			setPendingSubmit(false);
+			settlePending();
 			toastError('Failed to submit order', intentResult.error);
 			return;
 		}
@@ -139,7 +149,7 @@ export const CheckoutPage = () => {
 		});
 
 		if (confirmError) {
-			setPendingSubmit(false);
+			settlePending();
 			toastError(
 				'Payment failed',
 				confirmError.message ??
@@ -147,8 +157,8 @@ export const CheckoutPage = () => {
 			);
 		} else {
 			pollUntilPaid(orderShortId, accessKey, {
-				onSettled: () => setPendingSubmit(false),
-				onTimeout: () => setConfirmationTimedOut(true),
+				onSuccess: settlePending,
+				onTimeout: triggerTimeout,
 			});
 		}
 	};
@@ -157,14 +167,6 @@ export const CheckoutPage = () => {
 		base: Layout.MOBILE,
 		md: Layout.DESKTOP,
 	});
-
-	const confirmationDialog = (
-		<OrderConfirmationDialog
-			pending={pendingSubmit}
-			timedOut={confirmationTimedOut}
-			onDismissTimeout={() => setConfirmationTimedOut(false)}
-		/>
-	);
 
 	if (itemQuantityTotal === 0) {
 		return (
@@ -175,7 +177,6 @@ export const CheckoutPage = () => {
 				left={0}
 				right={0}
 			>
-				{confirmationDialog}
 				<ShoppingCartEmptyMessage
 					onClick={() => navigate('/')}
 				/>
@@ -186,7 +187,6 @@ export const CheckoutPage = () => {
 	if (layout === Layout.MOBILE) {
 		return (
 			<Stack gap={0}>
-				{confirmationDialog}
 				<Stack
 					p={5}
 					gap={5}
@@ -245,7 +245,6 @@ export const CheckoutPage = () => {
 			px={4}
 			mx="auto"
 		>
-			{confirmationDialog}
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}

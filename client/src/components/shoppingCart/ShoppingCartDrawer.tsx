@@ -9,7 +9,6 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/cards/OrderItemCard';
-import { OrderConfirmationDialog } from '@client/components/checkout/OrderConfirmationDialog';
 import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
@@ -89,117 +88,108 @@ export const ShoppingCartDrawer = (props: Props) => {
 	);
 
 	return (
-		<>
-			<OrderConfirmationDialog
-				pending={applePay.pending}
-				timedOut={applePay.confirmationTimedOut}
-				onDismissTimeout={applePay.dismissConfirmationTimeout}
-			/>
-			<Drawer.Root
-				open={props.isOpen}
-				onOpenChange={(e) => !e.open && props.onClose()}
-				placement="end"
-				size={shoppingCart.items.length > 0 ? 'lg' : 'sm'}
-			>
-				<Drawer.Backdrop />
-				<Drawer.Positioner>
-					<Drawer.Content>
-						<Drawer.Header p={5}>
-							<Drawer.Title
-								fontSize={32}
-								fontWeight={500}
-								fontFamily={displayFontFamily}
+		<Drawer.Root
+			open={props.isOpen}
+			onOpenChange={(e) => !e.open && props.onClose()}
+			placement="end"
+			size={shoppingCart.items.length > 0 ? 'lg' : 'sm'}
+		>
+			<Drawer.Backdrop />
+			<Drawer.Positioner>
+				<Drawer.Content>
+					<Drawer.Header p={5}>
+						<Drawer.Title
+							fontSize={32}
+							fontWeight={500}
+							fontFamily={displayFontFamily}
+						>
+							Shopping Cart
+						</Drawer.Title>
+						<Drawer.CloseTrigger asChild>
+							<IconButton
+								variant="ghost"
+								w={10}
+								h={10}
 							>
-								Shopping Cart
-							</Drawer.Title>
-							<Drawer.CloseTrigger asChild>
-								<IconButton
-									variant="ghost"
-									w={10}
-									h={10}
+								<Icon
+									h={7}
+									w={7}
 								>
-									<Icon
-										h={7}
-										w={7}
+									<MdClose />
+								</Icon>
+							</IconButton>
+						</Drawer.CloseTrigger>
+					</Drawer.Header>
+
+					<Drawer.Body pb={5}>
+						<Stack
+							minH="100%"
+							justifyContent={
+								shoppingCart.items.length > 0
+									? 'space-between'
+									: 'center'
+							}
+							gap={5}
+						>
+							{listSection}
+
+							{shoppingCart.items.length > 0 && (
+								<Stack gap={1}>
+									<HStack
+										fontFamily={displayFontFamily}
 									>
-										<MdClose />
-									</Icon>
-								</IconButton>
-							</Drawer.CloseTrigger>
-						</Drawer.Header>
+										<Text
+											fontSize={24}
 
-						<Drawer.Body pb={5}>
-							<Stack
-								minH="100%"
-								justifyContent={
-									shoppingCart.items.length > 0
-										? 'space-between'
-										: 'center'
-								}
-								gap={5}
-							>
-								{listSection}
-
-								{shoppingCart.items.length > 0 && (
-									<Stack gap={1}>
-										<HStack
-											fontFamily={
-												displayFontFamily
-											}
+											paddingBottom={1}
 										>
-											<Text
-												fontSize={24}
+											Item total:
+										</Text>
+										<Text
+											fontSize={28}
+											fontWeight={600}
+											paddingBottom={1}
+										>
+											{formatCentsAsDollars(
+												shoppingCart.itemPriceTotal,
+											)}
+										</Text>
+									</HStack>
 
-												paddingBottom={1}
-											>
-												Item total:
-											</Text>
-											<Text
-												fontSize={28}
-												fontWeight={600}
-												paddingBottom={1}
-											>
-												{formatCentsAsDollars(
-													shoppingCart.itemPriceTotal,
-												)}
-											</Text>
-										</HStack>
-
-										<HStack h={50}>
-											{applePay.available &&
-												applePay.paymentRequest && (
-													<ApplePayButton
-														paymentRequest={
-															applePay.paymentRequest
-														}
-														pending={
-															applePay.pending
-														}
-													/>
-												)}
-											<Button
-												h="100%"
-												fontSize={26}
-												flex={1}
-												onClick={() => {
-													navigate(
-														CLIENT_ROUTES.checkout,
-													);
-													props.onClose();
-												}}
-												alignSelf="flex-end"
-											>
-												Checkout
-												<FaArrowCircleRight />
-											</Button>
-										</HStack>
-									</Stack>
-								)}
-							</Stack>
-						</Drawer.Body>
-					</Drawer.Content>
-				</Drawer.Positioner>
-			</Drawer.Root>
-		</>
+									<HStack h={50}>
+										{applePay.available &&
+											applePay.paymentRequest && (
+												<ApplePayButton
+													paymentRequest={
+														applePay.paymentRequest
+													}
+													pending={
+														applePay.pending
+													}
+												/>
+											)}
+										<Button
+											h="100%"
+											fontSize={26}
+											flex={1}
+											onClick={() => {
+												navigate(
+													CLIENT_ROUTES.checkout,
+												);
+												props.onClose();
+											}}
+											alignSelf="flex-end"
+										>
+											Checkout
+											<FaArrowCircleRight />
+										</Button>
+									</HStack>
+								</Stack>
+							)}
+						</Stack>
+					</Drawer.Body>
+				</Drawer.Content>
+			</Drawer.Positioner>
+		</Drawer.Root>
 	);
 };

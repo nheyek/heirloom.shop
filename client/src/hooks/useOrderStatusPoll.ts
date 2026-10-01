@@ -31,11 +31,10 @@ export const useOrderStatusPoll = () => {
 		accessKey: string,
 		callbacks: {
 			onSuccess?: () => void;
-			onSettled?: () => void;
 			onTimeout?: () => void;
 		} = {},
 	) => {
-		const { onSuccess, onSettled, onTimeout } = callbacks;
+		const { onSuccess, onTimeout } = callbacks;
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
@@ -48,14 +47,12 @@ export const useOrderStatusPoll = () => {
 			) {
 				stopPolling();
 				onSuccess?.();
-				onSettled?.();
 				clearCart();
 				navigate(`/${CLIENT_ROUTES.orderConfirmed}`, {
 					state: { shortId, accessKey },
 				});
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				stopPolling();
-				onSettled?.();
 				onTimeout?.();
 			}
 		}, POLL_INTERVAL_MS);
