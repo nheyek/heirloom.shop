@@ -1,5 +1,5 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Check, Entity, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { FeaturedListing } from './FeaturedListing.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingPersonalizationProfile } from './ListingPersonalizationProfile.js';
@@ -10,6 +10,7 @@ import { Shop } from './Shop.js';
 import { UserFavoriteListing } from './UserFavoriteListing.js';
 
 @Entity()
+@Check({ name: 'listing_inventory_nonnegative', expression: 'inventory >= 0' })
 export class Listing {
 
   @PrimaryKey()

@@ -20,7 +20,7 @@ import { fieldErrorColor } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	deriveCombinationsList,
-	resolveEffectiveCombinationImage,
+	resolveEffectiveCombinationImages,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
 import { useState } from 'react';
@@ -136,11 +136,11 @@ export const CombinationGrid = ({
 							combinations[key] ?? DEFAULT_ENTRY;
 						const isDisabled = entry.disabled;
 						const effectiveImage =
-							resolveEffectiveCombinationImage(
+							resolveEffectiveCombinationImages(
 								optionMap,
 								combinations,
 								variations,
-							);
+							)[0] ?? null;
 						const effectivePrice =
 							resolveEffectiveCombinationPrice(
 								optionMap,

@@ -1,9 +1,10 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
-import { Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Check, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from '@mikro-orm/decorators/es';
 import { AppOrderItem } from './AppOrderItem.js';
 import { AppUser } from './AppUser.js';
 
 @Entity()
+@Check({ name: 'app_order_short_id_nonempty', expression: 'short_id <> \'\'::text' })
 export class AppOrder {
 
   @PrimaryKey()

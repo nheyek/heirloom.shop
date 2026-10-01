@@ -741,8 +741,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_6_patina_image_uuid),
-                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_6_raffia_image_uuid)
+                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_6_patina_image_uuid)),
+                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_6_raffia_image_uuid))
                     )
                 )
             ),
@@ -758,8 +758,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_10_patina_image_uuid),
-                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_10_raffia_image_uuid)
+                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_10_patina_image_uuid)),
+                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_10_raffia_image_uuid))
                     )
                 )
             ),
@@ -775,8 +775,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuid', listing_12_patina_image_uuid),
-                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuid', listing_12_raffia_image_uuid)
+                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_12_patina_image_uuid)),
+                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_12_raffia_image_uuid))
                     )
                 )
             ),
@@ -796,10 +796,10 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', null, 'imageUuid', listing_34_small_hero_image_uuid),
-                        listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', null, 'imageUuid', listing_34_medium_hero_image_uuid),
-                        listing_34_size_large_id,  jsonb_build_object('name', 'Large',       'order', 2, 'priceCents', null, 'imageUuid', listing_34_large_hero_image_uuid),
-                        listing_34_size_xl_id,     jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', null, 'imageUuid', listing_34_xl_hero_image_uuid)
+                        listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_small_hero_image_uuid)),
+                        listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_medium_hero_image_uuid)),
+                        listing_34_size_large_id,  jsonb_build_object('name', 'Large',       'order', 2, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_large_hero_image_uuid)),
+                        listing_34_size_xl_id,     jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_xl_hero_image_uuid))
                     )
                 )
             ),
@@ -829,9 +829,9 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_21_height_medium_id, jsonb_build_object('name', '3.5"', 'order', 0, 'priceCents', null, 'imageUuid', listing_21_medium_hero_image_uuid),
-                        listing_21_height_large_id,  jsonb_build_object('name', '6"',   'order', 1, 'priceCents', null, 'imageUuid', listing_21_large_hero_image_uuid),
-                        listing_21_height_xl_id,     jsonb_build_object('name', '9"',   'order', 2, 'priceCents', null, 'imageUuid', listing_21_xl_hero_image_uuid)
+                        listing_21_height_medium_id, jsonb_build_object('name', '3.5"', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_medium_hero_image_uuid)),
+                        listing_21_height_large_id,  jsonb_build_object('name', '6"',   'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_large_hero_image_uuid)),
+                        listing_21_height_xl_id,     jsonb_build_object('name', '9"',   'order', 2, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_xl_hero_image_uuid))
                     )
                 )
             ),

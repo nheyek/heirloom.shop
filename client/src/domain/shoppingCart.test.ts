@@ -97,7 +97,7 @@ describe('isCartItemValid', () => {
 							name: 'M',
 							order: 0,
 							priceCents: null,
-							imageUuid: null,
+							imageUuids: [],
 						},
 					},
 				},

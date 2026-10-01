@@ -2,7 +2,7 @@ import { createListCollection } from '@chakra-ui/react';
 import { ListingPageData } from '@heirloom/common/contract';
 import {
 	isVariationOptionDisabled,
-	resolveEffectiveCombinationImage,
+	resolveEffectiveCombinationImages,
 } from '@heirloom/common/domain/listing';
 import { useEffect, useState } from 'react';
 
@@ -37,24 +37,22 @@ export const useVariationSelection = (
 		});
 	};
 
-	const effectiveImageUuid = listingData
-		? resolveEffectiveCombinationImage(
+	const effectiveImageUuids = listingData
+		? resolveEffectiveCombinationImages(
 				selectedVariationOptions,
 				listingData.combinations,
 				listingData.variations,
 			)
-		: null;
+		: [];
 
-	// Effective image first, then the rest in their original order.
+	// Effective images first, then the rest in their original order.
 	const orderedImageUuids = listingData
-		? effectiveImageUuid
-			? [
-					effectiveImageUuid,
-					...listingData.imageUuids.filter(
-						(uuid) => uuid !== effectiveImageUuid,
-					),
-				]
-			: listingData.imageUuids
+		? [
+				...effectiveImageUuids,
+				...listingData.imageUuids.filter(
+					(uuid) => !effectiveImageUuids.includes(uuid),
+				),
+			]
 		: [];
 
 	const variationCollections: VariationCollection[] = listingData
@@ -91,7 +89,7 @@ export const useVariationSelection = (
 	return {
 		selectedVariationOptions,
 		selectOption,
-		effectiveImageUuid,
+		effectiveImageUuids,
 		orderedImageUuids,
 		variationCollections,
 		allVariationsSelected,

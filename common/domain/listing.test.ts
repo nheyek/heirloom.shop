@@ -27,7 +27,7 @@ const makeVariation = (
 				name: id,
 				order: o.order,
 				priceCents: o.priceCents ?? null,
-				imageUuid: null,
+				imageUuids: [],
 			},
 		]),
 	),

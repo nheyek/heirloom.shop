@@ -54,7 +54,7 @@ const OPTION_IMG_W = 32;
 type OptionEntry = {
 	name: string;
 	priceCents: number | null;
-	imageUuid: string | null;
+	imageUuids: string[];
 	imagePreviewUrl: string | null;
 	imageUploading: boolean;
 };
@@ -161,12 +161,12 @@ const OptionRow = ({
 								URL.createObjectURL(file);
 							onChange({
 								imagePreviewUrl: previewUrl,
-								imageUuid: null,
+								imageUuids: [],
 								imageUploading: true,
 							});
 							const uuid = await uploadImage(file);
 							onChange({
-								imageUuid: uuid,
+								imageUuids: uuid ? [uuid] : [],
 								imageUploading: false,
 							});
 						}}
@@ -282,14 +282,14 @@ export const VariationDialog = ({
 		{
 			name: '',
 			priceCents: null,
-			imageUuid: null,
+			imageUuids: [],
 			imagePreviewUrl: null,
 			imageUploading: false,
 		},
 		{
 			name: '',
 			priceCents: null,
-			imageUuid: null,
+			imageUuids: [],
 			imagePreviewUrl: null,
 			imageUploading: false,
 		},
@@ -323,7 +323,7 @@ export const VariationDialog = ({
 			options: opts.map((o) => ({
 				name: o.name,
 				priceCents: o.priceCents,
-				imageUuid: o.imageUuid,
+				imageUuids: o.imageUuids,
 			})),
 		});
 
@@ -344,15 +344,21 @@ export const VariationDialog = ({
 				const sorted = Object.entries(initial.options).sort(
 					(a, b) => a[1].order - b[1].order,
 				);
-				const initialOptions = sorted.map(([, o]) => ({
-					name: o.name,
-					priceCents: o.priceCents,
-					imageUuid: o.imageUuid,
-					imagePreviewUrl: o.imageUuid
-						? listingImageUrl(shopShortId, o.imageUuid)
-						: null,
-					imageUploading: false,
-				}));
+				const initialOptions = sorted.map(([, o]) => {
+					const imageUuids = o.imageUuids ?? [];
+					return {
+						name: o.name,
+						priceCents: o.priceCents,
+						imageUuids,
+						imagePreviewUrl: imageUuids[0]
+							? listingImageUrl(
+									shopShortId,
+									imageUuids[0],
+								)
+							: null,
+						imageUploading: false,
+					};
+				});
 				setName(initial.name);
 				setPricesVary(initial.pricesVary);
 				setImagesVary(initial.imagesVary);
@@ -369,14 +375,14 @@ export const VariationDialog = ({
 					{
 						name: '',
 						priceCents: null,
-						imageUuid: null,
+						imageUuids: [],
 						imagePreviewUrl: null,
 						imageUploading: false,
 					},
 					{
 						name: '',
 						priceCents: null,
-						imageUuid: null,
+						imageUuids: [],
 						imagePreviewUrl: null,
 						imageUploading: false,
 					},
@@ -424,7 +430,7 @@ export const VariationDialog = ({
 			{
 				name: '',
 				priceCents: null,
-				imageUuid: null,
+				imageUuids: [],
 				imagePreviewUrl: null,
 				imageUploading: false,
 			},
@@ -501,7 +507,7 @@ export const VariationDialog = ({
 					name: options[i].name.trim(),
 					order: i,
 					priceCents: options[i].priceCents,
-					imageUuid: options[i].imageUuid,
+					imageUuids: options[i].imageUuids,
 				},
 			]),
 		);

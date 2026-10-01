@@ -274,8 +274,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: i,
 				options: {
-					a: { name: 'A', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'B', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'A', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'B', order: 1, priceCents: null, imageUuids: [] },
 				},
 			};
 		}
@@ -294,8 +294,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -318,8 +318,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -342,8 +342,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -408,8 +408,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -440,8 +440,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -471,8 +471,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -502,8 +502,8 @@ describe('validateListingFields', () => {
 				imagesVary: false,
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};

@@ -107,7 +107,7 @@ describe('calculateCheckoutTotals', () => {
 				makeListing('abc', 1000, {
 					variations: {
 						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
-							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: null, imageUuid: null },
+							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: null, imageUuids: [] },
 						}},
 					},
 					combinations: { [key]: makeCombination(1500) },
@@ -128,7 +128,7 @@ describe('calculateCheckoutTotals', () => {
 				makeListing('abc', 1000, {
 					variations: {
 						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
-							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: 2500, imageUuid: null },
+							[OPT_LARGE]: { name: 'Large', order: 0, priceCents: 2500, imageUuids: [] },
 						}},
 					},
 					combinations: { [key]: { priceCents: null, imageUuid: null, disabled: false } },
@@ -149,7 +149,7 @@ describe('calculateCheckoutTotals', () => {
 				makeListing('abc', 1000, {
 					variations: {
 						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: {
-							[OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
+							[OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
 						}},
 					},
 					combinations: { [key]: { priceCents: null, imageUuid: null, disabled: false } },
@@ -213,7 +213,7 @@ describe('calculateCheckoutTotals', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuids: [] }} },
 					},
 				}),
 			],
@@ -232,7 +232,7 @@ describe('calculateCheckoutTotals', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuids: [] }} },
 					},
 					combinations: { [key]: { priceCents: 1000, imageUuid: null, disabled: true } },
 				}),
@@ -432,7 +432,7 @@ describe('createOrderItemSnapshots', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuids: [] }} },
 					},
 				}),
 			],
@@ -451,7 +451,7 @@ describe('createOrderItemSnapshots', () => {
 			listings: [
 				makeListing('abc', 1000, {
 					variations: {
-						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuid: null }} },
+						[VAR_ID]: { name: 'Size', pricesVary: true, order: 0, options: { [OPT_SMALL]: { name: 'Small', order: 0, priceCents: null, imageUuids: [] }} },
 					},
 					combinations: { [key]: { priceCents: 1000, imageUuid: null, disabled: true } },
 				}),

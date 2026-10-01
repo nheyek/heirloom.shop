@@ -218,6 +218,34 @@ export const ListingFormFields = ({
 						</WrapItem>
 					</Wrap>
 
+					<FormField label="Variations">
+						<Stack gap={2}>
+							{sortedVariations.length > 0 && (
+								<SortableFieldList
+									items={sortedVariations.map(
+										([id, v]) => ({
+											id,
+											label: v.name,
+										}),
+									)}
+									onEdit={openEditVariation}
+									onDelete={form.removeVariation}
+									onReorder={form.reorderVariations}
+									disabled={disabled}
+								/>
+							)}
+							{sortedVariations.length <
+								LISTING_LIMITS.maxVariations && (
+								<AddFieldButton
+									onClick={openAddVariation}
+									disabled={disabled}
+								>
+									Add Variation
+								</AddFieldButton>
+							)}
+						</Stack>
+					</FormField>
+
 					<FormField
 						label="Images"
 						error={form.imageError}
@@ -427,34 +455,6 @@ export const ListingFormFields = ({
 							</FormField>
 						</WrapItem>
 					</Wrap>
-
-					<FormField label="Variations">
-						<Stack gap={2}>
-							{sortedVariations.length > 0 && (
-								<SortableFieldList
-									items={sortedVariations.map(
-										([id, v]) => ({
-											id,
-											label: v.name,
-										}),
-									)}
-									onEdit={openEditVariation}
-									onDelete={form.removeVariation}
-									onReorder={form.reorderVariations}
-									disabled={disabled}
-								/>
-							)}
-							{sortedVariations.length <
-								LISTING_LIMITS.maxVariations && (
-								<AddFieldButton
-									onClick={openAddVariation}
-									disabled={disabled}
-								>
-									Add Variation
-								</AddFieldButton>
-							)}
-						</Stack>
-					</FormField>
 				</Stack>
 			</Fieldset.Root>
 

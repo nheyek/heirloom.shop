@@ -21,7 +21,7 @@ export type VariationOption = {
 	name: string;
 	order: number;
 	priceCents: number | null;
-	imageUuid: string | null;
+	imageUuids: string[];
 };
 
 export type Variation = {
@@ -292,22 +292,22 @@ export const getListingDisplayPrice = (
 		: null;
 };
 
-export const resolveEffectiveCombinationImage = (
+export const resolveEffectiveCombinationImages = (
 	optionMap: Record<string, string>,
 	combinations: Combinations,
 	variations: Variations,
-): string | null => {
+): string[] => {
 	const key = getCombinationKey(optionMap);
 	if (combinations[key]?.imageUuid != null)
-		return combinations[key].imageUuid;
+		return [combinations[key].imageUuid];
 	const sorted = Object.entries(variations)
 		.filter(([, v]) => v.imagesVary)
 		.sort(([, a], [, b]) => a.order - b.order);
 	for (const [varId, v] of sorted) {
-		const img = v.options[optionMap[varId]]?.imageUuid ?? null;
-		if (img != null) return img;
+		const imgs = v.options[optionMap[varId]]?.imageUuids ?? [];
+		if (imgs.length > 0) return imgs;
 	}
-	return null;
+	return [];
 };
 
 export type ListingInventoryContext = {

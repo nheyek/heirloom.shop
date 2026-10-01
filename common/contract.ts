@@ -24,7 +24,7 @@ const VariationOptionSchema = z.object({
 	name: z.string(),
 	order: z.number(),
 	priceCents: z.number().nullable(),
-	imageUuid: z.string().nullable(),
+	imageUuids: z.array(z.string()),
 });
 
 const VariationSchema = z.object({
