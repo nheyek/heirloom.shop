@@ -125,35 +125,35 @@ resource "digitalocean_app" "heirloom" {
 
       env {
         key   = "STRIPE_SECRET_KEY"
-        value = var.stripe_secret_key
+        value = var.STRIPE_SECRET_KEY
         scope = "RUN_TIME"
         type  = "SECRET"
       }
 
       env {
         key   = "STRIPE_WEBHOOK_SECRET"
-        value = var.stripe_webhook_secret
+        value = var.STRIPE_WEBHOOK_SECRET
         scope = "RUN_TIME"
         type  = "SECRET"
       }
 
       env {
         key   = "RESEND_API_KEY"
-        value = var.resend_api_key
+        value = var.RESEND_API_KEY
         scope = "RUN_TIME"
         type  = "SECRET"
       }
 
       env {
         key   = "DO_SPACES_KEY"
-        value = var.do_spaces_key
+        value = var.DO_SPACES_KEY
         scope = "RUN_TIME"
         type  = "SECRET"
       }
 
       env {
         key   = "DO_SPACES_SECRET"
-        value = var.do_spaces_secret
+        value = var.DO_SPACES_SECRET
         scope = "RUN_TIME"
         type  = "SECRET"
       }

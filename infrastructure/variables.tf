@@ -41,27 +41,27 @@ variable "cdn_custom_domain" {
   type        = string
 }
 
-variable "stripe_secret_key" {
+variable "STRIPE_SECRET_KEY" {
   type      = string
   sensitive = true
 }
 
-variable "stripe_webhook_secret" {
+variable "STRIPE_WEBHOOK_SECRET" {
   type      = string
   sensitive = true
 }
 
-variable "resend_api_key" {
+variable "RESEND_API_KEY" {
   type      = string
   sensitive = true
 }
 
-variable "do_spaces_key" {
+variable "DO_SPACES_KEY" {
   type      = string
   sensitive = true
 }
 
-variable "do_spaces_secret" {
+variable "DO_SPACES_SECRET" {
   type      = string
   sensitive = true
 }
