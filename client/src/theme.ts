@@ -16,6 +16,10 @@ export const defaultFontFamily = 'Alegreya Sans';
 
 export const animationName = {
 	itemGridEnter: 'item-grid-enter',
+	cardSwipe: 'card-swipe',
+	signalArcOne: 'signal-arc-one',
+	signalArcTwo: 'signal-arc-two',
+	signalArcThree: 'signal-arc-three',
 };
 
 export const navbarHeight = 68;
@@ -146,6 +150,35 @@ export const config = defineConfig({
 		[`@keyframes ${animationName.itemGridEnter}`]: {
 			from: { opacity: 0 },
 			to: { opacity: 1 },
+		} as any,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[`@keyframes ${animationName.cardSwipe}`]: {
+			'0%': { top: '0px' },
+			'45%': { top: '0px' },
+			'55%': { top: '-87px' },
+			'75%': { top: '-87px' },
+			'85%': { top: '0px' },
+			'100%': { top: '0px' },
+		} as any,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[`@keyframes ${animationName.signalArcOne}`]: {
+			'0%': { opacity: 0.3 },
+			'10%': { opacity: 1 },
+			'100%': { opacity: 1 },
+		} as any,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[`@keyframes ${animationName.signalArcTwo}`]: {
+			'0%': { opacity: 0.3 },
+			'40%': { opacity: 0.3 },
+			'50%': { opacity: 1 },
+			'100%': { opacity: 1 },
+		} as any,
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		[`@keyframes ${animationName.signalArcThree}`]: {
+			'0%': { opacity: 0.3 },
+			'70%': { opacity: 0.3 },
+			'80%': { opacity: 1 },
+			'100%': { opacity: 1 },
 		} as any,
 		'html, body': {
 			touchAction: 'pan-y',

@@ -1,7 +1,6 @@
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import { useEffect, useRef } from 'react';
@@ -33,9 +32,10 @@ export const useOrderStatusPoll = () => {
 		callbacks: {
 			onSuccess?: () => void;
 			onSettled?: () => void;
+			onTimeout?: () => void;
 		} = {},
 	) => {
-		const { onSuccess, onSettled } = callbacks;
+		const { onSuccess, onSettled, onTimeout } = callbacks;
 		let attempts = 0;
 		pollIntervalRef.current = setInterval(async () => {
 			attempts++;
@@ -56,10 +56,7 @@ export const useOrderStatusPoll = () => {
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				stopPolling();
 				onSettled?.();
-				toastError(
-					'Payment confirmation is taking longer than expected',
-					'Check your email for order confirmation, or contact support if you were charged.',
-				);
+				onTimeout?.();
 			}
 		}, POLL_INTERVAL_MS);
 	};

@@ -36,7 +36,9 @@ const buildDisplayItems = (
 ];
 
 const splitRecipientName = (recipient: string | undefined) => {
-	const [firstName = '', ...rest] = (recipient ?? '').trim().split(/\s+/);
+	const [firstName = '', ...rest] = (recipient ?? '')
+		.trim()
+		.split(/\s+/);
 	return { firstName, lastName: rest.join(' ') || firstName };
 };
 
@@ -50,12 +52,15 @@ export const useApplePayCheckout = (onClose: () => void) => {
 	const stripe = useStripe();
 	const apiClient = useApiClient();
 	const { pollUntilPaid } = useOrderStatusPoll();
-	const { items, itemPriceTotal, shippingTotal } = useShoppingCart();
+	const { items, itemPriceTotal, shippingTotal } =
+		useShoppingCart();
 
 	const [paymentRequest, setPaymentRequest] =
 		useState<PaymentRequest | null>(null);
 	const [available, setAvailable] = useState(false);
 	const [pending, setPending] = useState(false);
+	const [confirmationTimedOut, setConfirmationTimedOut] =
+		useState(false);
 
 	const cartRef = useRef<CartSnapshot>({
 		items: simplifyCartItems(items),
@@ -143,6 +148,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 
 		pr.on('paymentmethod', async (event) => {
 			setPending(true);
+			setConfirmationTimedOut(false);
 
 			try {
 				const address = event.shippingAddress;
@@ -189,7 +195,10 @@ export const useApplePayCheckout = (onClose: () => void) => {
 				if (submitResult.error !== null) {
 					event.complete('fail');
 					setPending(false);
-					toastError('Failed to submit order', submitResult.error);
+					toastError(
+						'Failed to submit order',
+						submitResult.error,
+					);
 					return;
 				}
 
@@ -233,6 +242,7 @@ export const useApplePayCheckout = (onClose: () => void) => {
 				pollUntilPaid(orderShortId, accessKey, {
 					onSuccess: onClose,
 					onSettled: () => setPending(false),
+					onTimeout: () => setConfirmationTimedOut(true),
 				});
 			} catch {
 				event.complete('fail');
@@ -254,7 +264,9 @@ export const useApplePayCheckout = (onClose: () => void) => {
 			total: {
 				label: PAYMENT_REQUEST_LABEL,
 				amount:
-					itemPriceTotal + shippingTotal + taxCentsRef.current,
+					itemPriceTotal +
+					shippingTotal +
+					taxCentsRef.current,
 			},
 			displayItems: buildDisplayItems(
 				itemPriceTotal,
@@ -264,5 +276,12 @@ export const useApplePayCheckout = (onClose: () => void) => {
 		});
 	}, [paymentRequest, itemPriceTotal, shippingTotal]);
 
-	return { paymentRequest, available, pending };
+	return {
+		paymentRequest,
+		available,
+		pending,
+		confirmationTimedOut,
+		dismissConfirmationTimeout: () =>
+			setConfirmationTimedOut(false),
+	};
 };

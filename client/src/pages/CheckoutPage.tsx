@@ -14,6 +14,7 @@ import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPayment
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
+import { OrderConfirmationDialog } from '@client/components/checkout/OrderConfirmationDialog';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { CLIENT_ROUTES, Layout } from '@client/constants';
@@ -52,7 +53,9 @@ export const CheckoutPage = () => {
 		hydrateCart,
 	} = useShoppingCart();
 
-	const [pendingSubmit, setPendingSubmit] = useState(false);
+	const [pendingSubmit, setPendingSubmit] = useState(true); // TEMP: force open for visual check
+	const [confirmationTimedOut, setConfirmationTimedOut] =
+		useState(false);
 	const shippingFormRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
@@ -79,6 +82,7 @@ export const CheckoutPage = () => {
 		if (!stripe || !elements) return;
 
 		setPendingSubmit(true);
+		setConfirmationTimedOut(false);
 
 		if (!(await validateAddressDeliverable())) {
 			setPendingSubmit(false);
@@ -144,6 +148,7 @@ export const CheckoutPage = () => {
 		} else {
 			pollUntilPaid(orderShortId, accessKey, {
 				onSettled: () => setPendingSubmit(false),
+				onTimeout: () => setConfirmationTimedOut(true),
 			});
 		}
 	};
@@ -152,6 +157,14 @@ export const CheckoutPage = () => {
 		base: Layout.MOBILE,
 		md: Layout.DESKTOP,
 	});
+
+	const confirmationDialog = (
+		<OrderConfirmationDialog
+			pending={pendingSubmit}
+			timedOut={confirmationTimedOut}
+			onDismissTimeout={() => setConfirmationTimedOut(false)}
+		/>
+	);
 
 	if (itemQuantityTotal === 0) {
 		return (
@@ -162,6 +175,7 @@ export const CheckoutPage = () => {
 				left={0}
 				right={0}
 			>
+				{confirmationDialog}
 				<ShoppingCartEmptyMessage
 					onClick={() => navigate('/')}
 				/>
@@ -172,6 +186,7 @@ export const CheckoutPage = () => {
 	if (layout === Layout.MOBILE) {
 		return (
 			<Stack gap={0}>
+				{confirmationDialog}
 				<Stack
 					p={5}
 					gap={5}
@@ -230,6 +245,7 @@ export const CheckoutPage = () => {
 			px={4}
 			mx="auto"
 		>
+			{confirmationDialog}
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}

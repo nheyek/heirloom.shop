@@ -6,6 +6,7 @@ type AppDialogProps = {
 	open: boolean;
 	onCancel: () => void;
 	pending?: boolean;
+	hideCloseButton?: boolean;
 	size?: 'xs' | 'sm' | 'md' | 'lg';
 	children?: ReactNode;
 	footer?: ReactNode;
@@ -18,6 +19,7 @@ export const AppDialog = ({
 	open,
 	onCancel,
 	pending = false,
+	hideCloseButton = false,
 	size,
 	children,
 	footer,
@@ -48,13 +50,15 @@ export const AppDialog = ({
 					>
 						{title}
 					</Dialog.Title>
-					<CloseButton
-						position="absolute"
-						top={3}
-						right={3}
-						onClick={onCancel}
-						disabled={pending}
-					/>
+					{!hideCloseButton && (
+						<CloseButton
+							position="absolute"
+							top={3}
+							right={3}
+							onClick={onCancel}
+							disabled={pending}
+						/>
+					)}
 				</Dialog.Header>
 				<Dialog.Body
 					pt={0}
