@@ -32,8 +32,8 @@ import { FaShop } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
-	base: 30,
-	md: 50,
+	base: 40,
+	md: 60,
 };
 
 export const ShopPage = () => {
@@ -60,10 +60,10 @@ export const ShopPage = () => {
 	);
 
 	const responsiveBannerAspectRatio = useBreakpointValue({
-		base: 1.75,
-		md: 2.25,
-		lg: 2.75,
-		xl: 3.25,
+		base: 1.5,
+		md: 2.0,
+		lg: 2.5,
+		xl: 3.0,
 	});
 
 	useEffect(() => {
