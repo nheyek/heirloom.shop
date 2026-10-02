@@ -307,6 +307,22 @@ export const getListingImageUuids = (
 	return [...new Set(optionImages)];
 };
 
+export const getOrderedListingImageUuids = (
+	imageUuids: string[],
+	variations: Variations,
+	combinations: Combinations,
+	selectedOptions: Record<string, string>,
+): string[] => [
+	...new Set([
+		...resolveEffectiveCombinationImages(
+			selectedOptions,
+			combinations,
+			variations,
+		),
+		...getListingImageUuids(imageUuids, variations),
+	]),
+];
+
 export const resolveEffectiveCombinationImages = (
 	optionMap: Record<string, string>,
 	combinations: Combinations,
@@ -352,6 +368,26 @@ export const isVariationOptionDisabled = (
 		(combination?.disabled ?? true) ||
 		(!!trackInventory && (combination?.inventory ?? 0) === 0)
 	);
+};
+
+export type DefaultOptionSelection = {
+	selection: Record<string, string>;
+	isAvailable: boolean;
+};
+
+export const getDefaultOptionSelection = (
+	listing: ListingInventoryContext,
+): DefaultOptionSelection => {
+	const combinations = deriveCombinationsList(listing.variations);
+	if (combinations.length === 0) {
+		return { selection: {}, isAvailable: true };
+	}
+	const firstAvailable = combinations.find(({ optionMap }) =>
+		isValidCombinationSelection(optionMap, listing),
+	);
+	return firstAvailable
+		? { selection: firstAvailable.optionMap, isAvailable: true }
+		: { selection: combinations[0].optionMap, isAvailable: false };
 };
 
 export const isValidCombinationSelection = (

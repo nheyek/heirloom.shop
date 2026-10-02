@@ -1,10 +1,11 @@
 import { createListCollection } from '@chakra-ui/react';
 import { ListingPageData } from '@heirloom/common/contract';
 import {
+	getDefaultOptionSelection,
+	getOrderedListingImageUuids,
 	isVariationOptionDisabled,
-	resolveEffectiveCombinationImages,
 } from '@heirloom/common/domain/listing';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 export type VariationCollectionItem = {
 	value: string;
@@ -23,36 +24,43 @@ export type VariationCollection = {
 export const useVariationSelection = (
 	listingData: ListingPageData | null,
 ) => {
-	const [selectedVariationOptions, setSelectedVariationOptions] =
-		useState<Record<string, string>>({});
+	const [userSelection, setUserSelection] = useState<{
+		listingShortId: string;
+		options: Record<string, string>;
+	} | null>(null);
 
-	useEffect(() => {
-		setSelectedVariationOptions({});
-	}, [listingData]);
+	const defaultOptions = useMemo(
+		() =>
+			listingData
+				? getDefaultOptionSelection(listingData)
+				: null,
+		[listingData],
+	);
+
+	const selectedVariationOptions =
+		userSelection &&
+		userSelection.listingShortId === listingData?.shortId
+			? userSelection.options
+			: (defaultOptions?.selection ?? {});
 
 	const selectOption = (variationId: string, optionId: string) => {
-		setSelectedVariationOptions({
-			...selectedVariationOptions,
-			[variationId]: optionId,
+		if (!listingData) return;
+		setUserSelection({
+			listingShortId: listingData.shortId,
+			options: {
+				...selectedVariationOptions,
+				[variationId]: optionId,
+			},
 		});
 	};
 
-	const effectiveImageUuids = listingData
-		? resolveEffectiveCombinationImages(
-				selectedVariationOptions,
-				listingData.combinations,
-				listingData.variations,
-			)
-		: [];
-
-	// Effective images first, then the rest in their original order.
 	const orderedImageUuids = listingData
-		? [
-				...effectiveImageUuids,
-				...listingData.imageUuids.filter(
-					(uuid) => !effectiveImageUuids.includes(uuid),
-				),
-			]
+		? getOrderedListingImageUuids(
+				listingData.imageUuids,
+				listingData.variations,
+				listingData.combinations,
+				selectedVariationOptions,
+			)
 		: [];
 
 	const variationCollections: VariationCollection[] = listingData
@@ -63,9 +71,7 @@ export const useVariationSelection = (
 					name: variation.name,
 					collection: createListCollection({
 						items: Object.entries(variation.options)
-							.sort(
-								([, a], [, b]) => a.order - b.order,
-							)
+							.sort(([, a], [, b]) => a.order - b.order)
 							.map(([optId, option]) => ({
 								value: optId,
 								label: option.name,
@@ -89,7 +95,7 @@ export const useVariationSelection = (
 	return {
 		selectedVariationOptions,
 		selectOption,
-		effectiveImageUuids,
+		hasAvailableOption: defaultOptions?.isAvailable ?? true,
 		orderedImageUuids,
 		variationCollections,
 		allVariationsSelected,

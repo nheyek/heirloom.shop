@@ -27,6 +27,7 @@ export const mapListingToApiResponseData = (
 	shopTitle: listing.shop.title,
 	imageUuids: listing.imageUuids,
 	available: listing.available,
+	trackInventory: listing.trackInventory,
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.combinations ?? {}) as CombinationsData,
 });

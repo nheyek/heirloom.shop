@@ -78,6 +78,7 @@ export const ListingPage = () => {
 		orderedImageUuids,
 		variationCollections,
 		allVariationsSelected,
+		hasAvailableOption,
 	} = useVariationSelection(listingData);
 	const personalization = usePersonalization();
 
@@ -139,7 +140,9 @@ export const ListingPage = () => {
 		: null;
 
 	const isPurchasable = !!(
-		listingData?.available && !listingData?.outOfStock
+		listingData?.available &&
+		!listingData?.outOfStock &&
+		hasAvailableOption
 	);
 
 	const deliveryEstimate = getDeliveryEstimateDisplay(profiles);
@@ -274,31 +277,35 @@ export const ListingPage = () => {
 							gap={5}
 							width="100%"
 						>
-							{variationCollections.length > 0 && (
-								<Stack gap={3}>
-									{variationCollections.map(
-										(variation) => (
-											<VariationSelect
-												key={variation.id}
-												variation={variation}
-												value={
-													selectedVariationOptions[
-														variation.id
-													]
-												}
-												onChange={(
-													optionId,
-												) =>
-													selectOption(
-														variation.id,
+							{isPurchasable &&
+								variationCollections.length > 0 && (
+									<Stack gap={3}>
+										{variationCollections.map(
+											(variation) => (
+												<VariationSelect
+													key={variation.id}
+													variation={
+														variation
+													}
+													value={
+														selectedVariationOptions[
+															variation
+																.id
+														]
+													}
+													onChange={(
 														optionId,
-													)
-												}
-											/>
-										),
-									)}
-								</Stack>
-							)}
+													) =>
+														selectOption(
+															variation.id,
+															optionId,
+														)
+													}
+												/>
+											),
+										)}
+									</Stack>
+								)}
 							{personalizationProfile && (
 								<PersonalizationOption
 									profile={personalizationProfile}

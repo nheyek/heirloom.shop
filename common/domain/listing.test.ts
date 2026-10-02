@@ -4,7 +4,9 @@ import {
 	ListingInventoryContext,
 	Variations,
 	getCombinationKey,
+	getDefaultOptionSelection,
 	getListingDisplayPrice,
+	getOrderedListingImageUuids,
 	isListingOutOfStock,
 	isValidCombinationSelection,
 	isVariationOptionDisabled,
@@ -697,5 +699,117 @@ describe('isValidCombinationSelection', () => {
 				context(combinations, true),
 			),
 		).toBe(true);
+	});
+});
+
+describe('getDefaultOptionSelection', () => {
+	const variations: Variations = {
+		size: makeVariation('Size', 0, false, {
+			s: { order: 0 },
+			m: { order: 1 },
+		}),
+		color: makeVariation('Color', 1, false, {
+			red: { order: 0 },
+			blue: { order: 1 },
+		}),
+	};
+	const key = (size: string, color: string) =>
+		getCombinationKey({ size, color });
+	const combo = (disabled: boolean, inventory: number) => ({
+		priceCents: null,
+		imageUuid: null,
+		disabled,
+		inventory,
+	});
+
+	it('is empty and available when there are no variations', () => {
+		expect(
+			getDefaultOptionSelection({
+				variations: {},
+				combinations: {},
+				trackInventory: false,
+			}),
+		).toEqual({ selection: {}, isAvailable: true });
+	});
+
+	it('picks the first enabled combination in variation/option order', () => {
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(true, 5),
+			[key('s', 'blue')]: combo(false, 5),
+			[key('m', 'red')]: combo(false, 5),
+			[key('m', 'blue')]: combo(false, 5),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations,
+				combinations,
+				trackInventory: false,
+			}),
+		).toEqual({
+			selection: { size: 's', color: 'blue' },
+			isAvailable: true,
+		});
+	});
+
+	it('skips combinations with no inventory when tracking inventory', () => {
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(false, 0),
+			[key('s', 'blue')]: combo(false, 0),
+			[key('m', 'red')]: combo(false, 2),
+			[key('m', 'blue')]: combo(false, 2),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations,
+				combinations,
+				trackInventory: true,
+			}).selection,
+		).toEqual({ size: 'm', color: 'red' });
+	});
+
+	it('falls back to the first option of every variation when nothing is available', () => {
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(true, 5),
+			[key('s', 'blue')]: combo(true, 5),
+			[key('m', 'red')]: combo(true, 5),
+			[key('m', 'blue')]: combo(true, 5),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations,
+				combinations,
+				trackInventory: false,
+			}),
+		).toEqual({
+			selection: { size: 's', color: 'red' },
+			isAvailable: false,
+		});
+	});
+});
+
+describe('getOrderedListingImageUuids', () => {
+	const variations: Variations = {
+		size: {
+			name: 'Size',
+			order: 0,
+			pricesVary: false,
+			imagesVary: true,
+			options: {
+				s: { name: 's', order: 0, priceCents: null, imageUuids: ['s1', 's2'] },
+				m: { name: 'm', order: 1, priceCents: null, imageUuids: ['m1'] },
+			},
+		},
+	};
+
+	it('puts the selected option images first, then the shared ones without duplicates', () => {
+		expect(
+			getOrderedListingImageUuids(['a', 's2', 'b'], variations, {}, { size: 's' }),
+		).toEqual(['s1', 's2', 'a', 'b']);
+	});
+
+	it('falls back to option images when there are no shared images', () => {
+		expect(
+			getOrderedListingImageUuids([], variations, {}, { size: 'm' }),
+		).toEqual(['m1', 's1', 's2']);
 	});
 });

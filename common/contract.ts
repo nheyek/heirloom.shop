@@ -59,6 +59,7 @@ const ListingCardDataSchema = z.object({
 	shopTitle: z.string(),
 	imageUuids: z.array(z.string()),
 	available: z.boolean(),
+	trackInventory: z.boolean(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
 });

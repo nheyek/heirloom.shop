@@ -21,8 +21,9 @@ import {
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
 import {
+	getDefaultOptionSelection,
 	getListingDisplayPrice,
-	getListingImageUuids,
+	getOrderedListingImageUuids,
 } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
@@ -82,9 +83,11 @@ export const ListingCard = ({
 		props.priceCents,
 	) ?? { priceCents: props.priceCents, isMinimum: false };
 
-	const imageUuids = getListingImageUuids(
+	const imageUuids = getOrderedListingImageUuids(
 		props.imageUuids,
 		props.variations,
+		props.combinations,
+		getDefaultOptionSelection(props).selection,
 	);
 
 	const getImageSource = (uuid: string): ImageSource => ({
