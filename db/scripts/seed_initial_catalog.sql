@@ -395,13 +395,7 @@ DECLARE
     listing_6_title VARCHAR := 'Boule Vase';
     listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
     listing_6_price_cents INT := 9800;
-    -- Combined both-colors shot, then secondary images from both color
-    -- galleries (styled group, detail shots, lifestyle). The solo raffia/
-    -- patina hero shots (below) are deliberately NOT in this list — a color
-    -- option's own image gets promoted to the front of this same list
-    -- whenever that option is selected, so keeping it in here too would
-    -- duplicate it in the gallery.
-    listing_6_image_uuids text[] := '{"72162203-35a1-4031-b129-9b7ffe3bb1dd", "4a7a09c0-5be7-4c84-bead-89cd07714e65", "e540902f-cabc-4c5b-9337-19ddb0522acd", "b9d4783b-fe29-4566-807e-25c8b27a23ce", "4d207eb2-061f-43eb-abd8-c3eb536a67f4", "3990790f-4cd8-4cba-a63e-c2f4ef793f37", "dc74a0d4-f0b2-49b8-8f21-98dbeb5c318f", "61c1a2a1-67bd-4000-bf80-e6434d80d3e7", "4634067c-fe8c-460b-8893-d81ebe215aa0"}';
+    listing_6_image_uuids text[] := '{"72162203-35a1-4031-b129-9b7ffe3bb1dd"}';
     listing_6_full_descr JSONB := '[
         {
             "title": "Details",
@@ -420,8 +414,8 @@ DECLARE
     listing_6_color_variation_id CONSTANT VARCHAR := 'ec353f9f-d888-40f1-9fd9-4095d37ab23c';
     listing_6_color_raffia_id    CONSTANT VARCHAR := '69851e94-e5af-4ab4-bffa-1188c5239fc4';
     listing_6_color_patina_id    CONSTANT VARCHAR := '244100e9-24f7-467d-8206-5c3e695d7858';
-    listing_6_raffia_image_uuid  CONSTANT VARCHAR := '2d2d82a4-f973-47fa-bf3b-d7da38045648';
-    listing_6_patina_image_uuid  CONSTANT VARCHAR := 'e0b69ba8-dbc4-4dd5-bd7a-c0daf657f054';
+    listing_6_raffia_image_uuids CONSTANT text[] := '{"2d2d82a4-f973-47fa-bf3b-d7da38045648", "3990790f-4cd8-4cba-a63e-c2f4ef793f37", "dc74a0d4-f0b2-49b8-8f21-98dbeb5c318f", "61c1a2a1-67bd-4000-bf80-e6434d80d3e7", "4634067c-fe8c-460b-8893-d81ebe215aa0"}';
+    listing_6_patina_image_uuids CONSTANT text[] := '{"e0b69ba8-dbc4-4dd5-bd7a-c0daf657f054", "4a7a09c0-5be7-4c84-bead-89cd07714e65", "e540902f-cabc-4c5b-9337-19ddb0522acd", "b9d4783b-fe29-4566-807e-25c8b27a23ce", "4d207eb2-061f-43eb-abd8-c3eb536a67f4"}';
 
     listing_10_id INT := 10;
     listing_10_short_id VARCHAR := 'Cn6Vz';
@@ -430,7 +424,7 @@ DECLARE
     listing_10_title VARCHAR := 'Cornet Vase';
     listing_10_subtitle VARCHAR := 'A vase that holds its own—designed for sweeping stems and bold florals, offering height, balance, and unmistakable character.';
     listing_10_price_cents INT := 12800;
-    listing_10_image_uuids text[] := '{"fdaf290c-c774-4e7a-9361-ebac5b1f0da6", "7f72607f-2ef2-420e-a88d-bb8031366eb6", "0d0b90b0-5400-455d-af36-2cb77e2d6b8e", "289bd6b9-b501-463b-ba33-443b7f665109", "97acb04f-56a6-4a78-8ddc-f6753f4072d5", "e8ccabe8-9b2f-40db-a6de-185381ca42a6", "bff4491b-41e3-478f-ae66-dd11c6031b6f"}';
+    listing_10_image_uuids text[] := '{"fdaf290c-c774-4e7a-9361-ebac5b1f0da6"}';
     listing_10_full_descr JSONB := '[
         {
             "title": "Details",
@@ -449,8 +443,8 @@ DECLARE
     listing_10_color_variation_id CONSTANT VARCHAR := '9ca03d37-45af-4e1e-9ceb-590169370054';
     listing_10_color_raffia_id    CONSTANT VARCHAR := '5161c2e5-f544-43fa-80e5-a63e6d39d979';
     listing_10_color_patina_id    CONSTANT VARCHAR := 'fd06615a-5966-4819-8bc7-9bbce76264cb';
-    listing_10_raffia_image_uuid  CONSTANT VARCHAR := '5950b9f5-25e0-45e7-ba15-3e3d72a61d44';
-    listing_10_patina_image_uuid  CONSTANT VARCHAR := '2a6bedc5-2397-43b4-80ef-c1ca3de733f0';
+    listing_10_raffia_image_uuids CONSTANT text[] := '{"5950b9f5-25e0-45e7-ba15-3e3d72a61d44", "97acb04f-56a6-4a78-8ddc-f6753f4072d5", "e8ccabe8-9b2f-40db-a6de-185381ca42a6", "bff4491b-41e3-478f-ae66-dd11c6031b6f"}';
+    listing_10_patina_image_uuids CONSTANT text[] := '{"2a6bedc5-2397-43b4-80ef-c1ca3de733f0", "7f72607f-2ef2-420e-a88d-bb8031366eb6", "0d0b90b0-5400-455d-af36-2cb77e2d6b8e", "289bd6b9-b501-463b-ba33-443b7f665109"}';
 
     listing_12_id INT := 12;
     listing_12_short_id VARCHAR := 'Fx8Wq';
@@ -459,7 +453,7 @@ DECLARE
     listing_12_title VARCHAR := 'Pillar Candle Holder';
     listing_12_subtitle VARCHAR := 'Ceramic pillar candle holder that fits candles up to 3 inches in diameter, in your choice of glaze.';
     listing_12_price_cents INT := 3200;
-    listing_12_image_uuids text[] := '{"86e03348-2ead-426d-9333-b650491ccd9f", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "020453e9-55e0-453f-8a30-524ad5f82278", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2", "045e400d-9603-48ca-a2ca-4efd501e2b7c", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f"}';
+    listing_12_image_uuids text[] := '{"86e03348-2ead-426d-9333-b650491ccd9f"}';
     listing_12_full_descr JSONB := '[
         {
             "title": "Details",
@@ -478,8 +472,8 @@ DECLARE
     listing_12_color_variation_id CONSTANT VARCHAR := 'a1b2c3d4-1111-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_raffia_id    CONSTANT VARCHAR := 'a1b2c3d4-2222-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_patina_id    CONSTANT VARCHAR := 'a1b2c3d4-3333-4a5b-8c9d-e1f2a3b4c5d6';
-    listing_12_raffia_image_uuid  CONSTANT VARCHAR := 'b4160501-969f-4a2f-8798-a5f8c02562c4';
-    listing_12_patina_image_uuid  CONSTANT VARCHAR := '1d56dad8-75a6-468c-9f2a-f8ff364ffde5';
+    listing_12_raffia_image_uuids CONSTANT text[] := '{"b4160501-969f-4a2f-8798-a5f8c02562c4", "045e400d-9603-48ca-a2ca-4efd501e2b7c", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f"}';
+    listing_12_patina_image_uuids CONSTANT text[] := '{"1d56dad8-75a6-468c-9f2a-f8ff364ffde5", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "020453e9-55e0-453f-8a30-524ad5f82278", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2"}';
 
     listing_13_id INT := 13;
     listing_13_short_id VARCHAR := 'Gm4Rt';
@@ -580,11 +574,7 @@ DECLARE
     listing_34_title VARCHAR := 'Nantucket Hurricane';
     listing_34_subtitle VARCHAR := 'Straight sides and a modern foot, in four sizes to scale.';
     listing_34_price_cents INT := 17000;
-    -- Group shot of all four sizes together leads the gallery, followed by
-    -- secondary lifestyle and detail images. Each size's own studio hero
-    -- shot lives only on its variation option's imageUuid, per imagesVary,
-    -- and is promoted to the front of this list when that size is selected.
-    listing_34_image_uuids text[] := '{"867fae0f-7f75-4e0a-9008-95aac1918e2c", "dedb7c8d-97e8-4652-a2ef-67e9ba5cfb6b", "bcfad4d4-0ab8-4d67-b23b-3d7ff32a2b3e", "60fe9d88-4109-460a-8d4b-7f081f25544f", "c445827a-7dcf-44c3-8c8a-76151362dbc0"}';
+    listing_34_image_uuids text[] := '{"867fae0f-7f75-4e0a-9008-95aac1918e2c", "dedb7c8d-97e8-4652-a2ef-67e9ba5cfb6b", "bcfad4d4-0ab8-4d67-b23b-3d7ff32a2b3e"}';
     listing_34_full_descr JSONB := '[
         {
             "title": "Details",
@@ -605,10 +595,10 @@ DECLARE
     listing_34_size_medium_id    CONSTANT VARCHAR := 'd4e5f6a7-3333-4b6c-9d0e-f3a4b5c6d7e8';
     listing_34_size_large_id     CONSTANT VARCHAR := 'd4e5f6a7-4444-4b6c-9d0e-f3a4b5c6d7e8';
     listing_34_size_xl_id        CONSTANT VARCHAR := 'd4e5f6a7-5555-4b6c-9d0e-f3a4b5c6d7e8';
-    listing_34_small_hero_image_uuid  CONSTANT VARCHAR := 'd6d40d5c-463c-4ca6-bbe6-e3c8be7107c7';
-    listing_34_medium_hero_image_uuid CONSTANT VARCHAR := '4eeae928-da11-4475-8fba-504a75540731';
-    listing_34_large_hero_image_uuid  CONSTANT VARCHAR := 'f49b02a6-dfb1-427d-9ea6-b665322aa44b';
-    listing_34_xl_hero_image_uuid     CONSTANT VARCHAR := 'bf02f4d0-9ad6-463b-b912-279c67e473fd';
+    listing_34_small_image_uuids CONSTANT text[] := '{"d6d40d5c-463c-4ca6-bbe6-e3c8be7107c7"}';
+    listing_34_medium_image_uuids CONSTANT text[] := '{"4eeae928-da11-4475-8fba-504a75540731"}';
+    listing_34_large_image_uuids CONSTANT text[] := '{"f49b02a6-dfb1-427d-9ea6-b665322aa44b", "60fe9d88-4109-460a-8d4b-7f081f25544f", "c445827a-7dcf-44c3-8c8a-76151362dbc0"}';
+    listing_34_xl_image_uuids CONSTANT text[] := '{"bf02f4d0-9ad6-463b-b912-279c67e473fd"}';
 
     listing_20_id INT := 20;
     listing_20_short_id VARCHAR := 'Pw8Zd';
@@ -640,11 +630,7 @@ DECLARE
     listing_21_title VARCHAR := '3" Pillar Candle';
     listing_21_subtitle VARCHAR := 'Hand-poured pillar candle in 100% pure, natural beeswax, available in three heights.';
     listing_21_price_cents INT := 2200;
-    -- Composite of all three heights side by side (bases matched to true
-    -- scale) leads the gallery, followed by secondary images from each
-    -- height. Each height's own hero shot lives only on its variation
-    -- option's imageUuid, per imagesVary.
-    listing_21_image_uuids text[] := '{"d3b3c876-f02e-46d4-a857-b651c5bba322", "f8075b34-cd2b-4818-a494-85afd406cadd", "bb06034c-dfff-42ee-a86a-0c7c430de684", "b83ce102-5c5c-45a3-b5e0-1db6b3f101db", "751e0ce1-734b-486d-8e3f-ad19cd642428", "0a611296-6b3c-4554-b4f7-8afff05d06d0", "04435024-8e95-46ff-87c6-a20918dff8e0"}';
+    listing_21_image_uuids text[] := '{"d3b3c876-f02e-46d4-a857-b651c5bba322", "f8075b34-cd2b-4818-a494-85afd406cadd", "b83ce102-5c5c-45a3-b5e0-1db6b3f101db", "0a611296-6b3c-4554-b4f7-8afff05d06d0", "04435024-8e95-46ff-87c6-a20918dff8e0"}';
     listing_21_full_descr JSONB := '[
         {
             "title": "Details",
@@ -664,9 +650,9 @@ DECLARE
     listing_21_height_medium_id    CONSTANT VARCHAR := 'b1c2d3e4-2222-4f5a-8b9c-d1e2f3a4b5c6';
     listing_21_height_large_id     CONSTANT VARCHAR := 'b1c2d3e4-3333-4f5a-8b9c-d1e2f3a4b5c6';
     listing_21_height_xl_id        CONSTANT VARCHAR := 'b1c2d3e4-4444-4f5a-8b9c-d1e2f3a4b5c6';
-    listing_21_medium_hero_image_uuid CONSTANT VARCHAR := '7ed3f224-b00a-401c-8dbb-ebb7f95c1bd1';
-    listing_21_large_hero_image_uuid  CONSTANT VARCHAR := 'e41525fd-3e18-4900-b270-2feca36ad544';
-    listing_21_xl_hero_image_uuid     CONSTANT VARCHAR := '3a8a6543-953e-44ca-b70e-6e16163fdc7c';
+    listing_21_medium_image_uuids CONSTANT text[] := '{"7ed3f224-b00a-401c-8dbb-ebb7f95c1bd1", "bb06034c-dfff-42ee-a86a-0c7c430de684"}';
+    listing_21_large_image_uuids CONSTANT text[] := '{"e41525fd-3e18-4900-b270-2feca36ad544", "751e0ce1-734b-486d-8e3f-ad19cd642428"}';
+    listing_21_xl_image_uuids CONSTANT text[] := '{"3a8a6543-953e-44ca-b70e-6e16163fdc7c"}';
 
     listing_22_id INT := 22;
     listing_22_short_id VARCHAR := 'Rz2Ck';
@@ -741,8 +727,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_6_patina_image_uuid)),
-                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_6_raffia_image_uuid))
+                        listing_6_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_6_patina_image_uuids)),
+                        listing_6_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_6_raffia_image_uuids))
                     )
                 )
             ),
@@ -758,8 +744,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_10_patina_image_uuid)),
-                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_10_raffia_image_uuid))
+                        listing_10_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_10_patina_image_uuids)),
+                        listing_10_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_10_raffia_image_uuids))
                     )
                 )
             ),
@@ -775,8 +761,8 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_12_patina_image_uuid)),
-                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_12_raffia_image_uuid))
+                        listing_12_color_patina_id, jsonb_build_object('name', 'Patina', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_12_patina_image_uuids)),
+                        listing_12_color_raffia_id, jsonb_build_object('name', 'Raffia', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_12_raffia_image_uuids))
                     )
                 )
             ),
@@ -796,10 +782,10 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_small_hero_image_uuid)),
-                        listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_medium_hero_image_uuid)),
-                        listing_34_size_large_id,  jsonb_build_object('name', 'Large',       'order', 2, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_large_hero_image_uuid)),
-                        listing_34_size_xl_id,     jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_34_xl_hero_image_uuid))
+                        listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_34_small_image_uuids)),
+                        listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_34_medium_image_uuids)),
+                        listing_34_size_large_id,  jsonb_build_object('name', 'Large',       'order', 2, 'priceCents', null, 'imageUuids', to_jsonb(listing_34_large_image_uuids)),
+                        listing_34_size_xl_id,     jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', null, 'imageUuids', to_jsonb(listing_34_xl_image_uuids))
                     )
                 )
             ),
@@ -829,9 +815,9 @@ BEGIN
                     'imagesVary', true,
                     'order', 0,
                     'options', jsonb_build_object(
-                        listing_21_height_medium_id, jsonb_build_object('name', '3.5"', 'order', 0, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_medium_hero_image_uuid)),
-                        listing_21_height_large_id,  jsonb_build_object('name', '6"',   'order', 1, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_large_hero_image_uuid)),
-                        listing_21_height_xl_id,     jsonb_build_object('name', '9"',   'order', 2, 'priceCents', null, 'imageUuids', jsonb_build_array(listing_21_xl_hero_image_uuid))
+                        listing_21_height_medium_id, jsonb_build_object('name', '3.5"', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_21_medium_image_uuids)),
+                        listing_21_height_large_id,  jsonb_build_object('name', '6"',   'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_21_large_image_uuids)),
+                        listing_21_height_xl_id,     jsonb_build_object('name', '9"',   'order', 2, 'priceCents', null, 'imageUuids', to_jsonb(listing_21_xl_image_uuids))
                     )
                 )
             ),
