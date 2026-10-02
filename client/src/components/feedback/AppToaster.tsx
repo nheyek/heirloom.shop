@@ -1,4 +1,4 @@
-import { Flex, Icon, Toast, Toaster } from '@chakra-ui/react';
+import { Flex, Icon, Stack, Toast, Toaster } from '@chakra-ui/react';
 import { ToastType, toaster } from '@client/toaster';
 import type { IconType } from 'react-icons';
 import {
@@ -16,8 +16,8 @@ export const AppToaster = () => {
 					<Toast.Root
 						maxW="90vw"
 						w="auto"
-						px={4}
-						py={2}
+						px={5}
+						py={3}
 						borderRadius={5}
 						background={
 							toast.type === ToastType.Success
@@ -40,28 +40,29 @@ export const AppToaster = () => {
 							{iconType && (
 								<Icon
 									as={iconType}
-									size="md"
+									h={22}
+									w={22}
 								/>
 							)}
-							<Flex
-								direction="column"
-								gap={0}
+							<Stack
+								gap={1}
 								minW={0}
 								flex="1"
 							>
 								<Toast.Title
-									fontSize={18}
+									fontSize={20}
 									wordBreak="break-word"
 								>
 									{toast.title}
 								</Toast.Title>
 								<Toast.Description
-									fontSize={16}
+									fontSize={18}
+
 									wordBreak="break-word"
 								>
 									{toast.description}
 								</Toast.Description>
-							</Flex>
+							</Stack>
 							{toast.action && (
 								<Toast.ActionTrigger
 									cursor="pointer"

@@ -5,7 +5,8 @@ export const ToastType = {
 	Error: 'error',
 	Info: 'info',
 } as const;
-export type ToastTypeValue = (typeof ToastType)[keyof typeof ToastType];
+export type ToastTypeValue =
+	(typeof ToastType)[keyof typeof ToastType];
 
 interface ToastAction {
 	label: string;
@@ -16,10 +17,28 @@ interface ToastOptions {
 	action?: ToastAction;
 }
 
+const TOAST_DURATION_MS = 3000;
+const TOAST_MAX_COUNT = 3;
+
 export const toaster = createToaster({
 	placement: 'top',
-	duration: 3000,
+	duration: TOAST_DURATION_MS,
 });
+
+const dismissTimers = new Map<
+	string,
+	ReturnType<typeof setTimeout>
+>();
+const activeToastIds: string[] = [];
+
+const dismiss = (id: string) => {
+	const timer = dismissTimers.get(id);
+	if (timer) clearTimeout(timer);
+	dismissTimers.delete(id);
+	const index = activeToastIds.indexOf(id);
+	if (index !== -1) activeToastIds.splice(index, 1);
+	toaster.dismiss(id);
+};
 
 const toast = (
 	type: ToastTypeValue,
@@ -27,7 +46,23 @@ const toast = (
 	description?: string,
 	options?: ToastOptions,
 ) => {
-	toaster.create({ type, title, description, action: options?.action });
+	if (activeToastIds.length >= TOAST_MAX_COUNT) {
+		dismiss(activeToastIds[0]);
+	}
+
+	const id = toaster.create({
+		type,
+		title,
+		description,
+		action: options?.action,
+		duration: Infinity,
+	});
+
+	activeToastIds.push(id);
+	dismissTimers.set(
+		id,
+		setTimeout(() => dismiss(id), TOAST_DURATION_MS),
+	);
 };
 
 export const toastSuccess = (
