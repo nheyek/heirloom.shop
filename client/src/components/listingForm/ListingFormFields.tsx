@@ -3,7 +3,9 @@ import {
 	Checkbox,
 	Fieldset,
 	HStack,
+	Span,
 	Stack,
+	Text,
 	Wrap,
 	WrapItem,
 } from '@chakra-ui/react';
@@ -247,9 +249,20 @@ export const ListingFormFields = ({
 					</FormField>
 
 					<FormField
-						label="Images"
+						label={
+							<>
+								Images
+								<InfoPopover>
+									<Text fontSize={16}>
+										These images are shown for
+										every variant of this listing.
+										Configure variant-specific
+										images in the above field.
+									</Text>
+								</InfoPopover>
+							</>
+						}
 						error={form.imageError}
-						required
 					>
 						<Box w={{ base: '100%', md: IMAGES_W }}>
 							<ListingImageUpload
@@ -317,11 +330,18 @@ export const ListingFormFields = ({
 								</Checkbox.Label>
 							</Checkbox.Root>
 							<InfoPopover>
-								Tracking inventory determines how many
-								of this listing can be purchased.
-								Un-tracked listings allow unlimited
-								purchases unless the listing is
-								disabled.
+								<Stack fontSize={16}>
+									<Span>
+										Tracking inventory determines
+										how many of this listing can
+										be purchased.
+									</Span>
+									<Span>
+										Un-tracked listings allow
+										unlimited purchases unless the
+										listing is disabled.
+									</Span>
+								</Stack>
 							</InfoPopover>
 						</HStack>
 						{form.trackInventory &&

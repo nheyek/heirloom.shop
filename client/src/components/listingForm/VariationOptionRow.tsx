@@ -79,7 +79,7 @@ export const VariationOptionRow = ({
 					borderTopWidth: 1,
 					borderTopColor: dividerColor,
 				})}
-				gap={0}
+				gap={1}
 			>
 				<HStack
 					px={2}

@@ -80,8 +80,8 @@ describe('validateInventory', () => {
 });
 
 describe('validateImageUuids', () => {
-	it('requires at least one image', () => {
-		expect(validateImageUuids([])?.message).toMatch(/at least one/i);
+	it('allows no images', () => {
+		expect(validateImageUuids([])).toBeNull();
 	});
 	it('rejects more than the max allowed images', () => {
 		const many = Array.from({ length: 21 }, () => UUID_A);
@@ -236,12 +236,12 @@ describe('validateListingFields', () => {
 		).toHaveLength(0);
 	});
 
-	it('requires images', () => {
+	it('does not require images', () => {
 		const errors = validateListingFields(
 			{ ...baseInput, imageUuids: [] },
 			{ directFulfillment: false },
 		);
-		expect(errors.some((e) => e.field === ValidationField.Images)).toBe(true);
+		expect(errors.some((e) => e.field === ValidationField.Images)).toBe(false);
 	});
 
 	it('requires a price when no variation prices vary', () => {

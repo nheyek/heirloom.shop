@@ -66,12 +66,6 @@ const UUID_RE =
 export const validateImageUuids = (
 	imageUuids: string[],
 ): FieldError | null => {
-	if (imageUuids.length === 0) {
-		return {
-			field: ValidationField.Images,
-			message: 'At least one image is required.',
-		};
-	}
 	if (imageUuids.length > LISTING_LIMITS.maxImages) {
 		return {
 			field: ValidationField.Images,

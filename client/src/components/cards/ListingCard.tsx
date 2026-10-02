@@ -20,7 +20,10 @@ import {
 } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
-import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
+import {
+	getListingDisplayPrice,
+	getListingImageUuids,
+} from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
@@ -79,6 +82,11 @@ export const ListingCard = ({
 		props.priceCents,
 	) ?? { priceCents: props.priceCents, isMinimum: false };
 
+	const imageUuids = getListingImageUuids(
+		props.imageUuids,
+		props.variations,
+	);
+
 	const getImageSource = (uuid: string): ImageSource => ({
 		url: listingImageUrl(
 			props.shopShortId,
@@ -124,8 +132,8 @@ export const ListingCard = ({
 				aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				urls={
 					props.multiImage
-						? props.imageUuids.map(getImageSource)
-						: [getImageSource(props.imageUuids[0])]
+						? imageUuids.map(getImageSource)
+						: imageUuids.slice(0, 1).map(getImageSource)
 				}
 			/>
 

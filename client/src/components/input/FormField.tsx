@@ -16,7 +16,7 @@ export const FormField = ({
 	children,
 	...rest
 }: FieldRootProps & {
-	label: string;
+	label: ReactNode;
 	error?: string | null;
 	children: ReactNode;
 }) => (
