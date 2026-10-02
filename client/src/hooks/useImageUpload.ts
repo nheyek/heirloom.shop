@@ -11,6 +11,8 @@ import {
 } from '@heirloom/common/constants';
 import { useCallback, useRef, useState } from 'react';
 
+const IMAGE_BACKGROUND_COLOR = '#ffffff';
+
 export type ImageEntry = {
 	previewUrl: string;
 	uuid: string | null;
@@ -69,6 +71,8 @@ const encodeJpegVariant = (
 		const ctx = canvas.getContext('2d');
 		if (!ctx)
 			return reject(new Error('Could not get canvas context'));
+		ctx.fillStyle = IMAGE_BACKGROUND_COLOR;
+		ctx.fillRect(0, 0, width, height);
 		ctx.drawImage(
 			img,
 			crop.sx,
@@ -84,7 +88,11 @@ const encodeJpegVariant = (
 			(blob) => {
 				if (!blob)
 					return reject(new Error('Canvas toBlob failed'));
-				resolve(new File([blob], fileName, { type: 'image/jpeg' }));
+				resolve(
+					new File([blob], fileName, {
+						type: 'image/jpeg',
+					}),
+				);
 			},
 			'image/jpeg',
 			quality,
@@ -265,7 +273,8 @@ export const useImageUpload = (
 				return;
 			}
 
-			const result = await getUploadUrlRef.current('image/jpeg');
+			const result =
+				await getUploadUrlRef.current('image/jpeg');
 
 			if (result === null) {
 				toastError('Failed to prepare image upload.');
@@ -317,7 +326,8 @@ export const useImageUpload = (
 	const addFiles = useCallback(
 		(files: File[]) => {
 			setImageEntries((prev) => {
-				const remaining = LISTING_LIMITS.maxImages - prev.length;
+				const remaining =
+					LISTING_LIMITS.maxImages - prev.length;
 				if (remaining <= 0) {
 					toastError(
 						`You can only add up to ${LISTING_LIMITS.maxImages} images.`,
@@ -331,12 +341,14 @@ export const useImageUpload = (
 					);
 				}
 				const startIndex = prev.length;
-				const newEntries: ImageEntry[] = accepted.map((f) => ({
-					previewUrl: URL.createObjectURL(f),
-					uuid: null,
-					isUploading: true,
-					uploadFailed: false,
-				}));
+				const newEntries: ImageEntry[] = accepted.map(
+					(f) => ({
+						previewUrl: URL.createObjectURL(f),
+						uuid: null,
+						isUploading: true,
+						uploadFailed: false,
+					}),
+				);
 				accepted.forEach((file, i) =>
 					uploadFile(file, startIndex + i),
 				);
@@ -375,7 +387,8 @@ export const useImageUpload = (
 				return uploadCache.current.get(hash)!;
 			}
 
-			const result = await getUploadUrlRef.current('image/jpeg');
+			const result =
+				await getUploadUrlRef.current('image/jpeg');
 			if (result === null) {
 				toastError('Failed to prepare image upload.');
 				return null;

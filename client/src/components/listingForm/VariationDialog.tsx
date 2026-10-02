@@ -1,25 +1,20 @@
-import {
-	Box,
-	Checkbox,
-	HStack,
-	IconButton,
-	Image,
-	Input,
-	Stack,
-} from '@chakra-ui/react';
+import { Checkbox, HStack, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
-import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { Variation } from '@client/components/listingForm/useListingForm';
+import { VariationOptionRow } from '@client/components/listingForm/VariationOptionRow';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
-import { LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
+import {
+	OptionDraft,
+	optionsSnapshot,
+	useVariationOptions,
+} from '@client/hooks/useVariationOptions';
 import { fieldErrorColor } from '@client/theme';
-import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	DndContext,
 	DragEndEvent,
@@ -32,10 +27,8 @@ import {
 import {
 	SortableContext,
 	sortableKeyboardCoordinates,
-	useSortable,
 	verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import {
 	findInvalidVariationOptionIndices,
@@ -43,217 +36,6 @@ import {
 } from '@heirloom/common/validation/listing';
 import { ValidationField } from '@heirloom/common/validation/shared';
 import React, { useEffect, useRef, useState } from 'react';
-import {
-	FaGripHorizontal,
-	FaImage,
-	FaTrashAlt,
-} from 'react-icons/fa';
-
-const OPTION_IMG_W = 32;
-
-type OptionEntry = {
-	name: string;
-	priceCents: number | null;
-	imageUuids: string[];
-	imagePreviewUrl: string | null;
-	imageUploading: boolean;
-};
-
-type OptionRowProps = {
-	id: string;
-	entry: OptionEntry;
-	invalid?: boolean;
-	// Color of the divider drawn above this row; undefined for the first row.
-	dividerColor?: string;
-	deletable?: boolean;
-	showPrice: boolean;
-	showImage: boolean;
-	inputRef?: React.RefObject<HTMLInputElement | null>;
-	onChange: (patch: Partial<OptionEntry>) => void;
-	onDelete: () => void;
-	onTabKey?: () => void;
-	uploadImage: (file: File) => Promise<string | null>;
-};
-
-const OptionRow = ({
-	id,
-	entry,
-	invalid,
-	dividerColor,
-	deletable,
-	showPrice,
-	showImage,
-	inputRef,
-	onChange,
-	onDelete,
-	onTabKey,
-	uploadImage,
-}: OptionRowProps) => {
-	const {
-		attributes,
-		listeners,
-		setNodeRef,
-		transform,
-		transition,
-		isDragging,
-	} = useSortable({ id });
-
-	const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-	return (
-		<HStack
-			ref={setNodeRef}
-			style={{
-				transform: CSS.Transform.toString(transform),
-				transition,
-				opacity: isDragging ? 0.4 : 1,
-			}}
-			{...(invalid && { bg: 'red.50' })}
-			{...(dividerColor && {
-				borderTopWidth: 1,
-				borderTopColor: dividerColor,
-			})}
-			gap={2}
-			px={2}
-			minH={12}
-			overflowX="auto"
-		>
-			{/* Drag handle */}
-			<IconButton
-				size="sm"
-				variant="ghost"
-				cursor="grab"
-				color="fg.muted"
-				alignSelf="center"
-				touchAction="none"
-				flexShrink={0}
-				{...attributes}
-				{...listeners}
-			>
-				<FaGripHorizontal />
-			</IconButton>
-			{/* Image */}
-			{showImage && (
-				<Box
-					as="button"
-					w={OPTION_IMG_W}
-					flexShrink={0}
-					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					display="flex"
-					alignItems="center"
-					justifyContent="center"
-					bg="gray.50"
-					cursor="pointer"
-					overflow="hidden"
-					mr={1}
-					onClick={() => fileInputRef.current?.click()}
-				>
-					<input
-						ref={fileInputRef}
-						type="file"
-						accept="image/*"
-						style={{ display: 'none' }}
-						onChange={async (e) => {
-							const file = e.target.files?.[0];
-							if (!file) return;
-							e.target.value = '';
-							const previewUrl =
-								URL.createObjectURL(file);
-							onChange({
-								imagePreviewUrl: previewUrl,
-								imageUuids: [],
-								imageUploading: true,
-							});
-							const uuid = await uploadImage(file);
-							onChange({
-								imageUuids: uuid ? [uuid] : [],
-								imageUploading: false,
-							});
-						}}
-					/>
-					{entry.imagePreviewUrl ? (
-						<Image
-							src={entry.imagePreviewUrl}
-							width="100%"
-							height="100%"
-							objectFit="cover"
-							opacity={entry.imageUploading ? 0.5 : 1}
-						/>
-					) : (
-						<FaImage
-							color="lightgray"
-							size={20}
-						/>
-					)}
-				</Box>
-			)}
-
-			{/* Name */}
-			<Input
-				ref={inputRef}
-				fontSize={18}
-				h={10}
-				minW={100}
-				value={entry.name}
-				onChange={(e) => onChange({ name: e.target.value })}
-				onKeyDown={(e) => {
-					if (
-						e.key === 'Tab' &&
-						!e.shiftKey &&
-						!showPrice
-					) {
-						e.preventDefault();
-						onTabKey?.();
-					}
-				}}
-				placeholder="Option name"
-				{...(showImage
-					? {
-							bg: 'white',
-							...(invalid && {
-								borderColor: fieldErrorColor,
-							}),
-						}
-					: {
-							border: 'none',
-							px: 0,
-						})}
-			/>
-
-			{/* Price */}
-			{showPrice && (
-				<Box
-					alignSelf="center"
-					flexShrink={0}
-				>
-					<PriceInput
-						value={entry.priceCents}
-						onChange={(v) => onChange({ priceCents: v })}
-						onKeyDown={(e) => {
-							if (e.key === 'Tab' && !e.shiftKey) {
-								e.preventDefault();
-								onTabKey?.();
-							}
-						}}
-						enclosed={showImage}
-					/>
-				</Box>
-			)}
-
-			{/* Delete */}
-			<IconButton
-				size="sm"
-				variant="ghost"
-				color="red.500"
-				flexShrink={0}
-				onClick={onDelete}
-				disabled={!deletable}
-			>
-				<FaTrashAlt />
-			</IconButton>
-		</HStack>
-	);
-};
 
 type Props = {
 	open: boolean;
@@ -264,6 +46,19 @@ type Props = {
 	uploadImage: (file: File) => Promise<string | null>;
 	shopShortId: string;
 };
+
+const snapshot = (
+	name: string,
+	pricesVary: boolean,
+	imagesVary: boolean,
+	options: OptionDraft[],
+) =>
+	JSON.stringify({
+		name,
+		pricesVary,
+		imagesVary,
+		options: optionsSnapshot(options),
+	});
 
 export const VariationDialog = ({
 	open,
@@ -278,26 +73,11 @@ export const VariationDialog = ({
 	const [pricesVary, setPricesVary] = useState(false);
 	const [imagesVary, setImagesVary] = useState(false);
 	const [nameError, setNameError] = useState<string | null>(null);
-	const [options, setOptions] = useState<OptionEntry[]>([
-		{
-			name: '',
-			priceCents: null,
-			imageUuids: [],
-			imagePreviewUrl: null,
-			imageUploading: false,
-		},
-		{
-			name: '',
-			priceCents: null,
-			imageUuids: [],
-			imagePreviewUrl: null,
-			imageUploading: false,
-		},
-	]);
-	const [optionIds, setOptionIds] = useState<string[]>(() => [
-		crypto.randomUUID(),
-		crypto.randomUUID(),
-	]);
+	const optionsState = useVariationOptions(
+		uploadImage,
+		shopShortId,
+	);
+	const { options } = optionsState;
 	const inputRefs = useRef<
 		React.RefObject<HTMLInputElement | null>[]
 	>([]);
@@ -309,23 +89,6 @@ export const VariationDialog = ({
 		Set<string>
 	>(new Set());
 	const initialSnapshotRef = useRef('');
-
-	const snapshot = (
-		n: string,
-		pv: boolean,
-		iv: boolean,
-		opts: OptionEntry[],
-	) =>
-		JSON.stringify({
-			name: n,
-			pricesVary: pv,
-			imagesVary: iv,
-			options: opts.map((o) => ({
-				name: o.name,
-				priceCents: o.priceCents,
-				imageUuids: o.imageUuids,
-			})),
-		});
 
 	const isDirty = () =>
 		snapshot(name, pricesVary, imagesVary, options) !==
@@ -340,76 +103,22 @@ export const VariationDialog = ({
 
 	useEffect(() => {
 		if (open) {
-			if (initial) {
-				const sorted = Object.entries(initial.options).sort(
-					(a, b) => a[1].order - b[1].order,
-				);
-				const initialOptions = sorted.map(([, o]) => {
-					const imageUuids = o.imageUuids ?? [];
-					return {
-						name: o.name,
-						priceCents: o.priceCents,
-						imageUuids,
-						imagePreviewUrl: imageUuids[0]
-							? listingImageUrl(
-									shopShortId,
-									imageUuids[0],
-								)
-							: null,
-						imageUploading: false,
-					};
-				});
-				setName(initial.name);
-				setPricesVary(initial.pricesVary);
-				setImagesVary(initial.imagesVary);
-				setOptions(initialOptions);
-				setOptionIds(sorted.map(([id]) => id));
-				initialSnapshotRef.current = snapshot(
-					initial.name,
-					initial.pricesVary,
-					initial.imagesVary,
-					initialOptions,
-				);
-			} else {
-				const initialOptions = [
-					{
-						name: '',
-						priceCents: null,
-						imageUuids: [],
-						imagePreviewUrl: null,
-						imageUploading: false,
-					},
-					{
-						name: '',
-						priceCents: null,
-						imageUuids: [],
-						imagePreviewUrl: null,
-						imageUploading: false,
-					},
-				];
-				setName('');
-				setPricesVary(false);
-				setImagesVary(false);
-				setNameError(null);
-				setOptions(initialOptions);
-				setOptionIds([
-					crypto.randomUUID(),
-					crypto.randomUUID(),
-				]);
-				initialSnapshotRef.current = snapshot(
-					'',
-					false,
-					false,
-					initialOptions,
-				);
-			}
-			setOptionsError(null);
-			setInvalidOptionIds(new Set());
-		} else {
-			setNameError(null);
-			setOptionsError(null);
-			setInvalidOptionIds(new Set());
+			const loaded = optionsState.load(
+				initial?.options ?? null,
+			);
+			setName(initial?.name ?? '');
+			setPricesVary(initial?.pricesVary ?? false);
+			setImagesVary(initial?.imagesVary ?? false);
+			initialSnapshotRef.current = snapshot(
+				initial?.name ?? '',
+				initial?.pricesVary ?? false,
+				initial?.imagesVary ?? false,
+				loaded,
+			);
 		}
+		setNameError(null);
+		setOptionsError(null);
+		setInvalidOptionIds(new Set());
 	}, [open]);
 
 	useEffect(() => {
@@ -425,17 +134,7 @@ export const VariationDialog = ({
 		if (options.length >= LISTING_LIMITS.maxOptionsPerVariation)
 			return;
 		pendingFocusIndex.current = options.length;
-		setOptions((prev) => [
-			...prev,
-			{
-				name: '',
-				priceCents: null,
-				imageUuids: [],
-				imagePreviewUrl: null,
-				imageUploading: false,
-			},
-		]);
-		setOptionIds((prev) => [...prev, crypto.randomUUID()]);
+		optionsState.add();
 		setOptionsError(null);
 	};
 
@@ -450,23 +149,14 @@ export const VariationDialog = ({
 	};
 
 	const updateOption = (
-		index: number,
-		patch: Partial<OptionEntry>,
+		id: string,
+		patch: Partial<Pick<OptionDraft, 'name' | 'priceCents'>>,
 	) => {
-		setOptions((prev) =>
-			prev.map((o, i) =>
-				i === index ? { ...o, ...patch } : o,
-			),
-		);
+		optionsState.update(id, patch);
 		if (patch.name !== undefined) {
 			setOptionsError(null);
 			setInvalidOptionIds(new Set());
 		}
-	};
-
-	const removeOption = (index: number) => {
-		setOptions((prev) => prev.filter((_, i) => i !== index));
-		setOptionIds((prev) => prev.filter((_, i) => i !== index));
 	};
 
 	const handleConfirm = () => {
@@ -492,30 +182,18 @@ export const VariationDialog = ({
 		setInvalidOptionIds(
 			new Set(
 				findInvalidVariationOptionIndices(optionInputs).map(
-					(i) => optionIds[i],
+					(i) => options[i].id,
 				),
 			),
 		);
 
 		if (errors.length > 0) return;
 
-		const trimmedName = name.trim();
-		const optionsRecord = Object.fromEntries(
-			optionIds.map((id, i) => [
-				id,
-				{
-					name: options[i].name.trim(),
-					order: i,
-					priceCents: options[i].priceCents,
-					imageUuids: options[i].imageUuids,
-				},
-			]),
-		);
 		onConfirm({
-			name: trimmedName,
+			name: name.trim(),
 			pricesVary,
 			imagesVary,
-			options: optionsRecord,
+			options: optionsState.toVariationOptions(),
 			order: initial?.order ?? 0,
 		});
 		onClose();
@@ -528,20 +206,18 @@ export const VariationDialog = ({
 		}),
 	);
 
-	const handleDragEnd = (event: DragEndEvent) => {
-		const { active, over } = event;
+	const handleDragEnd = ({ active, over }: DragEndEvent) => {
 		if (!over || active.id === over.id) return;
-		const from = optionIds.indexOf(active.id as string);
-		const to = optionIds.indexOf(over.id as string);
-		const move = <T,>(arr: T[]): T[] => {
-			const result = [...arr];
-			const [item] = result.splice(from, 1);
-			result.splice(to, 0, item);
-			return result;
-		};
-		setOptions(move);
-		setOptionIds(move);
+		optionsState.move(active.id as string, over.id as string);
 	};
+
+	const dividerColor = (index: number) =>
+		index === 0
+			? undefined
+			: invalidOptionIds.has(options[index].id) ||
+				  invalidOptionIds.has(options[index - 1].id)
+				? fieldErrorColor
+				: 'gray.200';
 
 	return (
 		<AppDialog
@@ -562,6 +238,7 @@ export const VariationDialog = ({
 					onCancel={handleClose}
 					onConfirm={handleConfirm}
 					confirmLabel={initial ? 'Save' : 'Add'}
+					confirmDisabled={optionsState.isUploading}
 				/>
 			}
 		>
@@ -621,7 +298,7 @@ export const VariationDialog = ({
 							onDragEnd={handleDragEnd}
 						>
 							<SortableContext
-								items={optionIds}
+								items={options.map((o) => o.id)}
 								strategy={verticalListSortingStrategy}
 							>
 								<Stack
@@ -635,39 +312,28 @@ export const VariationDialog = ({
 									borderRadius="md"
 									overflow="hidden"
 								>
-									{options.map((opt, i) => {
+									{options.map((option, i) => {
 										if (!inputRefs.current[i]) {
 											inputRefs.current[i] = {
 												current: null,
 											};
 										}
 										return (
-											<OptionRow
-												key={optionIds[i]}
-												id={optionIds[i]}
-												entry={opt}
-												invalid={invalidOptionIds.has(
-													optionIds[i],
+											<VariationOptionRow
+												key={option.id}
+												option={option}
+												imageList={optionsState.imageList(
+													option.id,
 												)}
-												dividerColor={
-													i === 0
-														? undefined
-														: invalidOptionIds.has(
-																	optionIds[
-																		i
-																	],
-															  ) ||
-															  invalidOptionIds.has(
-																	optionIds[
-																		i -
-																			1
-																	],
-															  )
-															? fieldErrorColor
-															: 'gray.200'
-												}
+												invalid={invalidOptionIds.has(
+													option.id,
+												)}
+												dividerColor={dividerColor(
+													i,
+												)}
 												deletable={
-													options.length > 2
+													options.length >
+													optionsState.minOptions
 												}
 												showPrice={pricesVary}
 												showImage={imagesVary}
@@ -678,20 +344,19 @@ export const VariationDialog = ({
 												}
 												onChange={(patch) =>
 													updateOption(
-														i,
+														option.id,
 														patch,
 													)
 												}
 												onDelete={() =>
-													removeOption(i)
+													optionsState.remove(
+														option.id,
+													)
 												}
 												onTabKey={() =>
 													handleTabOnOption(
 														i,
 													)
-												}
-												uploadImage={
-													uploadImage
 												}
 											/>
 										);
