@@ -1,7 +1,8 @@
-import { CLIENT_ROUTES } from '@client/constants';
+import { useAuth0 } from '@auth0/auth0-react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { callApi } from '@client/utils/apiUtils';
+import { getOrderPath } from '@client/utils/orderUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,7 @@ const POLL_MAX_ATTEMPTS = 10;
 export const useOrderStatusPoll = () => {
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth0();
 	const { clearCart } = useShoppingCart();
 	const pollIntervalRef = useRef<ReturnType<
 		typeof setInterval
@@ -46,11 +48,11 @@ export const useOrderStatusPoll = () => {
 				result.data.orderStatus === OrderStatus.CONFIRMED
 			) {
 				stopPolling();
-				onSuccess?.();
 				clearCart();
-				navigate(`/${CLIENT_ROUTES.orderConfirmed}`, {
-					state: { shortId, accessKey },
-				});
+				navigate(
+					getOrderPath(shortId, accessKey, isAuthenticated),
+				);
+				onSuccess?.();
 			} else if (attempts >= POLL_MAX_ATTEMPTS) {
 				stopPolling();
 				onTimeout?.();

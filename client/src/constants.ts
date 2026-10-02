@@ -33,7 +33,6 @@ export const CLIENT_ROUTES = {
 	listing: 'listing',
 	favorites: 'favorites',
 	checkout: 'checkout',
-	orderConfirmed: 'order-confirmed',
 	order: 'order',
 	orders: 'orders',
 	shops: 'shops',

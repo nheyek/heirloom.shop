@@ -21,7 +21,6 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { LandingPage } from './pages/LandingPage';
 import { ListingPage } from './pages/ListingPage';
-import { OrderConfirmedPage } from './pages/OrderConfirmedPage';
 import { OrderPage } from './pages/OrderPage';
 import { OrdersPage } from './pages/OrdersPage';
 import { ShopManagerInfoPage } from './pages/ShopManager/ShopManagerInfoPage';
@@ -142,10 +141,6 @@ const App = () => {
 						<Route
 							path={`/${CLIENT_ROUTES.checkout}`}
 							element={<CheckoutPage />}
-						/>
-						<Route
-							path={`/${CLIENT_ROUTES.orderConfirmed}`}
-							element={<OrderConfirmedPage />}
 						/>
 						<Route element={<AdminPageLayout />}>
 							<Route

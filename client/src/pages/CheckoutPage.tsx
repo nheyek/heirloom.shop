@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
 	Button,
@@ -16,7 +17,7 @@ import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppi
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
-import { CLIENT_ROUTES, Layout } from '@client/constants';
+import { Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
@@ -28,6 +29,7 @@ import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
+import { getOrderPath } from '@client/utils/orderUtils';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef } from 'react';
@@ -38,6 +40,7 @@ import { useNavigate } from 'react-router-dom';
 
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
+	const { isAuthenticated } = useAuth0();
 	const stripe = useStripe();
 	const elements = useElements();
 	const apiClient = useApiClient();
@@ -140,7 +143,7 @@ export const CheckoutPage = () => {
 			elements,
 			clientSecret,
 			confirmParams: {
-				return_url: `${window.location.origin}/${CLIENT_ROUTES.orderConfirmed}`,
+				return_url: `${window.location.origin}${getOrderPath(orderShortId, accessKey, isAuthenticated)}`,
 			},
 			redirect: 'if_required',
 		});
