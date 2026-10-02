@@ -48,7 +48,7 @@ const App = () => {
 			<ScrollToTop />
 			<AppToaster />
 			<PaymentProcessingDialog
-				pending={checkoutStatus.pending}
+				pending={checkoutStatus.pendingConfirmation}
 				timedOut={checkoutStatus.timedOut}
 				onDismissTimeout={checkoutStatus.dismissTimeout}
 			/>

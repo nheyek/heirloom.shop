@@ -15,6 +15,10 @@ import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/Shoppi
 import { CLIENT_ROUTES } from '@client/constants';
 import { useApplePayCheckout } from '@client/hooks/useApplePayCheckout';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
+import {
+	CheckoutType,
+	useCheckoutStatus,
+} from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -34,6 +38,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 		shoppingCart.items.length,
 	);
 	const applePay = useApplePayCheckout(props.onClose);
+	const { pendingCheckout, pendingSubmission } =
+		useCheckoutStatus();
 
 	const skeletonProps = isCompact
 		? { flexShrink: 0, height: 340, width: 300 }
@@ -163,8 +169,12 @@ export const ShoppingCartDrawer = (props: Props) => {
 													paymentRequest={
 														applePay.paymentRequest
 													}
-													pending={
-														applePay.pending
+													disabled={
+														pendingCheckout
+													}
+													loading={
+														pendingSubmission ===
+														CheckoutType.ApplePay
 													}
 												/>
 											)}

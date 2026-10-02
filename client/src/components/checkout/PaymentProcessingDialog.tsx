@@ -22,6 +22,7 @@ export const PaymentProcessingDialog = ({
 		pending={pending}
 		hideCloseButton={pending}
 		size="sm"
+		placement="center"
 		titleProps={{
 			textAlign: 'center',
 			fontSize: 28,

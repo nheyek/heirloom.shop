@@ -1,14 +1,15 @@
 import { CloseButton, Dialog } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
-type AppDialogProps = {
+type AppDialogProps = Omit<
+	Dialog.RootProps,
+	'onInteractOutside' | 'onEscapeKeyDown'
+> & {
 	title: string;
 	open: boolean;
 	onCancel: () => void;
 	pending?: boolean;
 	hideCloseButton?: boolean;
-	size?: 'xs' | 'sm' | 'md' | 'lg';
-	children?: ReactNode;
 	footer?: ReactNode;
 	contentProps?: Dialog.ContentProps;
 	titleProps?: Dialog.TitleProps;
@@ -20,15 +21,15 @@ export const AppDialog = ({
 	onCancel,
 	pending = false,
 	hideCloseButton = false,
-	size,
 	children,
 	footer,
 	contentProps,
 	titleProps,
+	...rootProps
 }: AppDialogProps) => (
 	<Dialog.Root
+		{...rootProps}
 		open={open}
-		size={size}
 		onInteractOutside={(e) => {
 			e.preventDefault();
 			if (!pending) onCancel();

@@ -20,7 +20,10 @@ import { CLIENT_ROUTES, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
-import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
+import {
+	CheckoutType,
+	useCheckoutStatus,
+} from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { displayFontFamily } from '@client/theme';
 import { toastError } from '@client/toaster';
@@ -54,9 +57,11 @@ export const CheckoutPage = () => {
 	} = useShoppingCart();
 
 	const {
-		pending: pendingSubmit,
-		startPending,
-		settlePending,
+		pendingCheckout,
+		pendingSubmission,
+		startSubmitting,
+		startConfirming,
+		settle,
 		triggerTimeout,
 	} = useCheckoutStatus();
 	const shippingFormRef = useRef<HTMLDivElement>(null);
@@ -84,17 +89,17 @@ export const CheckoutPage = () => {
 		}
 		if (!stripe || !elements) return;
 
-		startPending();
+		startSubmitting(CheckoutType.StandardCheckout);
 
 		if (!(await validateAddressDeliverable())) {
-			settlePending();
+			settle();
 			scrollToShippingForm();
 			return;
 		}
 
 		const { error } = await elements.submit();
 		if (error) {
-			settlePending();
+			settle();
 			toastError(
 				'Invalid payment details',
 				error.message ??
@@ -115,7 +120,7 @@ export const CheckoutPage = () => {
 		);
 
 		if (intentResult.status === 409) {
-			settlePending();
+			settle();
 			toastError(
 				'Prices have changed',
 				'Please refresh the page and try again.',
@@ -124,7 +129,7 @@ export const CheckoutPage = () => {
 		}
 
 		if (intentResult.error !== null) {
-			settlePending();
+			settle();
 			toastError('Failed to submit order', intentResult.error);
 			return;
 		}
@@ -141,15 +146,16 @@ export const CheckoutPage = () => {
 		});
 
 		if (confirmError) {
-			settlePending();
+			settle();
 			toastError(
 				'Payment failed',
 				confirmError.message ??
 					'Please check your payment details and try again.',
 			);
 		} else {
+			startConfirming();
 			pollUntilPaid(orderShortId, accessKey, {
-				onSuccess: settlePending,
+				onSuccess: settle,
 				onTimeout: triggerTimeout,
 			});
 		}
@@ -186,7 +192,7 @@ export const CheckoutPage = () => {
 				>
 					<CheckoutShippingForm
 						layout={layout}
-						disabled={pendingSubmit}
+						disabled={pendingCheckout}
 					/>
 					<CheckoutShoppingCartCompact />
 				</Stack>
@@ -210,7 +216,7 @@ export const CheckoutPage = () => {
 							{formatCentsAsDollars(orderTotal)}
 						</Heading>
 					</Stack>
-					<CheckoutPaymentForm disabled={pendingSubmit} />
+					<CheckoutPaymentForm disabled={pendingCheckout} />
 					<Button
 						size="2xl"
 						width="full"
@@ -219,8 +225,11 @@ export const CheckoutPage = () => {
 						color="white"
 						border="2px solid white"
 						onClick={handleConfirmation}
-						disabled={pendingSubmit || taxCalcLoading}
-						loading={pendingSubmit}
+						disabled={pendingCheckout || taxCalcLoading}
+						loading={
+							pendingSubmission ===
+							CheckoutType.StandardCheckout
+						}
 					>
 						<FaCheckCircle />
 						Pay Now
@@ -246,7 +255,7 @@ export const CheckoutPage = () => {
 					<Stack gap={6}>
 						<CheckoutShippingForm
 							layout={layout}
-							disabled={pendingSubmit}
+							disabled={pendingCheckout}
 						/>
 
 						<Stack gap={3}>
@@ -258,7 +267,7 @@ export const CheckoutPage = () => {
 								Payment
 							</CheckoutHeading>
 							<CheckoutPaymentForm
-								disabled={pendingSubmit}
+								disabled={pendingCheckout}
 							/>
 						</Stack>
 					</Stack>
@@ -273,8 +282,13 @@ export const CheckoutPage = () => {
 							mb={10}
 							fontSize={24}
 							onClick={handleConfirmation}
-							disabled={pendingSubmit || taxCalcLoading}
-							loading={pendingSubmit}
+							disabled={
+								pendingCheckout || taxCalcLoading
+							}
+							loading={
+								pendingSubmission ===
+								CheckoutType.StandardCheckout
+							}
 						>
 							<HStack gap={3}>
 								<FaCheckCircle />
