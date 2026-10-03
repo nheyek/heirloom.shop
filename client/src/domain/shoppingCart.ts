@@ -4,6 +4,7 @@ import {
 } from '@heirloom/common/contract';
 import {
 	getCombinationKey,
+	getOrderedListingImageUuids,
 	isValidCombinationSelection,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
@@ -36,7 +37,11 @@ export const getOrderItemDisplayData = (
 		shopName: item.listingData.shopTitle ?? '',
 		shopShortId: item.listingData.shopShortId,
 		shippingPriceCents: item.listingData.shippingPrice ?? 0,
-		imageUuid: item.listingData.imageUuids[0] ?? null,
+		imageUuid:
+			getOrderedListingImageUuids(
+				item.listingData,
+				item.selectedOptions,
+			)[0] ?? null,
 		unitPriceCents: calculateItemPrice(
 			item.listingData,
 			item.selectedOptions,
@@ -46,7 +51,8 @@ export const getOrderItemDisplayData = (
 		estimatedDelivery: item.listingData.deliveryEstimate ?? null,
 		variations,
 		personalizationText: item.personalizationText ?? null,
-		personalizationName: item.listingData.personalizationName ?? null,
+		personalizationName:
+			item.listingData.personalizationName ?? null,
 	};
 };
 
@@ -61,7 +67,9 @@ export const calculateItemPrice = (
 			listingData.combinations,
 			listingData.variations,
 			listingData.priceCents ?? 0,
-		) ?? listingData.priceCents ?? 0;
+		) ??
+		listingData.priceCents ??
+		0;
 	return !!personalizationText &&
 		listingData.personalizationCostCents != null
 		? basePrice + listingData.personalizationCostCents
@@ -75,7 +83,10 @@ export const isCartItemValid = (
 ): boolean => {
 	if (!listingData) return false;
 	if (!listingData.available) return false;
-	if (personalizationText && listingData.personalizationName == null)
+	if (
+		personalizationText &&
+		listingData.personalizationName == null
+	)
 		return false;
 	return isValidCombinationSelection(selectedOptions, listingData);
 };

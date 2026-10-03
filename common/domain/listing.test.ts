@@ -803,13 +803,19 @@ describe('getOrderedListingImageUuids', () => {
 
 	it('puts the selected option images first, then the shared ones without duplicates', () => {
 		expect(
-			getOrderedListingImageUuids(['a', 's2', 'b'], variations, {}, { size: 's' }),
+			getOrderedListingImageUuids(
+				{ imageUuids: ['a', 's2', 'b'], variations, combinations: {} },
+				{ size: 's' },
+			),
 		).toEqual(['s1', 's2', 'a', 'b']);
 	});
 
 	it('falls back to option images when there are no shared images', () => {
 		expect(
-			getOrderedListingImageUuids([], variations, {}, { size: 'm' }),
+			getOrderedListingImageUuids(
+				{ imageUuids: [], variations, combinations: {} },
+				{ size: 'm' },
+			),
 		).toEqual(['m1', 's1', 's2']);
 	});
 });

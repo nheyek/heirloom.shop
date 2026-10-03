@@ -56,9 +56,7 @@ export const useVariationSelection = (
 
 	const orderedImageUuids = listingData
 		? getOrderedListingImageUuids(
-				listingData.imageUuids,
-				listingData.variations,
-				listingData.combinations,
+				listingData,
 				selectedVariationOptions,
 			)
 		: [];

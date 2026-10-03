@@ -1,6 +1,12 @@
-import { CheckoutItemData, CombinationsData, OrderItemDisplayData, VariationsData } from '@heirloom/common/contract';
+import {
+	CheckoutItemData,
+	CombinationsData,
+	OrderItemDisplayData,
+	VariationsData,
+} from '@heirloom/common/contract';
 import {
 	getCombinationKey,
+	getOrderedListingImageUuids,
 	HEIRLOOM_LISTING_PROFILES,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
@@ -18,7 +24,9 @@ export const resolveShippingRateCents = (listing: Listing): number =>
 		? (listing.shippingProfile?.flatShippingRateCents ?? 0)
 		: HEIRLOOM_LISTING_PROFILES.shipping.shippingRate;
 
-export const resolveDeliveryEstimate = (listing: Listing): string | null => {
+export const resolveDeliveryEstimate = (
+	listing: Listing,
+): string | null => {
 	const processingProfile = listing.shop.directFulfillment
 		? listing.processingProfile
 		: HEIRLOOM_LISTING_PROFILES.processing;
@@ -27,7 +35,10 @@ export const resolveDeliveryEstimate = (listing: Listing): string | null => {
 		: HEIRLOOM_LISTING_PROFILES.shipping;
 
 	return processingProfile && shippingProfile
-		? calculateDeliveryEstimate(processingProfile, shippingProfile)
+		? calculateDeliveryEstimate(
+				processingProfile,
+				shippingProfile,
+			)
 		: null;
 };
 
@@ -44,7 +55,8 @@ const resolveUnitPrice = (
 	const key = getCombinationKey(selectedOptions);
 	const combination = combinations[key];
 	const hasVariations = Object.keys(variations).length > 0;
-	if (combination?.disabled) throw new Error('Selected combination is unavailable');
+	if (combination?.disabled)
+		throw new Error('Selected combination is unavailable');
 	if (trackInventory) {
 		const relevantInventory = hasVariations
 			? (combination?.inventory ?? 0)
@@ -53,9 +65,17 @@ const resolveUnitPrice = (
 			throw new Error('Selected combination is unavailable');
 	}
 	if (personalizationText && personalizationCostCents == null) {
-		throw new Error('Personalization is not available for this listing');
+		throw new Error(
+			'Personalization is not available for this listing',
+		);
 	}
-	const basePrice = resolveEffectiveCombinationPrice(selectedOptions, combinations, variations, priceCents) ?? priceCents;
+	const basePrice =
+		resolveEffectiveCombinationPrice(
+			selectedOptions,
+			combinations,
+			variations,
+			priceCents,
+		) ?? priceCents;
 	return personalizationText && personalizationCostCents != null
 		? basePrice + personalizationCostCents
 		: basePrice;
@@ -67,9 +87,13 @@ const resolveVariationDisplayNames = (
 ): Array<{ name: string; value: string }> =>
 	Object.entries(selectedOptions).map(([varId, optId]) => {
 		const variation = variations[varId];
-		if (!variation) throw new Error(`Invalid variation ID: ${varId}`);
+		if (!variation)
+			throw new Error(`Invalid variation ID: ${varId}`);
 		const option = variation.options[optId];
-		if (!option) throw new Error(`Invalid option ID: ${optId} for variation ${varId}`);
+		if (!option)
+			throw new Error(
+				`Invalid option ID: ${optId} for variation ${varId}`,
+			);
 		return { name: variation.name, value: option.name };
 	});
 
@@ -77,7 +101,9 @@ export const calculateCheckoutTotals = (
 	items: CheckoutItemData[],
 	{ listings }: CheckoutCartData,
 ): ShoppingCartPreTaxTotals => {
-	const listingByShortId = new Map(listings.map((l) => [l.shortId, l]));
+	const listingByShortId = new Map(
+		listings.map((l) => [l.shortId, l]),
+	);
 
 	let subtotalCents = 0;
 	let shippingCents = 0;
@@ -86,9 +112,14 @@ export const calculateCheckoutTotals = (
 		const listing = listingByShortId.get(item.listingShortId);
 		if (!listing) continue;
 
-		const combinations = (listing.combinations ?? {}) as CombinationsData;
-		const variations = (listing.variations ?? {}) as VariationsData;
-		resolveVariationDisplayNames(variations, item.selectedOptions);
+		const combinations = (listing.combinations ??
+			{}) as CombinationsData;
+		const variations = (listing.variations ??
+			{}) as VariationsData;
+		resolveVariationDisplayNames(
+			variations,
+			item.selectedOptions,
+		);
 		const unitPriceCents = resolveUnitPrice(
 			listing.priceCents || 0,
 			combinations,
@@ -101,7 +132,8 @@ export const calculateCheckoutTotals = (
 		);
 
 		subtotalCents += unitPriceCents * item.quantity;
-		shippingCents += resolveShippingRateCents(listing) * item.quantity;
+		shippingCents +=
+			resolveShippingRateCents(listing) * item.quantity;
 	}
 
 	return { subtotalCents, shippingCents };
@@ -111,15 +143,19 @@ export const createOrderItemSnapshots = (
 	items: CheckoutItemData[],
 	{ listings }: CheckoutCartData,
 ): OrderItemDisplayData[] => {
-	const listingByShortId = new Map(listings.map((l) => [l.shortId, l]));
+	const listingByShortId = new Map(
+		listings.map((l) => [l.shortId, l]),
+	);
 	const snapshots: OrderItemDisplayData[] = [];
 
 	for (const item of items) {
 		const listing = listingByShortId.get(item.listingShortId);
 		if (!listing) continue;
 
-		const combinations = (listing.combinations ?? {}) as CombinationsData;
-		const variations = (listing.variations ?? {}) as VariationsData;
+		const combinations = (listing.combinations ??
+			{}) as CombinationsData;
+		const variations = (listing.variations ??
+			{}) as VariationsData;
 
 		const unitPriceCents = resolveUnitPrice(
 			listing.priceCents || 0,
@@ -136,14 +172,26 @@ export const createOrderItemSnapshots = (
 			title: listing.title,
 			shopName: listing.shop.title,
 			shopShortId: listing.shop.shortId,
-			imageUuid: listing.imageUuids[0] ?? null,
+			imageUuid:
+				getOrderedListingImageUuids(
+					{
+						imageUuids: listing.imageUuids,
+						variations,
+						combinations,
+					},
+					item.selectedOptions,
+				)[0] ?? null,
 			unitPriceCents,
 			shippingPriceCents: resolveShippingRateCents(listing),
 			quantity: item.quantity,
 			estimatedDelivery: resolveDeliveryEstimate(listing),
-			variations: resolveVariationDisplayNames(variations, item.selectedOptions),
+			variations: resolveVariationDisplayNames(
+				variations,
+				item.selectedOptions,
+			),
 			personalizationText: item.personalizationText ?? null,
-			personalizationName: listing.personalizationProfile?.name ?? null,
+			personalizationName:
+				listing.personalizationProfile?.name ?? null,
 		});
 	}
 

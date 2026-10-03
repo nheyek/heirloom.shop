@@ -84,9 +84,7 @@ export const ListingCard = ({
 	) ?? { priceCents: props.priceCents, isMinimum: false };
 
 	const imageUuids = getOrderedListingImageUuids(
-		props.imageUuids,
-		props.variations,
-		props.combinations,
+		props,
 		getDefaultOptionSelection(props).selection,
 	);
 

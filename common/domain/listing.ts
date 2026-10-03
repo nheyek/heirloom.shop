@@ -307,19 +307,26 @@ export const getListingImageUuids = (
 	return [...new Set(optionImages)];
 };
 
+export type ListingImageContext = {
+	imageUuids: string[];
+	variations: Variations;
+	combinations: Combinations;
+};
+
 export const getOrderedListingImageUuids = (
-	imageUuids: string[],
-	variations: Variations,
-	combinations: Combinations,
+	listing: ListingImageContext,
 	selectedOptions: Record<string, string>,
 ): string[] => [
 	...new Set([
 		...resolveEffectiveCombinationImages(
 			selectedOptions,
-			combinations,
-			variations,
+			listing.combinations,
+			listing.variations,
 		),
-		...getListingImageUuids(imageUuids, variations),
+		...getListingImageUuids(
+			listing.imageUuids,
+			listing.variations,
+		),
 	]),
 ];
 
@@ -387,7 +394,10 @@ export const getDefaultOptionSelection = (
 	);
 	return firstAvailable
 		? { selection: firstAvailable.optionMap, isAvailable: true }
-		: { selection: combinations[0].optionMap, isAvailable: false };
+		: {
+				selection: combinations[0].optionMap,
+				isAvailable: false,
+			};
 };
 
 export const isValidCombinationSelection = (
