@@ -17,7 +17,6 @@ import {
 	RemoveImageButton,
 } from '@client/components/listingForm/imageList/ImageTile';
 import { OptionDraft } from '@client/hooks/useVariationOptions';
-import { fieldErrorColor } from '@client/theme';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React from 'react';
@@ -70,7 +69,7 @@ export const VariationOptionRow = ({
 			<Stack
 				ref={setNodeRef}
 				style={{
-					transform: CSS.Transform.toString(transform),
+					transform: CSS.Translate.toString(transform),
 					transition,
 					opacity: isDragging ? 0.4 : 1,
 				}}
@@ -79,7 +78,6 @@ export const VariationOptionRow = ({
 					borderTopWidth: 1,
 					borderTopColor: dividerColor,
 				})}
-				gap={1}
 			>
 				<HStack
 					px={2}
@@ -106,7 +104,6 @@ export const VariationOptionRow = ({
 					<Input
 						ref={inputRef}
 						fontSize={18}
-						h={10}
 						minW={100}
 						value={option.name}
 						onChange={(e) =>
@@ -123,17 +120,8 @@ export const VariationOptionRow = ({
 							}
 						}}
 						placeholder="Option name"
-						{...(showImage
-							? {
-									bg: 'white',
-									...(invalid && {
-										borderColor: fieldErrorColor,
-									}),
-								}
-							: {
-									border: 'none',
-									px: 0,
-								})}
+						px={0}
+						border="none"
 					/>
 
 					{showPrice && (
