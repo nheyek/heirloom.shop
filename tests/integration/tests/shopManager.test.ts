@@ -167,10 +167,11 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 				name: 'Size',
 				pricesVary: false,
 				imagesVary: false,
+				defaultOption: 'a',
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -197,10 +198,11 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 				name: 'Size',
 				pricesVary: false,
 				imagesVary: false,
+				defaultOption: 'a',
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -286,10 +288,11 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 					name: `Variation ${i}`,
 					pricesVary: false,
 					imagesVary: false,
+					defaultOption: 'a',
 					order: i,
 					options: {
-						a: { name: 'A', order: 0, priceCents: null, imageUuid: null },
-						b: { name: 'B', order: 1, priceCents: null, imageUuid: null },
+						a: { name: 'A', order: 0, priceCents: null, imageUuids: [] },
+						b: { name: 'B', order: 1, priceCents: null, imageUuids: [] },
 					},
 				},
 			]),
@@ -308,10 +311,11 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 				name: 'Size',
 				pricesVary: true,
 				imagesVary: false,
+				defaultOption: 'a',
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -654,10 +658,11 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 				name: 'Size',
 				pricesVary: false,
 				imagesVary: false,
+				defaultOption: 'a',
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};
@@ -773,10 +778,11 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 				name: 'Size',
 				pricesVary: false,
 				imagesVary: false,
+				defaultOption: 'a',
 				order: 0,
 				options: {
-					a: { name: 'Small', order: 0, priceCents: null, imageUuid: null },
-					b: { name: 'Large', order: 1, priceCents: null, imageUuid: null },
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
 				},
 			},
 		};

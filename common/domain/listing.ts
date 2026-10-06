@@ -29,6 +29,7 @@ export type Variation = {
 	pricesVary: boolean;
 	imagesVary: boolean;
 	options: Record<string, VariationOption>;
+	defaultOption: string;
 	order: number;
 };
 
@@ -364,10 +365,34 @@ export type DefaultOptionSelection = {
 	isAvailable: boolean;
 };
 
+const withDefaultOptionsFirst = (
+	variations: Variations,
+): Variations =>
+	Object.fromEntries(
+		Object.entries(variations).map(([varId, variation]) => [
+			varId,
+			{
+				...variation,
+				options: Object.fromEntries(
+					Object.entries(variation.options).map(
+						([optId, option]) => [
+							optId,
+							optId === variation.defaultOption
+								? { ...option, order: -1 }
+								: option,
+						],
+					),
+				),
+			},
+		]),
+	);
+
 export const getDefaultOptionSelection = (
 	listing: ListingInventoryContext,
 ): DefaultOptionSelection => {
-	const combinations = deriveCombinationsList(listing.variations);
+	const combinations = deriveCombinationsList(
+		withDefaultOptionsFirst(listing.variations),
+	);
 	if (combinations.length === 0) {
 		return { selection: {}, isAvailable: true };
 	}

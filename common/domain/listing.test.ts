@@ -767,6 +767,69 @@ describe('getDefaultOptionSelection', () => {
 		).toEqual({ size: 'm', color: 'red' });
 	});
 
+	it('prefers the default option over option order', () => {
+		const withDefault: Variations = {
+			...variations,
+			size: { ...variations.size, defaultOption: 'm' },
+		};
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(false, 5),
+			[key('s', 'blue')]: combo(false, 5),
+			[key('m', 'red')]: combo(false, 5),
+			[key('m', 'blue')]: combo(false, 5),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations: withDefault,
+				combinations,
+				trackInventory: false,
+			}).selection,
+		).toEqual({ size: 'm', color: 'red' });
+	});
+
+	it('uses another combination when the default option is unavailable', () => {
+		const withDefault: Variations = {
+			...variations,
+			size: { ...variations.size, defaultOption: 'm' },
+		};
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(false, 5),
+			[key('s', 'blue')]: combo(false, 5),
+			[key('m', 'red')]: combo(true, 5),
+			[key('m', 'blue')]: combo(true, 5),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations: withDefault,
+				combinations,
+				trackInventory: false,
+			}).selection,
+		).toEqual({ size: 's', color: 'red' });
+	});
+
+	it('falls back to the default option of every variation when nothing is available', () => {
+		const withDefaults: Variations = {
+			size: { ...variations.size, defaultOption: 'm' },
+			color: { ...variations.color, defaultOption: 'blue' },
+		};
+		const combinations: Combinations = {
+			[key('s', 'red')]: combo(true, 5),
+			[key('s', 'blue')]: combo(true, 5),
+			[key('m', 'red')]: combo(true, 5),
+			[key('m', 'blue')]: combo(true, 5),
+		};
+		expect(
+			getDefaultOptionSelection({
+				variations: withDefaults,
+				combinations,
+				trackInventory: false,
+			}),
+		).toEqual({
+			selection: { size: 'm', color: 'blue' },
+			isAvailable: false,
+		});
+	});
+
 	it('falls back to the first option of every variation when nothing is available', () => {
 		const combinations: Combinations = {
 			[key('s', 'red')]: combo(true, 5),

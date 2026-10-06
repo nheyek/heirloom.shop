@@ -32,6 +32,7 @@ const VariationSchema = z.object({
 	pricesVary: z.boolean(),
 	imagesVary: z.boolean().default(false),
 	options: z.record(z.string(), VariationOptionSchema),
+	defaultOption: z.string(),
 	order: z.number(),
 });
 

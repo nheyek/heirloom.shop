@@ -3,6 +3,7 @@ import {
 	HStack,
 	IconButton,
 	Input,
+	RadioGroup,
 	Stack,
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
@@ -142,6 +143,18 @@ export const VariationOptionRow = ({
 							/>
 						</Box>
 					)}
+
+					<RadioGroup.Item
+						value={option.id}
+						flexShrink={0}
+						alignSelf="center"
+					>
+						<RadioGroup.ItemHiddenInput />
+						<RadioGroup.ItemIndicator />
+						<RadioGroup.ItemText fontSize={15}>
+							Default
+						</RadioGroup.ItemText>
+					</RadioGroup.Item>
 
 					<IconButton
 						size="sm"

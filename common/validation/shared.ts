@@ -27,6 +27,7 @@ export const ValidationField = {
 	Variations: 'variations',
 	VariationName: 'variationName',
 	VariationOptions: 'variationOptions',
+	VariationDefaultOption: 'variationDefaultOption',
 	Combinations: 'combinations',
 	DescrSections: 'descrSections',
 	DescrSectionTitle: 'descrSectionTitle',
@@ -37,7 +38,10 @@ export const ValidationField = {
 export type ValidationFieldKey =
 	(typeof ValidationField)[keyof typeof ValidationField];
 
-export type FieldError = { field: ValidationFieldKey; message: string };
+export type FieldError = {
+	field: ValidationFieldKey;
+	message: string;
+};
 
 export const stripHtml = (html: string): string =>
 	html.replace(/<[^>]*>/g, '').trim();
@@ -45,4 +49,5 @@ export const stripHtml = (html: string): string =>
 export const isValidPriceCents = (
 	cents: number,
 	maxCents: number,
-): boolean => Number.isInteger(cents) && cents > 0 && cents <= maxCents;
+): boolean =>
+	Number.isInteger(cents) && cents > 0 && cents <= maxCents;

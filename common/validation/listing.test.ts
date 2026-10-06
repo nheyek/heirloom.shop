@@ -8,7 +8,9 @@ import {
 	validateListingFields,
 	validateSubtitle,
 	validateTitle,
+	validateOptionDeletion,
 	validateVariationEntry,
+	VariationEntryInput,
 } from './listing.js';
 import { ValidationField } from './shared.js';
 
@@ -98,39 +100,33 @@ describe('validateImageUuids', () => {
 });
 
 describe('validateVariationEntry', () => {
+	const entry = (
+		overrides: Partial<VariationEntryInput> = {},
+	): VariationEntryInput => ({
+		name: 'Size',
+		options: [
+			{ id: 'a', name: 'Small', priceCents: null },
+			{ id: 'b', name: 'Large', priceCents: null },
+		],
+		defaultOption: 'a',
+		...overrides,
+	});
+
 	it('requires a name', () => {
-		const errors = validateVariationEntry(
-			{
-				name: '',
-				options: [
-					{ name: 'Small', priceCents: null },
-					{ name: 'Large', priceCents: null },
-				],
-			},
-			[],
-		);
+		const errors = validateVariationEntry(entry({ name: '' }), []);
 		expect(errors.some((e) => e.field === ValidationField.VariationName)).toBe(
 			true,
 		);
 	});
 	it('rejects duplicate variation names (case-insensitive)', () => {
-		const errors = validateVariationEntry(
-			{
-				name: 'Size',
-				options: [
-					{ name: 'Small', priceCents: null },
-					{ name: 'Large', priceCents: null },
-				],
-			},
-			['size'],
-		);
+		const errors = validateVariationEntry(entry(), ['size']);
 		expect(
 			errors.some((e) => /already exists/.test(e.message)),
 		).toBe(true);
 	});
 	it('requires at least two options', () => {
 		const errors = validateVariationEntry(
-			{ name: 'Size', options: [{ name: 'Small', priceCents: null }] },
+			entry({ options: [{ id: 'a', name: 'Small', priceCents: null }] }),
 			[],
 		);
 		expect(errors.some((e) => e.field === ValidationField.VariationOptions)).toBe(
@@ -139,45 +135,72 @@ describe('validateVariationEntry', () => {
 	});
 	it('rejects duplicate option names', () => {
 		const errors = validateVariationEntry(
-			{
-				name: 'Size',
+			entry({
 				options: [
-					{ name: 'Small', priceCents: null },
-					{ name: 'small', priceCents: null },
+					{ id: 'a', name: 'Small', priceCents: null },
+					{ id: 'b', name: 'small', priceCents: null },
 				],
-			},
+			}),
 			[],
 		);
 		expect(errors.some((e) => /unique/.test(e.message))).toBe(true);
 	});
 	it('rejects invalid option prices', () => {
 		const errors = validateVariationEntry(
-			{
-				name: 'Size',
+			entry({
 				options: [
-					{ name: 'Small', priceCents: -5 },
-					{ name: 'Large', priceCents: null },
+					{ id: 'a', name: 'Small', priceCents: -5 },
+					{ id: 'b', name: 'Large', priceCents: null },
 				],
-			},
+			}),
 			[],
 		);
 		expect(errors.some((e) => /prices must be valid/.test(e.message))).toBe(
 			true,
 		);
 	});
-	it('accepts a valid variation', () => {
+	it('requires a default option', () => {
+		const errors = validateVariationEntry(
+			entry({ defaultOption: '' }),
+			[],
+		);
 		expect(
-			validateVariationEntry(
-				{
-					name: 'Size',
-					options: [
-						{ name: 'Small', priceCents: null },
-						{ name: 'Large', priceCents: null },
-					],
-				},
-				[],
+			errors.some(
+				(e) => e.field === ValidationField.VariationDefaultOption,
 			),
+		).toBe(true);
+	});
+	it('rejects a default option that is not one of the options', () => {
+		const errors = validateVariationEntry(
+			entry({ defaultOption: 'missing' }),
+			[],
+		);
+		expect(
+			errors.some(
+				(e) =>
+					e.field === ValidationField.VariationDefaultOption &&
+					/one of the options/.test(e.message),
+			),
+		).toBe(true);
+	});
+	it('accepts any option as the default', () => {
+		expect(
+			validateVariationEntry(entry({ defaultOption: 'b' }), []),
 		).toHaveLength(0);
+	});
+	it('accepts a valid variation', () => {
+		expect(validateVariationEntry(entry(), [])).toHaveLength(0);
+	});
+});
+
+describe('validateOptionDeletion', () => {
+	it('blocks deleting the default option', () => {
+		const error = validateOptionDeletion('a', 'a');
+		expect(error?.field).toBe(ValidationField.VariationDefaultOption);
+		expect(error?.message).toMatch(/default option cannot be deleted/i);
+	});
+	it('allows deleting any other option', () => {
+		expect(validateOptionDeletion('b', 'a')).toBeNull();
 	});
 });
 
@@ -271,6 +294,7 @@ describe('validateListingFields', () => {
 			variations[`v${i}`] = {
 				name: `Var ${i}`,
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: i,
 				options: {
@@ -286,11 +310,45 @@ describe('validateListingFields', () => {
 		expect(errors.some((e) => e.field === ValidationField.Variations)).toBe(true);
 	});
 
+	it('requires every variation to have a default option that exists', () => {
+		const variationWith = (defaultOption: string): Variations => ({
+			v1: {
+				name: 'Size',
+				pricesVary: false,
+				defaultOption,
+				imagesVary: false,
+				order: 0,
+				options: {
+					a: { name: 'Small', order: 0, priceCents: null, imageUuids: [] },
+					b: { name: 'Large', order: 1, priceCents: null, imageUuids: [] },
+				},
+			},
+		});
+		const combinations: Combinations = {
+			'v1:a': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+		};
+		const hasDefaultError = (defaultOption: string) =>
+			validateListingFields(
+				{
+					...baseInput,
+					variations: variationWith(defaultOption),
+					combinations,
+				},
+				{ directFulfillment: false },
+			).some((e) => e.field === ValidationField.VariationDefaultOption);
+
+		expect(hasDefaultError('')).toBe(true);
+		expect(hasDefaultError('missing')).toBe(true);
+		expect(hasDefaultError('b')).toBe(false);
+	});
+
 	it('requires at least one active combination', () => {
 		const variations: Variations = {
 			v1: {
 				name: 'Size',
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -315,6 +373,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: true,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -339,6 +398,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: true,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -405,6 +465,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -437,6 +498,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -468,6 +530,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {
@@ -499,6 +562,7 @@ describe('validateListingFields', () => {
 			v1: {
 				name: 'Size',
 				pricesVary: false,
+				defaultOption: 'a',
 				imagesVary: false,
 				order: 0,
 				options: {

@@ -84,12 +84,24 @@ export const validateImageUuids = (
 export type VariationOptionEntryInput = Pick<
 	VariationOptionData,
 	'name' | 'priceCents'
->;
+> & { id: string };
 
 export type VariationEntryInput = {
 	name: string;
 	options: VariationOptionEntryInput[];
+	defaultOption: string;
 };
+
+export const validateOptionDeletion = (
+	optionId: string,
+	defaultOption: string,
+): FieldError | null =>
+	optionId === defaultOption
+		? {
+				field: ValidationField.VariationDefaultOption,
+				message: 'The default option cannot be deleted.',
+			}
+		: null;
 
 export const validateVariationEntry = (
 	variation: VariationEntryInput,
@@ -170,6 +182,22 @@ export const validateVariationEntry = (
 		errors.push({
 			field: ValidationField.VariationOptions,
 			message: 'Option prices must be valid.',
+		});
+	}
+
+	if (!variation.defaultOption) {
+		errors.push({
+			field: ValidationField.VariationDefaultOption,
+			message: 'A default option is required.',
+		});
+	} else if (
+		!variation.options.some(
+			(o) => o.id === variation.defaultOption,
+		)
+	) {
+		errors.push({
+			field: ValidationField.VariationDefaultOption,
+			message: 'The default option must be one of the options.',
 		});
 	}
 
@@ -398,12 +426,14 @@ export const validateListingFields = (
 			...validateVariationEntry(
 				{
 					name: variation.name,
-					options: Object.values(variation.options).map(
-						(o) => ({
+					options: Object.entries(variation.options).map(
+						([id, o]) => ({
+							id,
 							name: o.name,
 							priceCents: o.priceCents,
 						}),
 					),
+					defaultOption: variation.defaultOption,
 				},
 				siblingNames,
 			),
