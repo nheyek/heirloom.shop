@@ -30,7 +30,6 @@ type Props = {
 	option: OptionDraft;
 	imageList: ImageListController;
 	invalid?: boolean;
-	dividerColor?: string;
 	deletable?: boolean;
 	showPrice: boolean;
 	showImage: boolean;
@@ -46,7 +45,6 @@ export const VariationOptionRow = ({
 	option,
 	imageList,
 	invalid,
-	dividerColor,
 	deletable,
 	showPrice,
 	showImage,
@@ -75,10 +73,6 @@ export const VariationOptionRow = ({
 				position="relative"
 				bg={invalid ? 'red.50' : 'white'}
 				{...(isDragging && { zIndex: 1 })}
-				{...(dividerColor && {
-					borderTopWidth: 1,
-					borderTopColor: dividerColor,
-				})}
 			>
 				<HStack
 					px={2}

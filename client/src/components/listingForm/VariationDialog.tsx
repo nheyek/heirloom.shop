@@ -1,4 +1,4 @@
-import { Checkbox, HStack, Stack } from '@chakra-ui/react';
+import { Checkbox, HStack, Separator, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
 	FormField,
@@ -35,7 +35,7 @@ import {
 	validateVariationEntry,
 } from '@heirloom/common/validation/listing';
 import { ValidationField } from '@heirloom/common/validation/shared';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 type Props = {
 	open: boolean;
@@ -89,6 +89,7 @@ export const VariationDialog = ({
 		Set<string>
 	>(new Set());
 	const initialSnapshotRef = useRef('');
+	const [isDragging, setIsDragging] = useState(false);
 
 	const isDirty = () =>
 		snapshot(name, pricesVary, imagesVary, options) !==
@@ -207,17 +208,16 @@ export const VariationDialog = ({
 	);
 
 	const handleDragEnd = ({ active, over }: DragEndEvent) => {
+		setIsDragging(false);
 		if (!over || active.id === over.id) return;
 		optionsState.move(active.id as string, over.id as string);
 	};
 
 	const dividerColor = (index: number) =>
-		index === 0
-			? undefined
-			: invalidOptionIds.has(options[index].id) ||
-				  invalidOptionIds.has(options[index - 1].id)
-				? fieldErrorColor
-				: 'gray.200';
+		invalidOptionIds.has(options[index].id) ||
+		invalidOptionIds.has(options[index - 1].id)
+			? fieldErrorColor
+			: 'gray.200';
 
 	return (
 		<AppDialog
@@ -287,6 +287,8 @@ export const VariationDialog = ({
 						<DndContext
 							sensors={sensors}
 							collisionDetection={closestCenter}
+							onDragStart={() => setIsDragging(true)}
+							onDragCancel={() => setIsDragging(false)}
 							onDragEnd={handleDragEnd}
 						>
 							<SortableContext
@@ -311,46 +313,63 @@ export const VariationDialog = ({
 											};
 										}
 										return (
-											<VariationOptionRow
-												key={option.id}
-												option={option}
-												imageList={optionsState.imageList(
-													option.id,
+											<Fragment key={option.id}>
+												{i > 0 && (
+													<Separator
+														borderColor={dividerColor(
+															i,
+														)}
+														visibility={
+															isDragging
+																? 'hidden'
+																: 'visible'
+														}
+													/>
 												)}
-												invalid={invalidOptionIds.has(
-													option.id,
-												)}
-												dividerColor={dividerColor(
-													i,
-												)}
-												deletable={
-													options.length >
-													optionsState.minOptions
-												}
-												showPrice={pricesVary}
-												showImage={imagesVary}
-												inputRef={
-													inputRefs.current[
-														i
-													]
-												}
-												onChange={(patch) =>
-													updateOption(
+												<VariationOptionRow
+													option={option}
+													imageList={optionsState.imageList(
 														option.id,
+													)}
+													invalid={invalidOptionIds.has(
+														option.id,
+													)}
+													deletable={
+														options.length >
+														optionsState.minOptions
+													}
+													showPrice={
+														pricesVary
+													}
+													showImage={
+														imagesVary
+													}
+													inputRef={
+														inputRefs
+															.current[
+															i
+														]
+													}
+													onChange={(
 														patch,
-													)
-												}
-												onDelete={() =>
-													optionsState.remove(
-														option.id,
-													)
-												}
-												onTabKey={() =>
-													handleTabOnOption(
-														i,
-													)
-												}
-											/>
+													) =>
+														updateOption(
+															option.id,
+															patch,
+														)
+													}
+													onDelete={() =>
+														optionsState.remove(
+															option.id,
+														)
+													}
+													onTabKey={() =>
+														handleTabOnOption(
+															i,
+														)
+													}
+												/>
+											</Fragment>
 										);
 									})}
 								</Stack>
