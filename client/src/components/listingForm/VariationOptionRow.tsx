@@ -71,9 +71,10 @@ export const VariationOptionRow = ({
 				style={{
 					transform: CSS.Translate.toString(transform),
 					transition,
-					opacity: isDragging ? 0.4 : 1,
 				}}
-				{...(invalid && { bg: 'red.50' })}
+				position="relative"
+				bg={invalid ? 'red.50' : 'white'}
+				{...(isDragging && { zIndex: 1 })}
 				{...(dividerColor && {
 					borderTopWidth: 1,
 					borderTopColor: dividerColor,
@@ -143,7 +144,7 @@ export const VariationOptionRow = ({
 										onTabKey?.();
 									}
 								}}
-								enclosed={showImage}
+								enclosed={false}
 							/>
 						</Box>
 					)}

@@ -224,15 +224,7 @@ export const VariationDialog = ({
 			title={initial ? 'Edit Variation' : 'Add Variation'}
 			open={open}
 			onCancel={handleClose}
-			size="xs"
-			contentProps={{
-				maxW:
-					pricesVary && imagesVary
-						? 640
-						: pricesVary || imagesVary
-							? 520
-							: undefined,
-			}}
+			size="sm"
 			footer={
 				<DialogConfirmFooter
 					onCancel={handleClose}
