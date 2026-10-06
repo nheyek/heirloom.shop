@@ -3,7 +3,7 @@ DO $$
 DECLARE
     old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
     retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
-    retired_listing_ids CONSTANT INT[] := ARRAY[27, 28];
+    retired_listing_ids CONSTANT INT[] := ARRAY[3, 27, 28];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
@@ -60,29 +60,6 @@ DECLARE
         {
             "title": "Dimensions",
             "richText": "<ul><li>Diameter (top): 6\"</li><li>Depth: 1.3\"</li><li>Cook surface: 4.8\"</li><li>Handle to handle: 11.3\"</li><li>Weight: approximately 2.7 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
-
-    listing_3_id INT := 3;
-    listing_3_short_id VARCHAR := 'Sm8Nk';
-    listing_3_shop_id INT := shop_3_id;
-    listing_3_category_id VARCHAR := 'HOUSEWARES';
-    listing_3_title VARCHAR := 'No. 8 Chef Skillet';
-    listing_3_subtitle VARCHAR := 'An 8-inch cast iron skillet with shallow, sloped sides, perfect for eggs, pancakes, and shareable sides.';
-    listing_3_price_cents INT := 12000;
-    listing_3_image_uuids text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5", "20b8a1c9-3153-43b2-b1a3-3b135a2739ce", "09b291f4-f4a7-49e1-9041-ea4f3a11481e"}';
-    listing_3_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>The starter size for all things breakfast, from fried eggs to omelettes to pancakes. The Chef Skillet''s shallower, more sloped wall makes it easy to slide food out cleanly, and its polished interior is naturally non-stick.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 8\"</li><li>Depth: 1.6\"</li><li>Cook surface: 4.2\"</li><li>Handle to handle: 15.2\"</li><li>Weight: approximately 3.5 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -163,24 +140,30 @@ DECLARE
     listing_25_short_id VARCHAR := 'S1CNk';
     listing_25_shop_id INT := shop_3_id;
     listing_25_category_id VARCHAR := 'HOUSEWARES';
-    listing_25_title VARCHAR := 'No. 10 Chef Skillet';
+    listing_25_title VARCHAR := 'Chef Skillet';
     listing_25_subtitle VARCHAR := 'Made for movement, the curved interior walls of this skillet are great for sautéing, stir-frying, egg flipping, and more.';
-    listing_25_price_cents INT := 16000;
-    listing_25_image_uuids text[] := '{"4a4853ba-0394-4968-9d67-017f308a17e3", "eefb0fed-9b2d-445f-977a-e5f46bfb341e", "87775b1f-6e2e-43ba-8a8c-e49d70867836", "5cb3df92-e07d-4567-a6d8-36c75023d34b", "ae18d0df-f561-4323-939e-30f269774e23", "f3c58ded-964e-4885-8c2f-3da50b933114", "7dd8db2e-80d6-4465-a61e-4f0a721431aa"}';
+    listing_25_price_cents INT := 12000;
+    listing_25_image_uuids text[] := '{}';
     listing_25_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>Made for movement: the No. 10 Chef Skillet''s curved interior walls and extended handle make sautéing, stir-frying, and flipping eggs effortless. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+            "richText": "<p>Made for movement: the Chef Skillet''s shallow, curved interior walls and extended handle make sautéing, stir-frying, and flipping eggs effortless, and let food slide out cleanly. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: 1.6\"</li><li>Cook surface: 6\"</li><li>Handle to handle: 17.3\"</li><li>Weight: approximately 5.0 lbs</li></ul>"
+            "richText": "<p><strong>No. 8</strong></p><ul><li>Diameter: 8\" (top), 15.2\" (handle to handle)</li><li>Depth: 1.6\"</li><li>Cook surface: 4.2\"</li><li>Weight: 3.5 lbs</li></ul><p><strong>No. 10</strong></p><ul><li>Diameter: 10\" (top), 17.3\" (handle to handle)</li><li>Depth: 1.6\"</li><li>Cook surface: 6\"</li><li>Weight: 5.0 lbs</li></ul>"
         },
         {
             "title": "Care",
             "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
         }
     ]';
+
+    listing_25_size_variation_id CONSTANT VARCHAR := 'b8c9d0e1-1111-4fa0-9b4c-d7e8f9a0b1c2';
+    listing_25_size_no8_id       CONSTANT VARCHAR := 'b8c9d0e1-2222-4fa0-9b4c-d7e8f9a0b1c2';
+    listing_25_size_no10_id      CONSTANT VARCHAR := 'b8c9d0e1-3333-4fa0-9b4c-d7e8f9a0b1c2';
+    listing_25_no8_image_uuids  CONSTANT text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5", "20b8a1c9-3153-43b2-b1a3-3b135a2739ce", "09b291f4-f4a7-49e1-9041-ea4f3a11481e"}';
+    listing_25_no10_image_uuids CONSTANT text[] := '{"4a4853ba-0394-4968-9d67-017f308a17e3", "eefb0fed-9b2d-445f-977a-e5f46bfb341e", "87775b1f-6e2e-43ba-8a8c-e49d70867836", "5cb3df92-e07d-4567-a6d8-36c75023d34b", "ae18d0df-f561-4323-939e-30f269774e23", "f3c58ded-964e-4885-8c2f-3da50b933114", "7dd8db2e-80d6-4465-a61e-4f0a721431aa"}';
 
     listing_26_id INT := 26;
     listing_26_short_id VARCHAR := 'D35Nk';
@@ -680,7 +663,6 @@ BEGIN
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_2_id, listing_2_short_id, listing_2_shop_id, listing_2_category_id, listing_2_title, listing_2_subtitle, listing_2_full_descr, listing_2_price_cents, NULL, NULL, listing_2_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_3_id, listing_3_short_id, listing_3_shop_id, listing_3_category_id, listing_3_title, listing_3_subtitle, listing_3_full_descr, listing_3_price_cents, NULL, NULL, listing_3_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
@@ -765,7 +747,24 @@ BEGIN
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL,
+            jsonb_build_object(
+                listing_25_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_25_size_no10_id,
+                    'options', jsonb_build_object(
+                        listing_25_size_no8_id,  jsonb_build_object('name', 'No. 8',  'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_25_no8_image_uuids)),
+                        listing_25_size_no10_id, jsonb_build_object('name', 'No. 10', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_25_no10_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_25_size_variation_id || ':' || listing_25_size_no8_id,  jsonb_build_object('priceCents', 12000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_25_size_variation_id || ':' || listing_25_size_no10_id, jsonb_build_object('priceCents', 16000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL,
             jsonb_build_object(
                 listing_26_size_variation_id, jsonb_build_object(
