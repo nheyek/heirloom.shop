@@ -3,7 +3,7 @@ DO $$
 DECLARE
     old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
     retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
-    retired_listing_ids CONSTANT INT[] := ARRAY[3, 27, 28];
+    retired_listing_ids CONSTANT INT[] := ARRAY[2, 3, 23, 24, 27, 28, 30, 33];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
@@ -44,45 +44,22 @@ DECLARE
     shop_7_country_code CHAR(2) := 'US';
     shop_7_profile_rich_text TEXT := '<h1>Our Story</h1><p>Big Dipper Wax Works began in the summer of 1993, when our founder, Brent Roose, was hiking Washington''s Olympic Peninsula and got the idea for a beeswax candle company while stargazing at the Big Dipper.</p><h1>Beeswax, Filtered Naturally</h1><p>We source raw beeswax primarily from beekeepers across the Pacific Northwest and British Columbia, then filter it through natural clay rather than chemicals, a process that removes impurities while keeping the wax''s natural color and faint honey scent intact.</p><h1>Hand-Poured, Hand-Dipped</h1><p>Every pillar is hand-poured and every taper is hand-dipped, some as many as twenty times, by small teams of artisans working out of our design studio in Atlanta, Georgia. Our wicks are 100% cotton, free of lead and metal, so they burn clean.</p><h1>Giving Back</h1><p>We donate 5% of our net profits to organizations working on bee sustainability, education, and outreach &mdash; work that only makes sense for a company built on what bees make.</p>';
 
-    listing_2_id INT := 2;
-    listing_2_short_id VARCHAR := 'Sm6Nk';
-    listing_2_shop_id INT := shop_3_id;
-    listing_2_category_id VARCHAR := 'HOUSEWARES';
-    listing_2_title VARCHAR := 'No. 6 Skillet';
-    listing_2_subtitle VARCHAR := 'A small but mighty 6-inch cast iron skillet with a polished cooking surface, ideal for single servings and sides.';
-    listing_2_price_cents INT := 8500;
-    listing_2_image_uuids text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9", "a8f939a2-e8de-47e9-96a4-6bf7f20ef42e", "0a9bed81-0d7c-44cc-9532-21500d18e340", "b9c37da1-4f67-493d-a4c2-4c685e7de648"}';
-    listing_2_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>Smithey''s smallest skillet, ideal for single-serve meals, sides, baking, and entertaining. Its polished interior surface is naturally non-stick and only improves with use, and the handle carries Smithey''s signature embossed lettering, exclusive to this size.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 6\"</li><li>Depth: 1.3\"</li><li>Cook surface: 4.8\"</li><li>Handle to handle: 11.3\"</li><li>Weight: approximately 2.7 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
-
     listing_4_id INT := 4;
     listing_4_short_id VARCHAR := 'S10Nk';
     listing_4_shop_id INT := shop_3_id;
     listing_4_category_id VARCHAR := 'HOUSEWARES';
-    listing_4_title VARCHAR := 'No. 10 Skillet';
-    listing_4_subtitle VARCHAR := 'A 10-inch traditional cast iron skillet, the workhorse size for searing, frying, and everyday cooking.';
+    listing_4_title VARCHAR := 'Cast Iron Skillet';
+    listing_4_subtitle VARCHAR := 'A traditional cast iron skillet with a polished cooking surface, in sizes from a 6-inch single-serve pan to a 14-inch centerpiece built for feeding a crowd.';
     listing_4_price_cents INT := 18000;
-    listing_4_image_uuids text[] := '{"56940747-68ca-4bfa-b482-704c12cceb54", "621edbfa-13f2-4e35-bfa6-12b2f7f155df", "6f4f1b57-af79-46ae-9d8e-74ccf331bf5e", "a6ba1ada-0975-40fd-a246-4f1cac13989f", "7f560aef-ac80-4a04-a2a9-5dd604f564e8", "e37604a6-e527-42d8-a7dd-9cb7c1a77bcc", "cc59d72a-89ea-4882-8b2f-a54c99050813"}';
+    listing_4_image_uuids text[] := '{}';
     listing_4_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>Smithey''s traditional 10-inch skillet, sized for everyday cooking for one to three people. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+            "richText": "<p>Smithey''s traditional skillet, available from a 6-inch pan sized for single servings and sides to a 14-inch skillet with enough surface area to feed a crowd. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: 2.0\"</li><li>Cook surface: 9\"</li><li>Handle to handle: 16.5\"</li><li>Weight: approximately 6.7 lbs</li></ul>"
+            "richText": "<p><strong>No. 6</strong></p><ul><li>Diameter: 6\" (top), 11.3\" (handle to handle)</li><li>Depth: 1.3\"</li><li>Cook surface: 4.8\"</li><li>Weight: 2.7 lbs</li></ul><p><strong>No. 10</strong></p><ul><li>Diameter: 10\" (top), 16.5\" (handle to handle)</li><li>Depth: 2.0\"</li><li>Cook surface: 9\"</li><li>Weight: 6.7 lbs</li></ul><p><strong>No. 12</strong></p><ul><li>Diameter: 12\" (top), 18.2\" (handle to handle)</li><li>Depth: 2.2\"</li><li>Cook surface: 10.5\"</li><li>Weight: 8.7 lbs</li></ul><p><strong>No. 14</strong></p><ul><li>Diameter: 14\" (top), 20.3\" (handle to handle)</li><li>Depth: 2.2\"</li><li>Cook surface: 11.5\"</li><li>Weight: 12 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -90,57 +67,21 @@ DECLARE
         }
     ]';
 
-    listing_23_id INT := 23;
-    listing_23_short_id VARCHAR := 'S12Nk';
-    listing_23_shop_id INT := shop_3_id;
-    listing_23_category_id VARCHAR := 'HOUSEWARES';
-    listing_23_title VARCHAR := 'No. 12 Skillet';
-    listing_23_subtitle VARCHAR := 'A 12-inch traditional cast iron skillet with room to cook for a family, from searing steaks to baking cornbread.';
-    listing_23_price_cents INT := 22000;
-    listing_23_image_uuids text[] := '{"cc15c622-65be-45c4-8f71-089d418c938e", "b46bc5b1-256f-4a54-a8c9-b7e25b3e07e7", "f2822221-d49d-4903-aeca-6e8c8f4af368", "21520ca4-5fa9-4424-b560-457ebcf584ca", "ff968181-133d-496a-bf15-a6f3ace1a5ab", "1eacb947-8464-4590-bba4-f473cedb3e01", "c08d7c76-9d0a-44b7-86ec-68091705d4a3"}';
-    listing_23_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>Smithey''s most popular size, with enough room to cook for the whole family. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: 2.2\"</li><li>Cook surface: 10.5\"</li><li>Handle to handle: 18.2\"</li><li>Weight: approximately 8.7 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
-
-    listing_24_id INT := 24;
-    listing_24_short_id VARCHAR := 'S14Nk';
-    listing_24_shop_id INT := shop_3_id;
-    listing_24_category_id VARCHAR := 'HOUSEWARES';
-    listing_24_title VARCHAR := 'No. 14 Skillet';
-    listing_24_subtitle VARCHAR := 'Smithey''s largest traditional skillet, a 14-inch centerpiece built for feeding a crowd.';
-    listing_24_price_cents INT := 25000;
-    listing_24_image_uuids text[] := '{"a546fe8e-39fb-4263-9975-33539575018a", "bdcfeb33-ce6c-403e-a597-1b1e3a558c5c", "0b13ce42-752a-4ac8-9d65-5f422560723b", "4016ec42-02f4-4c74-997e-9447f2862f90", "581ebc52-38f5-4a0f-b6ba-ba67492f093b", "d19de428-d373-4a50-9456-cf0d71024e16", "c7c4c3c2-5fa3-4271-8c75-90407f64dfd2"}';
-    listing_24_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>The largest of Smithey''s traditional skillets, with enough surface area to feed a crowd. The polished interior surface is naturally non-stick, heats evenly, and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 14\"</li><li>Depth: 2.2\"</li><li>Cook surface: 11.5\"</li><li>Handle to handle: 20.3\"</li><li>Weight: approximately 12 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
+    listing_4_size_variation_id CONSTANT VARCHAR := 'c9d0e1f2-1111-4ab1-8c5d-e8f9a0b1c2d3';
+    listing_4_size_no6_id       CONSTANT VARCHAR := 'c9d0e1f2-2222-4ab1-8c5d-e8f9a0b1c2d3';
+    listing_4_size_no10_id      CONSTANT VARCHAR := 'c9d0e1f2-3333-4ab1-8c5d-e8f9a0b1c2d3';
+    listing_4_size_no12_id      CONSTANT VARCHAR := 'c9d0e1f2-4444-4ab1-8c5d-e8f9a0b1c2d3';
+    listing_4_size_no14_id      CONSTANT VARCHAR := 'c9d0e1f2-5555-4ab1-8c5d-e8f9a0b1c2d3';
+    listing_4_no6_image_uuids  CONSTANT text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9", "a8f939a2-e8de-47e9-96a4-6bf7f20ef42e", "0a9bed81-0d7c-44cc-9532-21500d18e340", "b9c37da1-4f67-493d-a4c2-4c685e7de648"}';
+    listing_4_no10_image_uuids CONSTANT text[] := '{"56940747-68ca-4bfa-b482-704c12cceb54", "621edbfa-13f2-4e35-bfa6-12b2f7f155df", "6f4f1b57-af79-46ae-9d8e-74ccf331bf5e", "a6ba1ada-0975-40fd-a246-4f1cac13989f", "7f560aef-ac80-4a04-a2a9-5dd604f564e8", "e37604a6-e527-42d8-a7dd-9cb7c1a77bcc", "cc59d72a-89ea-4882-8b2f-a54c99050813"}';
+    listing_4_no12_image_uuids CONSTANT text[] := '{"cc15c622-65be-45c4-8f71-089d418c938e", "b46bc5b1-256f-4a54-a8c9-b7e25b3e07e7", "f2822221-d49d-4903-aeca-6e8c8f4af368", "21520ca4-5fa9-4424-b560-457ebcf584ca", "ff968181-133d-496a-bf15-a6f3ace1a5ab", "1eacb947-8464-4590-bba4-f473cedb3e01", "c08d7c76-9d0a-44b7-86ec-68091705d4a3"}';
+    listing_4_no14_image_uuids CONSTANT text[] := '{"a546fe8e-39fb-4263-9975-33539575018a", "bdcfeb33-ce6c-403e-a597-1b1e3a558c5c", "0b13ce42-752a-4ac8-9d65-5f422560723b", "4016ec42-02f4-4c74-997e-9447f2862f90", "581ebc52-38f5-4a0f-b6ba-ba67492f093b", "d19de428-d373-4a50-9456-cf0d71024e16", "c7c4c3c2-5fa3-4271-8c75-90407f64dfd2"}';
 
     listing_25_id INT := 25;
     listing_25_short_id VARCHAR := 'S1CNk';
     listing_25_shop_id INT := shop_3_id;
     listing_25_category_id VARCHAR := 'HOUSEWARES';
-    listing_25_title VARCHAR := 'Chef Skillet';
+    listing_25_title VARCHAR := 'Cast Iron Chef Skillet';
     listing_25_subtitle VARCHAR := 'Made for movement, the curved interior walls of this skillet are great for sautéing, stir-frying, egg flipping, and more.';
     listing_25_price_cents INT := 12000;
     listing_25_image_uuids text[] := '{}';
@@ -169,7 +110,7 @@ DECLARE
     listing_26_short_id VARCHAR := 'D35Nk';
     listing_26_shop_id INT := shop_3_id;
     listing_26_category_id VARCHAR := 'HOUSEWARES';
-    listing_26_title VARCHAR := 'Dutch Oven';
+    listing_26_title VARCHAR := 'Cast Iron Dutch Oven';
     listing_26_subtitle VARCHAR := 'Slow-cooking, baking and frying in a naturally non-stick cast iron Dutch oven, in three sizes.';
     listing_26_price_cents INT := 22500;
     listing_26_image_uuids text[] := '{}';
@@ -200,18 +141,18 @@ DECLARE
     listing_29_short_id VARCHAR := 'G10Nk';
     listing_29_shop_id INT := shop_3_id;
     listing_29_category_id VARCHAR := 'HOUSEWARES';
-    listing_29_title VARCHAR := 'No. 10 Flat Top Griddle';
-    listing_29_subtitle VARCHAR := 'A stand alone griddle for pancakes, pizzas and more, the No. 10 Flat Top also works as a custom fit lid for your No. 10 Skillet!';
+    listing_29_title VARCHAR := 'Cast Iron Flat Top Griddle';
+    listing_29_subtitle VARCHAR := 'A stand-alone griddle for everything from pancakes and pizzas to grilled cheeses and fajitas, and a custom-fit lid for your Skillet of the same size.';
     listing_29_price_cents INT := 12500;
-    listing_29_image_uuids text[] := '{"7498c359-d296-46c4-bed5-02c007268b39", "34b54d45-4a2d-4150-a4b2-50771193bae9", "d54dc965-0f48-4bbe-932f-40d4e4bea41d", "9eb54d52-7d1d-45bf-841d-61587c10e3c4", "6e27f127-66d1-4e80-bcf3-e8f599a56ada", "c31f5213-ef84-4de3-b77c-89964fa1d899", "97f63d44-fb2b-4914-8c96-f0f925651c08"}';
+    listing_29_image_uuids text[] := '{"6e27f127-66d1-4e80-bcf3-e8f599a56ada", "c31f5213-ef84-4de3-b77c-89964fa1d899", "97f63d44-fb2b-4914-8c96-f0f925651c08"}';
     listing_29_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>A stand-alone griddle for pancakes, pizzas, and more, the No. 10 Flat Top also works as a custom-fit lid for your No. 10 Skillet. Its satin-smooth, polished finish is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+            "richText": "<p>A stand-alone griddle for pancakes, pizzas, grilled cheeses, fajitas, and more, the Flat Top also works as a custom-fit lid for your Skillet of the same size. Its satin-smooth, polished finish is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 10\"</li><li>Depth: .3\"</li><li>Cook surface: 9.3\"</li><li>Handle to handle: 16.5\"</li><li>Weight: approximately 5.5 lbs</li></ul>"
+            "richText": "<p><strong>No. 10</strong></p><ul><li>Diameter: 10\" (top), 16.5\" (handle to handle)</li><li>Depth: .3\"</li><li>Cook surface: 9.3\"</li><li>Weight: 5.5 lbs</li></ul><p><strong>No. 12</strong></p><ul><li>Diameter: 12\" (top), 18.2\" (handle to handle)</li><li>Depth: .3\"</li><li>Cook surface: 10.5\"</li><li>Weight: 7 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -219,28 +160,11 @@ DECLARE
         }
     ]';
 
-    listing_30_id INT := 30;
-    listing_30_short_id VARCHAR := 'G12Nk';
-    listing_30_shop_id INT := shop_3_id;
-    listing_30_category_id VARCHAR := 'HOUSEWARES';
-    listing_30_title VARCHAR := 'No. 12 Flat Top Griddle';
-    listing_30_subtitle VARCHAR := 'A top-tier griddle for everything from grilled cheeses to fajitas, plus a custom-fit lid for your No. 12 skillet.';
-    listing_30_price_cents INT := 14000;
-    listing_30_image_uuids text[] := '{"22c86c8a-fd2a-4817-89cc-8ef2ad839d0c", "590e6880-fe56-41fe-9222-81a2dbd8661b", "a14507dd-db41-4438-8b66-b830874888e6", "87ff3340-1c53-4c97-b28a-2db2aaad38f9", "677dad8c-ff2e-4d18-a9c3-e52c149d0c0a", "0b32d9d8-0d65-4eb4-a17a-85d68778d594", "1f36ab03-ead2-4c4e-acf4-f39ca27a16be"}';
-    listing_30_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>A top-tier griddle for everything from grilled cheeses to fajitas, the No. 12 Flat Top also works as a custom-fit lid for your No. 12 Skillet. Its satin-smooth, polished finish is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: .3\"</li><li>Cook surface: 10.5\"</li><li>Handle to handle: 18.2\"</li><li>Weight: approximately 7 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
+    listing_29_size_variation_id CONSTANT VARCHAR := 'd0e1f2a3-1111-4bc2-9d6e-f9a0b1c2d3e4';
+    listing_29_size_no10_id      CONSTANT VARCHAR := 'd0e1f2a3-2222-4bc2-9d6e-f9a0b1c2d3e4';
+    listing_29_size_no12_id      CONSTANT VARCHAR := 'd0e1f2a3-3333-4bc2-9d6e-f9a0b1c2d3e4';
+    listing_29_no10_image_uuids  CONSTANT text[] := '{"7498c359-d296-46c4-bed5-02c007268b39", "34b54d45-4a2d-4150-a4b2-50771193bae9", "d54dc965-0f48-4bbe-932f-40d4e4bea41d", "9eb54d52-7d1d-45bf-841d-61587c10e3c4"}';
+    listing_29_no12_image_uuids  CONSTANT text[] := '{"22c86c8a-fd2a-4817-89cc-8ef2ad839d0c", "590e6880-fe56-41fe-9222-81a2dbd8661b", "a14507dd-db41-4438-8b66-b830874888e6", "87ff3340-1c53-4c97-b28a-2db2aaad38f9"}';
 
     listing_31_id INT := 31;
     listing_31_short_id VARCHAR := 'P12Nk';
@@ -269,18 +193,18 @@ DECLARE
     listing_32_short_id VARCHAR := 'H12Nk';
     listing_32_shop_id INT := shop_3_id;
     listing_32_category_id VARCHAR := 'HOUSEWARES';
-    listing_32_title VARCHAR := 'No. 12 Dual Handle Skillet';
-    listing_32_subtitle VARCHAR := 'Our best-selling size, now with a dual handle design, making it easier to move from range or oven to table.';
+    listing_32_title VARCHAR := 'Cast Iron Dual Handle Skillet';
+    listing_32_subtitle VARCHAR := 'A skillet with two handles that make it easier to move from range or oven to table, and an ideal serving piece, in our best-selling No. 12 or a No. 14 sized for your Big Green Egg.';
     listing_32_price_cents INT := 22000;
-    listing_32_image_uuids text[] := '{"7590e86c-f4de-4905-a99a-5219870e95ee", "291e684a-5940-4f3f-8d0a-85212724142a", "1c407e7d-df86-4eab-b66e-78c8a6d296f7", "c8248d8b-b529-46e1-aa11-07cbaa0e74c8", "bd7df71f-ed18-469c-a506-b8f5965f9ec2", "909acd80-654e-4108-8d0e-88298c3d1a7b", "7908cb4a-41f9-400f-86f1-959bd527976d"}';
+    listing_32_image_uuids text[] := '{}';
     listing_32_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>Our best-selling size, now with a dual handle design that makes it easier to move from range or oven to table. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+            "richText": "<p>A dual handle design that makes it easier to move from range or oven to table, and an ideal serving piece straight from the fire. The No. 12 is our best-selling size, and the No. 14 is perfectly fit for your Big Green Egg. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 12\"</li><li>Depth: 2.0\"</li><li>Cook surface: 10.0\"</li><li>Handle to handle: 15\"</li><li>Weight: approximately 8 lbs</li></ul>"
+            "richText": "<p><strong>No. 12</strong></p><ul><li>Diameter: 12\" (top), 15\" (handle to handle)</li><li>Depth: 2.0\"</li><li>Cook surface: 10.0\"</li><li>Weight: 8 lbs</li></ul><p><strong>No. 14</strong></p><ul><li>Diameter: 14\" (top), 17\" (handle to handle)</li><li>Depth: 2.4\"</li><li>Cook surface: 11\"</li><li>Weight: 10.5 lbs</li></ul>"
         },
         {
             "title": "Care",
@@ -288,28 +212,11 @@ DECLARE
         }
     ]';
 
-    listing_33_id INT := 33;
-    listing_33_short_id VARCHAR := 'H14Nk';
-    listing_33_shop_id INT := shop_3_id;
-    listing_33_category_id VARCHAR := 'HOUSEWARES';
-    listing_33_title VARCHAR := 'No. 14 Dual Handle Skillet';
-    listing_33_subtitle VARCHAR := 'A skillet perfectly fit for your Big Green Egg with two handles that make it an ideal serving piece.';
-    listing_33_price_cents INT := 25000;
-    listing_33_image_uuids text[] := '{"b9cfefe0-0ac1-4e09-b9d2-33cbe6c05daf", "211d5705-40e2-4e7e-ac29-44aa66aa1f4d", "8c215c4d-7ea1-4a67-add4-01066b59d6f7", "c6f9b8ea-9f88-476c-bca1-8790c838a77b", "b57bf597-80d6-4a0b-b016-b687f25c6b2f", "8be4b2d5-0ac3-4b66-a6f0-d43756887784", "6f738693-5947-462f-8b3b-9fa487e91036"}';
-    listing_33_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>A skillet perfectly fit for your Big Green Egg, the No. 14 Dual Handle Skillet''s two handles make it an ideal serving piece straight from the fire to the table. The satin-smooth, polished interior is naturally non-stick and only improves with use.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Diameter (top): 14\"</li><li>Depth: 2.4\"</li><li>Cook surface: 11\"</li><li>Handle to handle: 17\"</li><li>Weight: approximately 10.5 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
+    listing_32_size_variation_id CONSTANT VARCHAR := 'e1f2a3b4-1111-4cd3-8e7f-a0b1c2d3e4f5';
+    listing_32_size_no12_id      CONSTANT VARCHAR := 'e1f2a3b4-2222-4cd3-8e7f-a0b1c2d3e4f5';
+    listing_32_size_no14_id      CONSTANT VARCHAR := 'e1f2a3b4-3333-4cd3-8e7f-a0b1c2d3e4f5';
+    listing_32_no12_image_uuids  CONSTANT text[] := '{"7590e86c-f4de-4905-a99a-5219870e95ee", "291e684a-5940-4f3f-8d0a-85212724142a", "1c407e7d-df86-4eab-b66e-78c8a6d296f7", "c8248d8b-b529-46e1-aa11-07cbaa0e74c8", "bd7df71f-ed18-469c-a506-b8f5965f9ec2", "909acd80-654e-4108-8d0e-88298c3d1a7b", "7908cb4a-41f9-400f-86f1-959bd527976d"}';
+    listing_32_no14_image_uuids  CONSTANT text[] := '{"b9cfefe0-0ac1-4e09-b9d2-33cbe6c05daf", "211d5705-40e2-4e7e-ac29-44aa66aa1f4d", "8c215c4d-7ea1-4a67-add4-01066b59d6f7", "c6f9b8ea-9f88-476c-bca1-8790c838a77b", "b57bf597-80d6-4a0b-b016-b687f25c6b2f", "8be4b2d5-0ac3-4b66-a6f0-d43756887784", "6f738693-5947-462f-8b3b-9fa487e91036"}';
 
     listing_5_id INT := 5;
     listing_5_short_id VARCHAR := 'Tp9Xr';
@@ -662,8 +569,28 @@ BEGIN
 
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
-        (listing_2_id, listing_2_short_id, listing_2_shop_id, listing_2_category_id, listing_2_title, listing_2_subtitle, listing_2_full_descr, listing_2_price_cents, NULL, NULL, listing_2_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL,
+            jsonb_build_object(
+                listing_4_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_4_size_no10_id,
+                    'options', jsonb_build_object(
+                        listing_4_size_no6_id, jsonb_build_object('name', 'No. 6', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_4_no6_image_uuids)),
+                        listing_4_size_no10_id, jsonb_build_object('name', 'No. 10', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_4_no10_image_uuids)),
+                        listing_4_size_no12_id, jsonb_build_object('name', 'No. 12', 'order', 2, 'priceCents', null, 'imageUuids', to_jsonb(listing_4_no12_image_uuids)),
+                        listing_4_size_no14_id, jsonb_build_object('name', 'No. 14', 'order', 3, 'priceCents', null, 'imageUuids', to_jsonb(listing_4_no14_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_4_size_variation_id || ':' || listing_4_size_no6_id, jsonb_build_object('priceCents', 8500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no10_id, jsonb_build_object('priceCents', 18000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no12_id, jsonb_build_object('priceCents', 22000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no14_id, jsonb_build_object('priceCents', 25000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
             jsonb_build_object(
@@ -745,8 +672,6 @@ BEGIN
                 listing_34_size_variation_id || ':' || listing_34_size_large_id,  jsonb_build_object('priceCents', 27000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_34_size_variation_id || ':' || listing_34_size_xl_id,     jsonb_build_object('priceCents', 43000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL,
             jsonb_build_object(
                 listing_25_size_variation_id, jsonb_build_object(
@@ -785,11 +710,43 @@ BEGIN
                 listing_26_size_variation_id || ':' || listing_26_size_medium_id, jsonb_build_object('priceCents', 30000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_26_size_variation_id || ':' || listing_26_size_large_id,  jsonb_build_object('priceCents', 37500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_30_id, listing_30_short_id, listing_30_shop_id, listing_30_category_id, listing_30_title, listing_30_subtitle, listing_30_full_descr, listing_30_price_cents, NULL, NULL, listing_30_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL,
+            jsonb_build_object(
+                listing_29_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_29_size_no10_id,
+                    'options', jsonb_build_object(
+                        listing_29_size_no10_id, jsonb_build_object('name', 'No. 10', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_29_no10_image_uuids)),
+                        listing_29_size_no12_id, jsonb_build_object('name', 'No. 12', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_29_no12_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_29_size_variation_id || ':' || listing_29_size_no10_id, jsonb_build_object('priceCents', 12500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_29_size_variation_id || ':' || listing_29_size_no12_id, jsonb_build_object('priceCents', 14000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_33_id, listing_33_short_id, listing_33_shop_id, listing_33_category_id, listing_33_title, listing_33_subtitle, listing_33_full_descr, listing_33_price_cents, NULL, NULL, listing_33_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL,
+            jsonb_build_object(
+                listing_32_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_32_size_no12_id,
+                    'options', jsonb_build_object(
+                        listing_32_size_no12_id, jsonb_build_object('name', 'No. 12', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_32_no12_image_uuids)),
+                        listing_32_size_no14_id, jsonb_build_object('name', 'No. 14', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_32_no14_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_32_size_variation_id || ':' || listing_32_size_no12_id, jsonb_build_object('priceCents', 22000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_32_size_variation_id || ':' || listing_32_size_no14_id, jsonb_build_object('priceCents', 25000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
             jsonb_build_object(
@@ -851,8 +808,7 @@ BEGIN
 
     INSERT INTO featured_listing (listing_id)
     VALUES
-        (listing_2_id),  -- No. 6 Skillet
-        (listing_4_id),  -- No. 10 Skillet
+        (listing_4_id),  -- Cast Iron Skillet
         (listing_6_id),  -- Boule Vase
         (listing_5_id),  -- Rook Dish
         (listing_12_id), -- Pillar Candle Holder
