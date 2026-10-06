@@ -292,21 +292,6 @@ export const getListingDisplayPrice = (
 		: null;
 };
 
-export const getListingImageUuids = (
-	imageUuids: string[],
-	variations: Variations,
-): string[] => {
-	if (imageUuids.length > 0) return imageUuids;
-	const optionImages = Object.values(variations)
-		.sort((a, b) => a.order - b.order)
-		.flatMap((v) =>
-			Object.values(v.options)
-				.sort((a, b) => a.order - b.order)
-				.flatMap((o) => o.imageUuids ?? []),
-		);
-	return [...new Set(optionImages)];
-};
-
 export type ListingImageContext = {
 	imageUuids: string[];
 	variations: Variations;
@@ -323,10 +308,7 @@ export const getOrderedListingImageUuids = (
 			listing.combinations,
 			listing.variations,
 		),
-		...getListingImageUuids(
-			listing.imageUuids,
-			listing.variations,
-		),
+		...listing.imageUuids,
 	]),
 ];
 

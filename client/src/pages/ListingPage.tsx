@@ -207,7 +207,7 @@ export const ListingPage = () => {
 						flex="1"
 						minW={0}
 					>
-						<Stack gap={4}>
+						<Stack gap={3}>
 							<Stack
 								gap={0}
 								fontFamily={displayFontFamily}

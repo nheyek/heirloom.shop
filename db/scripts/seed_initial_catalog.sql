@@ -3,6 +3,7 @@ DO $$
 DECLARE
     old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
     retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
+    retired_listing_ids CONSTANT INT[] := ARRAY[27, 28];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
@@ -185,18 +186,18 @@ DECLARE
     listing_26_short_id VARCHAR := 'D35Nk';
     listing_26_shop_id INT := shop_3_id;
     listing_26_category_id VARCHAR := 'HOUSEWARES';
-    listing_26_title VARCHAR := '3.5 Qt Dutch Oven';
-    listing_26_subtitle VARCHAR := 'Perfect for sourdough and slow cooking, this Dutch oven deserves a permanent spot on your stovetop.';
+    listing_26_title VARCHAR := 'Dutch Oven';
+    listing_26_subtitle VARCHAR := 'Slow-cooking, baking and frying in a naturally non-stick cast iron Dutch oven, in three sizes.';
     listing_26_price_cents INT := 22500;
-    listing_26_image_uuids text[] := '{"a5ebec41-8ef0-4941-9cea-f6346e3570f2", "4e3348ad-d3ee-4072-8c7e-32ee9411f55a", "401a48d7-0e29-4b29-9699-b0f296a98b30", "8c2ef4c6-e577-44ad-9320-a544e665fe5e", "38608fb2-dcde-4d9d-a7c8-09899eef2ea2", "852f8b45-de9b-4355-aa36-04e9e26faf02", "d69f947f-89a8-416c-805e-1d412a92feca"}';
+    listing_26_image_uuids text[] := '{}';
     listing_26_full_descr JSONB := '[
         {
             "title": "Details",
-            "richText": "<p>Perfect for sourdough and slow cooking, the 3.5 Qt Dutch Oven deserves a permanent spot on your stovetop. Its completely polished interior is naturally non-stick, and lid channels recirculate moisture for better braises and bakes.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
+            "richText": "<p>Smithey''s Dutch ovens are made for slow cooking, braising, baking, and frying, from sourdough to family-style stews and big-batch chili. The completely polished interior is naturally non-stick, and the domed lid features channels that recirculate moisture for better braises and bakes.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
         },
         {
             "title": "Dimensions",
-            "richText": "<ul><li>Volume: 3.5 Qt</li><li>Depth: 4\"</li><li>Handle to handle: 12.2\"</li><li>Total height: approximately 7\"</li><li>Weight (with lid): approximately 12.1 lbs</li><li>Weight (pot only): approximately 8.1 lbs</li></ul>"
+            "richText": "<p><strong>3.5 Qt</strong></p><ul><li>Depth: 4\"</li><li>Handle to handle: 12.2\"</li><li>Height: 7\"</li><li>Weight: 12.1 lbs (with lid), 8.1 lbs (pot only)</li></ul><p><strong>5.5 Qt</strong></p><ul><li>Depth: 4.6\"</li><li>Handle to handle: 13.3\"</li><li>Height: 8.2\"</li><li>Weight: 14.5 lbs (with lid), 9.2 lbs (pot only)</li></ul><p><strong>7.25 Qt</strong></p><ul><li>Depth: 4.7\"</li><li>Handle to handle: 14.9\"</li><li>Height: 8.2\"</li><li>Weight: 17.3 lbs (with lid), 11.5 lbs (pot only)</li></ul>"
         },
         {
             "title": "Care",
@@ -204,51 +205,13 @@ DECLARE
         }
     ]';
 
-    listing_27_id INT := 27;
-    listing_27_short_id VARCHAR := 'D55Nk';
-    listing_27_shop_id INT := shop_3_id;
-    listing_27_category_id VARCHAR := 'HOUSEWARES';
-    listing_27_title VARCHAR := '5.5 Qt Dutch Oven';
-    listing_27_subtitle VARCHAR := 'A true stovetop stunner for family-style slow-cooking, baking, frying and more.';
-    listing_27_price_cents INT := 30000;
-    listing_27_image_uuids text[] := '{"e8eb0db5-da4b-46ce-8b73-3d7b830521f3", "e94aa370-c161-4906-8799-43f1ce224ea5", "bcf87210-192d-4990-b989-0b1cab365c19", "74f000f5-7e63-4674-b65d-c0c199a03512", "c6ba3a5f-961a-4a42-90b4-a4b56dbe6d86", "d320ff84-5511-4e8b-b2fd-7a8547a5fbfd", "25386fef-6726-4653-9855-a0d094d1271d"}';
-    listing_27_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>A true stovetop stunner, the 5.5 Qt Dutch Oven is built for family-style slow-cooking, baking, and frying. Its completely polished interior is naturally non-stick, and the multi-use domed lid features channels to recirculate moisture.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Volume: 5.5 Qt</li><li>Depth: 4.6\"</li><li>Handle to handle: 13.3\"</li><li>Total height: approximately 8.2\"</li><li>Weight (with lid): approximately 14.5 lbs</li><li>Weight (pot only): approximately 9.2 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
-
-    listing_28_id INT := 28;
-    listing_28_short_id VARCHAR := 'D75Nk';
-    listing_28_shop_id INT := shop_3_id;
-    listing_28_category_id VARCHAR := 'HOUSEWARES';
-    listing_28_title VARCHAR := '7.25 Qt Dutch Oven';
-    listing_28_subtitle VARCHAR := 'Our largest Dutch oven, a favorite for large families and famous chili recipes.';
-    listing_28_price_cents INT := 37500;
-    listing_28_image_uuids text[] := '{"d96e9702-5a4b-4f52-9fe4-a01e4192547b", "273cdd9b-2fde-4fcf-9c93-7f8f39d43139", "0090b7fd-e06d-4e68-9193-a7871ab457cb", "72447b8b-5387-4646-81bd-4642d60605d3", "e9311c51-9657-4ff0-afa5-17affbf6c1f0", "6fdd0b79-ee43-44ae-8c1b-be1fb9076317", "6ecc2fbb-b10e-4346-8aaa-b107ad509a71"}';
-    listing_28_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>Smithey''s largest Dutch oven, the 7.25 Qt size is a favorite for large families and famous chili recipes. Its completely polished interior is naturally non-stick, and the multi-use domed lid features channels to recirculate moisture.</p><p>Cast and finished in Charleston, South Carolina, and guaranteed for life.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Volume: 7.25 Qt</li><li>Depth: 4.7\"</li><li>Handle to handle: 14.9\"</li><li>Total height: approximately 8.2\"</li><li>Weight (with lid): approximately 17.3 lbs</li><li>Weight (pot only): approximately 11.5 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash and dry thoroughly, then season with a light layer of oil as needed. Safe for all cooktops, ovens, grills, and open flame.</p>"
-        }
-    ]';
+    listing_26_size_variation_id CONSTANT VARCHAR := 'a7b8c9d0-1111-4e9f-8a3b-c6d7e8f9a0b1';
+    listing_26_size_small_id     CONSTANT VARCHAR := 'a7b8c9d0-2222-4e9f-8a3b-c6d7e8f9a0b1';
+    listing_26_size_medium_id    CONSTANT VARCHAR := 'a7b8c9d0-3333-4e9f-8a3b-c6d7e8f9a0b1';
+    listing_26_size_large_id     CONSTANT VARCHAR := 'a7b8c9d0-4444-4e9f-8a3b-c6d7e8f9a0b1';
+    listing_26_small_image_uuids  CONSTANT text[] := '{"a5ebec41-8ef0-4941-9cea-f6346e3570f2", "4e3348ad-d3ee-4072-8c7e-32ee9411f55a", "401a48d7-0e29-4b29-9699-b0f296a98b30", "8c2ef4c6-e577-44ad-9320-a544e665fe5e", "38608fb2-dcde-4d9d-a7c8-09899eef2ea2", "852f8b45-de9b-4355-aa36-04e9e26faf02", "d69f947f-89a8-416c-805e-1d412a92feca"}';
+    listing_26_medium_image_uuids CONSTANT text[] := '{"e8eb0db5-da4b-46ce-8b73-3d7b830521f3", "e94aa370-c161-4906-8799-43f1ce224ea5", "bcf87210-192d-4990-b989-0b1cab365c19", "74f000f5-7e63-4674-b65d-c0c199a03512", "c6ba3a5f-961a-4a42-90b4-a4b56dbe6d86", "d320ff84-5511-4e8b-b2fd-7a8547a5fbfd", "25386fef-6726-4653-9855-a0d094d1271d"}';
+    listing_26_large_image_uuids  CONSTANT text[] := '{"d96e9702-5a4b-4f52-9fe4-a01e4192547b", "273cdd9b-2fde-4fcf-9c93-7f8f39d43139", "0090b7fd-e06d-4e68-9193-a7871ab457cb", "72447b8b-5387-4646-81bd-4642d60605d3", "e9311c51-9657-4ff0-afa5-17affbf6c1f0", "6fdd0b79-ee43-44ae-8c1b-be1fb9076317", "6ecc2fbb-b10e-4346-8aaa-b107ad509a71"}';
 
     listing_29_id INT := 29;
     listing_29_short_id VARCHAR := 'G10Nk';
@@ -472,8 +435,8 @@ DECLARE
     listing_12_color_variation_id CONSTANT VARCHAR := 'a1b2c3d4-1111-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_raffia_id    CONSTANT VARCHAR := 'a1b2c3d4-2222-4a5b-8c9d-e1f2a3b4c5d6';
     listing_12_color_patina_id    CONSTANT VARCHAR := 'a1b2c3d4-3333-4a5b-8c9d-e1f2a3b4c5d6';
-    listing_12_raffia_image_uuids CONSTANT text[] := '{"b4160501-969f-4a2f-8798-a5f8c02562c4", "045e400d-9603-48ca-a2ca-4efd501e2b7c", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f"}';
-    listing_12_patina_image_uuids CONSTANT text[] := '{"1d56dad8-75a6-468c-9f2a-f8ff364ffde5", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "020453e9-55e0-453f-8a30-524ad5f82278", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2"}';
+    listing_12_raffia_image_uuids CONSTANT text[] := '{"b4160501-969f-4a2f-8798-a5f8c02562c4", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f", "7dcea27e-d4c0-40f8-afda-15b99d3e6af7"}';
+    listing_12_patina_image_uuids CONSTANT text[] := '{"1d56dad8-75a6-468c-9f2a-f8ff364ffde5", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2"}';
 
     listing_13_id INT := 13;
     listing_13_short_id VARCHAR := 'Gm4Rt';
@@ -685,6 +648,7 @@ BEGIN
     -- their listings, featured_shop/featured_listing entries, and any real
     -- users' favorites of them, which is the intended, explicit outcome here.
     DELETE FROM shop WHERE id = ANY(retired_shop_ids);
+    DELETE FROM listing WHERE id = ANY(retired_listing_ids);
 
     -- Clear out unused profile tables tied to the remaining catalog shops.
     -- Note: shop and listing themselves are intentionally NOT deleted here
@@ -798,9 +762,25 @@ BEGIN
         (listing_23_id, listing_23_short_id, listing_23_shop_id, listing_23_category_id, listing_23_title, listing_23_subtitle, listing_23_full_descr, listing_23_price_cents, NULL, NULL, listing_23_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_24_id, listing_24_short_id, listing_24_shop_id, listing_24_category_id, listing_24_title, listing_24_subtitle, listing_24_full_descr, listing_24_price_cents, NULL, NULL, listing_24_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_27_id, listing_27_short_id, listing_27_shop_id, listing_27_category_id, listing_27_title, listing_27_subtitle, listing_27_full_descr, listing_27_price_cents, NULL, NULL, listing_27_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_28_id, listing_28_short_id, listing_28_shop_id, listing_28_category_id, listing_28_title, listing_28_subtitle, listing_28_full_descr, listing_28_price_cents, NULL, NULL, listing_28_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL,
+            jsonb_build_object(
+                listing_26_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'options', jsonb_build_object(
+                        listing_26_size_small_id,  jsonb_build_object('name', '3.5 Qt',  'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_26_small_image_uuids)),
+                        listing_26_size_medium_id, jsonb_build_object('name', '5.5 Qt',  'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_26_medium_image_uuids)),
+                        listing_26_size_large_id,  jsonb_build_object('name', '7.25 Qt', 'order', 2, 'priceCents', null, 'imageUuids', to_jsonb(listing_26_large_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_26_size_variation_id || ':' || listing_26_size_small_id,  jsonb_build_object('priceCents', 22500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_26_size_variation_id || ':' || listing_26_size_medium_id, jsonb_build_object('priceCents', 30000, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_26_size_variation_id || ':' || listing_26_size_large_id,  jsonb_build_object('priceCents', 37500, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_30_id, listing_30_short_id, listing_30_shop_id, listing_30_category_id, listing_30_title, listing_30_subtitle, listing_30_full_descr, listing_30_price_cents, NULL, NULL, listing_30_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

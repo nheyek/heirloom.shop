@@ -810,12 +810,12 @@ describe('getOrderedListingImageUuids', () => {
 		).toEqual(['s1', 's2', 'a', 'b']);
 	});
 
-	it('falls back to option images when there are no shared images', () => {
+	it('returns only the selected option images when there are no shared images', () => {
 		expect(
 			getOrderedListingImageUuids(
 				{ imageUuids: [], variations, combinations: {} },
 				{ size: 'm' },
 			),
-		).toEqual(['m1', 's1', 's2']);
+		).toEqual(['m1']);
 	});
 });
