@@ -25,6 +25,7 @@ export const MAX_IMAGE_SIZE_MB = 5;
 
 export const STANDARD_THUMBNAIL_WIDTH = 225;
 export const STANDARD_THUMBNAIL_GAP = 3;
+export const VARIATION_NAME_INPUT_MAX_WIDTH = 500;
 
 export const CLIENT_ROUTES = {
 	admin: 'admin',

@@ -14,6 +14,7 @@ import {
 	optionsSnapshot,
 	useVariationOptions,
 } from '@client/hooks/useVariationOptions';
+import { VARIATION_NAME_INPUT_MAX_WIDTH } from '@client/constants';
 import { fieldErrorColor } from '@client/theme';
 import {
 	DndContext,
@@ -36,6 +37,8 @@ import {
 } from '@heirloom/common/validation/listing';
 import { ValidationField } from '@heirloom/common/validation/shared';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+
+const DIALOG_MAX_WIDTH = 1000;
 
 type Props = {
 	open: boolean;
@@ -225,6 +228,11 @@ export const VariationDialog = ({
 			open={open}
 			onCancel={handleClose}
 			size="sm"
+			contentProps={
+				imagesVary
+					? { w: 'fit-content', maxW: DIALOG_MAX_WIDTH }
+					: undefined
+			}
 			footer={
 				<DialogConfirmFooter
 					onCancel={handleClose}
@@ -248,6 +256,7 @@ export const VariationDialog = ({
 								setNameError(null);
 						}}
 						placeholder="e.g. Size"
+						maxW={VARIATION_NAME_INPUT_MAX_WIDTH}
 					/>
 				</FormField>
 				<HStack gap={6}>
