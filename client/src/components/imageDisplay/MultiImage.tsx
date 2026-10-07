@@ -1,14 +1,24 @@
 import type { IconButtonProps } from '@chakra-ui/react';
-import { Box, Carousel, IconButton } from '@chakra-ui/react';
+import { Box, Carousel, IconButton, Stack } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import { ReactElement, useEffect, useState } from 'react';
+import {
+	Fragment,
+	ReactElement,
+	ReactNode,
+	useEffect,
+	useState,
+} from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+
+const OVERLAY_MARGIN = 2;
+const OVERLAY_GAP = 1;
 
 type Props = {
 	urls: ImageSource[];
 	aspectRatio?: number;
 	onImageClick?: () => void;
+	overlayElements?: ReactNode[];
 };
 
 export const MultiImage = (props: Props) => {
@@ -37,6 +47,53 @@ export const MultiImage = (props: Props) => {
 				width="100%"
 				height="100%"
 			>
+				<Carousel.ItemGroup
+					width="100%"
+					height="100%"
+				>
+					{props.urls.map((source, index) => (
+						<Carousel.Item
+							key={index}
+							index={index}
+						>
+							<Box position="relative">
+								<AppImage
+									aspectRatio={props.aspectRatio}
+									fallbackSrc={source.fallback}
+									imageProps={{
+										src: source.url,
+										...(index > 0 && {
+											loading: 'lazy',
+										}),
+										onClick: props.onImageClick,
+										...(props.onImageClick && {
+											cursor: 'pointer',
+										}),
+									}}
+								/>
+								{index === 0 && (
+									<Stack
+										position="absolute"
+										top={OVERLAY_MARGIN}
+										left={OVERLAY_MARGIN}
+										gap={OVERLAY_GAP}
+										alignItems="flex-start"
+										pointerEvents="none"
+									>
+										{props.overlayElements?.map(
+											(element, i) => (
+												<Fragment key={i}>
+													{element}
+												</Fragment>
+											),
+										)}
+									</Stack>
+								)}
+							</Box>
+						</Carousel.Item>
+					))}
+				</Carousel.ItemGroup>
+
 				{props.urls.length > 1 && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton
@@ -47,34 +104,6 @@ export const MultiImage = (props: Props) => {
 						</ActionButton>
 					</Carousel.PrevTrigger>
 				)}
-
-				<Carousel.ItemGroup
-					width="100%"
-					height="100%"
-				>
-					{props.urls.map((source, index) => (
-						<Carousel.Item
-							key={index}
-							index={index}
-						>
-							<AppImage
-								aspectRatio={props.aspectRatio}
-								fallbackSrc={source.fallback}
-								imageProps={{
-									src: source.url,
-									loading:
-										index === 0
-											? undefined
-											: 'lazy',
-									onClick: props.onImageClick,
-									...(props.onImageClick && {
-										cursor: 'pointer',
-									}),
-								}}
-							/>
-						</Carousel.Item>
-					))}
-				</Carousel.ItemGroup>
 
 				{props.urls.length > 1 && (
 					<Carousel.NextTrigger asChild>

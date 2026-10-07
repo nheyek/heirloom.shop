@@ -1,4 +1,5 @@
 import {
+	Badge,
 	Box,
 	Card,
 	Flex,
@@ -79,6 +80,19 @@ export const ListingCard = ({
 
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
+	const variationBadges = Object.entries(props.variations)
+		.sort(([, a], [, b]) => a.order - b.order)
+		.map(([id, variation]) => (
+			<Badge
+				key={id}
+				size="lg"
+				fontSize={18}
+			>
+				<b>{Object.keys(variation.options).length}</b>{' '}
+				{variation.name.toLowerCase()} options
+			</Badge>
+		));
+
 	const displayPrice = getListingDisplayPrice(
 		props.variations,
 		props.combinations,
@@ -133,6 +147,7 @@ export const ListingCard = ({
 				{...(onCardBodyClick && { cursor: 'pointer' })}
 			>
 				<MultiImage
+					overlayElements={variationBadges}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={
 						props.multiImage

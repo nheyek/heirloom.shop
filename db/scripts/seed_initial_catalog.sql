@@ -72,10 +72,10 @@ DECLARE
     listing_4_size_no10_id      CONSTANT VARCHAR := 'c9d0e1f2-3333-4ab1-8c5d-e8f9a0b1c2d3';
     listing_4_size_no12_id      CONSTANT VARCHAR := 'c9d0e1f2-4444-4ab1-8c5d-e8f9a0b1c2d3';
     listing_4_size_no14_id      CONSTANT VARCHAR := 'c9d0e1f2-5555-4ab1-8c5d-e8f9a0b1c2d3';
-    listing_4_no6_image_uuids  CONSTANT text[] := '{"b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "b2d4877f-1faf-4160-b0eb-ed7dbf3239d9", "a8f939a2-e8de-47e9-96a4-6bf7f20ef42e", "0a9bed81-0d7c-44cc-9532-21500d18e340", "b9c37da1-4f67-493d-a4c2-4c685e7de648"}';
-    listing_4_no10_image_uuids CONSTANT text[] := '{"56940747-68ca-4bfa-b482-704c12cceb54", "621edbfa-13f2-4e35-bfa6-12b2f7f155df", "6f4f1b57-af79-46ae-9d8e-74ccf331bf5e", "a6ba1ada-0975-40fd-a246-4f1cac13989f", "7f560aef-ac80-4a04-a2a9-5dd604f564e8", "e37604a6-e527-42d8-a7dd-9cb7c1a77bcc", "cc59d72a-89ea-4882-8b2f-a54c99050813"}';
-    listing_4_no12_image_uuids CONSTANT text[] := '{"cc15c622-65be-45c4-8f71-089d418c938e", "b46bc5b1-256f-4a54-a8c9-b7e25b3e07e7", "f2822221-d49d-4903-aeca-6e8c8f4af368", "21520ca4-5fa9-4424-b560-457ebcf584ca", "ff968181-133d-496a-bf15-a6f3ace1a5ab", "1eacb947-8464-4590-bba4-f473cedb3e01", "c08d7c76-9d0a-44b7-86ec-68091705d4a3"}';
-    listing_4_no14_image_uuids CONSTANT text[] := '{"a546fe8e-39fb-4263-9975-33539575018a", "bdcfeb33-ce6c-403e-a597-1b1e3a558c5c", "0b13ce42-752a-4ac8-9d65-5f422560723b", "4016ec42-02f4-4c74-997e-9447f2862f90", "581ebc52-38f5-4a0f-b6ba-ba67492f093b", "d19de428-d373-4a50-9456-cf0d71024e16", "c7c4c3c2-5fa3-4271-8c75-90407f64dfd2"}';
+    listing_4_no6_image_uuids  CONSTANT text[] := '{"b2d4877f-1faf-4160-b0eb-ed7dbf3239d9", "b4b968ab-e2ed-468b-9f7b-fe48e256bbb6", "a8f939a2-e8de-47e9-96a4-6bf7f20ef42e", "0a9bed81-0d7c-44cc-9532-21500d18e340", "b9c37da1-4f67-493d-a4c2-4c685e7de648"}';
+    listing_4_no10_image_uuids CONSTANT text[] := '{"621edbfa-13f2-4e35-bfa6-12b2f7f155df", "56940747-68ca-4bfa-b482-704c12cceb54", "6f4f1b57-af79-46ae-9d8e-74ccf331bf5e", "a6ba1ada-0975-40fd-a246-4f1cac13989f", "7f560aef-ac80-4a04-a2a9-5dd604f564e8", "e37604a6-e527-42d8-a7dd-9cb7c1a77bcc", "cc59d72a-89ea-4882-8b2f-a54c99050813"}';
+    listing_4_no12_image_uuids CONSTANT text[] := '{"b46bc5b1-256f-4a54-a8c9-b7e25b3e07e7", "cc15c622-65be-45c4-8f71-089d418c938e", "f2822221-d49d-4903-aeca-6e8c8f4af368", "21520ca4-5fa9-4424-b560-457ebcf584ca", "ff968181-133d-496a-bf15-a6f3ace1a5ab", "1eacb947-8464-4590-bba4-f473cedb3e01", "c08d7c76-9d0a-44b7-86ec-68091705d4a3"}';
+    listing_4_no14_image_uuids CONSTANT text[] := '{"bdcfeb33-ce6c-403e-a597-1b1e3a558c5c", "a546fe8e-39fb-4263-9975-33539575018a", "0b13ce42-752a-4ac8-9d65-5f422560723b", "4016ec42-02f4-4c74-997e-9447f2862f90", "581ebc52-38f5-4a0f-b6ba-ba67492f093b", "d19de428-d373-4a50-9456-cf0d71024e16", "c7c4c3c2-5fa3-4271-8c75-90407f64dfd2"}';
 
     listing_25_id INT := 25;
     listing_25_short_id VARCHAR := 'S1CNk';
@@ -103,8 +103,8 @@ DECLARE
     listing_25_size_variation_id CONSTANT VARCHAR := 'b8c9d0e1-1111-4fa0-9b4c-d7e8f9a0b1c2';
     listing_25_size_no8_id       CONSTANT VARCHAR := 'b8c9d0e1-2222-4fa0-9b4c-d7e8f9a0b1c2';
     listing_25_size_no10_id      CONSTANT VARCHAR := 'b8c9d0e1-3333-4fa0-9b4c-d7e8f9a0b1c2';
-    listing_25_no8_image_uuids  CONSTANT text[] := '{"dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "60ba0bf4-e368-4773-b1aa-68f1117f2ed5", "20b8a1c9-3153-43b2-b1a3-3b135a2739ce", "09b291f4-f4a7-49e1-9041-ea4f3a11481e"}';
-    listing_25_no10_image_uuids CONSTANT text[] := '{"4a4853ba-0394-4968-9d67-017f308a17e3", "eefb0fed-9b2d-445f-977a-e5f46bfb341e", "87775b1f-6e2e-43ba-8a8c-e49d70867836", "5cb3df92-e07d-4567-a6d8-36c75023d34b", "ae18d0df-f561-4323-939e-30f269774e23", "f3c58ded-964e-4885-8c2f-3da50b933114", "7dd8db2e-80d6-4465-a61e-4f0a721431aa"}';
+    listing_25_no8_image_uuids  CONSTANT text[] := '{"60ba0bf4-e368-4773-b1aa-68f1117f2ed5", "dee2e6fe-15a8-45c3-82c7-2d624dda26e9", "20b8a1c9-3153-43b2-b1a3-3b135a2739ce", "09b291f4-f4a7-49e1-9041-ea4f3a11481e"}';
+    listing_25_no10_image_uuids CONSTANT text[] := '{"eefb0fed-9b2d-445f-977a-e5f46bfb341e", "4a4853ba-0394-4968-9d67-017f308a17e3", "87775b1f-6e2e-43ba-8a8c-e49d70867836", "5cb3df92-e07d-4567-a6d8-36c75023d34b", "ae18d0df-f561-4323-939e-30f269774e23", "f3c58ded-964e-4885-8c2f-3da50b933114", "7dd8db2e-80d6-4465-a61e-4f0a721431aa"}';
 
     listing_26_id INT := 26;
     listing_26_short_id VARCHAR := 'D35Nk';
@@ -163,8 +163,8 @@ DECLARE
     listing_29_size_variation_id CONSTANT VARCHAR := 'd0e1f2a3-1111-4bc2-9d6e-f9a0b1c2d3e4';
     listing_29_size_no10_id      CONSTANT VARCHAR := 'd0e1f2a3-2222-4bc2-9d6e-f9a0b1c2d3e4';
     listing_29_size_no12_id      CONSTANT VARCHAR := 'd0e1f2a3-3333-4bc2-9d6e-f9a0b1c2d3e4';
-    listing_29_no10_image_uuids  CONSTANT text[] := '{"7498c359-d296-46c4-bed5-02c007268b39", "34b54d45-4a2d-4150-a4b2-50771193bae9", "d54dc965-0f48-4bbe-932f-40d4e4bea41d", "9eb54d52-7d1d-45bf-841d-61587c10e3c4"}';
-    listing_29_no12_image_uuids  CONSTANT text[] := '{"22c86c8a-fd2a-4817-89cc-8ef2ad839d0c", "590e6880-fe56-41fe-9222-81a2dbd8661b", "a14507dd-db41-4438-8b66-b830874888e6", "87ff3340-1c53-4c97-b28a-2db2aaad38f9"}';
+    listing_29_no10_image_uuids  CONSTANT text[] := '{"34b54d45-4a2d-4150-a4b2-50771193bae9", "7498c359-d296-46c4-bed5-02c007268b39", "d54dc965-0f48-4bbe-932f-40d4e4bea41d", "9eb54d52-7d1d-45bf-841d-61587c10e3c4"}';
+    listing_29_no12_image_uuids  CONSTANT text[] := '{"590e6880-fe56-41fe-9222-81a2dbd8661b", "22c86c8a-fd2a-4817-89cc-8ef2ad839d0c", "a14507dd-db41-4438-8b66-b830874888e6", "87ff3340-1c53-4c97-b28a-2db2aaad38f9"}';
 
     listing_31_id INT := 31;
     listing_31_short_id VARCHAR := 'P12Nk';
@@ -173,7 +173,7 @@ DECLARE
     listing_31_title VARCHAR := 'No. 12 Grill Pan';
     listing_31_subtitle VARCHAR := 'The Smithey Grill Pan is our go-to for year-round grilling indoors or out.';
     listing_31_price_cents INT := 22000;
-    listing_31_image_uuids text[] := '{"c3c45b3d-29d9-4871-88a8-1088c00ad2f0", "d8c4b76f-e4e6-4cb0-83ad-e9cd1abacae5", "9afaed51-2943-49aa-ad90-2a5636e1389e", "0289afb9-3960-4cfe-9e40-793dfab88398", "1d484325-ccf5-4bfd-ac25-5081f799737f"}';
+    listing_31_image_uuids text[] := '{"d8c4b76f-e4e6-4cb0-83ad-e9cd1abacae5", "c3c45b3d-29d9-4871-88a8-1088c00ad2f0", "9afaed51-2943-49aa-ad90-2a5636e1389e", "0289afb9-3960-4cfe-9e40-793dfab88398", "1d484325-ccf5-4bfd-ac25-5081f799737f"}';
     listing_31_full_descr JSONB := '[
         {
             "title": "Details",
@@ -215,8 +215,8 @@ DECLARE
     listing_32_size_variation_id CONSTANT VARCHAR := 'e1f2a3b4-1111-4cd3-8e7f-a0b1c2d3e4f5';
     listing_32_size_no12_id      CONSTANT VARCHAR := 'e1f2a3b4-2222-4cd3-8e7f-a0b1c2d3e4f5';
     listing_32_size_no14_id      CONSTANT VARCHAR := 'e1f2a3b4-3333-4cd3-8e7f-a0b1c2d3e4f5';
-    listing_32_no12_image_uuids  CONSTANT text[] := '{"7590e86c-f4de-4905-a99a-5219870e95ee", "291e684a-5940-4f3f-8d0a-85212724142a", "1c407e7d-df86-4eab-b66e-78c8a6d296f7", "c8248d8b-b529-46e1-aa11-07cbaa0e74c8", "bd7df71f-ed18-469c-a506-b8f5965f9ec2", "909acd80-654e-4108-8d0e-88298c3d1a7b", "7908cb4a-41f9-400f-86f1-959bd527976d"}';
-    listing_32_no14_image_uuids  CONSTANT text[] := '{"b9cfefe0-0ac1-4e09-b9d2-33cbe6c05daf", "211d5705-40e2-4e7e-ac29-44aa66aa1f4d", "8c215c4d-7ea1-4a67-add4-01066b59d6f7", "c6f9b8ea-9f88-476c-bca1-8790c838a77b", "b57bf597-80d6-4a0b-b016-b687f25c6b2f", "8be4b2d5-0ac3-4b66-a6f0-d43756887784", "6f738693-5947-462f-8b3b-9fa487e91036"}';
+    listing_32_no12_image_uuids  CONSTANT text[] := '{"291e684a-5940-4f3f-8d0a-85212724142a", "7590e86c-f4de-4905-a99a-5219870e95ee", "1c407e7d-df86-4eab-b66e-78c8a6d296f7", "c8248d8b-b529-46e1-aa11-07cbaa0e74c8", "bd7df71f-ed18-469c-a506-b8f5965f9ec2", "909acd80-654e-4108-8d0e-88298c3d1a7b", "7908cb4a-41f9-400f-86f1-959bd527976d"}';
+    listing_32_no14_image_uuids  CONSTANT text[] := '{"211d5705-40e2-4e7e-ac29-44aa66aa1f4d", "b9cfefe0-0ac1-4e09-b9d2-33cbe6c05daf", "8c215c4d-7ea1-4a67-add4-01066b59d6f7", "c6f9b8ea-9f88-476c-bca1-8790c838a77b", "b57bf597-80d6-4a0b-b016-b687f25c6b2f", "8be4b2d5-0ac3-4b66-a6f0-d43756887784", "6f738693-5947-462f-8b3b-9fa487e91036"}';
 
     listing_5_id INT := 5;
     listing_5_short_id VARCHAR := 'Tp9Xr';
@@ -483,7 +483,7 @@ DECLARE
     listing_21_title VARCHAR := 'Beeswax 3" Pillar Candle';
     listing_21_subtitle VARCHAR := 'Hand-poured pillar candle in 100% pure, natural beeswax, available in three heights.';
     listing_21_price_cents INT := 2200;
-    listing_21_image_uuids text[] := '{"d3b3c876-f02e-46d4-a857-b651c5bba322", "f8075b34-cd2b-4818-a494-85afd406cadd", "b83ce102-5c5c-45a3-b5e0-1db6b3f101db", "0a611296-6b3c-4554-b4f7-8afff05d06d0", "04435024-8e95-46ff-87c6-a20918dff8e0"}';
+    listing_21_image_uuids text[] := '{"f8075b34-cd2b-4818-a494-85afd406cadd", "b83ce102-5c5c-45a3-b5e0-1db6b3f101db", "0a611296-6b3c-4554-b4f7-8afff05d06d0", "04435024-8e95-46ff-87c6-a20918dff8e0"}';
     listing_21_full_descr JSONB := '[
         {
             "title": "Details",
