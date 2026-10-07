@@ -60,11 +60,13 @@ const snapshot = (
 	pricesVary: boolean,
 	imagesVary: boolean,
 	options: OptionDraft[],
+	defaultOptionId: string,
 ) =>
 	JSON.stringify({
 		name,
 		pricesVary,
 		imagesVary,
+		defaultOptionId,
 		options: optionsSnapshot(options),
 	});
 
@@ -101,8 +103,13 @@ export const VariationDialog = ({
 	const [isDragging, setIsDragging] = useState(false);
 
 	const isDirty = () =>
-		snapshot(name, pricesVary, imagesVary, options) !==
-		initialSnapshotRef.current;
+		snapshot(
+			name,
+			pricesVary,
+			imagesVary,
+			options,
+			defaultOptionId,
+		) !== initialSnapshotRef.current;
 
 	const handleClose = () => {
 		if (isDirty()) {
@@ -116,11 +123,12 @@ export const VariationDialog = ({
 			const loaded = optionsState.load(
 				initial?.options ?? null,
 			);
-			setDefaultOptionId(
-				loaded.some((o) => o.id === initial?.defaultOption)
-					? initial!.defaultOption
-					: loaded[0].id,
-			);
+			const loadedDefaultOptionId = loaded.some(
+				(o) => o.id === initial?.defaultOption,
+			)
+				? initial!.defaultOption
+				: loaded[0].id;
+			setDefaultOptionId(loadedDefaultOptionId);
 			setName(initial?.name ?? '');
 			setPricesVary(initial?.pricesVary ?? false);
 			setImagesVary(initial?.imagesVary ?? false);
@@ -129,6 +137,7 @@ export const VariationDialog = ({
 				initial?.pricesVary ?? false,
 				initial?.imagesVary ?? false,
 				loaded,
+				loadedDefaultOptionId,
 			);
 		}
 		setNameError(null);
@@ -312,7 +321,7 @@ export const VariationDialog = ({
 							fontSize={16}
 						>
 							<FaStar />
-							<Text>= Default</Text>
+							<Text pt={0.5}>= Default</Text>
 						</HStack>
 					}
 					required
