@@ -28,7 +28,7 @@ import {
 } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export type ListingCardIconMenuItem = {
 	icon: IconType;
@@ -76,8 +76,6 @@ export const ListingCard = ({
 	onCardBodyClick,
 	...props
 }: Props) => {
-	const navigate = useNavigate();
-
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
 	const variationBadges = Object.entries(props.variations)

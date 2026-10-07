@@ -20,6 +20,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 const OVERLAY_MARGIN = 2;
 const OVERLAY_GAP = 1;
 const HOVER_MEDIA_QUERY = '(hover: hover)';
+const SCROLL_END_TOLERANCE = 1;
 
 type Props = {
 	urls: ImageSource[];
@@ -32,7 +33,11 @@ export const MultiImage = (props: Props) => {
 	const [canHover] = useMediaQuery([HOVER_MEDIA_QUERY]);
 	const [isHovered, setIsHovered] = useState<boolean>(false);
 	const [page, setPage] = useState<number>(0);
-	const showArrows = isHovered && props.urls.length > 1;
+	const hasMultiple = props.urls.length > 1;
+	const slides = hasMultiple
+		? [...props.urls, props.urls[0]]
+		: props.urls;
+	const showArrows = isHovered && hasMultiple;
 	const primaryImage = props.urls[0] || null;
 
 	useEffect(() => {
@@ -45,9 +50,8 @@ export const MultiImage = (props: Props) => {
 			onPageChange={(details) => setPage(details.page)}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
-			slideCount={props.urls.length}
+			slideCount={slides.length}
 			colorPalette="white"
-			loop
 			width="100%"
 			aspectRatio={props.aspectRatio}
 		>
@@ -58,8 +62,18 @@ export const MultiImage = (props: Props) => {
 				<Carousel.ItemGroup
 					width="100%"
 					height="100%"
+					onScroll={(e) => {
+						const el = e.currentTarget;
+						if (
+							hasMultiple &&
+							el.scrollLeft + el.clientWidth >=
+								el.scrollWidth - SCROLL_END_TOLERANCE
+						) {
+							el.scrollLeft = 0;
+						}
+					}}
 				>
-					{props.urls.map((source, index) => (
+					{slides.map((source, index) => (
 						<Carousel.Item
 							key={index}
 							index={index}
@@ -79,7 +93,7 @@ export const MultiImage = (props: Props) => {
 										}),
 									}}
 								/>
-								{index === 0 && (
+								{index % props.urls.length === 0 && (
 									<Stack
 										position="absolute"
 										top={OVERLAY_MARGIN}
@@ -102,18 +116,18 @@ export const MultiImage = (props: Props) => {
 					))}
 				</Carousel.ItemGroup>
 
-				{canHover && props.urls.length > 1 && (
+				{canHover && hasMultiple && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton
 							insetStart={4}
-							visible={showArrows}
+							visible={showArrows && page > 0}
 						>
 							<FaArrowLeft />
 						</ActionButton>
 					</Carousel.PrevTrigger>
 				)}
 
-				{canHover && props.urls.length > 1 && (
+				{canHover && hasMultiple && (
 					<Carousel.NextTrigger asChild>
 						<ActionButton
 							insetEnd="4"
@@ -124,19 +138,25 @@ export const MultiImage = (props: Props) => {
 					</Carousel.NextTrigger>
 				)}
 
-				{props.urls.length > 1 && (
+				{hasMultiple && (
 					<Box
 						position="absolute"
 						bottom={5}
 						width="full"
 					>
-						<Carousel.Indicators
-							opacity="0.5"
-							_current={{
-								bg: 'colorPalette.subtle',
-								opacity: 1,
-							}}
-						/>
+						<Carousel.IndicatorGroup>
+							{props.urls.map((_, index) => (
+								<Carousel.Indicator
+									key={index}
+									index={index}
+									opacity="0.5"
+									_current={{
+										bg: 'colorPalette.subtle',
+										opacity: 1,
+									}}
+								/>
+							))}
+						</Carousel.IndicatorGroup>
 					</Box>
 				)}
 			</Carousel.Control>
