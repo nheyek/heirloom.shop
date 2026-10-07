@@ -190,6 +190,7 @@ export const ListingPage = () => {
 			)}
 			{layout === Layout.MOBILE && (
 				<MultiImage
+					key={orderedImageUuids.join()}
 					urls={imageSources}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				/>
