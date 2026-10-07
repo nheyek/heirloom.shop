@@ -4,11 +4,18 @@ import {
 	Carousel,
 	IconButton,
 	Stack,
+	useCarousel,
 	useMediaQuery,
 } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import { Fragment, ReactElement, ReactNode, useState } from 'react';
+import {
+	Fragment,
+	ReactElement,
+	ReactNode,
+	useEffect,
+	useState,
+} from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const OVERLAY_MARGIN = 2;
@@ -25,20 +32,25 @@ type Props = {
 export const MultiImage = (props: Props) => {
 	const [canHover] = useMediaQuery([HOVER_MEDIA_QUERY]);
 	const [isHovered, setIsHovered] = useState<boolean>(false);
-	const [page, setPage] = useState<number>(0);
 	const hasMultiple = props.urls.length > 1;
 	const showArrows = isHovered && hasMultiple;
-	const primaryImage = props.urls[0] || null;
+	const primaryUrl = props.urls[0]?.url;
+
+	const carousel = useCarousel({
+		slideCount: props.urls.length,
+		loop: true,
+	});
+
+	useEffect(() => {
+		carousel.scrollTo(0, true);
+	}, [primaryUrl]);
 
 	return (
-		<Carousel.Root
-			page={page}
-			onPageChange={(details) => setPage(details.page)}
-			slideCount={props.urls.length}
+		<Carousel.RootProvider
+			value={carousel}
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			colorPalette="white"
-			loop
 			width="100%"
 			aspectRatio={props.aspectRatio}
 		>
@@ -131,7 +143,7 @@ export const MultiImage = (props: Props) => {
 					</Box>
 				)}
 			</Carousel.Control>
-		</Carousel.Root>
+		</Carousel.RootProvider>
 	);
 };
 
