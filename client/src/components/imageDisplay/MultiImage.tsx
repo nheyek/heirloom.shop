@@ -4,7 +4,6 @@ import {
 	Carousel,
 	IconButton,
 	Stack,
-	useCarousel,
 	useMediaQuery,
 } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
@@ -36,18 +35,18 @@ export const MultiImage = (props: Props) => {
 	const showArrows = isHovered && hasMultiple;
 	const primaryUrl = props.urls[0]?.url;
 
-	const carousel = useCarousel({
-		slideCount: props.urls.length,
-		loop: true,
-	});
+	const [page, setPage] = useState<number>(0);
 
 	useEffect(() => {
-		carousel.scrollTo(0, true);
+		setPage(0);
 	}, [primaryUrl]);
 
 	return (
-		<Carousel.RootProvider
-			value={carousel}
+		<Carousel.Root
+			page={page}
+			onPageChange={(details) => setPage(details.page)}
+			slideCount={props.urls.length}
+			loop
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			colorPalette="white"
@@ -143,7 +142,7 @@ export const MultiImage = (props: Props) => {
 					</Box>
 				)}
 			</Carousel.Control>
-		</Carousel.RootProvider>
+		</Carousel.Root>
 	);
 };
 
