@@ -8,13 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import {
-	Fragment,
-	ReactElement,
-	ReactNode,
-	useEffect,
-	useState,
-} from 'react';
+import { Fragment, ReactElement, ReactNode, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const OVERLAY_MARGIN = 2;
@@ -36,10 +30,6 @@ export const MultiImage = (props: Props) => {
 	const primaryUrl = props.urls[0]?.url;
 
 	const [page, setPage] = useState<number>(0);
-
-	useEffect(() => {
-		setPage(0);
-	}, [primaryUrl]);
 
 	return (
 		<Carousel.Root
