@@ -38,8 +38,8 @@ export const ListingImageUpload = ({
 			disabled,
 		}}
 	>
-		{imageEntries.length ? (
-			<Box>
+		<Box>
+			{imageEntries.length > 0 && (
 				<ImageGrid
 					gap={STANDARD_THUMBNAIL_GAP}
 					mb={3}
@@ -48,22 +48,13 @@ export const ListingImageUpload = ({
 						<RemoveImageButton />
 					</ImageTile>
 				</ImageGrid>
-				<ImageDropzone
-					onAdd={onAdd}
-					maxFiles={LISTING_LIMITS.maxImages}
-					disabled={disabled}
-					trigger={
-						<AddFieldButton>Add Images</AddFieldButton>
-					}
-				/>
-			</Box>
-		) : (
+			)}
 			<ImageDropzone
 				onAdd={onAdd}
 				maxFiles={LISTING_LIMITS.maxImages}
 				disabled={disabled}
-				width="100%"
+				trigger={<AddFieldButton>Add Images</AddFieldButton>}
 			/>
-		)}
+		</Box>
 	</ImageListProvider>
 );

@@ -11,7 +11,7 @@ type Props = {
 export const InfoPopover = ({
 	children,
 	maxWidth = 300,
-	iconSize = 18,
+	iconSize = 17,
 }: Props) => (
 	<Popover.Root positioning={{ placement: 'top' }}>
 		<Popover.Trigger

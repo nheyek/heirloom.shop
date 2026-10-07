@@ -320,7 +320,7 @@ export const ListingFormFields = ({
 									)
 										form.setInventory('0');
 								}}
-								size="lg"
+								size="md"
 								disabled={disabled}
 							>
 								<Checkbox.HiddenInput />
