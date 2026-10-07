@@ -1,9 +1,9 @@
 import {
 	Checkbox,
 	HStack,
-	RadioGroup,
 	Separator,
 	Stack,
+	Text,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
 import {
@@ -15,7 +15,6 @@ import { Variation } from '@client/components/listingForm/useListingForm';
 import { VariationOptionRow } from '@client/components/listingForm/VariationOptionRow';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
-import { VARIATION_NAME_INPUT_MAX_WIDTH } from '@client/constants';
 import {
 	OptionDraft,
 	optionsSnapshot,
@@ -44,8 +43,7 @@ import {
 } from '@heirloom/common/validation/listing';
 import { ValidationField } from '@heirloom/common/validation/shared';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
-
-const DIALOG_MAX_WIDTH = 1000;
+import { FaStar } from 'react-icons/fa';
 
 type Props = {
 	open: boolean;
@@ -247,11 +245,11 @@ export const VariationDialog = ({
 			open={open}
 			onCancel={handleClose}
 			size="sm"
-			contentProps={
-				imagesVary
-					? { w: 'fit-content', maxW: DIALOG_MAX_WIDTH }
-					: undefined
-			}
+			contentProps={{
+				w: 'fit-content',
+				minW: 500,
+				maxW: 700,
+			}}
 			footer={
 				<DialogConfirmFooter
 					onCancel={handleClose}
@@ -275,7 +273,6 @@ export const VariationDialog = ({
 								setNameError(null);
 						}}
 						placeholder="e.g. Size"
-						maxW={VARIATION_NAME_INPUT_MAX_WIDTH}
 					/>
 				</FormField>
 				<HStack gap={6}>
@@ -284,7 +281,7 @@ export const VariationDialog = ({
 						onCheckedChange={(e) =>
 							setPricesVary(!!e.checked)
 						}
-						size="lg"
+						size="md"
 					>
 						<Checkbox.HiddenInput />
 						<Checkbox.Control />
@@ -297,7 +294,7 @@ export const VariationDialog = ({
 						onCheckedChange={(e) =>
 							setImagesVary(!!e.checked)
 						}
-						size="lg"
+						size="md"
 					>
 						<Checkbox.HiddenInput />
 						<Checkbox.Control />
@@ -309,6 +306,15 @@ export const VariationDialog = ({
 
 				<FormField
 					label="Options"
+					labelEnd={
+						<HStack
+							gap={1}
+							fontSize={16}
+						>
+							<FaStar />
+							<Text>= Default</Text>
+						</HStack>
+					}
 					required
 				>
 					<Stack w="100%">
@@ -323,105 +329,97 @@ export const VariationDialog = ({
 								items={options.map((o) => o.id)}
 								strategy={verticalListSortingStrategy}
 							>
-								<RadioGroup.Root
-									value={defaultOptionId}
-									onValueChange={(e) =>
-										e.value &&
-										setDefaultOptionId(e.value)
+								<Stack
+									gap={0}
+									borderWidth={1}
+									borderColor={
+										optionsError
+											? fieldErrorColor
+											: 'gray.200'
 									}
-									size="sm"
-									variant="outline"
+									borderRadius="md"
+									overflow="hidden"
 								>
-									<Stack
-										gap={0}
-										borderWidth={1}
-										borderColor={
-											optionsError
-												? fieldErrorColor
-												: 'gray.200'
+									{options.map((option, i) => {
+										if (!inputRefs.current[i]) {
+											inputRefs.current[i] = {
+												current: null,
+											};
 										}
-										borderRadius="md"
-										overflow="hidden"
-									>
-										{options.map((option, i) => {
-											if (
-												!inputRefs.current[i]
-											) {
-												inputRefs.current[i] =
-													{
-														current: null,
-													};
-											}
-											return (
-												<Fragment
-													key={option.id}
-												>
-													{i > 0 && (
-														<Separator
-															borderColor={dividerColor(
-																i,
-															)}
-															visibility={
-																isDragging
-																	? 'hidden'
-																	: 'visible'
-															}
-														/>
-													)}
-													<VariationOptionRow
-														option={
-															option
-														}
-														imageList={optionsState.imageList(
-															option.id,
+										return (
+											<Fragment key={option.id}>
+												{i > 0 && (
+													<Separator
+														borderColor={dividerColor(
+															i,
 														)}
-														invalid={invalidOptionIds.has(
-															option.id,
-														)}
-														deletable={
-															options.length >
-																optionsState.minOptions &&
-															!validateOptionDeletion(
-																option.id,
-																defaultOptionId,
-															)
-														}
-														showPrice={
-															pricesVary
-														}
-														showImage={
-															imagesVary
-														}
-														inputRef={
-															inputRefs
-																.current[
-																i
-															]
-														}
-														onChange={(
-															patch,
-														) =>
-															updateOption(
-																option.id,
-																patch,
-															)
-														}
-														onDelete={() =>
-															optionsState.remove(
-																option.id,
-															)
-														}
-														onTabKey={() =>
-															handleTabOnOption(
-																i,
-															)
+														visibility={
+															isDragging
+																? 'hidden'
+																: 'visible'
 														}
 													/>
-												</Fragment>
-											);
-										})}
-									</Stack>
-								</RadioGroup.Root>
+												)}
+												<VariationOptionRow
+													option={option}
+													imageList={optionsState.imageList(
+														option.id,
+													)}
+													invalid={invalidOptionIds.has(
+														option.id,
+													)}
+													deletable={
+														options.length >
+															optionsState.minOptions &&
+														!validateOptionDeletion(
+															option.id,
+															defaultOptionId,
+														)
+													}
+													isDefault={
+														option.id ===
+														defaultOptionId
+													}
+													showPrice={
+														pricesVary
+													}
+													showImage={
+														imagesVary
+													}
+													inputRef={
+														inputRefs
+															.current[
+															i
+														]
+													}
+													onChange={(
+														patch,
+													) =>
+														updateOption(
+															option.id,
+															patch,
+														)
+													}
+													onMakeDefault={() =>
+														setDefaultOptionId(
+															option.id,
+														)
+													}
+													onDelete={() =>
+														optionsState.remove(
+															option.id,
+														)
+													}
+													onTabKey={() =>
+														handleTabOnOption(
+															i,
+														)
+													}
+												/>
+											</Fragment>
+										);
+									})}
+								</Stack>
 							</SortableContext>
 						</DndContext>
 						{optionsError && (

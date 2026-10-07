@@ -1,6 +1,7 @@
 import {
 	Field,
 	FieldRootProps,
+	HStack,
 	Input,
 	InputProps,
 	Textarea,
@@ -12,11 +13,13 @@ import { ReactNode } from 'react';
 
 export const FormField = ({
 	label,
+	labelEnd,
 	error,
 	children,
 	...rest
 }: FieldRootProps & {
 	label: ReactNode;
+	labelEnd?: ReactNode;
 	error?: string | null;
 	children: ReactNode;
 }) => (
@@ -24,10 +27,18 @@ export const FormField = ({
 		invalid={!!error}
 		{...rest}
 	>
-		<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
-			{label}
-			<Field.RequiredIndicator fontFamily={sansFontFamily} />
-		</Field.Label>
+		<HStack
+			w="100%"
+			justify="space-between"
+		>
+			<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
+				{label}
+				<Field.RequiredIndicator
+					fontFamily={sansFontFamily}
+				/>
+			</Field.Label>
+			{labelEnd}
+		</HStack>
 		{children}
 		{error && <FieldError>{error}</FieldError>}
 	</Field.Root>

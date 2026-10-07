@@ -1,9 +1,9 @@
 import {
 	Box,
 	HStack,
+	Icon,
 	IconButton,
 	Input,
-	RadioGroup,
 	Stack,
 } from '@chakra-ui/react';
 import { PriceInput } from '@client/components/input/PriceInput';
@@ -22,7 +22,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import React from 'react';
 import { FaGripHorizontal, FaTrashAlt } from 'react-icons/fa';
-import { FaXmark } from 'react-icons/fa6';
+import { FaRegStar, FaStar, FaXmark } from 'react-icons/fa6';
 
 const OPTION_IMAGE_TILE_WIDTH = 120;
 const OPTION_IMAGE_TILE_GAP = 2;
@@ -32,12 +32,14 @@ type Props = {
 	imageList: ImageListController;
 	invalid?: boolean;
 	deletable?: boolean;
+	isDefault: boolean;
 	showPrice: boolean;
 	showImage: boolean;
 	inputRef?: React.RefObject<HTMLInputElement | null>;
 	onChange: (
 		patch: Partial<Pick<OptionDraft, 'name' | 'priceCents'>>,
 	) => void;
+	onMakeDefault: () => void;
 	onDelete: () => void;
 	onTabKey?: () => void;
 };
@@ -47,10 +49,12 @@ export const VariationOptionRow = ({
 	imageList,
 	invalid,
 	deletable,
+	isDefault,
 	showPrice,
 	showImage,
 	inputRef,
 	onChange,
+	onMakeDefault,
 	onDelete,
 	onTabKey,
 }: Props) => {
@@ -120,52 +124,71 @@ export const VariationOptionRow = ({
 						border="none"
 					/>
 
-					{showPrice && (
-						<Box
-							alignSelf="center"
-							flexShrink={0}
-						>
-							<PriceInput
-								value={option.priceCents}
-								onChange={(v) =>
-									onChange({ priceCents: v })
-								}
-								onKeyDown={(e) => {
-									if (
-										e.key === 'Tab' &&
-										!e.shiftKey
-									) {
-										e.preventDefault();
-										onTabKey?.();
-									}
-								}}
-								enclosed={false}
-							/>
-						</Box>
-					)}
-
-					<RadioGroup.Item
-						value={option.id}
+					<HStack
 						flexShrink={0}
 						alignSelf="center"
 					>
-						<RadioGroup.ItemHiddenInput />
-						<RadioGroup.ItemIndicator />
-						<RadioGroup.ItemText fontSize={15}>
-							Default
-						</RadioGroup.ItemText>
-					</RadioGroup.Item>
+						<HStack
+							gap={0}
+							flexShrink={0}
+							alignSelf="center"
+						>
+							{showPrice && (
+								<Box
+									alignSelf="center"
+									flexShrink={0}
+								>
+									<PriceInput
+										value={option.priceCents}
+										onChange={(v) =>
+											onChange({
+												priceCents: v,
+											})
+										}
+										onKeyDown={(e) => {
+											if (
+												e.key === 'Tab' &&
+												!e.shiftKey
+											) {
+												e.preventDefault();
+												onTabKey?.();
+											}
+										}}
+										enclosed={false}
+									/>
+								</Box>
+							)}
 
-					<IconButton
-						size="sm"
-						variant="ghost"
-						color="red.500"
-						flexShrink={0}
-						onClick={onDelete}
-						disabled={!deletable}
-					>
-						<FaTrashAlt />
-					</IconButton>
+							<IconButton
+								size="sm"
+								variant="ghost"
+								onClick={onMakeDefault}
+							>
+								<Icon
+									asChild
+									w={5}
+									h={5}
+								>
+									{isDefault ? (
+										<FaStar />
+									) : (
+										<FaRegStar />
+									)}
+								</Icon>
+							</IconButton>
+						</HStack>
+
+						<IconButton
+							size="sm"
+							variant="ghost"
+							color="red.500"
+							flexShrink={0}
+							onClick={onDelete}
+							disabled={!deletable}
+						>
+							<FaTrashAlt />
+						</IconButton>
+					</HStack>
 				</HStack>
 				{showImage && imageList.entries.length > 0 && (
 					<Box
