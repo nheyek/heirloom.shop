@@ -1,0 +1,27 @@
+name: Registry Garbage Collection
+
+on:
+    schedule:
+        # Midnight US Central (CST); 1am during daylight saving. GitHub cron is UTC.
+        - cron: '0 6 * * *'
+    workflow_dispatch: {}
+
+jobs:
+    garbage-collect:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Install doctl
+              uses: digitalocean/action-doctl@v2
+              with:
+                  token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+
+            - name: Start garbage collection
+              # Each push overwrites the `:latest` tag rather than adding a new
+              # one, so every prior image becomes an untagged, orphaned manifest
+              # still taking up registry storage. While a collection runs, the
+              # registry rejects pushes (about 15-20 minutes), which is why this
+              # runs on a schedule instead of after every deploy.
+              run: |
+                  doctl registry garbage-collection start heirloom-shop \
+                    --include-untagged-manifests \
+                    --force

@@ -28,5 +28,29 @@ jobs:
                     --build-arg GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }} \
                     -t registry.digitalocean.com/heirloom-shop/node-app:latest .
 
+            - name: Wait for registry garbage collection
+              # Pushes are rejected with "unauthorized" while a collection is
+              # running, so wait for any in-progress one to finish first.
+              run: |
+                  TIMEOUT=2400
+                  ELAPSED=0
+                  POLL_INTERVAL=30
+
+                  while [ $ELAPSED -lt $TIMEOUT ]; do
+                    STATUS=$(doctl registry garbage-collection get-active heirloom-shop \
+                      --output json 2>/dev/null | jq -r '.[0].status // empty')
+                    case $STATUS in
+                      ""|succeeded|failed|cancelled)
+                        exit 0
+                        ;;
+                    esac
+                    echo "[$ELAPSED s] Garbage collection in progress ($STATUS), waiting..."
+                    sleep $POLL_INTERVAL
+                    ELAPSED=$((ELAPSED + POLL_INTERVAL))
+                  done
+
+                  echo "Timed out waiting for garbage collection after ${TIMEOUT}s"
+                  exit 1
+
             - name: Push Docker image
               run: docker push registry.digitalocean.com/heirloom-shop/node-app:latest
