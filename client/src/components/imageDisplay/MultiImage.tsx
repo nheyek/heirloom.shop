@@ -8,13 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
-import {
-	Fragment,
-	ReactElement,
-	ReactNode,
-	useEffect,
-	useState,
-} from 'react';
+import { Fragment, ReactElement, ReactNode, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const OVERLAY_MARGIN = 2;
@@ -35,10 +29,6 @@ export const MultiImage = (props: Props) => {
 	const hasMultiple = props.urls.length > 1;
 	const showArrows = isHovered && hasMultiple;
 	const primaryImage = props.urls[0] || null;
-
-	useEffect(() => {
-		setPage(0);
-	}, [primaryImage]);
 
 	return (
 		<Carousel.Root
