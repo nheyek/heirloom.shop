@@ -1,4 +1,4 @@
-import { Button, Icon } from '@chakra-ui/react';
+import { Button, ButtonProps, Icon } from '@chakra-ui/react';
 import { PaymentRequest } from '@stripe/stripe-js';
 import { FaApplePay } from 'react-icons/fa6';
 
@@ -6,7 +6,7 @@ type Props = {
 	paymentRequest: PaymentRequest;
 	disabled: boolean;
 	loading: boolean;
-};
+} & ButtonProps;
 
 export const ApplePayButton = ({
 	paymentRequest,
@@ -14,9 +14,7 @@ export const ApplePayButton = ({
 	loading,
 }: Props) => (
 	<Button
-		h="100%"
 		variant="outline"
-		flex={1}
 		onClick={() => paymentRequest.show()}
 		disabled={disabled}
 		loading={loading}

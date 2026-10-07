@@ -7,6 +7,7 @@ import {
 	Skeleton,
 	Stack,
 	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/cards/OrderItemCard';
 import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
@@ -162,7 +163,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 										</Text>
 									</HStack>
 
-									<HStack h={50}>
+									<Wrap>
 										{applePay.available &&
 											applePay.paymentRequest && (
 												<ApplePayButton
@@ -176,12 +177,12 @@ export const ShoppingCartDrawer = (props: Props) => {
 														pendingSubmission ===
 														CheckoutType.ApplePay
 													}
+													{...CheckoutButtonConfig}
 												/>
 											)}
 										<Button
-											h="100%"
+											{...CheckoutButtonConfig}
 											fontSize={26}
-											flex={1}
 											onClick={() => {
 												navigate(
 													CLIENT_ROUTES.checkout,
@@ -193,7 +194,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 											Checkout
 											<FaArrowCircleRight />
 										</Button>
-									</HStack>
+									</Wrap>
 								</Stack>
 							)}
 						</Stack>
@@ -202,4 +203,10 @@ export const ShoppingCartDrawer = (props: Props) => {
 			</Drawer.Positioner>
 		</Drawer.Root>
 	);
+};
+
+const CheckoutButtonConfig = {
+	h: 50,
+	minW: 200,
+	flex: 1,
 };
