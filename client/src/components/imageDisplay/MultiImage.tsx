@@ -67,9 +67,9 @@ export const MultiImage = (props: Props) => {
 											? undefined
 											: 'lazy',
 									onClick: props.onImageClick,
-									cursor: props.onImageClick
-										? 'pointer'
-										: 'auto',
+									...(props.onImageClick && {
+										cursor: 'pointer',
+									}),
 								}}
 							/>
 						</Carousel.Item>

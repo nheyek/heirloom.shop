@@ -64,6 +64,7 @@ type Props = ListingCardData & {
 	showShopTitle?: boolean;
 	topRight?: ReactNode;
 	topLeft?: ReactNode;
+	onCardBodyClick?: () => void;
 };
 
 export const ListingCard = ({
@@ -71,6 +72,7 @@ export const ListingCard = ({
 	showShopTitle,
 	topRight,
 	topLeft,
+	onCardBodyClick,
 	...props
 }: Props) => {
 	const navigate = useNavigate();
@@ -126,69 +128,76 @@ export const ListingCard = ({
 					{topLeft}
 				</Box>
 			)}
-			<MultiImage
-				onImageClick={() => {
-					navigate(listingUrl);
-				}}
-				aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-				urls={
-					props.multiImage
-						? imageUuids.map(getImageSource)
-						: imageUuids.slice(0, 1).map(getImageSource)
-				}
-			/>
-
-			<Card.Body
-				p={3}
-				pb={2}
-				gap={1.5}
+			<Box
+				onClick={onCardBodyClick}
+				{...(onCardBodyClick && { cursor: 'pointer' })}
 			>
-				<Stack gap={0}>
-					<RouterLink to={listingUrl}>
-						<Link asChild>
-							<Text
-								fontSize={24}
-								fontWeight={600}
-								fontFamily={displayFontFamily}
-								truncate
-								display="block"
-							>
-								{props.title}
-							</Text>
-						</Link>
-					</RouterLink>
-					{showShopTitle && props.shopTitle && (
+				<MultiImage
+					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					urls={
+						props.multiImage
+							? imageUuids.map(getImageSource)
+							: imageUuids
+									.slice(0, 1)
+									.map(getImageSource)
+					}
+				/>
+
+				<Card.Body
+					p={3}
+					pb={2}
+					gap={1.5}
+				>
+					<Stack gap={0}>
 						<RouterLink
-							to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
+							to={listingUrl}
+							onClick={(e) => e.stopPropagation()}
 						>
 							<Link asChild>
 								<Text
-									fontSize={20}
+									fontSize={24}
+									fontWeight={600}
 									fontFamily={displayFontFamily}
 									truncate
-									fontWeight="medium"
 									display="block"
 								>
-									{props.shopTitle}
+									{props.title}
 								</Text>
 							</Link>
 						</RouterLink>
-					)}
-				</Stack>
+						{showShopTitle && props.shopTitle && (
+							<RouterLink
+								to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
+							>
+								<Link asChild>
+									<Text
+										fontSize={20}
+										fontFamily={displayFontFamily}
+										truncate
+										fontWeight="medium"
+										display="block"
+									>
+										{props.shopTitle}
+									</Text>
+								</Link>
+							</RouterLink>
+						)}
+					</Stack>
 
-				<Stack
-					gap={1}
-					justifyContent="space-between"
-					flexGrow={1}
-				>
-					<Text
-						lineClamp={2}
-						fontSize={18}
+					<Stack
+						gap={1}
+						justifyContent="space-between"
+						flexGrow={1}
 					>
-						{props.subtitle}
-					</Text>
-				</Stack>
-			</Card.Body>
+						<Text
+							lineClamp={2}
+							fontSize={18}
+						>
+							{props.subtitle}
+						</Text>
+					</Stack>
+				</Card.Body>
+			</Box>
 			<Card.Body
 				py={0}
 				px={3}

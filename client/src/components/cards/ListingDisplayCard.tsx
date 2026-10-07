@@ -8,9 +8,13 @@ import { ListingCard, ListingCardIconMenu } from './ListingCard';
 type Props = ListingCardData & {
 	multiImage?: boolean;
 	showShopTitle?: boolean;
+	onCardBodyClick?: () => void;
 };
 
-export const ListingDisplayCard = ({ showShopTitle, ...props }: Props) => {
+export const ListingDisplayCard = ({
+	showShopTitle,
+	...props
+}: Props) => {
 	const shareListing = useShareListing();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 
