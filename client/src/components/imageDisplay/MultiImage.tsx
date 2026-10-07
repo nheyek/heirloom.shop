@@ -70,6 +70,7 @@ export const MultiImage = (props: Props) => {
 								el.scrollWidth - SCROLL_END_TOLERANCE
 						) {
 							el.scrollLeft = 0;
+							setPage(0);
 						}
 					}}
 				>
@@ -171,8 +172,8 @@ type ActionButtonProps = IconButtonProps & {
 const ActionButton = ({ visible, ...props }: ActionButtonProps) => (
 	<IconButton
 		{...props}
-		size="2xs"
-		variant="surface"
+		size="xs"
+		variant="subtle"
 		position="absolute"
 		opacity={visible ? 1 : 0}
 		pointerEvents={visible ? 'auto' : 'none'}
