@@ -1,5 +1,11 @@
 import type { IconButtonProps } from '@chakra-ui/react';
-import { Box, Carousel, IconButton, Stack } from '@chakra-ui/react';
+import {
+	Box,
+	Carousel,
+	IconButton,
+	Stack,
+	useMediaQuery,
+} from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImageSource } from '@client/utils/imageUtils';
 import {
@@ -13,6 +19,7 @@ import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const OVERLAY_MARGIN = 2;
 const OVERLAY_GAP = 1;
+const HOVER_MEDIA_QUERY = '(hover: hover)';
 
 type Props = {
 	urls: ImageSource[];
@@ -22,6 +29,7 @@ type Props = {
 };
 
 export const MultiImage = (props: Props) => {
+	const [canHover] = useMediaQuery([HOVER_MEDIA_QUERY]);
 	const [isHovered, setIsHovered] = useState<boolean>(false);
 	const [page, setPage] = useState<number>(0);
 	const showArrows = isHovered && props.urls.length > 1;
@@ -94,7 +102,7 @@ export const MultiImage = (props: Props) => {
 					))}
 				</Carousel.ItemGroup>
 
-				{props.urls.length > 1 && (
+				{canHover && props.urls.length > 1 && (
 					<Carousel.PrevTrigger asChild>
 						<ActionButton
 							insetStart={4}
@@ -105,7 +113,7 @@ export const MultiImage = (props: Props) => {
 					</Carousel.PrevTrigger>
 				)}
 
-				{props.urls.length > 1 && (
+				{canHover && props.urls.length > 1 && (
 					<Carousel.NextTrigger asChild>
 						<ActionButton
 							insetEnd="4"
