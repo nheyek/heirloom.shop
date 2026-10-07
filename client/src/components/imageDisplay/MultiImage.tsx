@@ -64,7 +64,7 @@ export const MultiImage = (props: Props) => {
 				>
 					{props.urls.map((source, index) => (
 						<Carousel.Item
-							key={index}
+							key={source.url}
 							index={index}
 						>
 							<Box position="relative">
