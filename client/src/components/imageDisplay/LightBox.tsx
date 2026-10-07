@@ -7,8 +7,7 @@ import {
 	Image,
 } from '@chakra-ui/react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-
-import { IoClose } from 'react-icons/io5';
+import { FaXmark } from 'react-icons/fa6';
 
 type Props = {
 	urls: string[];
@@ -58,7 +57,7 @@ export const LightBox = (props: Props) => {
 								right={5}
 								size="xs"
 							>
-								<IoClose />
+								<FaXmark />
 							</ActionButton>
 							<Carousel.Control
 								height="100%"

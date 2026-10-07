@@ -4,20 +4,13 @@ import { FaApplePay } from 'react-icons/fa6';
 
 type Props = {
 	paymentRequest: PaymentRequest;
-	disabled: boolean;
-	loading: boolean;
 } & ButtonProps;
 
-export const ApplePayButton = ({
-	paymentRequest,
-	disabled,
-	loading,
-}: Props) => (
+export const ApplePayButton = (props: Props) => (
 	<Button
 		variant="outline"
-		onClick={() => paymentRequest.show()}
-		disabled={disabled}
-		loading={loading}
+		onClick={() => props.paymentRequest.show()}
+		{...props}
 	>
 		<Icon
 			w={16}
