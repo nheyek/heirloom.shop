@@ -38,7 +38,9 @@ jobs:
 
                   while [ $ELAPSED -lt $TIMEOUT ]; do
                     STATUS=$(doctl registry garbage-collection get-active heirloom-shop \
-                      --output json 2>/dev/null | jq -r '.[0].status // empty')
+                      --output json 2>/dev/null \
+                      | jq -r 'if type == "array" then .[0] else . end | .status? // empty' \
+                      || true)
                     case $STATUS in
                       ""|succeeded|failed|cancelled)
                         exit 0
