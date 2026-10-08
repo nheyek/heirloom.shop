@@ -3,7 +3,7 @@ DO $$
 DECLARE
     old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
     retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
-    retired_listing_ids CONSTANT INT[] := ARRAY[2, 3, 23, 24, 27, 28, 30, 33, 40, 41, 45];
+    retired_listing_ids CONSTANT INT[] := ARRAY[2, 3, 13, 23, 24, 27, 28, 30, 33, 39, 40, 41, 43, 44, 45, 46, 47, 48, 52];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
@@ -328,29 +328,6 @@ DECLARE
     listing_12_raffia_image_uuids CONSTANT text[] := '{"b4160501-969f-4a2f-8798-a5f8c02562c4", "200c92e3-60b3-4c0c-8b27-b5ff4d1a8c2f", "7dcea27e-d4c0-40f8-afda-15b99d3e6af7"}';
     listing_12_patina_image_uuids CONSTANT text[] := '{"1d56dad8-75a6-468c-9f2a-f8ff364ffde5", "b1d9ac10-2a5a-4bf8-82c6-defea6629ee6", "3333fb95-e853-4bb2-b537-ea8af9f7bfa6", "f2d5f95d-e850-483c-8898-b58e896048a2"}';
 
-    listing_13_id INT := 13;
-    listing_13_short_id VARCHAR := 'Gm4Rt';
-    listing_13_shop_id INT := shop_5_id;
-    listing_13_category_id VARCHAR := 'HOUSEWARES';
-    listing_13_title VARCHAR := 'Madison Wine Decanter';
-    listing_13_subtitle VARCHAR := 'Handblown wine decanter with a wide base for aeration and a flared neck, holding up to 32 ounces.';
-    listing_13_price_cents INT := 20500;
-    listing_13_image_uuids text[] := '{"eb392bc2-cca2-453e-8488-da400c560c88", "65e4dc09-2ed6-474a-b28c-f82eb18d13fd", "45fa9435-034f-4a85-94d9-90ee49c35084", "67285d64-de0f-4fb4-ab18-214472b76140", "f2e0bd7c-b4b6-4403-8429-b5254c3b57ee", "c836a6d3-70f4-4f52-af1f-323add2b2388", "18660911-63aa-43f9-a86b-7532b9f45947"}';
-    listing_13_full_descr JSONB := '[
-        {
-            "title": "Details",
-            "richText": "<p>Blown by hand from a single gather of molten glass, the Madison decanter''s wide base exposes wine to more air as it is poured, softening young reds and opening up their aromatics. The flared neck pours cleanly, even one-handed.</p><p>As with all of our glass, each piece keeps its pontil mark, the small mark left by the glassblower''s punty rod, a signature of the hands that made it.</p>"
-        },
-        {
-            "title": "Dimensions",
-            "richText": "<ul><li>Width: 8.25\"</li><li>Depth: 8\"</li><li>Height: 8\"</li><li>Capacity: 32 oz</li><li>Weight: Approximately 4.2 lbs</li></ul>"
-        },
-        {
-            "title": "Care",
-            "richText": "<p>Hand wash recommended.</p>"
-        }
-    ]';
-
     listing_14_id INT := 14;
     listing_14_short_id VARCHAR := 'Hp5Sv';
     listing_14_shop_id INT := shop_5_id;
@@ -648,29 +625,6 @@ DECLARE
     listing_38_medium_image_uuids CONSTANT text[] := '{"2dec715e-d76c-4810-af19-06a5a0f13afe", "e3cb37e6-f21c-42da-8044-1fd6c3c4efd5"}';
     listing_38_large_image_uuids  CONSTANT text[] := '{"08657a17-a302-4fef-915d-9b02b96812ac"}';
 
-    listing_39_id INT := 39;
-    listing_39_short_id VARCHAR := 'Wd3Dk';
-    listing_39_shop_id INT := shop_5_id;
-    listing_39_category_id VARCHAR := 'HOUSEWARES';
-    listing_39_title VARCHAR := 'Woodbury Decanter';
-    listing_39_subtitle VARCHAR := 'A squared-off decanter in clear handblown glass that looks cut rather than blown.';
-    listing_39_price_cents INT := 24000;
-    listing_39_image_uuids text[] := '{"2cf296c3-196f-4892-9927-afb68f75160d", "1db950cf-ea6f-4feb-b933-5a48d07a614d", "95956fca-d03b-4773-a0c8-644f49ec66f5", "e357e204-560a-4df8-9df1-723c44090a1b", "2d57b1cc-64d8-4d72-b3b1-40907fb07c3b", "d5698e03-34cb-496d-96ff-e5be0b518f71", "db32a6a2-3484-4513-824b-570a4e340c6d"}';
-    listing_39_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>The Woodbury Decanter takes Simon’s long pursuit of square geometry in glass and applies it to a form that usually takes the opposite approach. Where most decanters rely on curves, this one meets at flat panels and squared edges for a silhouette that looks cut rather than blown. The result sits on a bar cart with a quiet authority and pours with the kind of heft that makes decanting feel intentional.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<ul><li>Width: 5.5\"</li><li>Depth: 5.5\"</li><li>Height: 9.125\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Hand wash recommended.</p>"
-    }
-]';
-
     listing_42_id INT := 42;
     listing_42_short_id VARCHAR := 'An5Vs';
     listing_42_shop_id INT := shop_5_id;
@@ -678,7 +632,7 @@ DECLARE
     listing_42_title VARCHAR := 'Anemone Vase';
     listing_42_subtitle VARCHAR := 'A handblown vase whose rim lands differently on every piece, in three sizes.';
     listing_42_price_cents INT := 22500;
-    listing_42_image_uuids text[] := '{}';
+    listing_42_image_uuids text[] := '{"d219cbbf-af62-4147-8303-7b1075cbba4b", "9beb308d-0157-4275-b2dd-e67d40ba7313", "9f5e8022-9dc9-434a-8582-130dc4d76a1f", "4f1cf4cf-56d5-431d-b4db-ed2d57942e14", "3fee5bd6-217e-4c14-aeeb-22e0b6fcdcf9"}';
     listing_42_full_descr JSONB := '[
     {
         "title": "Details",
@@ -694,162 +648,13 @@ DECLARE
     }
 ]';
 
-    listing_42_size_variation_id CONSTANT VARCHAR := 'f81b23e6-8d66-48fd-8e6b-e21b7f5ffd5d';
-    listing_42_size_small_id CONSTANT VARCHAR := '69b5239d-a671-45c6-b9fa-fc66c58100a1';
-    listing_42_size_medium_id CONSTANT VARCHAR := '3fcadc07-a563-4238-9551-82dbc92d1403';
-    listing_42_size_large_id CONSTANT VARCHAR := 'b922b543-e4ca-4883-a27c-6a196ded6881';
-    listing_42_small_image_uuids CONSTANT text[] := '{"48f2946d-52c5-439a-b40d-6fe8285bbc0e", "37e6ee59-12e0-4fd6-a43c-2879e10c556e", "d219cbbf-af62-4147-8303-7b1075cbba4b", "9beb308d-0157-4275-b2dd-e67d40ba7313"}';
-    listing_42_medium_image_uuids CONSTANT text[] := '{"eee95481-1621-4fae-b81a-eba41ea4bf0b", "9f5e8022-9dc9-434a-8582-130dc4d76a1f"}';
-    listing_42_large_image_uuids CONSTANT text[] := '{"705fcead-c4f1-4982-a70b-fd3ff99225ad", "2a1694ba-7106-47e6-85b3-80a3801fc7b8", "4f1cf4cf-56d5-431d-b4db-ed2d57942e14", "3fee5bd6-217e-4c14-aeeb-22e0b6fcdcf9"}';
-
-    listing_43_id INT := 43;
-    listing_43_short_id VARCHAR := 'Br7Vz';
-    listing_43_shop_id INT := shop_5_id;
-    listing_43_category_id VARCHAR := 'HOUSEWARES';
-    listing_43_title VARCHAR := 'Barre Vase';
-    listing_43_subtitle VARCHAR := 'A spare, clean-lined handblown vase, in two sizes.';
-    listing_43_price_cents INT := 12500;
-    listing_43_image_uuids text[] := '{"7b2e8c9f-5a2d-4546-b71b-57927e3d64f1", "cb4d926d-5446-4df2-a5a0-2b26e55167dd"}';
-    listing_43_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>The clean lines don’t compete with the flowers, which is the point. The Barre profile is spare enough to sit anywhere without demanding attention and substantial enough to anchor a shelf or table on its own when empty.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<p><strong>Small</strong></p><ul><li>Width: 6\"</li><li>Depth: 5\"</li><li>Height: 4.25\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 6\"</li><li>Depth: 5.25\"</li><li>Height: 8.75\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Hand wash recommended.</p>"
-    }
-]';
-
-    listing_43_size_variation_id CONSTANT VARCHAR := '33efbbc0-b460-412d-9a04-20384de49b87';
-    listing_43_size_small_id CONSTANT VARCHAR := '47e78adb-0ee2-4e3b-9ce1-156faf7ca5f7';
-    listing_43_size_large_id CONSTANT VARCHAR := '2b87d0b2-c942-4d3d-8e73-1de21a94b848';
-    listing_43_small_image_uuids CONSTANT text[] := '{"96b85a9c-51ef-43c1-bdb4-06bf848a26af"}';
-    listing_43_large_image_uuids CONSTANT text[] := '{"b4c447e8-b03e-4c1b-be9f-cdfc1428a925", "f620a97b-074e-4d08-b2ed-835cb434ae8e", "d4f0a1ca-d771-48cb-8ca0-385c9e4258dd"}';
-
-    listing_44_id INT := 44;
-    listing_44_short_id VARCHAR := 'Wv8Ls';
-    listing_44_shop_id INT := shop_5_id;
-    listing_44_category_id VARCHAR := 'HOUSEWARES';
-    listing_44_title VARCHAR := 'Woodbury Vase';
-    listing_44_subtitle VARCHAR := 'A squared-off handblown vase in clear glass, in three sizes.';
-    listing_44_price_cents INT := 15500;
-    listing_44_image_uuids text[] := '{"4818be9c-e7da-47bc-b2fe-673c8d2a0bdc", "a4553268-82c3-4cad-b14a-6618a5727fd0"}';
-    listing_44_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>The flat panels of clear glass give it a presence that a rounded vase doesn’t have, and the squared Woodbury angles keep it grounded without being heavy. A versatile piece that earns its place on a shelf, a sill, or a dining table.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<p><strong>Medium</strong></p><ul><li>Width: 3.5\"</li><li>Depth: 3.5\"</li><li>Height: 10.5\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 4.75\"</li><li>Depth: 4.75\"</li><li>Height: 13.5\"</li></ul><p><strong>Extra Large</strong></p><ul><li>Width: 6\"</li><li>Depth: 6\"</li><li>Height: 18.5\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Hand wash recommended.</p>"
-    }
-]';
-
-    listing_44_size_variation_id CONSTANT VARCHAR := '95f8e42e-9d09-4f05-9da8-d6004a9b0e0c';
-    listing_44_size_medium_id CONSTANT VARCHAR := '8951b6fe-1d56-4789-9e05-43fed6dd42f5';
-    listing_44_size_large_id CONSTANT VARCHAR := 'd1969b76-f765-4efa-ae11-e54f5efd9b8b';
-    listing_44_size_xl_id CONSTANT VARCHAR := 'a8dd2d56-7442-4af2-aabe-216d3803a356';
-    listing_44_medium_image_uuids CONSTANT text[] := '{"709a1277-1831-4789-a58c-c84a034453a1", "4e878529-f9bc-40e9-bc82-7ed0172a6fa2", "3727a25a-b3b1-4bde-81df-4170c3ff5b52", "7f4df094-ceb2-44d2-90fa-b8bd8b3f8449"}';
-    listing_44_large_image_uuids CONSTANT text[] := '{"e8687d27-d442-445b-af6f-678f35594d4c", "5c646cd5-b4ad-4b5a-b1e3-4cd97f776483"}';
-    listing_44_xl_image_uuids CONSTANT text[] := '{"4a84d4b3-e6fc-485a-93e3-f8a769589e95"}';
-
-    listing_46_id INT := 46;
-    listing_46_short_id VARCHAR := 'Wb9Hd';
-    listing_46_shop_id INT := shop_5_id;
-    listing_46_category_id VARCHAR := 'HOUSEWARES';
-    listing_46_title VARCHAR := 'Woodbury Bowl';
-    listing_46_subtitle VARCHAR := 'Squared-off edges in clear handblown glass, in four sizes.';
-    listing_46_price_cents INT := 7500;
-    listing_46_image_uuids text[] := '{"059feab3-2937-4087-923d-0f5e567e4848"}';
-    listing_46_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>The Woodbury silhouette is one of the clearest expressions of what we do: squared-off edges in clear handblown glass, simple enough to belong anywhere and considered enough to earn a second look. Available in small, medium, and large for every table and every use.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<p><strong>Extra Small</strong></p><ul><li>Width: 5.75\"</li><li>Depth: 5.75\"</li><li>Height: 2.25\"</li></ul><p><strong>Small</strong></p><ul><li>Width: 7.5\"</li><li>Depth: 7.5\"</li><li>Height: 3.5\"</li></ul><p><strong>Medium</strong></p><ul><li>Width: 10.5\"</li><li>Depth: 10.5\"</li><li>Height: 4.5\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 13.5\"</li><li>Depth: 13.5\"</li><li>Height: 6.5\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Hand wash recommended.</p>"
-    }
-]';
-
-    listing_46_size_variation_id CONSTANT VARCHAR := '48bf9501-89e2-4e01-91ee-03b7ec6c410b';
-    listing_46_size_xs_id CONSTANT VARCHAR := 'e9b2e9aa-c13a-4e7e-a4e2-331d256df603';
-    listing_46_size_small_id CONSTANT VARCHAR := '0af4f5e2-bfe7-4ea2-aad6-08221142ff36';
-    listing_46_size_medium_id CONSTANT VARCHAR := '219c90fc-f9c4-4250-90d9-64618ef04fe3';
-    listing_46_size_large_id CONSTANT VARCHAR := 'cf0605fc-3675-4cdb-ac34-448aa172f6e7';
-    listing_46_xs_image_uuids CONSTANT text[] := '{"9d0084c6-e552-41bf-9e2c-1e44616da855"}';
-    listing_46_small_image_uuids CONSTANT text[] := '{"b6ee1cdb-6361-4492-9488-3fff9a65c7f9"}';
-    listing_46_medium_image_uuids CONSTANT text[] := '{"6824e94f-876d-4dca-a778-3bb988cde03f"}';
-    listing_46_large_image_uuids CONSTANT text[] := '{"bc00a912-e094-4b77-94ff-e045b0cb3bf1", "0ae1a014-aa27-4bec-b536-ea8330c549b7", "1947681a-6017-4b9a-bc5a-7013309c50d6"}';
-
-    listing_47_id INT := 47;
-    listing_47_short_id VARCHAR := 'Rv3Mt';
-    listing_47_shop_id INT := shop_5_id;
-    listing_47_category_id VARCHAR := 'HOUSEWARES';
-    listing_47_title VARCHAR := 'Revere Hurricane';
-    listing_47_subtitle VARCHAR := 'A glass hurricane with a broad base and flared rim, drawn from Paul Revere’s silver bowl.';
-    listing_47_price_cents INT := 17000;
-    listing_47_image_uuids text[] := '{"a3954d5d-d390-4c30-9836-d8ef388ead1d", "8748c977-024c-4a56-a386-1f381672c5aa", "a445118b-7e34-494a-af39-53fd63d73e7e"}';
-    listing_47_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>The Revere Hurricane takes its form from an unexpected source: Paul Revere’s silver bowl, one of the most recognized objects in American decorative history. The broad base, short stem, and flared rim translate that silhouette into glass, and into something that holds candlelight with real presence. Refined without being formal, and the kind of piece that works for an everyday dinner as well as a celebratory one.</p><p>Ivory pillar candle included: 2\" x 3\" for the Small, 3\" x 3\" for the Medium, 3\" x 4\" for the Large, and 3\" x 6\" for the Extra Large.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<p><strong>Small</strong></p><ul><li>Width: 4.5\"</li><li>Depth: 4.5\"</li><li>Height: 5.25\"</li></ul><p><strong>Medium</strong></p><ul><li>Width: 6.375\"</li><li>Depth: 6.375\"</li><li>Height: 7\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 7.375\"</li><li>Depth: 7.375\"</li><li>Height: 9.625\"</li></ul><p><strong>Extra Large</strong></p><ul><li>Width: 8.25\"</li><li>Depth: 8.25\"</li><li>Height: 13\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Clean with a glass cleaner and a soft cloth; remove wax residue carefully before cleaning. Avoid sudden temperature changes, which can cause fractures.</p>"
-    }
-]';
-
-    listing_47_size_variation_id CONSTANT VARCHAR := '1641f822-b5dd-47de-943a-054755dff796';
-    listing_47_size_small_id CONSTANT VARCHAR := '8f240497-8cb3-4031-9f11-99582c81c8c1';
-    listing_47_size_medium_id CONSTANT VARCHAR := '65cb930a-6f3f-4630-b084-89a24deeabe4';
-    listing_47_size_large_id CONSTANT VARCHAR := '5a0f5257-7283-405d-8f82-ae50ae766773';
-    listing_47_size_xl_id CONSTANT VARCHAR := '7233fa61-662d-4eab-9b4e-83391ab20a7c';
-    listing_47_small_image_uuids CONSTANT text[] := '{"4672dd27-7e5b-452f-88ac-c57b23a1b3fd"}';
-    listing_47_medium_image_uuids CONSTANT text[] := '{"8ca5dc50-dc5b-42df-a27b-15bad903937a"}';
-    listing_47_large_image_uuids CONSTANT text[] := '{"183088c4-0445-4573-9ad1-feb9ca2c32ff", "663518f6-a497-4364-b77f-14eafb7a4c48", "7d62537d-500a-434a-bc50-11b4a9f00ea3"}';
-    listing_47_xl_image_uuids CONSTANT text[] := '{"fd5b4d28-74a3-4339-bb19-3e587bc08f0c"}';
-
-    listing_48_id INT := 48;
-    listing_48_short_id VARCHAR := 'Ad4Fp';
-    listing_48_shop_id INT := shop_5_id;
-    listing_48_category_id VARCHAR := 'HOUSEWARES';
-    listing_48_title VARCHAR := 'Ascutney Double Old-Fashioned Glasses';
-    listing_48_subtitle VARCHAR := 'A broad-based double old-fashioned glass, sold as a set of 2.';
-    listing_48_price_cents INT := 18000;
-    listing_48_image_uuids text[] := '{"fe00b1ae-99d8-4fae-9e39-a28328252129", "bc143d86-6942-4a62-af08-f92a0fa44c43", "fe10aee4-7ffc-49b4-b146-e3e479c647ce", "ef39a36e-0590-4f7b-b0d5-7c58fd017380", "20624248-3939-492a-aa02-d3d5ccda2c18", "8f718756-558d-4c4e-af37-2b3c69bf8ba2", "a7755f3c-e97c-4467-bc4a-bd813a8a0b9a", "8a54ba37-099c-4dbb-822d-15dfa8d2a860"}';
-    listing_48_full_descr JSONB := '[
-    {
-        "title": "Details",
-        "richText": "<p>A broad base gives this glass a presence on the table that’s hard to miss and nearly impossible to tip. The wide rim makes stirring and muddling effortless, and there’s room for a large-format ice cube, a muddled citrus peel, or a generous pour over crushed ice. One of Simon Pearce’s most beloved pieces, customers consistently call it the glass they didn’t know they needed. Sold as a set of 2, gift-boxed.</p>"
-    },
-    {
-        "title": "Dimensions",
-        "richText": "<ul><li>Width: 3.5\"</li><li>Depth: 3.5\"</li><li>Height: 4\"</li></ul>"
-    },
-    {
-        "title": "Care",
-        "richText": "<p>Hand wash recommended.</p>"
-    }
-]';
+    listing_42_size_variation_id CONSTANT VARCHAR := '033e691b-2a78-457e-82c9-404df2cba1a4';
+    listing_42_size_small_id CONSTANT VARCHAR := 'fb238fdf-c15e-4dd0-87ec-e2bd5379e9d5';
+    listing_42_size_medium_id CONSTANT VARCHAR := '0e53863d-6194-44d4-9856-c09f69704a70';
+    listing_42_size_large_id CONSTANT VARCHAR := '577dbb41-8ef1-4bd3-8000-d17aa64deb04';
+    listing_42_small_image_uuids CONSTANT text[] := '{"48f2946d-52c5-439a-b40d-6fe8285bbc0e", "37e6ee59-12e0-4fd6-a43c-2879e10c556e"}';
+    listing_42_medium_image_uuids CONSTANT text[] := '{"eee95481-1621-4fae-b81a-eba41ea4bf0b"}';
+    listing_42_large_image_uuids CONSTANT text[] := '{"705fcead-c4f1-4982-a70b-fd3ff99225ad", "2a1694ba-7106-47e6-85b3-80a3801fc7b8"}';
 
     listing_49_id INT := 49;
     listing_49_short_id VARCHAR := 'Hf6Jn';
@@ -928,22 +733,22 @@ DECLARE
     listing_51_medium_image_uuids CONSTANT text[] := '{"c86c2d62-0e58-43d3-943c-4cfc4b2bb2e3"}';
     listing_51_large_image_uuids CONSTANT text[] := '{"659d2a23-7d57-43cc-9009-1b02c55e127f", "bc43e408-c814-4d73-b995-b9c5e70d0cd8", "4d1ea0de-1a96-4e34-97ef-7715a5504816"}';
 
-    listing_52_id INT := 52;
-    listing_52_short_id VARCHAR := 'Wt2Bn';
-    listing_52_shop_id INT := shop_5_id;
-    listing_52_category_id VARCHAR := 'HOUSEWARES';
-    listing_52_title VARCHAR := 'Woodstock Tumblers';
-    listing_52_subtitle VARCHAR := 'Handblown tumblers built on elegance through simplicity, sold as a set of 2.';
-    listing_52_price_cents INT := 17000;
-    listing_52_image_uuids text[] := '{"b6ad7368-60db-411b-830b-049306fd64db"}';
-    listing_52_full_descr JSONB := '[
+    listing_53_id INT := 53;
+    listing_53_short_id VARCHAR := 'Cr5Hk';
+    listing_53_shop_id INT := shop_5_id;
+    listing_53_category_id VARCHAR := 'HOUSEWARES';
+    listing_53_title VARCHAR := 'Champlain Ring Holder';
+    listing_53_subtitle VARCHAR := 'A simple handblown glass ring holder for the sink, nightstand or entryway.';
+    listing_53_price_cents INT := 14500;
+    listing_53_image_uuids text[] := '{"31b1d429-5487-4229-ab41-a22050c191e9", "e06aab08-b045-4694-a354-90d772861826", "08709055-4063-46b6-b2a1-e928100fe0f5", "79afe826-e837-41f0-a158-a795d0d8685f", "3b8dde51-6da0-4461-8595-0f9eeee054b9", "b3cf098e-4aaf-4545-a1cb-678f93cd9c3f"}';
+    listing_53_full_descr JSONB := '[
     {
         "title": "Details",
-        "richText": "<p>Built on the Woodstock ethos of elegance through simplicity, this tumbler earns its place at every table, every time of day. It holds as much character as whatever you put in it. Equally at home with a casual breakfast as a carefully set dinner table, and handblown so no two are exactly alike. Sold as a set of 2, gift-boxed.</p>"
+        "richText": "<p>The silhouette is simple enough to be part of a daily routine and considered enough to make a meaningful gift. Set it beside the sink, on a nightstand, or at the entryway. Engrave it with a date or initials and it becomes the kind of thing people keep for a long time.</p>"
     },
     {
         "title": "Dimensions",
-        "richText": "<p><strong>Small</strong></p><ul><li>Width: 3.375\"</li><li>Depth: 3.375\"</li><li>Height: 4.25\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 3.25\"</li><li>Depth: 3.25\"</li><li>Height: 5.75\"</li></ul>"
+        "richText": "<ul><li>Width: 5\"</li><li>Depth: 4.25\"</li><li>Height: 2.375\"</li></ul>"
     },
     {
         "title": "Care",
@@ -951,11 +756,59 @@ DECLARE
     }
 ]';
 
-    listing_52_size_variation_id CONSTANT VARCHAR := '6d3d15cf-a70d-4a44-93ba-7f79d2d1530c';
-    listing_52_size_small_id CONSTANT VARCHAR := '1603799c-7eca-47e9-937e-0f3231db5e6e';
-    listing_52_size_large_id CONSTANT VARCHAR := 'c5027e7f-c367-4336-9aa6-740235ac5625';
-    listing_52_small_image_uuids CONSTANT text[] := '{"5b7f9d1f-99bd-48a7-a17e-f7b4075d8677", "651bad0b-4658-4a5b-ba44-1845e32963e7", "7c961a99-58c0-49a3-88de-4c5e9a0430c1", "707b903f-beb6-4f45-bff3-e13510da8682"}';
-    listing_52_large_image_uuids CONSTANT text[] := '{"4b79141d-0f83-44a8-ac1f-77afecf91768"}';
+    listing_54_id INT := 54;
+    listing_54_short_id VARCHAR := 'Hc7Sk';
+    listing_54_shop_id INT := shop_5_id;
+    listing_54_category_id VARCHAR := 'HOUSEWARES';
+    listing_54_title VARCHAR := 'Hartland Candlestick';
+    listing_54_subtitle VARCHAR := 'A solid glass candlestick that grows taller by adding another sphere, in three sizes.';
+    listing_54_price_cents INT := 19000;
+    listing_54_image_uuids text[] := '{"450f45ac-bb45-43fb-942a-caed4fbf86c6", "8b4e2787-ef50-4f9d-bb5f-eea4cec89400", "b427fdff-1465-407b-a036-8240984887ea"}';
+    listing_54_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>Each size grows taller by adding another sphere, a design logic that makes the Hartland Candlestick feel inevitable rather than arbitrary. Made from solid glass in our workshops, the weight and clarity of the material gives each piece a quiet authority at the table. Equally at home at an everyday dinner or a celebratory gathering, and a natural set when grouped by size. The kind of piece that earns its place and stays there.</p>"
+    },
+    {
+        "title": "Dimensions",
+        "richText": "<p><strong>Small</strong></p><ul><li>Width: 3.125\"</li><li>Depth: 3.125\"</li><li>Height: 5\"</li></ul><p><strong>Medium</strong></p><ul><li>Width: 3.125\"</li><li>Depth: 3.125\"</li><li>Height: 7.25\"</li></ul><p><strong>Large</strong></p><ul><li>Width: 3.125\"</li><li>Depth: 3.125\"</li><li>Height: 9.25\"</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Hand wash recommended.</p>"
+    }
+]';
+
+    listing_54_size_variation_id CONSTANT VARCHAR := 'da155247-1572-4435-b98d-e22af744bf8d';
+    listing_54_size_small_id CONSTANT VARCHAR := 'd206d5e7-d529-443b-bb27-5be93be27484';
+    listing_54_size_medium_id CONSTANT VARCHAR := 'f4bf7be8-f42d-4020-aae7-361eccbdab2b';
+    listing_54_size_large_id CONSTANT VARCHAR := 'ff19f0bc-8e2f-4743-a5f7-c4dea6d5bc7b';
+    listing_54_small_image_uuids CONSTANT text[] := '{"398ceaf7-d9e2-4a65-9681-580413a1d5d0"}';
+    listing_54_medium_image_uuids CONSTANT text[] := '{"649e09b5-1c76-4eba-9f4c-feccb7eefb03"}';
+    listing_54_large_image_uuids CONSTANT text[] := '{"c1094a8a-7458-442e-a868-ae8d29f8001c", "1272dc54-9723-4dc7-be0f-3be4c6976eab", "3554e4b9-0f4a-4b80-91ef-cadca7e4dbe8"}';
+
+    listing_55_id INT := 55;
+    listing_55_short_id VARCHAR := 'Ap6Tn';
+    listing_55_shop_id INT := shop_5_id;
+    listing_55_category_id VARCHAR := 'HOUSEWARES';
+    listing_55_title VARCHAR := 'Ascutney Pilsner Glasses';
+    listing_55_subtitle VARCHAR := 'A handblown 16 oz pilsner glass, sold as a set of 2.';
+    listing_55_price_cents INT := 18000;
+    listing_55_image_uuids text[] := '{"22b058d7-9d30-4af7-b798-fdad90255f3a", "b4b43428-7eb3-4e0d-a98d-725bafcdbca5", "198a296d-10fa-4c61-92c4-45877e6acdc5", "00173d34-c7aa-4e1a-af34-e6c661c8c64e", "c7b3448e-42d4-4ac5-bed1-dd5b3f0e480f", "877e8e0a-4dab-49db-8bb3-17309fc7b6ed", "3562dbd5-5f9f-42ce-ac82-c855758cfc14"}';
+    listing_55_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>Most pilsner glasses are purely functional. This one was made by hand, and it shows. The 16-oz. volume is right for a well-poured draft or a carefully opened bottle, and the handblown construction means subtle variations give each glass its own character, visible in the way light moves through it when it’s full. Sold as a set of 2, gift-boxed.</p>"
+    },
+    {
+        "title": "Dimensions",
+        "richText": "<ul><li>Width: 3.25\"</li><li>Depth: 3.25\"</li><li>Height: 8\"</li><li>Capacity: 16 oz</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Hand wash recommended.</p>"
+    }
+]';
 
 BEGIN
 
@@ -1073,7 +926,6 @@ BEGIN
                 listing_12_color_variation_id || ':' || listing_12_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_12_color_variation_id || ':' || listing_12_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_13_id, listing_13_short_id, listing_13_shop_id, listing_13_category_id, listing_13_title, listing_13_subtitle, listing_13_full_descr, listing_13_price_cents, NULL, NULL, listing_13_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -1084,7 +936,7 @@ BEGIN
                     'pricesVary', true,
                     'imagesVary', true,
                     'order', 0,
-                    'defaultOption', listing_34_size_small_id,
+                    'defaultOption', listing_34_size_medium_id,
                     'options', jsonb_build_object(
                         listing_34_size_small_id,  jsonb_build_object('name', 'Small',       'order', 0, 'priceCents', 17000, 'imageUuids', to_jsonb(listing_34_small_image_uuids)),
                         listing_34_size_medium_id, jsonb_build_object('name', 'Medium',      'order', 1, 'priceCents', 22000, 'imageUuids', to_jsonb(listing_34_medium_image_uuids)),
@@ -1274,110 +1126,6 @@ BEGIN
                 listing_38_size_variation_id || ':' || listing_38_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_38_size_variation_id || ':' || listing_38_size_large_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_39_id, listing_39_short_id, listing_39_shop_id, listing_39_category_id, listing_39_title, listing_39_subtitle, listing_39_full_descr, listing_39_price_cents, NULL, NULL, listing_39_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_42_id, listing_42_short_id, listing_42_shop_id, listing_42_category_id, listing_42_title, listing_42_subtitle, listing_42_full_descr, listing_42_price_cents, NULL, NULL, listing_42_image_uuids, NULL,
-            jsonb_build_object(
-                listing_42_size_variation_id, jsonb_build_object(
-                    'name', 'Size',
-                    'pricesVary', true,
-                    'imagesVary', true,
-                    'order', 0,
-                    'defaultOption', listing_42_size_small_id,
-                    'options', jsonb_build_object(
-                        listing_42_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', 22500, 'imageUuids', to_jsonb(listing_42_small_image_uuids)),
-                        listing_42_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 1, 'priceCents', 33500, 'imageUuids', to_jsonb(listing_42_medium_image_uuids)),
-                        listing_42_size_large_id, jsonb_build_object('name', 'Large', 'order', 2, 'priceCents', 59500, 'imageUuids', to_jsonb(listing_42_large_image_uuids))
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_42_size_variation_id || ':' || listing_42_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_43_id, listing_43_short_id, listing_43_shop_id, listing_43_category_id, listing_43_title, listing_43_subtitle, listing_43_full_descr, listing_43_price_cents, NULL, NULL, listing_43_image_uuids, NULL,
-            jsonb_build_object(
-                listing_43_size_variation_id, jsonb_build_object(
-                    'name', 'Size',
-                    'pricesVary', true,
-                    'imagesVary', true,
-                    'order', 0,
-                    'defaultOption', listing_43_size_small_id,
-                    'options', jsonb_build_object(
-                        listing_43_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', 12500, 'imageUuids', to_jsonb(listing_43_small_image_uuids)),
-                        listing_43_size_large_id, jsonb_build_object('name', 'Large', 'order', 1, 'priceCents', 15500, 'imageUuids', to_jsonb(listing_43_large_image_uuids))
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_43_size_variation_id || ':' || listing_43_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_43_size_variation_id || ':' || listing_43_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_44_id, listing_44_short_id, listing_44_shop_id, listing_44_category_id, listing_44_title, listing_44_subtitle, listing_44_full_descr, listing_44_price_cents, NULL, NULL, listing_44_image_uuids, NULL,
-            jsonb_build_object(
-                listing_44_size_variation_id, jsonb_build_object(
-                    'name', 'Size',
-                    'pricesVary', true,
-                    'imagesVary', true,
-                    'order', 0,
-                    'defaultOption', listing_44_size_medium_id,
-                    'options', jsonb_build_object(
-                        listing_44_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 0, 'priceCents', 15500, 'imageUuids', to_jsonb(listing_44_medium_image_uuids)),
-                        listing_44_size_large_id, jsonb_build_object('name', 'Large', 'order', 1, 'priceCents', 19500, 'imageUuids', to_jsonb(listing_44_large_image_uuids)),
-                        listing_44_size_xl_id, jsonb_build_object('name', 'Extra Large', 'order', 2, 'priceCents', 39500, 'imageUuids', to_jsonb(listing_44_xl_image_uuids))
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_44_size_variation_id || ':' || listing_44_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_44_size_variation_id || ':' || listing_44_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_44_size_variation_id || ':' || listing_44_size_xl_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_46_id, listing_46_short_id, listing_46_shop_id, listing_46_category_id, listing_46_title, listing_46_subtitle, listing_46_full_descr, listing_46_price_cents, NULL, NULL, listing_46_image_uuids, NULL,
-            jsonb_build_object(
-                listing_46_size_variation_id, jsonb_build_object(
-                    'name', 'Size',
-                    'pricesVary', true,
-                    'imagesVary', true,
-                    'order', 0,
-                    'defaultOption', listing_46_size_xs_id,
-                    'options', jsonb_build_object(
-                        listing_46_size_xs_id, jsonb_build_object('name', 'Extra Small', 'order', 0, 'priceCents', 7500, 'imageUuids', to_jsonb(listing_46_xs_image_uuids)),
-                        listing_46_size_small_id, jsonb_build_object('name', 'Small', 'order', 1, 'priceCents', 12500, 'imageUuids', to_jsonb(listing_46_small_image_uuids)),
-                        listing_46_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 2, 'priceCents', 16000, 'imageUuids', to_jsonb(listing_46_medium_image_uuids)),
-                        listing_46_size_large_id, jsonb_build_object('name', 'Large', 'order', 3, 'priceCents', 23000, 'imageUuids', to_jsonb(listing_46_large_image_uuids))
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_46_size_variation_id || ':' || listing_46_size_xs_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_46_size_variation_id || ':' || listing_46_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_46_size_variation_id || ':' || listing_46_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_46_size_variation_id || ':' || listing_46_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_47_id, listing_47_short_id, listing_47_shop_id, listing_47_category_id, listing_47_title, listing_47_subtitle, listing_47_full_descr, listing_47_price_cents, NULL, NULL, listing_47_image_uuids, NULL,
-            jsonb_build_object(
-                listing_47_size_variation_id, jsonb_build_object(
-                    'name', 'Size',
-                    'pricesVary', true,
-                    'imagesVary', true,
-                    'order', 0,
-                    'defaultOption', listing_47_size_small_id,
-                    'options', jsonb_build_object(
-                        listing_47_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', 17000, 'imageUuids', to_jsonb(listing_47_small_image_uuids)),
-                        listing_47_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 1, 'priceCents', 22000, 'imageUuids', to_jsonb(listing_47_medium_image_uuids)),
-                        listing_47_size_large_id, jsonb_build_object('name', 'Large', 'order', 2, 'priceCents', 27000, 'imageUuids', to_jsonb(listing_47_large_image_uuids)),
-                        listing_47_size_xl_id, jsonb_build_object('name', 'Extra Large', 'order', 3, 'priceCents', 40000, 'imageUuids', to_jsonb(listing_47_xl_image_uuids))
-                    )
-                )
-            ),
-            jsonb_build_object(
-                listing_47_size_variation_id || ':' || listing_47_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_47_size_variation_id || ':' || listing_47_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_47_size_variation_id || ':' || listing_47_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_47_size_variation_id || ':' || listing_47_size_xl_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_48_id, listing_48_short_id, listing_48_shop_id, listing_48_category_id, listing_48_title, listing_48_subtitle, listing_48_full_descr, listing_48_price_cents, NULL, NULL, listing_48_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_49_id, listing_49_short_id, listing_49_shop_id, listing_49_category_id, listing_49_title, listing_49_subtitle, listing_49_full_descr, listing_49_price_cents, NULL, NULL, listing_49_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_50_id, listing_50_short_id, listing_50_shop_id, listing_50_category_id, listing_50_title, listing_50_subtitle, listing_50_full_descr, listing_50_price_cents, NULL, NULL, listing_50_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_51_id, listing_51_short_id, listing_51_shop_id, listing_51_category_id, listing_51_title, listing_51_subtitle, listing_51_full_descr, listing_51_price_cents, NULL, NULL, listing_51_image_uuids, NULL,
@@ -1400,23 +1148,47 @@ BEGIN
                 listing_51_size_variation_id || ':' || listing_51_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_51_size_variation_id || ':' || listing_51_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_52_id, listing_52_short_id, listing_52_shop_id, listing_52_category_id, listing_52_title, listing_52_subtitle, listing_52_full_descr, listing_52_price_cents, NULL, NULL, listing_52_image_uuids, NULL,
+        (listing_53_id, listing_53_short_id, listing_53_shop_id, listing_53_category_id, listing_53_title, listing_53_subtitle, listing_53_full_descr, listing_53_price_cents, NULL, NULL, listing_53_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_54_id, listing_54_short_id, listing_54_shop_id, listing_54_category_id, listing_54_title, listing_54_subtitle, listing_54_full_descr, listing_54_price_cents, NULL, NULL, listing_54_image_uuids, NULL,
             jsonb_build_object(
-                listing_52_size_variation_id, jsonb_build_object(
+                listing_54_size_variation_id, jsonb_build_object(
                     'name', 'Size',
-                    'pricesVary', false,
+                    'pricesVary', true,
                     'imagesVary', true,
                     'order', 0,
-                    'defaultOption', listing_52_size_small_id,
+                    'defaultOption', listing_54_size_medium_id,
                     'options', jsonb_build_object(
-                        listing_52_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', null, 'imageUuids', to_jsonb(listing_52_small_image_uuids)),
-                        listing_52_size_large_id, jsonb_build_object('name', 'Large', 'order', 1, 'priceCents', null, 'imageUuids', to_jsonb(listing_52_large_image_uuids))
+                        listing_54_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', 19000, 'imageUuids', to_jsonb(listing_54_small_image_uuids)),
+                        listing_54_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 1, 'priceCents', 25000, 'imageUuids', to_jsonb(listing_54_medium_image_uuids)),
+                        listing_54_size_large_id, jsonb_build_object('name', 'Large', 'order', 2, 'priceCents', 32000, 'imageUuids', to_jsonb(listing_54_large_image_uuids))
                     )
                 )
             ),
             jsonb_build_object(
-                listing_52_size_variation_id || ':' || listing_52_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_52_size_variation_id || ':' || listing_52_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_54_size_variation_id || ':' || listing_54_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_54_size_variation_id || ':' || listing_54_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_54_size_variation_id || ':' || listing_54_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_55_id, listing_55_short_id, listing_55_shop_id, listing_55_category_id, listing_55_title, listing_55_subtitle, listing_55_full_descr, listing_55_price_cents, NULL, NULL, listing_55_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_42_id, listing_42_short_id, listing_42_shop_id, listing_42_category_id, listing_42_title, listing_42_subtitle, listing_42_full_descr, listing_42_price_cents, NULL, NULL, listing_42_image_uuids, NULL,
+            jsonb_build_object(
+                listing_42_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_42_size_medium_id,
+                    'options', jsonb_build_object(
+                        listing_42_size_small_id, jsonb_build_object('name', 'Small', 'order', 0, 'priceCents', 22500, 'imageUuids', to_jsonb(listing_42_small_image_uuids)),
+                        listing_42_size_medium_id, jsonb_build_object('name', 'Medium', 'order', 1, 'priceCents', 33500, 'imageUuids', to_jsonb(listing_42_medium_image_uuids)),
+                        listing_42_size_large_id, jsonb_build_object('name', 'Large', 'order', 2, 'priceCents', 59500, 'imageUuids', to_jsonb(listing_42_large_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_42_size_variation_id || ':' || listing_42_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
@@ -1465,8 +1237,7 @@ BEGIN
         (listing_22_id), -- Beeswax Tapers
         (listing_16_id), -- Shoreham Whiskey Glasses
         (listing_14_id), -- Vintner Red Wine Glasses
-        (listing_15_id), -- Vintner White Wine Glasses
-        (listing_13_id); -- Madison Wine Decanter
+        (listing_15_id); -- Vintner White Wine Glasses
 
 COMMIT;
 
