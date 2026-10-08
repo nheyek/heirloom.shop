@@ -2,6 +2,7 @@ import {
 	Box,
 	Grid,
 	GridItem,
+	GridProps,
 	HStack,
 	Text,
 	useBreakpointValue,
@@ -15,11 +16,27 @@ import { LightBox } from './LightBox';
 const COLLAGE_HEIGHT = 550;
 const COLLAGE_GAP = 3;
 const COLLAGE_GAP_PX = COLLAGE_GAP * chakraSpacingUnit;
-const THUMBNAIL_ROWS = 2;
+export const THUMBNAIL_ROWS = 2;
 const THUMBNAIL_HEIGHT =
 	(COLLAGE_HEIGHT - COLLAGE_GAP_PX * (THUMBNAIL_ROWS - 1)) /
 	THUMBNAIL_ROWS;
 export const MAX_COLLAGE_WIDTH = COLLAGE_HEIGHT * 2 + COLLAGE_GAP_PX;
+export const THUMBNAIL_COLUMNS_BY_BREAKPOINT = {
+	base: 1,
+	lg: 2,
+	xl: 3,
+};
+
+export const collageGridProps = (
+	aspectRatio: number,
+	numThumbnailColumns: number,
+): GridProps => ({
+	w: 'fit-content',
+	mx: 'auto',
+	gap: COLLAGE_GAP,
+	gridTemplateRows: `repeat(${THUMBNAIL_ROWS}, ${THUMBNAIL_HEIGHT}px)`,
+	gridTemplateColumns: `${COLLAGE_HEIGHT * aspectRatio}px repeat(${numThumbnailColumns}, ${THUMBNAIL_HEIGHT * aspectRatio}px)`,
+});
 
 type Props = {
 	aspectRatio: number;
@@ -28,10 +45,9 @@ type Props = {
 
 export const ImageCollage = (props: Props) => {
 	const numThumbnailColumns =
-		useBreakpointValue(
-			{ base: 1, lg: 2, xl: 3 },
-			{ ssr: false },
-		) ?? 1;
+		useBreakpointValue(THUMBNAIL_COLUMNS_BY_BREAKPOINT, {
+			ssr: false,
+		}) ?? 1;
 
 	const [lightBoxPage, setLightBoxPage] = useState<number | null>(
 		null,
@@ -42,6 +58,9 @@ export const ImageCollage = (props: Props) => {
 		props.urls.length - 1,
 	);
 	const numHiddenImages = props.urls.length - 1 - numThumbnails;
+	const numThumbnailColumnsUsed = Math.ceil(
+		numThumbnails / THUMBNAIL_ROWS,
+	);
 
 	const renderTile = (index: number) => (
 		<Box
@@ -95,13 +114,10 @@ export const ImageCollage = (props: Props) => {
 				setPage={setLightBoxPage}
 			/>
 			<Grid
-				w="fit-content"
-				mx="auto"
-				gap={COLLAGE_GAP}
-				gridAutoFlow="column"
-				gridTemplateRows={`repeat(${THUMBNAIL_ROWS}, ${THUMBNAIL_HEIGHT}px)`}
-				gridTemplateColumns={`${COLLAGE_HEIGHT * props.aspectRatio}px`}
-				gridAutoColumns={`${THUMBNAIL_HEIGHT * props.aspectRatio}px`}
+				{...collageGridProps(
+					props.aspectRatio,
+					numThumbnailColumnsUsed,
+				)}
 			>
 				<GridItem rowSpan={THUMBNAIL_ROWS}>
 					{renderTile(0)}

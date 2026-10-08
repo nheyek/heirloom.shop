@@ -1,12 +1,18 @@
 import {
 	Box,
+	Center,
 	Flex,
+	Grid,
 	GridItem,
-	SimpleGrid,
 	Skeleton,
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import {
+	collageGridProps,
+	THUMBNAIL_COLUMNS_BY_BREAKPOINT,
+	THUMBNAIL_ROWS,
+} from '@client/components/imageDisplay/ImageCollage';
 import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
@@ -16,9 +22,10 @@ export const ListingPageSkeleton = (props: {
 	layout?: Layout;
 	maxWidth: number;
 }) => {
-	const numGridCols =
-		useBreakpointValue({ base: 2, lg: 3 }, { ssr: false }) || 3;
-	const numThumbnailTiles = numGridCols * 2 - 2;
+	const numThumbnailColumns =
+		useBreakpointValue(THUMBNAIL_COLUMNS_BY_BREAKPOINT, {
+			ssr: false,
+		}) ?? 1;
 
 	const renderBasicInfoSection = () => (
 		<Stack gap={4}>
@@ -95,53 +102,60 @@ export const ListingPageSkeleton = (props: {
 	return (
 		<Flex
 			flexDir="column"
-			maxWidth={props.maxWidth}
-			gap={5}
-			my={5}
+			alignItems="center"
 			mx="auto"
-			px={5}
 		>
-			<SimpleGrid
-				columns={numGridCols + 1}
-				gap={3}
+			<Box
+				px={5}
+				mt={5}
+				width="100%"
 			>
-				<GridItem
-					colSpan={2}
-					rowSpan={2}
+				<Grid
+					{...collageGridProps(
+						LISTING_IMAGE_ASPECT_RATIO,
+						numThumbnailColumns,
+					)}
 				>
-					<Skeleton
-						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-						height="100%"
-						width="100%"
-					></Skeleton>
-				</GridItem>
-				{Array.from({ length: numThumbnailTiles }, (_, i) => i).map(
-					(i) => (
+					<GridItem rowSpan={THUMBNAIL_ROWS}>
+						<Skeleton height="100%" />
+					</GridItem>
+					{Array.from(
+						{
+							length:
+								numThumbnailColumns * THUMBNAIL_ROWS,
+						},
+						(_, i) => i,
+					).map((i) => (
 						<GridItem key={i}>
-							<Skeleton
-								aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-							></Skeleton>
+							<Skeleton height="100%" />
 						</GridItem>
-					),
-				)}
-			</SimpleGrid>
-			<Flex
-				direction={{ base: 'column', md: 'row' }}
-				gap={10}
+					))}
+				</Grid>
+			</Box>
+			<Center
+				width="100%"
+				p={5}
 			>
-				<Box
-					flex="1"
-					minW={0}
+				<Flex
+					direction={{ base: 'column', md: 'row' }}
+					gap={10}
+					width="100%"
+					maxW={props.maxWidth}
 				>
-					{renderBasicInfoSection()}
-				</Box>
-				<Box
-					flexShrink={0}
-					width={{ base: '100%', md: 375 }}
-				>
-					{renderButtonsAndFulfillmentSection()}
-				</Box>
-			</Flex>
+					<Box
+						flex="1"
+						minW={0}
+					>
+						{renderBasicInfoSection()}
+					</Box>
+					<Box
+						flexShrink={0}
+						width={{ base: '100%', md: 375 }}
+					>
+						{renderButtonsAndFulfillmentSection()}
+					</Box>
+				</Flex>
+			</Center>
 		</Flex>
 	);
 };
