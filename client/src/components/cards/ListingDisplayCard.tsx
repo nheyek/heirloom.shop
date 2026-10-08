@@ -9,6 +9,7 @@ type Props = ListingCardData & {
 	multiImage?: boolean;
 	showShopTitle?: boolean;
 	onCardBodyClick?: () => void;
+	onImageClick?: () => void;
 };
 
 export const ListingDisplayCard = ({

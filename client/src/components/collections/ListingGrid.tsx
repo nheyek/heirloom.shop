@@ -16,6 +16,8 @@ type Props = {
 
 export const ListingGrid = (props: Props) => {
 	const navigate = useNavigate();
+	const goToListing = (shortId: string) =>
+		navigate(`/${CLIENT_ROUTES.listing}/${shortId}`);
 
 	return (
 		<ItemGrid
@@ -28,12 +30,15 @@ export const ListingGrid = (props: Props) => {
 					{...listing}
 					multiImage={!isMobile}
 					showShopTitle={props.showShopTitle}
-					{...(isMobile && {
-						onCardBodyClick: () =>
-							navigate(
-								`/${CLIENT_ROUTES.listing}/${listing.shortId}`,
-							),
-					})}
+					{...(isMobile
+						? {
+								onCardBodyClick: () =>
+									goToListing(listing.shortId),
+							}
+						: {
+								onImageClick: () =>
+									goToListing(listing.shortId),
+							})}
 				/>
 			)}
 		/>

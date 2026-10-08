@@ -67,6 +67,7 @@ type Props = ListingCardData & {
 	topRight?: ReactNode;
 	topLeft?: ReactNode;
 	onCardBodyClick?: () => void;
+	onImageClick?: () => void;
 };
 
 export const ListingCard = ({
@@ -75,6 +76,7 @@ export const ListingCard = ({
 	topRight,
 	topLeft,
 	onCardBodyClick,
+	onImageClick,
 	...props
 }: Props) => {
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
@@ -152,6 +154,7 @@ export const ListingCard = ({
 				<MultiImage
 					overlayElements={variationBadges}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					onImageClick={onImageClick}
 					urls={
 						props.multiImage
 							? imageUuids.map(getImageSource)

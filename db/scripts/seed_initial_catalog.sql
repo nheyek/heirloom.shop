@@ -248,7 +248,7 @@ DECLARE
     listing_6_title VARCHAR := 'Boule Vase';
     listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
     listing_6_price_cents INT := 9800;
-    listing_6_image_uuids text[] := '{"72162203-35a1-4031-b129-9b7ffe3bb1dd"}';
+    listing_6_image_uuids text[] := '{}';
     listing_6_full_descr JSONB := '[
         {
             "title": "Details",
@@ -277,7 +277,7 @@ DECLARE
     listing_10_title VARCHAR := 'Cornet Vase';
     listing_10_subtitle VARCHAR := 'A vase that holds its own—designed for sweeping stems and bold florals, offering height, balance, and unmistakable character.';
     listing_10_price_cents INT := 12800;
-    listing_10_image_uuids text[] := '{"fdaf290c-c774-4e7a-9361-ebac5b1f0da6"}';
+    listing_10_image_uuids text[] := '{}';
     listing_10_full_descr JSONB := '[
         {
             "title": "Details",
@@ -306,7 +306,7 @@ DECLARE
     listing_12_title VARCHAR := 'Pillar Candle Holder';
     listing_12_subtitle VARCHAR := 'Ceramic pillar candle holder that fits candles up to 3 inches in diameter, in your choice of glaze.';
     listing_12_price_cents INT := 3200;
-    listing_12_image_uuids text[] := '{"86e03348-2ead-426d-9333-b650491ccd9f"}';
+    listing_12_image_uuids text[] := '{}';
     listing_12_full_descr JSONB := '[
         {
             "title": "Details",
@@ -1164,7 +1164,7 @@ BEGIN
                     'pricesVary', true,
                     'imagesVary', true,
                     'order', 0,
-                    'defaultOption', listing_21_height_medium_id,
+                    'defaultOption', listing_21_height_large_id,
                     'options', jsonb_build_object(
                         listing_21_height_medium_id, jsonb_build_object('name', '3.5"', 'order', 0, 'priceCents', 2200, 'imageUuids', to_jsonb(listing_21_medium_image_uuids)),
                         listing_21_height_large_id,  jsonb_build_object('name', '6"',   'order', 1, 'priceCents', 3200, 'imageUuids', to_jsonb(listing_21_large_image_uuids)),
@@ -1243,7 +1243,7 @@ BEGIN
                     'pricesVary', true,
                     'imagesVary', true,
                     'order', 0,
-                    'defaultOption', listing_38_size_small_id,
+                    'defaultOption', listing_38_size_medium_id,
                     'options', jsonb_build_object(
                         listing_38_size_small_id,  jsonb_build_object('name', 'Small (2.5" x 3.25")',  'order', 0, 'priceCents', 1550, 'imageUuids', to_jsonb(listing_38_small_image_uuids)),
                         listing_38_size_medium_id, jsonb_build_object('name', 'Medium (2.5" x 5.25")', 'order', 1, 'priceCents', 2200, 'imageUuids', to_jsonb(listing_38_medium_image_uuids)),
