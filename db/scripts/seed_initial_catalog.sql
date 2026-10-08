@@ -1,9 +1,9 @@
 DO $$
 
 DECLARE
-    old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7];
+    old_sample_shop_ids CONSTANT INT[] := ARRAY[3, 4, 5, 7, 8];
     retired_shop_ids CONSTANT INT[] := ARRAY[1, 2, 6];
-    retired_listing_ids CONSTANT INT[] := ARRAY[2, 3, 13, 23, 24, 27, 28, 30, 33, 39, 40, 41, 43, 44, 45, 46, 47, 48, 52];
+    retired_listing_ids CONSTANT INT[] := ARRAY[2, 3, 13, 23, 24, 27, 28, 30, 33, 39, 40, 41, 43, 44, 45, 46, 47, 48, 52, 57];
     catalog_legacy_default_inventory CONSTANT INT := 10;
     catalog_default_inventory CONSTANT INT := 5;
     catalog_default_track_inventory CONSTANT BOOLEAN := true;
@@ -809,6 +809,135 @@ DECLARE
         "richText": "<p>Hand wash recommended.</p>"
     }
 ]';
+    shop_8_id INT := 8;
+    shop_8_short_id VARCHAR := 'kN8w';
+    shop_8_title VARCHAR := 'Steelport Knife Co.';
+    shop_8_profile_image_uuid VARCHAR := '8cf3bb35-15ed-4725-863f-f4ac7f7ab3bf';
+    shop_8_location VARCHAR := 'Portland, OR';
+    shop_8_classification VARCHAR := 'Handcrafted Kitchen Knives';
+    shop_8_country_code CHAR(2) := 'US';
+    shop_8_profile_rich_text TEXT := '<h1>Our Story</h1><p>Steelport Knife Co. is a small team dedicated to producing the most trusted kitchen knives available. Our work combines premium materials, traditional forging technique, and American heirloom craftsmanship. We manufacture and sharpen each knife by hand in Portland, Oregon.</p><h1>Our Mission</h1><p>Steelport is reintroducing heirloom American-forged carbon steel cutlery, delivering trusted performance, exceptional design, and handcrafted individuality through rigorous attention to detail.</p><h1>The Founders</h1><p>Eytan Zias, co-founder and bladesmith, rose through the kitchen ranks in New York City and Scottsdale before opening a knife sharpening and retail shop in 2007 and learning forging techniques. Dr. Ron Khormaei, founder and CEO, holds an engineering Ph.D. from Oregon State University and co-founded FINEX Cast Iron cookware in 2012, convinced of the value of local manufacturing.</p><h1>How We Started</h1><p>Our first knife, the 8&quot; Chef Knife, was released in 2021, and quickly earned positive reviews from customers, chefs and the media. We now offer a full set of handcrafted carbon steel cutlery.</p><h1>Our Promise</h1><p>No two wooden handles or blades have identical grain patterns, and each knife patinas a little differently over time. Every Steelport knife is backed by a Lifetime Warranty and our SharpForever program of free sharpening for life.</p>';
+
+    listing_56_id INT := 56;
+    listing_56_short_id VARCHAR := 'Ck8Ch';
+    listing_56_shop_id INT := shop_8_id;
+    listing_56_category_id VARCHAR := 'HOUSEWARES';
+    listing_56_title VARCHAR := 'Chef Knife';
+    listing_56_subtitle VARCHAR := 'A forged carbon steel chef knife with a burl handle, in 6" and 8" blades.';
+    listing_56_price_cents INT := 40000;
+    listing_56_image_uuids text[] := '{"6dc97185-bb13-48e8-bcc1-fdf64e6584c1"}';
+    listing_56_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>Razor sharp, precision balanced, and just an overall joy to use, the Steelport Chef Knife stands testament to hundreds of years of traditional knife forging reinforced with the ingenuity of modern craftsmanship. It''s the most important tool in your knife kit, used for 90%+ of kitchen tasks, and has been touted by world-class chefs.</p><p>With its thin but sturdy, fully polished blade, rounded spine and choil, recessed finger groove, and double beveled edge, it''s incredibly versatile and balanced, ideal for slicing, rocking, or push-cutting meat, fish, vegetables, and herbs.</p><p>Choose the 8\" for the classic all-purpose chef knife, or the 6\" for the agility and control of a shorter blade, with an accentuated curve at the tip that rocks through kitchen tasks with a smooth, effortless motion and is a good fit for smaller kitchens.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<p><strong>6\"</strong></p><ul><li>6\" blade</li><li>American carbon steel with a differential heat treatment</li><li>Burlwood handle</li></ul><p><strong>8\"</strong></p><ul><li>8\" blade</li><li>Forged from a single rod of American 52100 carbon steel</li><li>Differential heat treatment: 65 HRC at the edge for edge retention, 30 HRC at the spine for durability</li><li>Hand-shaped, resin-stabilized Oregon Big Leaf Maple burl handle</li><li>Coffee patina finish</li></ul><p>Handcrafted in Portland, Oregon.</p>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Always hand wash and hand dry your knife right after use; never put it in the dishwasher or leave it in the sink. Oil the carbon steel blade regularly with a neutral food-safe oil, and apply handle wax occasionally if the wood looks dry. Use a wood or soft cutting board, and store the knife in a sheath or block to protect the edge. Patina is natural, and helps protect the blade.</p>"
+    }
+]';
+
+    listing_56_size_variation_id CONSTANT VARCHAR := 'fd36e9d5-15c0-445b-b3f1-ca20cc271b0d';
+    listing_56_size_six_id CONSTANT VARCHAR := '026c4db4-b7d3-4229-99fb-b62fc8fc4f64';
+    listing_56_size_eight_id CONSTANT VARCHAR := '11c580cf-1f0e-4c5c-81b9-fdf27492a9c0';
+    listing_56_six_image_uuids CONSTANT text[] := '{"054994f1-a464-423d-98af-7bb799aa2e40", "e5a976a1-8152-444e-882d-447f714fe13c", "f7cc9027-12d5-4746-86c6-df5b579b903b", "574d9bcd-7a04-4588-b630-398decf86e27"}';
+    listing_56_eight_image_uuids CONSTANT text[] := '{"1ec650c1-f381-4633-a1aa-0406e89814fa", "ae5f6a83-3566-41dd-9cf7-5e47fb1b00cc", "0c111156-02f3-4a60-a2b4-06a25357f05e", "4af3c188-ee0a-4eeb-a842-8684122f897a", "77cae4da-fe63-455e-885d-176beb7c435f", "e931c4aa-74d4-4074-8e24-f198ec8966b1"}';
+
+    listing_58_id INT := 58;
+    listing_58_short_id VARCHAR := 'Pk4Pn';
+    listing_58_shop_id INT := shop_8_id;
+    listing_58_category_id VARCHAR := 'HOUSEWARES';
+    listing_58_title VARCHAR := '4" Paring Knife';
+    listing_58_subtitle VARCHAR := 'The smallest knife in the lineup, built for maneuverability and fine work.';
+    listing_58_price_cents INT := 25000;
+    listing_58_image_uuids text[] := '{"3cec7ee6-d900-41f8-9d9d-23f7d4423b5f", "c9264221-11be-48a1-be5c-539d0c7f0276", "5d3a2891-25e4-4bef-a192-e02d735e0737", "9af6022a-b03c-452f-a3de-00d2fddc60c2", "5615b7ef-334e-41ed-9408-f2cc0fca34b9", "6dc97185-bb13-48e8-bcc1-fdf64e6584c1", "9f368d24-933b-41b9-a687-4af26c682228"}';
+    listing_58_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The Steelport 4\" Paring Knife is designed for a high level of maneuverability. A paring knife is the second most frequently used knife in the kitchen after a chef knife, and this one is designed to complement the 8\" and 6\" Chef Knives, using the same materials, handcrafted methods and rigorous attention to detail.</p><p>Its unique shape and size lets it handle many of the jobs of a petty or utility knife as well, from preparing smaller produce like shallots and garlic to light precision butchering such as processing small game birds and trimming fat.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>4\" blade</li><li>Carbon steel blade with a burlwood handle</li><li>Handcrafted in Portland, Oregon</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Always hand wash and hand dry your knife right after use; never put it in the dishwasher or leave it in the sink. Oil the carbon steel blade regularly with a neutral food-safe oil, and apply handle wax occasionally if the wood looks dry. Use a wood or soft cutting board, and store the knife in a sheath or block to protect the edge. Patina is natural, and helps protect the blade.</p>"
+    }
+]';
+
+    listing_59_id INT := 59;
+    listing_59_short_id VARCHAR := 'Bk0Bd';
+    listing_59_shop_id INT := shop_8_id;
+    listing_59_category_id VARCHAR := 'HOUSEWARES';
+    listing_59_title VARCHAR := '10" Bread Knife';
+    listing_59_subtitle VARCHAR := 'A 10-inch bread knife with a unique wavy serration that slices rather than saws.';
+    listing_59_price_cents INT := 45000;
+    listing_59_image_uuids text[] := '{"e14ed693-aa6f-4e19-91e7-6b4e2a9e5446", "9f27bda8-89ca-4e63-a7d9-1ef6d2b34fb3", "727993d3-a545-4c6c-86d8-17dbb3815b50", "d3be899f-2ecd-4d4c-9502-17533695ca45"}';
+    listing_59_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The Steelport Bread Knife is designed to perform equally well on bread with hard crusts and softer loaves, and it can also be used as a serrated slicer for BBQ meats and other hard-crust foods.</p><p>Its unique ''wavy'' serration, rather than a pointed one, produces a finer, sharper edge that needs less sawing and is less destructive to both the food and the cutting board. The 10\" length is the perfect size to get through any loaf.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>10\" blade</li><li>Wavy serrated edge</li><li>Handcrafted in Portland, Oregon</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Always hand wash and hand dry your knife right after use; never put it in the dishwasher or leave it in the sink. Oil the carbon steel blade regularly with a neutral food-safe oil, and apply handle wax occasionally if the wood looks dry. Use a wood or soft cutting board, and store the knife in a sheath or block to protect the edge. Patina is natural, and helps protect the blade.</p>"
+    }
+]';
+
+    listing_60_id INT := 60;
+    listing_60_short_id VARCHAR := 'Sk0Sl';
+    listing_60_shop_id INT := shop_8_id;
+    listing_60_category_id VARCHAR := 'HOUSEWARES';
+    listing_60_title VARCHAR := '10" Slicing Knife';
+    listing_60_subtitle VARCHAR := 'A long, curved slicer for brisket, turkey and sashimi, with generous knuckle clearance.';
+    listing_60_price_cents INT := 45000;
+    listing_60_image_uuids text[] := '{"315aaa17-8feb-4c36-a392-e90a1aaaf034", "c89cd2e4-4dc8-4d1c-a127-100b396e4fbb", "405b81ee-307c-4068-b6e0-bd6aab0c7929", "c97903b4-2846-48ab-b788-fff9ef11ab29", "00604e7f-fd86-4ad9-926d-4e86a7fe38de"}';
+    listing_60_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>Whether you''re slicing a brisket, carving a Thanksgiving turkey, or preparing delicate sashimi, the extended blade glides through large cuts of meat and fish with no sawing required, while maintaining the integrity and beauty of your ingredients.</p><p>Designed to blend the best features of a slicer and a cimeter, its curved, generous blade ensures full contact with both your food and cutting board, with ample knuckle clearance for a safe, fluid cut. Crafted from carbon steel and finished with burlwood.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>10\" blade</li><li>Carbon steel blade with a burlwood handle</li><li>Handcrafted in Portland, Oregon</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Always hand wash and hand dry your knife right after use; never put it in the dishwasher or leave it in the sink. Oil the carbon steel blade regularly with a neutral food-safe oil, and apply handle wax occasionally if the wood looks dry. Use a wood or soft cutting board, and store the knife in a sheath or block to protect the edge. Patina is natural, and helps protect the blade.</p>"
+    }
+]';
+
+    listing_61_id INT := 61;
+    listing_61_short_id VARCHAR := 'Bk6Bn';
+    listing_61_shop_id INT := shop_8_id;
+    listing_61_category_id VARCHAR := 'HOUSEWARES';
+    listing_61_title VARCHAR := '6" Boning Knife';
+    listing_61_subtitle VARCHAR := 'A slightly wider boning blade with an extra-wide safety guard, built for breaking down meat.';
+    listing_61_price_cents INT := 35000;
+    listing_61_image_uuids text[] := '{"dde6fb8e-03d7-4590-a19d-f995a196705f", "c456552b-0a05-4e5f-ae62-ef1b38efa24e", "f28fc721-e7cd-4ffc-a795-fdb04cdb7f5e", "a993b799-794e-42fb-95e7-092a91134ae5", "1c58034e-4ac2-4b5c-bebe-db8c8c765a51", "056264b5-f6ac-4f68-8c5a-a3077184eb5c", "1f93cdcf-0dee-4464-ad54-c16a130a5b02", "d3f19756-bf45-4e4e-9eb4-094987b18942", "06c37899-95df-4b92-9d88-55129dae3c0b"}';
+    listing_61_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>An essential tool for safely and efficiently breaking down and cleaning up meat, with design details that allow better control, agility, and protection.</p><p>The heirloom blade is slightly wider than an average boning knife, allowing for more sharpenings over a longer blade life while staying nimble for detailed work. The safety guard at the bolster is extra wide for additional protection, especially when hands are wet or greasy, and the handle is the same shape and size as the award-winning Chef Knife''s contoured handle.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>6\" blade</li><li>Differential heat treatment</li><li>Wide safety guard at the bolster</li><li>Handcrafted in Portland, Oregon with US-sourced materials</li></ul>"
+    },
+    {
+        "title": "Care",
+        "richText": "<p>Always hand wash and hand dry your knife right after use; never put it in the dishwasher or leave it in the sink. Oil the carbon steel blade regularly with a neutral food-safe oil, and apply handle wax occasionally if the wood looks dry. Use a wood or soft cutting board, and store the knife in a sheath or block to protect the edge. Patina is natural, and helps protect the blade.</p>"
+    }
+]';
 
 BEGIN
 
@@ -835,7 +964,8 @@ BEGIN
         (shop_3_id, shop_3_short_id, shop_3_title, shop_3_profile_rich_text, shop_3_profile_image_uuid, shop_3_location, shop_3_classification, shop_3_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (shop_4_id, shop_4_short_id, shop_4_title, shop_4_profile_rich_text, shop_4_profile_image_uuid, shop_4_location, shop_4_classification, shop_4_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (shop_5_id, shop_5_short_id, shop_5_title, shop_5_profile_rich_text, shop_5_profile_image_uuid, shop_5_location, shop_5_classification, shop_5_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (shop_7_id, shop_7_short_id, shop_7_title, shop_7_profile_rich_text, shop_7_profile_image_uuid, shop_7_location, shop_7_classification, shop_7_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (shop_7_id, shop_7_short_id, shop_7_title, shop_7_profile_rich_text, shop_7_profile_image_uuid, shop_7_location, shop_7_classification, shop_7_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (shop_8_id, shop_8_short_id, shop_8_title, shop_8_profile_rich_text, shop_8_profile_image_uuid, shop_8_location, shop_8_classification, shop_8_country_code, false, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         title = EXCLUDED.title,
@@ -1189,7 +1319,29 @@ BEGIN
                 listing_42_size_variation_id || ':' || listing_42_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
-            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_56_id, listing_56_short_id, listing_56_shop_id, listing_56_category_id, listing_56_title, listing_56_subtitle, listing_56_full_descr, listing_56_price_cents, NULL, NULL, listing_56_image_uuids, NULL,
+            jsonb_build_object(
+                listing_56_size_variation_id, jsonb_build_object(
+                    'name', 'Size',
+                    'pricesVary', true,
+                    'imagesVary', true,
+                    'order', 0,
+                    'defaultOption', listing_56_size_eight_id,
+                    'options', jsonb_build_object(
+                        listing_56_size_six_id,   jsonb_build_object('name', '6"', 'order', 0, 'priceCents', 38000, 'imageUuids', to_jsonb(listing_56_six_image_uuids)),
+                        listing_56_size_eight_id, jsonb_build_object('name', '8"', 'order', 1, 'priceCents', 40000, 'imageUuids', to_jsonb(listing_56_eight_image_uuids))
+                    )
+                )
+            ),
+            jsonb_build_object(
+                listing_56_size_variation_id || ':' || listing_56_size_six_id,   jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_56_size_variation_id || ':' || listing_56_size_eight_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+            ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_58_id, listing_58_short_id, listing_58_shop_id, listing_58_category_id, listing_58_title, listing_58_subtitle, listing_58_full_descr, listing_58_price_cents, NULL, NULL, listing_58_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_59_id, listing_59_short_id, listing_59_shop_id, listing_59_category_id, listing_59_title, listing_59_subtitle, listing_59_full_descr, listing_59_price_cents, NULL, NULL, listing_59_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_60_id, listing_60_short_id, listing_60_shop_id, listing_60_category_id, listing_60_title, listing_60_subtitle, listing_60_full_descr, listing_60_price_cents, NULL, NULL, listing_60_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_61_id, listing_61_short_id, listing_61_shop_id, listing_61_category_id, listing_61_title, listing_61_subtitle, listing_61_full_descr, listing_61_price_cents, NULL, NULL, listing_61_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -1225,7 +1377,8 @@ BEGIN
         (shop_3_id), -- Smithey Ironware Co.
         (shop_4_id), -- Rookwood
         (shop_7_id), -- Big Dipper Wax Works
-        (shop_5_id); -- Simon Pearce
+        (shop_5_id), -- Simon Pearce
+        (shop_8_id); -- Steelport Knife Co.
 
     INSERT INTO featured_listing (listing_id)
     VALUES
