@@ -86,7 +86,6 @@ export const ListingCard = ({
 				key={id}
 				fontSize={20}
 				fontWeight={400}
-				fontFamily={displayFontFamily}
 				py={2}
 				px={3}
 			>
