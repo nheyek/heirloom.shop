@@ -177,11 +177,11 @@ export const ShoppingCartDrawer = (props: Props) => {
 														pendingSubmission ===
 														CheckoutType.ApplePay
 													}
-													{...CheckoutButtonConfig}
+													{...checkoutButtonConfig}
 												/>
 											)}
 										<Button
-											{...CheckoutButtonConfig}
+											{...checkoutButtonConfig}
 											fontSize={26}
 											onClick={() => {
 												navigate(
@@ -205,7 +205,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 	);
 };
 
-const CheckoutButtonConfig = {
+const checkoutButtonConfig = {
 	h: 50,
 	minW: 200,
 	flex: 1,

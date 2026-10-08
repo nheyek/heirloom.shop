@@ -1,64 +1,90 @@
 import {
 	Box,
-	Button,
 	Grid,
 	GridItem,
+	HStack,
+	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { sansFontFamily } from '@client/theme';
+import { chakraSpacingUnit, defaultFontFamily } from '@client/theme';
 import { useState } from 'react';
-import { FaImages } from 'react-icons/fa';
+import { FaImages } from 'react-icons/fa6';
 import { AppImage } from './AppImage';
 import { LightBox } from './LightBox';
 
+const COLLAGE_HEIGHT = 550;
+const COLLAGE_GAP = 3;
+const COLLAGE_GAP_PX = COLLAGE_GAP * chakraSpacingUnit;
+const THUMBNAIL_ROWS = 2;
+const THUMBNAIL_HEIGHT =
+	(COLLAGE_HEIGHT - COLLAGE_GAP_PX * (THUMBNAIL_ROWS - 1)) /
+	THUMBNAIL_ROWS;
+export const MAX_COLLAGE_WIDTH = COLLAGE_HEIGHT * 2 + COLLAGE_GAP_PX;
+
 type Props = {
 	aspectRatio: number;
-	maxWidth: number;
 	urls: string[];
 };
 
 export const ImageCollage = (props: Props) => {
-	let numGridCols =
-		useBreakpointValue({ base: 2, lg: 3 }, { ssr: false }) || 3;
-	numGridCols = Math.min(numGridCols, props.urls.length);
-
-	const numThumbnailTiles = numGridCols * 2 - 2;
-	const numSecondaryImages = props.urls.length - 1;
-
-	const numThumbnails = Math.min(
-		numThumbnailTiles,
-		numSecondaryImages,
-	);
-	const truncateImageList = numThumbnailTiles < numSecondaryImages;
+	const numThumbnailColumns =
+		useBreakpointValue(
+			{ base: 1, lg: 2, xl: 3 },
+			{ ssr: false },
+		) ?? 1;
 
 	const [lightBoxPage, setLightBoxPage] = useState<number | null>(
 		null,
 	);
 
-	let maxWidth = props.maxWidth;
-	if (numGridCols <= 2) {
-		maxWidth /= 4 / 3;
-	}
-	if (numGridCols === 1) {
-		maxWidth /= 3 / 2;
-	}
+	const numThumbnails = Math.min(
+		numThumbnailColumns * THUMBNAIL_ROWS,
+		props.urls.length - 1,
+	);
+	const numHiddenImages = props.urls.length - 1 - numThumbnails;
 
-	const renderCollageImage = (index: number) => (
-		<AppImage
-			aspectRatio={props.aspectRatio}
-			imageProps={{
-				src: props.urls[index],
-				loading: index === 0 ? undefined : 'lazy',
-				onClick: () => setLightBoxPage(index),
-				borderRadius: 5,
-				cursor: 'button',
-			}}
-			containerProps={{
-				height: '100%',
-				width: '100%',
-				borderRadius: 'md',
-			}}
-		/>
+	const renderTile = (index: number) => (
+		<Box
+			position="relative"
+			height="100%"
+		>
+			<AppImage
+				aspectRatio={props.aspectRatio}
+				imageProps={{
+					src: props.urls[index],
+					loading: index === 0 ? undefined : 'lazy',
+					onClick: () => setLightBoxPage(index),
+					borderRadius: 5,
+					cursor: 'button',
+					height: '100%',
+					aspectRatio: 'auto',
+				}}
+				containerProps={{
+					height: '100%',
+					borderRadius: 'md',
+				}}
+			/>
+			{numHiddenImages > 0 && index === numThumbnails && (
+				<HStack
+					position="absolute"
+					inset={0}
+					justifyContent="center"
+					bg="blackAlpha.600"
+					color="white"
+					borderRadius="md"
+					cursor="button"
+					fontFamily={defaultFontFamily}
+					fontSize={24}
+					onClick={() => setLightBoxPage(index)}
+				>
+					<FaImages />
+					<Text>
+						+{numHiddenImages} image
+						{numHiddenImages > 1 ? 's' : ''}
+					</Text>
+				</HStack>
+			)}
+		</Box>
 	);
 
 	return (
@@ -68,64 +94,27 @@ export const ImageCollage = (props: Props) => {
 				page={lightBoxPage}
 				setPage={setLightBoxPage}
 			/>
-			{props.urls.length === 1 ? (
-				<Box
-					width="100%"
-					maxWidth={maxWidth}
-					aspectRatio={props.aspectRatio}
-					mx="auto"
-				>
-					{renderCollageImage(0)}
-				</Box>
-			) : (
-				<Box
-					position="relative"
-					width="100%"
-					maxW={maxWidth}
-					mx="auto"
-				>
-					<Grid
-						templateRows="repeat(2, 1fr)"
-						templateColumns={`repeat(${numGridCols + 1}, 1fr)`}
-						mx="auto"
-						gap={3}
-					>
-						<GridItem
-							rowSpan={2}
-							colSpan={2}
-						>
-							{renderCollageImage(0)}
-						</GridItem>
-
-						{Array.from(
-							{ length: numThumbnails },
-							(_, i) => i + 1,
-						).map((index) => (
-							<GridItem
-								key={index}
-								rowSpan={1}
-								colSpan={1}
-							>
-								{renderCollageImage(index)}
-							</GridItem>
-						))}
-					</Grid>
-					{truncateImageList && (
-						<Button
-							variant="subtle"
-							position="absolute"
-							right={3}
-							bottom={3}
-							onClick={() => setLightBoxPage(0)}
-							fontFamily={sansFontFamily}
-							fontSize={16}
-						>
-							<FaImages />
-							{props.urls.length} images
-						</Button>
-					)}
-				</Box>
-			)}
+			<Grid
+				w="fit-content"
+				mx="auto"
+				gap={COLLAGE_GAP}
+				gridAutoFlow="column"
+				gridTemplateRows={`repeat(${THUMBNAIL_ROWS}, ${THUMBNAIL_HEIGHT}px)`}
+				gridTemplateColumns={`${COLLAGE_HEIGHT * props.aspectRatio}px`}
+				gridAutoColumns={`${THUMBNAIL_HEIGHT * props.aspectRatio}px`}
+			>
+				<GridItem rowSpan={THUMBNAIL_ROWS}>
+					{renderTile(0)}
+				</GridItem>
+				{Array.from(
+					{ length: numThumbnails },
+					(_, i) => i + 1,
+				).map((index) => (
+					<GridItem key={props.urls[index]}>
+						{renderTile(index)}
+					</GridItem>
+				))}
+			</Grid>
 		</>
 	);
 };

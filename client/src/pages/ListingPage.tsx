@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	ButtonProps,
+	Center,
 	Flex,
 	HStack,
 	Link,
@@ -13,7 +14,10 @@ import {
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
-import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
+import {
+	ImageCollage,
+	MAX_COLLAGE_WIDTH,
+} from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { ListingFulfillmentInfo } from '@client/components/listingPage/ListingFulfillmentInfo';
 import { ListingFullDescription } from '@client/components/listingPage/ListingFullDescription';
@@ -68,7 +72,7 @@ export const ListingPage = () => {
 		md: Layout.DESKTOP,
 	});
 
-	const maxWidth = 1200;
+	const maxWidth = MAX_COLLAGE_WIDTH;
 
 	const { listingData, listingDataLoading, listingDataError } =
 		useListingData(id);
@@ -178,12 +182,10 @@ export const ListingPage = () => {
 				<Box
 					px={5}
 					mt={5}
-					maxWidth={maxWidth}
 					width="100%"
 				>
 					<ImageCollage
 						urls={imageUrls}
-						maxWidth={maxWidth}
 						aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					/>
 				</Box>
@@ -195,14 +197,14 @@ export const ListingPage = () => {
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				/>
 			)}
-			<Box
-				p={5}
-				maxWidth={maxWidth}
+			<Center
 				width="100%"
+				p={5}
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
 					gap={layout === Layout.MOBILE ? 5 : 10}
+					maxW={MAX_COLLAGE_WIDTH}
 				>
 					<Box
 						flex="1"
@@ -420,7 +422,7 @@ export const ListingPage = () => {
 						/>
 					)}
 				</Flex>
-			</Box>
+			</Center>
 		</Flex>
 	);
 };

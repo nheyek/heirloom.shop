@@ -5,6 +5,7 @@ import {
 	Flex,
 	IconButton,
 	Link,
+	Span,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -83,10 +84,15 @@ export const ListingCard = ({
 		.map(([id, variation]) => (
 			<Badge
 				key={id}
-				size="lg"
-				fontSize={18}
+				fontSize={20}
+				fontWeight={400}
+				fontFamily={displayFontFamily}
+				py={2}
+				px={3}
 			>
-				<b>{Object.keys(variation.options).length}</b>{' '}
+				<Span fontWeight={500}>
+					{Object.keys(variation.options).length}
+				</Span>{' '}
 				{variation.name.toLowerCase()} options
 			</Badge>
 		));
@@ -159,7 +165,7 @@ export const ListingCard = ({
 				<Card.Body
 					p={3}
 					pb={2}
-					gap={1.5}
+					gap={1}
 				>
 					<Stack gap={0}>
 						<RouterLink
@@ -197,18 +203,12 @@ export const ListingCard = ({
 						)}
 					</Stack>
 
-					<Stack
-						gap={1}
-						justifyContent="space-between"
-						flexGrow={1}
+					<Text
+						lineClamp={2}
+						fontSize={18}
 					>
-						<Text
-							lineClamp={2}
-							fontSize={18}
-						>
-							{props.subtitle}
-						</Text>
-					</Stack>
+						{props.subtitle}
+					</Text>
 				</Card.Body>
 			</Box>
 			<Card.Body
