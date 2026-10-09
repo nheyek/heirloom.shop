@@ -1,7 +1,7 @@
 import { Box } from '@chakra-ui/react';
+import { PaymentProcessingDialog } from '@client/components/checkout/PaymentProcessingDialog';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
-import { PaymentProcessingDialog } from '@client/components/checkout/PaymentProcessingDialog';
 import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
@@ -61,7 +61,6 @@ const App = () => {
 			>
 				<Box
 					minHeight={`calc(100svh - ${navbarHeight}px)`}
-					pb={10}
 					width="100%"
 					mx="auto"
 					position="relative"
