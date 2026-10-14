@@ -171,6 +171,7 @@ export type ListingFormState = {
 
 	combinations: Combinations;
 	variationImages: VariationImages | null;
+	setVariationImage: (key: string, imageUuid: string | null) => void;
 	setCombinationField: (
 		key: string,
 		patch: Partial<Combination>,
@@ -325,7 +326,6 @@ export const useListingForm = ({
 				newId,
 				variation.options,
 				variation.pricesVary,
-				variation.imagesVary,
 			),
 		);
 	};
@@ -351,6 +351,12 @@ export const useListingForm = ({
 	const [combinations, setCombinations] = useState<Combinations>(
 		initialCombinations,
 	);
+
+	const setVariationImage = (key: string, imageUuid: string | null) => {
+		setVariationImages((prev) =>
+			prev && key in prev ? { ...prev, [key]: imageUuid } : prev,
+		);
+	};
 
 	const setCombinationField = (
 		key: string,
@@ -600,6 +606,7 @@ export const useListingForm = ({
 		reorderVariations,
 		combinations,
 		variationImages,
+		setVariationImage,
 		setCombinationField,
 		isDirty,
 		validate,

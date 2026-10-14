@@ -1,7 +1,12 @@
 import { Stack } from '@chakra-ui/react';
+import { FORM_FIELD_GAP } from '@client/constants';
 import { FieldError } from '@client/components/input/FieldError';
+import { FormSection } from '@client/components/input/FormSection';
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
+import { ImagesField } from '@client/components/listingForm/ImagesField';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
+import { PersonalizationField } from '@client/components/listingForm/PersonalizationField';
+import { TrackInventoryField } from '@client/components/listingForm/TrackInventoryField';
 import { ListingFormState } from '@client/components/listingForm/useListingForm';
 import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { RefObject } from 'react';
@@ -20,17 +25,27 @@ export const ListingFormLayout = ({
 	disabled,
 }: Props) => (
 	<Stack
-		gap={5}
+		gap={FORM_FIELD_GAP}
 		ref={containerRef}
 	>
 		<ListingFormFields form={form} disabled={disabled} />
+		<ImagesField
+			form={form}
+			disabled={disabled}
+		/>
+		<TrackInventoryField
+			form={form}
+			disabled={disabled}
+		/>
+		<PersonalizationField
+			form={form}
+			disabled={disabled}
+		/>
 		{deriveCombinationsList(form.variations).length > 0 && (
-			<Stack gap={1.5}>
+			<FormSection label="Availability">
 				<CombinationGrid
 					variations={form.variations}
 					combinations={form.combinations}
-					uploadImage={form.uploadImage}
-					shopShortId={form.shopShortId}
 					trackInventory={form.trackInventory}
 					disabled={disabled}
 					onUpdate={(key, patch) => {
@@ -55,7 +70,7 @@ export const ListingFormLayout = ({
 				{form.combinationError && (
 					<FieldError>{form.combinationError}</FieldError>
 				)}
-			</Stack>
+			</FormSection>
 		)}
 		<Stack mt={2.5}>{actions}</Stack>
 	</Stack>

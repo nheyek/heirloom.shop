@@ -1,11 +1,6 @@
 import {
-	Box,
-	Checkbox,
 	Fieldset,
-	HStack,
-	Span,
 	Stack,
-	Text,
 	Wrap,
 	WrapItem,
 } from '@chakra-ui/react';
@@ -15,36 +10,27 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
-import { InventoryInput } from '@client/components/input/InventoryInput';
 import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
-import { ListingImageUpload } from '@client/components/listingForm/ListingImageUpload';
-import { PersonalizationProfileSelect } from '@client/components/listingForm/PersonalizationProfileSelect';
 import { ProcessingProfileSelect } from '@client/components/listingForm/ProcessingProfileSelect';
 import { ReturnProfileSelect } from '@client/components/listingForm/ReturnProfileSelect';
 import { ShippingProfileSelect } from '@client/components/listingForm/ShippingProfileSelect';
 import { SortableFieldList } from '@client/components/listingForm/SortableFieldList';
 import { VariationDialog } from '@client/components/listingForm/VariationDialog';
+import { VariationImagesGrid } from '@client/components/listingForm/VariationImagesGrid';
 import {
 	ListingDescrSection,
 	ListingFormState,
 } from '@client/components/listingForm/useListingForm';
-import { InfoPopover } from '@client/components/misc/InfoPopover';
 import {
+	FORM_FIELD_GAP,
 	InputSize,
-	STANDARD_THUMBNAIL_GAP,
-	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/constants';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
-import { chakraSpacingUnit } from '@client/theme';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 import { useState } from 'react';
-
-const IMAGES_W =
-	3 * STANDARD_THUMBNAIL_WIDTH +
-	2 * (chakraSpacingUnit * STANDARD_THUMBNAIL_GAP);
 
 type ListingFormFieldsProps = {
 	form: ListingFormState;
@@ -110,10 +96,10 @@ export const ListingFormFields = ({
 	return (
 		<>
 			<Fieldset.Root>
-				<Stack gap={8}>
+				<Stack gap={FORM_FIELD_GAP}>
 					<Wrap
-						columnGap={8}
-						rowGap={5}
+						columnGap={FORM_FIELD_GAP}
+						rowGap={FORM_FIELD_GAP}
 						align="start"
 					>
 						<WrapItem
@@ -121,7 +107,7 @@ export const ListingFormFields = ({
 							flexShrink={0}
 						>
 							<Stack
-								gap={5}
+								gap={FORM_FIELD_GAP}
 								w="full"
 							>
 								<FormField
@@ -248,38 +234,20 @@ export const ListingFormFields = ({
 						</Stack>
 					</FormField>
 
-					<FormField
-						label={
-							<>
-								Images
-								<InfoPopover>
-									<Text fontSize={16}>
-										These images are shown for
-										every variant of this listing.
-										Configure variant-specific
-										images in the above field.
-									</Text>
-								</InfoPopover>
-							</>
-						}
-						error={form.imageError}
-					>
-						<Box w={{ base: '100%', md: IMAGES_W }}>
-							<ListingImageUpload
-								imageEntries={form.imageEntries}
-								onAdd={form.addImageFiles}
-								onRemove={form.removeImage}
-								onReorder={form.reorderImageEntries}
-								disabled={disabled}
-							/>
-						</Box>
-					</FormField>
+					<VariationImagesGrid
+						variations={form.variations}
+						variationImages={form.variationImages}
+						onUpdate={form.setVariationImage}
+						uploadImage={form.uploadImage}
+						shopShortId={form.shopShortId}
+						disabled={disabled}
+					/>
 
 					{!sortedVariations.some(
 						([, v]) => v.pricesVary,
 					) && (
 						<Wrap
-							gap={5}
+							gap={FORM_FIELD_GAP}
 							align="start"
 						>
 							<WrapItem>
@@ -307,58 +275,11 @@ export const ListingFormFields = ({
 						</Wrap>
 					)}
 
-					<Stack gap={4}>
-						<HStack gap={1}>
-							<Checkbox.Root
-								checked={form.trackInventory}
-								onCheckedChange={(e) => {
-									const checked = !!e.checked;
-									form.setTrackInventory(checked);
-									if (
-										checked &&
-										form.inventory === ''
-									)
-										form.setInventory('0');
-								}}
-								size="md"
-								disabled={disabled}
-							>
-								<Checkbox.HiddenInput />
-								<Checkbox.Control />
-								<Checkbox.Label fontSize={18}>
-									Track inventory
-								</Checkbox.Label>
-							</Checkbox.Root>
-							<InfoPopover>
-								<Stack fontSize={16}>
-									<Span>
-										Tracking inventory determines
-										how many of this listing can
-										be purchased.
-									</Span>
-									<Span>
-										Un-tracked listings allow
-										unlimited purchases unless the
-										listing is disabled.
-									</Span>
-								</Stack>
-							</InfoPopover>
-						</HStack>
-						{form.trackInventory &&
-							sortedVariations.length === 0 && (
-								<InventoryInput
-									value={form.inventory}
-									onChange={form.setInventory}
-									disabled={disabled}
-								/>
-							)}
-					</Stack>
-
 					{directFulfillment && (
 						<Wrap
 							align="start"
-							gapX={10}
-							gapY={5}
+							gapX={FORM_FIELD_GAP}
+							gapY={FORM_FIELD_GAP}
 						>
 							<WrapItem>
 								<FormField
@@ -448,33 +369,6 @@ export const ListingFormFields = ({
 							</WrapItem>
 						</Wrap>
 					)}
-
-					<Wrap
-						align="start"
-						gapX={10}
-						gapY={5}
-					>
-						<WrapItem>
-							<FormField label="Personalization">
-								<PersonalizationProfileSelect
-									shopShortId={form.shopShortId}
-									profiles={
-										form.personalizationProfiles
-									}
-									onAddProfile={
-										form.addPersonalizationProfile
-									}
-									value={
-										form.personalizationProfileId
-									}
-									onChange={
-										form.setPersonalizationProfileId
-									}
-									disabled={disabled}
-								/>
-							</FormField>
-						</WrapItem>
-					</Wrap>
 				</Stack>
 			</Fieldset.Root>
 

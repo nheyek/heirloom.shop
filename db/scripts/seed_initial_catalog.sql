@@ -100,6 +100,7 @@ DECLARE
     listing_63_heavy_oxidized_image_uuid CONSTANT VARCHAR := '53b6ef7c-5063-4a31-b07e-771ef28ec18d';
     listing_63_heavy_black_image_uuid CONSTANT VARCHAR := 'a3b75ead-6745-4d14-8fc5-a11c1f45fa64';
     listing_63_combinations JSONB;
+    listing_63_variation_images JSONB;
 
     listing_64_id INT := 64;
     listing_64_short_id VARCHAR := 'wjBTd';
@@ -384,8 +385,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_62_metal_variation_id || ':' || listing_62_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_62_metal_variation_id || ':' || listing_62_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_62_metal_variation_id || ':' || listing_62_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_62_metal_variation_id || ':' || listing_62_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
@@ -424,45 +425,45 @@ BEGIN
                 (listing_63_length_26_id),
                 (listing_63_length_28_id),
                 (listing_63_length_36_id)
-        ), priced(metal_id, width_id, length_id, price_cents, image_uuid) AS (
+        ), priced(metal_id, width_id, length_id, price_cents) AS (
             VALUES
-                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_16_id, 12000, listing_63_fine_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_18_id, 12000, listing_63_fine_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_20_id, 14000, listing_63_fine_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_22_id, 14000, listing_63_fine_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_26_id, 16000, listing_63_fine_oxidized_image_uuid),
-                (listing_63_metal_bright_id, listing_63_width_fine_id, listing_63_length_18_id, 12000, listing_63_fine_bright_image_uuid),
-                (listing_63_metal_bright_id, listing_63_width_fine_id, listing_63_length_22_id, 14000, listing_63_fine_bright_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_16_id, 12000, listing_63_fine_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_18_id, 12000, listing_63_fine_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_20_id, 14000, listing_63_fine_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_22_id, 14000, listing_63_fine_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_26_id, 16000, listing_63_fine_black_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_16_id, 19000, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_18_id, 19000, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_20_id, 22500, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_22_id, 22500, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_24_id, 25000, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_28_id, 28000, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_36_id, 35000, listing_63_medium_oxidized_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_18_id, 19000, listing_63_medium_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_22_id, 22500, listing_63_medium_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_24_id, 25000, listing_63_medium_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_28_id, 28000, listing_63_medium_black_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_18_id, 53500, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_20_id, 59500, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_22_id, 59500, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_24_id, 69000, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_26_id, 71500, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_28_id, 74000, listing_63_heavy_oxidized_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_20_id, 59500, listing_63_heavy_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_22_id, 59500, listing_63_heavy_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_26_id, 69000, listing_63_heavy_black_image_uuid),
-                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_28_id, 74000, listing_63_heavy_black_image_uuid)
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_16_id, 12000),
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_18_id, 12000),
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_20_id, 14000),
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_22_id, 14000),
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_length_26_id, 16000),
+                (listing_63_metal_bright_id, listing_63_width_fine_id, listing_63_length_18_id, 12000),
+                (listing_63_metal_bright_id, listing_63_width_fine_id, listing_63_length_22_id, 14000),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_16_id, 12000),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_18_id, 12000),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_20_id, 14000),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_22_id, 14000),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_length_26_id, 16000),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_16_id, 19000),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_18_id, 19000),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_20_id, 22500),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_22_id, 22500),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_24_id, 25000),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_28_id, 28000),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_length_36_id, 35000),
+                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_18_id, 19000),
+                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_22_id, 22500),
+                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_24_id, 25000),
+                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_length_28_id, 28000),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_18_id, 53500),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_20_id, 59500),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_22_id, 59500),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_24_id, 69000),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_26_id, 71500),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_length_28_id, 74000),
+                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_20_id, 59500),
+                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_22_id, 59500),
+                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_26_id, 69000),
+                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_length_28_id, 74000)
         )
         SELECT jsonb_object_agg(
             listing_63_metal_variation_id || ':' || metals.id || '|' || listing_63_width_variation_id || ':' || widths.id || '|' || listing_63_length_variation_id || ':' || lengths.id,
-            jsonb_build_object('priceCents', priced.price_cents, 'imageUuid', priced.image_uuid, 'disabled', priced.price_cents IS NULL, 'inventory', catalog_default_inventory)
+            jsonb_build_object('priceCents', priced.price_cents, 'disabled', priced.price_cents IS NULL, 'inventory', catalog_default_inventory)
         )
         FROM metals
         CROSS JOIN widths
@@ -470,14 +471,44 @@ BEGIN
         LEFT JOIN priced ON priced.metal_id = metals.id AND priced.width_id = widths.id AND priced.length_id = lengths.id
     );
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    listing_63_variation_images := (
+        WITH metals(id) AS (
+            VALUES
+                (listing_63_metal_oxidized_id),
+                (listing_63_metal_bright_id),
+                (listing_63_metal_black_id)
+        ), widths(id) AS (
+            VALUES
+                (listing_63_width_fine_id),
+                (listing_63_width_medium_id),
+                (listing_63_width_heavy_id)
+        ), heroes(metal_id, width_id, image_uuid) AS (
+            VALUES
+                (listing_63_metal_oxidized_id, listing_63_width_fine_id, listing_63_fine_oxidized_image_uuid),
+                (listing_63_metal_black_id, listing_63_width_fine_id, listing_63_fine_black_image_uuid),
+                (listing_63_metal_bright_id, listing_63_width_fine_id, listing_63_fine_bright_image_uuid),
+                (listing_63_metal_oxidized_id, listing_63_width_medium_id, listing_63_medium_oxidized_image_uuid),
+                (listing_63_metal_black_id, listing_63_width_medium_id, listing_63_medium_black_image_uuid),
+                (listing_63_metal_oxidized_id, listing_63_width_heavy_id, listing_63_heavy_oxidized_image_uuid),
+                (listing_63_metal_black_id, listing_63_width_heavy_id, listing_63_heavy_black_image_uuid)
+        )
+        SELECT jsonb_object_agg(
+            listing_63_metal_variation_id || ':' || metals.id || '|' || listing_63_width_variation_id || ':' || widths.id,
+            to_jsonb(heroes.image_uuid)
+        )
+        FROM metals
+        CROSS JOIN widths
+        LEFT JOIN heroes ON heroes.metal_id = metals.id AND heroes.width_id = widths.id
+    );
+
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at, variation_images)
     VALUES
         (listing_63_id, listing_63_short_id, listing_63_shop_id, listing_63_category_id, listing_63_title, listing_63_subtitle, listing_63_full_descr, listing_63_price_cents, NULL, NULL, listing_63_image_uuids, NULL,
             jsonb_build_object(
                 listing_63_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
                     'pricesVary', true,
-                    'imagesVary', false,
+                    'imagesVary', true,
                     'order', 0,
                     'defaultOption', listing_63_metal_oxidized_id,
                     'options', jsonb_build_object(
@@ -516,7 +547,7 @@ BEGIN
                     )
                 )
             ),
-            listing_63_combinations, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+            listing_63_combinations, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, listing_63_variation_images)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
@@ -531,6 +562,7 @@ BEGIN
         available = EXCLUDED.available,
         inventory = EXCLUDED.inventory,
         track_inventory = EXCLUDED.track_inventory,
+        variation_images = EXCLUDED.variation_images,
         updated_at = CURRENT_TIMESTAMP;
 
     INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
@@ -550,8 +582,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_64_metal_variation_id || ':' || listing_64_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_64_metal_variation_id || ':' || listing_64_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_64_metal_variation_id || ':' || listing_64_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_64_metal_variation_id || ':' || listing_64_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_65_id, listing_65_short_id, listing_65_shop_id, listing_65_category_id, listing_65_title, listing_65_subtitle, listing_65_full_descr, listing_65_price_cents, NULL, NULL, listing_65_image_uuids, NULL,
             jsonb_build_object(
@@ -568,8 +600,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_65_metal_variation_id || ':' || listing_65_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_65_metal_variation_id || ':' || listing_65_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_65_metal_variation_id || ':' || listing_65_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_65_metal_variation_id || ':' || listing_65_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_66_id, listing_66_short_id, listing_66_shop_id, listing_66_category_id, listing_66_title, listing_66_subtitle, listing_66_full_descr, listing_66_price_cents, NULL, NULL, listing_66_image_uuids, NULL,
             jsonb_build_object(
@@ -586,8 +618,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_66_metal_variation_id || ':' || listing_66_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_66_metal_variation_id || ':' || listing_66_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_66_metal_variation_id || ':' || listing_66_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_66_metal_variation_id || ':' || listing_66_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_67_id, listing_67_short_id, listing_67_shop_id, listing_67_category_id, listing_67_title, listing_67_subtitle, listing_67_full_descr, listing_67_price_cents, NULL, NULL, listing_67_image_uuids, NULL,
             jsonb_build_object(
@@ -604,8 +636,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_67_metal_variation_id || ':' || listing_67_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_67_metal_variation_id || ':' || listing_67_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_67_metal_variation_id || ':' || listing_67_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_67_metal_variation_id || ':' || listing_67_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_68_id, listing_68_short_id, listing_68_shop_id, listing_68_category_id, listing_68_title, listing_68_subtitle, listing_68_full_descr, listing_68_price_cents, NULL, NULL, listing_68_image_uuids, NULL,
             jsonb_build_object(
@@ -622,8 +654,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_68_metal_variation_id || ':' || listing_68_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_68_metal_variation_id || ':' || listing_68_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_68_metal_variation_id || ':' || listing_68_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_68_metal_variation_id || ':' || listing_68_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_69_id, listing_69_short_id, listing_69_shop_id, listing_69_category_id, listing_69_title, listing_69_subtitle, listing_69_full_descr, listing_69_price_cents, NULL, NULL, listing_69_image_uuids, NULL,
             jsonb_build_object(
@@ -640,8 +672,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_69_metal_variation_id || ':' || listing_69_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_69_metal_variation_id || ':' || listing_69_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_69_metal_variation_id || ':' || listing_69_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_69_metal_variation_id || ':' || listing_69_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_70_id, listing_70_short_id, listing_70_shop_id, listing_70_category_id, listing_70_title, listing_70_subtitle, listing_70_full_descr, listing_70_price_cents, NULL, NULL, listing_70_image_uuids, NULL,
             jsonb_build_object(
@@ -658,8 +690,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_70_metal_variation_id || ':' || listing_70_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_70_metal_variation_id || ':' || listing_70_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_70_metal_variation_id || ':' || listing_70_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_70_metal_variation_id || ':' || listing_70_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_71_id, listing_71_short_id, listing_71_shop_id, listing_71_category_id, listing_71_title, listing_71_subtitle, listing_71_full_descr, listing_71_price_cents, NULL, NULL, listing_71_image_uuids, NULL,
             jsonb_build_object(
@@ -676,8 +708,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_71_metal_variation_id || ':' || listing_71_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_71_metal_variation_id || ':' || listing_71_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_71_metal_variation_id || ':' || listing_71_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_71_metal_variation_id || ':' || listing_71_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_72_id, listing_72_short_id, listing_72_shop_id, listing_72_category_id, listing_72_title, listing_72_subtitle, listing_72_full_descr, listing_72_price_cents, NULL, NULL, listing_72_image_uuids, NULL,
             jsonb_build_object(
@@ -694,8 +726,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_72_metal_variation_id || ':' || listing_72_metal_sterling_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_72_metal_variation_id || ':' || listing_72_metal_bronze_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_72_metal_variation_id || ':' || listing_72_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_72_metal_variation_id || ':' || listing_72_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,

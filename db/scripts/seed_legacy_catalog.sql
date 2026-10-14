@@ -996,10 +996,10 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_4_size_variation_id || ':' || listing_4_size_no6_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_4_size_variation_id || ':' || listing_4_size_no10_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_4_size_variation_id || ':' || listing_4_size_no12_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_4_size_variation_id || ':' || listing_4_size_no14_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_4_size_variation_id || ':' || listing_4_size_no6_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no10_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_4_size_variation_id || ':' || listing_4_size_no14_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
@@ -1017,8 +1017,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_6_color_variation_id || ':' || listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_6_color_variation_id || ':' || listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_6_color_variation_id || ':' || listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_6_color_variation_id || ':' || listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_10_id, listing_10_short_id, listing_10_shop_id, listing_10_category_id, listing_10_title, listing_10_subtitle, listing_10_full_descr, listing_10_price_cents, NULL, NULL, listing_10_image_uuids, NULL,
             jsonb_build_object(
@@ -1035,8 +1035,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_10_color_variation_id || ':' || listing_10_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_10_color_variation_id || ':' || listing_10_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_10_color_variation_id || ':' || listing_10_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_10_color_variation_id || ':' || listing_10_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_12_id, listing_12_short_id, listing_12_shop_id, listing_12_category_id, listing_12_title, listing_12_subtitle, listing_12_full_descr, listing_12_price_cents, NULL, NULL, listing_12_image_uuids, NULL,
             jsonb_build_object(
@@ -1053,8 +1053,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_12_color_variation_id || ':' || listing_12_color_raffia_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_12_color_variation_id || ':' || listing_12_color_patina_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_12_color_variation_id || ':' || listing_12_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_12_color_variation_id || ':' || listing_12_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -1076,10 +1076,10 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_34_size_variation_id || ':' || listing_34_size_small_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_34_size_variation_id || ':' || listing_34_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_34_size_variation_id || ':' || listing_34_size_large_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_34_size_variation_id || ':' || listing_34_size_xl_id,     jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_34_size_variation_id || ':' || listing_34_size_small_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_34_size_variation_id || ':' || listing_34_size_xl_id,     jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL,
             jsonb_build_object(
@@ -1096,8 +1096,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_25_size_variation_id || ':' || listing_25_size_no8_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_25_size_variation_id || ':' || listing_25_size_no10_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_25_size_variation_id || ':' || listing_25_size_no8_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_25_size_variation_id || ':' || listing_25_size_no10_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL,
             jsonb_build_object(
@@ -1115,9 +1115,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_26_size_variation_id || ':' || listing_26_size_small_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_26_size_variation_id || ':' || listing_26_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_26_size_variation_id || ':' || listing_26_size_large_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_26_size_variation_id || ':' || listing_26_size_small_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_26_size_variation_id || ':' || listing_26_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_26_size_variation_id || ':' || listing_26_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL,
             jsonb_build_object(
@@ -1134,8 +1134,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_29_size_variation_id || ':' || listing_29_size_no10_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_29_size_variation_id || ':' || listing_29_size_no12_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_29_size_variation_id || ':' || listing_29_size_no10_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_29_size_variation_id || ':' || listing_29_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL,
@@ -1153,8 +1153,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_32_size_variation_id || ':' || listing_32_size_no12_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_32_size_variation_id || ':' || listing_32_size_no14_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_32_size_variation_id || ':' || listing_32_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_32_size_variation_id || ':' || listing_32_size_no14_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
@@ -1173,9 +1173,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_21_height_variation_id || ':' || listing_21_height_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_21_height_variation_id || ':' || listing_21_height_large_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_21_height_variation_id || ':' || listing_21_height_xl_id,     jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_21_height_variation_id || ':' || listing_21_height_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_21_height_variation_id || ':' || listing_21_height_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_21_height_variation_id || ':' || listing_21_height_xl_id,     jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_22_id, listing_22_short_id, listing_22_shop_id, listing_22_category_id, listing_22_title, listing_22_subtitle, listing_22_full_descr, listing_22_price_cents, NULL, NULL, listing_22_image_uuids, NULL,
             jsonb_build_object(
@@ -1192,8 +1192,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_22_size_variation_id || ':' || listing_22_size_standard_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_22_size_variation_id || ':' || listing_22_size_grand_id,    jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_22_size_variation_id || ':' || listing_22_size_standard_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_22_size_variation_id || ':' || listing_22_size_grand_id,    jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_35_id, listing_35_short_id, listing_35_shop_id, listing_35_category_id, listing_35_title, listing_35_subtitle, listing_35_full_descr, listing_35_price_cents, NULL, NULL, listing_35_image_uuids, NULL,
             jsonb_build_object(
@@ -1211,9 +1211,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_35_quantity_variation_id || ':' || listing_35_quantity_single_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_35_quantity_variation_id || ':' || listing_35_quantity_six_id,    jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_35_quantity_variation_id || ':' || listing_35_quantity_case_id,   jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_35_quantity_variation_id || ':' || listing_35_quantity_single_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_35_quantity_variation_id || ':' || listing_35_quantity_six_id,    jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_35_quantity_variation_id || ':' || listing_35_quantity_case_id,   jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_36_id, listing_36_short_id, listing_36_shop_id, listing_36_category_id, listing_36_title, listing_36_subtitle, listing_36_full_descr, listing_36_price_cents, NULL, NULL, listing_36_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_37_id, listing_37_short_id, listing_37_shop_id, listing_37_category_id, listing_37_title, listing_37_subtitle, listing_37_full_descr, listing_37_price_cents, NULL, NULL, listing_37_image_uuids, NULL,
@@ -1232,9 +1232,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_37_design_variation_id || ':' || listing_37_design_deco_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_37_design_variation_id || ':' || listing_37_design_flora_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_37_design_variation_id || ':' || listing_37_design_lotus_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_37_design_variation_id || ':' || listing_37_design_deco_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_37_design_variation_id || ':' || listing_37_design_flora_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_37_design_variation_id || ':' || listing_37_design_lotus_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_38_id, listing_38_short_id, listing_38_shop_id, listing_38_category_id, listing_38_title, listing_38_subtitle, listing_38_full_descr, listing_38_price_cents, NULL, NULL, listing_38_image_uuids, NULL,
             jsonb_build_object(
@@ -1252,9 +1252,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_38_size_variation_id || ':' || listing_38_size_small_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_38_size_variation_id || ':' || listing_38_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_38_size_variation_id || ':' || listing_38_size_large_id,  jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_38_size_variation_id || ':' || listing_38_size_small_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_38_size_variation_id || ':' || listing_38_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_38_size_variation_id || ':' || listing_38_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_49_id, listing_49_short_id, listing_49_shop_id, listing_49_category_id, listing_49_title, listing_49_subtitle, listing_49_full_descr, listing_49_price_cents, NULL, NULL, listing_49_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_50_id, listing_50_short_id, listing_50_shop_id, listing_50_category_id, listing_50_title, listing_50_subtitle, listing_50_full_descr, listing_50_price_cents, NULL, NULL, listing_50_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
@@ -1274,9 +1274,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_51_size_variation_id || ':' || listing_51_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_51_size_variation_id || ':' || listing_51_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_51_size_variation_id || ':' || listing_51_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_51_size_variation_id || ':' || listing_51_size_small_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_51_size_variation_id || ':' || listing_51_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_51_size_variation_id || ':' || listing_51_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_53_id, listing_53_short_id, listing_53_shop_id, listing_53_category_id, listing_53_title, listing_53_subtitle, listing_53_full_descr, listing_53_price_cents, NULL, NULL, listing_53_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_54_id, listing_54_short_id, listing_54_shop_id, listing_54_category_id, listing_54_title, listing_54_subtitle, listing_54_full_descr, listing_54_price_cents, NULL, NULL, listing_54_image_uuids, NULL,
@@ -1295,9 +1295,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_54_size_variation_id || ':' || listing_54_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_54_size_variation_id || ':' || listing_54_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_54_size_variation_id || ':' || listing_54_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_54_size_variation_id || ':' || listing_54_size_small_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_54_size_variation_id || ':' || listing_54_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_54_size_variation_id || ':' || listing_54_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_55_id, listing_55_short_id, listing_55_shop_id, listing_55_category_id, listing_55_title, listing_55_subtitle, listing_55_full_descr, listing_55_price_cents, NULL, NULL, listing_55_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_42_id, listing_42_short_id, listing_42_shop_id, listing_42_category_id, listing_42_title, listing_42_subtitle, listing_42_full_descr, listing_42_price_cents, NULL, NULL, listing_42_image_uuids, NULL,
@@ -1316,9 +1316,9 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_42_size_variation_id || ':' || listing_42_size_small_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_42_size_variation_id || ':' || listing_42_size_small_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_56_id, listing_56_short_id, listing_56_shop_id, listing_56_category_id, listing_56_title, listing_56_subtitle, listing_56_full_descr, listing_56_price_cents, NULL, NULL, listing_56_image_uuids, NULL,
             jsonb_build_object(
@@ -1335,8 +1335,8 @@ BEGIN
                 )
             ),
             jsonb_build_object(
-                listing_56_size_variation_id || ':' || listing_56_size_six_id,   jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory),
-                listing_56_size_variation_id || ':' || listing_56_size_eight_id, jsonb_build_object('priceCents', null, 'imageUuid', null, 'disabled', false, 'inventory', catalog_default_inventory)
+                listing_56_size_variation_id || ':' || listing_56_size_six_id,   jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
+                listing_56_size_variation_id || ':' || listing_56_size_eight_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_58_id, listing_58_short_id, listing_58_shop_id, listing_58_category_id, listing_58_title, listing_58_subtitle, listing_58_full_descr, listing_58_price_cents, NULL, NULL, listing_58_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (listing_59_id, listing_59_short_id, listing_59_shop_id, listing_59_category_id, listing_59_title, listing_59_subtitle, listing_59_full_descr, listing_59_price_cents, NULL, NULL, listing_59_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),

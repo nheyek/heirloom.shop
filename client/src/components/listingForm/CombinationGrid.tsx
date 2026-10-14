@@ -1,32 +1,16 @@
-import {
-	Box,
-	FileUpload,
-	Image,
-	Switch,
-	Table,
-	Text,
-} from '@chakra-ui/react';
+import { Switch, Table, Text } from '@chakra-ui/react';
 import { InventoryInput } from '@client/components/input/InventoryInput';
 import { PriceInput } from '@client/components/input/PriceInput';
 import {
 	Combination,
 	Variation,
 } from '@client/components/listingForm/useListingForm';
-import {
-	InputSize,
-	LISTING_IMAGE_ASPECT_RATIO,
-} from '@client/constants';
+import { InputSize } from '@client/constants';
 import { fieldErrorColor } from '@client/theme';
-import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	deriveCombinationsList,
-	resolveEffectiveCombinationImages,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
-import { useState } from 'react';
-import { FaImage } from 'react-icons/fa';
-
-const THUMB_WIDTH = 100;
 
 type Props = {
 	variations: Record<string, Variation>;
@@ -35,13 +19,12 @@ type Props = {
 	invalid?: boolean;
 	invalidKeys?: Set<string>;
 	disabled?: boolean;
-	uploadImage: (file: File) => Promise<string | null>;
-	shopShortId: string;
 	trackInventory?: boolean;
 };
 
+const ROW_VERTICAL_PADDING = 2;
+
 const DEFAULT_ENTRY: Combination = {
-	imageUuid: null,
 	priceCents: null,
 	disabled: false,
 	inventory: 0,
@@ -54,18 +37,12 @@ export const CombinationGrid = ({
 	invalid,
 	invalidKeys,
 	disabled,
-	uploadImage,
-	shopShortId,
 	trackInventory,
 }: Props) => {
-	const [uploadingKeys, setUploadingKeys] = useState<Set<string>>(
-		new Set(),
-	);
 	const sortedVariations = Object.entries(variations).sort(
 		(a, b) => a[1].order - b[1].order,
 	);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
-	const showImage = sortedVariations.some(([, v]) => v.imagesVary);
 	const showInventory = !!trackInventory;
 
 	const combinationsList = deriveCombinationsList(variations);
@@ -102,11 +79,6 @@ export const CombinationGrid = ({
 							borderBottomColor: fieldErrorColor,
 						})}
 					>
-						{showImage && (
-							<Table.ColumnHeader w={100}>
-								Image
-							</Table.ColumnHeader>
-						)}
 						{sortedVariations.map(([varId, v]) => (
 							<Table.ColumnHeader
 								key={varId}
@@ -130,17 +102,11 @@ export const CombinationGrid = ({
 						</Table.ColumnHeader>
 					</Table.Row>
 				</Table.Header>
-				<Table.Body>
+				<Table.Body css={{ '& td': { py: ROW_VERTICAL_PADDING } }}>
 					{combinationsList.map(({ key, optionMap }, i) => {
 						const entry =
 							combinations[key] ?? DEFAULT_ENTRY;
 						const isDisabled = entry.disabled;
-						const effectiveImage =
-							resolveEffectiveCombinationImages(
-								optionMap,
-								combinations,
-								variations,
-							)[0] ?? null;
 						const effectivePrice =
 							resolveEffectiveCombinationPrice(
 								optionMap,
@@ -148,8 +114,6 @@ export const CombinationGrid = ({
 								variations,
 								null,
 							);
-						const imageIsInherited =
-							!entry.imageUuid && !!effectiveImage;
 						const priceIsInherited =
 							entry.priceCents == null &&
 							effectivePrice != null;
@@ -172,119 +136,6 @@ export const CombinationGrid = ({
 										fieldErrorColor,
 								})}
 							>
-								{/* Image */}
-								{showImage && (
-									<Table.Cell
-										opacity={isDisabled ? 0.5 : 1}
-										p={0}
-									>
-										<FileUpload.Root
-											accept="image/*"
-											maxFiles={1}
-											disabled={
-												disabled || isDisabled
-											}
-											onFileChange={async (
-												details,
-											) => {
-												const file =
-													details
-														.acceptedFiles[0];
-												if (!file) return;
-												setUploadingKeys(
-													(prev) =>
-														new Set(
-															prev,
-														).add(key),
-												);
-												const uuid =
-													await uploadImage(
-														file,
-													);
-												setUploadingKeys(
-													(prev) => {
-														const next =
-															new Set(
-																prev,
-															);
-														next.delete(
-															key,
-														);
-														return next;
-													},
-												);
-												if (uuid)
-													onUpdate(key, {
-														imageUuid:
-															uuid,
-													});
-											}}
-											pr={2}
-										>
-											<FileUpload.HiddenInput />
-											<FileUpload.Trigger
-												asChild
-											>
-												<Box
-													as="button"
-													width={
-														THUMB_WIDTH
-													}
-													aspectRatio={
-														LISTING_IMAGE_ASPECT_RATIO
-													}
-													overflow="hidden"
-													cursor="pointer"
-													flexShrink={0}
-													display="flex"
-													alignItems="center"
-													justifyContent="center"
-													bg="gray.50"
-												>
-													{effectiveImage ? (
-														<Image
-															src={listingImageUrl(
-																shopShortId,
-																effectiveImage,
-															)}
-															width="100%"
-															aspectRatio={
-																LISTING_IMAGE_ASPECT_RATIO
-															}
-															display="block"
-															objectFit="cover"
-															opacity={
-																uploadingKeys.has(
-																	key,
-																)
-																	? 0.5
-																	: imageIsInherited
-																		? 0.5
-																		: 1
-															}
-														/>
-													) : uploadingKeys.has(
-															key,
-													  ) ? (
-														<FaImage
-															color="gray"
-															size={20}
-															opacity={
-																0.5
-															}
-														/>
-													) : (
-														<FaImage
-															color="gray"
-															size={20}
-														/>
-													)}
-												</Box>
-											</FileUpload.Trigger>
-										</FileUpload.Root>
-									</Table.Cell>
-								)}
-
 								{/* Variation option labels */}
 								{sortedVariations.map(([varId]) => (
 									<Table.Cell
@@ -304,7 +155,6 @@ export const CombinationGrid = ({
 								{showPrice && (
 									<Table.Cell
 										opacity={isDisabled ? 0.5 : 1}
-										py={0}
 									>
 										<PriceInput
 											value={
@@ -326,7 +176,7 @@ export const CombinationGrid = ({
 											invalid={invalidKeys?.has(
 												key,
 											)}
-											enclosed={showImage}
+											enclosed
 										/>
 									</Table.Cell>
 								)}
@@ -335,7 +185,6 @@ export const CombinationGrid = ({
 								{showInventory && (
 									<Table.Cell
 										opacity={isDisabled ? 0.5 : 1}
-										py={0}
 									>
 										<InventoryInput
 											size={InputSize.Md}

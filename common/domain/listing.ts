@@ -35,7 +35,6 @@ export type Variation = {
 
 export type Combination = {
 	priceCents: number | null;
-	imageUuid: string | null;
 	disabled: boolean;
 	inventory?: number | null;
 };
@@ -62,7 +61,6 @@ export const isListingOutOfStock = (
 
 export const DEFAULT_COMBINATION: Combination = {
 	priceCents: null,
-	imageUuid: null,
 	disabled: false,
 	inventory: 0,
 };
@@ -122,7 +120,6 @@ export const addVariationToCombinations = (
 	newVarId: string,
 	newOptions: Record<string, VariationOption>,
 	newVariationPricesVary: boolean,
-	newVariationImagesVary: boolean,
 ): Combinations => {
 	const newOptionIds = Object.keys(newOptions);
 	const existing = Object.entries(combinations);
@@ -144,9 +141,6 @@ export const addVariationToCombinations = (
 				...data,
 				...(newVariationPricesVary
 					? { priceCents: null }
-					: {}),
-				...(newVariationImagesVary
-					? { imageUuid: null }
 					: {}),
 			};
 		}
@@ -297,7 +291,7 @@ export const getListingDisplayPrice = (
 export type ListingImageContext = {
 	imageUuids: string[];
 	variations: Variations;
-	combinations: Combinations;
+	variationImages?: VariationImages | null;
 };
 
 export const getOrderedListingImageUuids = (
@@ -307,8 +301,8 @@ export const getOrderedListingImageUuids = (
 	...new Set([
 		...resolveEffectiveCombinationImages(
 			selectedOptions,
-			listing.combinations,
 			listing.variations,
+			listing.variationImages,
 		),
 		...listing.imageUuids,
 	]),
@@ -316,12 +310,19 @@ export const getOrderedListingImageUuids = (
 
 export const resolveEffectiveCombinationImages = (
 	optionMap: Record<string, string>,
-	combinations: Combinations,
 	variations: Variations,
+	variationImages?: VariationImages | null,
 ): string[] => {
-	const key = getCombinationKey(optionMap);
-	if (combinations[key]?.imageUuid != null)
-		return [combinations[key].imageUuid];
+	if (hasVariationImages(variationImages)) {
+		const imageVaryingOptionMap = Object.fromEntries(
+			Object.keys(getImageVaryingVariations(variations)).map(
+				(variationId) => [variationId, optionMap[variationId]],
+			),
+		);
+		const imageUuid =
+			variationImages[getCombinationKey(imageVaryingOptionMap)];
+		return imageUuid ? [imageUuid] : [];
+	}
 	const sorted = Object.entries(variations)
 		.filter(([, v]) => v.imagesVary)
 		.sort(([, a], [, b]) => a.order - b.order);
@@ -426,6 +427,11 @@ export const isValidCombinationSelection = (
 	if (combination?.disabled ?? true) return false;
 	return !(trackInventory && (combination?.inventory ?? 0) === 0);
 };
+
+export const hasVariationImages = (
+	variationImages: VariationImages | null | undefined,
+): variationImages is VariationImages =>
+	!!variationImages && Object.keys(variationImages).length > 0;
 
 export const getImageVaryingVariations = (
 	variations: Variations,

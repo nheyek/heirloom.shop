@@ -176,8 +176,8 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 			},
 		};
 		const combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -207,8 +207,8 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 			},
 		};
 		const combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 7 },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: false, inventory: 7 },
 		};
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -320,8 +320,8 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 			},
 		};
 		const combinations = {
-			'v1:a': { priceCents: 1000, imageUuid: null, disabled: false },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: 1000, disabled: false },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const res = await request(getApp())
 			.post('/api/shops/mgr80/manager/listings')
@@ -669,13 +669,11 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		const combinations = {
 			'v1:a': {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 3,
 			},
 			'v1:b': {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 7,
 			},
@@ -787,8 +785,8 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 			},
 		};
 		const combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 7 },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: false, inventory: 7 },
 		};
 		const res = await request(getApp())
 			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)

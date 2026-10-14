@@ -40,7 +40,6 @@ const VariationsSchema = z.record(z.string(), VariationSchema);
 
 const CombinationSchema = z.object({
 	priceCents: z.number().nullable(),
-	imageUuid: z.string().nullable(),
 	disabled: z.boolean(),
 	inventory: z.number().nullable().optional(),
 });

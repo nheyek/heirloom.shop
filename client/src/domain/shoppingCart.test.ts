@@ -38,7 +38,7 @@ describe('calculateItemPrice', () => {
 		const listingData: CartItemData = {
 			...baseListingData,
 			combinations: {
-				[key]: { priceCents: 1500, imageUuid: null, disabled: false },
+				[key]: { priceCents: 1500, disabled: false },
 			},
 		};
 
@@ -116,7 +116,7 @@ describe('isCartItemValid', () => {
 		const validListingData: CartItemData = {
 			...listingData,
 			combinations: {
-				[key]: { priceCents: null, imageUuid: null, disabled: false },
+				[key]: { priceCents: null, disabled: false },
 			},
 		};
 		expect(

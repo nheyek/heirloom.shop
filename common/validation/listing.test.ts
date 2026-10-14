@@ -326,8 +326,8 @@ describe('validateListingFields', () => {
 			},
 		});
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: null, disabled: false },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const hasDefaultError = (defaultOption: string) =>
 			validateListingFields(
@@ -359,8 +359,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: true },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: true },
+			'v1:a': { priceCents: null, disabled: true },
+			'v1:b': { priceCents: null, disabled: true },
 		};
 		const errors = validateListingFields(
 			{ ...baseInput, variations, combinations },
@@ -384,8 +384,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: 1000, imageUuid: null, disabled: false },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: 1000, disabled: false },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const errors = validateListingFields(
 			{ ...baseInput, priceCents: null, variations, combinations },
@@ -409,8 +409,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: 1000, imageUuid: null, disabled: false },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: 1000, disabled: false },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const errors = validateListingFields(
 			{ ...baseInput, priceCents: 2500, variations, combinations },
@@ -476,8 +476,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 5 },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: false, inventory: 5 },
 		};
 		const errors = validateListingFields(
 			{
@@ -509,8 +509,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: false },
 		};
 		const errors = validateListingFields(
 			{
@@ -541,8 +541,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 3 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: true },
+			'v1:a': { priceCents: null, disabled: false, inventory: 3 },
+			'v1:b': { priceCents: null, disabled: true },
 		};
 		const errors = validateListingFields(
 			{
@@ -573,8 +573,8 @@ describe('validateListingFields', () => {
 			},
 		};
 		const combinations: Combinations = {
-			'v1:a': { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
-			'v1:b': { priceCents: null, imageUuid: null, disabled: false, inventory: 10 },
+			'v1:a': { priceCents: null, disabled: false, inventory: 0 },
+			'v1:b': { priceCents: null, disabled: false, inventory: 10 },
 		};
 		const errors = validateListingFields(
 			{

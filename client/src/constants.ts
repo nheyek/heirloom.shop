@@ -18,6 +18,7 @@ export const STANDARD_GRID_COLUMNS = {
 };
 
 export const STANDARD_GRID_GAP = 5;
+export const FORM_FIELD_GAP = 5;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 export const LISTING_IMAGE_ASPECT_RATIO = 1;
 

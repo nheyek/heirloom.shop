@@ -2,6 +2,7 @@ import {
 	CheckoutItemData,
 	CombinationsData,
 	OrderItemDisplayData,
+	VariationImagesData,
 	VariationsData,
 } from '@heirloom/common/contract';
 import {
@@ -177,7 +178,8 @@ export const createOrderItemSnapshots = (
 					{
 						imageUuids: listing.imageUuids,
 						variations,
-						combinations,
+						variationImages:
+							listing.variationImages as VariationImagesData | null,
 					},
 					item.selectedOptions,
 				)[0] ?? null,

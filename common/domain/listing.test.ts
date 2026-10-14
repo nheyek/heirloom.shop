@@ -76,13 +76,11 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 5,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 5,
 				},
@@ -96,13 +94,11 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 0,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 0,
 				},
@@ -116,13 +112,11 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 0,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 5,
 				},
@@ -136,13 +130,11 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 					inventory: 0,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: true,
 					inventory: 5,
 				},
@@ -156,12 +148,10 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: false,
 				},
 			};
@@ -174,12 +164,10 @@ describe('isListingOutOfStock', () => {
 			const combinations: Combinations = {
 				[keyA]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: true,
 				},
 				[keyB]: {
 					priceCents: null,
-					imageUuid: null,
 					disabled: true,
 				},
 			};
@@ -238,7 +226,6 @@ describe('getListingDisplayPrice', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 's' })]: {
 				priceCents: 800,
-				imageUuid: null,
 				disabled: false,
 			},
 		};
@@ -257,7 +244,6 @@ describe('getListingDisplayPrice', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 's' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: true,
 			},
 		};
@@ -370,7 +356,6 @@ describe('getListingDisplayPrice', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 's', color: 'red' })]: {
 				priceCents: 2000,
-				imageUuid: null,
 				disabled: false,
 			},
 		};
@@ -395,7 +380,6 @@ describe('getListingDisplayPrice', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 's', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: true,
 			},
 		};
@@ -454,7 +438,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: true,
 			},
 		};
@@ -472,7 +455,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 			},
 		};
@@ -493,7 +475,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: true,
 			},
 		};
@@ -510,7 +491,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 0,
 			},
@@ -529,7 +509,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 0,
 			},
@@ -548,7 +527,6 @@ describe('isVariationOptionDisabled', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 5,
 			},
@@ -623,7 +601,6 @@ describe('isValidCombinationSelection', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: true,
 			},
 		};
@@ -639,7 +616,6 @@ describe('isValidCombinationSelection', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 			},
 		};
@@ -655,7 +631,6 @@ describe('isValidCombinationSelection', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 0,
 			},
@@ -672,7 +647,6 @@ describe('isValidCombinationSelection', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 0,
 			},
@@ -689,7 +663,6 @@ describe('isValidCombinationSelection', () => {
 		const combinations: Combinations = {
 			[getCombinationKey({ size: 'm', color: 'red' })]: {
 				priceCents: null,
-				imageUuid: null,
 				disabled: false,
 				inventory: 5,
 			},
@@ -718,7 +691,6 @@ describe('getDefaultOptionSelection', () => {
 		getCombinationKey({ size, color });
 	const combo = (disabled: boolean, inventory: number) => ({
 		priceCents: null,
-		imageUuid: null,
 		disabled,
 		inventory,
 	});
@@ -868,7 +840,7 @@ describe('getOrderedListingImageUuids', () => {
 	it('puts the selected option images first, then the shared ones without duplicates', () => {
 		expect(
 			getOrderedListingImageUuids(
-				{ imageUuids: ['a', 's2', 'b'], variations, combinations: {} },
+				{ imageUuids: ['a', 's2', 'b'], variations },
 				{ size: 's' },
 			),
 		).toEqual(['s1', 's2', 'a', 'b']);
@@ -877,10 +849,105 @@ describe('getOrderedListingImageUuids', () => {
 	it('returns only the selected option images when there are no shared images', () => {
 		expect(
 			getOrderedListingImageUuids(
-				{ imageUuids: [], variations, combinations: {} },
+				{ imageUuids: [], variations },
 				{ size: 'm' },
 			),
 		).toEqual(['m1']);
+	});
+});
+
+describe('getOrderedListingImageUuids with variationImages', () => {
+	const option = (name: string, order: number) => ({
+		name,
+		order,
+		priceCents: null,
+		imageUuids: [],
+	});
+	const variations: Variations = {
+		metal: {
+			name: 'Metal',
+			order: 0,
+			pricesVary: false,
+			imagesVary: true,
+			defaultOption: 'gold',
+			options: { gold: option('Gold', 0), silver: option('Silver', 1) },
+		},
+		width: {
+			name: 'Width',
+			order: 1,
+			pricesVary: false,
+			imagesVary: true,
+			defaultOption: 'thin',
+			options: { thin: option('Thin', 0), wide: option('Wide', 1) },
+		},
+		length: {
+			name: 'Length',
+			order: 2,
+			pricesVary: false,
+			imagesVary: false,
+			defaultOption: 'short',
+			options: { short: option('Short', 0), long: option('Long', 1) },
+		},
+	};
+	const variationImages = {
+		'metal:gold|width:thin': 'gold-thin',
+		'metal:gold|width:wide': null,
+		'metal:silver|width:thin': 'silver-thin',
+		'metal:silver|width:wide': 'silver-wide',
+	};
+	const listing = { imageUuids: ['shared-1', 'shared-2'], variations, variationImages };
+
+	it('puts the combination image first, then the shared images', () => {
+		expect(
+			getOrderedListingImageUuids(listing, {
+				metal: 'silver',
+				width: 'wide',
+				length: 'short',
+			}),
+		).toEqual(['silver-wide', 'shared-1', 'shared-2']);
+	});
+
+	it('ignores variations that do not vary images when building the key', () => {
+		const long = getOrderedListingImageUuids(listing, {
+			metal: 'gold',
+			width: 'thin',
+			length: 'long',
+		});
+		const short = getOrderedListingImageUuids(listing, {
+			metal: 'gold',
+			width: 'thin',
+			length: 'short',
+		});
+		expect(long).toEqual(['gold-thin', 'shared-1', 'shared-2']);
+		expect(short).toEqual(long);
+	});
+
+	it('falls back to only the shared images when the combination has no image', () => {
+		expect(
+			getOrderedListingImageUuids(listing, {
+				metal: 'gold',
+				width: 'wide',
+				length: 'short',
+			}),
+		).toEqual(['shared-1', 'shared-2']);
+	});
+
+	it('falls back to option images when there are no variation images', () => {
+		const optionImages: Variations = {
+			metal: {
+				...variations.metal,
+				options: {
+					gold: { ...option('Gold', 0), imageUuids: ['gold-1'] },
+					silver: option('Silver', 1),
+				},
+			},
+		};
+		expect(
+			getOrderedListingImageUuids(
+				{ imageUuids: ['shared-1'], variations: optionImages, variationImages: null },
+				{ metal: 'gold' },
+			),
+		).toEqual(['gold-1', 'shared-1']);
 	});
 });
 
