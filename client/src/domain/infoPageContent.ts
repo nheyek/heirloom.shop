@@ -7,20 +7,13 @@ type InfoPageContent = {
 
 export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
 	[InfoPageKey.ABOUT]: {
-		title: 'About Heirloom',
+		title: 'About Heirloom.shop',
 		contentHtml:
-			'<p>Heirloom is an online store and marketplace featuring a range of products from makers that exhibit the highest level of craftsmanship.</p><p />' +
+			'<p>Heirloom.shop is an exclusive online marketplace for jewelry and accessories from makers that exhibit the highest level of craftsmanship.</p><p />' +
 			'<h1>Background</h1>' +
-			'<p>Throw-away culture is, sadly, a defining feature of the present historical moment.</p>' +
-			"<p>But disillusionment is growing. People are beginning to ask questions about where their products come from and how they're made.</p><p />" +
-			'<h1>The Idea</h1>' +
-			'<p>It\'s often said that "they don\'t make them like they used to". But while "they" may not, there are others that do. They are just often hard to find.</p>' +
-			'<p>Heirloom seeks to make it easy to discover these makers and purchase their work.</p>' +
-			'<p>We’re building a catalog that spans a wide variety of products, everything from cast iron skillets to crystal glassware to ox horn combs. The common denominator is a strict standard of quality and craftsmanship.</p><p />' +
-			'<h1>The Experience</h1>' +
-			'<p>The site is designed to prioritize authentic discovery and simplicity over maximizing sales. We will not send you unsolicited emails. We will never serve you ads or promoted content.</p>' +
-			'<p>Orders are professionally packed and shipped within 1 business day. All orders ship free and are guaranteed against damage in transit.</p>' +
-			"<p>If, for any reason, what you received doesn't meet your expectations, we'll take it back for a full refund within 30 days.</p><p />" +
+			'<p>Modern e-commerce has facilitated a commercial renaissance in handcrafted goods. Centuries-old workshops have come back from the dead. Countless new makers have found life as direct-to-consumer businesses that would not have been possible in previous decades.</p>' +
+			"<p>Because it's now so easy to sell things online, visibility has become increasingly restricted to the highest bidder on social media ads or promoted products on marketplaces. This threatens the kind of authentic discovery that the internet once enabled.</p>" +
+			'<p>Heirloom seeks to offer that back to makers and their customers. Only genuinely handcrafted products are allowed on the platform, and visibility is driven entirely by relevance and reputation, not by promoted listings.</p><p />' +
 			'<h1>Who We Are</h1>' +
 			'<p>Heirloom was founded and developed by Nick Heyek, a Chicago-based software engineer and manufacturer.</p>' +
 			"<p>Our facility is located at 3100 W Grand Ave in Chicago's Humboldt Park neighborhood.</p><p />" +
@@ -45,7 +38,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
 			'<p>We use your information solely to process and fulfill your orders, communicate with you about your purchases, and provide customer support. We do not sell or share your personal information with third parties for marketing purposes.</p><p />' +
 			'<h1>Cookies</h1>' +
 			"<p>Heirloom itself does not use cookies. Your session and shopping cart are kept in your browser's local storage instead.</p>" +
-			"<p>Some of our service providers may set their own cookies as part of handling their part of your visit: Stripe, which processes payments, for fraud prevention, and Auth0, which handles account login, to maintain your login session. See their respective privacy policies for details.</p><p />" +
+			'<p>Some of our service providers may set their own cookies as part of handling their part of your visit: Stripe, which processes payments, for fraud prevention, and Auth0, which handles account login, to maintain your login session. See their respective privacy policies for details.</p><p />' +
 			'<h1>Contact Us</h1>' +
 			'<p>If you have any questions about this privacy policy or your personal information, please contact us at support@heirloom.shop.</p>',
 	},
