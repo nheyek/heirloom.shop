@@ -107,7 +107,7 @@ export const ListingPageSkeleton = (props: {
 		>
 			<Box
 				px={5}
-				mt={5}
+				my={5}
 				width="100%"
 			>
 				<Grid

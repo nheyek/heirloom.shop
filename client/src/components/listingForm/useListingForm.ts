@@ -1,3 +1,4 @@
+import { CountryCode } from '@client/constants';
 import { ShippingCostType } from '@client/components/listingForm/ShippingProfileDialog';
 import { useApiClient } from '@client/hooks/useApiClient';
 import {
@@ -99,6 +100,11 @@ export type ListingFormState = {
 	categoryError: string | null;
 	setCategoryError: (v: string | null) => void;
 
+	countryCode: CountryCode;
+	setCountryCode: (v: CountryCode) => void;
+	countryError: string | null;
+	setCountryError: (v: string | null) => void;
+
 	imageEntries: ImageEntry[];
 	addImageFiles: (files: File[]) => void;
 	removeImage: (index: number) => void;
@@ -186,6 +192,7 @@ type UseListingFormOptions = {
 	initialTitle?: string;
 	initialSubtitle?: string;
 	initialCategoryId?: string | null;
+	initialCountryCode?: string | null;
 	initialPriceCents?: number | null;
 	initialTrackInventory?: boolean;
 	initialInventory?: string;
@@ -209,6 +216,7 @@ export const useListingForm = ({
 	initialTitle = '',
 	initialSubtitle = '',
 	initialCategoryId = null,
+	initialCountryCode = null,
 	initialPriceCents = null,
 	initialTrackInventory = false,
 	initialInventory = '',
@@ -241,6 +249,13 @@ export const useListingForm = ({
 		initialCategoryId,
 	);
 	const [categoryError, setCategoryError] = useState<string | null>(
+		null,
+	);
+
+	const [countryCode, setCountryCode] = useState<CountryCode>(
+		(initialCountryCode as CountryCode | null) ?? CountryCode.US,
+	);
+	const [countryError, setCountryError] = useState<string | null>(
 		null,
 	);
 
@@ -454,6 +469,7 @@ export const useListingForm = ({
 			title,
 			subtitle,
 			categoryId,
+			countryCode,
 			priceCents,
 			trackInventory,
 			inventory,
@@ -478,6 +494,7 @@ export const useListingForm = ({
 				title,
 				subtitle,
 				categoryId,
+				countryCode,
 				priceCents,
 				trackInventory,
 				inventory: inventory === '' ? null : Number(inventory),
@@ -498,6 +515,7 @@ export const useListingForm = ({
 		setTitleError(findError(ValidationField.Title));
 		setSubtitleError(findError(ValidationField.Subtitle));
 		setCategoryError(findError(ValidationField.Category));
+		setCountryError(findError(ValidationField.Country));
 		setImageError(findError(ValidationField.Images));
 		setShippingProfileError(findError(ValidationField.ShippingProfile));
 		setReturnProfileError(findError(ValidationField.ReturnProfile));
@@ -550,6 +568,10 @@ export const useListingForm = ({
 		setCategoryId,
 		categoryError,
 		setCategoryError,
+		countryCode,
+		setCountryCode,
+		countryError,
+		setCountryError,
 		imageEntries,
 		addImageFiles: addFiles,
 		removeImage,

@@ -24,7 +24,6 @@ export const MAX_COLLAGE_WIDTH = COLLAGE_HEIGHT * 2 + COLLAGE_GAP_PX;
 export const THUMBNAIL_COLUMNS_BY_BREAKPOINT = {
 	base: 1,
 	lg: 2,
-	xl: 3,
 };
 
 export const collageGridProps = (

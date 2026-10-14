@@ -38,7 +38,7 @@ export const shopManagerRouter = s.router(shopManagerContract, {
 			} catch {
 				return { status: 403 as const, body: { error: ERROR_MESSAGES.shop.forbidden } };
 			}
-			const profiles = await findShopProfiles(shop.id, shop.directFulfillment);
+			const profiles = await findShopProfiles(shop.id, shop.directFulfillment, shop.country?.code ?? null);
 			return { status: 200 as const, body: profiles };
 		},
 	},

@@ -6,6 +6,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 type CountrySelectProps = {
 	value: CountryCode | null;
 	onChange: (value: CountryCode) => void;
+	showName?: boolean;
 };
 
 const sortedCountryCodes = Object.values(CountryCode).sort((a, b) =>
@@ -15,6 +16,7 @@ const sortedCountryCodes = Object.values(CountryCode).sort((a, b) =>
 export const CountrySelect = ({
 	value,
 	onChange,
+	showName,
 }: CountrySelectProps) => (
 	<Menu.Root
 		onSelect={(details) => onChange(details.value as CountryCode)}
@@ -29,8 +31,11 @@ export const CountrySelect = ({
 				fontWeight={400}
 				fontSize={18}
 			>
-				<HStack gap={1.5}>
+				<HStack gap={3}>
 					<CountryFlagIcon countryCode={value} />
+					{showName && value && (
+						<Text>{countryDisplayName[value]}</Text>
+					)}
 				</HStack>
 				<IoMdArrowDropdown />
 			</Button>

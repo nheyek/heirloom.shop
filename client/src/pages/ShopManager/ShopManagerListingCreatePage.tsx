@@ -20,11 +20,13 @@ export const ShopManagerListingCreatePage = () => {
 		returnProfiles,
 		personalizationProfiles,
 		profilesLoading,
+		shopCountryCode,
 	} = useShopManager();
 	const apiClient = useApiClient();
 	const navigate = useNavigate();
 	const form = useListingForm({
 		shopShortId: shopShortId!,
+		initialCountryCode: shopCountryCode,
 		initialProcessingProfiles: processingProfiles,
 		initialShippingProfiles: shippingProfiles,
 		initialReturnProfiles: returnProfiles,
@@ -61,6 +63,7 @@ export const ShopManagerListingCreatePage = () => {
 					title: form.title,
 					subtitle: form.subtitle || null,
 					categoryId: form.categoryId!,
+					countryCode: form.countryCode,
 					priceCents: form.priceCents ?? 0,
 					trackInventory: form.trackInventory,
 					inventory: form.trackInventory

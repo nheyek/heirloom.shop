@@ -181,7 +181,7 @@ export const ListingPage = () => {
 			{layout === Layout.DESKTOP && (
 				<Box
 					px={5}
-					mt={5}
+					my={5}
 					width="100%"
 				>
 					<ImageCollage

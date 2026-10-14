@@ -18,6 +18,7 @@ export const ValidationField = {
 	Location: 'location',
 	ProfileRichText: 'profileRichText',
 	Category: 'category',
+	Country: 'country',
 	Images: 'images',
 	Price: 'price',
 	ShippingProfile: 'shippingProfile',

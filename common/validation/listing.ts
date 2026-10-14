@@ -344,6 +344,7 @@ export const validateVariationImages = (
 export type ListingFieldsInput = Omit<
 	ListingWriteBody,
 	| 'categoryId'
+	| 'countryCode'
 	| 'priceCents'
 	| 'shippingProfileId'
 	| 'returnProfileId'
@@ -351,6 +352,7 @@ export type ListingFieldsInput = Omit<
 	| 'personalizationProfileId'
 > & {
 	categoryId: string | null;
+	countryCode: string | null;
 	priceCents: number | null;
 	shippingProfileId: number | string | null;
 	returnProfileId: number | string | null;
@@ -375,6 +377,13 @@ export const validateListingFields = (
 		errors.push({
 			field: ValidationField.Category,
 			message: 'Category is required.',
+		});
+	}
+
+	if (!input.countryCode) {
+		errors.push({
+			field: ValidationField.Country,
+			message: 'Country is required.',
 		});
 	}
 

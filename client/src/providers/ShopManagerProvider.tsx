@@ -16,6 +16,7 @@ import { useParams } from 'react-router-dom';
 type ShopManagerContextValue = {
 	directFulfillment: boolean;
 	setDirectFulfillment: (directFulfillment: boolean) => void;
+	shopCountryCode: string | null;
 	processingProfiles: ProcessingProfile[];
 	shippingProfiles: ShippingProfile[];
 	returnProfiles: ReturnProfile[];
@@ -67,6 +68,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 	const apiClient = useApiClient();
 
 	const [directFulfillment, setDirectFulfillment] = useState(true);
+	const [shopCountryCode, setShopCountryCode] = useState<string | null>(null);
 	const [processingProfiles, setProcessingProfiles] = useState<ProcessingProfile[]>([]);
 	const [shippingProfiles, setShippingProfiles] = useState<ShippingProfile[]>([]);
 	const [returnProfiles, setReturnProfiles] = useState<ReturnProfile[]>([]);
@@ -83,6 +85,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 		).then((result) => {
 			if (result.error === null) {
 				setDirectFulfillment(result.data.directFulfillment);
+				setShopCountryCode(result.data.countryCode);
 				setProcessingProfiles(
 					result.data.processingProfiles.map((p) => ({
 						id: String(p.id),
@@ -111,6 +114,7 @@ export const ShopManagerProvider = ({ children }: { children: React.ReactNode })
 			value={{
 				directFulfillment,
 				setDirectFulfillment,
+				shopCountryCode,
 				processingProfiles,
 				shippingProfiles,
 				returnProfiles,

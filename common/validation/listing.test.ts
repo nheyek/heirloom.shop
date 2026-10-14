@@ -243,6 +243,7 @@ describe('validateListingFields', () => {
 		title: 'A nice mug',
 		subtitle: null,
 		categoryId: 'CERAMICS',
+		countryCode: 'US',
 		priceCents: 2500,
 		imageUuids: [UUID_A],
 		shippingProfileId: null,
@@ -258,6 +259,18 @@ describe('validateListingFields', () => {
 		expect(
 			validateListingFields(baseInput, { directFulfillment: false }),
 		).toHaveLength(0);
+	});
+
+	it('requires a country', () => {
+		for (const countryCode of [null, '']) {
+			const errors = validateListingFields(
+				{ ...baseInput, countryCode },
+				{ directFulfillment: false },
+			);
+			expect(errors.some((e) => e.field === ValidationField.Country)).toBe(
+				true,
+			);
+		}
 	});
 
 	it('does not require images', () => {

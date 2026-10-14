@@ -47,6 +47,7 @@ DECLARE
     listing_4_id INT := 4;
     listing_4_short_id VARCHAR := 'S10Nk';
     listing_4_shop_id INT := shop_3_id;
+    listing_4_country_code CHAR(2) := shop_3_country_code;
     listing_4_category_id VARCHAR := 'HOUSEWARES';
     listing_4_title VARCHAR := 'Cast Iron Skillet';
     listing_4_subtitle VARCHAR := 'A traditional cast iron skillet with a polished cooking surface, in sizes from a 6-inch single-serve pan to a 14-inch centerpiece built for feeding a crowd.';
@@ -80,6 +81,7 @@ DECLARE
     listing_25_id INT := 25;
     listing_25_short_id VARCHAR := 'S1CNk';
     listing_25_shop_id INT := shop_3_id;
+    listing_25_country_code CHAR(2) := shop_3_country_code;
     listing_25_category_id VARCHAR := 'HOUSEWARES';
     listing_25_title VARCHAR := 'Cast Iron Chef Skillet';
     listing_25_subtitle VARCHAR := 'Made for movement, the curved interior walls of this skillet are great for sautéing, stir-frying, egg flipping, and more.';
@@ -109,6 +111,7 @@ DECLARE
     listing_26_id INT := 26;
     listing_26_short_id VARCHAR := 'D35Nk';
     listing_26_shop_id INT := shop_3_id;
+    listing_26_country_code CHAR(2) := shop_3_country_code;
     listing_26_category_id VARCHAR := 'HOUSEWARES';
     listing_26_title VARCHAR := 'Cast Iron Dutch Oven';
     listing_26_subtitle VARCHAR := 'Slow-cooking, baking and frying in a naturally non-stick cast iron Dutch oven, in three sizes.';
@@ -140,6 +143,7 @@ DECLARE
     listing_29_id INT := 29;
     listing_29_short_id VARCHAR := 'G10Nk';
     listing_29_shop_id INT := shop_3_id;
+    listing_29_country_code CHAR(2) := shop_3_country_code;
     listing_29_category_id VARCHAR := 'HOUSEWARES';
     listing_29_title VARCHAR := 'Cast Iron Flat Top Griddle';
     listing_29_subtitle VARCHAR := 'A stand-alone griddle for everything from pancakes and pizzas to grilled cheeses and fajitas, and a custom-fit lid for your Skillet of the same size.';
@@ -169,6 +173,7 @@ DECLARE
     listing_31_id INT := 31;
     listing_31_short_id VARCHAR := 'P12Nk';
     listing_31_shop_id INT := shop_3_id;
+    listing_31_country_code CHAR(2) := shop_3_country_code;
     listing_31_category_id VARCHAR := 'HOUSEWARES';
     listing_31_title VARCHAR := 'No. 12 Grill Pan';
     listing_31_subtitle VARCHAR := 'The Smithey Grill Pan is our go-to for year-round grilling indoors or out.';
@@ -192,6 +197,7 @@ DECLARE
     listing_32_id INT := 32;
     listing_32_short_id VARCHAR := 'H12Nk';
     listing_32_shop_id INT := shop_3_id;
+    listing_32_country_code CHAR(2) := shop_3_country_code;
     listing_32_category_id VARCHAR := 'HOUSEWARES';
     listing_32_title VARCHAR := 'Cast Iron Dual Handle Skillet';
     listing_32_subtitle VARCHAR := 'A skillet with two handles that make it easier to move from range or oven to table, and an ideal serving piece, in our best-selling No. 12 or a No. 14 sized for your Big Green Egg.';
@@ -221,6 +227,7 @@ DECLARE
     listing_5_id INT := 5;
     listing_5_short_id VARCHAR := 'Tp9Xr';
     listing_5_shop_id INT := shop_4_id;
+    listing_5_country_code CHAR(2) := shop_4_country_code;
     listing_5_category_id VARCHAR := 'HOUSEWARES';
     listing_5_title VARCHAR := 'Rook Dish';
     listing_5_subtitle VARCHAR := 'A rare heritage design from the Rookwood archives, revived after more than 60 years out of production.';
@@ -244,6 +251,7 @@ DECLARE
     listing_6_id INT := 6;
     listing_6_short_id VARCHAR := 'Bv4Ln';
     listing_6_shop_id INT := shop_4_id;
+    listing_6_country_code CHAR(2) := shop_4_country_code;
     listing_6_category_id VARCHAR := 'HOUSEWARES';
     listing_6_title VARCHAR := 'Boule Vase';
     listing_6_subtitle VARCHAR := 'A vase to return to, shaping small bouquets into moments worth noticing, perfectly scaled and always at home.';
@@ -273,6 +281,7 @@ DECLARE
     listing_10_id INT := 10;
     listing_10_short_id VARCHAR := 'Cn6Vz';
     listing_10_shop_id INT := shop_4_id;
+    listing_10_country_code CHAR(2) := shop_4_country_code;
     listing_10_category_id VARCHAR := 'HOUSEWARES';
     listing_10_title VARCHAR := 'Cornet Vase';
     listing_10_subtitle VARCHAR := 'A vase that holds its own—designed for sweeping stems and bold florals, offering height, balance, and unmistakable character.';
@@ -302,6 +311,7 @@ DECLARE
     listing_12_id INT := 12;
     listing_12_short_id VARCHAR := 'Fx8Wq';
     listing_12_shop_id INT := shop_4_id;
+    listing_12_country_code CHAR(2) := shop_4_country_code;
     listing_12_category_id VARCHAR := 'HOUSEWARES';
     listing_12_title VARCHAR := 'Pillar Candle Holder';
     listing_12_subtitle VARCHAR := 'Ceramic pillar candle holder that fits candles up to 3 inches in diameter, in your choice of glaze.';
@@ -331,6 +341,7 @@ DECLARE
     listing_14_id INT := 14;
     listing_14_short_id VARCHAR := 'Hp5Sv';
     listing_14_shop_id INT := shop_5_id;
+    listing_14_country_code CHAR(2) := shop_5_country_code;
     listing_14_category_id VARCHAR := 'HOUSEWARES';
     listing_14_title VARCHAR := 'Vintner Red Wine Glasses';
     listing_14_subtitle VARCHAR := 'Set of two handblown red wine glasses with a wide bowl for aerating full-bodied reds, made using a pulled-stem technique.';
@@ -354,6 +365,7 @@ DECLARE
     listing_15_id INT := 15;
     listing_15_short_id VARCHAR := 'Jn6Tw';
     listing_15_shop_id INT := shop_5_id;
+    listing_15_country_code CHAR(2) := shop_5_country_code;
     listing_15_category_id VARCHAR := 'HOUSEWARES';
     listing_15_title VARCHAR := 'Vintner White Wine Glasses';
     listing_15_subtitle VARCHAR := 'Set of two handblown white wine glasses with a narrower bowl to preserve crisp aromatics, made using a pulled-stem technique.';
@@ -377,6 +389,7 @@ DECLARE
     listing_16_id INT := 16;
     listing_16_short_id VARCHAR := 'Kq3Xz';
     listing_16_shop_id INT := shop_5_id;
+    listing_16_country_code CHAR(2) := shop_5_country_code;
     listing_16_category_id VARCHAR := 'HOUSEWARES';
     listing_16_title VARCHAR := 'Shoreham Whiskey Glasses';
     listing_16_subtitle VARCHAR := 'Set of two handblown whiskey glasses with a weighted base and curved body, designed with Vermont''s WhistlePig distillers.';
@@ -400,6 +413,7 @@ DECLARE
     listing_34_id INT := 34;
     listing_34_short_id VARCHAR := 'Nt7Hc';
     listing_34_shop_id INT := shop_5_id;
+    listing_34_country_code CHAR(2) := shop_5_country_code;
     listing_34_category_id VARCHAR := 'HOUSEWARES';
     listing_34_title VARCHAR := 'Nantucket Hurricane';
     listing_34_subtitle VARCHAR := 'Straight sides and a modern foot, in four sizes to scale.';
@@ -433,6 +447,7 @@ DECLARE
     listing_20_id INT := 20;
     listing_20_short_id VARCHAR := 'Pw8Zd';
     listing_20_shop_id INT := shop_7_id;
+    listing_20_country_code CHAR(2) := shop_7_country_code;
     listing_20_category_id VARCHAR := 'HOUSEWARES';
     listing_20_title VARCHAR := 'Beeswax 2" Pillar Candle';
     listing_20_subtitle VARCHAR := 'Small hand-poured pillar candle in 100% pure, natural beeswax, burning for up to 40 hours.';
@@ -456,6 +471,7 @@ DECLARE
     listing_21_id INT := 21;
     listing_21_short_id VARCHAR := 'Qx9Bf';
     listing_21_shop_id INT := shop_7_id;
+    listing_21_country_code CHAR(2) := shop_7_country_code;
     listing_21_category_id VARCHAR := 'HOUSEWARES';
     listing_21_title VARCHAR := 'Beeswax 3" Pillar Candle';
     listing_21_subtitle VARCHAR := 'Hand-poured pillar candle in 100% pure, natural beeswax, available in three heights.';
@@ -487,6 +503,7 @@ DECLARE
     listing_22_id INT := 22;
     listing_22_short_id VARCHAR := 'Rz2Ck';
     listing_22_shop_id INT := shop_7_id;
+    listing_22_country_code CHAR(2) := shop_7_country_code;
     listing_22_category_id VARCHAR := 'HOUSEWARES';
     listing_22_title VARCHAR := 'Beeswax Tapers';
     listing_22_subtitle VARCHAR := 'Hand-dipped taper candles in 100% pure, natural beeswax, sold as a set of 2 in standard and grand sizes.';
@@ -516,6 +533,7 @@ DECLARE
     listing_35_id INT := 35;
     listing_35_short_id VARCHAR := 'Vt5Pk';
     listing_35_shop_id INT := shop_7_id;
+    listing_35_country_code CHAR(2) := shop_7_country_code;
     listing_35_category_id VARCHAR := 'HOUSEWARES';
     listing_35_title VARCHAR := 'Beeswax Votive Candles';
     listing_35_subtitle VARCHAR := 'Hand-poured votive candles in 100% pure, natural beeswax, available singly, in a 6 pack, or by the case of 18.';
@@ -547,6 +565,7 @@ DECLARE
     listing_36_id INT := 36;
     listing_36_short_id VARCHAR := 'Rb7Qm';
     listing_36_shop_id INT := shop_7_id;
+    listing_36_country_code CHAR(2) := shop_7_country_code;
     listing_36_category_id VARCHAR := 'HOUSEWARES';
     listing_36_title VARCHAR := 'Beeswax Rose Blossom Pillar Candle';
     listing_36_subtitle VARCHAR := 'A hand-sculpted pillar candle in 100% pure beeswax, carved with a detailed rose blossom design.';
@@ -566,6 +585,7 @@ DECLARE
     listing_37_id INT := 37;
     listing_37_short_id VARCHAR := 'Sp6Dk';
     listing_37_shop_id INT := shop_7_id;
+    listing_37_country_code CHAR(2) := shop_7_country_code;
     listing_37_category_id VARCHAR := 'HOUSEWARES';
     listing_37_title VARCHAR := 'Beeswax Sphere Candle';
     listing_37_subtitle VARCHAR := 'A 4-inch sphere candle in 100% pure beeswax with an intricate sculpted design, available in Deco, Flora, and Lotus.';
@@ -597,6 +617,7 @@ DECLARE
     listing_38_id INT := 38;
     listing_38_short_id VARCHAR := 'Fp8Ct';
     listing_38_shop_id INT := shop_7_id;
+    listing_38_country_code CHAR(2) := shop_7_country_code;
     listing_38_category_id VARCHAR := 'HOUSEWARES';
     listing_38_title VARCHAR := 'Beeswax Faceted Pillar Candle';
     listing_38_subtitle VARCHAR := 'A modern faceted pillar candle, sculpted in 100% pure beeswax and available in three sizes.';
@@ -628,6 +649,7 @@ DECLARE
     listing_42_id INT := 42;
     listing_42_short_id VARCHAR := 'An5Vs';
     listing_42_shop_id INT := shop_5_id;
+    listing_42_country_code CHAR(2) := shop_5_country_code;
     listing_42_category_id VARCHAR := 'HOUSEWARES';
     listing_42_title VARCHAR := 'Anemone Vase';
     listing_42_subtitle VARCHAR := 'A handblown vase whose rim lands differently on every piece, in three sizes.';
@@ -659,6 +681,7 @@ DECLARE
     listing_49_id INT := 49;
     listing_49_short_id VARCHAR := 'Hf6Jn';
     listing_49_shop_id INT := shop_5_id;
+    listing_49_country_code CHAR(2) := shop_5_country_code;
     listing_49_category_id VARCHAR := 'HOUSEWARES';
     listing_49_title VARCHAR := 'Hartland Champagne Flutes';
     listing_49_subtitle VARCHAR := 'A tall handblown flute with a hand-formed globe at the stem, sold as a set of 2.';
@@ -682,6 +705,7 @@ DECLARE
     listing_50_id INT := 50;
     listing_50_short_id VARCHAR := 'Wm7Qc';
     listing_50_shop_id INT := shop_5_id;
+    listing_50_country_code CHAR(2) := shop_5_country_code;
     listing_50_category_id VARCHAR := 'HOUSEWARES';
     listing_50_title VARCHAR := 'Westport Stemless Martini Glasses';
     listing_50_subtitle VARCHAR := 'A wide, stemless martini glass with a gently curved bowl, sold as a set of 2.';
@@ -705,6 +729,7 @@ DECLARE
     listing_51_id INT := 51;
     listing_51_short_id VARCHAR := 'Wg5Zx';
     listing_51_shop_id INT := shop_5_id;
+    listing_51_country_code CHAR(2) := shop_5_country_code;
     listing_51_category_id VARCHAR := 'HOUSEWARES';
     listing_51_title VARCHAR := 'Walden Glasses';
     listing_51_subtitle VARCHAR := 'Simple, streamlined handblown glasses in three sizes, sold as a set of 4.';
@@ -736,6 +761,7 @@ DECLARE
     listing_53_id INT := 53;
     listing_53_short_id VARCHAR := 'Cr5Hk';
     listing_53_shop_id INT := shop_5_id;
+    listing_53_country_code CHAR(2) := shop_5_country_code;
     listing_53_category_id VARCHAR := 'HOUSEWARES';
     listing_53_title VARCHAR := 'Champlain Ring Holder';
     listing_53_subtitle VARCHAR := 'A simple handblown glass ring holder for the sink, nightstand or entryway.';
@@ -759,6 +785,7 @@ DECLARE
     listing_54_id INT := 54;
     listing_54_short_id VARCHAR := 'Hc7Sk';
     listing_54_shop_id INT := shop_5_id;
+    listing_54_country_code CHAR(2) := shop_5_country_code;
     listing_54_category_id VARCHAR := 'HOUSEWARES';
     listing_54_title VARCHAR := 'Hartland Candlestick';
     listing_54_subtitle VARCHAR := 'A solid glass candlestick that grows taller by adding another sphere, in three sizes.';
@@ -790,6 +817,7 @@ DECLARE
     listing_55_id INT := 55;
     listing_55_short_id VARCHAR := 'Ap6Tn';
     listing_55_shop_id INT := shop_5_id;
+    listing_55_country_code CHAR(2) := shop_5_country_code;
     listing_55_category_id VARCHAR := 'HOUSEWARES';
     listing_55_title VARCHAR := 'Ascutney Pilsner Glasses';
     listing_55_subtitle VARCHAR := 'A handblown 16 oz pilsner glass, sold as a set of 2.';
@@ -821,6 +849,7 @@ DECLARE
     listing_56_id INT := 56;
     listing_56_short_id VARCHAR := 'Ck8Ch';
     listing_56_shop_id INT := shop_8_id;
+    listing_56_country_code CHAR(2) := shop_8_country_code;
     listing_56_category_id VARCHAR := 'HOUSEWARES';
     listing_56_title VARCHAR := 'Chef Knife';
     listing_56_subtitle VARCHAR := 'A forged carbon steel chef knife with a burl handle, in 6" and 8" blades.';
@@ -850,6 +879,7 @@ DECLARE
     listing_58_id INT := 58;
     listing_58_short_id VARCHAR := 'Pk4Pn';
     listing_58_shop_id INT := shop_8_id;
+    listing_58_country_code CHAR(2) := shop_8_country_code;
     listing_58_category_id VARCHAR := 'HOUSEWARES';
     listing_58_title VARCHAR := '4" Paring Knife';
     listing_58_subtitle VARCHAR := 'The smallest knife in the lineup, built for maneuverability and fine work.';
@@ -873,6 +903,7 @@ DECLARE
     listing_59_id INT := 59;
     listing_59_short_id VARCHAR := 'Bk0Bd';
     listing_59_shop_id INT := shop_8_id;
+    listing_59_country_code CHAR(2) := shop_8_country_code;
     listing_59_category_id VARCHAR := 'HOUSEWARES';
     listing_59_title VARCHAR := '10" Bread Knife';
     listing_59_subtitle VARCHAR := 'A 10-inch bread knife with a unique wavy serration that slices rather than saws.';
@@ -896,6 +927,7 @@ DECLARE
     listing_60_id INT := 60;
     listing_60_short_id VARCHAR := 'Sk0Sl';
     listing_60_shop_id INT := shop_8_id;
+    listing_60_country_code CHAR(2) := shop_8_country_code;
     listing_60_category_id VARCHAR := 'HOUSEWARES';
     listing_60_title VARCHAR := '10" Slicing Knife';
     listing_60_subtitle VARCHAR := 'A long, curved slicer for brisket, turkey and sashimi, with generous knuckle clearance.';
@@ -919,6 +951,7 @@ DECLARE
     listing_61_id INT := 61;
     listing_61_short_id VARCHAR := 'Bk6Bn';
     listing_61_shop_id INT := shop_8_id;
+    listing_61_country_code CHAR(2) := shop_8_country_code;
     listing_61_category_id VARCHAR := 'HOUSEWARES';
     listing_61_title VARCHAR := '6" Boning Knife';
     listing_61_subtitle VARCHAR := 'A slightly wider boning blade with an extra-wide safety guard, built for breaking down meat.';
@@ -977,9 +1010,9 @@ BEGIN
         direct_fulfillment = EXCLUDED.direct_fulfillment,
         updated_at = CURRENT_TIMESTAMP;
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
-        (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL,
+        (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_country_code, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL,
             jsonb_build_object(
                 listing_4_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1001,8 +1034,8 @@ BEGIN
                 listing_4_size_variation_id || ':' || listing_4_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_4_size_variation_id || ':' || listing_4_size_no14_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
+        (listing_5_id, listing_5_short_id, listing_5_shop_id, listing_5_category_id, listing_5_country_code, listing_5_title, listing_5_subtitle, listing_5_full_descr, listing_5_price_cents, NULL, NULL, listing_5_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_6_id, listing_6_short_id, listing_6_shop_id, listing_6_category_id, listing_6_country_code, listing_6_title, listing_6_subtitle, listing_6_full_descr, listing_6_price_cents, NULL, NULL, listing_6_image_uuids, NULL,
             jsonb_build_object(
                 listing_6_color_variation_id, jsonb_build_object(
                     'name', 'Color',
@@ -1020,7 +1053,7 @@ BEGIN
                 listing_6_color_variation_id || ':' || listing_6_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_6_color_variation_id || ':' || listing_6_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_10_id, listing_10_short_id, listing_10_shop_id, listing_10_category_id, listing_10_title, listing_10_subtitle, listing_10_full_descr, listing_10_price_cents, NULL, NULL, listing_10_image_uuids, NULL,
+        (listing_10_id, listing_10_short_id, listing_10_shop_id, listing_10_category_id, listing_10_country_code, listing_10_title, listing_10_subtitle, listing_10_full_descr, listing_10_price_cents, NULL, NULL, listing_10_image_uuids, NULL,
             jsonb_build_object(
                 listing_10_color_variation_id, jsonb_build_object(
                     'name', 'Color',
@@ -1038,7 +1071,7 @@ BEGIN
                 listing_10_color_variation_id || ':' || listing_10_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_10_color_variation_id || ':' || listing_10_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_12_id, listing_12_short_id, listing_12_shop_id, listing_12_category_id, listing_12_title, listing_12_subtitle, listing_12_full_descr, listing_12_price_cents, NULL, NULL, listing_12_image_uuids, NULL,
+        (listing_12_id, listing_12_short_id, listing_12_shop_id, listing_12_category_id, listing_12_country_code, listing_12_title, listing_12_subtitle, listing_12_full_descr, listing_12_price_cents, NULL, NULL, listing_12_image_uuids, NULL,
             jsonb_build_object(
                 listing_12_color_variation_id, jsonb_build_object(
                     'name', 'Color',
@@ -1056,10 +1089,10 @@ BEGIN
                 listing_12_color_variation_id || ':' || listing_12_color_raffia_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_12_color_variation_id || ':' || listing_12_color_patina_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_34_id, listing_34_short_id, listing_34_shop_id, listing_34_category_id, listing_34_title, listing_34_subtitle, listing_34_full_descr, listing_34_price_cents, NULL, NULL, listing_34_image_uuids, NULL,
+        (listing_14_id, listing_14_short_id, listing_14_shop_id, listing_14_category_id, listing_14_country_code, listing_14_title, listing_14_subtitle, listing_14_full_descr, listing_14_price_cents, NULL, NULL, listing_14_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_15_id, listing_15_short_id, listing_15_shop_id, listing_15_category_id, listing_15_country_code, listing_15_title, listing_15_subtitle, listing_15_full_descr, listing_15_price_cents, NULL, NULL, listing_15_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_16_id, listing_16_short_id, listing_16_shop_id, listing_16_category_id, listing_16_country_code, listing_16_title, listing_16_subtitle, listing_16_full_descr, listing_16_price_cents, NULL, NULL, listing_16_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_34_id, listing_34_short_id, listing_34_shop_id, listing_34_category_id, listing_34_country_code, listing_34_title, listing_34_subtitle, listing_34_full_descr, listing_34_price_cents, NULL, NULL, listing_34_image_uuids, NULL,
             jsonb_build_object(
                 listing_34_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1081,7 +1114,7 @@ BEGIN
                 listing_34_size_variation_id || ':' || listing_34_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_34_size_variation_id || ':' || listing_34_size_xl_id,     jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL,
+        (listing_25_id, listing_25_short_id, listing_25_shop_id, listing_25_category_id, listing_25_country_code, listing_25_title, listing_25_subtitle, listing_25_full_descr, listing_25_price_cents, NULL, NULL, listing_25_image_uuids, NULL,
             jsonb_build_object(
                 listing_25_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1099,7 +1132,7 @@ BEGIN
                 listing_25_size_variation_id || ':' || listing_25_size_no8_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_25_size_variation_id || ':' || listing_25_size_no10_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL,
+        (listing_26_id, listing_26_short_id, listing_26_shop_id, listing_26_category_id, listing_26_country_code, listing_26_title, listing_26_subtitle, listing_26_full_descr, listing_26_price_cents, NULL, NULL, listing_26_image_uuids, NULL,
             jsonb_build_object(
                 listing_26_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1119,7 +1152,7 @@ BEGIN
                 listing_26_size_variation_id || ':' || listing_26_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_26_size_variation_id || ':' || listing_26_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL,
+        (listing_29_id, listing_29_short_id, listing_29_shop_id, listing_29_category_id, listing_29_country_code, listing_29_title, listing_29_subtitle, listing_29_full_descr, listing_29_price_cents, NULL, NULL, listing_29_image_uuids, NULL,
             jsonb_build_object(
                 listing_29_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1137,8 +1170,8 @@ BEGIN
                 listing_29_size_variation_id || ':' || listing_29_size_no10_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_29_size_variation_id || ':' || listing_29_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL,
+        (listing_31_id, listing_31_short_id, listing_31_shop_id, listing_31_category_id, listing_31_country_code, listing_31_title, listing_31_subtitle, listing_31_full_descr, listing_31_price_cents, NULL, NULL, listing_31_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_32_id, listing_32_short_id, listing_32_shop_id, listing_32_category_id, listing_32_country_code, listing_32_title, listing_32_subtitle, listing_32_full_descr, listing_32_price_cents, NULL, NULL, listing_32_image_uuids, NULL,
             jsonb_build_object(
                 listing_32_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1156,8 +1189,8 @@ BEGIN
                 listing_32_size_variation_id || ':' || listing_32_size_no12_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_32_size_variation_id || ':' || listing_32_size_no14_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
+        (listing_20_id, listing_20_short_id, listing_20_shop_id, listing_20_category_id, listing_20_country_code, listing_20_title, listing_20_subtitle, listing_20_full_descr, listing_20_price_cents, NULL, NULL, listing_20_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_21_id, listing_21_short_id, listing_21_shop_id, listing_21_category_id, listing_21_country_code, listing_21_title, listing_21_subtitle, listing_21_full_descr, listing_21_price_cents, NULL, NULL, listing_21_image_uuids, NULL,
             jsonb_build_object(
                 listing_21_height_variation_id, jsonb_build_object(
                     'name', 'Height',
@@ -1177,7 +1210,7 @@ BEGIN
                 listing_21_height_variation_id || ':' || listing_21_height_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_21_height_variation_id || ':' || listing_21_height_xl_id,     jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_22_id, listing_22_short_id, listing_22_shop_id, listing_22_category_id, listing_22_title, listing_22_subtitle, listing_22_full_descr, listing_22_price_cents, NULL, NULL, listing_22_image_uuids, NULL,
+        (listing_22_id, listing_22_short_id, listing_22_shop_id, listing_22_category_id, listing_22_country_code, listing_22_title, listing_22_subtitle, listing_22_full_descr, listing_22_price_cents, NULL, NULL, listing_22_image_uuids, NULL,
             jsonb_build_object(
                 listing_22_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1195,7 +1228,7 @@ BEGIN
                 listing_22_size_variation_id || ':' || listing_22_size_standard_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_22_size_variation_id || ':' || listing_22_size_grand_id,    jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_35_id, listing_35_short_id, listing_35_shop_id, listing_35_category_id, listing_35_title, listing_35_subtitle, listing_35_full_descr, listing_35_price_cents, NULL, NULL, listing_35_image_uuids, NULL,
+        (listing_35_id, listing_35_short_id, listing_35_shop_id, listing_35_category_id, listing_35_country_code, listing_35_title, listing_35_subtitle, listing_35_full_descr, listing_35_price_cents, NULL, NULL, listing_35_image_uuids, NULL,
             jsonb_build_object(
                 listing_35_quantity_variation_id, jsonb_build_object(
                     'name', 'Quantity',
@@ -1215,8 +1248,8 @@ BEGIN
                 listing_35_quantity_variation_id || ':' || listing_35_quantity_six_id,    jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_35_quantity_variation_id || ':' || listing_35_quantity_case_id,   jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_36_id, listing_36_short_id, listing_36_shop_id, listing_36_category_id, listing_36_title, listing_36_subtitle, listing_36_full_descr, listing_36_price_cents, NULL, NULL, listing_36_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_37_id, listing_37_short_id, listing_37_shop_id, listing_37_category_id, listing_37_title, listing_37_subtitle, listing_37_full_descr, listing_37_price_cents, NULL, NULL, listing_37_image_uuids, NULL,
+        (listing_36_id, listing_36_short_id, listing_36_shop_id, listing_36_category_id, listing_36_country_code, listing_36_title, listing_36_subtitle, listing_36_full_descr, listing_36_price_cents, NULL, NULL, listing_36_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_37_id, listing_37_short_id, listing_37_shop_id, listing_37_category_id, listing_37_country_code, listing_37_title, listing_37_subtitle, listing_37_full_descr, listing_37_price_cents, NULL, NULL, listing_37_image_uuids, NULL,
             jsonb_build_object(
                 listing_37_design_variation_id, jsonb_build_object(
                     'name', 'Design',
@@ -1236,7 +1269,7 @@ BEGIN
                 listing_37_design_variation_id || ':' || listing_37_design_flora_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_37_design_variation_id || ':' || listing_37_design_lotus_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_38_id, listing_38_short_id, listing_38_shop_id, listing_38_category_id, listing_38_title, listing_38_subtitle, listing_38_full_descr, listing_38_price_cents, NULL, NULL, listing_38_image_uuids, NULL,
+        (listing_38_id, listing_38_short_id, listing_38_shop_id, listing_38_category_id, listing_38_country_code, listing_38_title, listing_38_subtitle, listing_38_full_descr, listing_38_price_cents, NULL, NULL, listing_38_image_uuids, NULL,
             jsonb_build_object(
                 listing_38_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1256,9 +1289,9 @@ BEGIN
                 listing_38_size_variation_id || ':' || listing_38_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_38_size_variation_id || ':' || listing_38_size_large_id,  jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_49_id, listing_49_short_id, listing_49_shop_id, listing_49_category_id, listing_49_title, listing_49_subtitle, listing_49_full_descr, listing_49_price_cents, NULL, NULL, listing_49_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_50_id, listing_50_short_id, listing_50_shop_id, listing_50_category_id, listing_50_title, listing_50_subtitle, listing_50_full_descr, listing_50_price_cents, NULL, NULL, listing_50_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_51_id, listing_51_short_id, listing_51_shop_id, listing_51_category_id, listing_51_title, listing_51_subtitle, listing_51_full_descr, listing_51_price_cents, NULL, NULL, listing_51_image_uuids, NULL,
+        (listing_49_id, listing_49_short_id, listing_49_shop_id, listing_49_category_id, listing_49_country_code, listing_49_title, listing_49_subtitle, listing_49_full_descr, listing_49_price_cents, NULL, NULL, listing_49_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_50_id, listing_50_short_id, listing_50_shop_id, listing_50_category_id, listing_50_country_code, listing_50_title, listing_50_subtitle, listing_50_full_descr, listing_50_price_cents, NULL, NULL, listing_50_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_51_id, listing_51_short_id, listing_51_shop_id, listing_51_category_id, listing_51_country_code, listing_51_title, listing_51_subtitle, listing_51_full_descr, listing_51_price_cents, NULL, NULL, listing_51_image_uuids, NULL,
             jsonb_build_object(
                 listing_51_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1278,8 +1311,8 @@ BEGIN
                 listing_51_size_variation_id || ':' || listing_51_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_51_size_variation_id || ':' || listing_51_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_53_id, listing_53_short_id, listing_53_shop_id, listing_53_category_id, listing_53_title, listing_53_subtitle, listing_53_full_descr, listing_53_price_cents, NULL, NULL, listing_53_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_54_id, listing_54_short_id, listing_54_shop_id, listing_54_category_id, listing_54_title, listing_54_subtitle, listing_54_full_descr, listing_54_price_cents, NULL, NULL, listing_54_image_uuids, NULL,
+        (listing_53_id, listing_53_short_id, listing_53_shop_id, listing_53_category_id, listing_53_country_code, listing_53_title, listing_53_subtitle, listing_53_full_descr, listing_53_price_cents, NULL, NULL, listing_53_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_54_id, listing_54_short_id, listing_54_shop_id, listing_54_category_id, listing_54_country_code, listing_54_title, listing_54_subtitle, listing_54_full_descr, listing_54_price_cents, NULL, NULL, listing_54_image_uuids, NULL,
             jsonb_build_object(
                 listing_54_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1299,8 +1332,8 @@ BEGIN
                 listing_54_size_variation_id || ':' || listing_54_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_54_size_variation_id || ':' || listing_54_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_55_id, listing_55_short_id, listing_55_shop_id, listing_55_category_id, listing_55_title, listing_55_subtitle, listing_55_full_descr, listing_55_price_cents, NULL, NULL, listing_55_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_42_id, listing_42_short_id, listing_42_shop_id, listing_42_category_id, listing_42_title, listing_42_subtitle, listing_42_full_descr, listing_42_price_cents, NULL, NULL, listing_42_image_uuids, NULL,
+        (listing_55_id, listing_55_short_id, listing_55_shop_id, listing_55_category_id, listing_55_country_code, listing_55_title, listing_55_subtitle, listing_55_full_descr, listing_55_price_cents, NULL, NULL, listing_55_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_42_id, listing_42_short_id, listing_42_shop_id, listing_42_category_id, listing_42_country_code, listing_42_title, listing_42_subtitle, listing_42_full_descr, listing_42_price_cents, NULL, NULL, listing_42_image_uuids, NULL,
             jsonb_build_object(
                 listing_42_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1320,7 +1353,7 @@ BEGIN
                 listing_42_size_variation_id || ':' || listing_42_size_medium_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_42_size_variation_id || ':' || listing_42_size_large_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_56_id, listing_56_short_id, listing_56_shop_id, listing_56_category_id, listing_56_title, listing_56_subtitle, listing_56_full_descr, listing_56_price_cents, NULL, NULL, listing_56_image_uuids, NULL,
+        (listing_56_id, listing_56_short_id, listing_56_shop_id, listing_56_category_id, listing_56_country_code, listing_56_title, listing_56_subtitle, listing_56_full_descr, listing_56_price_cents, NULL, NULL, listing_56_image_uuids, NULL,
             jsonb_build_object(
                 listing_56_size_variation_id, jsonb_build_object(
                     'name', 'Size',
@@ -1338,14 +1371,15 @@ BEGIN
                 listing_56_size_variation_id || ':' || listing_56_size_six_id,   jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_56_size_variation_id || ':' || listing_56_size_eight_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_58_id, listing_58_short_id, listing_58_shop_id, listing_58_category_id, listing_58_title, listing_58_subtitle, listing_58_full_descr, listing_58_price_cents, NULL, NULL, listing_58_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_59_id, listing_59_short_id, listing_59_shop_id, listing_59_category_id, listing_59_title, listing_59_subtitle, listing_59_full_descr, listing_59_price_cents, NULL, NULL, listing_59_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_60_id, listing_60_short_id, listing_60_shop_id, listing_60_category_id, listing_60_title, listing_60_subtitle, listing_60_full_descr, listing_60_price_cents, NULL, NULL, listing_60_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_61_id, listing_61_short_id, listing_61_shop_id, listing_61_category_id, listing_61_title, listing_61_subtitle, listing_61_full_descr, listing_61_price_cents, NULL, NULL, listing_61_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        (listing_58_id, listing_58_short_id, listing_58_shop_id, listing_58_category_id, listing_58_country_code, listing_58_title, listing_58_subtitle, listing_58_full_descr, listing_58_price_cents, NULL, NULL, listing_58_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_59_id, listing_59_short_id, listing_59_shop_id, listing_59_category_id, listing_59_country_code, listing_59_title, listing_59_subtitle, listing_59_full_descr, listing_59_price_cents, NULL, NULL, listing_59_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_60_id, listing_60_short_id, listing_60_shop_id, listing_60_category_id, listing_60_country_code, listing_60_title, listing_60_subtitle, listing_60_full_descr, listing_60_price_cents, NULL, NULL, listing_60_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_61_id, listing_61_short_id, listing_61_shop_id, listing_61_category_id, listing_61_country_code, listing_61_title, listing_61_subtitle, listing_61_full_descr, listing_61_price_cents, NULL, NULL, listing_61_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
     ON CONFLICT (id) DO UPDATE SET
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
         title = EXCLUDED.title,
         subtitle = EXCLUDED.subtitle,
         full_descr = EXCLUDED.full_descr,

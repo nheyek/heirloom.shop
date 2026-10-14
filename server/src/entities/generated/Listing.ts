@@ -1,5 +1,6 @@
 import { Collection, type Opt, type Rel } from '@mikro-orm/core';
 import { Check, Entity, ManyToOne, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/decorators/es';
+import { Country } from './Country.js';
 import { FeaturedListing } from './FeaturedListing.js';
 import { ListingCategory } from './ListingCategory.js';
 import { ListingPersonalizationProfile } from './ListingPersonalizationProfile.js';
@@ -78,6 +79,9 @@ export class Listing {
 
   @Property({ type: 'json', nullable: true })
   variationImages?: any;
+
+  @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })
+  country?: Rel<Country>;
 
   @OneToOne({ entity: () => FeaturedListing, mappedBy: 'listing' })
   featuredListing?: Rel<FeaturedListing>;

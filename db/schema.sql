@@ -226,6 +226,7 @@ CREATE TABLE public.listing (
     inventory integer,
     track_inventory boolean DEFAULT false NOT NULL,
     variation_images jsonb,
+    country_code character(2),
     CONSTRAINT listing_inventory_nonnegative CHECK ((inventory >= 0))
 );
 
@@ -1031,6 +1032,14 @@ ALTER TABLE ONLY public.listing_category
 
 
 --
+-- Name: listing listing_country_code_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.listing
+    ADD CONSTRAINT listing_country_code_fkey FOREIGN KEY (country_code) REFERENCES public.country(code) ON DELETE SET NULL;
+
+
+--
 -- Name: listing listing_personalization_profile_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1201,4 +1210,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260826110324'),
     ('20260902130450'),
     ('20260902142852'),
-    ('20261014000000');
+    ('20261014000000'),
+    ('20261015000000');

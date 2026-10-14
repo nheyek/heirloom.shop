@@ -34,6 +34,7 @@ DECLARE
     listing_62_id INT := 62;
     listing_62_short_id VARCHAR := 'Td7Kq';
     listing_62_shop_id INT := shop_9_id;
+    listing_62_country_code CHAR(2) := shop_9_country_code;
     listing_62_category_id VARCHAR := 'JEWELRY';
     listing_62_title VARCHAR := 'Through Darkness Talisman';
     listing_62_subtitle VARCHAR := 'A raven talisman honoring the shadow as a place of insight, where what is hidden may slowly be revealed.';
@@ -60,6 +61,7 @@ DECLARE
     listing_63_id INT := 63;
     listing_63_short_id VARCHAR := 'Cv8Rm';
     listing_63_shop_id INT := shop_9_id;
+    listing_63_country_code CHAR(2) := shop_9_country_code;
     listing_63_category_id VARCHAR := 'JEWELRY';
     listing_63_title VARCHAR := 'Curb Chain';
     listing_63_subtitle VARCHAR := 'A sterling silver curb chain, made to carry any Pyrrha talisman or charm.';
@@ -105,6 +107,7 @@ DECLARE
     listing_64_id INT := 64;
     listing_64_short_id VARCHAR := 'wjBTd';
     listing_64_shop_id INT := shop_9_id;
+    listing_64_country_code CHAR(2) := shop_9_country_code;
     listing_64_category_id VARCHAR := 'JEWELRY';
     listing_64_title VARCHAR := 'Resilience Talisman';
     listing_64_subtitle VARCHAR := 'A teasel talisman for the strength to withstand hardship and keep growing with grace.';
@@ -131,6 +134,7 @@ DECLARE
     listing_65_id INT := 65;
     listing_65_short_id VARCHAR := 'e6Lgz';
     listing_65_shop_id INT := shop_9_id;
+    listing_65_country_code CHAR(2) := shop_9_country_code;
     listing_65_category_id VARCHAR := 'JEWELRY';
     listing_65_title VARCHAR := 'Inner Vision Talisman';
     listing_65_subtitle VARCHAR := 'A sleeping eye talisman honoring intuition, dreams, and the quiet awareness found in stillness.';
@@ -157,6 +161,7 @@ DECLARE
     listing_66_id INT := 66;
     listing_66_short_id VARCHAR := 'PdJpc';
     listing_66_shop_id INT := shop_9_id;
+    listing_66_country_code CHAR(2) := shop_9_country_code;
     listing_66_category_id VARCHAR := 'JEWELRY';
     listing_66_title VARCHAR := 'Grounded Talisman';
     listing_66_subtitle VARCHAR := 'A talisman of layered rock, symbolizing inner depth, permanence, and the experiences that form who we are.';
@@ -183,6 +188,7 @@ DECLARE
     listing_67_id INT := 67;
     listing_67_short_id VARCHAR := 'fDCer';
     listing_67_shop_id INT := shop_9_id;
+    listing_67_country_code CHAR(2) := shop_9_country_code;
     listing_67_category_id VARCHAR := 'JEWELRY';
     listing_67_title VARCHAR := 'Always Reaching Talisman';
     listing_67_subtitle VARCHAR := 'An ivy talisman for steady growth and the instinct to keep reaching.';
@@ -209,6 +215,7 @@ DECLARE
     listing_68_id INT := 68;
     listing_68_short_id VARCHAR := 'fMDd6';
     listing_68_shop_id INT := shop_9_id;
+    listing_68_country_code CHAR(2) := shop_9_country_code;
     listing_68_category_id VARCHAR := 'JEWELRY';
     listing_68_title VARCHAR := 'Age With Power Talisman';
     listing_68_subtitle VARCHAR := 'A snake and pomegranate talisman celebrating renewal and becoming more fully yourself.';
@@ -235,6 +242,7 @@ DECLARE
     listing_69_id INT := 69;
     listing_69_short_id VARCHAR := 'NhqSS';
     listing_69_shop_id INT := shop_9_id;
+    listing_69_country_code CHAR(2) := shop_9_country_code;
     listing_69_category_id VARCHAR := 'JEWELRY';
     listing_69_title VARCHAR := 'Inner Sanctum Talisman';
     listing_69_subtitle VARCHAR := 'A key-and-shield talisman to protect your inner peace.';
@@ -261,6 +269,7 @@ DECLARE
     listing_70_id INT := 70;
     listing_70_short_id VARCHAR := 'PdNPB';
     listing_70_shop_id INT := shop_9_id;
+    listing_70_country_code CHAR(2) := shop_9_country_code;
     listing_70_category_id VARCHAR := 'JEWELRY';
     listing_70_title VARCHAR := 'Guardian Talisman';
     listing_70_subtitle VARCHAR := 'A dragon-and-shield talisman of steadfast protection, inscribed Tutus Es, Latin for You Are Safe.';
@@ -287,6 +296,7 @@ DECLARE
     listing_71_id INT := 71;
     listing_71_short_id VARCHAR := 'dqcM8';
     listing_71_shop_id INT := shop_9_id;
+    listing_71_country_code CHAR(2) := shop_9_country_code;
     listing_71_category_id VARCHAR := 'JEWELRY';
     listing_71_title VARCHAR := 'Trust in Yourself Talisman';
     listing_71_subtitle VARCHAR := 'A fox talisman for self-belief and the courage to tackle any challenge head-on.';
@@ -313,6 +323,7 @@ DECLARE
     listing_72_id INT := 72;
     listing_72_short_id VARCHAR := 'iuCjL';
     listing_72_shop_id INT := shop_9_id;
+    listing_72_country_code CHAR(2) := shop_9_country_code;
     listing_72_category_id VARCHAR := 'JEWELRY';
     listing_72_title VARCHAR := 'Direction Talisman';
     listing_72_subtitle VARCHAR := 'A compass rose talisman to help you find direction and stay on the path to your heart’s true desires.';
@@ -368,9 +379,9 @@ BEGIN
     SELECT shop_11_id
     WHERE NOT EXISTS (SELECT 1 FROM featured_shop WHERE shop_id = shop_11_id);
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
-        (listing_62_id, listing_62_short_id, listing_62_shop_id, listing_62_category_id, listing_62_title, listing_62_subtitle, listing_62_full_descr, listing_62_price_cents, NULL, NULL, listing_62_image_uuids, NULL,
+        (listing_62_id, listing_62_short_id, listing_62_shop_id, listing_62_category_id, listing_62_country_code, listing_62_title, listing_62_subtitle, listing_62_full_descr, listing_62_price_cents, NULL, NULL, listing_62_image_uuids, NULL,
             jsonb_build_object(
                 listing_62_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -392,6 +403,7 @@ BEGIN
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
         title = EXCLUDED.title,
         subtitle = EXCLUDED.subtitle,
         full_descr = EXCLUDED.full_descr,
@@ -501,9 +513,9 @@ BEGIN
         LEFT JOIN heroes ON heroes.metal_id = metals.id AND heroes.width_id = widths.id
     );
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at, variation_images)
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at, variation_images)
     VALUES
-        (listing_63_id, listing_63_short_id, listing_63_shop_id, listing_63_category_id, listing_63_title, listing_63_subtitle, listing_63_full_descr, listing_63_price_cents, NULL, NULL, listing_63_image_uuids, NULL,
+        (listing_63_id, listing_63_short_id, listing_63_shop_id, listing_63_category_id, listing_63_country_code, listing_63_title, listing_63_subtitle, listing_63_full_descr, listing_63_price_cents, NULL, NULL, listing_63_image_uuids, NULL,
             jsonb_build_object(
                 listing_63_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -552,6 +564,7 @@ BEGIN
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
         title = EXCLUDED.title,
         subtitle = EXCLUDED.subtitle,
         full_descr = EXCLUDED.full_descr,
@@ -565,9 +578,9 @@ BEGIN
         variation_images = EXCLUDED.variation_images,
         updated_at = CURRENT_TIMESTAMP;
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
-        (listing_64_id, listing_64_short_id, listing_64_shop_id, listing_64_category_id, listing_64_title, listing_64_subtitle, listing_64_full_descr, listing_64_price_cents, NULL, NULL, listing_64_image_uuids, NULL,
+        (listing_64_id, listing_64_short_id, listing_64_shop_id, listing_64_category_id, listing_64_country_code, listing_64_title, listing_64_subtitle, listing_64_full_descr, listing_64_price_cents, NULL, NULL, listing_64_image_uuids, NULL,
             jsonb_build_object(
                 listing_64_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -585,7 +598,7 @@ BEGIN
                 listing_64_metal_variation_id || ':' || listing_64_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_64_metal_variation_id || ':' || listing_64_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_65_id, listing_65_short_id, listing_65_shop_id, listing_65_category_id, listing_65_title, listing_65_subtitle, listing_65_full_descr, listing_65_price_cents, NULL, NULL, listing_65_image_uuids, NULL,
+        (listing_65_id, listing_65_short_id, listing_65_shop_id, listing_65_category_id, listing_65_country_code, listing_65_title, listing_65_subtitle, listing_65_full_descr, listing_65_price_cents, NULL, NULL, listing_65_image_uuids, NULL,
             jsonb_build_object(
                 listing_65_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -603,7 +616,7 @@ BEGIN
                 listing_65_metal_variation_id || ':' || listing_65_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_65_metal_variation_id || ':' || listing_65_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_66_id, listing_66_short_id, listing_66_shop_id, listing_66_category_id, listing_66_title, listing_66_subtitle, listing_66_full_descr, listing_66_price_cents, NULL, NULL, listing_66_image_uuids, NULL,
+        (listing_66_id, listing_66_short_id, listing_66_shop_id, listing_66_category_id, listing_66_country_code, listing_66_title, listing_66_subtitle, listing_66_full_descr, listing_66_price_cents, NULL, NULL, listing_66_image_uuids, NULL,
             jsonb_build_object(
                 listing_66_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -621,7 +634,7 @@ BEGIN
                 listing_66_metal_variation_id || ':' || listing_66_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_66_metal_variation_id || ':' || listing_66_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_67_id, listing_67_short_id, listing_67_shop_id, listing_67_category_id, listing_67_title, listing_67_subtitle, listing_67_full_descr, listing_67_price_cents, NULL, NULL, listing_67_image_uuids, NULL,
+        (listing_67_id, listing_67_short_id, listing_67_shop_id, listing_67_category_id, listing_67_country_code, listing_67_title, listing_67_subtitle, listing_67_full_descr, listing_67_price_cents, NULL, NULL, listing_67_image_uuids, NULL,
             jsonb_build_object(
                 listing_67_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -639,7 +652,7 @@ BEGIN
                 listing_67_metal_variation_id || ':' || listing_67_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_67_metal_variation_id || ':' || listing_67_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_68_id, listing_68_short_id, listing_68_shop_id, listing_68_category_id, listing_68_title, listing_68_subtitle, listing_68_full_descr, listing_68_price_cents, NULL, NULL, listing_68_image_uuids, NULL,
+        (listing_68_id, listing_68_short_id, listing_68_shop_id, listing_68_category_id, listing_68_country_code, listing_68_title, listing_68_subtitle, listing_68_full_descr, listing_68_price_cents, NULL, NULL, listing_68_image_uuids, NULL,
             jsonb_build_object(
                 listing_68_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -657,7 +670,7 @@ BEGIN
                 listing_68_metal_variation_id || ':' || listing_68_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_68_metal_variation_id || ':' || listing_68_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_69_id, listing_69_short_id, listing_69_shop_id, listing_69_category_id, listing_69_title, listing_69_subtitle, listing_69_full_descr, listing_69_price_cents, NULL, NULL, listing_69_image_uuids, NULL,
+        (listing_69_id, listing_69_short_id, listing_69_shop_id, listing_69_category_id, listing_69_country_code, listing_69_title, listing_69_subtitle, listing_69_full_descr, listing_69_price_cents, NULL, NULL, listing_69_image_uuids, NULL,
             jsonb_build_object(
                 listing_69_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -675,7 +688,7 @@ BEGIN
                 listing_69_metal_variation_id || ':' || listing_69_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_69_metal_variation_id || ':' || listing_69_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_70_id, listing_70_short_id, listing_70_shop_id, listing_70_category_id, listing_70_title, listing_70_subtitle, listing_70_full_descr, listing_70_price_cents, NULL, NULL, listing_70_image_uuids, NULL,
+        (listing_70_id, listing_70_short_id, listing_70_shop_id, listing_70_category_id, listing_70_country_code, listing_70_title, listing_70_subtitle, listing_70_full_descr, listing_70_price_cents, NULL, NULL, listing_70_image_uuids, NULL,
             jsonb_build_object(
                 listing_70_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -693,7 +706,7 @@ BEGIN
                 listing_70_metal_variation_id || ':' || listing_70_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_70_metal_variation_id || ':' || listing_70_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_71_id, listing_71_short_id, listing_71_shop_id, listing_71_category_id, listing_71_title, listing_71_subtitle, listing_71_full_descr, listing_71_price_cents, NULL, NULL, listing_71_image_uuids, NULL,
+        (listing_71_id, listing_71_short_id, listing_71_shop_id, listing_71_category_id, listing_71_country_code, listing_71_title, listing_71_subtitle, listing_71_full_descr, listing_71_price_cents, NULL, NULL, listing_71_image_uuids, NULL,
             jsonb_build_object(
                 listing_71_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -711,7 +724,7 @@ BEGIN
                 listing_71_metal_variation_id || ':' || listing_71_metal_sterling_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory),
                 listing_71_metal_variation_id || ':' || listing_71_metal_bronze_id, jsonb_build_object('priceCents', null, 'disabled', false, 'inventory', catalog_default_inventory)
             ), true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (listing_72_id, listing_72_short_id, listing_72_shop_id, listing_72_category_id, listing_72_title, listing_72_subtitle, listing_72_full_descr, listing_72_price_cents, NULL, NULL, listing_72_image_uuids, NULL,
+        (listing_72_id, listing_72_short_id, listing_72_shop_id, listing_72_category_id, listing_72_country_code, listing_72_title, listing_72_subtitle, listing_72_full_descr, listing_72_price_cents, NULL, NULL, listing_72_image_uuids, NULL,
             jsonb_build_object(
                 listing_72_metal_variation_id, jsonb_build_object(
                     'name', 'Metal',
@@ -733,6 +746,7 @@ BEGIN
         short_id = EXCLUDED.short_id,
         shop_id = EXCLUDED.shop_id,
         category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
         title = EXCLUDED.title,
         subtitle = EXCLUDED.subtitle,
         full_descr = EXCLUDED.full_descr,

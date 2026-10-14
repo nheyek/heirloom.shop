@@ -16,7 +16,7 @@ export const findFeaturedListings = async (): Promise<Listing[]> => {
 		FeaturedListing,
 		{},
 		{
-			populate: ['listing', 'listing.shop', 'listing.shop.country'],
+			populate: ['listing', 'listing.shop', 'listing.country'],
 			orderBy: { id: 'asc' },
 		},
 	);
@@ -46,7 +46,7 @@ export const findListingsByCategory = async (
 	return em.find(
 		Listing,
 		{ category: { $in: categoryIds } },
-		{ populate: ['shop', 'shop.country'] },
+		{ populate: ['shop', 'country'] },
 	);
 };
 
@@ -58,7 +58,7 @@ export const findListingsByShop = async (
 	return em.find(
 		Listing,
 		{ shop: { id: shopId } },
-		{ populate: ['shop', 'category'], orderBy: { title: 'asc' } },
+		{ populate: ['shop', 'country', 'category'], orderBy: { title: 'asc' } },
 	);
 };
 
@@ -72,7 +72,7 @@ export const findFullListingDataByShortId = async (
 		{
 			populate: [
 				'shop',
-				'shop.country',
+				'country',
 				'shippingProfile',
 				'processingProfile',
 				'returnProfile',
@@ -92,7 +92,7 @@ export const findAvailableFullListingDataByShortId = async (
 		{
 			populate: [
 				'shop',
-				'shop.country',
+				'country',
 				'shippingProfile',
 				'processingProfile',
 				'returnProfile',

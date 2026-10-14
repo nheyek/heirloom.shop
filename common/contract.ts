@@ -460,6 +460,7 @@ const ShopManagerPersonalizationProfileSchema = z.object({
 
 const ShopProfilesDataSchema = z.object({
 	directFulfillment: z.boolean(),
+	countryCode: z.string().nullable(),
 	processingProfiles: z.array(ShopManagerProcessingProfileSchema),
 	shippingProfiles: z.array(ShopManagerShippingProfileSchema),
 	returnProfiles: z.array(ShopManagerReturnProfileSchema),
@@ -473,6 +474,7 @@ const ListingEditDataSchema = z.object({
 	title: z.string(),
 	subtitle: z.string().nullable(),
 	categoryId: z.string(),
+	countryCode: z.string().nullable(),
 	priceCents: z.number(),
 	imageUuids: z.array(z.string()),
 	processingProfileId: z.number().nullable(),
@@ -492,6 +494,8 @@ const ListingEditDataSchema = z.object({
 // listing validation, so the two aren't declared independently.
 const ListingWriteBodySchema = ListingEditDataSchema.omit({
 	shortId: true,
+}).extend({
+	countryCode: z.string(),
 });
 
 const CreateProcessingProfileBodySchema = z.object({

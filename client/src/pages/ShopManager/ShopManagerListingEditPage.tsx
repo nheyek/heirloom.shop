@@ -136,6 +136,7 @@ const ListingEditForm = ({
 		initialTitle: listingData.title,
 		initialSubtitle: listingData.subtitle ?? '',
 		initialCategoryId: listingData.categoryId,
+		initialCountryCode: listingData.countryCode,
 		initialPriceCents: listingData.priceCents,
 		initialTrackInventory: listingData.trackInventory,
 		initialInventory:
@@ -193,6 +194,7 @@ const ListingEditForm = ({
 					title: form.title,
 					subtitle: form.subtitle || null,
 					categoryId: form.categoryId!,
+					countryCode: form.countryCode,
 					priceCents: form.priceCents ?? 0,
 					trackInventory: form.trackInventory,
 					inventory: form.trackInventory

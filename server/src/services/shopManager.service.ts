@@ -29,6 +29,7 @@ import { ListingPersonalizationProfile } from '@server/entities/generated/Listin
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
 import { ListingShippingProfile } from '@server/entities/generated/ListingShippingProfile';
+import { Country } from '@server/entities/generated/Country';
 import { Shop } from '@server/entities/generated/Shop';
 import { encodeShortId, ShortIdEntityType } from '@server/utils/hashids';
 
@@ -59,13 +60,14 @@ export const findAllListingsForShop = async (
 	return em.find(
 		Listing,
 		{ shop: { id: shopId } },
-		{ populate: ['shop', 'shop.country', 'category'] },
+		{ populate: ['shop', 'country', 'category'] },
 	);
 };
 
 export const findShopProfiles = async (
 	shopId: number,
 	directFulfillment: boolean,
+	countryCode: string | null,
 ): Promise<ShopProfilesData> => {
 	const em = getEm();
 
@@ -85,6 +87,7 @@ export const findShopProfiles = async (
 
 	return {
 		directFulfillment,
+		countryCode,
 		processingProfiles: processingProfiles.map((p) => ({
 			id: p.id,
 			name: p.name,
@@ -126,6 +129,7 @@ export const findListingForEdit = async (
 		{
 			populate: [
 				'category',
+				'country',
 				'processingProfile',
 				'shippingProfile',
 				'returnProfile',
@@ -140,6 +144,7 @@ export const findListingForEdit = async (
 		title: listing.title,
 		subtitle: listing.subtitle ?? null,
 		categoryId: listing.category.id,
+		countryCode: listing.country?.code ?? null,
 		priceCents: listing.priceCents,
 		imageUuids: listing.imageUuids,
 		processingProfileId: listing.processingProfile?.id ?? null,
@@ -175,6 +180,7 @@ export const createListing = async (
 		shippingProfile,
 		returnProfile,
 		personalizationProfile,
+		country,
 	] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
@@ -201,6 +207,7 @@ export const createListing = async (
 					shop: { id: shopId },
 				})
 			: null,
+		em.findOne(Country, { code: data.countryCode }),
 	]);
 
 	if (
@@ -210,6 +217,12 @@ export const createListing = async (
 		fieldErrors.push({
 			field: ValidationField.Category,
 			message: 'Category not found.',
+		});
+	}
+	if (!country && !hasFieldError(fieldErrors, ValidationField.Country)) {
+		fieldErrors.push({
+			field: ValidationField.Country,
+			message: 'Country not found.',
 		});
 	}
 	if (data.processingProfileId != null && !processingProfile) {
@@ -254,6 +267,7 @@ export const createListing = async (
 		title: data.title,
 		subtitle: data.subtitle ?? undefined,
 		category: category!,
+		country: country!,
 		shop: em.getReference(Shop, shopId),
 		priceCents: data.priceCents,
 		imageUuids: data.imageUuids,
@@ -277,6 +291,7 @@ export const createListing = async (
 		title: listing.title,
 		subtitle: listing.subtitle ?? null,
 		categoryId: listing.category.id,
+		countryCode: listing.country?.code ?? null,
 		priceCents: listing.priceCents,
 		imageUuids: listing.imageUuids,
 		processingProfileId: listing.processingProfile?.id ?? null,
@@ -327,6 +342,7 @@ export const updateListing = async (
 		shippingProfile,
 		returnProfile,
 		personalizationProfile,
+		country,
 	] = await Promise.all([
 		em.findOne(ListingCategory, { id: data.categoryId }),
 		data.processingProfileId != null
@@ -353,6 +369,7 @@ export const updateListing = async (
 					shop: { id: shopId },
 				})
 			: null,
+		em.findOne(Country, { code: data.countryCode }),
 	]);
 
 	if (
@@ -362,6 +379,12 @@ export const updateListing = async (
 		fieldErrors.push({
 			field: ValidationField.Category,
 			message: 'Category not found.',
+		});
+	}
+	if (!country && !hasFieldError(fieldErrors, ValidationField.Country)) {
+		fieldErrors.push({
+			field: ValidationField.Country,
+			message: 'Country not found.',
 		});
 	}
 	if (data.processingProfileId != null && !processingProfile) {
@@ -398,6 +421,7 @@ export const updateListing = async (
 	listing.title = data.title;
 	listing.subtitle = data.subtitle ?? undefined;
 	listing.category = category!;
+	listing.country = country!;
 	listing.priceCents = data.priceCents;
 	listing.imageUuids = data.imageUuids;
 	listing.processingProfile = processingProfile ?? undefined;
@@ -419,6 +443,7 @@ export const updateListing = async (
 		title: listing.title,
 		subtitle: listing.subtitle ?? null,
 		categoryId: listing.category.id,
+		countryCode: listing.country?.code ?? null,
 		priceCents: listing.priceCents,
 		imageUuids: listing.imageUuids,
 		processingProfileId: listing.processingProfile?.id ?? null,

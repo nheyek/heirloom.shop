@@ -1,4 +1,5 @@
 import { getEm } from '@server/db';
+import { Country } from '@server/entities/generated/Country';
 import { ListingPersonalizationProfile } from '@server/entities/generated/ListingPersonalizationProfile';
 import { ListingProcessingProfile } from '@server/entities/generated/ListingProcessingProfile';
 import { ListingReturnProfile } from '@server/entities/generated/ListingReturnProfile';
@@ -7,7 +8,7 @@ import { ShopUserRole } from '@server/entities/generated/ShopUserRole';
 import { TEST_USER_EMAIL } from '@server/middleware/auth0.middleware';
 import { findOrCreateUser } from '@server/services/user.service';
 import request from 'supertest';
-import { seedCategories } from '../helpers/seedData';
+import { seedCategories, seedCountries } from '../helpers/seedData';
 import { useApp } from '../helpers/setupApp';
 
 const getApp = useApp();
@@ -20,6 +21,7 @@ const validListingBody = () => ({
 	title: 'A nice mug',
 	subtitle: null,
 	categoryId: 'CERAMICS',
+	countryCode: 'US',
 	priceCents: 2500,
 	imageUuids: [VALID_UUID],
 	processingProfileId: null,
@@ -42,6 +44,7 @@ const validListingBody = () => ({
 beforeAll(async () => {
 	const em = getEm();
 	await seedCategories(em);
+	await seedCountries(em);
 
 	const testUser = await findOrCreateUser(TEST_USER_EMAIL);
 
@@ -260,6 +263,39 @@ describe('POST /api/shops/:shopId/manager/listings', () => {
 			.send({ ...validListingBody(), categoryId: 'NOT_A_REAL_CATEGORY' });
 		expect(res.status).toBe(400);
 		expect(res.body.error).toMatch(/category/i);
+	});
+
+	it('returns 400 when no country is provided', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), countryCode: '' });
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/country/i);
+	});
+
+	it('returns 400 for a country that does not exist', async () => {
+		const res = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send({ ...validListingBody(), countryCode: 'ZZ' });
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/country/i);
+	});
+
+	it('persists the country and serves it on the public listing', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send(validListingBody());
+		expect(createRes.status).toBe(200);
+		expect(createRes.body.countryCode).toBe('US');
+
+		const publicRes = await request(getApp()).get(
+			`/api/listings/${createRes.body.shortId}`,
+		);
+		expect(publicRes.status).toBe(200);
+		expect(publicRes.body.countryCode).toBe('US');
 	});
 
 	it('returns 400 for a shipping profile id that does not belong to the shop', async () => {
@@ -646,6 +682,7 @@ describe('GET /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		expect(res.body).toMatchObject({
 			shortId: listingShortId,
 			title: 'A nice mug',
+			countryCode: 'US',
 			priceCents: 2500,
 			inventory: 8,
 			trackInventory: true,
@@ -728,6 +765,41 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId', () => {
 		expect(res.status).toBe(200);
 		expect(res.body.title).toBe('An updated mug');
 		expect(res.body.priceCents).toBe(3000);
+	});
+
+	it('persists an updated country', async () => {
+		const em = getEm();
+		await em.upsert(Country, { code: 'CA', name: 'Canada' });
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send(validListingBody());
+		const listingShortId = createRes.body.shortId;
+
+		const res = await request(getApp())
+			.put(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH)
+			.send({ ...validListingBody(), countryCode: 'CA' });
+		expect(res.status).toBe(200);
+		expect(res.body.countryCode).toBe('CA');
+
+		const getRes = await request(getApp())
+			.get(`/api/shops/mgr80/manager/listings/${listingShortId}`)
+			.set(AUTH);
+		expect(getRes.body.countryCode).toBe('CA');
+	});
+
+	it('returns 400 when updating to a country that does not exist', async () => {
+		const createRes = await request(getApp())
+			.post('/api/shops/mgr80/manager/listings')
+			.set(AUTH)
+			.send(validListingBody());
+		const res = await request(getApp())
+			.put(`/api/shops/mgr80/manager/listings/${createRes.body.shortId}`)
+			.set(AUTH)
+			.send({ ...validListingBody(), countryCode: 'ZZ' });
+		expect(res.status).toBe(400);
+		expect(res.body.error).toMatch(/country/i);
 	});
 
 	it('persists an updated inventory value', async () => {

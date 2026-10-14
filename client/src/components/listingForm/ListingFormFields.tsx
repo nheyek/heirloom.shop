@@ -5,6 +5,7 @@ import {
 	WrapItem,
 } from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
+import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
 	FormField,
 	FormInput,
@@ -164,6 +165,20 @@ export const ListingFormFields = ({
 												);
 										}}
 										disabled={disabled}
+									/>
+								</FormField>
+								<FormField
+									label="Country"
+									error={form.countryError}
+									required
+								>
+									<CountrySelect
+										showName
+										value={form.countryCode}
+										onChange={(v) => {
+											form.setCountryCode(v);
+											form.setCountryError(null);
+										}}
 									/>
 								</FormField>
 							</Stack>
