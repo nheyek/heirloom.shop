@@ -248,7 +248,10 @@ export const CombinationGrid = ({
 																effectiveImage,
 															)}
 															width="100%"
-															height="100%"
+															aspectRatio={
+																LISTING_IMAGE_ASPECT_RATIO
+															}
+															display="block"
 															objectFit="cover"
 															opacity={
 																uploadingKeys.has(
