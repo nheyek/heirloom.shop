@@ -37,7 +37,7 @@ const makeListing = (
 		},
 		imageUuids: overrides.imageUuids ?? [],
 		variations: overrides.variations ?? {},
-		combinations: overrides.combinations ?? {},
+		variationAvailability: overrides.combinations ?? {},
 		processingProfile:
 			overrides.processingMinDays !== undefined || overrides.processingMaxDays !== undefined
 				? { minDays: overrides.processingMinDays ?? 0, maxDays: overrides.processingMaxDays ?? 0 }

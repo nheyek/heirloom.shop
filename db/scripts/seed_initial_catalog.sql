@@ -367,7 +367,7 @@ BEGIN
     SELECT shop_11_id
     WHERE NOT EXISTS (SELECT 1 FROM featured_shop WHERE shop_id = shop_11_id);
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_62_id, listing_62_short_id, listing_62_shop_id, listing_62_category_id, listing_62_title, listing_62_subtitle, listing_62_full_descr, listing_62_price_cents, NULL, NULL, listing_62_image_uuids, NULL,
             jsonb_build_object(
@@ -397,7 +397,7 @@ BEGIN
         price_cents = EXCLUDED.price_cents,
         image_uuids = EXCLUDED.image_uuids,
         variations = EXCLUDED.variations,
-        combinations = EXCLUDED.combinations,
+        variation_availability = EXCLUDED.variation_availability,
         available = EXCLUDED.available,
         inventory = EXCLUDED.inventory,
         track_inventory = EXCLUDED.track_inventory,
@@ -470,7 +470,7 @@ BEGIN
         LEFT JOIN priced ON priced.metal_id = metals.id AND priced.width_id = widths.id AND priced.length_id = lengths.id
     );
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_63_id, listing_63_short_id, listing_63_shop_id, listing_63_category_id, listing_63_title, listing_63_subtitle, listing_63_full_descr, listing_63_price_cents, NULL, NULL, listing_63_image_uuids, NULL,
             jsonb_build_object(
@@ -527,13 +527,13 @@ BEGIN
         price_cents = EXCLUDED.price_cents,
         image_uuids = EXCLUDED.image_uuids,
         variations = EXCLUDED.variations,
-        combinations = EXCLUDED.combinations,
+        variation_availability = EXCLUDED.variation_availability,
         available = EXCLUDED.available,
         inventory = EXCLUDED.inventory,
         track_inventory = EXCLUDED.track_inventory,
         updated_at = CURRENT_TIMESTAMP;
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_64_id, listing_64_short_id, listing_64_shop_id, listing_64_category_id, listing_64_title, listing_64_subtitle, listing_64_full_descr, listing_64_price_cents, NULL, NULL, listing_64_image_uuids, NULL,
             jsonb_build_object(
@@ -707,7 +707,7 @@ BEGIN
         price_cents = EXCLUDED.price_cents,
         image_uuids = EXCLUDED.image_uuids,
         variations = EXCLUDED.variations,
-        combinations = EXCLUDED.combinations,
+        variation_availability = EXCLUDED.variation_availability,
         available = EXCLUDED.available,
         inventory = EXCLUDED.inventory,
         track_inventory = EXCLUDED.track_inventory,

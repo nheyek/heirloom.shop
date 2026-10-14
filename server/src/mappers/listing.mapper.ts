@@ -4,6 +4,7 @@ import {
 	ListingCardData,
 	ListingPageData,
 	ShopManagerListingCardData,
+	VariationImagesData,
 	VariationsData,
 } from '@heirloom/common/contract';
 import {
@@ -29,7 +30,8 @@ export const mapListingToApiResponseData = (
 	available: listing.available,
 	trackInventory: listing.trackInventory,
 	variations: (listing.variations ?? {}) as VariationsData,
-	combinations: (listing.combinations ?? {}) as CombinationsData,
+	combinations: (listing.variationAvailability ?? {}) as CombinationsData,
+	variationImages: (listing.variationImages ?? null) as VariationImagesData | null,
 });
 
 export const mapListingToShopManagerCardData = (
@@ -65,7 +67,7 @@ export const mapListingToCompleteApiResponseData = (
 			listing.trackInventory,
 			listing.inventory,
 			(listing.variations ?? {}) as VariationsData,
-			(listing.combinations ?? {}) as CombinationsData,
+			(listing.variationAvailability ?? {}) as CombinationsData,
 		),
 		profiles: listing.shop.directFulfillment
 			? {
@@ -105,7 +107,7 @@ export const mapListingToCartItemData = (
 	shippingPrice: number,
 	deliveryEstimate: string | null | undefined,
 ): CartItemData => {
-	const allCombinations = (listing.combinations ?? {}) as CombinationsData;
+	const allCombinations = (listing.variationAvailability ?? {}) as CombinationsData;
 	const neededKeys = new Set(selectedOptionSets.map(getCombinationKey));
 	const combinations: CombinationsData = Object.fromEntries(
 		[...neededKeys]

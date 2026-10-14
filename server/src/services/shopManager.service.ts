@@ -5,6 +5,7 @@ import {
 	ListingFullDescr,
 	ListingWriteBody,
 	ShopProfilesData,
+	VariationImagesData,
 	VariationsData,
 } from '@heirloom/common/contract';
 import { deriveCombinationsList } from '@heirloom/common/domain/listing';
@@ -148,8 +149,10 @@ export const findListingForEdit = async (
 			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ??
+		combinations: (listing.variationAvailability ??
 			{}) as CombinationsData,
+		variationImages: (listing.variationImages ??
+			null) as VariationImagesData | null,
 		inventory: listing.inventory ?? null,
 		trackInventory: listing.trackInventory,
 	};
@@ -260,7 +263,8 @@ export const createListing = async (
 		personalizationProfile: personalizationProfile ?? undefined,
 		fullDescr: data.fullDescr,
 		variations: data.variations,
-		combinations: data.combinations,
+		variationAvailability: data.combinations,
+		variationImages: data.variationImages,
 		available: true,
 		inventory: resolveInventory(data),
 		trackInventory: data.trackInventory,
@@ -282,8 +286,10 @@ export const createListing = async (
 			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ??
+		combinations: (listing.variationAvailability ??
 			{}) as CombinationsData,
+		variationImages: (listing.variationImages ??
+			null) as VariationImagesData | null,
 		inventory: listing.inventory ?? null,
 		trackInventory: listing.trackInventory,
 	};
@@ -401,7 +407,8 @@ export const updateListing = async (
 		personalizationProfile ?? undefined;
 	listing.fullDescr = data.fullDescr;
 	listing.variations = data.variations;
-	listing.combinations = data.combinations;
+	listing.variationAvailability = data.combinations;
+	listing.variationImages = data.variationImages ?? null;
 	listing.inventory = resolveInventory(data);
 	listing.trackInventory = data.trackInventory;
 
@@ -421,8 +428,10 @@ export const updateListing = async (
 			listing.personalizationProfile?.id ?? null,
 		fullDescr: (listing.fullDescr as ListingFullDescr) ?? null,
 		variations: (listing.variations ?? {}) as VariationsData,
-		combinations: (listing.combinations ??
+		combinations: (listing.variationAvailability ??
 			{}) as CombinationsData,
+		variationImages: (listing.variationImages ??
+			null) as VariationImagesData | null,
 		inventory: listing.inventory ?? null,
 		trackInventory: listing.trackInventory,
 	};

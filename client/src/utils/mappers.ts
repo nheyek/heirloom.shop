@@ -32,6 +32,7 @@ export const getListingDataForCart = (
 			listing.profiles?.personalization?.name ?? null,
 		variations: listing.variations,
 		combinations: listing.combinations,
+		variationImages: listing.variationImages,
 		trackInventory: listing.trackInventory,
 	};
 };

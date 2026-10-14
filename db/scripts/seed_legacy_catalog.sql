@@ -977,7 +977,7 @@ BEGIN
         direct_fulfillment = EXCLUDED.direct_fulfillment,
         updated_at = CURRENT_TIMESTAMP;
 
-    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, combinations, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    INSERT INTO listing (id, short_id, shop_id, category_id, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
     VALUES
         (listing_4_id, listing_4_short_id, listing_4_shop_id, listing_4_category_id, listing_4_title, listing_4_subtitle, listing_4_full_descr, listing_4_price_cents, NULL, NULL, listing_4_image_uuids, NULL,
             jsonb_build_object(
@@ -1355,7 +1355,7 @@ BEGIN
         image_uuids = EXCLUDED.image_uuids,
         processing_profile_id = EXCLUDED.processing_profile_id,
         variations = EXCLUDED.variations,
-        combinations = EXCLUDED.combinations,
+        variation_availability = EXCLUDED.variation_availability,
         available = EXCLUDED.available,
         personalization_profile_id = EXCLUDED.personalization_profile_id,
         inventory = EXCLUDED.inventory,

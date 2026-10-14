@@ -220,11 +220,12 @@ CREATE TABLE public.listing (
     return_profile_id integer,
     upc character varying(12),
     variations jsonb,
-    combinations jsonb,
+    variation_availability jsonb,
     available boolean DEFAULT false CONSTRAINT listing_active_not_null NOT NULL,
     personalization_profile_id integer,
     inventory integer,
     track_inventory boolean DEFAULT false NOT NULL,
+    variation_images jsonb,
     CONSTRAINT listing_inventory_nonnegative CHECK ((inventory >= 0))
 );
 
@@ -1199,4 +1200,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260826000000'),
     ('20260826110324'),
     ('20260902130450'),
-    ('20260902142852');
+    ('20260902142852'),
+    ('20261014000000');

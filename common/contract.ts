@@ -47,6 +47,8 @@ const CombinationSchema = z.object({
 
 const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
+const VariationImagesSchema = z.record(z.string(), z.string());
+
 const ListingCardDataSchema = z.object({
 	id: z.number(),
 	shortId: z.string(),
@@ -63,6 +65,7 @@ const ListingCardDataSchema = z.object({
 	trackInventory: z.boolean(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
+	variationImages: VariationImagesSchema.nullable(),
 });
 
 // Adds shop-owner-only inventory fields on top of the public listing card
@@ -480,6 +483,7 @@ const ListingEditDataSchema = z.object({
 	fullDescr: z.array(ListingDescrSectionSchema).nullable(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
+	variationImages: VariationImagesSchema.nullable().optional(),
 	inventory: z.number().nullable().optional(),
 	trackInventory: z.boolean().default(false),
 });
@@ -979,6 +983,7 @@ export type VariationData = z.infer<typeof VariationSchema>;
 export type VariationsData = z.infer<typeof VariationsSchema>;
 export type CombinationData = z.infer<typeof CombinationSchema>;
 export type CombinationsData = z.infer<typeof CombinationsSchema>;
+export type VariationImagesData = z.infer<typeof VariationImagesSchema>;
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;

@@ -130,7 +130,7 @@ beforeAll(async () => {
 				},
 			},
 		},
-		combinations: {
+		variationAvailability: {
 			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_SMALL })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
 			[getCombinationKey({ [VASE_VAR_ID]: VASE_OPT_LARGE })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
 		},
@@ -156,7 +156,7 @@ beforeAll(async () => {
 				},
 			},
 		},
-		combinations: {
+		variationAvailability: {
 			[getCombinationKey({ [TUMBLER_VAR_ID]: TUMBLER_OPT_SMALL })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 5 },
 			[getCombinationKey({ [TUMBLER_VAR_ID]: TUMBLER_OPT_LARGE })]: { priceCents: null, imageUuid: null, disabled: false, inventory: 0 },
 		},
@@ -192,7 +192,7 @@ beforeAll(async () => {
 				},
 			},
 		},
-		combinations: {
+		variationAvailability: {
 			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_SMALL })]: { priceCents: 1500, imageUuid: null, disabled: false },
 			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_LARGE })]: { priceCents: 1800, imageUuid: null, disabled: false },
 			[getCombinationKey({ [MUG_VAR_ID]: MUG_OPT_JUMBO })]: { priceCents: 2200, imageUuid: null, disabled: true },

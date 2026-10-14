@@ -106,7 +106,7 @@ export const findAvailableFullListingDataByShortId = async (
 			listing.trackInventory,
 			listing.inventory,
 			(listing.variations ?? {}) as VariationsData,
-			(listing.combinations ?? {}) as CombinationsData,
+			(listing.variationAvailability ?? {}) as CombinationsData,
 		)
 	)
 		return null;

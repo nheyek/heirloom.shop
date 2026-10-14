@@ -36,7 +36,7 @@ export const loadCheckoutData = async (
 					listing.trackInventory,
 					listing.inventory,
 					(listing.variations ?? {}) as VariationsData,
-					(listing.combinations ?? {}) as CombinationsData,
+					(listing.variationAvailability ?? {}) as CombinationsData,
 				),
 		),
 	};

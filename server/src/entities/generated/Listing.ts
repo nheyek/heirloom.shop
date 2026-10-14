@@ -62,7 +62,7 @@ export class Listing {
   variations?: any;
 
   @Property({ type: 'json', nullable: true })
-  combinations?: any;
+  variationAvailability?: any;
 
   @Property({ type: 'boolean' })
   available: boolean & Opt = false;
@@ -75,6 +75,9 @@ export class Listing {
 
   @Property({ type: 'boolean' })
   trackInventory: boolean & Opt = false;
+
+  @Property({ type: 'json', nullable: true })
+  variationImages?: any;
 
   @OneToOne({ entity: () => FeaturedListing, mappedBy: 'listing' })
   featuredListing?: Rel<FeaturedListing>;

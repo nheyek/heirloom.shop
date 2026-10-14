@@ -112,7 +112,7 @@ export const calculateCheckoutTotals = (
 		const listing = listingByShortId.get(item.listingShortId);
 		if (!listing) continue;
 
-		const combinations = (listing.combinations ??
+		const combinations = (listing.variationAvailability ??
 			{}) as CombinationsData;
 		const variations = (listing.variations ??
 			{}) as VariationsData;
@@ -152,7 +152,7 @@ export const createOrderItemSnapshots = (
 		const listing = listingByShortId.get(item.listingShortId);
 		if (!listing) continue;
 
-		const combinations = (listing.combinations ??
+		const combinations = (listing.variationAvailability ??
 			{}) as CombinationsData;
 		const variations = (listing.variations ??
 			{}) as VariationsData;
