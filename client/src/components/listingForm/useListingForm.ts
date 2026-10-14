@@ -18,8 +18,10 @@ import {
 	DEFAULT_COMBINATION,
 	deriveCombinationsList,
 	removeVariationFromCombinations,
+	syncVariationImages,
 	syncVariationOptions,
 	Variation,
+	VariationImages,
 	VariationOption,
 	Variations,
 } from '@heirloom/common/domain/listing';
@@ -74,6 +76,7 @@ export type {
 	ImageEntry,
 	ListingDescrSection,
 	Variation,
+	VariationImages,
 	VariationOption,
 	Variations,
 };
@@ -167,6 +170,7 @@ export type ListingFormState = {
 	reorderVariations: (fromId: string, toId: string) => void;
 
 	combinations: Combinations;
+	variationImages: VariationImages | null;
 	setCombinationField: (
 		key: string,
 		patch: Partial<Combination>,
@@ -196,6 +200,7 @@ type UseListingFormOptions = {
 	initialDescrSections?: ListingDescrSection[];
 	initialVariations?: Variations;
 	initialCombinations?: Combinations;
+	initialVariationImages?: VariationImages | null;
 };
 
 export const useListingForm = ({
@@ -218,6 +223,7 @@ export const useListingForm = ({
 	initialDescrSections = [],
 	initialVariations = {},
 	initialCombinations = {},
+	initialVariationImages = null,
 }: UseListingFormOptions): ListingFormState => {
 	const apiClient = useApiClient();
 	const { directFulfillment } = useShopManager();
@@ -300,9 +306,19 @@ export const useListingForm = ({
 	const [variations, setVariations] =
 		useState<Variations>(initialVariations);
 
+	const [variationImages, setVariationImages] =
+		useState<VariationImages | null>(() =>
+			syncVariationImages(initialVariationImages, initialVariations),
+		);
+
+	const applyVariations = (next: Variations) => {
+		setVariations(next);
+		setVariationImages((prev) => syncVariationImages(prev, next));
+	};
+
 	const addVariation = (variation: Variation) => {
 		const newId = crypto.randomUUID();
-		setVariations((prev) => ({ ...prev, [newId]: variation }));
+		applyVariations({ ...variations, [newId]: variation });
 		setCombinations((prev) =>
 			addVariationToCombinations(
 				prev,
@@ -315,30 +331,21 @@ export const useListingForm = ({
 	};
 
 	const removeVariation = (id: string) => {
-		setVariations((prev) => {
-			const next = { ...prev };
-			delete next[id];
-			return next;
-		});
+		const next = { ...variations };
+		delete next[id];
+		applyVariations(next);
 		setCombinations((prev) =>
 			removeVariationFromCombinations(prev, id),
 		);
 	};
 
 	const updateVariation = (id: string, variation: Variation) => {
-		setVariations((prev) => {
-			const oldOptionIds = Object.keys(prev[id]?.options ?? {});
-			const newOptionIds = Object.keys(variation.options);
-			setCombinations((prev) =>
-				syncVariationOptions(
-					prev,
-					id,
-					oldOptionIds,
-					newOptionIds,
-				),
-			);
-			return { ...prev, [id]: variation };
-		});
+		const oldOptionIds = Object.keys(variations[id]?.options ?? {});
+		const newOptionIds = Object.keys(variation.options);
+		applyVariations({ ...variations, [id]: variation });
+		setCombinations((prev) =>
+			syncVariationOptions(prev, id, oldOptionIds, newOptionIds),
+		);
 	};
 
 	const [combinations, setCombinations] = useState<Combinations>(
@@ -452,6 +459,7 @@ export const useListingForm = ({
 			descrSections,
 			variations,
 			combinations,
+			variationImages,
 		});
 	const initialSnapshot = useRef<string | null>(null);
 	if (initialSnapshot.current === null)
@@ -474,6 +482,7 @@ export const useListingForm = ({
 				fullDescr: descrSections,
 				variations,
 				combinations,
+				variationImages,
 			},
 			{ directFulfillment },
 		);
@@ -590,6 +599,7 @@ export const useListingForm = ({
 		updateVariation,
 		reorderVariations,
 		combinations,
+		variationImages,
 		setCombinationField,
 		isDirty,
 		validate,

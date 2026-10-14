@@ -47,7 +47,7 @@ const CombinationSchema = z.object({
 
 const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
-const VariationImagesSchema = z.record(z.string(), z.string());
+const VariationImagesSchema = z.record(z.string(), z.string().nullable());
 
 const ListingCardDataSchema = z.object({
 	id: z.number(),

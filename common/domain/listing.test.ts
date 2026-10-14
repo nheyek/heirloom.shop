@@ -7,6 +7,7 @@ import {
 	getDefaultOptionSelection,
 	getListingDisplayPrice,
 	getOrderedListingImageUuids,
+	syncVariationImages,
 	isListingOutOfStock,
 	isValidCombinationSelection,
 	isVariationOptionDisabled,
@@ -880,5 +881,153 @@ describe('getOrderedListingImageUuids', () => {
 				{ size: 'm' },
 			),
 		).toEqual(['m1']);
+	});
+});
+
+describe('syncVariationImages', () => {
+	const imageVarying = (
+		name: string,
+		order: number,
+		optionIds: string[],
+	) => ({
+		...makeVariation(
+			name,
+			order,
+			false,
+			Object.fromEntries(
+				optionIds.map((id, i) => [id, { order: i }]),
+			),
+		),
+		imagesVary: true,
+	});
+
+	const metal = imageVarying('Metal', 0, ['gold', 'silver']);
+	const width = imageVarying('Width', 1, ['thin', 'wide']);
+	const length = imageVarying('Length', 2, ['short', 'long']);
+	const finish = makeVariation('Finish', 3, false, {
+		matte: { order: 0 },
+		gloss: { order: 1 },
+	});
+
+	const key = (...pairs: string[]) => pairs.join('|');
+
+	it('returns null when fewer than two variations vary images', () => {
+		expect(syncVariationImages(null, {})).toBeNull();
+		expect(syncVariationImages(null, { m: metal })).toBeNull();
+		expect(syncVariationImages(null, { m: metal, f: finish })).toBeNull();
+	});
+
+	it('builds null-valued keys over only the image-varying variations', () => {
+		expect(
+			syncVariationImages(null, { m: metal, w: width, f: finish }),
+		).toEqual({
+			[key('m:gold', 'w:thin')]: null,
+			[key('m:gold', 'w:wide')]: null,
+			[key('m:silver', 'w:thin')]: null,
+			[key('m:silver', 'w:wide')]: null,
+		});
+	});
+
+	it('constructs keys the same way as combination keys', () => {
+		const result = syncVariationImages(null, { w: width, m: metal });
+		expect(Object.keys(result ?? {})).toContain(
+			getCombinationKey({ w: 'thin', m: 'gold' }),
+		);
+	});
+
+	it('preserves existing images when the variation set is unchanged', () => {
+		const existing = {
+			[key('m:gold', 'w:thin')]: 'img-1',
+			[key('m:gold', 'w:wide')]: null,
+			[key('m:silver', 'w:thin')]: null,
+			[key('m:silver', 'w:wide')]: 'img-2',
+		};
+		expect(
+			syncVariationImages(existing, { m: metal, w: width }),
+		).toEqual(existing);
+	});
+
+	it('keeps images for surviving keys when an option is added or removed', () => {
+		const existing = {
+			[key('m:gold', 'w:thin')]: 'img-1',
+			[key('m:gold', 'w:wide')]: 'img-2',
+			[key('m:silver', 'w:thin')]: 'img-3',
+			[key('m:silver', 'w:wide')]: 'img-4',
+		};
+		const metalWithoutSilver = imageVarying('Metal', 0, ['gold']);
+		expect(
+			syncVariationImages(existing, { m: metalWithoutSilver, w: width }),
+		).toEqual({
+			[key('m:gold', 'w:thin')]: 'img-1',
+			[key('m:gold', 'w:wide')]: 'img-2',
+		});
+
+		const widthWithExtra = imageVarying('Width', 1, [
+			'thin',
+			'wide',
+			'extra',
+		]);
+		expect(
+			syncVariationImages(existing, { m: metal, w: widthWithExtra }),
+		).toEqual({
+			[key('m:gold', 'w:thin')]: 'img-1',
+			[key('m:gold', 'w:wide')]: 'img-2',
+			[key('m:gold', 'w:extra')]: null,
+			[key('m:silver', 'w:thin')]: 'img-3',
+			[key('m:silver', 'w:wide')]: 'img-4',
+			[key('m:silver', 'w:extra')]: null,
+		});
+	});
+
+	it('redefines with null images when a third variation starts varying images', () => {
+		const existing = {
+			[key('m:gold', 'w:thin')]: 'img-1',
+			[key('m:gold', 'w:wide')]: null,
+			[key('m:silver', 'w:thin')]: null,
+			[key('m:silver', 'w:wide')]: null,
+		};
+		const result = syncVariationImages(existing, {
+			m: metal,
+			w: width,
+			l: length,
+		});
+		expect(Object.keys(result ?? {})).toHaveLength(8);
+		expect(Object.values(result ?? {}).every((v) => v === null)).toBe(
+			true,
+		);
+	});
+
+	it('redefines with null images when one of three variations stops varying images', () => {
+		const existing = Object.fromEntries(
+			Object.keys(
+				syncVariationImages(null, { m: metal, w: width, l: length }) ??
+					{},
+			).map((k) => [k, 'img']),
+		);
+		const widthNoLongerVarying = { ...width, imagesVary: false };
+		const result = syncVariationImages(existing, {
+			m: metal,
+			w: widthNoLongerVarying,
+			l: length,
+		});
+		expect(result).toEqual({
+			[key('l:short', 'm:gold')]: null,
+			[key('l:short', 'm:silver')]: null,
+			[key('l:long', 'm:gold')]: null,
+			[key('l:long', 'm:silver')]: null,
+		});
+	});
+
+	it('returns null once fewer than two image-varying variations remain', () => {
+		const existing = {
+			[key('m:gold', 'w:thin')]: 'img-1',
+		};
+		expect(syncVariationImages(existing, { m: metal })).toBeNull();
+		expect(
+			syncVariationImages(existing, {
+				m: metal,
+				w: { ...width, imagesVary: false },
+			}),
+		).toBeNull();
 	});
 });

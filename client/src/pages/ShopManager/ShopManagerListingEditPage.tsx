@@ -23,6 +23,7 @@ import { listingImageUrl } from '@client/utils/imageUtils';
 import {
 	CombinationsData,
 	ListingEditData,
+	VariationImagesData,
 	VariationsData,
 } from '@heirloom/common/contract';
 import { useEffect, useRef, useState } from 'react';
@@ -166,6 +167,8 @@ const ListingEditForm = ({
 		initialVariations: listingData.variations as VariationsData,
 		initialCombinations:
 			listingData.combinations as CombinationsData,
+		initialVariationImages:
+			listingData.variationImages as VariationImagesData | null,
 	});
 
 	useUnsavedChangesGuard(form.isDirty);
@@ -218,6 +221,7 @@ const ListingEditForm = ({
 							: null,
 					variations: form.variations,
 					combinations: form.combinations,
+					variationImages: form.variationImages,
 				},
 			}),
 		);

@@ -10,6 +10,7 @@ import {
 	validateTitle,
 	validateOptionDeletion,
 	validateVariationEntry,
+	validateVariationImages,
 	VariationEntryInput,
 } from './listing.js';
 import { ValidationField } from './shared.js';
@@ -585,5 +586,123 @@ describe('validateListingFields', () => {
 			{ directFulfillment: false },
 		);
 		expect(errors).toHaveLength(0);
+	});
+});
+
+describe('validateVariationImages', () => {
+	const variation = (
+		order: number,
+		imagesVary: boolean,
+		optionIds: string[],
+	): Variations[string] => ({
+		name: `Variation ${order}`,
+		pricesVary: false,
+		defaultOption: optionIds[0],
+		imagesVary,
+		order,
+		options: Object.fromEntries(
+			optionIds.map((id, i) => [
+				id,
+				{ name: id, order: i, priceCents: null, imageUuids: [] },
+			]),
+		),
+	});
+
+	const twoImageVarying: Variations = {
+		m: variation(0, true, ['gold', 'silver']),
+		w: variation(1, true, ['thin', 'wide']),
+	};
+	const validImages = {
+		'm:gold|w:thin': UUID_A,
+		'm:gold|w:wide': null,
+		'm:silver|w:thin': null,
+		'm:silver|w:wide': UUID_B,
+	};
+
+	it('accepts null or empty when fewer than two variations vary images', () => {
+		const variations: Variations = {
+			m: variation(0, true, ['gold', 'silver']),
+			w: variation(1, false, ['thin', 'wide']),
+		};
+		expect(validateVariationImages({}, null)).toBeNull();
+		expect(validateVariationImages(variations, undefined)).toBeNull();
+		expect(validateVariationImages(variations, {})).toBeNull();
+	});
+
+	it('rejects any entries when fewer than two variations vary images', () => {
+		const variations: Variations = {
+			m: variation(0, true, ['gold', 'silver']),
+			w: variation(1, false, ['thin', 'wide']),
+		};
+		expect(
+			validateVariationImages(variations, { 'm:gold': UUID_A })?.field,
+		).toBe(ValidationField.VariationImages);
+	});
+
+	it('accepts an entry for every image-varying combination, with or without images', () => {
+		expect(validateVariationImages(twoImageVarying, validImages)).toBeNull();
+	});
+
+	it('requires entries when two or more variations vary images', () => {
+		expect(
+			validateVariationImages(twoImageVarying, null)?.field,
+		).toBe(ValidationField.VariationImages);
+		expect(
+			validateVariationImages(twoImageVarying, {})?.field,
+		).toBe(ValidationField.VariationImages);
+	});
+
+	it('rejects missing combination keys', () => {
+		const { 'm:silver|w:wide': _omitted, ...missingOne } = validImages;
+		expect(
+			validateVariationImages(twoImageVarying, missingOne)?.field,
+		).toBe(ValidationField.VariationImages);
+	});
+
+	it('rejects keys that are not image-varying combinations', () => {
+		expect(
+			validateVariationImages(twoImageVarying, {
+				...validImages,
+				'm:bronze|w:thin': null,
+			})?.field,
+		).toBe(ValidationField.VariationImages);
+	});
+
+	it('rejects keys built from a non-image-varying variation', () => {
+		const withFinish: Variations = {
+			...twoImageVarying,
+			f: variation(2, false, ['matte', 'gloss']),
+		};
+		const keysWithFinish = Object.fromEntries(
+			Object.keys(validImages).map((k) => [`${k}|f:matte`, null]),
+		);
+		expect(
+			validateVariationImages(withFinish, keysWithFinish)?.field,
+		).toBe(ValidationField.VariationImages);
+		expect(validateVariationImages(withFinish, validImages)).toBeNull();
+	});
+
+	it('is enforced by validateListingFields', () => {
+		const errors = validateListingFields(
+			{
+				title: 'A nice mug',
+				subtitle: null,
+				categoryId: 'CERAMICS',
+				priceCents: 2500,
+				imageUuids: [UUID_A],
+				shippingProfileId: null,
+				returnProfileId: null,
+				processingProfileId: null,
+				fullDescr: null,
+				variations: twoImageVarying,
+				combinations: {},
+				variationImages: { 'm:gold|w:thin': null },
+				trackInventory: false,
+			},
+			{ directFulfillment: false },
+		);
+		expect(
+			errors.some((e) => e.field === ValidationField.VariationImages),
+		).toBe(true);
 	});
 });

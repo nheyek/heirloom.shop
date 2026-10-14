@@ -29,6 +29,7 @@ export const ValidationField = {
 	VariationOptions: 'variationOptions',
 	VariationDefaultOption: 'variationDefaultOption',
 	Combinations: 'combinations',
+	VariationImages: 'variationImages',
 	DescrSections: 'descrSections',
 	DescrSectionTitle: 'descrSectionTitle',
 	DescrSectionBody: 'descrSectionBody',

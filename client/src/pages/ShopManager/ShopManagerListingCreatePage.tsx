@@ -89,6 +89,7 @@ export const ShopManagerListingCreatePage = () => {
 							: null,
 					variations: form.variations,
 					combinations: form.combinations,
+					variationImages: form.variationImages,
 				},
 			}),
 		);

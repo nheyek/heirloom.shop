@@ -42,6 +42,7 @@ export type Combination = {
 
 export type Variations = Record<string, Variation>;
 export type Combinations = Record<string, Combination>;
+export type VariationImages = Record<string, string | null>;
 
 export const isListingOutOfStock = (
 	trackInventory: boolean,
@@ -424,6 +425,51 @@ export const isValidCombinationSelection = (
 	const combination = combinations[key];
 	if (combination?.disabled ?? true) return false;
 	return !(trackInventory && (combination?.inventory ?? 0) === 0);
+};
+
+export const getImageVaryingVariations = (
+	variations: Variations,
+): Variations =>
+	Object.fromEntries(
+		Object.entries(variations).filter(([, v]) => v.imagesVary),
+	);
+
+export const syncVariationImages = (
+	previousVariationImages: VariationImages | null,
+	variations: Variations,
+): VariationImages | null => {
+	const imageVaryingVariations =
+		getImageVaryingVariations(variations);
+	const imageVaryingVariationIds = Object.keys(
+		imageVaryingVariations,
+	);
+	const imageKeys = deriveCombinationsList(
+		imageVaryingVariations,
+	).map(({ key }) => key);
+	if (imageVaryingVariationIds.length < 2 || imageKeys.length === 0)
+		return null;
+
+	const [firstPreviousImageKey] = Object.keys(
+		previousVariationImages ?? {},
+	);
+	const previousImageVaryingVariationIds = firstPreviousImageKey
+		? Object.keys(parseCombinationKey(firstPreviousImageKey))
+		: [];
+	const isSameImageVaryingVariationSet =
+		previousImageVaryingVariationIds.length ===
+			imageVaryingVariationIds.length &&
+		imageVaryingVariationIds.every((id) =>
+			previousImageVaryingVariationIds.includes(id),
+		);
+
+	return Object.fromEntries(
+		imageKeys.map((key) => [
+			key,
+			(isSameImageVaryingVariationSet &&
+				previousVariationImages?.[key]) ||
+				null,
+		]),
+	);
 };
 
 export const syncVariationOptions = (

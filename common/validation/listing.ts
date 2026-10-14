@@ -8,6 +8,8 @@ import {
 	Combinations,
 	deriveCombinationsList,
 	resolveEffectiveCombinationPrice,
+	syncVariationImages,
+	VariationImages,
 	Variations,
 } from '../domain/listing.js';
 import {
@@ -318,6 +320,27 @@ export const findInvalidCombinations = (
 	return { hasActive, missingPriceKeys, missingInventoryKeys };
 };
 
+export const validateVariationImages = (
+	variations: Variations,
+	variationImages: VariationImages | null | undefined,
+): FieldError | null => {
+	const expectedKeys = Object.keys(
+		syncVariationImages(null, variations) ?? {},
+	);
+	const actualImages = variationImages ?? {};
+	const hasExpectedStructure =
+		Object.keys(actualImages).length === expectedKeys.length &&
+		expectedKeys.every((key) => key in actualImages);
+	if (hasExpectedStructure) return null;
+	return {
+		field: ValidationField.VariationImages,
+		message:
+			expectedKeys.length === 0
+				? 'Variation images are only allowed when two or more variations vary images.'
+				: 'Variation images must be defined for every combination of the variations that vary images.',
+	};
+};
+
 export type ListingFieldsInput = Omit<
 	ListingWriteBody,
 	| 'categoryId'
@@ -463,6 +486,12 @@ export const validateListingFields = (
 			message: 'Inventory is required for every combination.',
 		});
 	}
+
+	const variationImagesError = validateVariationImages(
+		input.variations,
+		input.variationImages,
+	);
+	if (variationImagesError) errors.push(variationImagesError);
 
 	const sections = input.fullDescr ?? [];
 	if (sections.length > LISTING_LIMITS.maxDescrSections) {
