@@ -2449,6 +2449,446 @@ DECLARE
     }
 ]';
 
+    listing_156_id INT := 156;
+    listing_156_short_id VARCHAR := 'GEDD2';
+    listing_156_shop_id INT := shop_9_id;
+    listing_156_category_id VARCHAR := 'JEWELRY';
+    listing_156_country_code CHAR(2) := shop_9_country_code;
+    listing_156_title VARCHAR := 'Unbreakable Talisman';
+    listing_156_subtitle VARCHAR := 'A raven talisman for enduring hardship while staying true to yourself.';
+    listing_156_price_cents INT := 33000;
+    listing_156_image_uuids text[] := '{}';
+    listing_156_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman is inscribed Flecti Non Frangi, Latin for To Be Bent Not Broken. It speaks to someone who can endure hardship and still remain true to themselves. The raven stands for hope and is believed to see through the darkest times.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_157_id INT := 157;
+    listing_157_short_id VARCHAR := 'G6888';
+    listing_157_shop_id INT := shop_9_id;
+    listing_157_category_id VARCHAR := 'JEWELRY';
+    listing_157_country_code CHAR(2) := shop_9_country_code;
+    listing_157_title VARCHAR := 'New Beginnings Talisman';
+    listing_157_subtitle VARCHAR := 'A crescent moon talisman for turning dreams into reality.';
+    listing_157_price_cents INT := 27000;
+    listing_157_image_uuids text[] := '{}';
+    listing_157_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The crescent moon on this talisman symbolizes new beginnings and the making of dreams into reality.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_158_id INT := 158;
+    listing_158_short_id VARCHAR := 'G388L';
+    listing_158_shop_id INT := shop_9_id;
+    listing_158_category_id VARCHAR := 'JEWELRY';
+    listing_158_country_code CHAR(2) := shop_9_country_code;
+    listing_158_title VARCHAR := 'Watch Over Me Talisman';
+    listing_158_subtitle VARCHAR := 'A great horned owl talisman that keeps watch over the ones you love.';
+    listing_158_price_cents INT := 27000;
+    listing_158_image_uuids text[] := '{}';
+    listing_158_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The great horned owl is a warrior bird associated with strength, courage and wisdom. Shown facing forward on this talisman, the owl vigilantly watches over loved ones.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_159_id INT := 159;
+    listing_159_short_id VARCHAR := 'GD556';
+    listing_159_shop_id INT := shop_9_id;
+    listing_159_category_id VARCHAR := 'JEWELRY';
+    listing_159_country_code CHAR(2) := shop_9_country_code;
+    listing_159_title VARCHAR := 'Heart of the Wolf Talisman';
+    listing_159_subtitle VARCHAR := 'A wolf talisman for intelligence, loyalty and deep compassion.';
+    listing_159_price_cents INT := 38500;
+    listing_159_image_uuids text[] := '{}';
+    listing_159_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman features a wolf, a feared and misunderstood creature known for high intelligence, fierce loyalty and deep compassion.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_160_id INT := 160;
+    listing_160_short_id VARCHAR := 'K4DD6';
+    listing_160_shop_id INT := shop_9_id;
+    listing_160_category_id VARCHAR := 'JEWELRY';
+    listing_160_country_code CHAR(2) := shop_9_country_code;
+    listing_160_title VARCHAR := 'Struggle and Emerge Talisman';
+    listing_160_subtitle VARCHAR := 'A wolf-on-a-mountain talisman celebrating triumph over life’s challenges.';
+    listing_160_price_cents INT := 41000;
+    listing_160_image_uuids text[] := '{}';
+    listing_160_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman is inscribed Luctor et Emergo, Latin for I Struggle and Emerge. The wolf atop a mountain symbolizes the relief, joy and triumph of the spirit as we rise above life’s challenges.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_161_id INT := 161;
+    listing_161_short_id VARCHAR := 'K9335';
+    listing_161_shop_id INT := shop_9_id;
+    listing_161_category_id VARCHAR := 'JEWELRY';
+    listing_161_country_code CHAR(2) := shop_9_country_code;
+    listing_161_title VARCHAR := 'Mother Bear Talisman';
+    listing_161_subtitle VARCHAR := 'A bear talisman for motherhood and the fierce protection of family.';
+    listing_161_price_cents INT := 36000;
+    listing_161_image_uuids text[] := '{}';
+    listing_161_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The bear on this talisman is a symbol of motherhood and childbearing, and of ferocity in protecting one’s family.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_162_id INT := 162;
+    listing_162_short_id VARCHAR := 'G5EE3';
+    listing_162_shop_id INT := shop_9_id;
+    listing_162_category_id VARCHAR := 'JEWELRY';
+    listing_162_country_code CHAR(2) := shop_9_country_code;
+    listing_162_title VARCHAR := 'Hummingbird Talisman';
+    listing_162_subtitle VARCHAR := 'A hummingbird talisman, a reminder to find goodness and beauty everywhere.';
+    listing_162_price_cents INT := 36000;
+    listing_162_image_uuids text[] := '{}';
+    listing_162_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>The hummingbird on this talisman is a symbol of lightness and joy, and a reminder to see goodness and beauty in everything.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_163_id INT := 163;
+    listing_163_short_id VARCHAR := 'G233E';
+    listing_163_shop_id INT := shop_9_id;
+    listing_163_category_id VARCHAR := 'JEWELRY';
+    listing_163_country_code CHAR(2) := shop_9_country_code;
+    listing_163_title VARCHAR := 'Be Here Now Talisman';
+    listing_163_subtitle VARCHAR := 'A talisman inscribed in French to live in the present.';
+    listing_163_price_cents INT := 36000;
+    listing_163_image_uuids text[] := '{}';
+    listing_163_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman is inscribed Ni Regret Du Passé Ni Peur De L’Avenir, French for Neither Regret the Past Nor Fear the Future. It reminds us of the happiness available when we live in the present.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_164_id INT := 164;
+    listing_164_short_id VARCHAR := 'G7889';
+    listing_164_shop_id INT := shop_9_id;
+    listing_164_category_id VARCHAR := 'JEWELRY';
+    listing_164_country_code CHAR(2) := shop_9_country_code;
+    listing_164_title VARCHAR := 'Devoted Father Talisman';
+    listing_164_subtitle VARCHAR := 'A bull talisman honoring the selfless devotion of a father.';
+    listing_164_price_cents INT := 43500;
+    listing_164_image_uuids text[] := '{}';
+    listing_164_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman is inscribed Sic Vos Non Vobis, Latin for Do It But Not For Yourself. A bull represents fatherhood and the selfless nature of a father’s devotion to his family.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_165_id INT := 165;
+    listing_165_short_id VARCHAR := 'GJ887';
+    listing_165_shop_id INT := shop_9_id;
+    listing_165_category_id VARCHAR := 'JEWELRY';
+    listing_165_country_code CHAR(2) := shop_9_country_code;
+    listing_165_title VARCHAR := 'Everything For You Talisman';
+    listing_165_subtitle VARCHAR := 'A sun, moon and stars talisman for love without limits.';
+    listing_165_price_cents INT := 38500;
+    listing_165_image_uuids text[] := '{}';
+    listing_165_full_descr JSONB := '[
+    {
+        "title": "Details",
+        "richText": "<p>This talisman is inscribed J’les Conjure Tous Pour Votre Bonheur, French for I Conjure Them All for Your Happiness. The sun, moon and stars represent love without limits.</p><p>Available in sterling silver or bronze. Each talisman is lost-wax cast and arrives with a letterpress meaning card, a black cotton Pyrrha pouch, and a gift box made from 100% recycled paper.</p>"
+    },
+    {
+        "title": "Specifications",
+        "richText": "<ul><li>Sustainably cast in 100% recycled sterling silver or bronze</li><li>Lovingly handcrafted in Vancouver, Canada</li></ul>"
+    }
+]';
+
+    listing_166_id INT := 166;
+    listing_166_short_id VARCHAR := 'K8EEJ';
+    listing_166_shop_id INT := shop_11_id;
+    listing_166_category_id VARCHAR := 'JEWELRY';
+    listing_166_country_code CHAR(2) := shop_11_country_code;
+    listing_166_title VARCHAR := 'Pea Pod Earrings - Petite Drop';
+    listing_166_subtitle VARCHAR := 'Petite bronze pea pod drop earrings with white freshwater pearls.';
+    listing_166_price_cents INT := 16300;
+    listing_166_image_uuids text[] := '{"200cce57-38bc-48e2-b1ad-d875a82f0571", "a996063e-71ab-4eda-b4ec-f3c2114ba1a5"}';
+    listing_166_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with white freshwater pearls. The wires are 24kt gold over 925 silver.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>1.1&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_167_id INT := 167;
+    listing_167_short_id VARCHAR := 'GLLL6';
+    listing_167_shop_id INT := shop_11_id;
+    listing_167_category_id VARCHAR := 'JEWELRY';
+    listing_167_country_code CHAR(2) := shop_11_country_code;
+    listing_167_title VARCHAR := 'Pea Pod Pendant - 3 Pearls';
+    listing_167_subtitle VARCHAR := 'A bronze pea pod pendant with three white freshwater pearls.';
+    listing_167_price_cents INT := 17400;
+    listing_167_image_uuids text[] := '{"9605ad2f-b7d0-445b-9996-bf4189526b1c", "39beee71-ee77-4e8a-bbc7-d9f344060a88"}';
+    listing_167_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with 3 white freshwater pearls, on a brass chain.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Chain: 17&quot; to 18&quot; long (adjustable)</li><li>Pendant: 1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_168_id INT := 168;
+    listing_168_short_id VARCHAR := 'GEDJ2';
+    listing_168_shop_id INT := shop_11_id;
+    listing_168_category_id VARCHAR := 'JEWELRY';
+    listing_168_country_code CHAR(2) := shop_11_country_code;
+    listing_168_title VARCHAR := 'Pea Pod Earrings - Post';
+    listing_168_subtitle VARCHAR := 'Bronze pea pod post earrings, each with a single white freshwater pearl.';
+    listing_168_price_cents INT := 13900;
+    listing_168_image_uuids text[] := '{"89aa8b0c-fe2c-4def-955b-f08d70f77d97", "858c4f4a-78df-4811-aff9-4da0b55bc2cf"}';
+    listing_168_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with white freshwater pearls. The posts are 925 silver.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>0.6&quot;</li></ul>"
+        }
+    ]';
+
+    listing_169_id INT := 169;
+    listing_169_short_id VARCHAR := 'G68E8';
+    listing_169_shop_id INT := shop_11_id;
+    listing_169_category_id VARCHAR := 'JEWELRY';
+    listing_169_country_code CHAR(2) := shop_11_country_code;
+    listing_169_title VARCHAR := 'Pea Pod Pendant - 2 Pearls';
+    listing_169_subtitle VARCHAR := 'A bronze pea pod pendant with two white freshwater pearls.';
+    listing_169_price_cents INT := 16700;
+    listing_169_image_uuids text[] := '{"1286f9fd-947f-4d81-978e-ed972370bf4b", "71656e8f-5d9f-4038-83bb-130d514d0a39", "0d506b15-7db8-485d-8e1c-d1ff5c195ad9"}';
+    listing_169_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with 2 white freshwater pearls, on a brass chain.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Chain: 17&quot; to 18&quot; long (adjustable)</li><li>Pendant: 1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_170_id INT := 170;
+    listing_170_short_id VARCHAR := 'G38LL';
+    listing_170_shop_id INT := shop_11_id;
+    listing_170_category_id VARCHAR := 'JEWELRY';
+    listing_170_country_code CHAR(2) := shop_11_country_code;
+    listing_170_title VARCHAR := 'Pea Pod Earrings - Drop';
+    listing_170_subtitle VARCHAR := 'Bronze pea pod drop earrings with white freshwater pearls.';
+    listing_170_price_cents INT := 19200;
+    listing_170_image_uuids text[] := '{"17358e23-2727-4793-88a4-bc0e2ed47068", "b1eebb1b-459b-44fc-8dcd-6a532252ae10"}';
+    listing_170_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with white freshwater pearls. The wires are 925 silver.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_171_id INT := 171;
+    listing_171_short_id VARCHAR := 'GD5D6';
+    listing_171_shop_id INT := shop_11_id;
+    listing_171_category_id VARCHAR := 'RINGS';
+    listing_171_country_code CHAR(2) := shop_11_country_code;
+    listing_171_title VARCHAR := 'Pea Pod Triple Pearl Ring';
+    listing_171_subtitle VARCHAR := 'An adjustable gold-plated bronze pea pod ring with three white freshwater pearls.';
+    listing_171_price_cents INT := 9000;
+    listing_171_image_uuids text[] := '{"24a5e91b-2ef2-4d1c-a353-2bdb5e8cb633", "a99d4716-d57b-4370-ad4b-4e4e72c41bce"}';
+    listing_171_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with gold plate and three white freshwater pearls.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Adjustable band</li></ul>"
+        }
+    ]';
+
+    listing_172_id INT := 172;
+    listing_172_short_id VARCHAR := 'K4D26';
+    listing_172_shop_id INT := shop_11_id;
+    listing_172_category_id VARCHAR := 'JEWELRY';
+    listing_172_country_code CHAR(2) := shop_11_country_code;
+    listing_172_title VARCHAR := 'Pea Pod Brooch - 3 Pearls';
+    listing_172_subtitle VARCHAR := 'A bronze pea pod brooch with three white freshwater pearls.';
+    listing_172_price_cents INT := 14200;
+    listing_172_image_uuids text[] := '{"1d1a2634-17a9-4fac-8b62-2228ea7ade77"}';
+    listing_172_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with three white freshwater pearls.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_173_id INT := 173;
+    listing_173_short_id VARCHAR := 'K93L5';
+    listing_173_shop_id INT := shop_11_id;
+    listing_173_category_id VARCHAR := 'JEWELRY';
+    listing_173_country_code CHAR(2) := shop_11_country_code;
+    listing_173_title VARCHAR := 'Pea Pod Brooch - 2 Pearls';
+    listing_173_subtitle VARCHAR := 'A bronze pea pod brooch with two white freshwater pearls.';
+    listing_173_price_cents INT := 11900;
+    listing_173_image_uuids text[] := '{"db714258-bcea-4175-9859-1b64bbd40426"}';
+    listing_173_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with two white freshwater pearls.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_174_id INT := 174;
+    listing_174_short_id VARCHAR := 'G5EJ3';
+    listing_174_shop_id INT := shop_11_id;
+    listing_174_category_id VARCHAR := 'JEWELRY';
+    listing_174_country_code CHAR(2) := shop_11_country_code;
+    listing_174_title VARCHAR := 'Fine Pea Pod Pendant - 3 Pearls';
+    listing_174_subtitle VARCHAR := 'A sterling silver pea pod pendant with a 24k gold finish and three freshwater pearls.';
+    listing_174_price_cents INT := 40300;
+    listing_174_image_uuids text[] := '{"0b5bf465-71ed-4e7f-ad44-9aa245937628", "dd85dcf5-06fa-42a0-855a-77b8bc4d4671", "026f2fd7-6b70-449a-b652-6104e59295fb"}';
+    listing_174_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>From the Pea Pod Fine Collection.</p><p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p><p>The Pea Pod line was inspired by the mother and child relationship, and has grown from a single pearl into designs with up to seven.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in sterling silver with a 24k gold finish, accented with freshwater pearls.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>Chain: 16&quot; adjustable rolo chain</li><li>Pendant: 1.5&quot; long</li></ul>"
+        }
+    ]';
+
+    listing_175_id INT := 175;
+    listing_175_short_id VARCHAR := 'G238E';
+    listing_175_shop_id INT := shop_11_id;
+    listing_175_category_id VARCHAR := 'JEWELRY';
+    listing_175_country_code CHAR(2) := shop_11_country_code;
+    listing_175_title VARCHAR := 'Pea Pod Earrings - Petite Post';
+    listing_175_subtitle VARCHAR := 'Petite bronze pea pod post earrings with three white freshwater pearls each.';
+    listing_175_price_cents INT := 16000;
+    listing_175_image_uuids text[] := '{"064a8a84-3156-42dd-81ee-5d74d4c04d74", "b2abc577-6a25-4d3c-9ddf-26cb524a565d"}';
+    listing_175_full_descr JSONB := '[
+        {
+            "title": "Details",
+            "richText": "<p>Peas are cool-weather annuals that mature early, and botanists classify the &ldquo;peas&rdquo; inside the pod as berries. Folklore has it that the Pennsylvania Germans planted peas under the sign of Gemini, hoping for two for one and double pods.</p>"
+        },
+        {
+            "title": "Materials",
+            "richText": "<p>Cast in bronze with white freshwater pearls. The posts are 925 silver.</p>"
+        },
+        {
+            "title": "Dimensions",
+            "richText": "<ul><li>0.9&quot; long</li></ul>"
+        }
+    ]';
+
     listing_62_id INT := 62;
     listing_62_short_id VARCHAR := 'G52JK';
     listing_62_shop_id INT := shop_9_id;
@@ -4805,6 +5245,86 @@ BEGIN
         track_inventory = EXCLUDED.track_inventory,
         updated_at = CURRENT_TIMESTAMP;
 
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    VALUES
+        (listing_156_id, listing_156_short_id, listing_156_shop_id, listing_156_category_id, listing_156_country_code, listing_156_title, listing_156_subtitle, listing_156_full_descr, listing_156_price_cents, NULL, NULL, listing_156_image_uuids, NULL, '{"52ced4ee-6709-5310-8f0c-2c4e778f1a45": {"name": "Metal", "order": 0, "options": {"9d9620a9-1e5e-5d65-9fe5-542ea037b248": {"name": "Sterling Silver", "order": 0, "imageUuids": ["fdfef09c-c3d7-41bb-a677-6531461922b7", "4be5e7e7-8ffc-4e20-b0da-c0658711096e", "b7931424-1693-4993-84b2-f0906b509681", "08f284af-7a22-46c6-8481-f307773f3c37", "ff1f9686-b869-4cfc-aa6c-e18323d55d6f", "2b97453d-f1de-4bf7-9602-f7e67deeb456"], "priceCents": 36000}, "1e865c44-b353-5e8d-95fc-ab9f7376d044": {"name": "Bronze", "order": 1, "imageUuids": ["e1eb2010-d685-4b1e-98c3-dae1b92375ff", "946157fa-c502-4b0f-bcb7-79c5999f264d", "f53acda3-3cf1-408a-bf8a-57584484143d", "b470299c-a0dd-42c3-bf28-163a2f3b6a6f", "375978fa-1fd8-48ea-b73f-05d78e359610"], "priceCents": 33000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "9d9620a9-1e5e-5d65-9fe5-542ea037b248"}}'::jsonb, '{"52ced4ee-6709-5310-8f0c-2c4e778f1a45:9d9620a9-1e5e-5d65-9fe5-542ea037b248": {"priceCents": null, "disabled": false, "inventory": 5}, "52ced4ee-6709-5310-8f0c-2c4e778f1a45:1e865c44-b353-5e8d-95fc-ab9f7376d044": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_157_id, listing_157_short_id, listing_157_shop_id, listing_157_category_id, listing_157_country_code, listing_157_title, listing_157_subtitle, listing_157_full_descr, listing_157_price_cents, NULL, NULL, listing_157_image_uuids, NULL, '{"e84fe1c6-23a3-51f5-90b6-13c270d050b8": {"name": "Metal", "order": 0, "options": {"39c0741b-8bf1-55c4-9997-b14cdb58be77": {"name": "Sterling Silver", "order": 0, "imageUuids": ["ff0d388a-237a-4092-97c0-70c5a9a468ab", "3c69e5c6-75af-43e1-bdd0-7b28d60aedd5", "fc83e4f6-8e96-4c23-b439-593e1f05cbaf", "f6a23993-8641-4496-b3e0-b253f0010ded", "39dfe333-11b0-4f99-b7cb-18724adc02bd", "10e92df2-2b0e-49a1-94b5-09dc714f3cc8", "eea9552c-5d94-45f4-b26b-6590b0f7274d"], "priceCents": 30000}, "4ec6b471-3ba3-5b2b-914d-b2a9374a0567": {"name": "Bronze", "order": 1, "imageUuids": ["f026d2e2-4e87-4e53-a3f7-cd9bbd5cf260", "96324fa4-5921-43c1-9ebe-c27ff77bc223", "6cc6df5b-c6d3-443a-a9c3-83883b3d4594", "369e7401-1a70-46d9-9662-577f13a60bf2", "ad7b0107-73d3-4fc6-b980-7c3a7ae35b73", "eea9552c-5d94-45f4-b26b-6590b0f7274d"], "priceCents": 27000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "39c0741b-8bf1-55c4-9997-b14cdb58be77"}}'::jsonb, '{"e84fe1c6-23a3-51f5-90b6-13c270d050b8:39c0741b-8bf1-55c4-9997-b14cdb58be77": {"priceCents": null, "disabled": false, "inventory": 5}, "e84fe1c6-23a3-51f5-90b6-13c270d050b8:4ec6b471-3ba3-5b2b-914d-b2a9374a0567": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_158_id, listing_158_short_id, listing_158_shop_id, listing_158_category_id, listing_158_country_code, listing_158_title, listing_158_subtitle, listing_158_full_descr, listing_158_price_cents, NULL, NULL, listing_158_image_uuids, NULL, '{"2b42b98c-f96e-59ed-9f9f-446178015798": {"name": "Metal", "order": 0, "options": {"d055532a-7760-5c6c-99f5-8c0ffebdec2d": {"name": "Sterling Silver", "order": 0, "imageUuids": ["564bd7e0-7f26-4723-bb93-d64d5187b4e0", "d1a33cd4-bb3e-488f-a0a2-85d49b577915", "075f92cb-3f6d-4165-b82c-6638c5ea1231", "55ec15da-5c0a-46f1-8326-624c359f7836", "7c90f9bb-0d89-4c43-b888-354da7ece47e"], "priceCents": 30000}, "12231fb4-a529-5a41-962f-932b48c2830e": {"name": "Bronze", "order": 1, "imageUuids": ["023f6f15-83fc-47da-8c50-c5e24fbc1d02", "dc81bd9d-4628-4d1d-98b3-0607360fe8f4", "6807b09f-111e-4524-8d10-1626073c7e2a", "438fb3c0-0618-494b-8c16-62976b96b426"], "priceCents": 27000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "d055532a-7760-5c6c-99f5-8c0ffebdec2d"}}'::jsonb, '{"2b42b98c-f96e-59ed-9f9f-446178015798:d055532a-7760-5c6c-99f5-8c0ffebdec2d": {"priceCents": null, "disabled": false, "inventory": 5}, "2b42b98c-f96e-59ed-9f9f-446178015798:12231fb4-a529-5a41-962f-932b48c2830e": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_159_id, listing_159_short_id, listing_159_shop_id, listing_159_category_id, listing_159_country_code, listing_159_title, listing_159_subtitle, listing_159_full_descr, listing_159_price_cents, NULL, NULL, listing_159_image_uuids, NULL, '{"78cfc47c-4cc6-5e55-826b-31b1c5968adb": {"name": "Metal", "order": 0, "options": {"82c0fdc4-0b3f-5b83-86cd-8774ffd16e12": {"name": "Sterling Silver", "order": 0, "imageUuids": ["19df8e6c-72a9-4d76-a334-9fcf0fe7df82", "1f30ef2c-e4c5-478b-8e5b-d8f4f87b574c", "1f55dd17-17c2-4895-9c0b-3dfb22605dcb", "93fe3bcc-95f5-45ba-afff-88d1c9ff7a54", "76c15c17-ac4e-4ae7-a95f-5a516690deb1", "b6871d1b-41c9-478f-874d-41c584687f4c"], "priceCents": 42000}, "f508ce6b-24de-5e91-a576-0fbe16ab301d": {"name": "Bronze", "order": 1, "imageUuids": ["5afeaf2e-7f68-4ac1-b9a8-5cbfe1b8e517", "84be5a0f-9025-4a36-bdfa-abe9cc406367", "b9905b8b-dcb6-4b9d-bbc1-b27243f5a75b", "b19baa51-29d5-4d8a-aa79-ef2becd5311c", "76c15c17-ac4e-4ae7-a95f-5a516690deb1"], "priceCents": 38500}}, "imagesVary": true, "pricesVary": true, "defaultOption": "82c0fdc4-0b3f-5b83-86cd-8774ffd16e12"}}'::jsonb, '{"78cfc47c-4cc6-5e55-826b-31b1c5968adb:82c0fdc4-0b3f-5b83-86cd-8774ffd16e12": {"priceCents": null, "disabled": false, "inventory": 5}, "78cfc47c-4cc6-5e55-826b-31b1c5968adb:f508ce6b-24de-5e91-a576-0fbe16ab301d": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_160_id, listing_160_short_id, listing_160_shop_id, listing_160_category_id, listing_160_country_code, listing_160_title, listing_160_subtitle, listing_160_full_descr, listing_160_price_cents, NULL, NULL, listing_160_image_uuids, NULL, '{"4b7431b4-a755-59cc-af07-ba0c1124e885": {"name": "Metal", "order": 0, "options": {"73ea5668-eb8a-5c42-9856-322d7207956d": {"name": "Sterling Silver", "order": 0, "imageUuids": ["a144fe46-e868-4cdd-a7ae-296786688e61", "413de004-e512-45ac-9fb8-7228a0261d8f", "d2fc13f5-55fe-423e-a1bd-a2569f75c964", "811c0e26-13e3-483c-acf5-e57c11d8779c", "f115fab0-aa75-438d-baef-8ad60855cf3c"], "priceCents": 45000}, "4e393d68-582d-5628-9029-742b5c4073b5": {"name": "Bronze", "order": 1, "imageUuids": ["9b8ad6c8-393d-4e4c-815c-98b0fcca59f1", "413de004-e512-45ac-9fb8-7228a0261d8f", "56ecd1cc-50ee-44c9-bafd-a8645fe5092a", "aee1ac55-a8e3-4138-b8a0-35afe39afc65", "811c0e26-13e3-483c-acf5-e57c11d8779c"], "priceCents": 41000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "73ea5668-eb8a-5c42-9856-322d7207956d"}}'::jsonb, '{"4b7431b4-a755-59cc-af07-ba0c1124e885:73ea5668-eb8a-5c42-9856-322d7207956d": {"priceCents": null, "disabled": false, "inventory": 5}, "4b7431b4-a755-59cc-af07-ba0c1124e885:4e393d68-582d-5628-9029-742b5c4073b5": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_161_id, listing_161_short_id, listing_161_shop_id, listing_161_category_id, listing_161_country_code, listing_161_title, listing_161_subtitle, listing_161_full_descr, listing_161_price_cents, NULL, NULL, listing_161_image_uuids, NULL, '{"05205b69-fd2b-50e8-b1f9-64f7d1d9852f": {"name": "Metal", "order": 0, "options": {"13cd873d-88de-566d-84ec-f3fef8c60e12": {"name": "Sterling Silver", "order": 0, "imageUuids": ["c3aa1b33-9014-4f1a-a199-c018350a3835", "c3b2eea7-fee3-417b-abf5-4f376687244f", "c1c468b8-ff56-4498-a098-4c8300ec73bf", "55ec15da-5c0a-46f1-8326-624c359f7836", "baba6167-773e-4374-a43a-15cf0289e658"], "priceCents": 39000}, "2bb1b6e5-c3c6-5a7e-902f-5a7d3d7b7a49": {"name": "Bronze", "order": 1, "imageUuids": ["092f9982-50d6-4b93-8ee3-87f7f4a0fa74", "c3b2eea7-fee3-417b-abf5-4f376687244f", "87a712a5-8eaa-4f99-b428-b06f2844c528", "d8070c93-9f10-4bf5-b8f0-7ddf921e596b"], "priceCents": 36000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "13cd873d-88de-566d-84ec-f3fef8c60e12"}}'::jsonb, '{"05205b69-fd2b-50e8-b1f9-64f7d1d9852f:13cd873d-88de-566d-84ec-f3fef8c60e12": {"priceCents": null, "disabled": false, "inventory": 5}, "05205b69-fd2b-50e8-b1f9-64f7d1d9852f:2bb1b6e5-c3c6-5a7e-902f-5a7d3d7b7a49": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_162_id, listing_162_short_id, listing_162_shop_id, listing_162_category_id, listing_162_country_code, listing_162_title, listing_162_subtitle, listing_162_full_descr, listing_162_price_cents, NULL, NULL, listing_162_image_uuids, NULL, '{"df2d77bf-7f6c-5ce3-84b6-d89b438a7860": {"name": "Metal", "order": 0, "options": {"15374358-45c1-592b-b1d6-e4660bd0599b": {"name": "Sterling Silver", "order": 0, "imageUuids": ["d283db3f-3aa1-4f11-a08e-49aa2c1b833c", "f2004c2e-d4fa-4de8-8822-750edf3cb074", "15b201df-6ab2-4c3d-a28e-affa019ff8c9", "6da8dac8-8350-43a6-8b69-9573e7cbb128", "90ef9c7d-459e-495d-a204-f09f5098b43b", "fa679046-5871-4673-9fbf-67c24de9c82e"], "priceCents": 39000}, "448189d8-1894-51b2-921d-6cb1b1f19fbe": {"name": "Bronze", "order": 1, "imageUuids": ["1f954aa2-94a4-43e2-acfd-7241e48a4173", "f2004c2e-d4fa-4de8-8822-750edf3cb074", "90ef9c7d-459e-495d-a204-f09f5098b43b"], "priceCents": 36000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "15374358-45c1-592b-b1d6-e4660bd0599b"}}'::jsonb, '{"df2d77bf-7f6c-5ce3-84b6-d89b438a7860:15374358-45c1-592b-b1d6-e4660bd0599b": {"priceCents": null, "disabled": false, "inventory": 5}, "df2d77bf-7f6c-5ce3-84b6-d89b438a7860:448189d8-1894-51b2-921d-6cb1b1f19fbe": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_163_id, listing_163_short_id, listing_163_shop_id, listing_163_category_id, listing_163_country_code, listing_163_title, listing_163_subtitle, listing_163_full_descr, listing_163_price_cents, NULL, NULL, listing_163_image_uuids, NULL, '{"91ebe1a4-683b-5ef0-9cfa-8f167a609f07": {"name": "Metal", "order": 0, "options": {"2bd0ad12-55fa-56e8-9807-59c231c5a580": {"name": "Sterling Silver", "order": 0, "imageUuids": ["dfffb731-1bf8-48c1-b194-50528116c4eb", "6eac0989-0fd7-40c2-a096-44c6de1b803d", "1530a9f9-62c1-4b0d-a59b-6c2d88e5a6e7", "9b306a10-eb69-4d3e-9691-acc039122210", "c63c70fa-2cbd-4701-aa8e-6d9e5ee4c55c", "bf21d767-3061-488b-84ca-d2332b59c58c"], "priceCents": 39000}, "5423cf8e-120f-5836-9add-43e22bc2130c": {"name": "Bronze", "order": 1, "imageUuids": ["86460b1a-2a38-4f66-a223-d3b5008ce3f5", "820817c5-554d-41e4-bdd2-351fdb930156", "aeb1eded-472c-4a4c-ae33-31fa6e085836", "149f1947-61e3-4605-943d-fb4c088890e9"], "priceCents": 36000}}, "imagesVary": true, "pricesVary": true, "defaultOption": "2bd0ad12-55fa-56e8-9807-59c231c5a580"}}'::jsonb, '{"91ebe1a4-683b-5ef0-9cfa-8f167a609f07:2bd0ad12-55fa-56e8-9807-59c231c5a580": {"priceCents": null, "disabled": false, "inventory": 5}, "91ebe1a4-683b-5ef0-9cfa-8f167a609f07:5423cf8e-120f-5836-9add-43e22bc2130c": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_164_id, listing_164_short_id, listing_164_shop_id, listing_164_category_id, listing_164_country_code, listing_164_title, listing_164_subtitle, listing_164_full_descr, listing_164_price_cents, NULL, NULL, listing_164_image_uuids, NULL, '{"9cb3f812-4525-5108-aea8-a6feaf3a9c44": {"name": "Metal", "order": 0, "options": {"118d9197-171b-565f-9353-6567d7aed6f1": {"name": "Sterling Silver", "order": 0, "imageUuids": ["dd475ee5-6b91-41a4-9428-d54613db24ab", "81da3c65-213b-46fd-bd35-94bfd018e5c1", "328f8e03-f090-43ed-8181-a0e7177908b0", "caaea342-f9f5-4d6c-90c4-5d62e61b5550", "8a64e1ca-582f-48c3-9de9-23c99cda41b3", "e53f83c3-a9b8-4cd3-913e-27d90cd80bc0"], "priceCents": 48000}, "51e1b933-2660-506f-8b6d-c7ab29d7fec8": {"name": "Bronze", "order": 1, "imageUuids": ["6b01620e-7753-4148-ba8d-da96e338c33f", "81da3c65-213b-46fd-bd35-94bfd018e5c1", "6dc1de3f-27b4-43d8-95b9-eebd9cf401b8", "fc2fe5ef-eb33-43c6-b3fc-35461b440f5c"], "priceCents": 43500}}, "imagesVary": true, "pricesVary": true, "defaultOption": "118d9197-171b-565f-9353-6567d7aed6f1"}}'::jsonb, '{"9cb3f812-4525-5108-aea8-a6feaf3a9c44:118d9197-171b-565f-9353-6567d7aed6f1": {"priceCents": null, "disabled": false, "inventory": 5}, "9cb3f812-4525-5108-aea8-a6feaf3a9c44:51e1b933-2660-506f-8b6d-c7ab29d7fec8": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_165_id, listing_165_short_id, listing_165_shop_id, listing_165_category_id, listing_165_country_code, listing_165_title, listing_165_subtitle, listing_165_full_descr, listing_165_price_cents, NULL, NULL, listing_165_image_uuids, NULL, '{"52963372-d941-5a85-a962-3f173898c18d": {"name": "Metal", "order": 0, "options": {"04aabeff-4a27-5ab1-8991-1dea79048cae": {"name": "Sterling Silver", "order": 0, "imageUuids": ["ecbd594e-00c2-42ad-bc23-51a6ac525069", "22cba2fe-ed4e-4d64-8425-786c2fe3cb89", "f6a23993-8641-4496-b3e0-b253f0010ded", "685d8935-dedf-4368-8b23-28c7c26674d1", "83ce5e2d-dbe1-4ae1-b395-f19e6765c3b8"], "priceCents": 42000}, "8ba0a8f6-4ddf-5a2d-8ee1-51278f169f0e": {"name": "Bronze", "order": 1, "imageUuids": ["e9613c53-0241-4f33-ac9c-d2ec5fcdf4f9", "22cba2fe-ed4e-4d64-8425-786c2fe3cb89", "9c7d99a0-4d28-4fcc-bf9c-fc3333b3a239", "369e7401-1a70-46d9-9662-577f13a60bf2", "2b62f0b5-4ce1-4485-946e-f2d0bb4fd122"], "priceCents": 38500}}, "imagesVary": true, "pricesVary": true, "defaultOption": "04aabeff-4a27-5ab1-8991-1dea79048cae"}}'::jsonb, '{"52963372-d941-5a85-a962-3f173898c18d:04aabeff-4a27-5ab1-8991-1dea79048cae": {"priceCents": null, "disabled": false, "inventory": 5}, "52963372-d941-5a85-a962-3f173898c18d:8ba0a8f6-4ddf-5a2d-8ee1-51278f169f0e": {"priceCents": null, "disabled": false, "inventory": 5}}'::jsonb, true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (id) DO UPDATE SET
+        short_id = EXCLUDED.short_id,
+        shop_id = EXCLUDED.shop_id,
+        category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
+        title = EXCLUDED.title,
+        subtitle = EXCLUDED.subtitle,
+        full_descr = EXCLUDED.full_descr,
+        price_cents = EXCLUDED.price_cents,
+        image_uuids = EXCLUDED.image_uuids,
+        variations = EXCLUDED.variations,
+        variation_availability = EXCLUDED.variation_availability,
+        available = EXCLUDED.available,
+        inventory = EXCLUDED.inventory,
+        track_inventory = EXCLUDED.track_inventory,
+        updated_at = CURRENT_TIMESTAMP;
+
+    INSERT INTO listing (id, short_id, shop_id, category_id, country_code, title, subtitle, full_descr, price_cents, shipping_profile_id, return_profile_id, image_uuids, processing_profile_id, variations, variation_availability, available, personalization_profile_id, inventory, track_inventory, created_at, updated_at)
+    VALUES
+        (listing_166_id, listing_166_short_id, listing_166_shop_id, listing_166_category_id, listing_166_country_code, listing_166_title, listing_166_subtitle, listing_166_full_descr, listing_166_price_cents, NULL, NULL, listing_166_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_167_id, listing_167_short_id, listing_167_shop_id, listing_167_category_id, listing_167_country_code, listing_167_title, listing_167_subtitle, listing_167_full_descr, listing_167_price_cents, NULL, NULL, listing_167_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_168_id, listing_168_short_id, listing_168_shop_id, listing_168_category_id, listing_168_country_code, listing_168_title, listing_168_subtitle, listing_168_full_descr, listing_168_price_cents, NULL, NULL, listing_168_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_169_id, listing_169_short_id, listing_169_shop_id, listing_169_category_id, listing_169_country_code, listing_169_title, listing_169_subtitle, listing_169_full_descr, listing_169_price_cents, NULL, NULL, listing_169_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_170_id, listing_170_short_id, listing_170_shop_id, listing_170_category_id, listing_170_country_code, listing_170_title, listing_170_subtitle, listing_170_full_descr, listing_170_price_cents, NULL, NULL, listing_170_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_171_id, listing_171_short_id, listing_171_shop_id, listing_171_category_id, listing_171_country_code, listing_171_title, listing_171_subtitle, listing_171_full_descr, listing_171_price_cents, NULL, NULL, listing_171_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_172_id, listing_172_short_id, listing_172_shop_id, listing_172_category_id, listing_172_country_code, listing_172_title, listing_172_subtitle, listing_172_full_descr, listing_172_price_cents, NULL, NULL, listing_172_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_173_id, listing_173_short_id, listing_173_shop_id, listing_173_category_id, listing_173_country_code, listing_173_title, listing_173_subtitle, listing_173_full_descr, listing_173_price_cents, NULL, NULL, listing_173_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_174_id, listing_174_short_id, listing_174_shop_id, listing_174_category_id, listing_174_country_code, listing_174_title, listing_174_subtitle, listing_174_full_descr, listing_174_price_cents, NULL, NULL, listing_174_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (listing_175_id, listing_175_short_id, listing_175_shop_id, listing_175_category_id, listing_175_country_code, listing_175_title, listing_175_subtitle, listing_175_full_descr, listing_175_price_cents, NULL, NULL, listing_175_image_uuids, NULL, '{}', '{}', true, NULL, catalog_default_inventory, catalog_default_track_inventory, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+    ON CONFLICT (id) DO UPDATE SET
+        short_id = EXCLUDED.short_id,
+        shop_id = EXCLUDED.shop_id,
+        category_id = EXCLUDED.category_id,
+        country_code = EXCLUDED.country_code,
+        title = EXCLUDED.title,
+        subtitle = EXCLUDED.subtitle,
+        full_descr = EXCLUDED.full_descr,
+        price_cents = EXCLUDED.price_cents,
+        image_uuids = EXCLUDED.image_uuids,
+        variations = EXCLUDED.variations,
+        variation_availability = EXCLUDED.variation_availability,
+        available = EXCLUDED.available,
+        inventory = EXCLUDED.inventory,
+        track_inventory = EXCLUDED.track_inventory,
+        updated_at = CURRENT_TIMESTAMP;
+
     PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
+
+    DELETE FROM featured_listing;
+
+    INSERT INTO featured_listing (listing_id)
+    VALUES
+        (listing_77_id),
+        (listing_73_id),
+        (listing_84_id),
+        (listing_78_id),
+        (listing_72_id),
+        (listing_156_id),
+        (listing_157_id),
+        (listing_133_id),
+        (listing_92_id),
+        (listing_101_id),
+        (listing_105_id),
+        (listing_120_id),
+        (listing_138_id),
+        (listing_141_id),
+        (listing_150_id),
+        (listing_125_id)
+    ON CONFLICT (listing_id) DO NOTHING;
 
 END $$;

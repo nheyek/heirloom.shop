@@ -208,6 +208,7 @@ export const ListingCard = ({
 					<Text
 						lineClamp={2}
 						fontSize={18}
+						h={11}
 					>
 						{props.subtitle}
 					</Text>
