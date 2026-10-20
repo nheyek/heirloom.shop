@@ -34,7 +34,7 @@ export class Shop {
   @Property({ length: 64, nullable: true })
   shopLocation?: string;
 
-  @Property({ length: 32, nullable: true })
+  @Property({ length: 64, nullable: true })
   classification?: string;
 
   @ManyToOne({ entity: () => Country, updateRule: 'no action', nullable: true })

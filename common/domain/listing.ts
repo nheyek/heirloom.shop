@@ -313,24 +313,31 @@ export const resolveEffectiveCombinationImages = (
 	variations: Variations,
 	variationImages?: VariationImages | null,
 ): string[] => {
-	if (hasVariationImages(variationImages)) {
-		const imageVaryingOptionMap = Object.fromEntries(
-			Object.keys(getImageVaryingVariations(variations)).map(
-				(variationId) => [variationId, optionMap[variationId]],
-			),
-		);
-		const imageUuid =
-			variationImages[getCombinationKey(imageVaryingOptionMap)];
-		return imageUuid ? [imageUuid] : [];
-	}
-	const sorted = Object.entries(variations)
-		.filter(([, v]) => v.imagesVary)
-		.sort(([, a], [, b]) => a.order - b.order);
-	for (const [varId, v] of sorted) {
-		const imgs = v.options[optionMap[varId]]?.imageUuids ?? [];
-		if (imgs.length > 0) return imgs;
-	}
-	return [];
+	const imageVaryingEntries = Object.entries(
+		getImageVaryingVariations(variations),
+	).sort(([, a], [, b]) => a.order - b.order);
+
+	const variationImageUuid = hasVariationImages(variationImages)
+		? variationImages[
+				getCombinationKey(
+					Object.fromEntries(
+						imageVaryingEntries.map(([variationId]) => [
+							variationId,
+							optionMap[variationId],
+						]),
+					),
+				)
+			]
+		: null;
+	const optionImageUuids = imageVaryingEntries.flatMap(
+		([variationId, variation]) =>
+			variation.options[optionMap[variationId]]?.imageUuids ?? [],
+	);
+
+	return [
+		...(variationImageUuid ? [variationImageUuid] : []),
+		...optionImageUuids,
+	];
 };
 
 export type ListingInventoryContext = {

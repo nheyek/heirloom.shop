@@ -13,14 +13,13 @@ import { FaImages } from 'react-icons/fa6';
 import { AppImage } from './AppImage';
 import { LightBox } from './LightBox';
 
-const COLLAGE_HEIGHT = 550;
+const COLLAGE_HEIGHT = 450;
 const COLLAGE_GAP = 3;
 const COLLAGE_GAP_PX = COLLAGE_GAP * chakraSpacingUnit;
 export const THUMBNAIL_ROWS = 2;
 const THUMBNAIL_HEIGHT =
 	(COLLAGE_HEIGHT - COLLAGE_GAP_PX * (THUMBNAIL_ROWS - 1)) /
 	THUMBNAIL_ROWS;
-export const MAX_COLLAGE_WIDTH = COLLAGE_HEIGHT * 2 + COLLAGE_GAP_PX;
 export const THUMBNAIL_COLUMNS_BY_BREAKPOINT = {
 	base: 1,
 	lg: 2,

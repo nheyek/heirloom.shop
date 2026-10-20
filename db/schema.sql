@@ -470,7 +470,7 @@ CREATE TABLE public.shop (
     profile_rich_text text,
     profile_image_uuid character varying(36),
     shop_location character varying(64),
-    classification character varying(32),
+    classification character varying(64),
     country_code character(2),
     short_id character varying(10) NOT NULL,
     direct_fulfillment boolean DEFAULT true NOT NULL
@@ -1211,4 +1211,5 @@ INSERT INTO public.schema_migrations (version) VALUES
     ('20260902130450'),
     ('20260902142852'),
     ('20261014000000'),
-    ('20261015000000');
+    ('20261015000000'),
+    ('20261016000000');

@@ -14,10 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
-import {
-	ImageCollage,
-	MAX_COLLAGE_WIDTH,
-} from '@client/components/imageDisplay/ImageCollage';
+import { ImageCollage } from '@client/components/imageDisplay/ImageCollage';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { ListingFulfillmentInfo } from '@client/components/listingPage/ListingFulfillmentInfo';
 import { ListingFullDescription } from '@client/components/listingPage/ListingFullDescription';
@@ -32,6 +29,7 @@ import {
 	CountryCode,
 	countryDisplayName,
 	Layout,
+	LISTING_CONTENT_MAX_WIDTH,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import {
@@ -72,7 +70,7 @@ export const ListingPage = () => {
 		md: Layout.DESKTOP,
 	});
 
-	const maxWidth = MAX_COLLAGE_WIDTH;
+	const maxWidth = LISTING_CONTENT_MAX_WIDTH;
 
 	const { listingData, listingDataLoading, listingDataError } =
 		useListingData(id);
@@ -204,7 +202,8 @@ export const ListingPage = () => {
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
 					gap={layout === Layout.MOBILE ? 5 : 10}
-					maxW={MAX_COLLAGE_WIDTH}
+					width="100%"
+					maxW={LISTING_CONTENT_MAX_WIDTH}
 				>
 					<Box
 						flex="1"

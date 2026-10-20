@@ -1,7 +1,7 @@
 export const LISTING_LIMITS = {
 	// Structural limits
 	maxVariations: 3,
-	maxOptionsPerVariation: 20,
+	maxOptionsPerVariation: 24,
 	maxDescrSections: 5,
 	maxImages: 20,
 
@@ -28,7 +28,7 @@ export const LISTING_LIMITS = {
 
 export const SHOP_LIMITS = {
 	maxTitleLength: 128,
-	maxClassificationLength: 32,
+	maxClassificationLength: 64,
 	maxLocationLength: 64,
 
 	// Rich text character limit (stripped HTML)

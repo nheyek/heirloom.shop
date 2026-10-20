@@ -1,55 +1,60 @@
 import { Skeleton, Stack, Wrap } from '@chakra-ui/react';
-import { LISTING_IMAGE_ASPECT_RATIO } from '@client/constants';
+import {
+	FORM_FIELD_GAP,
+	LISTING_IMAGE_ASPECT_RATIO,
+} from '@client/constants';
+
+const SkeletonField = ({
+	inputHeight,
+	inputWidth = '100%',
+}: {
+	inputHeight: number;
+	inputWidth?: number | string;
+}) => (
+	<Stack gap={2}>
+		<Skeleton
+			h={8}
+			w={200}
+		/>
+		<Skeleton
+			h={inputHeight}
+			w={inputWidth}
+			borderRadius="md"
+		/>
+	</Stack>
+);
 
 export const ListingFormSkeleton = () => (
-	<Stack gap={5}>
+	<Stack gap={FORM_FIELD_GAP}>
 		<Stack
-			gap={5}
+			gap={FORM_FIELD_GAP}
 			maxW={500}
 		>
-			<Stack gap={2}>
-				<Skeleton
-					h={8}
-					w={200}
-				/>
-				<Skeleton
-					h={12}
-					w="100%"
-					borderRadius="md"
-				/>
-			</Stack>
-
-			<Stack gap={2}>
-				<Skeleton
-					h={8}
-					w={200}
-				/>
-				<Skeleton
-					h={24}
-					w="100%"
-					borderRadius="md"
-				/>
-			</Stack>
-
-			<Stack gap={2}>
-				<Skeleton
-					h={8}
-					w={200}
-				/>
-				<Skeleton
-					h={12}
-					w="100%"
-					borderRadius="md"
-				/>
-			</Stack>
+			<SkeletonField inputHeight={12} />
+			<SkeletonField inputHeight={24} />
+			<SkeletonField inputHeight={12} />
+			<SkeletonField
+				inputHeight={12}
+				inputWidth={100}
+			/>
 		</Stack>
+
+		<SkeletonField
+			inputHeight={12}
+			inputWidth={150}
+		/>
+
+		<SkeletonField
+			inputHeight={12}
+			inputWidth={135}
+		/>
 
 		<Stack gap={2}>
 			<Skeleton
 				h={8}
 				w={200}
 			/>
-			<Wrap gap={5}>
+			<Wrap gap={FORM_FIELD_GAP}>
 				<Skeleton
 					w={225}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
@@ -67,5 +72,15 @@ export const ListingFormSkeleton = () => (
 				/>
 			</Wrap>
 		</Stack>
+
+		<Skeleton
+			h={6}
+			w={180}
+		/>
+
+		<SkeletonField
+			inputHeight={12}
+			inputWidth={250}
+		/>
 	</Stack>
 );

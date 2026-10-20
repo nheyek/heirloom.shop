@@ -932,6 +932,57 @@ describe('getOrderedListingImageUuids with variationImages', () => {
 		).toEqual(['shared-1', 'shared-2']);
 	});
 
+	it('shows option images after the combination image', () => {
+		const withOptionImages: Variations = {
+			...variations,
+			metal: {
+				...variations.metal,
+				options: {
+					gold: { ...option('Gold', 0), imageUuids: ['gold-extra'] },
+					silver: option('Silver', 1),
+				},
+			},
+		};
+		expect(
+			getOrderedListingImageUuids(
+				{ imageUuids: ['shared-1'], variations: withOptionImages, variationImages },
+				{ metal: 'gold', width: 'thin', length: 'short' },
+			),
+		).toEqual(['gold-thin', 'gold-extra', 'shared-1']);
+		expect(
+			getOrderedListingImageUuids(
+				{ imageUuids: ['shared-1'], variations: withOptionImages, variationImages },
+				{ metal: 'silver', width: 'thin', length: 'short' },
+			),
+		).toEqual(['silver-thin', 'shared-1']);
+	});
+
+	it('combines option images from every image-varying variation in variation order', () => {
+		const withOptionImages: Variations = {
+			...variations,
+			metal: {
+				...variations.metal,
+				options: {
+					gold: { ...option('Gold', 0), imageUuids: ['gold-extra'] },
+					silver: option('Silver', 1),
+				},
+			},
+			width: {
+				...variations.width,
+				options: {
+					thin: { ...option('Thin', 0), imageUuids: ['thin-extra'] },
+					wide: option('Wide', 1),
+				},
+			},
+		};
+		expect(
+			getOrderedListingImageUuids(
+				{ imageUuids: [], variations: withOptionImages, variationImages },
+				{ metal: 'gold', width: 'thin', length: 'short' },
+			),
+		).toEqual(['gold-thin', 'gold-extra', 'thin-extra']);
+	});
+
 	it('falls back to option images when there are no variation images', () => {
 		const optionImages: Variations = {
 			metal: {
