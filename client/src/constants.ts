@@ -22,6 +22,8 @@ export const FORM_FIELD_GAP = 5;
 export const LISTING_CONTENT_MAX_WIDTH = 1200;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
 export const LISTING_IMAGE_ASPECT_RATIO = 1;
+export const LISTING_CARD_SKELETON_ASPECT_RATIO = 0.8;
+export const SHOP_CARD_SKELETON_ASPECT_RATIO = 1;
 
 export const MAX_IMAGE_SIZE_MB = 5;
 

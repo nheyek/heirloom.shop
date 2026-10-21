@@ -1,8 +1,11 @@
 import { Button, Stack } from '@chakra-ui/react';
+import { ListingEditCard } from '@client/components/cards/ListingEditCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { ListingEditCard } from '@client/components/cards/ListingEditCard';
-import { CLIENT_ROUTES } from '@client/constants';
+import {
+	CLIENT_ROUTES,
+	LISTING_CARD_SKELETON_ASPECT_RATIO,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { sidebarGridCols } from '@client/theme';
@@ -72,6 +75,9 @@ export const ShopManagerListingsPage = () => {
 					isLoading={isLoading}
 					getItemKey={(listing) => listing.id}
 					columns={sidebarGridCols}
+					skeletonAspectRatio={
+						LISTING_CARD_SKELETON_ASPECT_RATIO
+					}
 					renderItem={(listing, isMobile) => (
 						<ListingEditCard
 							{...listing}

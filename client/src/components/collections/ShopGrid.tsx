@@ -1,6 +1,9 @@
-import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { ShopCard } from '@client/components/cards/ShopCard';
-import { STANDARD_GRID_COLUMNS } from '@client/constants';
+import { ItemGrid } from '@client/components/collections/ItemGrid';
+import {
+	SHOP_CARD_SKELETON_ASPECT_RATIO,
+	STANDARD_GRID_COLUMNS,
+} from '@client/constants';
 import { ShopCardData } from '@heirloom/common/contract';
 
 type Props = {
@@ -15,6 +18,7 @@ export const ShopGrid = (props: Props) => (
 		isLoading={props.isLoading}
 		getItemKey={(shop) => shop.id}
 		columns={props.columns ?? STANDARD_GRID_COLUMNS}
+		skeletonAspectRatio={SHOP_CARD_SKELETON_ASPECT_RATIO}
 		renderItem={(shop) => <ShopCard {...shop} />}
 	/>
 );

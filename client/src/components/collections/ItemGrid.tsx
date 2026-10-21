@@ -20,6 +20,7 @@ type Props<T> = {
 	numPlaceholders?: number;
 	columns?: Record<string, number>;
 	maxItemWidth?: number;
+	skeletonAspectRatio?: number;
 };
 
 export const ItemGrid = <T,>(props: Props<T>) => {
@@ -30,6 +31,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		isLoading,
 		numPlaceholders,
 		columns = STANDARD_GRID_COLUMNS,
+		skeletonAspectRatio = 1,
 	} = props;
 
 	const maxNumColumns = useBreakpointValue(columns) ?? 1;
@@ -64,11 +66,11 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					<>
 						<Skeleton
 							width={minItemWidth}
-							height={minItemWidth}
+							aspectRatio={skeletonAspectRatio}
 						/>
 						<Skeleton
 							width={minItemWidth}
-							height={minItemWidth}
+							aspectRatio={skeletonAspectRatio}
 						/>
 					</>
 				)}
@@ -94,7 +96,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					<Skeleton
 						key={i}
 						width="100%"
-						aspectRatio={1}
+						aspectRatio={skeletonAspectRatio}
 					/>
 				))}
 			{!isLoading &&
