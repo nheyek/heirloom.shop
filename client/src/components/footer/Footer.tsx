@@ -60,7 +60,6 @@ export const Footer = () => {
 			>
 				<Stack
 					gap={0}
-					minW={180}
 					alignItems="center"
 				>
 					<Box width={160}>
@@ -86,7 +85,7 @@ export const Footer = () => {
 						Contact
 					</Text>
 					<Stack gap={1}>
-						<HStack gap={2}>
+						<HStack gap={2.5}>
 							<FaEnvelope />
 							<Link
 								href={`mailto:${SUPPORT_EMAIL}`}
@@ -95,7 +94,7 @@ export const Footer = () => {
 								{SUPPORT_EMAIL}
 							</Link>
 						</HStack>
-						<HStack gap={2}>
+						<HStack gap={2.5}>
 							<FaPhoneAlt />
 							<Link
 								href={`tel:${SUPPORT_PHONE_TEL}`}
