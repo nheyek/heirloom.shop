@@ -12,7 +12,7 @@ import { Fragment, ReactElement, ReactNode, useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 
 const OVERLAY_MARGIN = 3;
-const OVERLAY_GAP = 2;
+const OVERLAY_GAP = 1.5;
 const HOVER_MEDIA_QUERY = '(hover: hover)';
 
 type Props = {

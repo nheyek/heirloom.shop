@@ -86,12 +86,12 @@ export const ListingCard = ({
 		.map(([id, variation]) => (
 			<Badge
 				key={id}
-				fontSize={20}
-				fontWeight={400}
-				py={2}
-				px={3}
+				fontSize={18}
+				fontWeight={500}
+				p={1.5}
+				px={2.5}
 			>
-				<Span fontWeight={500}>
+				<Span fontWeight={600}>
 					{Object.keys(variation.options).length}
 				</Span>{' '}
 				{variation.name.toLowerCase()} options
