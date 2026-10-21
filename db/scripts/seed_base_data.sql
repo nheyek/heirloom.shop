@@ -4,64 +4,35 @@ DECLARE
     admin_user_1_username CONSTANT VARCHAR := 'nick@heyek.com';
     admin_user_1_email CONSTANT VARCHAR := 'nick@heyek.com';
 
-	furniture_category_id CONSTANT VARCHAR := 'FURNITURE';
-	furniture_category_name CONSTANT VARCHAR := 'Furniture';
-    furniture_image_uuid CONSTANT VARCHAR := 'A001F100-46F9-4ECC-9A11-9CCDCA15F7F8';
-
-    dining_tables_category_id CONSTANT VARCHAR := 'DINING_TABLES';
-    dining_tables_category_name CONSTANT VARCHAR := 'Dining Tables';
-    dining_table_image_uuid CONSTANT VARCHAR := '47CD447C-96F4-480A-A435-E043A2B8F4A1';
-
-    coffee_tables_category_id CONSTANT VARCHAR := 'COFFEE_TABLES';
-    coffee_tables_category_name CONSTANT VARCHAR := 'Coffee Tables';
-    coffee_table_image_uuid CONSTANT VARCHAR := '32B6F250-B754-4544-9772-C1AC60ECB714';
-
-    side_tables_category_id CONSTANT VARCHAR := 'SIDE_TABLES';
-    side_tables_category_name CONSTANT VARCHAR := 'Side Tables';
-    side_table_image_uuid CONSTANT VARCHAR := 'CF670A00-4A08-4576-989C-7386E808C813';
-
-    jewelry_category_id CONSTANT VARCHAR := 'JEWELRY';
-    jewelry_category_name CONSTANT VARCHAR := 'Jewelry';
-    jewelry_image_uuid CONSTANT VARCHAR := 'FC6E4450-CC01-4562-AB3E-AC6939632101';
+    ring_category_id CONSTANT VARCHAR := 'RINGS';
+    ring_category_name CONSTANT VARCHAR := 'Rings';
+    ring_image_uuid CONSTANT VARCHAR := 'fed1d05a-6f91-47ee-a011-b6a775902dc9';
 
     bracelet_category_id CONSTANT VARCHAR := 'BRACELETS';
     bracelet_category_name CONSTANT VARCHAR := 'Bracelets';
-    bracelet_image_uuid CONSTANT VARCHAR := '083DB562-968E-4798-A495-8636E5F1199D';
+    bracelet_image_uuid CONSTANT VARCHAR := 'cb3296a9-6100-4f84-a658-980716cbfef1';
 
-    ring_category_id CONSTANT VARCHAR := 'RINGS';
-    ring_category_name CONSTANT VARCHAR := 'Rings';
-    ring_image_uuid CONSTANT VARCHAR := 'C4739C76-36FD-402A-A37F-62F06D2A9C97';
+    necklace_category_id CONSTANT VARCHAR := 'NECKLACES';
+    necklace_category_name CONSTANT VARCHAR := 'Necklaces';
+    necklace_image_uuid CONSTANT VARCHAR := '48738e4c-b947-4fd2-8a1e-13852cea8e41';
 
-    leather_goods_category_id CONSTANT VARCHAR := 'LEATHER_GOODS';
-    leather_goods_category_name CONSTANT VARCHAR := 'Leatherwork';
-    leather_goods_image_uuid CONSTANT VARCHAR := 'EC0DF0BF-2CC9-4F0F-90BA-9E25A092FE7C';
-
-    leather_bags_category_id CONSTANT VARCHAR := 'LEATHER_BAGS';
-    leather_bags_category_name CONSTANT VARCHAR := 'Leather Bags';
-    leather_bags_image_uuid CONSTANT VARCHAR := '924F5E2F-8446-4CB5-AD56-C45133BCDC20';
-
-    housewares_category_id CONSTANT VARCHAR := 'HOUSEWARES';
-    housewares_category_name CONSTANT VARCHAR := 'Housewares';
-    houseware_image_uuid CONSTANT VARCHAR := '4C479374-B58F-46CB-AEAD-191336294E78';
+    earring_category_id CONSTANT VARCHAR := 'EARRINGS';
+    earring_category_name CONSTANT VARCHAR := 'Earrings';
+    earring_image_uuid CONSTANT VARCHAR := 'b2e490b5-4e1b-4888-bf0b-349b634f7b7f';
 
     accessories_category_id CONSTANT VARCHAR := 'ACCESSORIES';
     accessories_category_name CONSTANT VARCHAR := 'Accessories';
+    accessories_image_uuid CONSTANT VARCHAR := '46c58ec3-2afd-41c4-98b8-988780df8690';
 
 BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
 	VALUES
-		(furniture_category_id, furniture_category_name, NULL, furniture_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (dining_tables_category_id, dining_tables_category_name, NULL, dining_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (coffee_tables_category_id, coffee_tables_category_name, NULL, coffee_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (side_tables_category_id, side_tables_category_name, NULL, side_table_image_uuid, furniture_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (jewelry_category_id, jewelry_category_name, NULL, jewelry_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (bracelet_category_id, bracelet_category_name, NULL, bracelet_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (ring_category_id, ring_category_name, NULL, ring_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (leather_goods_category_id, leather_goods_category_name, NULL, leather_goods_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (leather_bags_category_id, leather_bags_category_name, NULL, leather_bags_image_uuid, leather_goods_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (housewares_category_id, housewares_category_name, NULL, houseware_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (accessories_category_id, accessories_category_name, NULL, NULL, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		(ring_category_id, ring_category_name, NULL, ring_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (bracelet_category_id, bracelet_category_name, NULL, bracelet_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (necklace_category_id, necklace_category_name, NULL, necklace_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (earring_category_id, earring_category_name, NULL, earring_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (accessories_category_id, accessories_category_name, NULL, accessories_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	ON CONFLICT (id) DO UPDATE SET
 		title = EXCLUDED.title,
 		subtitle = EXCLUDED.subtitle,

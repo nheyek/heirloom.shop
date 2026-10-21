@@ -17,3 +17,6 @@ export const shopProfileImageUrl = (
 	variant: ImageVariant = ImageVariant.FULL,
 ) =>
 	`${process.env.SHOP_PROFILE_IMAGES_URL}/${uuid}${imageVariantSuffix(variant)}.jpg`;
+
+export const categoryImageUrl = (uuid: string) =>
+	`${process.env.CATEGORY_IMAGES_URL}/${uuid}.jpg`;

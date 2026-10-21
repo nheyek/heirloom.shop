@@ -25,7 +25,7 @@ DECLARE
     shop_11_id INT := 11;
     shop_11_short_id VARCHAR := 'JKD75';
     shop_11_title VARCHAR := 'Michael Michaud Jewelry';
-    shop_11_profile_image_uuid VARCHAR := 'd486d383-9610-43b8-938f-44ff0eb23d36';
+    shop_11_profile_image_uuid VARCHAR := '714743f9-dfe3-4a77-a590-af5f3f164bbb';
     shop_11_location VARCHAR := 'Fairfield, CT';
     shop_11_classification VARCHAR := 'Botanical Jewelry';
     shop_11_country_code CHAR(2) := 'US';
@@ -560,7 +560,7 @@ DECLARE
     listing_82_id INT := 82;
     listing_82_short_id VARCHAR := 'G334G';
     listing_82_shop_id INT := shop_10_id;
-    listing_82_category_id VARCHAR := 'JEWELRY';
+    listing_82_category_id VARCHAR := 'NECKLACES';
     listing_82_country_code CHAR(2) := shop_10_country_code;
     listing_82_title VARCHAR := 'Signature Chain Necklace';
     listing_82_subtitle VARCHAR := 'A heavy curb chain necklace with a hand-formed closure, tuned one at a time.';
@@ -603,7 +603,7 @@ DECLARE
     listing_83_id INT := 83;
     listing_83_short_id VARCHAR := 'GDJ7G';
     listing_83_shop_id INT := shop_10_id;
-    listing_83_category_id VARCHAR := 'JEWELRY';
+    listing_83_category_id VARCHAR := 'NECKLACES';
     listing_83_country_code CHAR(2) := shop_10_country_code;
     listing_83_title VARCHAR := 'Classic Chain Necklace';
     listing_83_subtitle VARCHAR := 'A lightweight curb chain necklace with a hand-formed closure, tuned one at a time.';
@@ -688,7 +688,7 @@ DECLARE
     listing_85_id INT := 85;
     listing_85_short_id VARCHAR := 'K9D3G';
     listing_85_shop_id INT := shop_11_id;
-    listing_85_category_id VARCHAR := 'JEWELRY';
+    listing_85_category_id VARCHAR := 'NECKLACES';
     listing_85_country_code CHAR(2) := shop_11_country_code;
     listing_85_title VARCHAR := 'Edelweiss Pendant - Brigitta';
     listing_85_subtitle VARCHAR := 'A hand-patinated bronze edelweiss with an Austrian crystal center, from the Sound of Music collection.';
@@ -712,7 +712,7 @@ DECLARE
     listing_86_id INT := 86;
     listing_86_short_id VARCHAR := 'G54JK';
     listing_86_shop_id INT := shop_11_id;
-    listing_86_category_id VARCHAR := 'JEWELRY';
+    listing_86_category_id VARCHAR := 'NECKLACES';
     listing_86_country_code CHAR(2) := shop_11_country_code;
     listing_86_title VARCHAR := 'Edelweiss Pendant - Blossom';
     listing_86_subtitle VARCHAR := 'A bronze edelweiss with an Austrian crystal center, from the Sound of Music collection.';
@@ -760,7 +760,7 @@ DECLARE
     listing_88_id INT := 88;
     listing_88_short_id VARCHAR := 'G756G';
     listing_88_shop_id INT := shop_11_id;
-    listing_88_category_id VARCHAR := 'JEWELRY';
+    listing_88_category_id VARCHAR := 'EARRINGS';
     listing_88_country_code CHAR(2) := shop_11_country_code;
     listing_88_title VARCHAR := 'Edelweiss Earrings - Blossom Post';
     listing_88_subtitle VARCHAR := 'Bronze edelweiss post earrings with Austrian crystal centers and sterling silver posts.';
@@ -784,7 +784,7 @@ DECLARE
     listing_89_id INT := 89;
     listing_89_short_id VARCHAR := 'GJ4EG';
     listing_89_shop_id INT := shop_11_id;
-    listing_89_category_id VARCHAR := 'JEWELRY';
+    listing_89_category_id VARCHAR := 'EARRINGS';
     listing_89_country_code CHAR(2) := shop_11_country_code;
     listing_89_title VARCHAR := 'Edelweiss Earrings - Blossom Dangle';
     listing_89_subtitle VARCHAR := 'Bronze edelweiss dangle earrings with Austrian crystal centers and gold-plated silver ear wires.';
@@ -808,7 +808,7 @@ DECLARE
     listing_90_id INT := 90;
     listing_90_short_id VARCHAR := 'K823K';
     listing_90_shop_id INT := shop_11_id;
-    listing_90_category_id VARCHAR := 'JEWELRY';
+    listing_90_category_id VARCHAR := 'NECKLACES';
     listing_90_country_code CHAR(2) := shop_11_country_code;
     listing_90_title VARCHAR := 'Edelweiss Necklace - Meet Mi';
     listing_90_subtitle VARCHAR := 'A hand-patinated bronze necklace of three edelweiss blossoms with Austrian crystal centers.';
@@ -832,7 +832,7 @@ DECLARE
     listing_91_id INT := 91;
     listing_91_short_id VARCHAR := 'GL55K';
     listing_91_shop_id INT := shop_11_id;
-    listing_91_category_id VARCHAR := 'JEWELRY';
+    listing_91_category_id VARCHAR := 'EARRINGS';
     listing_91_country_code CHAR(2) := shop_11_country_code;
     listing_91_title VARCHAR := 'Edelweiss Earrings - Brigitta Large Post';
     listing_91_subtitle VARCHAR := 'Larger hand-patinated bronze edelweiss earrings on sterling silver posts.';
@@ -880,7 +880,7 @@ DECLARE
     listing_93_id INT := 93;
     listing_93_short_id VARCHAR := 'G695K';
     listing_93_shop_id INT := shop_11_id;
-    listing_93_category_id VARCHAR := 'JEWELRY';
+    listing_93_category_id VARCHAR := 'ACCESSORIES';
     listing_93_country_code CHAR(2) := shop_11_country_code;
     listing_93_title VARCHAR := 'Edelweiss 60th Anniversary Commemorative Charm';
     listing_93_subtitle VARCHAR := 'A clip-on edelweiss charm in hand-patinated bronze, made for the sixtieth anniversary of The Sound of Music.';
@@ -904,7 +904,7 @@ DECLARE
     listing_94_id INT := 94;
     listing_94_short_id VARCHAR := 'G364K';
     listing_94_shop_id INT := shop_11_id;
-    listing_94_category_id VARCHAR := 'JEWELRY';
+    listing_94_category_id VARCHAR := 'ACCESSORIES';
     listing_94_country_code CHAR(2) := shop_11_country_code;
     listing_94_title VARCHAR := 'Edelweiss Brooch - Grow';
     listing_94_subtitle VARCHAR := 'A hand-patinated bronze brooch of a single edelweiss on its stem, with an Austrian crystal center.';
@@ -928,7 +928,7 @@ DECLARE
     listing_95_id INT := 95;
     listing_95_short_id VARCHAR := 'GD97K';
     listing_95_shop_id INT := shop_11_id;
-    listing_95_category_id VARCHAR := 'JEWELRY';
+    listing_95_category_id VARCHAR := 'NECKLACES';
     listing_95_country_code CHAR(2) := shop_11_country_code;
     listing_95_title VARCHAR := 'Forget Me Not Pendant - Triple Flower';
     listing_95_subtitle VARCHAR := 'A hand-patinated bronze pendant with a cluster of three pale blue glass forget-me-nots.';
@@ -976,7 +976,7 @@ DECLARE
     listing_97_id INT := 97;
     listing_97_short_id VARCHAR := 'K923G';
     listing_97_shop_id INT := shop_11_id;
-    listing_97_category_id VARCHAR := 'JEWELRY';
+    listing_97_category_id VARCHAR := 'EARRINGS';
     listing_97_country_code CHAR(2) := shop_11_country_code;
     listing_97_title VARCHAR := 'Forget Me Not Earrings - Petite Post';
     listing_97_subtitle VARCHAR := 'Petite bronze post earrings with pale blue glass forget-me-nots.';
@@ -1024,7 +1024,7 @@ DECLARE
     listing_99_id INT := 99;
     listing_99_short_id VARCHAR := 'G27DK';
     listing_99_shop_id INT := shop_11_id;
-    listing_99_category_id VARCHAR := 'JEWELRY';
+    listing_99_category_id VARCHAR := 'NECKLACES';
     listing_99_country_code CHAR(2) := shop_11_country_code;
     listing_99_title VARCHAR := 'Forget Me Not Pendant - Petite Flower';
     listing_99_subtitle VARCHAR := 'A hand-patinated bronze pendant pairing a pale blue glass forget-me-not with a freshwater pearl.';
@@ -1072,7 +1072,7 @@ DECLARE
     listing_101_id INT := 101;
     listing_101_short_id VARCHAR := 'K925G';
     listing_101_shop_id INT := shop_11_id;
-    listing_101_category_id VARCHAR := 'JEWELRY';
+    listing_101_category_id VARCHAR := 'EARRINGS';
     listing_101_country_code CHAR(2) := shop_11_country_code;
     listing_101_title VARCHAR := 'Forget Me Not Earrings - Triple Flower Post';
     listing_101_subtitle VARCHAR := 'Bronze post earrings with clusters of three pale blue glass forget-me-nots.';
@@ -1096,7 +1096,7 @@ DECLARE
     listing_102_id INT := 102;
     listing_102_short_id VARCHAR := 'G5D3K';
     listing_102_shop_id INT := shop_11_id;
-    listing_102_category_id VARCHAR := 'JEWELRY';
+    listing_102_category_id VARCHAR := 'EARRINGS';
     listing_102_country_code CHAR(2) := shop_11_country_code;
     listing_102_title VARCHAR := 'Forget Me Not Earrings - Single Flower Wire';
     listing_102_subtitle VARCHAR := 'Bronze drop earrings with a single pale blue glass forget-me-not on sterling silver wires.';
@@ -1120,7 +1120,7 @@ DECLARE
     listing_103_id INT := 103;
     listing_103_short_id VARCHAR := 'G27EK';
     listing_103_shop_id INT := shop_11_id;
-    listing_103_category_id VARCHAR := 'JEWELRY';
+    listing_103_category_id VARCHAR := 'EARRINGS';
     listing_103_country_code CHAR(2) := shop_11_country_code;
     listing_103_title VARCHAR := 'Forget Me Not Earrings - Triple Flower Wire';
     listing_103_subtitle VARCHAR := 'Long bronze drop earrings with three pale blue glass forget-me-nots on sterling silver wires.';
@@ -1144,7 +1144,7 @@ DECLARE
     listing_104_id INT := 104;
     listing_104_short_id VARCHAR := 'G799G';
     listing_104_shop_id INT := shop_11_id;
-    listing_104_category_id VARCHAR := 'JEWELRY';
+    listing_104_category_id VARCHAR := 'ACCESSORIES';
     listing_104_country_code CHAR(2) := shop_11_country_code;
     listing_104_title VARCHAR := 'Forget Me Not Brooch';
     listing_104_subtitle VARCHAR := 'A hand-patinated bronze brooch of forget-me-not branches with freshwater pearls and cast glass flowers.';
@@ -1168,7 +1168,7 @@ DECLARE
     listing_105_id INT := 105;
     listing_105_short_id VARCHAR := 'GJ67G';
     listing_105_shop_id INT := shop_11_id;
-    listing_105_category_id VARCHAR := 'JEWELRY';
+    listing_105_category_id VARCHAR := 'ACCESSORIES';
     listing_105_country_code CHAR(2) := shop_11_country_code;
     listing_105_title VARCHAR := 'Orange Blossom Brooch';
     listing_105_subtitle VARCHAR := 'A hand-patinated bronze brooch of orange blossoms with white and yellow freshwater pearls.';
@@ -1192,7 +1192,7 @@ DECLARE
     listing_106_id INT := 106;
     listing_106_short_id VARCHAR := 'K8DJK';
     listing_106_shop_id INT := shop_11_id;
-    listing_106_category_id VARCHAR := 'JEWELRY';
+    listing_106_category_id VARCHAR := 'EARRINGS';
     listing_106_country_code CHAR(2) := shop_11_country_code;
     listing_106_title VARCHAR := 'Orange Blossom Earrings - Flower Button';
     listing_106_subtitle VARCHAR := 'Hand-patinated bronze orange blossom earrings with freshwater pearls and gold and silver plate.';
@@ -1216,7 +1216,7 @@ DECLARE
     listing_107_id INT := 107;
     listing_107_short_id VARCHAR := 'GLD6G';
     listing_107_shop_id INT := shop_11_id;
-    listing_107_category_id VARCHAR := 'JEWELRY';
+    listing_107_category_id VARCHAR := 'EARRINGS';
     listing_107_country_code CHAR(2) := shop_11_country_code;
     listing_107_title VARCHAR := 'Orange Blossom Earrings - Flower Button Clip';
     listing_107_subtitle VARCHAR := 'Clip-on orange blossom earrings in hand-patinated bronze with freshwater pearls.';
@@ -1264,7 +1264,7 @@ DECLARE
     listing_109_id INT := 109;
     listing_109_short_id VARCHAR := 'G658K';
     listing_109_shop_id INT := shop_11_id;
-    listing_109_category_id VARCHAR := 'JEWELRY';
+    listing_109_category_id VARCHAR := 'NECKLACES';
     listing_109_country_code CHAR(2) := shop_11_country_code;
     listing_109_title VARCHAR := 'Orange Blossom Pendant - Flower Pearls';
     listing_109_subtitle VARCHAR := 'An orange blossom pendant with freshwater pearls on a seed pearl necklace.';
@@ -1288,7 +1288,7 @@ DECLARE
     listing_110_id INT := 110;
     listing_110_short_id VARCHAR := 'G3ELG';
     listing_110_shop_id INT := shop_11_id;
-    listing_110_category_id VARCHAR := 'JEWELRY';
+    listing_110_category_id VARCHAR := 'ACCESSORIES';
     listing_110_country_code CHAR(2) := shop_11_country_code;
     listing_110_title VARCHAR := 'Orange Blossom Lapel Pin - Web Exclusive';
     listing_110_subtitle VARCHAR := 'A small hand-patinated bronze lapel pin of orange blossoms and freshwater pearls.';
@@ -1312,7 +1312,7 @@ DECLARE
     listing_111_id INT := 111;
     listing_111_short_id VARCHAR := 'GD36K';
     listing_111_shop_id INT := shop_11_id;
-    listing_111_category_id VARCHAR := 'JEWELRY';
+    listing_111_category_id VARCHAR := 'EARRINGS';
     listing_111_country_code CHAR(2) := shop_11_country_code;
     listing_111_title VARCHAR := 'Fine Orange Blossom Post Earrings';
     listing_111_subtitle VARCHAR := 'Orange blossom post earrings cast in sterling silver with a 24K gold finish and freshwater pearls.';
@@ -1336,7 +1336,7 @@ DECLARE
     listing_112_id INT := 112;
     listing_112_short_id VARCHAR := 'K446K';
     listing_112_shop_id INT := shop_11_id;
-    listing_112_category_id VARCHAR := 'JEWELRY';
+    listing_112_category_id VARCHAR := 'NECKLACES';
     listing_112_country_code CHAR(2) := shop_11_country_code;
     listing_112_title VARCHAR := 'Orange Blossom Statement Necklace - Flowers';
     listing_112_subtitle VARCHAR := 'A statement necklace of hand-patinated bronze orange blossoms and freshwater pearls.';
@@ -1360,7 +1360,7 @@ DECLARE
     listing_113_id INT := 113;
     listing_113_short_id VARCHAR := 'K9J5G';
     listing_113_shop_id INT := shop_11_id;
-    listing_113_category_id VARCHAR := 'JEWELRY';
+    listing_113_category_id VARCHAR := 'ACCESSORIES';
     listing_113_country_code CHAR(2) := shop_11_country_code;
     listing_113_title VARCHAR := 'Fine Orange Blossom Statement Brooch';
     listing_113_subtitle VARCHAR := 'A statement brooch of orange blossoms cast in sterling silver with a 24K gold finish.';
@@ -1384,7 +1384,7 @@ DECLARE
     listing_114_id INT := 114;
     listing_114_short_id VARCHAR := 'G593G';
     listing_114_shop_id INT := shop_11_id;
-    listing_114_category_id VARCHAR := 'JEWELRY';
+    listing_114_category_id VARCHAR := 'NECKLACES';
     listing_114_country_code CHAR(2) := shop_11_country_code;
     listing_114_title VARCHAR := 'Fine Orange Blossom Pendant';
     listing_114_subtitle VARCHAR := 'An orange blossom pendant cast in sterling silver with a 24K gold finish and freshwater pearls.';
@@ -1408,7 +1408,7 @@ DECLARE
     listing_115_id INT := 115;
     listing_115_short_id VARCHAR := 'G2LEG';
     listing_115_shop_id INT := shop_11_id;
-    listing_115_category_id VARCHAR := 'JEWELRY';
+    listing_115_category_id VARCHAR := 'EARRINGS';
     listing_115_country_code CHAR(2) := shop_11_country_code;
     listing_115_title VARCHAR := 'Fern Earrings - Large Single Leaf Wire';
     listing_115_subtitle VARCHAR := 'Bronze drop earrings with a single green-patinated fern leaf.';
@@ -1432,7 +1432,7 @@ DECLARE
     listing_116_id INT := 116;
     listing_116_short_id VARCHAR := 'G729K';
     listing_116_shop_id INT := shop_11_id;
-    listing_116_category_id VARCHAR := 'JEWELRY';
+    listing_116_category_id VARCHAR := 'NECKLACES';
     listing_116_country_code CHAR(2) := shop_11_country_code;
     listing_116_title VARCHAR := 'Dainty Fern Pendant';
     listing_116_subtitle VARCHAR := 'A dainty bronze pendant of a green-patinated fern frond.';
@@ -1456,7 +1456,7 @@ DECLARE
     listing_117_id INT := 117;
     listing_117_short_id VARCHAR := 'GJ77K';
     listing_117_shop_id INT := shop_11_id;
-    listing_117_category_id VARCHAR := 'JEWELRY';
+    listing_117_category_id VARCHAR := 'NECKLACES';
     listing_117_country_code CHAR(2) := shop_11_country_code;
     listing_117_title VARCHAR := 'Fern Necklace - 30" Long';
     listing_117_subtitle VARCHAR := 'A long bronze fern necklace with green-patinated leaves on a 30-inch chain.';
@@ -1480,7 +1480,7 @@ DECLARE
     listing_118_id INT := 118;
     listing_118_short_id VARCHAR := 'K87JG';
     listing_118_shop_id INT := shop_11_id;
-    listing_118_category_id VARCHAR := 'JEWELRY';
+    listing_118_category_id VARCHAR := 'NECKLACES';
     listing_118_country_code CHAR(2) := shop_11_country_code;
     listing_118_title VARCHAR := 'Fern Pendant - Chain';
     listing_118_subtitle VARCHAR := 'A bronze fern pendant with brass-green leaves on an adjustable chain.';
@@ -1504,7 +1504,7 @@ DECLARE
     listing_119_id INT := 119;
     listing_119_short_id VARCHAR := 'GL86G';
     listing_119_shop_id INT := shop_11_id;
-    listing_119_category_id VARCHAR := 'JEWELRY';
+    listing_119_category_id VARCHAR := 'ACCESSORIES';
     listing_119_country_code CHAR(2) := shop_11_country_code;
     listing_119_title VARCHAR := 'Fern Brooch';
     listing_119_subtitle VARCHAR := 'A bronze brooch of a fern frond with brass-green leaves.';
@@ -1552,7 +1552,7 @@ DECLARE
     listing_121_id INT := 121;
     listing_121_short_id VARCHAR := 'G628G';
     listing_121_shop_id INT := shop_11_id;
-    listing_121_category_id VARCHAR := 'JEWELRY';
+    listing_121_category_id VARCHAR := 'ACCESSORIES';
     listing_121_country_code CHAR(2) := shop_11_country_code;
     listing_121_title VARCHAR := 'Fern Charm';
     listing_121_subtitle VARCHAR := 'A clip-on charm of a fern frond in hand-patinated bronze.';
@@ -1576,7 +1576,7 @@ DECLARE
     listing_122_id INT := 122;
     listing_122_short_id VARCHAR := 'G34LK';
     listing_122_shop_id INT := shop_11_id;
-    listing_122_category_id VARCHAR := 'JEWELRY';
+    listing_122_category_id VARCHAR := 'EARRINGS';
     listing_122_country_code CHAR(2) := shop_11_country_code;
     listing_122_title VARCHAR := 'Fine Fern Silver Drop Wire Earrings';
     listing_122_subtitle VARCHAR := 'Drop earrings of fern fronds cast in sterling silver.';
@@ -1600,7 +1600,7 @@ DECLARE
     listing_123_id INT := 123;
     listing_123_short_id VARCHAR := 'GDL6G';
     listing_123_shop_id INT := shop_11_id;
-    listing_123_category_id VARCHAR := 'JEWELRY';
+    listing_123_category_id VARCHAR := 'ACCESSORIES';
     listing_123_country_code CHAR(2) := shop_11_country_code;
     listing_123_title VARCHAR := 'Fine Fern Silver Brooch';
     listing_123_subtitle VARCHAR := 'A brooch of a fern frond cast in sterling silver.';
@@ -1624,7 +1624,7 @@ DECLARE
     listing_124_id INT := 124;
     listing_124_short_id VARCHAR := 'K496G';
     listing_124_shop_id INT := shop_11_id;
-    listing_124_category_id VARCHAR := 'JEWELRY';
+    listing_124_category_id VARCHAR := 'NECKLACES';
     listing_124_country_code CHAR(2) := shop_11_country_code;
     listing_124_title VARCHAR := 'Fine Fern Silver Dainty Pendant';
     listing_124_subtitle VARCHAR := 'A dainty fern pendant cast in sterling silver on a sterling silver rope chain.';
@@ -1716,7 +1716,7 @@ DECLARE
     listing_128_id INT := 128;
     listing_128_short_id VARCHAR := 'G779G';
     listing_128_shop_id INT := shop_11_id;
-    listing_128_category_id VARCHAR := 'JEWELRY';
+    listing_128_category_id VARCHAR := 'EARRINGS';
     listing_128_country_code CHAR(2) := shop_11_country_code;
     listing_128_title VARCHAR := 'Ginkgo Earrings - Single Leaf';
     listing_128_subtitle VARCHAR := 'Hand-patinated bronze drop earrings with a single ginkgo leaf.';
@@ -1740,7 +1740,7 @@ DECLARE
     listing_129_id INT := 129;
     listing_129_short_id VARCHAR := 'GJ27G';
     listing_129_shop_id INT := shop_11_id;
-    listing_129_category_id VARCHAR := 'JEWELRY';
+    listing_129_category_id VARCHAR := 'NECKLACES';
     listing_129_country_code CHAR(2) := shop_11_country_code;
     listing_129_title VARCHAR := 'Ginkgo Pendant - Single Leaf';
     listing_129_subtitle VARCHAR := 'A single hand-patinated bronze ginkgo leaf on a brass chain.';
@@ -1764,7 +1764,7 @@ DECLARE
     listing_130_id INT := 130;
     listing_130_short_id VARCHAR := 'K8JJK';
     listing_130_shop_id INT := shop_11_id;
-    listing_130_category_id VARCHAR := 'JEWELRY';
+    listing_130_category_id VARCHAR := 'EARRINGS';
     listing_130_country_code CHAR(2) := shop_11_country_code;
     listing_130_title VARCHAR := 'Ginkgo Earrings - Posts';
     listing_130_subtitle VARCHAR := 'Hand-patinated bronze ginkgo leaf post earrings.';
@@ -1788,7 +1788,7 @@ DECLARE
     listing_131_id INT := 131;
     listing_131_short_id VARCHAR := 'GLJ6G';
     listing_131_shop_id INT := shop_11_id;
-    listing_131_category_id VARCHAR := 'JEWELRY';
+    listing_131_category_id VARCHAR := 'EARRINGS';
     listing_131_country_code CHAR(2) := shop_11_country_code;
     listing_131_title VARCHAR := 'Ginkgo Earrings - Pearl Drop';
     listing_131_subtitle VARCHAR := 'Bronze ginkgo leaf earrings with white freshwater pearl drops.';
@@ -1812,7 +1812,7 @@ DECLARE
     listing_132_id INT := 132;
     listing_132_short_id VARCHAR := 'GE82K';
     listing_132_shop_id INT := shop_11_id;
-    listing_132_category_id VARCHAR := 'JEWELRY';
+    listing_132_category_id VARCHAR := 'EARRINGS';
     listing_132_country_code CHAR(2) := shop_11_country_code;
     listing_132_title VARCHAR := 'Fine Ginkgo Earrings - Double Leaf';
     listing_132_subtitle VARCHAR := 'Double-leaf ginkgo earrings cast in sterling silver with a 24K gold finish.';
@@ -1836,7 +1836,7 @@ DECLARE
     listing_133_id INT := 133;
     listing_133_short_id VARCHAR := 'G668G';
     listing_133_shop_id INT := shop_11_id;
-    listing_133_category_id VARCHAR := 'JEWELRY';
+    listing_133_category_id VARCHAR := 'NECKLACES';
     listing_133_country_code CHAR(2) := shop_11_country_code;
     listing_133_title VARCHAR := 'Ginkgo Necklace - Contour';
     listing_133_subtitle VARCHAR := 'A hand-patinated bronze necklace of ginkgo leaves following the curve of the neck.';
@@ -1860,7 +1860,7 @@ DECLARE
     listing_134_id INT := 134;
     listing_134_short_id VARCHAR := 'G32LK';
     listing_134_shop_id INT := shop_11_id;
-    listing_134_category_id VARCHAR := 'JEWELRY';
+    listing_134_category_id VARCHAR := 'ACCESSORIES';
     listing_134_country_code CHAR(2) := shop_11_country_code;
     listing_134_title VARCHAR := 'Fine Ginkgo Silver Brooch';
     listing_134_subtitle VARCHAR := 'A ginkgo leaf brooch cast in sterling silver.';
@@ -1884,7 +1884,7 @@ DECLARE
     listing_135_id INT := 135;
     listing_135_short_id VARCHAR := 'GD76K';
     listing_135_shop_id INT := shop_11_id;
-    listing_135_category_id VARCHAR := 'JEWELRY';
+    listing_135_category_id VARCHAR := 'EARRINGS';
     listing_135_country_code CHAR(2) := shop_11_country_code;
     listing_135_title VARCHAR := 'Ginkgo Earrings - Triple Leaf';
     listing_135_subtitle VARCHAR := 'Bronze triple-leaf ginkgo earrings on sterling silver wires.';
@@ -1908,7 +1908,7 @@ DECLARE
     listing_136_id INT := 136;
     listing_136_short_id VARCHAR := 'K4J6K';
     listing_136_shop_id INT := shop_12_id;
-    listing_136_category_id VARCHAR := 'JEWELRY';
+    listing_136_category_id VARCHAR := 'NECKLACES';
     listing_136_country_code CHAR(2) := shop_12_country_code;
     listing_136_title VARCHAR := 'The Providence Cross';
     listing_136_subtitle VARCHAR := 'A die-struck sterling silver cross.';
@@ -2216,7 +2216,7 @@ DECLARE
     listing_147_id INT := 147;
     listing_147_short_id VARCHAR := 'GD5E6';
     listing_147_shop_id INT := shop_12_id;
-    listing_147_category_id VARCHAR := 'JEWELRY';
+    listing_147_category_id VARCHAR := 'NECKLACES';
     listing_147_country_code CHAR(2) := shop_12_country_code;
     listing_147_title VARCHAR := 'Heritage Cross';
     listing_147_subtitle VARCHAR := 'An ornate cast sterling silver cross pendant.';
@@ -2452,7 +2452,7 @@ DECLARE
     listing_156_id INT := 156;
     listing_156_short_id VARCHAR := 'GEDD2';
     listing_156_shop_id INT := shop_9_id;
-    listing_156_category_id VARCHAR := 'JEWELRY';
+    listing_156_category_id VARCHAR := 'NECKLACES';
     listing_156_country_code CHAR(2) := shop_9_country_code;
     listing_156_title VARCHAR := 'Unbreakable Talisman';
     listing_156_subtitle VARCHAR := 'A raven talisman for enduring hardship while staying true to yourself.';
@@ -2472,7 +2472,7 @@ DECLARE
     listing_157_id INT := 157;
     listing_157_short_id VARCHAR := 'G6888';
     listing_157_shop_id INT := shop_9_id;
-    listing_157_category_id VARCHAR := 'JEWELRY';
+    listing_157_category_id VARCHAR := 'NECKLACES';
     listing_157_country_code CHAR(2) := shop_9_country_code;
     listing_157_title VARCHAR := 'New Beginnings Talisman';
     listing_157_subtitle VARCHAR := 'A crescent moon talisman for turning dreams into reality.';
@@ -2492,7 +2492,7 @@ DECLARE
     listing_158_id INT := 158;
     listing_158_short_id VARCHAR := 'G388L';
     listing_158_shop_id INT := shop_9_id;
-    listing_158_category_id VARCHAR := 'JEWELRY';
+    listing_158_category_id VARCHAR := 'NECKLACES';
     listing_158_country_code CHAR(2) := shop_9_country_code;
     listing_158_title VARCHAR := 'Watch Over Me Talisman';
     listing_158_subtitle VARCHAR := 'A great horned owl talisman that keeps watch over the ones you love.';
@@ -2512,7 +2512,7 @@ DECLARE
     listing_159_id INT := 159;
     listing_159_short_id VARCHAR := 'GD556';
     listing_159_shop_id INT := shop_9_id;
-    listing_159_category_id VARCHAR := 'JEWELRY';
+    listing_159_category_id VARCHAR := 'NECKLACES';
     listing_159_country_code CHAR(2) := shop_9_country_code;
     listing_159_title VARCHAR := 'Heart of the Wolf Talisman';
     listing_159_subtitle VARCHAR := 'A wolf talisman for intelligence, loyalty and deep compassion.';
@@ -2532,7 +2532,7 @@ DECLARE
     listing_160_id INT := 160;
     listing_160_short_id VARCHAR := 'K4DD6';
     listing_160_shop_id INT := shop_9_id;
-    listing_160_category_id VARCHAR := 'JEWELRY';
+    listing_160_category_id VARCHAR := 'NECKLACES';
     listing_160_country_code CHAR(2) := shop_9_country_code;
     listing_160_title VARCHAR := 'Struggle and Emerge Talisman';
     listing_160_subtitle VARCHAR := 'A wolf-on-a-mountain talisman celebrating triumph over life’s challenges.';
@@ -2552,7 +2552,7 @@ DECLARE
     listing_161_id INT := 161;
     listing_161_short_id VARCHAR := 'K9335';
     listing_161_shop_id INT := shop_9_id;
-    listing_161_category_id VARCHAR := 'JEWELRY';
+    listing_161_category_id VARCHAR := 'NECKLACES';
     listing_161_country_code CHAR(2) := shop_9_country_code;
     listing_161_title VARCHAR := 'Mother Bear Talisman';
     listing_161_subtitle VARCHAR := 'A bear talisman for motherhood and the fierce protection of family.';
@@ -2572,7 +2572,7 @@ DECLARE
     listing_162_id INT := 162;
     listing_162_short_id VARCHAR := 'G5EE3';
     listing_162_shop_id INT := shop_9_id;
-    listing_162_category_id VARCHAR := 'JEWELRY';
+    listing_162_category_id VARCHAR := 'NECKLACES';
     listing_162_country_code CHAR(2) := shop_9_country_code;
     listing_162_title VARCHAR := 'Hummingbird Talisman';
     listing_162_subtitle VARCHAR := 'A hummingbird talisman, a reminder to find goodness and beauty everywhere.';
@@ -2592,7 +2592,7 @@ DECLARE
     listing_163_id INT := 163;
     listing_163_short_id VARCHAR := 'G233E';
     listing_163_shop_id INT := shop_9_id;
-    listing_163_category_id VARCHAR := 'JEWELRY';
+    listing_163_category_id VARCHAR := 'NECKLACES';
     listing_163_country_code CHAR(2) := shop_9_country_code;
     listing_163_title VARCHAR := 'Be Here Now Talisman';
     listing_163_subtitle VARCHAR := 'A talisman inscribed in French to live in the present.';
@@ -2612,7 +2612,7 @@ DECLARE
     listing_164_id INT := 164;
     listing_164_short_id VARCHAR := 'G7889';
     listing_164_shop_id INT := shop_9_id;
-    listing_164_category_id VARCHAR := 'JEWELRY';
+    listing_164_category_id VARCHAR := 'NECKLACES';
     listing_164_country_code CHAR(2) := shop_9_country_code;
     listing_164_title VARCHAR := 'Devoted Father Talisman';
     listing_164_subtitle VARCHAR := 'A bull talisman honoring the selfless devotion of a father.';
@@ -2632,7 +2632,7 @@ DECLARE
     listing_165_id INT := 165;
     listing_165_short_id VARCHAR := 'GJ887';
     listing_165_shop_id INT := shop_9_id;
-    listing_165_category_id VARCHAR := 'JEWELRY';
+    listing_165_category_id VARCHAR := 'NECKLACES';
     listing_165_country_code CHAR(2) := shop_9_country_code;
     listing_165_title VARCHAR := 'Everything For You Talisman';
     listing_165_subtitle VARCHAR := 'A sun, moon and stars talisman for love without limits.';
@@ -2652,7 +2652,7 @@ DECLARE
     listing_166_id INT := 166;
     listing_166_short_id VARCHAR := 'K8EEJ';
     listing_166_shop_id INT := shop_11_id;
-    listing_166_category_id VARCHAR := 'JEWELRY';
+    listing_166_category_id VARCHAR := 'EARRINGS';
     listing_166_country_code CHAR(2) := shop_11_country_code;
     listing_166_title VARCHAR := 'Pea Pod Earrings - Petite Drop';
     listing_166_subtitle VARCHAR := 'Petite bronze pea pod drop earrings with white freshwater pearls.';
@@ -2676,7 +2676,7 @@ DECLARE
     listing_167_id INT := 167;
     listing_167_short_id VARCHAR := 'GLLL6';
     listing_167_shop_id INT := shop_11_id;
-    listing_167_category_id VARCHAR := 'JEWELRY';
+    listing_167_category_id VARCHAR := 'NECKLACES';
     listing_167_country_code CHAR(2) := shop_11_country_code;
     listing_167_title VARCHAR := 'Pea Pod Pendant - 3 Pearls';
     listing_167_subtitle VARCHAR := 'A bronze pea pod pendant with three white freshwater pearls.';
@@ -2700,7 +2700,7 @@ DECLARE
     listing_168_id INT := 168;
     listing_168_short_id VARCHAR := 'GEDJ2';
     listing_168_shop_id INT := shop_11_id;
-    listing_168_category_id VARCHAR := 'JEWELRY';
+    listing_168_category_id VARCHAR := 'EARRINGS';
     listing_168_country_code CHAR(2) := shop_11_country_code;
     listing_168_title VARCHAR := 'Pea Pod Earrings - Post';
     listing_168_subtitle VARCHAR := 'Bronze pea pod post earrings, each with a single white freshwater pearl.';
@@ -2724,7 +2724,7 @@ DECLARE
     listing_169_id INT := 169;
     listing_169_short_id VARCHAR := 'G68E8';
     listing_169_shop_id INT := shop_11_id;
-    listing_169_category_id VARCHAR := 'JEWELRY';
+    listing_169_category_id VARCHAR := 'NECKLACES';
     listing_169_country_code CHAR(2) := shop_11_country_code;
     listing_169_title VARCHAR := 'Pea Pod Pendant - 2 Pearls';
     listing_169_subtitle VARCHAR := 'A bronze pea pod pendant with two white freshwater pearls.';
@@ -2748,7 +2748,7 @@ DECLARE
     listing_170_id INT := 170;
     listing_170_short_id VARCHAR := 'G38LL';
     listing_170_shop_id INT := shop_11_id;
-    listing_170_category_id VARCHAR := 'JEWELRY';
+    listing_170_category_id VARCHAR := 'EARRINGS';
     listing_170_country_code CHAR(2) := shop_11_country_code;
     listing_170_title VARCHAR := 'Pea Pod Earrings - Drop';
     listing_170_subtitle VARCHAR := 'Bronze pea pod drop earrings with white freshwater pearls.';
@@ -2796,7 +2796,7 @@ DECLARE
     listing_172_id INT := 172;
     listing_172_short_id VARCHAR := 'K4D26';
     listing_172_shop_id INT := shop_11_id;
-    listing_172_category_id VARCHAR := 'JEWELRY';
+    listing_172_category_id VARCHAR := 'ACCESSORIES';
     listing_172_country_code CHAR(2) := shop_11_country_code;
     listing_172_title VARCHAR := 'Pea Pod Brooch - 3 Pearls';
     listing_172_subtitle VARCHAR := 'A bronze pea pod brooch with three white freshwater pearls.';
@@ -2820,7 +2820,7 @@ DECLARE
     listing_173_id INT := 173;
     listing_173_short_id VARCHAR := 'K93L5';
     listing_173_shop_id INT := shop_11_id;
-    listing_173_category_id VARCHAR := 'JEWELRY';
+    listing_173_category_id VARCHAR := 'ACCESSORIES';
     listing_173_country_code CHAR(2) := shop_11_country_code;
     listing_173_title VARCHAR := 'Pea Pod Brooch - 2 Pearls';
     listing_173_subtitle VARCHAR := 'A bronze pea pod brooch with two white freshwater pearls.';
@@ -2844,7 +2844,7 @@ DECLARE
     listing_174_id INT := 174;
     listing_174_short_id VARCHAR := 'G5EJ3';
     listing_174_shop_id INT := shop_11_id;
-    listing_174_category_id VARCHAR := 'JEWELRY';
+    listing_174_category_id VARCHAR := 'NECKLACES';
     listing_174_country_code CHAR(2) := shop_11_country_code;
     listing_174_title VARCHAR := 'Fine Pea Pod Pendant - 3 Pearls';
     listing_174_subtitle VARCHAR := 'A sterling silver pea pod pendant with a 24k gold finish and three freshwater pearls.';
@@ -2868,7 +2868,7 @@ DECLARE
     listing_175_id INT := 175;
     listing_175_short_id VARCHAR := 'G238E';
     listing_175_shop_id INT := shop_11_id;
-    listing_175_category_id VARCHAR := 'JEWELRY';
+    listing_175_category_id VARCHAR := 'EARRINGS';
     listing_175_country_code CHAR(2) := shop_11_country_code;
     listing_175_title VARCHAR := 'Pea Pod Earrings - Petite Post';
     listing_175_subtitle VARCHAR := 'Petite bronze pea pod post earrings with three white freshwater pearls each.';
@@ -2893,7 +2893,7 @@ DECLARE
     listing_62_short_id VARCHAR := 'G52JK';
     listing_62_shop_id INT := shop_9_id;
     listing_62_country_code CHAR(2) := shop_9_country_code;
-    listing_62_category_id VARCHAR := 'JEWELRY';
+    listing_62_category_id VARCHAR := 'NECKLACES';
     listing_62_title VARCHAR := 'Through Darkness Talisman';
     listing_62_subtitle VARCHAR := 'A raven talisman honoring the shadow as a place of insight, where what is hidden may slowly be revealed.';
     listing_62_price_cents INT := 41000;
@@ -2920,7 +2920,7 @@ DECLARE
     listing_63_short_id VARCHAR := 'G24DG';
     listing_63_shop_id INT := shop_9_id;
     listing_63_country_code CHAR(2) := 'IT';
-    listing_63_category_id VARCHAR := 'JEWELRY';
+    listing_63_category_id VARCHAR := 'NECKLACES';
     listing_63_title VARCHAR := 'Curb Chain';
     listing_63_subtitle VARCHAR := 'A sterling silver curb chain, made to carry any Pyrrha talisman or charm.';
     listing_63_price_cents INT := 12000;
@@ -2966,7 +2966,7 @@ DECLARE
     listing_64_short_id VARCHAR := 'G7D6K';
     listing_64_shop_id INT := shop_9_id;
     listing_64_country_code CHAR(2) := shop_9_country_code;
-    listing_64_category_id VARCHAR := 'JEWELRY';
+    listing_64_category_id VARCHAR := 'NECKLACES';
     listing_64_title VARCHAR := 'Resilience Talisman';
     listing_64_subtitle VARCHAR := 'A teasel talisman for the strength to withstand hardship and keep growing with grace.';
     listing_64_price_cents INT := 43000;
@@ -2993,7 +2993,7 @@ DECLARE
     listing_65_short_id VARCHAR := 'GJEEK';
     listing_65_shop_id INT := shop_9_id;
     listing_65_country_code CHAR(2) := shop_9_country_code;
-    listing_65_category_id VARCHAR := 'JEWELRY';
+    listing_65_category_id VARCHAR := 'NECKLACES';
     listing_65_title VARCHAR := 'Inner Vision Talisman';
     listing_65_subtitle VARCHAR := 'A sleeping eye talisman honoring intuition, dreams, and the quiet awareness found in stillness.';
     listing_65_price_cents INT := 35500;
@@ -3020,7 +3020,7 @@ DECLARE
     listing_66_short_id VARCHAR := 'K893G';
     listing_66_shop_id INT := shop_9_id;
     listing_66_country_code CHAR(2) := shop_9_country_code;
-    listing_66_category_id VARCHAR := 'JEWELRY';
+    listing_66_category_id VARCHAR := 'NECKLACES';
     listing_66_title VARCHAR := 'Grounded Talisman';
     listing_66_subtitle VARCHAR := 'A talisman of layered rock, symbolizing inner depth, permanence, and the experiences that form who we are.';
     listing_66_price_cents INT := 38500;
@@ -3047,7 +3047,7 @@ DECLARE
     listing_67_short_id VARCHAR := 'GLE5K';
     listing_67_shop_id INT := shop_9_id;
     listing_67_country_code CHAR(2) := shop_9_country_code;
-    listing_67_category_id VARCHAR := 'JEWELRY';
+    listing_67_category_id VARCHAR := 'NECKLACES';
     listing_67_title VARCHAR := 'Always Reaching Talisman';
     listing_67_subtitle VARCHAR := 'An ivy talisman for steady growth and the instinct to keep reaching.';
     listing_67_price_cents INT := 38500;
@@ -3074,7 +3074,7 @@ DECLARE
     listing_68_short_id VARCHAR := 'GE7LG';
     listing_68_shop_id INT := shop_9_id;
     listing_68_country_code CHAR(2) := shop_9_country_code;
-    listing_68_category_id VARCHAR := 'JEWELRY';
+    listing_68_category_id VARCHAR := 'NECKLACES';
     listing_68_title VARCHAR := 'Age With Power Talisman';
     listing_68_subtitle VARCHAR := 'A snake and pomegranate talisman celebrating renewal and becoming more fully yourself.';
     listing_68_price_cents INT := 45000;
@@ -3101,7 +3101,7 @@ DECLARE
     listing_69_short_id VARCHAR := 'G675K';
     listing_69_shop_id INT := shop_9_id;
     listing_69_country_code CHAR(2) := shop_9_country_code;
-    listing_69_category_id VARCHAR := 'JEWELRY';
+    listing_69_category_id VARCHAR := 'NECKLACES';
     listing_69_title VARCHAR := 'Inner Sanctum Talisman';
     listing_69_subtitle VARCHAR := 'A key-and-shield talisman to protect your inner peace.';
     listing_69_price_cents INT := 34500;
@@ -3128,7 +3128,7 @@ DECLARE
     listing_70_short_id VARCHAR := 'G394G';
     listing_70_shop_id INT := shop_9_id;
     listing_70_country_code CHAR(2) := shop_9_country_code;
-    listing_70_category_id VARCHAR := 'JEWELRY';
+    listing_70_category_id VARCHAR := 'NECKLACES';
     listing_70_title VARCHAR := 'Guardian Talisman';
     listing_70_subtitle VARCHAR := 'A dragon-and-shield talisman of steadfast protection, inscribed Tutus Es, Latin for You Are Safe.';
     listing_70_price_cents INT := 40000;
@@ -3155,7 +3155,7 @@ DECLARE
     listing_71_short_id VARCHAR := 'GD27G';
     listing_71_shop_id INT := shop_9_id;
     listing_71_country_code CHAR(2) := shop_9_country_code;
-    listing_71_category_id VARCHAR := 'JEWELRY';
+    listing_71_category_id VARCHAR := 'NECKLACES';
     listing_71_title VARCHAR := 'Trust in Yourself Talisman';
     listing_71_subtitle VARCHAR := 'A fox talisman for self-belief and the courage to tackle any challenge head-on.';
     listing_71_price_cents INT := 39000;
@@ -3182,7 +3182,7 @@ DECLARE
     listing_72_short_id VARCHAR := 'K43LG';
     listing_72_shop_id INT := shop_9_id;
     listing_72_country_code CHAR(2) := shop_9_country_code;
-    listing_72_category_id VARCHAR := 'JEWELRY';
+    listing_72_category_id VARCHAR := 'NECKLACES';
     listing_72_title VARCHAR := 'Direction Talisman';
     listing_72_subtitle VARCHAR := 'A compass rose talisman to help you find direction and stay on the path to your heart’s true desires.';
     listing_72_price_cents INT := 36000;
@@ -5308,6 +5308,9 @@ BEGIN
         inventory = EXCLUDED.inventory,
         track_inventory = EXCLUDED.track_inventory,
         updated_at = CURRENT_TIMESTAMP;
+
+    DELETE FROM listing_category
+    WHERE id NOT IN ('RINGS', 'BRACELETS', 'NECKLACES', 'EARRINGS', 'ACCESSORIES');
 
     PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
 
