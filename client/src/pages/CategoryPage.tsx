@@ -1,5 +1,4 @@
 import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
-import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
@@ -21,13 +20,7 @@ export const CategoryPage = () => {
 
 	const apiClient = useApiClient();
 
-	const {
-		getChildCategories,
-		categoriesLoading,
-		categoriesError,
-	} = useCategories();
-
-	const childCategories = getChildCategories(id);
+	const { categoriesLoading, categoriesError } = useCategories();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
@@ -96,16 +89,10 @@ export const CategoryPage = () => {
 				{!isLoading && (
 					<CategoryBreadcrumb
 						categoryId={id}
-						fontSize={22}
 						showHome
 					/>
 				)}
 			</Box>
-
-			<CategoryGrid
-				isLoading={isLoading}
-				categories={childCategories}
-			/>
 
 			{listingsError ? (
 				<AppError title={listingsError} />
