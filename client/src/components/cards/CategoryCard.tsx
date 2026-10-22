@@ -29,9 +29,9 @@ export const CategoryCard = (props: CategoryTileData) => (
 				)}
 				<Text
 					position="absolute"
-					bottom={3}
-					left={6}
-					mr={6}
+					bottom={2}
+					left={4}
+					mr={4}
 					fontSize={TITLE_FONT_SIZE}
 					fontWeight={600}
 					fontFamily={displayFontFamily}

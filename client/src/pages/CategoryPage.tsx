@@ -1,6 +1,10 @@
 import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import {
+	GRID_CONTENT_MAX_WIDTH,
+	STANDARD_GRID_GAP,
+} from '@client/constants';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -97,7 +101,12 @@ export const CategoryPage = () => {
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<Box px={5}>
+				<Box
+					px={STANDARD_GRID_GAP}
+					width="100%"
+					maxW={GRID_CONTENT_MAX_WIDTH}
+					mx="auto"
+				>
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}

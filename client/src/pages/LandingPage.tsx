@@ -11,7 +11,10 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
-import { InfoPageKey } from '@client/constants';
+import {
+	GRID_CONTENT_MAX_WIDTH,
+	InfoPageKey,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -128,7 +131,7 @@ export const LandingPage = () => {
 				pb={5}
 				gap={8}
 				width="100%"
-				maxW={1600}
+				maxW={GRID_CONTENT_MAX_WIDTH}
 			>
 				{categoriesError ? (
 					<AppError title="Failed to load categories" />

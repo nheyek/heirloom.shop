@@ -14,7 +14,11 @@ import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
-import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
+import {
+	CountryCode,
+	GRID_CONTENT_MAX_WIDTH,
+	STANDARD_GRID_GAP,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
@@ -267,7 +271,9 @@ export const ShopPage = () => {
 				<Box
 					py={5}
 					px={STANDARD_GRID_GAP}
-					maxW={1600}
+					width="100%"
+					maxW={GRID_CONTENT_MAX_WIDTH}
+					mx="auto"
 				>
 					<ListingGrid
 						listings={listings}
