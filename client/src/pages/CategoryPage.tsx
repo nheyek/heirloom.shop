@@ -81,9 +81,13 @@ export const CategoryPage = () => {
 	return (
 		<Stack
 			py={5}
+			px={STANDARD_GRID_GAP}
 			gap={5}
+			width="100%"
+			maxW={GRID_CONTENT_MAX_WIDTH}
+			mx="auto"
 		>
-			<Box px={5}>
+			<Box>
 				{isLoading && (
 					<Skeleton
 						height={35}
@@ -101,18 +105,11 @@ export const CategoryPage = () => {
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<Box
-					px={STANDARD_GRID_GAP}
-					width="100%"
-					maxW={GRID_CONTENT_MAX_WIDTH}
-					mx="auto"
-				>
-					<ListingGrid
-						listings={listings}
-						isLoading={isLoading}
-						showShopTitle
-					/>
-				</Box>
+				<ListingGrid
+					listings={listings}
+					isLoading={isLoading}
+					showShopTitle
+				/>
 			)}
 		</Stack>
 	);
