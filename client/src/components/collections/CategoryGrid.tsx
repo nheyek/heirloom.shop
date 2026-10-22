@@ -12,7 +12,7 @@ type Props = {
 	columns?: Record<string, number>;
 };
 
-export const CategoryCardGrid = (props: Props) => (
+export const CategoryGrid = (props: Props) => (
 	<ItemGrid
 		items={props.categories}
 		isLoading={props.isLoading}

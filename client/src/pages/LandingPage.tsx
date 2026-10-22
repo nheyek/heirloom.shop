@@ -6,7 +6,7 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { CategoryCardGrid } from '@client/components/collections/CategoryCardGrid';
+import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
@@ -136,23 +136,10 @@ export const LandingPage = () => {
 				{categoriesError ? (
 					<AppError title="Failed to load categories" />
 				) : (
-					<Stack
-						gap={2}
-						width="100%"
-					>
-						<Text
-							fontSize={30}
-							fontWeight={600}
-							fontFamily={displayFontFamily}
-						>
-							Categories
-						</Text>
-
-						<CategoryCardGrid
-							categories={getChildCategories(null)}
-							isLoading={isLoading}
-						/>
-					</Stack>
+					<CategoryGrid
+						categories={getChildCategories(null)}
+						isLoading={isLoading}
+					/>
 				)}
 
 				{shopsError ? (
