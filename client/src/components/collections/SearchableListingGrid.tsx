@@ -45,16 +45,6 @@ export const SearchableListingGrid = (props: Props) => {
 
 	useEffect(() => () => clearTimeout(sortTimerRef.current), []);
 
-	const onSortChange = (value: ListingSort) => {
-		setSort(value);
-		setIsSorting(true);
-		clearTimeout(sortTimerRef.current);
-		sortTimerRef.current = setTimeout(() => {
-			setAppliedSort(value);
-			setIsSorting(false);
-		}, SEARCH_LOADING_MS);
-	};
-
 	const visibleListings = useMemo(
 		() =>
 			sortListings(
@@ -76,6 +66,22 @@ export const SearchableListingGrid = (props: Props) => {
 			props.includeShopTitle,
 		],
 	);
+
+	const onSortChange = (value: ListingSort) => {
+		setSort(value);
+		clearTimeout(sortTimerRef.current);
+		if (visibleListings.length === 0) {
+			setAppliedSort(value);
+			setIsSorting(false);
+			return;
+		}
+
+		setIsSorting(true);
+		sortTimerRef.current = setTimeout(() => {
+			setAppliedSort(value);
+			setIsSorting(false);
+		}, SEARCH_LOADING_MS);
+	};
 
 	const showSearch = props.isLoading || props.listings.length > 0;
 	const showNoResults =
