@@ -182,7 +182,7 @@ export const LandingPage = () => {
 						<ListingGrid
 							listings={listings}
 							isLoading={isLoading}
-							showShopTitle
+							includeShopTitle
 						/>
 					</Stack>
 				)}

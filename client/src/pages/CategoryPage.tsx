@@ -1,5 +1,5 @@
 import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
-import { ListingGrid } from '@client/components/collections/ListingGrid';
+import { SearchableListingGrid } from '@client/components/collections/SearchableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import {
 	GRID_CONTENT_MAX_WIDTH,
@@ -105,10 +105,10 @@ export const CategoryPage = () => {
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<ListingGrid
+				<SearchableListingGrid
 					listings={listings}
 					isLoading={isLoading}
-					showShopTitle
+					includeShopTitle
 				/>
 			)}
 		</Stack>

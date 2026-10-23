@@ -8,7 +8,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { ListingGrid } from '@client/components/collections/ListingGrid';
+import { SearchableListingGrid } from '@client/components/collections/SearchableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
@@ -275,7 +275,7 @@ export const ShopPage = () => {
 					maxW={GRID_CONTENT_MAX_WIDTH}
 					mx="auto"
 				>
-					<ListingGrid
+					<SearchableListingGrid
 						listings={listings}
 						isLoading={isLoading}
 					/>
