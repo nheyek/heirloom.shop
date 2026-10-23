@@ -9,7 +9,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { FaArrowDownWideShort, FaCaretDown } from 'react-icons/fa6';
+import { FaArrowsUpDown, FaCaretDown } from 'react-icons/fa6';
 
 const MENU_MIN_WIDTH = 180;
 
@@ -35,7 +35,7 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 						variant="subtle"
 						aria-label={props.label}
 					>
-						<FaArrowDownWideShort />
+						<FaArrowsUpDown />
 					</IconButton>
 				) : (
 					<Button
@@ -43,12 +43,16 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 						variant="subtle"
 						px={4}
 						fontSize={18}
-						fontWeight={400}
 						justifyContent="space-between"
+						width={180}
 					>
-						<HStack gap={1}>
-							<Text>{props.label}:</Text>
-							<Span fontWeight={500}>
+						<HStack gap={2}>
+							<Icon
+								as={FaArrowsUpDown}
+								h={4}
+								w={4}
+							/>
+							<Span fontWeight={400}>
 								{props.options[props.value]}
 							</Span>
 						</HStack>
