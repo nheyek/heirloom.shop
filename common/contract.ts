@@ -62,6 +62,7 @@ const ListingCardDataSchema = z.object({
 	imageUuids: z.array(z.string()),
 	available: z.boolean(),
 	trackInventory: z.boolean(),
+	createdAt: z.string(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
 	variationImages: VariationImagesSchema.nullable(),
@@ -223,7 +224,9 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 	trackInventory: z.boolean(),
 });
 
-const CartItemDataSchema = ListingCardDataSchema.extend({
+const CartItemDataSchema = ListingCardDataSchema.omit({
+	createdAt: true,
+}).extend({
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
 	personalizationCostCents: z.number().nullable(),

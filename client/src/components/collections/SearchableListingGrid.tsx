@@ -1,8 +1,20 @@
-import { Stack, Text } from '@chakra-ui/react';
+import { Flex, Stack, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SearchInput } from '@client/components/input/SearchInput';
+import { SortSelect } from '@client/components/input/SortSelect';
+import {
+	LISTING_SORT_LABELS,
+	ListingSort,
+	sortListings,
+} from '@client/domain/listingSort';
 import { ListingCardData } from '@heirloom/common/contract';
-import { ComponentProps, useMemo, useState } from 'react';
+import {
+	ComponentProps,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from 'react';
 
 const SEARCH_MAX_WIDTH = 400;
 const SEARCH_MIN_CHARS = 3;
@@ -23,27 +35,55 @@ type Props = ComponentProps<typeof ListingGrid>;
 export const SearchableListingGrid = (props: Props) => {
 	const [appliedQuery, setAppliedQuery] = useState('');
 	const [isSearching, setIsSearching] = useState(false);
+	const [sort, setSort] = useState(ListingSort.DEFAULT);
+	const [appliedSort, setAppliedSort] = useState(
+		ListingSort.DEFAULT,
+	);
+	const [isSorting, setIsSorting] = useState(false);
+	const sortTimerRef =
+		useRef<ReturnType<typeof setTimeout>>(undefined);
 
-	const filteredListings = useMemo(
+	useEffect(() => () => clearTimeout(sortTimerRef.current), []);
+
+	const onSortChange = (value: ListingSort) => {
+		setSort(value);
+		setIsSorting(true);
+		clearTimeout(sortTimerRef.current);
+		sortTimerRef.current = setTimeout(() => {
+			setAppliedSort(value);
+			setIsSorting(false);
+		}, SEARCH_LOADING_MS);
+	};
+
+	const visibleListings = useMemo(
 		() =>
-			appliedQuery
-				? props.listings.filter((listing) =>
-						matchesQuery(
-							listing,
-							appliedQuery,
-							!!props.includeShopTitle,
-						),
-					)
-				: props.listings,
-		[props.listings, appliedQuery, props.includeShopTitle],
+			sortListings(
+				appliedQuery
+					? props.listings.filter((listing) =>
+							matchesQuery(
+								listing,
+								appliedQuery,
+								!!props.includeShopTitle,
+							),
+						)
+					: props.listings,
+				appliedSort,
+			),
+		[
+			props.listings,
+			appliedQuery,
+			appliedSort,
+			props.includeShopTitle,
+		],
 	);
 
 	const showSearch = props.isLoading || props.listings.length > 0;
 	const showNoResults =
 		!props.isLoading &&
 		!isSearching &&
+		!isSorting &&
 		props.listings.length > 0 &&
-		filteredListings.length === 0;
+		visibleListings.length === 0;
 
 	return (
 		<Stack
@@ -51,18 +91,30 @@ export const SearchableListingGrid = (props: Props) => {
 			width="100%"
 		>
 			{showSearch && (
-				<SearchInput
-					placeholder={
-						props.includeShopTitle
-							? 'Search by title or maker'
-							: 'Search listings by title'
-					}
-					minChars={SEARCH_MIN_CHARS}
-					delayMs={SEARCH_LOADING_MS}
-					maxWidth={SEARCH_MAX_WIDTH}
-					onSearching={setIsSearching}
-					onSearch={setAppliedQuery}
-				/>
+				<Flex
+					justifyContent="space-between"
+					alignItems="center"
+					gap={3}
+				>
+					<SearchInput
+						placeholder={
+							props.includeShopTitle
+								? 'Search by title or maker'
+								: 'Search listings by title'
+						}
+						minChars={SEARCH_MIN_CHARS}
+						delayMs={SEARCH_LOADING_MS}
+						maxWidth={SEARCH_MAX_WIDTH}
+						onSearching={setIsSearching}
+						onSearch={setAppliedQuery}
+					/>
+					<SortSelect
+						label="Order"
+						options={LISTING_SORT_LABELS}
+						value={sort}
+						onChange={onSortChange}
+					/>
+				</Flex>
 			)}
 
 			{showNoResults ? (
@@ -72,8 +124,10 @@ export const SearchableListingGrid = (props: Props) => {
 			) : (
 				<ListingGrid
 					{...props}
-					listings={filteredListings}
-					isLoading={props.isLoading || isSearching}
+					listings={visibleListings}
+					isLoading={
+						props.isLoading || isSearching || isSorting
+					}
 				/>
 			)}
 		</Stack>

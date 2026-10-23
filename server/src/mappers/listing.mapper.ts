@@ -29,6 +29,7 @@ export const mapListingToApiResponseData = (
 	imageUuids: listing.imageUuids,
 	available: listing.available,
 	trackInventory: listing.trackInventory,
+	createdAt: listing.createdAt.toISOString(),
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.variationAvailability ?? {}) as CombinationsData,
 	variationImages: (listing.variationImages ?? null) as VariationImagesData | null,

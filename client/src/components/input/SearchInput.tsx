@@ -38,6 +38,8 @@ export const SearchInput = (props: Props) => {
 	return (
 		<InputGroup
 			maxW={props.maxWidth}
+			flex={1}
+			minWidth={0}
 			startElement={<FaSearch size={SEARCH_ICON_SIZE} />}
 			endElement={
 				value && (
