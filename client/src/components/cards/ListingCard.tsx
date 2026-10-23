@@ -87,11 +87,11 @@ export const ListingCard = ({
 			<Badge
 				key={id}
 				fontSize={18}
-				fontWeight={500}
+				fontWeight={400}
 				p={1.5}
 				px={2.5}
 			>
-				<Span fontWeight={600}>
+				<Span fontWeight={500}>
 					{Object.keys(variation.options).length}
 				</Span>{' '}
 				{variation.name.toLowerCase()} options
