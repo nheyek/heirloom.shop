@@ -3,15 +3,24 @@ import {
 	HStack,
 	Icon,
 	IconButton,
+	IconProps,
 	Menu,
 	Portal,
 	Span,
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { FaArrowsUpDown, FaCaretDown } from 'react-icons/fa6';
+import { FaArrowRightArrowLeft, FaCaretDown } from 'react-icons/fa6';
 
 const MENU_MIN_WIDTH = 180;
+
+const SortIcon = (props: IconProps) => (
+	<Icon
+		as={FaArrowRightArrowLeft}
+		transform="rotate(90deg)"
+		{...props}
+	/>
+);
 
 type Props<T extends string> = {
 	label: string;
@@ -35,7 +44,7 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 						variant="subtle"
 						aria-label={props.label}
 					>
-						<FaArrowsUpDown />
+						<SortIcon />
 					</IconButton>
 				) : (
 					<Button
@@ -47,8 +56,7 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 						width={180}
 					>
 						<HStack gap={2}>
-							<Icon
-								as={FaArrowsUpDown}
+							<SortIcon
 								h={4}
 								w={4}
 							/>
