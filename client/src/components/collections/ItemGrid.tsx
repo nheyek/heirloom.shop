@@ -12,6 +12,8 @@ import {
 import { animationName } from '@client/theme';
 import { ReactNode } from 'react';
 
+const NUM_SKELETON_ROWS = 2;
+
 type Props<T> = {
 	items: T[];
 	renderItem: (item: T, isMobile: boolean) => ReactNode;
@@ -36,7 +38,8 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 
 	const maxNumColumns = useBreakpointValue(columns) ?? 1;
 	const numColumns = maxNumColumns;
-	const numSkeletons = numPlaceholders ?? numColumns;
+	const numSkeletons =
+		numPlaceholders ?? numColumns * NUM_SKELETON_ROWS;
 
 	const minItemWidth = 275;
 	const maxItemWidth = props.maxItemWidth ?? 400;

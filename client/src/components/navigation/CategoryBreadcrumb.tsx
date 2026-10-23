@@ -15,7 +15,7 @@ type Props = {
 
 export const CategoryBreadcrumb = ({
 	categoryId,
-	fontSize = 24,
+	fontSize = 25,
 	showHome = false,
 	currentIsLink = false,
 }: Props) => {

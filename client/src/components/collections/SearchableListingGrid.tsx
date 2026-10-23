@@ -1,4 +1,4 @@
-import { Flex, Stack, Text } from '@chakra-ui/react';
+import { Flex, Skeleton, Stack, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SearchInput } from '@client/components/input/SearchInput';
 import { SortSelect } from '@client/components/input/SortSelect';
@@ -17,6 +17,8 @@ import {
 } from 'react';
 
 const SEARCH_MAX_WIDTH = 400;
+const CONTROL_SKELETON_HEIGHT = 11;
+const SORT_SKELETON_WIDTH = { base: 11, sm: 180 };
 const SEARCH_MIN_CHARS = 3;
 const SEARCH_LOADING_MS = 300;
 
@@ -102,24 +104,42 @@ export const SearchableListingGrid = (props: Props) => {
 					alignItems="center"
 					gap={3}
 				>
-					<SearchInput
-						placeholder={
-							props.includeShopTitle
-								? 'Search by title or maker'
-								: 'Search listings by title'
-						}
-						minChars={SEARCH_MIN_CHARS}
-						delayMs={SEARCH_LOADING_MS}
-						maxWidth={SEARCH_MAX_WIDTH}
-						onSearching={setIsSearching}
-						onSearch={setAppliedQuery}
-					/>
-					<SortSelect
-						label="Order"
-						options={LISTING_SORT_LABELS}
-						value={sort}
-						onChange={onSortChange}
-					/>
+					{props.isLoading ? (
+						<>
+							<Skeleton
+								flex={1}
+								maxW={SEARCH_MAX_WIDTH}
+								h={CONTROL_SKELETON_HEIGHT}
+								borderRadius="full"
+							/>
+							<Skeleton
+								w={SORT_SKELETON_WIDTH}
+								h={CONTROL_SKELETON_HEIGHT}
+								borderRadius="full"
+							/>
+						</>
+					) : (
+						<>
+							<SearchInput
+								placeholder={
+									props.includeShopTitle
+										? 'Search by title or maker'
+										: 'Search listings by title'
+								}
+								minChars={SEARCH_MIN_CHARS}
+								delayMs={SEARCH_LOADING_MS}
+								maxWidth={SEARCH_MAX_WIDTH}
+								onSearching={setIsSearching}
+								onSearch={setAppliedQuery}
+							/>
+							<SortSelect
+								label="Order"
+								options={LISTING_SORT_LABELS}
+								value={sort}
+								onChange={onSortChange}
+							/>
+						</>
+					)}
 				</Flex>
 			)}
 

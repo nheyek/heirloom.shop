@@ -1,11 +1,11 @@
 import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
 import { SearchableListingGrid } from '@client/components/collections/SearchableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import {
 	GRID_CONTENT_MAX_WIDTH,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -90,7 +90,7 @@ export const CategoryPage = () => {
 			<Box>
 				{isLoading && (
 					<Skeleton
-						height={35}
+						height={25}
 						width={300}
 					/>
 				)}
