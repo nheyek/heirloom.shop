@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { FaArrowRightArrowLeft, FaCaretDown } from 'react-icons/fa6';
 
-const MENU_MIN_WIDTH = 180;
+const MENU_MIN_WIDTH = 185;
 
 const SortIcon = (props: IconProps) => (
 	<Icon
@@ -53,9 +53,9 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 						px={4}
 						fontSize={18}
 						justifyContent="space-between"
-						width={180}
+						width={MENU_MIN_WIDTH}
 					>
-						<HStack gap={2}>
+						<HStack gap={3}>
 							<SortIcon
 								h={4}
 								w={4}

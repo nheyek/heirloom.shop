@@ -18,7 +18,7 @@ import {
 
 const SEARCH_MAX_WIDTH = 400;
 const CONTROL_SKELETON_HEIGHT = 11;
-const SORT_SKELETON_WIDTH = { base: 11, sm: 180 };
+const SORT_SKELETON_WIDTH = { base: 11, sm: 185 };
 const SEARCH_MIN_CHARS = 3;
 const SEARCH_LOADING_MS = 300;
 

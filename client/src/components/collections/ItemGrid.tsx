@@ -10,9 +10,13 @@ import {
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { animationName } from '@client/theme';
-import { ReactNode } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
+import { ReactNode, useEffect, useRef } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
+const SPACING_UNIT_PX = 4;
+const MOBILE_CARD_WIDTH = 275;
+const MOBILE_OVERSCAN = 3;
 
 type Props<T> = {
 	items: T[];
@@ -44,6 +48,23 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	const minItemWidth = 275;
 	const maxItemWidth = props.maxItemWidth ?? 400;
 
+	const isMobile = maxNumColumns === 1;
+	const scrollRef = useRef<HTMLDivElement>(null);
+	const virtualizer = useVirtualizer({
+		count: items.length,
+		horizontal: true,
+		enabled: isMobile,
+		getScrollElement: () => scrollRef.current,
+		estimateSize: () => MOBILE_CARD_WIDTH,
+		gap: STANDARD_GRID_GAP * SPACING_UNIT_PX,
+		overscan: MOBILE_OVERSCAN,
+		initialRect: { width: window.innerWidth, height: 0 },
+	});
+
+	useEffect(() => {
+		virtualizer.scrollToOffset(0);
+	}, [items]);
+
 	const animatedItem = (child: ReactNode, key: React.Key) => (
 		<Box
 			key={key}
@@ -55,35 +76,59 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		</Box>
 	);
 
-	if (maxNumColumns === 1) {
+	if (isMobile) {
+		const visibleItems = isLoading
+			? []
+			: virtualizer.getVirtualItems();
+		const lastVisibleItem = visibleItems[visibleItems.length - 1];
+		const paddingStart = visibleItems[0]?.start ?? 0;
+		const paddingEnd = lastVisibleItem
+			? virtualizer.getTotalSize() - lastVisibleItem.end
+			: 0;
+
 		return (
-			<HStack
-				alignItems="start"
+			<Box
+				ref={scrollRef}
 				overflowX="auto"
-				gap={STANDARD_GRID_GAP}
 				p={5}
 				m={-5}
 				scrollbarWidth="none"
 			>
-				{isLoading && (
-					<>
-						<Skeleton
-							width={minItemWidth}
-							aspectRatio={skeletonAspectRatio}
-						/>
-						<Skeleton
-							width={minItemWidth}
-							aspectRatio={skeletonAspectRatio}
-						/>
-					</>
-				)}
-				{items.map((item, index) =>
-					animatedItem(
-						renderItem(item, true),
-						getItemKey(item, index),
-					),
-				)}
-			</HStack>
+				<HStack
+					alignItems="start"
+					gap={STANDARD_GRID_GAP}
+					pl={`${paddingStart}px`}
+					pr={`${paddingEnd}px`}
+				>
+					{isLoading && (
+						<>
+							<Skeleton
+								width={minItemWidth}
+								aspectRatio={skeletonAspectRatio}
+							/>
+							<Skeleton
+								width={minItemWidth}
+								aspectRatio={skeletonAspectRatio}
+							/>
+						</>
+					)}
+					{visibleItems.map((virtualItem) => (
+						<Box
+							key={getItemKey(
+								items[virtualItem.index],
+								virtualItem.index,
+							)}
+							width={MOBILE_CARD_WIDTH}
+							flexShrink={0}
+						>
+							{renderItem(
+								items[virtualItem.index],
+								true,
+							)}
+						</Box>
+					))}
+				</HStack>
+			</Box>
 		);
 	}
 
