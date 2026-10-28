@@ -13,3 +13,13 @@ export const mapShopToApiResponseData = (
 	countryCode: shop.country?.code || null,
 	profileRichText: shop.profileRichText,
 });
+
+export const mapShopToCardData = (shop: Shop): ShopCardData => ({
+	id: shop.id,
+	shortId: shop.shortId,
+	title: shop.title,
+	location: shop.shopLocation,
+	classification: shop.classification,
+	profileImageUuid: shop.profileImageUuid,
+	countryCode: shop.country?.code || null,
+});

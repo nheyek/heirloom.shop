@@ -159,26 +159,33 @@ describe('GET /api/me/favorites', () => {
 
 	it('returns 200 with the favorited listings', () => {
 		expect(res.status).toBe(200);
-		const shortIds = res.body.map((l: any) => l.shortId);
+		const shortIds = res.body.listings.map((l: any) => l.shortId);
 		expect(shortIds).toContain('lamp01');
 		expect(shortIds).toContain('scrf01');
 		expect(shortIds).toContain('bowl01');
 	});
 
 	it('returns listings with the expected shape', () => {
-		const lamp = res.body.find((l: any) => l.shortId === 'lamp01');
+		const lamp = res.body.listings.find(
+			(l: any) => l.shortId === 'lamp01',
+		);
 		expect(lamp).toMatchObject({
 			shortId: 'lamp01',
 			title: 'Brass Lamp',
 			basePriceCents: 18000,
 			priceVaries: false,
 			shopShortId: 'shop10',
-			shopTitle: 'Craft Co',
 		});
+		expect(res.body.shops).toEqual([
+			expect.objectContaining({
+				shortId: 'shop10',
+				title: 'Craft Co',
+			}),
+		]);
 	});
 
 	it('returns favorites in reverse-chronological order', () => {
-		const shortIds = res.body.map((l: any) => l.shortId);
+		const shortIds = res.body.listings.map((l: any) => l.shortId);
 		// lamp01 was favorited after scrf01, so it should appear first
 		expect(shortIds.indexOf('lamp01')).toBeLessThan(
 			shortIds.indexOf('scrf01'),

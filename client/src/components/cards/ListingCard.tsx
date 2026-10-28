@@ -58,7 +58,7 @@ export const ListingCardIconMenu = ({
 
 type Props = ListingCardData & {
 	actionMenu?: ReactNode;
-	showShopTitle?: boolean;
+	shopTitle?: string;
 	topRight?: ReactNode;
 	topLeft?: ReactNode;
 	onCardBodyClick?: () => void;
@@ -67,7 +67,7 @@ type Props = ListingCardData & {
 
 export const ListingCard = ({
 	actionMenu,
-	showShopTitle,
+	shopTitle,
 	topRight,
 	topLeft,
 	onCardBodyClick,
@@ -178,7 +178,7 @@ export const ListingCard = ({
 								</Text>
 							</Link>
 						</RouterLink>
-						{showShopTitle && props.shopTitle && (
+						{shopTitle && (
 							<RouterLink
 								to={`/${CLIENT_ROUTES.shop}/${props.shopShortId}`}
 							>
@@ -190,7 +190,7 @@ export const ListingCard = ({
 										fontWeight="medium"
 										display="block"
 									>
-										{props.shopTitle}
+										{shopTitle}
 									</Text>
 								</Link>
 							</RouterLink>

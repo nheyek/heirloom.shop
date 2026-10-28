@@ -10,7 +10,7 @@ import * as listingService from '@server/services/listing.service';
 import * as userService from '@server/services/user.service';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import {
-	mapListingToCardData,
+	mapListingsToCollection,
 	mapListingToCartItemData,
 	mapListingToPageData,
 } from '@server/mappers/listing.mapper';
@@ -22,7 +22,7 @@ export const listingRouter = s.router(listingsContract, {
 		const listings = await listingService.findFeaturedListings();
 		return {
 			status: 200 as const,
-			body: listings.map(mapListingToCardData),
+			body: mapListingsToCollection(listings),
 		};
 	},
 	getCartData: async ({ body }) => {

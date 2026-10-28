@@ -200,7 +200,8 @@ describe('GET /api/shops/:id/listings', () => {
 			'/api/shops/glas21/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(0);
+		expect(res.body.listings).toHaveLength(0);
+		expect(res.body.shops).toHaveLength(0);
 	});
 
 	it('returns the listings for a shop', async () => {
@@ -208,8 +209,8 @@ describe('GET /api/shops/:id/listings', () => {
 			'/api/shops/wood20/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(2);
-		const shortIds = res.body.map((l: any) => l.shortId);
+		expect(res.body.listings).toHaveLength(2);
+		const shortIds = res.body.listings.map((l: any) => l.shortId);
 		expect(shortIds).toEqual(
 			expect.arrayContaining(['tbl001', 'bk0001']),
 		);
@@ -220,18 +221,30 @@ describe('GET /api/shops/:id/listings', () => {
 			'/api/shops/wood20/listings',
 		);
 		expect(res.status).toBe(200);
-		const ids = res.body.map((l: any) => l.id);
+		const ids = res.body.listings.map((l: any) => l.id);
 		expect(ids).toEqual([...ids].sort((a, b) => a - b));
-		expect(res.body[0].shortId).toBe('tbl001');
+		expect(res.body.listings[0].shortId).toBe('tbl001');
 	});
 
 	it('only returns listings belonging to that shop', async () => {
 		const res = await request(getApp()).get(
 			'/api/shops/wood20/listings',
 		);
-		for (const listing of res.body) {
+		for (const listing of res.body.listings) {
 			expect(listing.shopShortId).toBe('wood20');
 		}
+	});
+
+	it('returns the shop once in the shops list', async () => {
+		const res = await request(getApp()).get(
+			'/api/shops/wood20/listings',
+		);
+		expect(res.body.shops).toHaveLength(1);
+		expect(res.body.shops[0]).toMatchObject({
+			shortId: 'wood20',
+			id: woodworkersId,
+		});
+		expect(res.body.shops[0]).not.toHaveProperty('profileRichText');
 	});
 });
 

@@ -8,7 +8,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { SearchableListingGrid } from '@client/components/collections/SearchableListingGrid';
+import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
@@ -99,7 +99,7 @@ export const ShopPage = () => {
 		if (result.error !== null) {
 			setListingsError(result.error);
 		} else {
-			setListings(result.data);
+			setListings(result.data.listings);
 		}
 		setListingsLoading(false);
 	};
@@ -275,7 +275,7 @@ export const ShopPage = () => {
 					maxW={GRID_CONTENT_MAX_WIDTH}
 					mx="auto"
 				>
-					<SearchableListingGrid
+					<SortableListingGrid
 						listings={listings}
 						isLoading={isLoading}
 					/>

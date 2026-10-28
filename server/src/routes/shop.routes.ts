@@ -1,7 +1,7 @@
 import { shopsContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
-import { mapListingToCardData } from '@server/mappers/listing.mapper';
+import { mapListingsToCollection } from '@server/mappers/listing.mapper';
 import { mapShopToApiResponseData } from '@server/mappers/shop.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as favoriteShopService from '@server/services/favoriteShop.service';
@@ -52,7 +52,7 @@ export const shopRouter = s.router(shopsContract, {
 		const listings = await listingService.findListingsByShop(shop.id);
 		return {
 			status: 200 as const,
-			body: listings.map(mapListingToCardData),
+			body: mapListingsToCollection(listings),
 		};
 	},
 	updateById: {

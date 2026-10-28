@@ -2,6 +2,7 @@ import {
 	CartItemData,
 	CombinationsData,
 	ListingCardData,
+	ListingCollectionData,
 	ListingPageData,
 	ShopManagerListingCardData,
 	VariationImagesData,
@@ -15,6 +16,7 @@ import {
 	summarizeVariations,
 } from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
+import { mapShopToCardData } from '@server/mappers/shop.mapper';
 
 const getVariations = (listing: Listing): VariationsData =>
 	(listing.variations ?? {}) as VariationsData;
@@ -69,9 +71,20 @@ export const mapListingToCardData = (
 			listing.priceCents || 0,
 		),
 		shopShortId: listing.shop.shortId || '',
-		shopTitle: listing.shop.title,
 		variations: summarizeVariations(variations),
 		createdAt: listing.createdAt.toISOString(),
+	};
+};
+
+export const mapListingsToCollection = (
+	listings: Listing[],
+): ListingCollectionData => {
+	const shopsById = new Map(
+		listings.map((listing) => [listing.shop.id, listing.shop]),
+	);
+	return {
+		listings: listings.map(mapListingToCardData),
+		shops: [...shopsById.values()].map(mapShopToCardData),
 	};
 };
 

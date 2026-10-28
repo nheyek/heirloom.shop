@@ -6,20 +6,29 @@ import {
 	LISTING_GRID_PAGE_SIZE,
 	STANDARD_GRID_COLUMNS,
 } from '@client/constants';
-import { ListingCardData } from '@heirloom/common/contract';
+import { indexShopTitles } from '@client/utils/shopUtils';
+import {
+	ListingCardData,
+	ShopCardData,
+} from '@heirloom/common/contract';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	listings: ListingCardData[];
 	isLoading: boolean;
 	columns?: Record<string, number>;
-	includeShopTitle?: boolean;
+	shops?: ShopCardData[];
 };
 
 export const ListingGrid = (props: Props) => {
 	const navigate = useNavigate();
 	const goToListing = (shortId: string) =>
 		navigate(`/${CLIENT_ROUTES.listing}/${shortId}`);
+	const shopTitles = useMemo(
+		() => indexShopTitles(props.shops),
+		[props.shops],
+	);
 
 	return (
 		<ItemGrid
@@ -32,7 +41,11 @@ export const ListingGrid = (props: Props) => {
 			renderItem={(listing, isMobile) => (
 				<ListingDisplayCard
 					{...listing}
-					showShopTitle={props.includeShopTitle}
+					{...(props.shops && {
+						shopTitle: shopTitles.get(
+							listing.shopShortId,
+						),
+					})}
 					{...(isMobile
 						? {
 								onCardBodyClick: () =>

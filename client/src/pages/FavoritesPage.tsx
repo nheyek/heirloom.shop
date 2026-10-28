@@ -30,6 +30,9 @@ export const FavoritesPage = () => {
 			: CLIENT_ROUTES.listings;
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listingShops, setListingShops] = useState<ShopCardData[]>(
+		[],
+	);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [dataLoading, setDataLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
@@ -50,7 +53,8 @@ export const FavoritesPage = () => {
 		) {
 			setError('Failed to load favorites');
 		} else {
-			setListings(listingsResult.data);
+			setListings(listingsResult.data.listings);
+			setListingShops(listingsResult.data.shops);
 			setShops(shopsResult.data);
 		}
 		setDataLoading(false);
@@ -121,7 +125,7 @@ export const FavoritesPage = () => {
 						listings={listings}
 						isLoading={isLoading}
 						columns={gridColumns}
-						includeShopTitle
+						shops={listingShops}
 					/>
 				)}
 			</Tabs.Content>

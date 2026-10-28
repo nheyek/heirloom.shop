@@ -1,7 +1,9 @@
 import { Box, Link, Skeleton, Stack } from '@chakra-ui/react';
-import { SearchableListingGrid } from '@client/components/collections/SearchableListingGrid';
+import { ShopGrid } from '@client/components/collections/ShopGrid';
+import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
+import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
 	STANDARD_GRID_GAP,
@@ -10,7 +12,10 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { callApi } from '@client/utils/apiUtils';
-import { ListingCardData } from '@heirloom/common/contract';
+import {
+	ListingCardData,
+	ShopCardData,
+} from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -27,6 +32,7 @@ export const CategoryPage = () => {
 	const { categoriesLoading, categoriesError } = useCategories();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [shops, setShops] = useState<ShopCardData[]>([]);
 	const [listingsLoading, setListingsLoading] = useState(true);
 	const [listingsError, setListingsError] = useState<string | null>(
 		null,
@@ -42,7 +48,8 @@ export const CategoryPage = () => {
 		if (result.error !== null) {
 			setListingsError(result.error);
 		} else {
-			setListings(result.data);
+			setListings(result.data.listings);
+			setShops(result.data.shops);
 		}
 
 		setListingsLoading(false);
@@ -52,6 +59,7 @@ export const CategoryPage = () => {
 		setListingsLoading(true);
 		setListingsError(null);
 		setListings([]);
+		setShops([]);
 
 		loadListings();
 	}, [id]);
@@ -102,13 +110,24 @@ export const CategoryPage = () => {
 				)}
 			</Box>
 
+			{!listingsError && (isLoading || shops.length > 0) && (
+				<Stack gap={2}>
+					<SectionTitle>Makers</SectionTitle>
+					<ShopGrid
+						shops={shops}
+						isLoading={isLoading}
+					/>
+				</Stack>
+			)}
+
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<SearchableListingGrid
+				<SortableListingGrid
+					title="All Listings"
 					listings={listings}
 					isLoading={isLoading}
-					includeShopTitle
+					shops={shops}
 				/>
 			)}
 		</Stack>

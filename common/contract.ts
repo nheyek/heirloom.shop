@@ -62,9 +62,24 @@ const ListingCardDataSchema = z.object({
 	basePriceCents: z.number(),
 	priceVaries: z.boolean(),
 	shopShortId: z.string(),
-	shopTitle: z.string(),
 	variations: z.array(VariationSummarySchema),
 	createdAt: z.string(),
+});
+
+const ShopCardDataSchema = z.object({
+	id: z.number(),
+	shortId: z.string(),
+	title: z.string(),
+	location: z.string().nullish(),
+	classification: z.string().nullish(),
+	profileImageUuid: z.string().nullish(),
+	countryCode: z.string().nullable(),
+	profileRichText: z.string().nullish(),
+});
+
+const ListingCollectionSchema = z.object({
+	listings: z.array(ListingCardDataSchema),
+	shops: z.array(ShopCardDataSchema),
 });
 
 const ListingBaseSchema = z.object({
@@ -196,7 +211,7 @@ export const categoryContract = c.router({
 		path: '/api/categories/:id/listings',
 		pathParams: z.object({ id: z.string() }),
 		responses: {
-			200: z.array(ListingCardDataSchema),
+			200: ListingCollectionSchema,
 			404: ErrorSchema,
 		},
 	},
@@ -262,7 +277,7 @@ export const listingsContract = c.router({
 	getAll: {
 		method: 'GET',
 		path: '/api/listings',
-		responses: { 200: z.array(ListingCardDataSchema) },
+		responses: { 200: ListingCollectionSchema },
 	},
 	getById: {
 		method: 'GET',
@@ -303,17 +318,6 @@ export const listingsContract = c.router({
 			404: ErrorSchema,
 		},
 	},
-});
-
-const ShopCardDataSchema = z.object({
-	id: z.number(),
-	shortId: z.string(),
-	title: z.string(),
-	location: z.string().nullish(),
-	classification: z.string().nullish(),
-	profileImageUuid: z.string().nullish(),
-	countryCode: z.string().nullable(),
-	profileRichText: z.string().nullish(),
 });
 
 const ShopProfileSchema = z.object({
@@ -373,7 +377,7 @@ export const shopsContract = c.router({
 		path: '/api/shops/:id/listings',
 		pathParams: z.object({ id: z.string() }),
 		responses: {
-			200: z.array(ListingCardDataSchema),
+			200: ListingCollectionSchema,
 			404: ErrorSchema,
 		},
 	},
@@ -961,7 +965,7 @@ export const meContract = c.router({
 		method: 'GET',
 		path: '/api/me/favorites',
 		responses: {
-			200: z.array(ListingCardDataSchema),
+			200: ListingCollectionSchema,
 			401: ErrorSchema,
 			404: ErrorSchema,
 		},
@@ -1008,6 +1012,9 @@ export type VariationImagesData = z.infer<typeof VariationImagesSchema>;
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
+export type ListingCollectionData = z.infer<
+	typeof ListingCollectionSchema
+>;
 export type ShopManagerListingCardData = z.infer<
 	typeof ShopManagerListingCardDataSchema
 >;

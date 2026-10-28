@@ -1,6 +1,6 @@
 import { meContract } from '@heirloom/common/contract';
 import { ERROR_MESSAGES } from '@server/constants';
-import { mapListingToCardData } from '@server/mappers/listing.mapper';
+import { mapListingsToCollection } from '@server/mappers/listing.mapper';
 import { mapOrderToApiResponseData } from '@server/mappers/order.mapper';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import * as favoriteListingService from '@server/services/favoriteListing.service';
@@ -62,7 +62,7 @@ export const meRouter = s.router(meContract, {
 				);
 			return {
 				status: 200 as const,
-				body: listings.map(mapListingToCardData),
+				body: mapListingsToCollection(listings),
 			};
 		},
 	},

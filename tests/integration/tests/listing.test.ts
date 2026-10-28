@@ -141,7 +141,7 @@ describe('GET /api/listings', () => {
 
 	it('returns exactly the featured listings, in featured order', () => {
 		expect(res.status).toBe(200);
-		expect(res.body.map((l: any) => l.title)).toEqual([
+		expect(res.body.listings.map((l: any) => l.title)).toEqual([
 			'Mahogany Dresser',
 			'Handmade Vase',
 			'Linen Blouse',
@@ -149,14 +149,14 @@ describe('GET /api/listings', () => {
 	});
 
 	it('excludes listings that are not featured', () => {
-		const titles = res.body.map((l: any) => l.title);
+		const titles = res.body.listings.map((l: any) => l.title);
 		expect(titles).not.toContain("Men's Oxford Shirt");
 		expect(titles).not.toContain('Art Deco Brooch');
 		expect(titles).not.toContain('Victorian Writing Desk');
 	});
 
 	it('returns listings with the expected shape', () => {
-		const listing = res.body[0];
+		const listing = res.body.listings[0];
 		expect(Object.keys(listing).sort()).toEqual(
 			[
 				'id',
@@ -167,7 +167,6 @@ describe('GET /api/listings', () => {
 				'basePriceCents',
 				'priceVaries',
 				'shopShortId',
-				'shopTitle',
 				'variations',
 				'createdAt',
 			].sort(),
@@ -232,8 +231,8 @@ describe('GET /api/categories/:id/listings', () => {
 			'/api/categories/FURNITURE/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(2);
-		const shortIds = res.body.map((l: any) => l.shortId);
+		expect(res.body.listings).toHaveLength(2);
+		const shortIds = res.body.listings.map((l: any) => l.shortId);
 		expect(shortIds).toEqual(expect.arrayContaining(['drss01', 'desk01']));
 	});
 
@@ -242,8 +241,8 @@ describe('GET /api/categories/:id/listings', () => {
 			'/api/categories/CLOTHING/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(2);
-		const shortIds = res.body.map((l: any) => l.shortId);
+		expect(res.body.listings).toHaveLength(2);
+		const shortIds = res.body.listings.map((l: any) => l.shortId);
 		expect(shortIds).toEqual(
 			expect.arrayContaining(['shrt01', 'blse01']),
 		);
@@ -254,8 +253,20 @@ describe('GET /api/categories/:id/listings', () => {
 			'/api/categories/JEWELRY/listings',
 		);
 		expect(res.status).toBe(200);
-		expect(res.body).toHaveLength(1);
-		expect(res.body[0].shortId).toBe('brch01');
+		expect(res.body.listings).toHaveLength(1);
+		expect(res.body.listings[0].shortId).toBe('brch01');
+	});
+
+	it('returns each maker of the category listings once', async () => {
+		const res = await request(getApp()).get(
+			'/api/categories/CLOTHING/listings',
+		);
+		const shopShortIds = res.body.shops.map((s: any) => s.shortId);
+		expect(new Set(shopShortIds).size).toBe(shopShortIds.length);
+		for (const listing of res.body.listings) {
+			expect(shopShortIds).toContain(listing.shopShortId);
+		}
+		expect(res.body.shops[0]).not.toHaveProperty('profileRichText');
 	});
 
 	it('returns 404 for an unknown category', async () => {

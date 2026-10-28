@@ -35,6 +35,9 @@ export const LandingPage = () => {
 	const [shopsError, setShopsError] = useState<string | null>(null);
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
+	const [listingShops, setListingShops] = useState<ShopCardData[]>(
+		[],
+	);
 	const [listingsLoading, setListingsLoading] =
 		useState<boolean>(false);
 	const [listingsError, setListingsError] = useState<string | null>(
@@ -66,7 +69,8 @@ export const LandingPage = () => {
 		if (result.error !== null) {
 			setListingsError('Failed to load listings');
 		} else {
-			setListings(result.data);
+			setListings(result.data.listings);
+			setListingShops(result.data.shops);
 		}
 		setListingsLoading(false);
 	};
@@ -182,7 +186,7 @@ export const LandingPage = () => {
 						<ListingGrid
 							listings={listings}
 							isLoading={isLoading}
-							includeShopTitle
+							shops={listingShops}
 						/>
 					</Stack>
 				)}

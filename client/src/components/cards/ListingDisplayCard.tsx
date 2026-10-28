@@ -6,15 +6,12 @@ import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { ListingCard, ListingCardIconMenu } from './ListingCard';
 
 type Props = ListingCardData & {
-	showShopTitle?: boolean;
+	shopTitle?: string;
 	onCardBodyClick?: () => void;
 	onImageClick?: () => void;
 };
 
-export const ListingDisplayCard = ({
-	showShopTitle,
-	...props
-}: Props) => {
+export const ListingDisplayCard = (props: Props) => {
 	const shareListing = useShareListing();
 	const { favoriteIds, toggleFavorite } = useFavorites();
 
@@ -23,7 +20,6 @@ export const ListingDisplayCard = ({
 	return (
 		<ListingCard
 			{...props}
-			showShopTitle={showShopTitle}
 			actionMenu={
 				<ListingCardIconMenu
 					items={[

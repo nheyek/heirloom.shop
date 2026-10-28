@@ -78,7 +78,7 @@ export const FavoritesProvider = (props: {
 		} else {
 			setFavoriteIds(
 				new Set<string>(
-					listingsResult.data.map(
+					listingsResult.data.listings.map(
 						(listing) => listing.shortId,
 					),
 				),
