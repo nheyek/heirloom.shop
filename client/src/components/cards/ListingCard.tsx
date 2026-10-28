@@ -9,27 +9,24 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import { MultiImage } from '@client/components/imageDisplay/MultiImage';
+import { AppImage } from '@client/components/imageDisplay/AppImage';
+import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
 	CLIENT_ROUTES,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { displayFontFamily } from '@client/theme';
-import {
-	ImageSource,
-	listingImageUrl,
-} from '@client/utils/imageUtils';
+import { listingImageUrl } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
-import {
-	getDefaultOptionSelection,
-	getListingDisplayPrice,
-	getOrderedListingImageUuids,
-} from '@heirloom/common/domain/listing';
+import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { Link as RouterLink } from 'react-router-dom';
+
+const BADGE_OVERLAY_MARGIN = 3;
+const BADGE_OVERLAY_GAP = 1.5;
 
 export type ListingCardIconMenuItem = {
 	icon: IconType;
@@ -61,7 +58,6 @@ export const ListingCardIconMenu = ({
 );
 
 type Props = ListingCardData & {
-	multiImage?: boolean;
 	actionMenu?: ReactNode;
 	showShopTitle?: boolean;
 	topRight?: ReactNode;
@@ -104,24 +100,6 @@ export const ListingCard = ({
 		props.priceCents,
 	) ?? { priceCents: props.priceCents, isMinimum: false };
 
-	const imageUuids = getOrderedListingImageUuids(
-		props,
-		getDefaultOptionSelection(props).selection,
-	);
-
-	const getImageSource = (uuid: string): ImageSource => ({
-		url: listingImageUrl(
-			props.shopShortId,
-			uuid,
-			ImageVariant.SMALL,
-		),
-		fallback: listingImageUrl(
-			props.shopShortId,
-			uuid,
-			ImageVariant.FULL,
-		),
-	});
-
 	return (
 		<Card.Root
 			variant="elevated"
@@ -151,18 +129,43 @@ export const ListingCard = ({
 				onClick={onCardBodyClick}
 				{...(onCardBodyClick && { cursor: 'pointer' })}
 			>
-				<MultiImage
-					overlayElements={variationBadges}
-					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
-					onImageClick={onImageClick}
-					urls={
-						props.multiImage
-							? imageUuids.map(getImageSource)
-							: imageUuids
-									.slice(0, 1)
-									.map(getImageSource)
-					}
-				/>
+				<Box position="relative">
+					{props.heroImageUuid ? (
+						<AppImage
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+							fallbackSrc={listingImageUrl(
+								props.shopShortId,
+								props.heroImageUuid,
+								ImageVariant.FULL,
+							)}
+							imageProps={{
+								src: listingImageUrl(
+									props.shopShortId,
+									props.heroImageUuid,
+									ImageVariant.SMALL,
+								),
+								onClick: onImageClick,
+								...(onImageClick && {
+									cursor: 'pointer',
+								}),
+							}}
+						/>
+					) : (
+						<ImagePlaceholder
+							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+						/>
+					)}
+					<Stack
+						position="absolute"
+						top={BADGE_OVERLAY_MARGIN}
+						left={BADGE_OVERLAY_MARGIN}
+						gap={BADGE_OVERLAY_GAP}
+						alignItems="flex-start"
+						pointerEvents="none"
+					>
+						{variationBadges}
+					</Stack>
+				</Box>
 
 				<Card.Body
 					p={3}

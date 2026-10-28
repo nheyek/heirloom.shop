@@ -7,7 +7,7 @@ import {
 } from '@heirloom/common/contract';
 import {
 	getCombinationKey,
-	getOrderedListingImageUuids,
+	getHeroImageUuid,
 	HEIRLOOM_LISTING_PROFILES,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
@@ -173,16 +173,15 @@ export const createOrderItemSnapshots = (
 			title: listing.title,
 			shopName: listing.shop.title,
 			shopShortId: listing.shop.shortId,
-			imageUuid:
-				getOrderedListingImageUuids(
-					{
-						imageUuids: listing.imageUuids,
-						variations,
-						variationImages:
-							listing.variationImages as VariationImagesData | null,
-					},
-					item.selectedOptions,
-				)[0] ?? null,
+			imageUuid: getHeroImageUuid(
+				{
+					imageUuids: listing.imageUuids,
+					variations,
+					variationImages:
+						listing.variationImages as VariationImagesData | null,
+				},
+				item.selectedOptions,
+			),
 			unitPriceCents,
 			shippingPriceCents: resolveShippingRateCents(listing),
 			quantity: item.quantity,

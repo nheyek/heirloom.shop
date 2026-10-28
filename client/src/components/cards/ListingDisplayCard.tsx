@@ -6,7 +6,6 @@ import { FaRegShareFromSquare } from 'react-icons/fa6';
 import { ListingCard, ListingCardIconMenu } from './ListingCard';
 
 type Props = ListingCardData & {
-	multiImage?: boolean;
 	showShopTitle?: boolean;
 	onCardBodyClick?: () => void;
 	onImageClick?: () => void;

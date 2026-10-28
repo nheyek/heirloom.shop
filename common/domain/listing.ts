@@ -308,6 +308,12 @@ export const getOrderedListingImageUuids = (
 	]),
 ];
 
+export const getHeroImageUuid = (
+	listing: ListingImageContext,
+	selectedOptions: Record<string, string>,
+): string | null =>
+	getOrderedListingImageUuids(listing, selectedOptions)[0] ?? null;
+
 export const resolveEffectiveCombinationImages = (
 	optionMap: Record<string, string>,
 	variations: Variations,

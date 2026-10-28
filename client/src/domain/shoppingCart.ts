@@ -4,7 +4,7 @@ import {
 } from '@heirloom/common/contract';
 import {
 	getCombinationKey,
-	getOrderedListingImageUuids,
+	getHeroImageUuid,
 	isValidCombinationSelection,
 	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
@@ -37,11 +37,10 @@ export const getOrderItemDisplayData = (
 		shopName: item.listingData.shopTitle ?? '',
 		shopShortId: item.listingData.shopShortId,
 		shippingPriceCents: item.listingData.shippingPrice ?? 0,
-		imageUuid:
-			getOrderedListingImageUuids(
-				item.listingData,
-				item.selectedOptions,
-			)[0] ?? null,
+		imageUuid: getHeroImageUuid(
+			item.listingData,
+			item.selectedOptions,
+		),
 		unitPriceCents: calculateItemPrice(
 			item.listingData,
 			item.selectedOptions,

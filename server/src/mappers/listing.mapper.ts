@@ -9,9 +9,30 @@ import {
 } from '@heirloom/common/contract';
 import {
 	getCombinationKey,
+	getDefaultOptionSelection,
+	getHeroImageUuid,
 	isListingOutOfStock,
 } from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
+
+const resolveHeroImageUuid = (listing: Listing): string | null => {
+	const variations = (listing.variations ?? {}) as VariationsData;
+	const { selection } = getDefaultOptionSelection({
+		variations,
+		combinations: (listing.variationAvailability ??
+			{}) as CombinationsData,
+		trackInventory: listing.trackInventory,
+	});
+	return getHeroImageUuid(
+		{
+			imageUuids: listing.imageUuids,
+			variations,
+			variationImages: (listing.variationImages ??
+				null) as VariationImagesData | null,
+		},
+		selection,
+	);
+};
 
 export const mapListingToApiResponseData = (
 	listing: Listing,
@@ -26,13 +47,12 @@ export const mapListingToApiResponseData = (
 	shopId: listing.shop.id,
 	shopShortId: listing.shop.shortId || '',
 	shopTitle: listing.shop.title,
-	imageUuids: listing.imageUuids,
+	heroImageUuid: resolveHeroImageUuid(listing),
 	available: listing.available,
 	trackInventory: listing.trackInventory,
 	createdAt: listing.createdAt.toISOString(),
 	variations: (listing.variations ?? {}) as VariationsData,
 	combinations: (listing.variationAvailability ?? {}) as CombinationsData,
-	variationImages: (listing.variationImages ?? null) as VariationImagesData | null,
 });
 
 export const mapListingToShopManagerCardData = (
@@ -61,6 +81,9 @@ export const mapListingToCompleteApiResponseData = (
 
 	return {
 		...mapListingToApiResponseData(listing),
+		imageUuids: listing.imageUuids,
+		variationImages: (listing.variationImages ??
+			null) as VariationImagesData | null,
 		directFulfillment: listing.shop.directFulfillment,
 		fullDescr: listing.fullDescr,
 		trackInventory: listing.trackInventory,
@@ -117,6 +140,9 @@ export const mapListingToCartItemData = (
 	);
 	return {
 		...mapListingToApiResponseData(listing),
+		imageUuids: listing.imageUuids,
+		variationImages: (listing.variationImages ??
+			null) as VariationImagesData | null,
 		shippingPrice,
 		deliveryEstimate,
 		personalizationCostCents:

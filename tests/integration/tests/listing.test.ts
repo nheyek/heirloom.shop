@@ -165,7 +165,9 @@ describe('GET /api/listings', () => {
 		expect(listing).toHaveProperty('shopTitle');
 		expect(listing).toHaveProperty('subtitle');
 		expect(listing).toHaveProperty('categoryId');
-		expect(Array.isArray(listing.imageUuids)).toBe(true);
+		expect(listing).toHaveProperty('heroImageUuid');
+		expect(listing).not.toHaveProperty('imageUuids');
+		expect(listing).not.toHaveProperty('variationImages');
 	});
 });
 

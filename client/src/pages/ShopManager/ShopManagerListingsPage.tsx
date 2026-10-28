@@ -12,7 +12,7 @@ import { sidebarGridCols } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ShopManagerListingCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShopManagerListingsPage = () => {
@@ -67,8 +67,8 @@ export const ShopManagerListingsPage = () => {
 						)
 					}
 				>
-					<FaPlusCircle />
-					Create Listing
+					<FaPlus />
+					New Listing
 				</Button>
 				<ItemGrid
 					items={listings}
@@ -78,10 +78,9 @@ export const ShopManagerListingsPage = () => {
 					skeletonAspectRatio={
 						LISTING_CARD_SKELETON_ASPECT_RATIO
 					}
-					renderItem={(listing, isMobile) => (
+					renderItem={(listing) => (
 						<ListingEditCard
 							{...listing}
-							multiImage={!isMobile}
 							onEdit={() =>
 								navigate(
 									`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${listing.shortId}`,

@@ -75,7 +75,6 @@ const ListingAvailableDialog = ({
 );
 
 type Props = ShopManagerListingCardData & {
-	multiImage?: boolean;
 	onEdit: () => void;
 };
 

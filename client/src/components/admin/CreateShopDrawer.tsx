@@ -131,7 +131,7 @@ export const CreateShopDrawer = ({
 
 	return (
 		<AppDrawer
-			title="Create Shop"
+			title="New Shop"
 			isOpen={isOpen}
 			onClose={onClose}
 			footer={confirmButton}

@@ -30,7 +30,6 @@ export const ListingGrid = (props: Props) => {
 			renderItem={(listing, isMobile) => (
 				<ListingDisplayCard
 					{...listing}
-					multiImage={!isMobile}
 					showShopTitle={props.includeShopTitle}
 					{...(isMobile
 						? {

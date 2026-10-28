@@ -13,7 +13,7 @@ import { useMinDuration } from '@client/hooks/useMinDuration';
 import { callApi } from '@client/utils/apiUtils';
 import { AdminShopListItem } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
-import { FaPlusCircle } from 'react-icons/fa';
+import { FaPlus } from 'react-icons/fa6';
 import { Link as RouterLink } from 'react-router-dom';
 
 export const AdminShopsPage = () => {
@@ -43,8 +43,8 @@ export const AdminShopsPage = () => {
 					size="lg"
 					onClick={() => setCreateShopOpen(true)}
 				>
-					<FaPlusCircle />
-					Create Shop
+					<FaPlus />
+					New Shop
 				</Button>
 				{shopsError ? (
 					<AppError title="Failed to load shops" />

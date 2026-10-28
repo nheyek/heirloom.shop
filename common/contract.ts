@@ -59,13 +59,12 @@ const ListingCardDataSchema = z.object({
 	shopId: z.number(),
 	shopShortId: z.string(),
 	shopTitle: z.string(),
-	imageUuids: z.array(z.string()),
+	heroImageUuid: z.string().nullable(),
 	available: z.boolean(),
 	trackInventory: z.boolean(),
 	createdAt: z.string(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
-	variationImages: VariationImagesSchema.nullable(),
 });
 
 // Adds shop-owner-only inventory fields on top of the public listing card
@@ -217,6 +216,8 @@ const ListingFulfillmentProfilesSchema = z.object({
 });
 
 const ListingPageDataSchema = ListingCardDataSchema.extend({
+	imageUuids: z.array(z.string()),
+	variationImages: VariationImagesSchema.nullable(),
 	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
@@ -226,7 +227,10 @@ const ListingPageDataSchema = ListingCardDataSchema.extend({
 
 const CartItemDataSchema = ListingCardDataSchema.omit({
 	createdAt: true,
+	heroImageUuid: true,
 }).extend({
+	imageUuids: z.array(z.string()),
+	variationImages: VariationImagesSchema.nullable(),
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
 	personalizationCostCents: z.number().nullable(),
