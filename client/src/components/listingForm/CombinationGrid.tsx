@@ -10,6 +10,7 @@ import { fieldErrorColor } from '@client/theme';
 import {
 	deriveCombinationsList,
 	resolveEffectiveCombinationPrice,
+	sortByOrder,
 } from '@heirloom/common/domain/listing';
 
 type Props = {
@@ -39,9 +40,7 @@ export const CombinationGrid = ({
 	disabled,
 	trackInventory,
 }: Props) => {
-	const sortedVariations = Object.entries(variations).sort(
-		(a, b) => a[1].order - b[1].order,
-	);
+	const sortedVariations = sortByOrder(variations);
 	const showPrice = sortedVariations.some(([, v]) => v.pricesVary);
 	const showInventory = !!trackInventory;
 

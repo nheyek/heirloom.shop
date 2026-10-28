@@ -4,6 +4,7 @@ import {
 	getDefaultOptionSelection,
 	getOrderedListingImageUuids,
 	isVariationOptionDisabled,
+	sortByOrder,
 } from '@heirloom/common/domain/listing';
 import { useMemo, useState } from 'react';
 
@@ -62,15 +63,13 @@ export const useVariationSelection = (
 		: [];
 
 	const variationCollections: VariationCollection[] = listingData
-		? Object.entries(listingData.variations)
-				.sort(([, a], [, b]) => a.order - b.order)
-				.map(([varId, variation]) => ({
+		? sortByOrder(listingData.variations).map(
+				([varId, variation]) => ({
 					id: varId,
 					name: variation.name,
 					collection: createListCollection({
-						items: Object.entries(variation.options)
-							.sort(([, a], [, b]) => a.order - b.order)
-							.map(([optId, option]) => ({
+						items: sortByOrder(variation.options).map(
+							([optId, option]) => ({
 								value: optId,
 								label: option.name,
 								disabled: isVariationOptionDisabled(
@@ -79,9 +78,11 @@ export const useVariationSelection = (
 									selectedVariationOptions,
 									listingData,
 								),
-							})),
+							}),
+						),
 					}),
-				}))
+				}),
+			)
 		: [];
 
 	const allVariationsSelected = listingData

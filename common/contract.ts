@@ -48,7 +48,26 @@ const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
 const VariationImagesSchema = z.record(z.string(), z.string().nullable());
 
+const VariationSummarySchema = z.object({
+	name: z.string(),
+	numOptions: z.number(),
+});
+
 const ListingCardDataSchema = z.object({
+	id: z.number(),
+	shortId: z.string(),
+	title: z.string(),
+	subtitle: z.string(),
+	heroImageUuid: z.string().nullable(),
+	basePriceCents: z.number(),
+	priceVaries: z.boolean(),
+	shopShortId: z.string(),
+	shopTitle: z.string(),
+	variations: z.array(VariationSummarySchema),
+	createdAt: z.string(),
+});
+
+const ListingBaseSchema = z.object({
 	id: z.number(),
 	shortId: z.string(),
 	title: z.string(),
@@ -59,12 +78,12 @@ const ListingCardDataSchema = z.object({
 	shopId: z.number(),
 	shopShortId: z.string(),
 	shopTitle: z.string(),
-	heroImageUuid: z.string().nullable(),
+	imageUuids: z.array(z.string()),
 	available: z.boolean(),
 	trackInventory: z.boolean(),
-	createdAt: z.string(),
 	variations: VariationsSchema,
 	combinations: CombinationsSchema,
+	variationImages: VariationImagesSchema.nullable(),
 });
 
 // Adds shop-owner-only inventory fields on top of the public listing card
@@ -73,6 +92,7 @@ const ListingCardDataSchema = z.object({
 // ListingCardDataSchema, so stock counts aren't exposed to customers.
 const ShopManagerListingCardDataSchema = ListingCardDataSchema.extend(
 	{
+		available: z.boolean(),
 		inventory: z.number().nullable().optional(),
 		trackInventory: z.boolean(),
 	},
@@ -215,27 +235,18 @@ const ListingFulfillmentProfilesSchema = z.object({
 		.optional(),
 });
 
-const ListingPageDataSchema = ListingCardDataSchema.extend({
-	imageUuids: z.array(z.string()),
-	variationImages: VariationImagesSchema.nullable(),
+const ListingPageDataSchema = ListingBaseSchema.extend({
 	directFulfillment: z.boolean(),
 	fullDescr: z.array(ListingDescrSectionSchema).optional(),
 	profiles: ListingFulfillmentProfilesSchema.nullable(),
 	outOfStock: z.boolean(),
-	trackInventory: z.boolean(),
 });
 
-const CartItemDataSchema = ListingCardDataSchema.omit({
-	createdAt: true,
-	heroImageUuid: true,
-}).extend({
-	imageUuids: z.array(z.string()),
-	variationImages: VariationImagesSchema.nullable(),
+const CartItemDataSchema = ListingBaseSchema.extend({
 	shippingPrice: z.number(),
 	deliveryEstimate: z.string().nullable().optional(),
 	personalizationCostCents: z.number().nullable(),
 	personalizationName: z.string().nullable(),
-	trackInventory: z.boolean(),
 });
 
 const FavoriteResponseSchema = z.object({ favorited: z.boolean() });

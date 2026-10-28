@@ -230,7 +230,7 @@ describe('GET /api/shops/:id/listings', () => {
 			'/api/shops/wood20/listings',
 		);
 		for (const listing of res.body) {
-			expect(listing.shopId).toBe(woodworkersId);
+			expect(listing.shopShortId).toBe('wood20');
 		}
 	});
 });

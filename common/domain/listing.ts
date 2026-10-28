@@ -43,6 +43,24 @@ export type Variations = Record<string, Variation>;
 export type Combinations = Record<string, Combination>;
 export type VariationImages = Record<string, string | null>;
 
+export const sortByOrder = <T extends { order: number }>(
+	entries: Record<string, T>,
+): [string, T][] =>
+	Object.entries(entries).sort(([, a], [, b]) => a.order - b.order);
+
+export type VariationSummary = {
+	name: string;
+	numOptions: number;
+};
+
+export const summarizeVariations = (
+	variations: Variations,
+): VariationSummary[] =>
+	sortByOrder(variations).map(([, variation]) => ({
+		name: variation.name,
+		numOptions: Object.keys(variation.options).length,
+	}));
+
 export const isListingOutOfStock = (
 	trackInventory: boolean,
 	inventory: number | null | undefined,
@@ -88,16 +106,12 @@ export const parseCombinationKey = (
 export const deriveCombinationsList = (
 	variations: Variations,
 ): { key: string; optionMap: Record<string, string> }[] => {
-	const sorted = Object.entries(variations).sort(
-		([, a], [, b]) => a.order - b.order,
-	);
+	const sorted = sortByOrder(variations);
 	if (sorted.length === 0) return [];
 
 	const optionArrays = sorted.map(([varId, v]) => ({
 		varId,
-		optIds: Object.entries(v.options)
-			.sort(([, a], [, b]) => a.order - b.order)
-			.map(([id]) => id),
+		optIds: sortByOrder(v.options).map(([id]) => id),
 	}));
 
 	if (optionArrays.some((a) => a.optIds.length === 0)) return [];
@@ -203,9 +217,9 @@ export const resolveEffectiveCombinationPrice = (
 	const key = getCombinationKey(optionMap);
 	if (combinations[key]?.priceCents != null)
 		return combinations[key].priceCents;
-	const sorted = Object.entries(variations)
-		.filter(([, v]) => v.pricesVary)
-		.sort(([, a], [, b]) => a.order - b.order);
+	const sorted = sortByOrder(variations).filter(
+		([, v]) => v.pricesVary,
+	);
 	for (const [varId, v] of sorted) {
 		const price = v.options[optionMap[varId]]?.priceCents ?? null;
 		if (price != null) return price;
@@ -223,13 +237,43 @@ export type PersonalizationSelection = {
 	selected: boolean;
 } | null;
 
+const addPersonalizationCost = (
+	priceCents: number,
+	costCents: number | null | undefined,
+): number =>
+	costCents != null ? priceCents + costCents : priceCents;
+
 const applyPersonalizationCost = (
 	priceCents: number,
 	personalization: PersonalizationSelection,
 ): number =>
-	personalization?.selected && personalization.costCents != null
-		? priceCents + personalization.costCents
+	personalization?.selected
+		? addPersonalizationCost(
+				priceCents,
+				personalization.costCents,
+			)
 		: priceCents;
+
+export type PricedListing = {
+	priceCents: number;
+	variations: Variations;
+	combinations: Combinations;
+};
+
+export const getSelectionPriceCents = (
+	listing: PricedListing,
+	selectedOptions: Record<string, string>,
+	personalizationCostCents?: number | null,
+): number =>
+	addPersonalizationCost(
+		resolveEffectiveCombinationPrice(
+			selectedOptions,
+			listing.combinations,
+			listing.variations,
+			listing.priceCents,
+		) ?? listing.priceCents,
+		personalizationCostCents,
+	);
 
 export const getListingDisplayPrice = (
 	variations: Variations,
@@ -288,6 +332,22 @@ export const getListingDisplayPrice = (
 		: null;
 };
 
+export const getListingBasePrice = (
+	variations: Variations,
+	combinations: Combinations,
+	priceCents: number,
+): { basePriceCents: number; priceVaries: boolean } => {
+	const displayPrice = getListingDisplayPrice(
+		variations,
+		combinations,
+		priceCents,
+	);
+	return {
+		basePriceCents: displayPrice?.priceCents ?? priceCents,
+		priceVaries: displayPrice?.isMinimum ?? false,
+	};
+};
+
 export type ListingImageContext = {
 	imageUuids: string[];
 	variations: Variations;
@@ -319,9 +379,9 @@ export const resolveEffectiveCombinationImages = (
 	variations: Variations,
 	variationImages?: VariationImages | null,
 ): string[] => {
-	const imageVaryingEntries = Object.entries(
+	const imageVaryingEntries = sortByOrder(
 		getImageVaryingVariations(variations),
-	).sort(([, a], [, b]) => a.order - b.order);
+	);
 
 	const variationImageUuid = hasVariationImages(variationImages)
 		? variationImages[
@@ -337,7 +397,8 @@ export const resolveEffectiveCombinationImages = (
 		: null;
 	const optionImageUuids = imageVaryingEntries.flatMap(
 		([variationId, variation]) =>
-			variation.options[optionMap[variationId]]?.imageUuids ?? [],
+			variation.options[optionMap[variationId]]?.imageUuids ??
+			[],
 	);
 
 	return [
@@ -421,6 +482,14 @@ export const getDefaultOptionSelection = (
 				isAvailable: false,
 			};
 };
+
+export const getDefaultHeroImageUuid = (
+	listing: ListingImageContext & ListingInventoryContext,
+): string | null =>
+	getHeroImageUuid(
+		listing,
+		getDefaultOptionSelection(listing).selection,
+	);
 
 export const isValidCombinationSelection = (
 	selectedOptions: Record<string, string>,

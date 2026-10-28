@@ -8,8 +8,8 @@ import {
 import {
 	getCombinationKey,
 	getHeroImageUuid,
+	getSelectionPriceCents,
 	HEIRLOOM_LISTING_PROFILES,
-	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
 import { calculateDeliveryEstimate } from '@heirloom/common/utils/dateUtils';
 import { Listing } from '@server/entities/generated/Listing';
@@ -70,16 +70,11 @@ const resolveUnitPrice = (
 			'Personalization is not available for this listing',
 		);
 	}
-	const basePrice =
-		resolveEffectiveCombinationPrice(
-			selectedOptions,
-			combinations,
-			variations,
-			priceCents,
-		) ?? priceCents;
-	return personalizationText && personalizationCostCents != null
-		? basePrice + personalizationCostCents
-		: basePrice;
+	return getSelectionPriceCents(
+		{ priceCents, variations, combinations },
+		selectedOptions,
+		personalizationText ? personalizationCostCents : null,
+	);
 };
 
 const resolveVariationDisplayNames = (

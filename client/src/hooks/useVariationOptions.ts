@@ -3,7 +3,10 @@ import { ImageEntry } from '@client/hooks/useImageUpload';
 import { toastError } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
-import { VariationOption } from '@heirloom/common/domain/listing';
+import {
+	sortByOrder,
+	VariationOption,
+} from '@heirloom/common/domain/listing';
 import { arrayMove } from '@dnd-kit/sortable';
 import { useRef, useState } from 'react';
 
@@ -74,17 +77,15 @@ export const useVariationOptions = (
 		initial: Record<string, VariationOption> | null,
 	): OptionDraft[] => {
 		const loaded = initial
-			? Object.entries(initial)
-					.sort(([, a], [, b]) => a.order - b.order)
-					.map(([id, o]) => ({
-						id,
-						name: o.name,
-						priceCents: o.priceCents,
-						images: imageEntriesFromUuids(
-							shopShortId,
-							o.imageUuids ?? [],
-						),
-					}))
+			? sortByOrder(initial).map(([id, o]) => ({
+					id,
+					name: o.name,
+					priceCents: o.priceCents,
+					images: imageEntriesFromUuids(
+						shopShortId,
+						o.imageUuids ?? [],
+					),
+				}))
 			: blankOptions();
 		setOptions(loaded);
 		return loaded;

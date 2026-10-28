@@ -10,10 +10,12 @@ import {
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+type FavoritableListing = Pick<ListingCardData, 'shortId' | 'title'>;
+
 type FavoritesContextType = {
 	favoriteIds: Set<string>;
 	isFavorited: (shortId: string) => boolean;
-	toggleFavorite: (listing: ListingCardData) => Promise<void>;
+	toggleFavorite: (listing: FavoritableListing) => Promise<void>;
 	favoriteShopIds: Set<string>;
 	isFavoritedShop: (shortId: string) => boolean;
 	toggleFavoriteShop: (shop: ShopCardData) => Promise<void>;
@@ -163,7 +165,7 @@ export const FavoritesProvider = (props: {
 		}
 	};
 
-	const toggleFavorite = async (listing: ListingCardData) => {
+	const toggleFavorite = async (listing: FavoritableListing) => {
 		if (!isAuthenticated) {
 			sessionStorage.setItem(
 				StorageKey.PENDING_FAVORITE,

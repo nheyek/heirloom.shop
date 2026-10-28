@@ -5,8 +5,8 @@ import {
 import {
 	getCombinationKey,
 	getHeroImageUuid,
+	getSelectionPriceCents,
 	isValidCombinationSelection,
-	resolveEffectiveCombinationPrice,
 } from '@heirloom/common/domain/listing';
 
 export type ShoppingCartItem = {
@@ -60,19 +60,13 @@ export const calculateItemPrice = (
 	selectedOptions: Record<string, string>,
 	personalizationText?: string,
 ): number => {
-	const basePrice =
-		resolveEffectiveCombinationPrice(
-			selectedOptions,
-			listingData.combinations,
-			listingData.variations,
-			listingData.priceCents ?? 0,
-		) ??
-		listingData.priceCents ??
-		0;
-	return !!personalizationText &&
-		listingData.personalizationCostCents != null
-		? basePrice + listingData.personalizationCostCents
-		: basePrice;
+	return getSelectionPriceCents(
+		listingData,
+		selectedOptions,
+		personalizationText
+			? listingData.personalizationCostCents
+			: null,
+	);
 };
 
 export const isCartItemValid = (

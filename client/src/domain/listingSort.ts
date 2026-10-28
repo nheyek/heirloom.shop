@@ -18,8 +18,10 @@ const comparators: Record<
 	Exclude<ListingSort, ListingSort.DEFAULT>,
 	(a: ListingCardData, b: ListingCardData) => number
 > = {
-	[ListingSort.PRICE_ASC]: (a, b) => a.priceCents - b.priceCents,
-	[ListingSort.PRICE_DESC]: (a, b) => b.priceCents - a.priceCents,
+	[ListingSort.PRICE_ASC]: (a, b) =>
+		a.basePriceCents - b.basePriceCents,
+	[ListingSort.PRICE_DESC]: (a, b) =>
+		b.basePriceCents - a.basePriceCents,
 	[ListingSort.MOST_RECENT]: (a, b) =>
 		Date.parse(b.createdAt) - Date.parse(a.createdAt),
 };

@@ -157,17 +157,22 @@ describe('GET /api/listings', () => {
 
 	it('returns listings with the expected shape', () => {
 		const listing = res.body[0];
-		expect(listing).toHaveProperty('id');
-		expect(listing).toHaveProperty('shortId');
-		expect(listing).toHaveProperty('title');
-		expect(listing).toHaveProperty('priceCents');
-		expect(listing).toHaveProperty('shopId');
-		expect(listing).toHaveProperty('shopTitle');
-		expect(listing).toHaveProperty('subtitle');
-		expect(listing).toHaveProperty('categoryId');
-		expect(listing).toHaveProperty('heroImageUuid');
-		expect(listing).not.toHaveProperty('imageUuids');
-		expect(listing).not.toHaveProperty('variationImages');
+		expect(Object.keys(listing).sort()).toEqual(
+			[
+				'id',
+				'shortId',
+				'title',
+				'subtitle',
+				'heroImageUuid',
+				'basePriceCents',
+				'priceVaries',
+				'shopShortId',
+				'shopTitle',
+				'variations',
+				'createdAt',
+			].sort(),
+		);
+		expect(Array.isArray(listing.variations)).toBe(true);
 	});
 });
 

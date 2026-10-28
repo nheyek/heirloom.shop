@@ -122,7 +122,6 @@ export const ListingEditCard = ({ onEdit, ...props }: Props) => {
 		<>
 			<ListingCard
 				{...props}
-				available={available}
 				topRight={
 					<Button
 						size="sm"

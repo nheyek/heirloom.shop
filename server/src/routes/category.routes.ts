@@ -2,7 +2,7 @@ import { categoryContract } from '@heirloom/common/contract';
 import { initServer } from '@ts-rest/express';
 import { ERROR_MESSAGES } from '@server/constants';
 import { mapCategoryToApiResponseData } from '@server/mappers/category.mapper';
-import { mapListingToApiResponseData } from '@server/mappers/listing.mapper';
+import { mapListingToCardData } from '@server/mappers/listing.mapper';
 import {
 	findAllCategories,
 	findCategoryById,
@@ -76,7 +76,7 @@ export const categoryRouter = s.router(categoryContract, {
 			await listingService.findListingsByCategory(upperId);
 		return {
 			status: 200 as const,
-			body: listings.map(mapListingToApiResponseData),
+			body: listings.map(mapListingToCardData),
 		};
 	},
 });

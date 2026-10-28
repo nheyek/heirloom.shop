@@ -10,9 +10,9 @@ import * as listingService from '@server/services/listing.service';
 import * as userService from '@server/services/user.service';
 import { authAndSetUser } from '@server/middleware/auth0.middleware';
 import {
-	mapListingToApiResponseData,
+	mapListingToCardData,
 	mapListingToCartItemData,
-	mapListingToCompleteApiResponseData,
+	mapListingToPageData,
 } from '@server/mappers/listing.mapper';
 
 const s = initServer();
@@ -22,7 +22,7 @@ export const listingRouter = s.router(listingsContract, {
 		const listings = await listingService.findFeaturedListings();
 		return {
 			status: 200 as const,
-			body: listings.map(mapListingToApiResponseData),
+			body: listings.map(mapListingToCardData),
 		};
 	},
 	getCartData: async ({ body }) => {
@@ -57,7 +57,7 @@ export const listingRouter = s.router(listingsContract, {
 		}
 		return {
 			status: 200 as const,
-			body: mapListingToCompleteApiResponseData(listing),
+			body: mapListingToPageData(listing),
 		};
 	},
 	favorite: {

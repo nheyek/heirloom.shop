@@ -19,6 +19,7 @@ import {
 	DEFAULT_COMBINATION,
 	deriveCombinationsList,
 	removeVariationFromCombinations,
+	sortByOrder,
 	syncVariationImages,
 	syncVariationOptions,
 	Variation,
@@ -385,9 +386,7 @@ export const useListingForm = ({
 
 	const reorderVariations = (fromId: string, toId: string) => {
 		setVariations((prev) => {
-			const sorted = Object.entries(prev).sort(
-				(a, b) => a[1].order - b[1].order,
-			);
+			const sorted = sortByOrder(prev);
 			const fromIndex = sorted.findIndex(
 				([id]) => id === fromId,
 			);

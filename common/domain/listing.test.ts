@@ -4,9 +4,15 @@ import {
 	ListingInventoryContext,
 	Variations,
 	getCombinationKey,
+	getDefaultHeroImageUuid,
 	getDefaultOptionSelection,
+	getHeroImageUuid,
+	getListingBasePrice,
 	getListingDisplayPrice,
 	getOrderedListingImageUuids,
+	getSelectionPriceCents,
+	sortByOrder,
+	summarizeVariations,
 	syncVariationImages,
 	isListingOutOfStock,
 	isValidCombinationSelection,
@@ -1147,5 +1153,251 @@ describe('syncVariationImages', () => {
 				w: { ...width, imagesVary: false },
 			}),
 		).toBeNull();
+	});
+});
+
+describe('sortByOrder', () => {
+	it('returns entries sorted by their order field', () => {
+		expect(
+			sortByOrder({
+				b: { order: 2 },
+				a: { order: 0 },
+				c: { order: 1 },
+			}).map(([id]) => id),
+		).toEqual(['a', 'c', 'b']);
+	});
+
+	it('does not mutate the input', () => {
+		const input = { b: { order: 1 }, a: { order: 0 } };
+		sortByOrder(input);
+		expect(Object.keys(input)).toEqual(['b', 'a']);
+	});
+});
+
+describe('summarizeVariations', () => {
+	it('returns an empty list when there are no variations', () => {
+		expect(summarizeVariations({})).toEqual([]);
+	});
+
+	it('returns each variation name and option count in display order', () => {
+		const variations: Variations = {
+			size: makeVariation('Size', 1, false, {
+				s: { order: 0 },
+				m: { order: 1 },
+				l: { order: 2 },
+			}),
+			metal: makeVariation('Metal', 0, true, {
+				silver: { order: 0, priceCents: 1000 },
+				bronze: { order: 1, priceCents: 800 },
+			}),
+		};
+		expect(summarizeVariations(variations)).toEqual([
+			{ name: 'Metal', numOptions: 2 },
+			{ name: 'Size', numOptions: 3 },
+		]);
+	});
+});
+
+describe('getListingBasePrice', () => {
+	it('uses the listing price when there are no variations', () => {
+		expect(getListingBasePrice({}, {}, 1500)).toEqual({
+			basePriceCents: 1500,
+			priceVaries: false,
+		});
+	});
+
+	it('uses the lowest price and flags that it varies', () => {
+		const variations: Variations = {
+			size: makeVariation('Size', 0, true, {
+				s: { order: 0, priceCents: 1000 },
+				m: { order: 1, priceCents: 1500 },
+			}),
+		};
+		expect(getListingBasePrice(variations, {}, 2000)).toEqual({
+			basePriceCents: 1000,
+			priceVaries: true,
+		});
+	});
+
+	it('does not flag a varying price when every option costs the same', () => {
+		const variations: Variations = {
+			size: makeVariation('Size', 0, true, {
+				s: { order: 0, priceCents: 1000 },
+				m: { order: 1, priceCents: 1000 },
+			}),
+		};
+		expect(getListingBasePrice(variations, {}, 2000)).toEqual({
+			basePriceCents: 1000,
+			priceVaries: false,
+		});
+	});
+
+	it('falls back to the listing price when every combination is disabled', () => {
+		const variations: Variations = {
+			size: makeVariation('Size', 0, true, {
+				s: { order: 0, priceCents: 1000 },
+			}),
+		};
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 's' })]: {
+				priceCents: null,
+				disabled: true,
+			},
+		};
+		expect(
+			getListingBasePrice(variations, combinations, 2000),
+		).toEqual({ basePriceCents: 2000, priceVaries: false });
+	});
+});
+
+describe('getSelectionPriceCents', () => {
+	const variations: Variations = {
+		size: makeVariation('Size', 0, true, {
+			s: { order: 0, priceCents: 1000 },
+			m: { order: 1, priceCents: 1500 },
+		}),
+	};
+
+	it('uses the selected option price', () => {
+		expect(
+			getSelectionPriceCents(
+				{ priceCents: 2000, variations, combinations: {} },
+				{ size: 'm' },
+			),
+		).toBe(1500);
+	});
+
+	it('prefers a combination price over the option price', () => {
+		const combinations: Combinations = {
+			[getCombinationKey({ size: 'm' })]: {
+				priceCents: 1200,
+				disabled: false,
+			},
+		};
+		expect(
+			getSelectionPriceCents(
+				{ priceCents: 2000, variations, combinations },
+				{ size: 'm' },
+			),
+		).toBe(1200);
+	});
+
+	it('falls back to the listing price without variations', () => {
+		expect(
+			getSelectionPriceCents(
+				{ priceCents: 2000, variations: {}, combinations: {} },
+				{},
+			),
+		).toBe(2000);
+	});
+
+	it('adds the personalization cost when one is given', () => {
+		expect(
+			getSelectionPriceCents(
+				{ priceCents: 2000, variations, combinations: {} },
+				{ size: 's' },
+				500,
+			),
+		).toBe(1500);
+	});
+
+	it('ignores a null personalization cost', () => {
+		expect(
+			getSelectionPriceCents(
+				{ priceCents: 2000, variations, combinations: {} },
+				{ size: 's' },
+				null,
+			),
+		).toBe(1000);
+	});
+});
+
+describe('getHeroImageUuid', () => {
+	const variations: Variations = {
+		size: {
+			name: 'Size',
+			order: 0,
+			pricesVary: false,
+			imagesVary: true,
+			defaultOption: 's',
+			options: {
+				s: { name: 's', order: 0, priceCents: null, imageUuids: ['s1'] },
+				m: { name: 'm', order: 1, priceCents: null, imageUuids: ['m1'] },
+			},
+		},
+	};
+
+	it('returns the first image for the selection', () => {
+		expect(
+			getHeroImageUuid(
+				{ imageUuids: ['shared'], variations },
+				{ size: 'm' },
+			),
+		).toBe('m1');
+	});
+
+	it('falls back to the first shared image', () => {
+		expect(
+			getHeroImageUuid(
+				{ imageUuids: ['shared'], variations: {} },
+				{},
+			),
+		).toBe('shared');
+	});
+
+	it('returns null when there are no images', () => {
+		expect(
+			getHeroImageUuid({ imageUuids: [], variations: {} }, {}),
+		).toBeNull();
+	});
+});
+
+describe('getDefaultHeroImageUuid', () => {
+	const variations: Variations = {
+		size: {
+			name: 'Size',
+			order: 0,
+			pricesVary: false,
+			imagesVary: true,
+			defaultOption: 'm',
+			options: {
+				s: { name: 's', order: 0, priceCents: null, imageUuids: ['s1'] },
+				m: { name: 'm', order: 1, priceCents: null, imageUuids: ['m1'] },
+			},
+		},
+	};
+	const enabled = (id: string): Combinations => ({
+		[getCombinationKey({ size: id })]: {
+			priceCents: null,
+			disabled: false,
+		},
+	});
+
+	it('uses the default option image', () => {
+		expect(
+			getDefaultHeroImageUuid({
+				imageUuids: [],
+				variations,
+				combinations: { ...enabled('s'), ...enabled('m') },
+				trackInventory: false,
+			}),
+		).toBe('m1');
+	});
+
+	it('skips a disabled default option', () => {
+		expect(
+			getDefaultHeroImageUuid({
+				imageUuids: [],
+				variations,
+				combinations: {
+					...enabled('s'),
+					[getCombinationKey({ size: 'm' })]: {
+						priceCents: null,
+						disabled: true,
+					},
+				},
+				trackInventory: false,
+			}),
+		).toBe('s1');
 	});
 });

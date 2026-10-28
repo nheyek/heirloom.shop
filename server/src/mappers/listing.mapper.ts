@@ -9,34 +9,25 @@ import {
 } from '@heirloom/common/contract';
 import {
 	getCombinationKey,
-	getDefaultOptionSelection,
-	getHeroImageUuid,
+	getDefaultHeroImageUuid,
+	getListingBasePrice,
 	isListingOutOfStock,
+	summarizeVariations,
 } from '@heirloom/common/domain/listing';
 import { Listing } from '@server/entities/generated/Listing';
 
-const resolveHeroImageUuid = (listing: Listing): string | null => {
-	const variations = (listing.variations ?? {}) as VariationsData;
-	const { selection } = getDefaultOptionSelection({
-		variations,
-		combinations: (listing.variationAvailability ??
-			{}) as CombinationsData,
-		trackInventory: listing.trackInventory,
-	});
-	return getHeroImageUuid(
-		{
-			imageUuids: listing.imageUuids,
-			variations,
-			variationImages: (listing.variationImages ??
-				null) as VariationImagesData | null,
-		},
-		selection,
-	);
-};
+const getVariations = (listing: Listing): VariationsData =>
+	(listing.variations ?? {}) as VariationsData;
 
-export const mapListingToApiResponseData = (
+const getCombinations = (listing: Listing): CombinationsData =>
+	(listing.variationAvailability ?? {}) as CombinationsData;
+
+const getVariationImages = (
 	listing: Listing,
-): ListingCardData => ({
+): VariationImagesData | null =>
+	(listing.variationImages ?? null) as VariationImagesData | null;
+
+const mapListingToBaseData = (listing: Listing) => ({
 	id: listing.id,
 	shortId: listing.shortId,
 	title: listing.title,
@@ -47,23 +38,53 @@ export const mapListingToApiResponseData = (
 	shopId: listing.shop.id,
 	shopShortId: listing.shop.shortId || '',
 	shopTitle: listing.shop.title,
-	heroImageUuid: resolveHeroImageUuid(listing),
+	imageUuids: listing.imageUuids,
 	available: listing.available,
 	trackInventory: listing.trackInventory,
-	createdAt: listing.createdAt.toISOString(),
-	variations: (listing.variations ?? {}) as VariationsData,
-	combinations: (listing.variationAvailability ?? {}) as CombinationsData,
+	variations: getVariations(listing),
+	combinations: getCombinations(listing),
+	variationImages: getVariationImages(listing),
 });
+
+export const mapListingToCardData = (
+	listing: Listing,
+): ListingCardData => {
+	const variations = getVariations(listing);
+	const combinations = getCombinations(listing);
+	return {
+		id: listing.id,
+		shortId: listing.shortId,
+		title: listing.title,
+		subtitle: listing.subtitle || '',
+		heroImageUuid: getDefaultHeroImageUuid({
+			imageUuids: listing.imageUuids,
+			variations,
+			combinations,
+			variationImages: getVariationImages(listing),
+			trackInventory: listing.trackInventory,
+		}),
+		...getListingBasePrice(
+			variations,
+			combinations,
+			listing.priceCents || 0,
+		),
+		shopShortId: listing.shop.shortId || '',
+		shopTitle: listing.shop.title,
+		variations: summarizeVariations(variations),
+		createdAt: listing.createdAt.toISOString(),
+	};
+};
 
 export const mapListingToShopManagerCardData = (
 	listing: Listing,
 ): ShopManagerListingCardData => ({
-	...mapListingToApiResponseData(listing),
+	...mapListingToCardData(listing),
+	available: listing.available,
 	inventory: listing.inventory ?? null,
 	trackInventory: listing.trackInventory,
 });
 
-export const mapListingToCompleteApiResponseData = (
+export const mapListingToPageData = (
 	listing: Listing,
 ): ListingPageData => {
 	// Personalization is a shop-specific customization option, not a
@@ -80,18 +101,14 @@ export const mapListingToCompleteApiResponseData = (
 		: undefined;
 
 	return {
-		...mapListingToApiResponseData(listing),
-		imageUuids: listing.imageUuids,
-		variationImages: (listing.variationImages ??
-			null) as VariationImagesData | null,
+		...mapListingToBaseData(listing),
 		directFulfillment: listing.shop.directFulfillment,
 		fullDescr: listing.fullDescr,
-		trackInventory: listing.trackInventory,
 		outOfStock: isListingOutOfStock(
 			listing.trackInventory,
 			listing.inventory,
-			(listing.variations ?? {}) as VariationsData,
-			(listing.variationAvailability ?? {}) as CombinationsData,
+			getVariations(listing),
+			getCombinations(listing),
 		),
 		profiles: listing.shop.directFulfillment
 			? {
@@ -131,7 +148,7 @@ export const mapListingToCartItemData = (
 	shippingPrice: number,
 	deliveryEstimate: string | null | undefined,
 ): CartItemData => {
-	const allCombinations = (listing.variationAvailability ?? {}) as CombinationsData;
+	const allCombinations = getCombinations(listing);
 	const neededKeys = new Set(selectedOptionSets.map(getCombinationKey));
 	const combinations: CombinationsData = Object.fromEntries(
 		[...neededKeys]
@@ -139,17 +156,12 @@ export const mapListingToCartItemData = (
 			.map((key) => [key, allCombinations[key]]),
 	);
 	return {
-		...mapListingToApiResponseData(listing),
-		imageUuids: listing.imageUuids,
-		variationImages: (listing.variationImages ??
-			null) as VariationImagesData | null,
+		...mapListingToBaseData(listing),
+		combinations,
 		shippingPrice,
 		deliveryEstimate,
 		personalizationCostCents:
 			listing.personalizationProfile?.costCents ?? null,
 		personalizationName: listing.personalizationProfile?.name ?? null,
-		variations: (listing.variations ?? {}) as VariationsData,
-		combinations,
-		trackInventory: listing.trackInventory,
 	};
 };

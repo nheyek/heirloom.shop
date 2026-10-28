@@ -9,6 +9,7 @@ import {
 	deriveCombinationsList,
 	getImageVaryingVariations,
 	hasVariationImages,
+	sortByOrder,
 } from '@heirloom/common/domain/listing';
 
 type Props = {
@@ -32,9 +33,7 @@ export const VariationImagesGrid = ({
 
 	const imageVaryingVariations =
 		getImageVaryingVariations(variations);
-	const sortedVariations = Object.entries(
-		imageVaryingVariations,
-	).sort((a, b) => a[1].order - b[1].order);
+	const sortedVariations = sortByOrder(imageVaryingVariations);
 
 	return (
 		<FormSection label="Variation Images">

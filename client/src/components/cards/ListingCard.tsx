@@ -20,7 +20,6 @@ import { displayFontFamily } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
-import { getListingDisplayPrice } from '@heirloom/common/domain/listing';
 import { ReactNode } from 'react';
 import { IconType } from 'react-icons';
 import { Link as RouterLink } from 'react-router-dom';
@@ -77,28 +76,18 @@ export const ListingCard = ({
 }: Props) => {
 	const listingUrl = `/${CLIENT_ROUTES.listing}/${props.shortId}`;
 
-	const variationBadges = Object.entries(props.variations)
-		.sort(([, a], [, b]) => a.order - b.order)
-		.map(([id, variation]) => (
-			<Badge
-				key={id}
-				fontSize={18}
-				fontWeight={400}
-				p={1.5}
-				px={2.5}
-			>
-				<Span fontWeight={500}>
-					{Object.keys(variation.options).length}
-				</Span>{' '}
-				{variation.name.toLowerCase()} options
-			</Badge>
-		));
-
-	const displayPrice = getListingDisplayPrice(
-		props.variations,
-		props.combinations,
-		props.priceCents,
-	) ?? { priceCents: props.priceCents, isMinimum: false };
+	const variationBadges = props.variations.map((variation) => (
+		<Badge
+			key={variation.name}
+			fontSize={18}
+			fontWeight={400}
+			p={1.5}
+			px={2.5}
+		>
+			<Span fontWeight={500}>{variation.numOptions}</Span>{' '}
+			{variation.name.toLowerCase()} options
+		</Badge>
+	));
 
 	return (
 		<Card.Root
@@ -227,8 +216,8 @@ export const ListingCard = ({
 				>
 					<Box mb={3}>
 						<PriceTag
-							priceCents={displayPrice.priceCents}
-							isMinimum={displayPrice.isMinimum}
+							priceCents={props.basePriceCents}
+							isMinimum={props.priceVaries}
 						/>
 					</Box>
 					<Box mb={2}>{actionMenu}</Box>

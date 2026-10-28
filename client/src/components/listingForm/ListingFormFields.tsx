@@ -4,6 +4,7 @@ import {
 	Wrap,
 	WrapItem,
 } from '@chakra-ui/react';
+import { sortByOrder } from '@heirloom/common/domain/listing';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
@@ -59,9 +60,7 @@ export const ListingFormFields = ({
 		setVariationDialogOpen(true);
 	};
 
-	const sortedVariations = Object.entries(form.variations).sort(
-		(a, b) => a[1].order - b[1].order,
-	);
+	const sortedVariations = sortByOrder(form.variations);
 
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [editingIndex, setEditingIndex] = useState<number | null>(

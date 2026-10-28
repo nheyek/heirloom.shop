@@ -170,8 +170,9 @@ describe('GET /api/me/favorites', () => {
 		expect(lamp).toMatchObject({
 			shortId: 'lamp01',
 			title: 'Brass Lamp',
-			priceCents: 18000,
-			shopId,
+			basePriceCents: 18000,
+			priceVaries: false,
+			shopShortId: 'shop10',
 			shopTitle: 'Craft Co',
 		});
 	});
