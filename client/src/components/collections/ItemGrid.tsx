@@ -1,17 +1,20 @@
 import {
 	Box,
+	Flex,
 	HStack,
 	SimpleGrid,
 	Skeleton,
+	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { GridPagination } from '@client/components/collections/GridPagination';
 import {
 	STANDARD_GRID_COLUMNS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { animationName } from '@client/theme';
+import { animationName, scrollTargetOffset } from '@client/theme';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { ReactNode, useEffect, useRef } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
 const SPACING_UNIT_PX = 4;
@@ -27,6 +30,7 @@ type Props<T> = {
 	columns?: Record<string, number>;
 	maxItemWidth?: number;
 	skeletonAspectRatio?: number;
+	pageSize?: number;
 };
 
 export const ItemGrid = <T,>(props: Props<T>) => {
@@ -61,9 +65,32 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		initialRect: { width: window.innerWidth, height: 0 },
 	});
 
+	const [page, setPage] = useState(1);
+	const gridRef = useRef<HTMLDivElement>(null);
+
 	useEffect(() => {
 		virtualizer.scrollToOffset(0);
+		setPage(1);
 	}, [items]);
+
+	const onPageChange = (nextPage: number) => {
+		setPage(nextPage);
+		gridRef.current?.scrollIntoView({
+			behavior: 'smooth',
+			block: 'start',
+		});
+	};
+
+	const pagedItems = props.pageSize
+		? items.slice(
+				(page - 1) * props.pageSize,
+				page * props.pageSize,
+			)
+		: items;
+	const showPagination =
+		!!props.pageSize &&
+		!isLoading &&
+		items.length > props.pageSize;
 
 	const animatedItem = (child: ReactNode, key: React.Key) => (
 		<Box
@@ -133,27 +160,49 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	}
 
 	return (
-		<SimpleGrid
-			gap={STANDARD_GRID_GAP}
-			columns={numColumns}
-			alignItems="start"
+		<Stack
+			ref={gridRef}
 			width="100%"
+			scrollMarginTop={scrollTargetOffset}
+			gap={5}
 		>
-			{isLoading &&
-				Array.from({ length: numSkeletons }).map((_, i) => (
-					<Skeleton
-						key={i}
-						width="100%"
-						aspectRatio={skeletonAspectRatio}
+			<SimpleGrid
+				gap={STANDARD_GRID_GAP}
+				columns={numColumns}
+				alignItems="start"
+				width="100%"
+			>
+				{isLoading &&
+					Array.from({ length: numSkeletons }).map(
+						(_, i) => (
+							<Skeleton
+								key={i}
+								width="100%"
+								aspectRatio={skeletonAspectRatio}
+							/>
+						),
+					)}
+				{!isLoading &&
+					pagedItems.map((item, index) =>
+						animatedItem(
+							renderItem(item, false),
+							getItemKey(item, index),
+						),
+					)}
+			</SimpleGrid>
+			{showPagination && props.pageSize && (
+				<Flex
+					justifyContent="center"
+					pt={STANDARD_GRID_GAP}
+				>
+					<GridPagination
+						count={items.length}
+						pageSize={props.pageSize}
+						page={page}
+						onPageChange={onPageChange}
 					/>
-				))}
-			{!isLoading &&
-				items.map((item, index) =>
-					animatedItem(
-						renderItem(item, false),
-						getItemKey(item, index),
-					),
-				)}
-		</SimpleGrid>
+				</Flex>
+			)}
+		</Stack>
 	);
 };

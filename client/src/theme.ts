@@ -31,6 +31,8 @@ export const CARD_SWIPE_IN_END_PERCENT = 75;
 export const CARD_SWIPE_OUT_START_PERCENT = 85;
 
 export const navbarHeight = 68;
+export const scrollTargetOffset =
+	navbarHeight + 5 * chakraSpacingUnit;
 export const sidebarWidth = 250;
 
 const baseBreakpoints = {

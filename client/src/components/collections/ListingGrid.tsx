@@ -3,6 +3,7 @@ import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
 	CLIENT_ROUTES,
 	LISTING_CARD_SKELETON_ASPECT_RATIO,
+	LISTING_GRID_PAGE_SIZE,
 	STANDARD_GRID_COLUMNS,
 } from '@client/constants';
 import { ListingCardData } from '@heirloom/common/contract';
@@ -27,6 +28,7 @@ export const ListingGrid = (props: Props) => {
 			getItemKey={(listing) => listing.id}
 			columns={props.columns ?? STANDARD_GRID_COLUMNS}
 			skeletonAspectRatio={LISTING_CARD_SKELETON_ASPECT_RATIO}
+			pageSize={LISTING_GRID_PAGE_SIZE}
 			renderItem={(listing, isMobile) => (
 				<ListingDisplayCard
 					{...listing}

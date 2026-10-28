@@ -42,7 +42,6 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 					<IconButton
 						size="lg"
 						variant="subtle"
-						aria-label={props.label}
 					>
 						<SortIcon />
 					</IconButton>
