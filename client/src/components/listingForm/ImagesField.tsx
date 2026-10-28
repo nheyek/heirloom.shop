@@ -8,7 +8,7 @@ import {
 	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/constants';
 import { chakraSpacingUnit } from '@client/theme';
-import { hasVariationImages } from '@heirloom/common/domain/listing';
+import { getImageVaryingVariations } from '@heirloom/common/domain/listing';
 
 const IMAGES_W =
 	3 * STANDARD_THUMBNAIL_WIDTH +
@@ -23,7 +23,9 @@ export const ImagesField = ({ form, disabled }: Props) => (
 	<FormField
 		label={
 			<>
-				{hasVariationImages(form.variationImages)
+				{Object.keys(
+					getImageVaryingVariations(form.variations),
+				).length > 0
 					? 'Universal Images'
 					: 'Images'}
 				<InfoPopover>
