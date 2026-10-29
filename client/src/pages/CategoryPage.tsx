@@ -90,7 +90,7 @@ export const CategoryPage = () => {
 			<Stack
 				py={5}
 				px={STANDARD_GRID_GAP}
-				gap={5}
+				gap={8}
 				width="100%"
 				maxW={GRID_CONTENT_MAX_WIDTH}
 				mx="auto"
@@ -110,7 +110,7 @@ export const CategoryPage = () => {
 					<AppError title={listingsError} />
 				) : (
 					<SortableListingGrid
-						title="All Listings"
+						title="Items"
 						listings={listings}
 						isLoading={isLoading}
 						shops={shops}

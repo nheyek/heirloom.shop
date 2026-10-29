@@ -276,6 +276,7 @@ export const ShopPage = () => {
 					mx="auto"
 				>
 					<SortableListingGrid
+						title="Items"
 						listings={listings}
 						isLoading={isLoading}
 					/>

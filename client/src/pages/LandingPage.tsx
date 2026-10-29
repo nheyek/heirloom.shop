@@ -11,6 +11,7 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
+import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
 	InfoPageKey,
@@ -153,13 +154,7 @@ export const LandingPage = () => {
 						gap={2}
 						width="100%"
 					>
-						<Text
-							fontSize={30}
-							fontWeight={600}
-							fontFamily={displayFontFamily}
-						>
-							Featured Makers
-						</Text>
+						<SectionTitle>Featured Makers</SectionTitle>
 
 						<ShopGrid
 							shops={shops}
@@ -175,13 +170,7 @@ export const LandingPage = () => {
 						gap={2}
 						width="100%"
 					>
-						<Text
-							fontSize={30}
-							fontWeight={600}
-							fontFamily={displayFontFamily}
-						>
-							Featured Listings
-						</Text>
+						<SectionTitle>Featured Items</SectionTitle>
 
 						<ListingGrid
 							listings={listings}

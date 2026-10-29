@@ -5,7 +5,7 @@ import { ReactNode } from 'react';
 export const SectionTitle = (props: { children: ReactNode }) => (
 	<Text
 		fontSize={30}
-		fontWeight={500}
+		fontWeight={600}
 		fontFamily={displayFontFamily}
 	>
 		{props.children}

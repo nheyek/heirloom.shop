@@ -79,7 +79,7 @@ export const ListingCard = ({
 	const variationBadges = props.variations.map((variation) => (
 		<Badge
 			key={variation.name}
-			fontSize={18}
+			fontSize={19}
 			fontWeight={400}
 			p={1.5}
 			px={2.5}
