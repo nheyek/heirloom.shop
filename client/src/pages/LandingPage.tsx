@@ -87,11 +87,11 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={10}
+			gap={30}
 			alignItems="center"
 		>
 			<Stack
-				pt={10}
+				pt={30}
 				alignItems="center"
 				gap={0}
 			>
@@ -134,7 +134,7 @@ export const LandingPage = () => {
 			<Stack
 				px={5}
 				pb={5}
-				gap={10}
+				gap={30}
 				width="100%"
 				maxW={GRID_CONTENT_MAX_WIDTH}
 			>
@@ -160,7 +160,7 @@ export const LandingPage = () => {
 						gap={2}
 						width="100%"
 					>
-						<SectionTitle>Featured Makers</SectionTitle>
+						<SectionTitle>Makers</SectionTitle>
 
 						<ShopGrid
 							shops={shops}

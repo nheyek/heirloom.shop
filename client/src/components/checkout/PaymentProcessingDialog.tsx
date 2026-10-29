@@ -1,5 +1,4 @@
-import { Stack, Text } from '@chakra-ui/react';
-import { PaymentProcessingAnimation } from '@client/components/checkout/PaymentProcessingAnimation';
+import { Spinner, Stack, Text } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
 
 type Props = {
@@ -36,8 +35,7 @@ export const PaymentProcessingDialog = ({
 			pb={5}
 			gap={4}
 		>
-			<PaymentProcessingAnimation timedOut={timedOut} />
-			{timedOut && (
+			{timedOut ? (
 				<Stack
 					gap={1}
 					textAlign="center"
@@ -48,6 +46,11 @@ export const PaymentProcessingDialog = ({
 					</Text>
 					<Text>Please try again later.</Text>
 				</Stack>
+			) : (
+				<Spinner
+					size="xl"
+					borderWidth={5}
+				/>
 			)}
 		</Stack>
 	</AppDialog>

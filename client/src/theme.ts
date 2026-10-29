@@ -16,24 +16,12 @@ export const defaultFontFamily = 'Alegreya Sans';
 
 export const animationName = {
 	itemGridEnter: 'item-grid-enter',
-	cardSwipe: 'card-swipe',
-	signalArcOne: 'signal-arc-one',
-	signalArcTwo: 'signal-arc-two',
-	signalArcThree: 'signal-arc-three',
 };
-
-export const CARD_SWIPE_DURATION_MS = 2400;
-export const CARD_SWIPE_RESTING_TOP = '0px';
-export const CARD_SWIPE_HIDDEN_TOP = '-87px';
-export const CARD_SWIPE_OUT_END_PERCENT = 45;
-export const CARD_SWIPE_IN_START_PERCENT = 55;
-export const CARD_SWIPE_IN_END_PERCENT = 75;
-export const CARD_SWIPE_OUT_START_PERCENT = 85;
 
 export const navbarHeight = 65;
 export const categoryBarHeight = 50;
 export const scrollTargetOffset =
-	navbarHeight + 5 * chakraSpacingUnit;
+	navbarHeight + 2 * chakraSpacingUnit;
 export const sidebarWidth = 250;
 
 const baseBreakpoints = {
@@ -161,43 +149,6 @@ export const config = defineConfig({
 		[`@keyframes ${animationName.itemGridEnter}`]: {
 			from: { opacity: 0 },
 			to: { opacity: 1 },
-		} as any,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${animationName.cardSwipe}`]: {
-			'0%': { top: CARD_SWIPE_RESTING_TOP },
-			[`${CARD_SWIPE_OUT_END_PERCENT}%`]: {
-				top: CARD_SWIPE_RESTING_TOP,
-			},
-			[`${CARD_SWIPE_IN_START_PERCENT}%`]: {
-				top: CARD_SWIPE_HIDDEN_TOP,
-			},
-			[`${CARD_SWIPE_IN_END_PERCENT}%`]: {
-				top: CARD_SWIPE_HIDDEN_TOP,
-			},
-			[`${CARD_SWIPE_OUT_START_PERCENT}%`]: {
-				top: CARD_SWIPE_RESTING_TOP,
-			},
-			'100%': { top: CARD_SWIPE_RESTING_TOP },
-		} as any,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${animationName.signalArcOne}`]: {
-			'0%': { opacity: 0.3 },
-			'10%': { opacity: 1 },
-			'100%': { opacity: 1 },
-		} as any,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${animationName.signalArcTwo}`]: {
-			'0%': { opacity: 0.3 },
-			'40%': { opacity: 0.3 },
-			'50%': { opacity: 1 },
-			'100%': { opacity: 1 },
-		} as any,
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${animationName.signalArcThree}`]: {
-			'0%': { opacity: 0.3 },
-			'70%': { opacity: 0.3 },
-			'80%': { opacity: 1 },
-			'100%': { opacity: 1 },
 		} as any,
 		'html, body': {
 			touchAction: 'pan-y',

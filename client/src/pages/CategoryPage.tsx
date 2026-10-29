@@ -88,9 +88,10 @@ export const CategoryPage = () => {
 	return (
 		<>
 			<Stack
-				py={5}
+				pt={30}
+				pb={5}
 				px={STANDARD_GRID_GAP}
-				gap={10}
+				gap={30}
 				width="100%"
 				maxW={GRID_CONTENT_MAX_WIDTH}
 				mx="auto"
