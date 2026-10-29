@@ -63,7 +63,7 @@ export const AppDialog = ({
 				</Dialog.Header>
 				<Dialog.Body
 					pt={0}
-					pb={3}
+					pb={5}
 				>
 					{children}
 				</Dialog.Body>

@@ -1,4 +1,4 @@
-import { Spinner, Stack, Text } from '@chakra-ui/react';
+import { Center, Spinner, Stack, Text } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
 
 type Props = {
@@ -29,12 +29,7 @@ export const PaymentProcessingDialog = ({
 			width: '100%',
 		}}
 	>
-		<Stack
-			align="center"
-			pt={2}
-			pb={5}
-			gap={4}
-		>
+		<Center py={5}>
 			{timedOut ? (
 				<Stack
 					gap={1}
@@ -48,10 +43,11 @@ export const PaymentProcessingDialog = ({
 				</Stack>
 			) : (
 				<Spinner
-					size="xl"
+					w={65}
+					h={65}
 					borderWidth={5}
 				/>
 			)}
-		</Stack>
+		</Center>
 	</AppDialog>
 );
