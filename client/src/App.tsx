@@ -6,7 +6,6 @@ import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
-import { navbarHeight } from '@client/theme';
 import React from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
@@ -52,16 +51,15 @@ const App = () => {
 				timedOut={checkoutStatus.timedOut}
 				onDismissTimeout={checkoutStatus.dismissTimeout}
 			/>
-			<Navbar />
 			<Box
 				display="flex"
 				flexDirection="column"
+				minHeight="100svh"
 				transition="opacity 0.25s"
-				pt={navbarHeight}
-				zIndex="docked"
 			>
+				<Navbar />
 				<Box
-					minHeight={`calc(100svh - ${navbarHeight}px)`}
+					flex={1}
 					width="100%"
 					pb={5}
 					mx="auto"

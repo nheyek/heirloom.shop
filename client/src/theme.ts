@@ -30,7 +30,8 @@ export const CARD_SWIPE_IN_START_PERCENT = 55;
 export const CARD_SWIPE_IN_END_PERCENT = 75;
 export const CARD_SWIPE_OUT_START_PERCENT = 85;
 
-export const navbarHeight = 68;
+export const navbarHeight = 65;
+export const categoryBarHeight = 50;
 export const scrollTargetOffset =
 	navbarHeight + 5 * chakraSpacingUnit;
 export const sidebarWidth = 250;
