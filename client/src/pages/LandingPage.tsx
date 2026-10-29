@@ -134,17 +134,23 @@ export const LandingPage = () => {
 			<Stack
 				px={5}
 				pb={5}
-				gap={8}
+				gap={10}
 				width="100%"
 				maxW={GRID_CONTENT_MAX_WIDTH}
 			>
 				{categoriesError ? (
 					<AppError title="Failed to load categories" />
 				) : (
-					<CategoryGrid
-						categories={getChildCategories(null)}
-						isLoading={isLoading}
-					/>
+					<Stack
+						gap={2}
+						width="100%"
+					>
+						<SectionTitle>Categories</SectionTitle>
+						<CategoryGrid
+							categories={getChildCategories(null)}
+							isLoading={isLoading}
+						/>
+					</Stack>
 				)}
 
 				{shopsError ? (
