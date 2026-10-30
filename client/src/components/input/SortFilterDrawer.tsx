@@ -23,7 +23,7 @@ const TITLE = 'Sort & Filter';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
-		fontSize={24}
+		fontSize={26}
 		fontWeight={500}
 		fontFamily={displayFontFamily}
 	>
@@ -44,6 +44,12 @@ const PriceRangeSlider = (props: PriceFilter) => {
 
 	return (
 		<Stack gap={2}>
+			<HStack>
+				<Text fontSize={24}>
+					{formatCentsAsDollars(draft[0])} -{' '}
+					{formatCentsAsDollars(draft[1])}
+				</Text>
+			</HStack>
 			<Slider.Root
 				min={props.bounds[0]}
 				max={props.bounds[1]}
@@ -70,10 +76,19 @@ const PriceRangeSlider = (props: PriceFilter) => {
 					))}
 				</Slider.Control>
 			</Slider.Root>
-			<HStack alignSelf="center">
-				<Text fontSize={24}>
-					{formatCentsAsDollars(draft[0])} -{' '}
-					{formatCentsAsDollars(draft[1])}
+
+			<HStack justifyContent="space-between">
+				<Text
+					fontSize={18}
+					color="fg.muted"
+				>
+					{formatCentsAsDollars(props.bounds[0])}
+				</Text>
+				<Text
+					fontSize={18}
+					color="fg.muted"
+				>
+					{formatCentsAsDollars(props.bounds[1])}
 				</Text>
 			</HStack>
 		</Stack>
@@ -183,7 +198,7 @@ export const SortFilterDrawer = <T extends string>(
 								{props.price &&
 									props.price.bounds[0] <
 										props.price.bounds[1] && (
-										<Stack gap={3}>
+										<Stack gap={2}>
 											<DrawerHeading>
 												Price
 											</DrawerHeading>
