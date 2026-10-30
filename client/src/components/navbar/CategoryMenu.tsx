@@ -20,7 +20,6 @@ import { FaBars } from 'react-icons/fa6';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { Link as RouterLink } from 'react-router-dom';
 
-const TOP_LEVEL_TITLE = 'Categories';
 const MENU_WIDTH = 320;
 const MENU_MAX_HEIGHT = '70svh';
 
@@ -43,12 +42,17 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 	const parent = parentId ? getCategory(parentId) : undefined;
 
 	return (
-		<Stack gap={0}>
+		<Stack
+			gap={0}
+			maxH="inherit"
+		>
 			<HStack
 				px={4}
 				py={2}
 				justifyContent="space-between"
 				borderBottomWidth={1}
+				fontSize={20}
+				fontWeight={500}
 			>
 				{parent && (
 					<IconButton
@@ -62,11 +66,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 					</IconButton>
 				)}
 				{parent ? (
-					<Link
-						asChild
-						fontSize={22}
-						fontWeight={500}
-					>
+					<Link asChild>
 						<RouterLink
 							to={getCategoryPath(parent.id)}
 							onClick={onClose}
@@ -75,13 +75,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 						</RouterLink>
 					</Link>
 				) : (
-					<Text
-						flex={1}
-						fontSize={22}
-						fontWeight={500}
-					>
-						{TOP_LEVEL_TITLE}
-					</Text>
+					<Text flex={1}>Categories</Text>
 				)}
 				<CloseButton
 					onClick={onClose}
@@ -90,6 +84,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 			</HStack>
 			<Stack
 				gap={0}
+				minH={0}
 				overflowY="auto"
 			>
 				{getChildCategories(parentId).map((category) => {
@@ -184,7 +179,7 @@ export const CategoryMenu = () => {
 					_expanded={{ bg: 'whiteAlpha.200' }}
 				>
 					<CategoryMenuIcon />
-					{TOP_LEVEL_TITLE}
+					Categories
 				</Button>
 			</Popover.Trigger>
 			<Portal>
@@ -192,6 +187,7 @@ export const CategoryMenu = () => {
 					<Popover.Content
 						width={MENU_WIDTH}
 						maxH={MENU_MAX_HEIGHT}
+						overflow="hidden"
 					>
 						<CategoryMenuPanel onClose={close} />
 					</Popover.Content>
