@@ -24,10 +24,10 @@ import { Link as RouterLink } from 'react-router-dom';
 const MENU_WIDTH = 320;
 const MENU_MAX_HEIGHT = '70svh';
 
-const CategoryMenuIcon = () => (
+const CategoryMenuIcon = ({ size }: { size: number }) => (
 	<Icon
-		h={5}
-		w={5}
+		h={size}
+		w={size}
 		as={FaBars}
 	/>
 );
@@ -139,7 +139,7 @@ export const CategoryMenu = () => {
 		return (
 			<>
 				<NavbarButton onClick={() => setOpen(true)}>
-					<CategoryMenuIcon />
+					<CategoryMenuIcon size={22} />
 				</NavbarButton>
 				<Dialog.Root
 					open={open}
@@ -179,7 +179,7 @@ export const CategoryMenu = () => {
 					_hover={{ bg: 'whiteAlpha.200' }}
 					_expanded={{ bg: 'whiteAlpha.200' }}
 				>
-					<CategoryMenuIcon />
+					<CategoryMenuIcon size={4} />
 					Categories
 				</Button>
 			</Popover.Trigger>

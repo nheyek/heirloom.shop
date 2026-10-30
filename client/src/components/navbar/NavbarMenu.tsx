@@ -6,13 +6,20 @@ import {
 } from '@client/components/misc/NavMenu';
 import { NavbarButton } from '@client/components/navbar/Navbar';
 import { CLIENT_ROUTES } from '@client/constants';
+import { useUserInfo } from '@client/providers/UserProvider';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
-import { FaArrowRightFromBracket, FaScroll } from 'react-icons/fa6';
+import {
+	FaArrowRightFromBracket,
+	FaCrown,
+	FaScroll,
+	FaShop,
+} from 'react-icons/fa6';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 export const NavbarMenu = () => {
 	const { logout } = useAuth0();
+	const { user } = useUserInfo();
 
 	const handleLogout = async () => {
 		logout({
@@ -29,9 +36,10 @@ export const NavbarMenu = () => {
 				focusRing="none"
 			>
 				<NavbarButton
-					pr={1.5}
-					pl={3}
-					gap={1}
+					pr={1}
+					pl={2}
+					py={1}
+					gap={{ base: 1, sm: 2 }}
 				>
 					<FaUserCircle />
 					<IoMdArrowDropdown />
@@ -53,6 +61,36 @@ export const NavbarMenu = () => {
 								<Text>Orders</Text>
 							</NavMenuItem>
 						</Link>
+
+						{!user?.isAdmin && user?.shopShortId && (
+							<Link
+								to={[
+									CLIENT_ROUTES.shop,
+									user.shopShortId,
+									CLIENT_ROUTES.manage,
+									CLIENT_ROUTES.info,
+								].join('/')}
+							>
+								<NavMenuItem value="shop">
+									<FaShop />
+									<Text>My Shop</Text>
+								</NavMenuItem>
+							</Link>
+						)}
+
+						{user?.isAdmin && (
+							<Link
+								to={[
+									CLIENT_ROUTES.admin,
+									CLIENT_ROUTES.shops,
+								].join('/')}
+							>
+								<NavMenuItem value="admin">
+									<FaCrown />
+									<Text>Admin</Text>
+								</NavMenuItem>
+							</Link>
+						)}
 
 						<NavMenuItem
 							value="logout"

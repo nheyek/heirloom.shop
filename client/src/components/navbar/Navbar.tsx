@@ -5,20 +5,17 @@ import {
 	HStack,
 	IconButton,
 	IconButtonProps,
-	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
-import { LoginButton } from '@client/components/navbar/LoginButton';
 import { CategoryMenu } from '@client/components/navbar/CategoryMenu';
+import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { useUserInfo } from '@client/providers/UserProvider';
 import { navbarHeight, sansFontFamily } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
-import { FaCrown, FaShop } from 'react-icons/fa6';
 import { Link, useLocation } from 'react-router-dom';
 
 export const NavbarButton = (props: IconButtonProps) => (
@@ -37,7 +34,6 @@ export const NavbarButton = (props: IconButtonProps) => (
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
-	const { user } = useUserInfo();
 	const { pathname } = useLocation();
 	const isAdminPage = pathname.startsWith(
 		`/${CLIENT_ROUTES.admin}`,
@@ -58,71 +54,34 @@ export const Navbar = () => {
 			zIndex="docked"
 		>
 			<HStack
-				px={4}
+				px={{ base: 2, md: 4 }}
 				h={navbarHeight}
 				alignItems="center"
 				justifyContent="space-between"
-				gap={4}
+				gap={0}
 			>
 				<HStack
-					gap={3}
+					gap={2}
+					flexDirection={{ base: 'row-reverse', md: 'row' }}
 					alignItems="center"
 				>
 					<Link to="/">
 						<Box
 							flexShrink={0}
-							width={135}
+							width={130}
 							mt={1}
 							cursor="button"
 						>
 							<Logo />
 						</Box>
 					</Link>
-					{(isAdminPage || isShopManagerPage) &&
-						!isMobile && (
-							<Text
-								color="white"
-								fontSize={24}
-								paddingTop={1}
-							>
-								{isShopManagerPage
-									? 'Manager'
-									: 'Admin'}
-							</Text>
-						)}
+
 					<CategoryMenu />
 				</HStack>
 
-				<HStack gap={2}>
-					{user?.isAdmin && (
-						<Link
-							to={[
-								CLIENT_ROUTES.admin,
-								CLIENT_ROUTES.shops,
-							].join('/')}
-						>
-							<NavbarButton>
-								<FaCrown />
-							</NavbarButton>
-						</Link>
-					)}
-					{!user?.isAdmin && user?.shopShortId && (
-						<Link
-							to={[
-								CLIENT_ROUTES.shop,
-								user.shopShortId,
-								CLIENT_ROUTES.manage,
-								CLIENT_ROUTES.info,
-							].join('/')}
-						>
-							<NavbarButton>
-								<FaShop />
-							</NavbarButton>
-						</Link>
-					)}
-
+				<HStack gap={0}>
 					{!authIsLoading && (
-						<HStack gap={1}>
+						<HStack gap={0}>
 							{!isAuthenticated && <LoginButton />}
 							{isAuthenticated && <NavbarMenu />}
 							<Box position="relative">
