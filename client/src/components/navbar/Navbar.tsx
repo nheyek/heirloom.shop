@@ -19,7 +19,6 @@ import { useUserInfo } from '@client/providers/UserProvider';
 import { navbarHeight, sansFontFamily } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
-
 import { Link, useLocation } from 'react-router-dom';
 
 export const NavbarButton = (props: IconButtonProps) => (

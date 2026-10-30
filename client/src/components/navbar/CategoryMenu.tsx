@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import { NavbarButton } from '@client/components/navbar/Navbar';
 import { useCategories } from '@client/providers/CategoriesProvider';
+import { navbarHeight } from '@client/theme';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { useState } from 'react';
 import { FaBars } from 'react-icons/fa6';
@@ -148,8 +149,8 @@ export const CategoryMenu = () => {
 					unmountOnExit
 				>
 					<Portal>
-						<Dialog.Positioner>
-							<Dialog.Content>
+						<Dialog.Positioner top={navbarHeight}>
+							<Dialog.Content height="100%">
 								<CategoryMenuPanel onClose={close} />
 							</Dialog.Content>
 						</Dialog.Positioner>
