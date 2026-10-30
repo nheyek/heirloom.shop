@@ -5310,7 +5310,7 @@ BEGIN
         updated_at = CURRENT_TIMESTAMP;
 
     DELETE FROM listing_category
-    WHERE id NOT IN ('RINGS', 'BRACELETS', 'NECKLACES', 'EARRINGS', 'ACCESSORIES');
+    WHERE id NOT IN ('JEWELRY', 'RINGS', 'BRACELETS', 'NECKLACES', 'EARRINGS', 'ACCESSORIES');
 
     PERFORM setval(pg_get_serial_sequence('listing', 'id'), COALESCE((SELECT MAX(id) FROM listing), 1));
 

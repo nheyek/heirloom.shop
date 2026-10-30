@@ -1,7 +1,9 @@
-import { Link, Stack, Text } from '@chakra-ui/react';
+import { Link, Stack } from '@chakra-ui/react';
+import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
@@ -10,7 +12,6 @@ import {
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -29,8 +30,9 @@ export const CategoryPage = () => {
 
 	const apiClient = useApiClient();
 
-	const { getCategory, categoriesLoading, categoriesError } =
+	const { getChildCategories, categoriesLoading, categoriesError } =
 		useCategories();
+	const subcategories = getChildCategories(id);
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -89,47 +91,42 @@ export const CategoryPage = () => {
 
 	return (
 		<Stack
-			gap={3}
-			mt={6}
+			py={5}
+			px={STANDARD_GRID_GAP}
+			gap={30}
+			width="100%"
+			maxW={GRID_CONTENT_MAX_WIDTH}
+			mx="auto"
 		>
-			<Text
-				fontSize={46}
-				fontWeight={400}
-				fontFamily={displayFontFamily}
-				alignSelf="center"
-			>
-				{getCategory(id)?.title}
-			</Text>
-			<Stack
-				pb={5}
-				px={STANDARD_GRID_GAP}
-				gap={30}
-				width="100%"
-				maxW={GRID_CONTENT_MAX_WIDTH}
-				mx="auto"
-			>
-				{!listingsError &&
-					(isLoading || shops.length > 0) && (
-						<Stack gap={2}>
-							<SectionTitle>Makers</SectionTitle>
-							<ShopGrid
-								shops={shops}
-								isLoading={isLoading}
-							/>
-						</Stack>
-					)}
+			<CategoryBreadcrumb categoryId={id} />
 
-				{listingsError ? (
-					<AppError title={listingsError} />
-				) : (
-					<SortableListingGrid
-						title="Items"
-						listings={listings}
-						isLoading={isLoading}
+			{subcategories.length > 0 && (
+				<CategoryGrid
+					categories={subcategories}
+					isLoading={isLoading}
+				/>
+			)}
+
+			{!listingsError && (isLoading || shops.length > 0) && (
+				<Stack gap={2}>
+					<SectionTitle>Makers</SectionTitle>
+					<ShopGrid
 						shops={shops}
+						isLoading={isLoading}
 					/>
-				)}
-			</Stack>
+				</Stack>
+			)}
+
+			{listingsError ? (
+				<AppError title={listingsError} />
+			) : (
+				<SortableListingGrid
+					title="Items"
+					listings={listings}
+					isLoading={isLoading}
+					shops={shops}
+				/>
+			)}
 		</Stack>
 	);
 };
