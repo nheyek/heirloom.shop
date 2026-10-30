@@ -26,6 +26,8 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const BADGE_OVERLAY_MARGIN = 3;
 const BADGE_OVERLAY_GAP = 1.5;
+const BADGE_OVERLAY_OPACITY = 0.9;
+const BADGE_OVERLAY_BG = 'gray.100';
 
 export type ListingCardIconMenuItem = {
 	icon: IconType;
@@ -79,6 +81,8 @@ export const ListingCard = ({
 	const variationBadges = props.variations.map((variation) => (
 		<Badge
 			key={variation.name}
+			bg={BADGE_OVERLAY_BG}
+			opacity={BADGE_OVERLAY_OPACITY}
 			fontSize={19}
 			fontWeight={400}
 			p={1.5}
