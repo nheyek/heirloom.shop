@@ -22,14 +22,13 @@ export const AppDrawer = ({
 		open={isOpen}
 		onOpenChange={(e) => !e.open && onClose()}
 		placement="end"
-		size="sm"
 	>
 		<Drawer.Backdrop />
 		<Drawer.Positioner>
 			<Drawer.Content>
 				<Drawer.Header p={5}>
 					<Drawer.Title
-						fontSize={32}
+						fontSize={28}
 						fontWeight={500}
 						fontFamily={displayFontFamily}
 					>

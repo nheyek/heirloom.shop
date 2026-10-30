@@ -17,7 +17,7 @@ export const AppToaster = () => {
 						maxW="90vw"
 						w="auto"
 						px={5}
-						py={3}
+						py={2.5}
 						borderRadius={5}
 						background={
 							toast.type === ToastType.Success

@@ -1,6 +1,6 @@
 import { Flex, Stack } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
-import { SortSelect } from '@client/components/input/SortSelect';
+import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	LISTING_SORT_LABELS,
@@ -67,8 +67,7 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 				>
 					{title && <SectionTitle>{title}</SectionTitle>}
 					{showControls && (
-						<SortSelect
-							label="Order"
+						<SortFilterDrawer
 							options={LISTING_SORT_LABELS}
 							value={sort}
 							onChange={onSortChange}
