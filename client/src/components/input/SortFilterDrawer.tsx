@@ -45,7 +45,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	return (
 		<Stack gap={2}>
 			<HStack>
-				<Text fontSize={24}>
+				<Text fontSize={22}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>
