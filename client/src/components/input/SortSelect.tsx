@@ -12,7 +12,6 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 	return (
 		<Menu.Root
 			onSelect={(details) => props.onChange(details.value as T)}
-			positioning={{ placement: 'bottom-end' }}
 		>
 			<Menu.Trigger asChild>
 				<Button

@@ -52,7 +52,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 				py={2}
 				justifyContent="space-between"
 				borderBottomWidth={1}
-				fontSize={20}
+				fontSize={22}
 				fontWeight={500}
 			>
 				{parent && (
@@ -98,7 +98,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 							variant="ghost"
 							width="100%"
 							justifyContent="space-between"
-							fontSize={20}
+							fontSize={22}
 							fontWeight={400}
 							px={4}
 							py={3}

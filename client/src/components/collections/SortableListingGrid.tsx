@@ -64,7 +64,6 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 				<Flex
 					justifyContent="space-between"
 					alignItems="flex-end"
-					gap={3}
 				>
 					{title && <SectionTitle>{title}</SectionTitle>}
 					{showControls && (

@@ -20,6 +20,7 @@ const NUM_SKELETON_ROWS = 2;
 const SPACING_UNIT_PX = 4;
 const MOBILE_CARD_WIDTH = 275;
 const MOBILE_OVERSCAN = 3;
+const GRID_GAP_PX = STANDARD_GRID_GAP * SPACING_UNIT_PX;
 
 type Props<T> = {
 	items: T[];
@@ -60,7 +61,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		enabled: isMobile,
 		getScrollElement: () => scrollRef.current,
 		estimateSize: () => MOBILE_CARD_WIDTH,
-		gap: STANDARD_GRID_GAP * SPACING_UNIT_PX,
+		gap: GRID_GAP_PX,
 		overscan: MOBILE_OVERSCAN,
 		initialRect: { width: window.innerWidth, height: 0 },
 	});
@@ -123,6 +124,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			>
 				<HStack
 					alignItems="start"
+					width="max-content"
 					gap={STANDARD_GRID_GAP}
 					pl={`${paddingStart}px`}
 					pr={`${paddingEnd}px`}
