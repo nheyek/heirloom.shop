@@ -1,14 +1,21 @@
 import {
 	Button,
 	Drawer,
+	HStack,
 	Icon,
 	IconButton,
 	RadioGroup,
+	Slider,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import {
+	PRICE_STEP_CENTS,
+	PriceRange,
+} from '@client/domain/listingFilter';
 import { displayFontFamily } from '@client/theme';
-import { ReactNode, useState } from 'react';
+import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
+import { ReactNode, useEffect, useState } from 'react';
 import { FaSliders } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 
@@ -24,10 +31,60 @@ const DrawerHeading = (props: { children: ReactNode }) => (
 	</Text>
 );
 
+type PriceFilter = {
+	bounds: PriceRange;
+	value: PriceRange;
+	onChange: (value: PriceRange) => void;
+};
+
+const PriceRangeSlider = (props: PriceFilter) => {
+	const [draft, setDraft] = useState(props.value);
+
+	useEffect(() => setDraft(props.value), [props.value]);
+
+	return (
+		<Stack gap={2}>
+			<Slider.Root
+				min={props.bounds[0]}
+				max={props.bounds[1]}
+				step={PRICE_STEP_CENTS}
+				value={draft}
+				onValueChange={(details) =>
+					setDraft(details.value as PriceRange)
+				}
+				onValueChangeEnd={(details) =>
+					props.onChange(details.value as PriceRange)
+				}
+			>
+				<Slider.Control>
+					<Slider.Track>
+						<Slider.Range />
+					</Slider.Track>
+					{draft.map((_, index) => (
+						<Slider.Thumb
+							key={index}
+							index={index}
+						>
+							<Slider.HiddenInput />
+						</Slider.Thumb>
+					))}
+				</Slider.Control>
+			</Slider.Root>
+			<HStack alignSelf="center">
+				<Text fontSize={24}>
+					{formatCentsAsDollars(draft[0])} -{' '}
+					{formatCentsAsDollars(draft[1])}
+				</Text>
+			</HStack>
+		</Stack>
+	);
+};
+
 type Props<T extends string> = {
 	options: Record<T, string>;
 	value: T;
 	onChange: (value: T) => void;
+	price?: PriceFilter;
 };
 
 export const SortFilterDrawer = <T extends string>(
@@ -123,7 +180,18 @@ export const SortFilterDrawer = <T extends string>(
 									</RadioGroup.Root>
 								</Stack>
 
-								<DrawerHeading>Filters</DrawerHeading>
+								{props.price &&
+									props.price.bounds[0] <
+										props.price.bounds[1] && (
+										<Stack gap={3}>
+											<DrawerHeading>
+												Price
+											</DrawerHeading>
+											<PriceRangeSlider
+												{...props.price}
+											/>
+										</Stack>
+									)}
 							</Stack>
 						</Drawer.Body>
 					</Drawer.Content>

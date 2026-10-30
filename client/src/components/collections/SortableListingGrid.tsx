@@ -3,6 +3,11 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
+	filterListingsByPrice,
+	getPriceBounds,
+	PriceRange,
+} from '@client/domain/listingFilter';
+import {
 	LISTING_SORT_LABELS,
 	ListingSort,
 	sortListings,
@@ -26,31 +31,62 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 	const [appliedSort, setAppliedSort] = useState(
 		ListingSort.DEFAULT,
 	);
+	const [priceRange, setPriceRange] = useState<PriceRange | null>(
+		null,
+	);
+	const [appliedPriceRange, setAppliedPriceRange] =
+		useState<PriceRange | null>(null);
 	const [isSorting, setIsSorting] = useState(false);
 	const sortTimerRef =
 		useRef<ReturnType<typeof setTimeout>>(undefined);
 
 	useEffect(() => () => clearTimeout(sortTimerRef.current), []);
 
-	const sortedListings = useMemo(
-		() => sortListings(props.listings, appliedSort),
-		[props.listings, appliedSort],
+	useEffect(() => {
+		setPriceRange(null);
+		setAppliedPriceRange(null);
+	}, [props.listings]);
+
+	const priceBounds = useMemo(
+		() => getPriceBounds(props.listings),
+		[props.listings],
 	);
 
-	const onSortChange = (value: ListingSort) => {
-		setSort(value);
+	const visibleListings = useMemo(
+		() =>
+			sortListings(
+				filterListingsByPrice(
+					props.listings,
+					appliedPriceRange,
+				),
+				appliedSort,
+			),
+		[props.listings, appliedPriceRange, appliedSort],
+	);
+
+	const applyAfterDelay = (apply: () => void) => {
 		clearTimeout(sortTimerRef.current);
 		if (props.listings.length === 0) {
-			setAppliedSort(value);
+			apply();
 			setIsSorting(false);
 			return;
 		}
 
 		setIsSorting(true);
 		sortTimerRef.current = setTimeout(() => {
-			setAppliedSort(value);
+			apply();
 			setIsSorting(false);
 		}, SORT_LOADING_MS);
+	};
+
+	const onSortChange = (value: ListingSort) => {
+		setSort(value);
+		applyAfterDelay(() => setAppliedSort(value));
+	};
+
+	const onPriceRangeChange = (value: PriceRange) => {
+		setPriceRange(value);
+		applyAfterDelay(() => setAppliedPriceRange(value));
 	};
 
 	const showControls = props.isLoading || props.listings.length > 0;
@@ -71,6 +107,13 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 							options={LISTING_SORT_LABELS}
 							value={sort}
 							onChange={onSortChange}
+							{...(priceBounds && {
+								price: {
+									bounds: priceBounds,
+									value: priceRange ?? priceBounds,
+									onChange: onPriceRangeChange,
+								},
+							})}
 						/>
 					)}
 				</Flex>
@@ -78,7 +121,7 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 
 			<ListingGrid
 				{...props}
-				listings={sortedListings}
+				listings={visibleListings}
 				isLoading={props.isLoading || isSorting}
 			/>
 		</Stack>
