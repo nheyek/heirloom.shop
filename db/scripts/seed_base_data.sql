@@ -4,6 +4,10 @@ DECLARE
     admin_user_1_username CONSTANT VARCHAR := 'nick@heyek.com';
     admin_user_1_email CONSTANT VARCHAR := 'nick@heyek.com';
 
+    jewelry_category_id CONSTANT VARCHAR := 'JEWELRY';
+    jewelry_category_name CONSTANT VARCHAR := 'Jewelry';
+    jewelry_image_uuid CONSTANT VARCHAR := 'fed1d05a-6f91-47ee-a011-b6a775902dc9';
+
     ring_category_id CONSTANT VARCHAR := 'RINGS';
     ring_category_name CONSTANT VARCHAR := 'Rings';
     ring_image_uuid CONSTANT VARCHAR := 'fed1d05a-6f91-47ee-a011-b6a775902dc9';
@@ -28,10 +32,11 @@ BEGIN
 
 	INSERT INTO listing_category (id, title, subtitle, image_uuid, parent_id, created_at, updated_at)
 	VALUES
-		(ring_category_id, ring_category_name, NULL, ring_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (bracelet_category_id, bracelet_category_name, NULL, bracelet_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (necklace_category_id, necklace_category_name, NULL, necklace_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-        (earring_category_id, earring_category_name, NULL, earring_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+		(jewelry_category_id, jewelry_category_name, NULL, jewelry_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+		(ring_category_id, ring_category_name, NULL, ring_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (bracelet_category_id, bracelet_category_name, NULL, bracelet_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (necklace_category_id, necklace_category_name, NULL, necklace_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+        (earring_category_id, earring_category_name, NULL, earring_image_uuid, jewelry_category_id, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
         (accessories_category_id, accessories_category_name, NULL, accessories_image_uuid, NULL, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
 	ON CONFLICT (id) DO UPDATE SET
 		title = EXCLUDED.title,

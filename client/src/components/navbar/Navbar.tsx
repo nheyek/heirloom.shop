@@ -10,21 +10,17 @@ import {
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { LoginButton } from '@client/components/navbar/LoginButton';
-import { NavbarCategoryNav } from '@client/components/navbar/NavbarCategoryNav';
+import { CategoryMenu } from '@client/components/navbar/CategoryMenu';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
 import { CLIENT_ROUTES } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import {
-	categoryBarHeight,
-	navbarHeight,
-	sansFontFamily,
-} from '@client/theme';
+import { navbarHeight, sansFontFamily } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { FaCrown, FaShop } from 'react-icons/fa6';
 
-import { Link, useLocation, useMatch } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export const NavbarButton = (props: IconButtonProps) => (
 	<IconButton
@@ -54,8 +50,6 @@ export const Navbar = () => {
 	const shoppingCart = useShoppingCart();
 
 	const isMobile = useBreakpointValue({ base: true, md: false });
-	const categoryId = useMatch(`/${CLIENT_ROUTES.category}/:id`)
-		?.params.id;
 
 	return (
 		<Box
@@ -68,6 +62,7 @@ export const Navbar = () => {
 				px={4}
 				h={navbarHeight}
 				alignItems="center"
+				justifyContent="space-between"
 				gap={4}
 			>
 				<HStack
@@ -96,16 +91,8 @@ export const Navbar = () => {
 									: 'Admin'}
 							</Text>
 						)}
+					<CategoryMenu />
 				</HStack>
-
-				<Box
-					flex={1}
-					minW={0}
-				>
-					{categoryId && !isMobile && (
-						<NavbarCategoryNav categoryId={categoryId} />
-					)}
-				</Box>
 
 				<HStack gap={2}>
 					{user?.isAdmin && (
@@ -178,20 +165,6 @@ export const Navbar = () => {
 					/>
 				</HStack>
 			</HStack>
-
-			{categoryId && isMobile && (
-				<HStack
-					px={2}
-					mt={-4}
-					h={categoryBarHeight}
-					alignItems="center"
-				>
-					<NavbarCategoryNav
-						categoryId={categoryId}
-						compact
-					/>
-				</HStack>
-			)}
 		</Box>
 	);
 };

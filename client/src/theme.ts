@@ -19,7 +19,6 @@ export const animationName = {
 };
 
 export const navbarHeight = 65;
-export const categoryBarHeight = 50;
 export const scrollTargetOffset =
 	navbarHeight + 2 * chakraSpacingUnit;
 export const sidebarWidth = 250;

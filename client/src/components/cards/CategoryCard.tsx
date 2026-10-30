@@ -1,7 +1,7 @@
 import { Box, Card, Text } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
-import { CLIENT_ROUTES } from '@client/constants';
+import { getCategoryPath } from '@client/utils/categoryUtils';
 import { displayFontFamily } from '@client/theme';
 import { categoryImageUrl } from '@client/utils/imageUtils';
 import { CategoryTileData } from '@heirloom/common/contract';
@@ -14,7 +14,7 @@ const TITLE_TEXT_SHADOW =
 export const CategoryCard = (props: CategoryTileData) => (
 	<Card.Root variant="elevated">
 		<RouterLink
-			to={`/${CLIENT_ROUTES.category}/${props.id.toLowerCase()}`}
+			to={getCategoryPath(props.id)}
 		>
 			<Box position="relative">
 				{props.imageUuid ? (

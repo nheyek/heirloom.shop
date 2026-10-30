@@ -66,11 +66,7 @@ export const SortableListingGrid = ({ title, ...props }: Props) => {
 					alignItems="flex-end"
 					gap={3}
 				>
-					{title ? (
-						<SectionTitle>{title}</SectionTitle>
-					) : (
-						<span />
-					)}
+					{title && <SectionTitle>{title}</SectionTitle>}
 					{showControls && (
 						<SortSelect
 							label="Order"

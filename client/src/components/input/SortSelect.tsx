@@ -1,22 +1,5 @@
-import {
-	Button,
-	HStack,
-	Icon,
-	IconProps,
-	Menu,
-	Portal,
-	Span,
-	Text,
-} from '@chakra-ui/react';
-import { FaArrowRightArrowLeft, FaCaretDown } from 'react-icons/fa6';
-
-const SortIcon = (props: IconProps) => (
-	<Icon
-		as={FaArrowRightArrowLeft}
-		transform="rotate(90deg)"
-		{...props}
-	/>
-);
+import { Button, Menu, Portal, Text } from '@chakra-ui/react';
+import { FaSliders } from 'react-icons/fa6';
 
 type Props<T extends string> = {
 	label: string;
@@ -33,25 +16,14 @@ export const SortSelect = <T extends string>(props: Props<T>) => {
 		>
 			<Menu.Trigger asChild>
 				<Button
-					size="md"
-					variant="ghost"
-					fontSize={17}
-					gap={3}
+					size="sm"
+					variant="subtle"
+					borderRadius="md"
+					fontSize={18}
+					mb={1}
 				>
-					<HStack gap={3}>
-						<SortIcon
-							h={15}
-							w={15}
-						/>
-						<Span fontWeight={400}>
-							{props.options[props.value]}
-						</Span>
-					</HStack>
-					<Icon
-						as={FaCaretDown}
-						h={15}
-						w={15}
-					/>
+					<FaSliders />
+					Filter & Sort
 				</Button>
 			</Menu.Trigger>
 			<Portal>

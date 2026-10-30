@@ -1,4 +1,4 @@
-import { Link, Stack } from '@chakra-ui/react';
+import { Link, Stack, Text } from '@chakra-ui/react';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
@@ -10,6 +10,7 @@ import {
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
+import { displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -28,7 +29,8 @@ export const CategoryPage = () => {
 
 	const apiClient = useApiClient();
 
-	const { categoriesLoading, categoriesError } = useCategories();
+	const { getCategory, categoriesLoading, categoriesError } =
+		useCategories();
 
 	const [listings, setListings] = useState<ListingCardData[]>([]);
 	const [shops, setShops] = useState<ShopCardData[]>([]);
@@ -86,9 +88,19 @@ export const CategoryPage = () => {
 	}
 
 	return (
-		<>
+		<Stack
+			gap={3}
+			mt={6}
+		>
+			<Text
+				fontSize={46}
+				fontWeight={400}
+				fontFamily={displayFontFamily}
+				alignSelf="center"
+			>
+				{getCategory(id)?.title}
+			</Text>
 			<Stack
-				pt={30}
 				pb={5}
 				px={STANDARD_GRID_GAP}
 				gap={30}
@@ -118,6 +130,6 @@ export const CategoryPage = () => {
 					/>
 				)}
 			</Stack>
-		</>
+		</Stack>
 	);
 };
