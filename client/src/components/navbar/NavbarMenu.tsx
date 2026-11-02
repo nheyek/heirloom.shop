@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Menu, Portal, Text } from '@chakra-ui/react';
+import { Icon, Menu, Portal, Text } from '@chakra-ui/react';
 import {
 	NavMenuContent,
 	NavMenuItem,
@@ -10,11 +10,11 @@ import { useUserInfo } from '@client/providers/UserProvider';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import {
 	FaArrowRightFromBracket,
+	FaCaretDown,
 	FaCrown,
 	FaScroll,
 	FaShop,
 } from 'react-icons/fa6';
-import { IoMdArrowDropdown } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 export const NavbarMenu = () => {
@@ -42,7 +42,11 @@ export const NavbarMenu = () => {
 					gap={{ base: 1, sm: 2 }}
 				>
 					<FaUserCircle />
-					<IoMdArrowDropdown />
+					<Icon
+						as={FaCaretDown}
+						w={18}
+						h={18}
+					/>
 				</NavbarButton>
 			</Menu.Trigger>
 			<Portal>
