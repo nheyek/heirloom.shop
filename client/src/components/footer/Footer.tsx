@@ -74,7 +74,7 @@ export const Footer = () => {
 				</Stack>
 
 				<Stack
-					gap={2}
+					gap={1}
 					minW={200}
 				>
 					<Text
@@ -107,7 +107,7 @@ export const Footer = () => {
 				</Stack>
 
 				<Stack
-					gap={2}
+					gap={1}
 					minW={200}
 				>
 					<Text
