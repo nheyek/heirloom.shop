@@ -23,7 +23,7 @@ const TITLE = 'Sort & Filter';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
-		fontSize={26}
+		fontSize={24}
 		fontWeight={500}
 		fontFamily={displayFontFamily}
 	>
@@ -45,7 +45,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	return (
 		<Stack gap={2}>
 			<HStack>
-				<Text fontSize={22}>
+				<Text fontSize={20}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>
@@ -76,21 +76,6 @@ const PriceRangeSlider = (props: PriceFilter) => {
 					))}
 				</Slider.Control>
 			</Slider.Root>
-
-			<HStack justifyContent="space-between">
-				<Text
-					fontSize={18}
-					color="fg.muted"
-				>
-					{formatCentsAsDollars(props.bounds[0])}
-				</Text>
-				<Text
-					fontSize={18}
-					color="fg.muted"
-				>
-					{formatCentsAsDollars(props.bounds[1])}
-				</Text>
-			</HStack>
 		</Stack>
 	);
 };
@@ -177,7 +162,7 @@ export const SortFilterDrawer = <T extends string>(
 													<RadioGroup.ItemHiddenInput />
 													<RadioGroup.ItemIndicator />
 													<RadioGroup.ItemText
-														fontSize={20}
+														fontSize={18}
 														fontWeight={
 															400
 														}
