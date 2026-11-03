@@ -10,6 +10,7 @@ import {
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { callApi } from '@client/utils/apiUtils';
@@ -40,6 +41,8 @@ export const CategoryPage = () => {
 	const [listingsError, setListingsError] = useState<string | null>(
 		null,
 	);
+	const listingView = useListingView(listings);
+
 	const isLoading = useMinDuration(
 		listingsLoading || categoriesLoading,
 	);
@@ -121,8 +124,8 @@ export const CategoryPage = () => {
 				<AppError title={listingsError} />
 			) : (
 				<SortableListingGrid
-					title="Items"
-					listings={listings}
+					view={listingView}
+					heading={<SectionTitle>Items</SectionTitle>}
 					isLoading={isLoading}
 					shops={shops}
 				/>

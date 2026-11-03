@@ -12,7 +12,6 @@ import {
 	PRICE_STEP_CENTS,
 	PriceRange,
 } from '@client/domain/listingFilter';
-import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode, useEffect, useState } from 'react';
 import { FaSliders } from 'react-icons/fa6';
@@ -22,13 +21,12 @@ const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
 		fontSize={24}
 		fontWeight={500}
-		fontFamily={displayFontFamily}
 	>
 		{props.children}
 	</Text>
 );
 
-type PriceFilter = {
+export type PriceFilter = {
 	bounds: PriceRange;
 	value: PriceRange;
 	onChange: (value: PriceRange) => void;
@@ -93,7 +91,6 @@ export const SortFilterDrawer = <T extends string>(
 		<>
 			<IconButton
 				variant="subtle"
-				mb={1}
 				onClick={() => setIsOpen(true)}
 			>
 				<FaSliders />

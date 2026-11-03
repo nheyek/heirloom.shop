@@ -8,6 +8,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { CategoryFilterMenu } from '@client/components/collections/CategoryFilterMenu';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
@@ -20,6 +21,7 @@ import {
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
+import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { displayFontFamily } from '@client/theme';
@@ -103,6 +105,8 @@ export const ShopPage = () => {
 		}
 		setListingsLoading(false);
 	};
+
+	const listingView = useListingView(listings);
 
 	const isLoading = useMinDuration(
 		shopDataLoading || listingsLoading,
@@ -276,9 +280,17 @@ export const ShopPage = () => {
 					mx="auto"
 				>
 					<SortableListingGrid
-						title="Items"
-						listings={listings}
+						view={listingView}
 						isLoading={isLoading}
+						heading={
+							(isLoading ||
+								listingView.category.options.length >
+									0) && (
+								<CategoryFilterMenu
+									{...listingView.category}
+								/>
+							)
+						}
 					/>
 				</Box>
 			)}

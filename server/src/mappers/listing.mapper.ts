@@ -58,6 +58,7 @@ export const mapListingToCardData = (
 		shortId: listing.shortId,
 		title: listing.title,
 		subtitle: listing.subtitle || '',
+		categoryId: listing.category.id,
 		heroImageUuid: getDefaultHeroImageUuid({
 			imageUuids: listing.imageUuids,
 			variations,
@@ -109,7 +110,8 @@ export const mapListingToPageData = (
 		? {
 				name: listing.personalizationProfile.name,
 				costCents: listing.personalizationProfile.costCents,
-				helperText: listing.personalizationProfile.helperText ?? null,
+				helperText:
+					listing.personalizationProfile.helperText ?? null,
 			}
 		: undefined;
 
@@ -127,24 +129,37 @@ export const mapListingToPageData = (
 			? {
 					processing: listing.processingProfile
 						? {
-								minDays: listing.processingProfile.minDays,
-								maxDays: listing.processingProfile.maxDays,
+								minDays:
+									listing.processingProfile.minDays,
+								maxDays:
+									listing.processingProfile.maxDays,
 							}
 						: undefined,
 					shipping: listing.shippingProfile
 						? {
-								originZip: listing.shippingProfile.originZip,
-								shippingDaysMin: listing.shippingProfile.shippingDaysMin,
-								shippingDaysMax: listing.shippingProfile.shippingDaysMax,
-								shippingRate: listing.shippingProfile.flatShippingRateCents || 0,
+								originZip:
+									listing.shippingProfile.originZip,
+								shippingDaysMin:
+									listing.shippingProfile
+										.shippingDaysMin,
+								shippingDaysMax:
+									listing.shippingProfile
+										.shippingDaysMax,
+								shippingRate:
+									listing.shippingProfile
+										.flatShippingRateCents || 0,
 							}
 						: undefined,
 					returns: listing.returnProfile
 						? {
-								policyType: listing.returnProfile.policyType,
-								returnWindowDays: listing.returnProfile.returnWindowDays,
+								policyType:
+									listing.returnProfile.policyType,
+								returnWindowDays:
+									listing.returnProfile
+										.returnWindowDays,
 								policyDescrRichText:
-									listing.returnProfile.policyDescrRichText ?? null,
+									listing.returnProfile
+										.policyDescrRichText ?? null,
 							}
 						: undefined,
 					personalization,
@@ -162,7 +177,9 @@ export const mapListingToCartItemData = (
 	deliveryEstimate: string | null | undefined,
 ): CartItemData => {
 	const allCombinations = getCombinations(listing);
-	const neededKeys = new Set(selectedOptionSets.map(getCombinationKey));
+	const neededKeys = new Set(
+		selectedOptionSets.map(getCombinationKey),
+	);
 	const combinations: CombinationsData = Object.fromEntries(
 		[...neededKeys]
 			.filter((key) => key in allCombinations)
@@ -175,6 +192,7 @@ export const mapListingToCartItemData = (
 		deliveryEstimate,
 		personalizationCostCents:
 			listing.personalizationProfile?.costCents ?? null,
-		personalizationName: listing.personalizationProfile?.name ?? null,
+		personalizationName:
+			listing.personalizationProfile?.name ?? null,
 	};
 };

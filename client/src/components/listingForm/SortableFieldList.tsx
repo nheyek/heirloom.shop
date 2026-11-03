@@ -78,7 +78,6 @@ const SortableFieldItem = ({
 					cursor={disabled ? 'default' : 'grab'}
 					color="fg.muted"
 					disabled={disabled}
-					// Opts this handle out of the page-level pan-y touch configuration
 					touchAction="none"
 					{...attributes}
 					{...listeners}

@@ -46,7 +46,10 @@ const CombinationSchema = z.object({
 
 const CombinationsSchema = z.record(z.string(), CombinationSchema);
 
-const VariationImagesSchema = z.record(z.string(), z.string().nullable());
+const VariationImagesSchema = z.record(
+	z.string(),
+	z.string().nullable(),
+);
 
 const VariationSummarySchema = z.object({
 	name: z.string(),
@@ -58,6 +61,7 @@ const ListingCardDataSchema = z.object({
 	shortId: z.string(),
 	title: z.string(),
 	subtitle: z.string(),
+	categoryId: z.string(),
 	heroImageUuid: z.string().nullable(),
 	basePriceCents: z.number(),
 	priceVaries: z.boolean(),
@@ -1008,7 +1012,9 @@ export type VariationData = z.infer<typeof VariationSchema>;
 export type VariationsData = z.infer<typeof VariationsSchema>;
 export type CombinationData = z.infer<typeof CombinationSchema>;
 export type CombinationsData = z.infer<typeof CombinationsSchema>;
-export type VariationImagesData = z.infer<typeof VariationImagesSchema>;
+export type VariationImagesData = z.infer<
+	typeof VariationImagesSchema
+>;
 
 export type CategoryTileData = z.infer<typeof CategoryTileDataSchema>;
 export type ListingCardData = z.infer<typeof ListingCardDataSchema>;
