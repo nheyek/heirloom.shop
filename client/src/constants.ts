@@ -18,7 +18,7 @@ export const STANDARD_GRID_COLUMNS = {
 };
 
 export const STANDARD_GRID_GAP = 5;
-export const GRID_CONTENT_MAX_WIDTH = 1400;
+export const GRID_CONTENT_MAX_WIDTH = 1600;
 export const LISTING_GRID_PAGE_SIZE = 20;
 export const FORM_FIELD_GAP = 5;
 export const LISTING_CONTENT_MAX_WIDTH = 1200;

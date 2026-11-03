@@ -124,8 +124,8 @@ export const SortFilterDrawer = <T extends string>(
 							</IconButton>
 						</Drawer.CloseTrigger>
 						<Drawer.Body p={5}>
-							<Stack gap={6}>
-								<Stack gap={3}>
+							<Stack gap={5}>
+								<Stack gap={2.5}>
 									<DrawerHeading>
 										Sort By
 									</DrawerHeading>
@@ -138,7 +138,7 @@ export const SortFilterDrawer = <T extends string>(
 										}
 										size="sm"
 									>
-										<Stack gap={3}>
+										<Stack gap={2.5}>
 											{(
 												Object.keys(
 													props.options,
@@ -147,7 +147,7 @@ export const SortFilterDrawer = <T extends string>(
 												<RadioGroup.Item
 													key={option}
 													value={option}
-													gap={3}
+													gap={2.5}
 												>
 													<RadioGroup.ItemHiddenInput />
 													<RadioGroup.ItemIndicator />
@@ -173,7 +173,7 @@ export const SortFilterDrawer = <T extends string>(
 								{props.price &&
 									props.price.bounds[0] <
 										props.price.bounds[1] && (
-										<Stack gap={1}>
+										<Stack gap={0.5}>
 											<DrawerHeading>
 												Price
 											</DrawerHeading>
