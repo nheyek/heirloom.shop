@@ -39,7 +39,7 @@ export const NavbarMenu = () => {
 					pr={1}
 					pl={2}
 					py={1}
-					gap={{ base: 1, sm: 2 }}
+					gap={2}
 				>
 					<FaUserCircle />
 					<Icon
