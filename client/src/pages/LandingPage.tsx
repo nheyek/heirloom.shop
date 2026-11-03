@@ -87,14 +87,14 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={30}
+			gap={45}
+			pt={30}
+			px={5}
+			pb={10}
 			alignItems="center"
+			maxW={GRID_CONTENT_MAX_WIDTH}
 		>
-			<Stack
-				pt={30}
-				alignItems="center"
-				gap={0}
-			>
+			<Stack gap={0}>
 				<HStack
 					fontFamily={displayFontFamily}
 					fontSize={28}
@@ -104,7 +104,6 @@ export const LandingPage = () => {
 					Welcome to
 					<Span fontWeight={500}>Heirloom.shop</Span>
 				</HStack>
-
 				<Stack
 					gap={3}
 					alignItems="center"
@@ -131,55 +130,47 @@ export const LandingPage = () => {
 				</Stack>
 			</Stack>
 
-			<Stack
-				px={5}
-				pb={5}
-				gap={30}
-				width="100%"
-				maxW={GRID_CONTENT_MAX_WIDTH}
-			>
-				{categoriesError ? (
-					<AppError title="Failed to load categories" />
-				) : (
-					<CategoryGrid
-						categories={getChildCategories(null)}
+			{categoriesError ? (
+				<AppError title="Failed to load categories" />
+			) : (
+				<CategoryGrid
+					categories={getChildCategories(null)}
+					isLoading={isLoading}
+				/>
+			)}
+
+			{shopsError ? (
+				<AppError title="Failed to load makers" />
+			) : (
+				<Stack
+					gap={2}
+					width="100%"
+				>
+					<SectionTitle>Makers</SectionTitle>
+
+					<ShopGrid
+						shops={shops}
 						isLoading={isLoading}
 					/>
-				)}
+				</Stack>
+			)}
 
-				{shopsError ? (
-					<AppError title="Failed to load makers" />
-				) : (
-					<Stack
-						gap={2}
-						width="100%"
-					>
-						<SectionTitle>Makers</SectionTitle>
+			{listingsError ? (
+				<AppError title={listingsError} />
+			) : (
+				<Stack
+					gap={2}
+					width="100%"
+				>
+					<SectionTitle>Featured Items</SectionTitle>
 
-						<ShopGrid
-							shops={shops}
-							isLoading={isLoading}
-						/>
-					</Stack>
-				)}
-
-				{listingsError ? (
-					<AppError title={listingsError} />
-				) : (
-					<Stack
-						gap={2}
-						width="100%"
-					>
-						<SectionTitle>Featured Items</SectionTitle>
-
-						<ListingGrid
-							listings={listings}
-							isLoading={isLoading}
-							shops={listingShops}
-						/>
-					</Stack>
-				)}
-			</Stack>
+					<ListingGrid
+						listings={listings}
+						isLoading={isLoading}
+						shops={listingShops}
+					/>
+				</Stack>
+			)}
 
 			<InfoPageDialog
 				infoPageKey={InfoPageKey.ABOUT}
