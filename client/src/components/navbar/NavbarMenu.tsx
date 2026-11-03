@@ -44,8 +44,8 @@ export const NavbarMenu = () => {
 					<FaUserCircle />
 					<Icon
 						as={FaCaretDown}
-						w={17}
-						h={17}
+						w={18}
+						h={18}
 					/>
 				</NavbarButton>
 			</Menu.Trigger>
