@@ -20,7 +20,7 @@ export const CategoryBreadcrumb = ({ categoryId }: Props) => {
 	return (
 		<Breadcrumb.Root>
 			<Breadcrumb.List
-				fontSize={26}
+				fontSize={24}
 				flexWrap="wrap"
 				rowGap={2}
 			>

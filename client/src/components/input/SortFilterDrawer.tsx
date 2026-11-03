@@ -1,5 +1,4 @@
 import {
-	Button,
 	Drawer,
 	HStack,
 	Icon,
@@ -18,8 +17,6 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode, useEffect, useState } from 'react';
 import { FaSliders } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
-
-const TITLE = 'Sort & Filter';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
@@ -94,17 +91,13 @@ export const SortFilterDrawer = <T extends string>(
 
 	return (
 		<>
-			<Button
-				size="sm"
+			<IconButton
 				variant="subtle"
-				borderRadius="md"
-				fontSize={18}
 				mb={1}
 				onClick={() => setIsOpen(true)}
 			>
 				<FaSliders />
-				{TITLE}
-			</Button>
+			</IconButton>
 			<Drawer.Root
 				open={isOpen}
 				onOpenChange={(e) => setIsOpen(e.open)}
