@@ -26,7 +26,6 @@ import {
 	useCheckoutStatus,
 } from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { displayFontFamily } from '@client/theme';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { getOrderPath } from '@client/utils/orderUtils';
@@ -301,9 +300,8 @@ export const CheckoutPage = () => {
 							<RxDotFilled />
 							<Text
 								fontSize={28}
-								fontWeight={600}
-								fontFamily={displayFontFamily}
-								paddingBottom={1}
+								fontWeight={500}
+								paddingBottom={0.5}
 							>
 								{formatCentsAsDollars(orderTotal)}
 							</Text>

@@ -142,20 +142,17 @@ export const ShoppingCartDrawer = (props: Props) => {
 
 							{shoppingCart.items.length > 0 && (
 								<Stack gap={1}>
-									<HStack
-										fontFamily={displayFontFamily}
-									>
+									<HStack>
 										<Text
-											fontSize={24}
-
 											paddingBottom={1}
+											fontSize={26}
 										>
 											Item total:
 										</Text>
 										<Text
-											fontSize={28}
-											fontWeight={600}
-											paddingBottom={1}
+											fontWeight={500}
+											fontSize={30}
+											mb={1}
 										>
 											{formatCentsAsDollars(
 												shoppingCart.itemPriceTotal,

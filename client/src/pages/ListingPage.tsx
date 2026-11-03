@@ -343,11 +343,8 @@ export const ListingPage = () => {
 											<RxDotFilled />
 											<Text
 												fontSize={26}
-												fontWeight={600}
-												fontFamily={
-													displayFontFamily
-												}
-												paddingBottom={1}
+												fontWeight={500}
+												paddingBottom={0.5}
 											>
 												{formatCentsAsDollars(
 													displayPrice.priceCents,
