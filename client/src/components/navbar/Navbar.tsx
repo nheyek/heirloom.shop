@@ -79,49 +79,44 @@ export const Navbar = () => {
 					<CategoryMenu />
 				</HStack>
 
-				<HStack gap={0}>
-					{!authIsLoading && (
-						<HStack gap={0}>
-							{!isAuthenticated && <LoginButton />}
-							{isAuthenticated && <NavbarMenu />}
-							<Box position="relative">
-								<NavbarButton
-									onClick={shoppingCart.openDrawer}
+				{!authIsLoading && (
+					<HStack gap={1}>
+						{!isAuthenticated && <LoginButton />}
+						{isAuthenticated && <NavbarMenu />}
+						<Box position="relative">
+							<NavbarButton
+								onClick={shoppingCart.openDrawer}
+							>
+								<FaShoppingCart />
+							</NavbarButton>
+							{shoppingCart.itemQuantityTotal > 0 && (
+								<Flex
+									alignItems="center"
+									background="#FFF"
+									border="2px solid #000"
+									position="absolute"
+									width="fit-content"
+									h={6}
+									overflow="hidden"
+									top={-1}
+									right={-1}
+									p={1.5}
+									borderRadius="full"
+									fontSize={13}
+									fontWeight={700}
+									fontFamily={sansFontFamily}
 								>
-									<FaShoppingCart />
-								</NavbarButton>
-								{shoppingCart.itemQuantityTotal >
-									0 && (
-									<Flex
-										alignItems="center"
-										background="#FFF"
-										border="2px solid #000"
-										position="absolute"
-										width="fit-content"
-										h={6}
-										overflow="hidden"
-										top={-1}
-										right={-1}
-										p={1.5}
-										borderRadius="full"
-										fontSize={13}
-										fontWeight={700}
-										fontFamily={sansFontFamily}
-									>
-										{
-											shoppingCart.itemQuantityTotal
-										}
-									</Flex>
-								)}
-							</Box>
-						</HStack>
-					)}
+									{shoppingCart.itemQuantityTotal}
+								</Flex>
+							)}
+						</Box>
+					</HStack>
+				)}
 
-					<ShoppingCartDrawer
-						isOpen={shoppingCart.isDrawerOpen}
-						onClose={shoppingCart.closeDrawer}
-					/>
-				</HStack>
+				<ShoppingCartDrawer
+					isOpen={shoppingCart.isDrawerOpen}
+					onClose={shoppingCart.closeDrawer}
+				/>
 			</HStack>
 		</Box>
 	);
