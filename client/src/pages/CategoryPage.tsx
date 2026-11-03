@@ -1,4 +1,4 @@
-import { Link, Stack } from '@chakra-ui/react';
+import { Box, Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
@@ -125,7 +125,11 @@ export const CategoryPage = () => {
 			) : (
 				<SortableListingGrid
 					view={listingView}
-					heading={<SectionTitle>Items</SectionTitle>}
+					heading={
+						<Box mb={-1}>
+							<SectionTitle>Items</SectionTitle>
+						</Box>
+					}
 					isLoading={isLoading}
 					shops={shops}
 				/>
