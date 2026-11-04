@@ -1,12 +1,15 @@
 import {
 	Card,
-	Heading,
 	HStack,
 	IconButton,
 	Link,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import {
+	CARD_SHOP_TITLE_PROPS,
+	CARD_TITLE_PROPS,
+} from '@client/components/cards/ListingCard';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
@@ -57,22 +60,19 @@ export const ShopCard = (props: Props) => {
 				<Stack gap={0}>
 					<RouterLink to={shopUrl}>
 						<Link asChild>
-							<Heading
-								fontSize={24}
-								lineHeight={1.2}
-								fontWeight={600}
+							<Text
+								{...CARD_TITLE_PROPS}
 								truncate
 								display="block"
 							>
 								{props.title}
-							</Heading>
+							</Text>
 						</Link>
 					</RouterLink>
 					<Text
+						{...CARD_SHOP_TITLE_PROPS}
 						truncate
-						fontSize={18}
-						fontWeight={500}
-						marginRight={10}
+						display="block"
 					>
 						{props.classification}
 					</Text>
@@ -83,10 +83,10 @@ export const ShopCard = (props: Props) => {
 						countryCode={
 							props.countryCode as CountryCode | null
 						}
-						size={18}
+						size={20}
 					/>
 					<Text
-						fontSize={18}
+						fontSize={20}
 						truncate
 						flex={1}
 						marginRight={10}

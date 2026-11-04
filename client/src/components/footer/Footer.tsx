@@ -83,26 +83,24 @@ export const Footer = () => {
 					>
 						Contact
 					</Text>
-					<Stack gap={1}>
-						<HStack gap={2.5}>
-							<FaEnvelope />
-							<Link
-								href={`mailto:${SUPPORT_EMAIL}`}
-								color="#FFF"
-							>
-								{SUPPORT_EMAIL}
-							</Link>
-						</HStack>
-						<HStack gap={2.5}>
-							<FaPhoneAlt />
-							<Link
-								href={`tel:${SUPPORT_PHONE_TEL}`}
-								color="#FFF"
-							>
-								{SUPPORT_PHONE}
-							</Link>
-						</HStack>
-					</Stack>
+					<HStack gap={2.5}>
+						<FaEnvelope />
+						<Link
+							href={`mailto:${SUPPORT_EMAIL}`}
+							color="#FFF"
+						>
+							{SUPPORT_EMAIL}
+						</Link>
+					</HStack>
+					<HStack gap={2.5}>
+						<FaPhoneAlt />
+						<Link
+							href={`tel:${SUPPORT_PHONE_TEL}`}
+							color="#FFF"
+						>
+							{SUPPORT_PHONE}
+						</Link>
+					</HStack>
 				</Stack>
 
 				<Stack

@@ -162,7 +162,6 @@ export const ShopPage = () => {
 					>
 						<Stack
 							gap={1}
-							fontFamily={displayFontFamily}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 						>
@@ -305,9 +304,8 @@ const ActionButton = (props: {
 	onClick?: () => void;
 }) => (
 	<Button
-		size={{ base: 'md', md: 'lg' }}
+		size="md"
 		variant="subtle"
-		fontSize={{ base: 16, md: 18, lg: 20 }}
 		onClick={props.onClick}
 	>
 		<Box color={props.iconColor}>
