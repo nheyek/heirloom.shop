@@ -40,7 +40,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	return (
 		<Stack gap={3}>
 			<HStack>
-				<Text fontSize={22}>
+				<Text fontSize={24}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>
@@ -126,7 +126,7 @@ export const SortFilterDrawer = <T extends string>(
 						</Drawer.CloseTrigger>
 						<Drawer.Body p={6}>
 							<Stack gap={8}>
-								<Stack gap={4}>
+								<Stack gap={3}>
 									<DrawerHeading>
 										Sort By
 									</DrawerHeading>

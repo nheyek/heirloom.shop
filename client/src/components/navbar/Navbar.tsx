@@ -61,7 +61,7 @@ export const Navbar = () => {
 				gap={0}
 			>
 				<HStack
-					gap={2}
+					gap={{ base: 2, sm: 3 }}
 					flexDirection={{ base: 'row-reverse', md: 'row' }}
 					alignItems="center"
 				>
