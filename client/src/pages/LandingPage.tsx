@@ -165,7 +165,7 @@ export const LandingPage = () => {
 					gap={2}
 					width="100%"
 				>
-					<SectionTitle>Featured Items</SectionTitle>
+					<SectionTitle>Featured</SectionTitle>
 
 					<ListingGrid
 						listings={listings}

@@ -52,7 +52,7 @@ export const ShopCard = (props: Props) => {
 			</RouterLink>
 			<Card.Body
 				p={3}
-				gap={0.5}
+				gap={1}
 			>
 				<Stack gap={0}>
 					<RouterLink to={shopUrl}>

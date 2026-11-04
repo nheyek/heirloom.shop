@@ -211,7 +211,7 @@ export const CheckoutPage = () => {
 
 						<Text
 							fontSize={32}
-							fontWeight={500}
+							fontWeight={600}
 							color="white"
 						>
 							{formatCentsAsDollars(orderTotal)}
@@ -300,6 +300,7 @@ export const CheckoutPage = () => {
 							<Text
 								fontSize={28}
 								paddingBottom={0.5}
+								fontWeight={600}
 							>
 								{formatCentsAsDollars(orderTotal)}
 							</Text>
