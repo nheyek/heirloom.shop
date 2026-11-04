@@ -139,6 +139,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
+					gap={3}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'
@@ -284,6 +285,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
+					gap={3}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'
