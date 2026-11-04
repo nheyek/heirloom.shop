@@ -119,8 +119,7 @@ export const LandingPage = () => {
 					</Text>
 					<Button
 						size="sm"
-						fontSize={16}
-						fontWeight={600}
+						fontSize={18}
 						onClick={() => setAboutOpen(true)}
 					>
 						<Icon
@@ -128,7 +127,7 @@ export const LandingPage = () => {
 							w={3.5}
 							h={3.5}
 						/>
-						LEARN MORE
+						Learn More
 					</Button>
 				</Stack>
 			</Stack>

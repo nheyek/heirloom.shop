@@ -15,12 +15,11 @@ export const ShoppingCartEmptyMessage = (props: Props) => (
 		<Button
 			onClick={props.onClick}
 			size="sm"
-			fontSize={16}
-			fontWeight={600}
+			fontSize={18}
 			fontFamily={defaultFontFamily}
 		>
 			<FaArrowLeft />
-			KEEP LOOKING
+			Keep Looking
 		</Button>
 	</Center>
 );
