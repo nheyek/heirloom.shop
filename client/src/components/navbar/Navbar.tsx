@@ -5,7 +5,6 @@ import {
 	HStack,
 	IconButton,
 	IconButtonProps,
-	useBreakpointValue,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { CategoryMenu } from '@client/components/navbar/CategoryMenu';
@@ -42,8 +41,6 @@ export const Navbar = () => {
 	).test(pathname);
 
 	const shoppingCart = useShoppingCart();
-
-	const isMobile = useBreakpointValue({ base: true, md: false });
 
 	return (
 		<Box

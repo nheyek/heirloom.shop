@@ -5,6 +5,7 @@ import {
 	GridItem,
 	HStack,
 	SimpleGrid,
+	Skeleton,
 	Stack,
 	Text,
 	useBreakpointValue,
@@ -36,6 +37,14 @@ import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
+const SummarySkeleton = () => (
+	<Stack gap={1.5}>
+		<Skeleton height={7} />
+		<Skeleton height={7} />
+		<Skeleton height={7} />
+	</Stack>
+);
+
 export const CheckoutPage = () => {
 	const navigate = useNavigate();
 	const { isAuthenticated } = useAuth0();
@@ -50,6 +59,7 @@ export const CheckoutPage = () => {
 		shippingTotal,
 		taxTotal,
 		taxCalcLoading,
+		cartLoading,
 		checkoutEmail,
 		shippingAddress,
 		validateLocalCheckoutFields,
@@ -203,38 +213,51 @@ export const CheckoutPage = () => {
 					gap={5}
 					background="brand"
 				>
-					<Stack gap={2}>
-						<ShoppingCartSummary
-							textColor={'white'}
-							pendingMessage="Enter shipping address"
-						/>
+					{cartLoading ? (
+						<Stack gap={2}>
+							<SummarySkeleton />
+							<Skeleton height={48} />
+						</Stack>
+					) : (
+						<Stack gap={2}>
+							<ShoppingCartSummary
+								textColor={'white'}
+								pendingMessage="Enter shipping address"
+							/>
 
-						<Text
-							fontSize={32}
-							fontWeight={600}
-							color="white"
-						>
-							{formatCentsAsDollars(orderTotal)}
-						</Text>
-					</Stack>
+							<Text
+								fontSize={32}
+								fontWeight={600}
+								color="white"
+							>
+								{formatCentsAsDollars(orderTotal)}
+							</Text>
+						</Stack>
+					)}
 					<CheckoutPaymentForm disabled={pendingCheckout} />
-					<Button
-						size="2xl"
-						width="full"
-						fontSize={24}
-						variant="outline"
-						color="white"
-						border="2px solid white"
-						onClick={handleConfirmation}
-						disabled={pendingCheckout || taxCalcLoading}
-						loading={
-							pendingSubmission ===
-							CheckoutType.StandardCheckout
-						}
-					>
-						<FaCheckCircle />
-						Pay Now
-					</Button>
+					{cartLoading ? (
+						<Skeleton height={16} />
+					) : (
+						<Button
+							size="2xl"
+							width="full"
+							fontSize={24}
+							variant="outline"
+							color="white"
+							border="2px solid white"
+							onClick={handleConfirmation}
+							disabled={
+								pendingCheckout || taxCalcLoading
+							}
+							loading={
+								pendingSubmission ===
+								CheckoutType.StandardCheckout
+							}
+						>
+							<FaCheckCircle />
+							Pay Now
+						</Button>
+					)}
 				</Stack>
 			</Stack>
 		);
@@ -276,34 +299,49 @@ export const CheckoutPage = () => {
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
 					<Stack gap={4}>
 						<CheckoutShoppingCart />
-						<ShoppingCartSummary pendingMessage="Enter shipping address" />
-						<Button
-							size="xl"
-							width="100%"
-							mb={10}
-							fontSize={24}
-							onClick={handleConfirmation}
-							disabled={
-								pendingCheckout || taxCalcLoading
-							}
-							loading={
-								pendingSubmission ===
-								CheckoutType.StandardCheckout
-							}
-						>
-							<HStack gap={3}>
-								<FaCheckCircle />
-								Pay Now
-							</HStack>
+						{cartLoading ? (
+							<>
+								<SummarySkeleton />
+								<Skeleton
+									height={14}
+									mb={10}
+								/>
+							</>
+						) : (
+							<>
+								<ShoppingCartSummary pendingMessage="Enter shipping address" />
+								<Button
+									size="xl"
+									width="100%"
+									mb={10}
+									fontSize={24}
+									onClick={handleConfirmation}
+									disabled={
+										pendingCheckout ||
+										taxCalcLoading
+									}
+									loading={
+										pendingSubmission ===
+										CheckoutType.StandardCheckout
+									}
+								>
+									<HStack gap={3}>
+										<FaCheckCircle />
+										Pay Now
+									</HStack>
 
-							<RxDotFilled />
-							<Text
-								fontSize={28}
-								paddingBottom={0.5}
-							>
-								{formatCentsAsDollars(orderTotal)}
-							</Text>
-						</Button>
+									<RxDotFilled />
+									<Text
+										fontSize={28}
+										paddingBottom={0.5}
+									>
+										{formatCentsAsDollars(
+											orderTotal,
+										)}
+									</Text>
+								</Button>
+							</>
+						)}
 					</Stack>
 				</GridItem>
 			</SimpleGrid>

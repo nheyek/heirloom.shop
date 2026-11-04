@@ -96,7 +96,9 @@ export const ShoppingCartProvider = (props: {
 		Record<string, CartItemData>
 	>({});
 
-	const [rawCartLoading, setCartLoading] = useState(false);
+	const [rawCartLoading, setCartLoading] = useState(
+		persistedItems.length > 0,
+	);
 	const cartLoading = useMinDuration(rawCartLoading);
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	const [checkoutEmail, setCheckoutEmail] = useState('');
