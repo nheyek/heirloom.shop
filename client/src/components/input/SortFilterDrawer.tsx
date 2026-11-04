@@ -19,7 +19,7 @@ import { MdClose } from 'react-icons/md';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
-		fontSize={26}
+		fontSize={24}
 		fontWeight={500}
 	>
 		{props.children}
@@ -40,7 +40,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	return (
 		<Stack gap={3}>
 			<HStack>
-				<Text fontSize={24}>
+				<Text fontSize={22}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>

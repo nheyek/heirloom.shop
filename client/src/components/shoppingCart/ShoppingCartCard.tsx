@@ -12,8 +12,7 @@ import {
 	ShoppingCartItem,
 } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FaTrashAlt } from 'react-icons/fa';
-import { FaMinus, FaPlus } from 'react-icons/fa6';
+import { FaMinus, FaPlus, FaTrashCan } from 'react-icons/fa6';
 
 type Props = {
 	item: ShoppingCartItem;
@@ -44,7 +43,7 @@ export const ShoppingCartCard = (props: Props) => {
 			}
 			cursor="button"
 		>
-			<FaTrashAlt />
+			<FaTrashCan />
 		</IconButton>
 	);
 
@@ -76,9 +75,9 @@ export const ShoppingCartCard = (props: Props) => {
 			<Text
 				textAlign="center"
 				minWidth={5}
-				fontSize={22}
+				fontSize={21}
 				fontWeight={600}
-				mb={1}
+				mb={0.5}
 			>
 				{props.item.quantity}
 			</Text>
