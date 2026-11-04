@@ -1,4 +1,5 @@
 import { Input, InputProps } from '@chakra-ui/react';
+import { CHECKOUT_FIELD_HEIGHT } from '@client/components/checkout/checkoutLayout';
 import { fieldErrorColor, sansFontFamily } from '@client/theme';
 
 export const CheckoutField = ({
@@ -10,7 +11,7 @@ export const CheckoutField = ({
 		fontFamily={sansFontFamily}
 		fontSize={16}
 		p={3}
-		height={12}
+		height={CHECKOUT_FIELD_HEIGHT}
 		borderRadius={5}
 		border={invalid ? `1px solid ${fieldErrorColor}` : undefined}
 		{...rest}

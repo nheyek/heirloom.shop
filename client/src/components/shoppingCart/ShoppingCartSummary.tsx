@@ -1,4 +1,5 @@
 import { DataList, Spinner } from '@chakra-ui/react';
+import { SUMMARY_ROW_GAP } from '@client/components/checkout/checkoutLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { TEXT_STYLES } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
@@ -15,7 +16,7 @@ export const ShoppingCartSummary = (props: Props) => {
 	return (
 		<DataList.Root
 			orientation="horizontal"
-			gap={1.5}
+			gap={SUMMARY_ROW_GAP}
 		>
 			{[
 				{

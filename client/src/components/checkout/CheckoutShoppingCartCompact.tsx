@@ -1,5 +1,9 @@
 import { Collapsible, HStack, Span } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
+import {
+	CART_CARD_BLEED,
+	CHECKOUT_GAP,
+} from '@client/components/checkout/checkoutLayout';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FaChevronDown, FaShoppingCart } from 'react-icons/fa';
@@ -30,10 +34,10 @@ export const CheckoutShoppingCartCompact = () => {
 				overflow="visible"
 			>
 				<HStack
-					gap={5}
+					gap={CHECKOUT_GAP}
 					overflowX="scroll"
-					m={-5}
-					p={5}
+					m={-CART_CARD_BLEED}
+					p={CART_CARD_BLEED}
 					alignItems="flex-start"
 				>
 					{shoppingCart.items.map((item, index) => (

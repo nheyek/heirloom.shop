@@ -12,6 +12,10 @@ import {
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
+import {
+	CHECKOUT_FIELD_GAP,
+	CHECKOUT_FIELD_HEIGHT,
+} from '@client/components/checkout/checkoutLayout';
 import { Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { fieldErrorColor, sansFontFamily } from '@client/theme';
@@ -115,11 +119,11 @@ export const CheckoutShippingForm = (props: Props) => {
 			<CheckoutHeading>Ship To</CheckoutHeading>
 			<Fieldset.Root
 				size="lg"
-				mt={3}
+				mt={CHECKOUT_FIELD_GAP}
 				disabled={props.disabled}
 			>
 				<Flex
-					gap={3}
+					gap={CHECKOUT_FIELD_GAP}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'
@@ -268,7 +272,7 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
-					gap={3}
+					gap={CHECKOUT_FIELD_GAP}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'
@@ -303,7 +307,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								placeholder="State"
 								name="address-level1"
 								autoComplete="address-level1"
-								height={12}
+								height={CHECKOUT_FIELD_HEIGHT}
 								fontFamily={sansFontFamily}
 								fontSize={16}
 								value={shippingAddress.state}
@@ -362,7 +366,7 @@ export const CheckoutShippingForm = (props: Props) => {
 			<Collapsible.Root
 				open={Boolean(shippingAddressUndeliverable)}
 			>
-				<Collapsible.Content pt={3}>
+				<Collapsible.Content pt={CHECKOUT_FIELD_GAP}>
 					<Alert.Root status="error">
 						<Alert.Indicator />
 						<Alert.Content>

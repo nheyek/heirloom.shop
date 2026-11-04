@@ -2,6 +2,7 @@ import { Field, Fieldset, Stack } from '@chakra-ui/react';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
+import { CHECKOUT_FIELD_GAP } from '@client/components/checkout/checkoutLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 
 type Props = {
@@ -17,7 +18,7 @@ export const CheckoutContactForm = (props: Props) => {
 	} = useShoppingCart();
 
 	return (
-		<Stack gap={3}>
+		<Stack gap={CHECKOUT_FIELD_GAP}>
 			<CheckoutHeading>Contact</CheckoutHeading>
 			<Fieldset.Root
 				size="lg"

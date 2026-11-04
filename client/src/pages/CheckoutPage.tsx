@@ -12,6 +12,14 @@ import {
 } from '@chakra-ui/react';
 import { CheckoutContactForm } from '@client/components/checkout/CheckoutContactForm';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
+import {
+	CHECKOUT_BUTTON_MARGIN_BOTTOM,
+	CHECKOUT_FIELD_GAP,
+	CHECKOUT_GAP,
+	SUMMARY_ROW_GAP,
+	SUMMARY_ROW_HEIGHT,
+	SUMMARY_TOTAL_GAP,
+} from '@client/components/checkout/checkoutLayout';
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
@@ -39,10 +47,10 @@ import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
 const SummarySkeleton = () => (
-	<Stack gap={1.5}>
-		<Skeleton height={5} />
-		<Skeleton height={5} />
-		<Skeleton height={5} />
+	<Stack gap={SUMMARY_ROW_GAP}>
+		<Skeleton height={SUMMARY_ROW_HEIGHT} />
+		<Skeleton height={SUMMARY_ROW_HEIGHT} />
+		<Skeleton height={SUMMARY_ROW_HEIGHT} />
 	</Stack>
 );
 
@@ -198,8 +206,8 @@ export const CheckoutPage = () => {
 		return (
 			<Stack gap={0}>
 				<Stack
-					p={5}
-					gap={5}
+					p={CHECKOUT_GAP}
+					gap={CHECKOUT_GAP}
 					ref={shippingFormRef}
 				>
 					<SectionTitle>Complete Your Order</SectionTitle>
@@ -212,17 +220,17 @@ export const CheckoutPage = () => {
 				</Stack>
 
 				<Stack
-					p={5}
-					gap={5}
+					p={CHECKOUT_GAP}
+					gap={CHECKOUT_GAP}
 					background="brand"
 				>
 					{cartLoading ? (
-						<Stack gap={2}>
+						<Stack gap={SUMMARY_TOTAL_GAP}>
 							<SummarySkeleton />
 							<Skeleton height={50} />
 						</Stack>
 					) : (
-						<Stack gap={2}>
+						<Stack gap={SUMMARY_TOTAL_GAP}>
 							<ShoppingCartSummary
 								textColor={'white'}
 								pendingMessage="Enter shipping address"
@@ -268,9 +276,9 @@ export const CheckoutPage = () => {
 
 	return (
 		<Stack
-			gap={5}
+			gap={CHECKOUT_GAP}
 			my={7}
-			px={5}
+			px={CHECKOUT_GAP}
 			mx="auto"
 			maxWidth={{ lg: 1000 }}
 		>
@@ -278,7 +286,7 @@ export const CheckoutPage = () => {
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}
-				gapY={5}
+				gapY={CHECKOUT_GAP}
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
 					<Stack gap={7}>
@@ -290,7 +298,7 @@ export const CheckoutPage = () => {
 							disabled={pendingCheckout}
 						/>
 
-						<Stack gap={3}>
+						<Stack gap={CHECKOUT_FIELD_GAP}>
 							<CheckoutHeading>Payment</CheckoutHeading>
 							<CheckoutPaymentForm
 								disabled={pendingCheckout}
@@ -299,14 +307,14 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
-					<Stack gap={5}>
+					<Stack gap={CHECKOUT_GAP}>
 						<CheckoutShoppingCart />
 						{cartLoading ? (
 							<>
 								<SummarySkeleton />
 								<Skeleton
 									height={50}
-									mb={10}
+									mb={CHECKOUT_BUTTON_MARGIN_BOTTOM}
 								/>
 							</>
 						) : (
@@ -315,7 +323,7 @@ export const CheckoutPage = () => {
 								<Button
 									size="xl"
 									width="100%"
-									mb={10}
+									mb={CHECKOUT_BUTTON_MARGIN_BOTTOM}
 									fontSize={24}
 									onClick={handleConfirmation}
 									disabled={

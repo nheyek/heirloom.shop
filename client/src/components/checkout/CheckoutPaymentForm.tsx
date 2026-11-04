@@ -1,10 +1,11 @@
+import { CHECKOUT_FIELD_GAP } from '@client/components/checkout/checkoutLayout';
 import { Box, Presence, Skeleton, Stack } from '@chakra-ui/react';
 import { PaymentElement } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 
 const FormSkeleton = () => (
 	<Stack
-		gap={3}
+		gap={CHECKOUT_FIELD_GAP}
 		height="100%"
 	>
 		<Skeleton flex={1} />

@@ -2,6 +2,10 @@ import { Carousel, HStack, IconButton, Text } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { OrderItemCardSkeleton } from '@client/components/cards/OrderItemCardSkeleton';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
+import {
+	CART_CARD_BLEED,
+	CHECKOUT_FIELD_GAP,
+} from '@client/components/checkout/checkoutLayout';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { useState } from 'react';
@@ -18,7 +22,7 @@ export const CheckoutShoppingCart = () => {
 		<Carousel.Root
 			slideCount={slideCount}
 			slidesPerPage={1}
-			gap={3}
+			gap={CHECKOUT_FIELD_GAP}
 			page={page}
 			onPageChange={(details) => setPage(details.page)}
 		>
@@ -56,7 +60,7 @@ export const CheckoutShoppingCart = () => {
 					</HStack>
 				)}
 			</HStack>
-			<Carousel.ItemGroup m={-5}>
+			<Carousel.ItemGroup m={-CART_CARD_BLEED}>
 				{shoppingCart.cartLoading
 					? Array.from({
 							length: shoppingCart.pendingItemCount,
@@ -64,7 +68,7 @@ export const CheckoutShoppingCart = () => {
 							<Carousel.Item
 								key={index}
 								index={index}
-								p={5}
+								p={CART_CARD_BLEED}
 							>
 								<OrderItemCardSkeleton />
 							</Carousel.Item>
@@ -73,7 +77,7 @@ export const CheckoutShoppingCart = () => {
 							<Carousel.Item
 								key={`${item.listingData.shortId}-${JSON.stringify(item.selectedOptions)}`}
 								index={index}
-								p={5}
+								p={CART_CARD_BLEED}
 							>
 								<OrderItemCard
 									item={getOrderItemDisplayData(
