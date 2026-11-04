@@ -39,10 +39,10 @@ import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
 const SummarySkeleton = () => (
-	<Stack gap={2}>
-		<Skeleton height={6} />
-		<Skeleton height={6} />
-		<Skeleton height={6} />
+	<Stack gap={1.5}>
+		<Skeleton height={5} />
+		<Skeleton height={5} />
+		<Skeleton height={5} />
 	</Stack>
 );
 
@@ -219,7 +219,7 @@ export const CheckoutPage = () => {
 					{cartLoading ? (
 						<Stack gap={2}>
 							<SummarySkeleton />
-							<Skeleton height={48} />
+							<Skeleton height={50} />
 						</Stack>
 					) : (
 						<Stack gap={2}>
@@ -239,7 +239,7 @@ export const CheckoutPage = () => {
 					)}
 					<CheckoutPaymentForm disabled={pendingCheckout} />
 					{cartLoading ? (
-						<Skeleton height={20} />
+						<Skeleton height={16} />
 					) : (
 						<Button
 							size="2xl"
@@ -301,7 +301,15 @@ export const CheckoutPage = () => {
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
 					<Stack gap={5}>
 						<CheckoutShoppingCart />
-						{!cartLoading && (
+						{cartLoading ? (
+							<>
+								<SummarySkeleton />
+								<Skeleton
+									height={50}
+									mb={10}
+								/>
+							</>
+						) : (
 							<>
 								<ShoppingCartSummary pendingMessage="Enter shipping address" />
 								<Button

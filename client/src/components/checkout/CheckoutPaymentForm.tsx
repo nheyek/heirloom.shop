@@ -2,13 +2,14 @@ import { Box, Presence, Skeleton, Stack } from '@chakra-ui/react';
 import { PaymentElement } from '@stripe/react-stripe-js';
 import { useState } from 'react';
 
-const FormSkeletonRow = () => <Skeleton height="50px" />;
-
 const FormSkeleton = () => (
-	<Stack gap={3}>
-		<FormSkeletonRow />
-		<FormSkeletonRow />
-		<FormSkeletonRow />
+	<Stack
+		gap={3}
+		height="100%"
+	>
+		<Skeleton flex={1} />
+		<Skeleton flex={1} />
+		<Skeleton flex={1} />
 	</Stack>
 );
 
@@ -21,11 +22,16 @@ export const CheckoutPaymentForm = ({ disabled }: Props) => {
 
 	return (
 		<Box position="relative">
-			<Presence present={!ready}>
+			<Presence
+				present={!ready}
+				position="absolute"
+				inset={0}
+			>
 				<FormSkeleton />
 			</Presence>
 			<Box
 				visibility={ready ? 'visible' : 'hidden'}
+				{...(!ready && { minHeight: 200 })}
 				opacity={disabled ? 0.5 : 1}
 				transition="opacity 0.2s"
 			>
@@ -33,7 +39,10 @@ export const CheckoutPaymentForm = ({ disabled }: Props) => {
 					options={{
 						layout: 'tabs',
 						readOnly: disabled,
-						wallets: { applePay: 'never', googlePay: 'never' },
+						wallets: {
+							applePay: 'never',
+							googlePay: 'never',
+						},
 					}}
 					onReady={() => setReady(true)}
 				/>

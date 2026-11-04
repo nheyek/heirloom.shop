@@ -1,11 +1,6 @@
-import {
-	Carousel,
-	HStack,
-	IconButton,
-	Skeleton,
-	Text,
-} from '@chakra-ui/react';
+import { Carousel, HStack, IconButton, Text } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
+import { OrderItemCardSkeleton } from '@client/components/cards/OrderItemCardSkeleton';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
@@ -71,11 +66,7 @@ export const CheckoutShoppingCart = () => {
 								index={index}
 								p={5}
 							>
-								<Skeleton
-									height={300}
-									width="100%"
-									borderRadius="md"
-								/>
+								<OrderItemCardSkeleton />
 							</Carousel.Item>
 						))
 					: shoppingCart.items.map((item, index) => (
