@@ -283,6 +283,7 @@ export const ShopPage = () => {
 					<SortableListingGrid
 						view={listingView}
 						isLoading={isLoading}
+						headerProps={{ mb: 1 }}
 						heading={
 							(isLoading ||
 								listingView.category.options.length >

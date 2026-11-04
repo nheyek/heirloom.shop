@@ -1,4 +1,4 @@
-import { Flex, Stack } from '@chakra-ui/react';
+import { Flex, FlexProps, Stack } from '@chakra-ui/react';
 import { SECTION_TITLE_GAP } from '@client/constants';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
@@ -9,11 +9,13 @@ import { ComponentProps, ReactNode } from 'react';
 type Props = Omit<ComponentProps<typeof ListingGrid>, 'listings'> & {
 	view: ListingView;
 	heading?: ReactNode;
+	headerProps?: FlexProps;
 };
 
 export const SortableListingGrid = ({
 	view,
 	heading,
+	headerProps,
 	...gridProps
 }: Props) => {
 	const showControls =
@@ -28,6 +30,7 @@ export const SortableListingGrid = ({
 				<Flex
 					justifyContent="space-between"
 					alignItems="flex-end"
+					{...headerProps}
 				>
 					{heading}
 					{showControls && (
