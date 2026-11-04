@@ -24,7 +24,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { displayFontFamily } from '@client/theme';
+import { defaultFontFamily, displayFontFamily } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import {
@@ -159,6 +159,7 @@ export const ShopPage = () => {
 						left={{ base: 5, md: 10 }}
 						gap={5}
 						alignItems="flex-start"
+						fontFamily={displayFontFamily}
 					>
 						<Stack
 							gap={1}
@@ -169,7 +170,6 @@ export const ShopPage = () => {
 								display="block"
 								fontSize={titleFontSize}
 								fontWeight={700}
-								fontFamily={displayFontFamily}
 								lineHeight={1}
 							>
 								{shopData?.title}
@@ -219,6 +219,7 @@ export const ShopPage = () => {
 										}),
 										{},
 									)}
+									fontFamily={defaultFontFamily}
 								>
 									{shopData?.location}
 								</Text>

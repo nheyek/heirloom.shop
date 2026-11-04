@@ -38,7 +38,9 @@ export const CARD_TITLE_PROPS: TextProps = {
 
 export const CARD_SHOP_TITLE_PROPS: TextProps = {
 	fontSize: 20,
-	fontWeight: 'medium',
+	fontFamily: displayFontFamily,
+
+	fontWeight: 500,
 };
 
 export type ListingCardIconMenuItem = {

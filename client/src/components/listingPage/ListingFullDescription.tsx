@@ -1,5 +1,6 @@
 import { Accordion, Text } from '@chakra-ui/react';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
+import { displayFontFamily } from '@client/theme';
 import { ListingFullDescr } from '@heirloom/common/contract';
 
 type Props = {
@@ -23,6 +24,7 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 					<Text
 						flex="1"
 						fontSize={22}
+						fontFamily={displayFontFamily}
 					>
 						{item.title}
 					</Text>

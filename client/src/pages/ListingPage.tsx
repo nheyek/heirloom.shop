@@ -225,6 +225,7 @@ export const ListingPage = () => {
 								<HStack
 									fontWeight={500}
 									fontSize={24}
+									fontFamily={displayFontFamily}
 								>
 									<FaShop size={22} />
 									<Link
