@@ -11,6 +11,8 @@ import {
 	Wrap,
 } from '@chakra-ui/react';
 import {
+	BADGE_OVERLAY_PROPS,
+	BadgeOverlay,
 	CARD_SHOP_TITLE_PROPS,
 	CARD_TITLE_PROPS,
 } from '@client/components/cards/ListingCard';
@@ -129,6 +131,32 @@ export const OrderItemCard = (props: Props) => {
 		</Wrap>
 	);
 
+	const overlayBadges = (
+		<BadgeOverlay>
+			{props.item.variations.map(({ name, value }) => (
+				<Badge
+					key={name}
+					{...BADGE_OVERLAY_PROPS}
+				>
+					{name}: {value}
+				</Badge>
+			))}
+			{props.item.personalizationText && (
+				<Badge
+					{...BADGE_OVERLAY_PROPS}
+					gap={2}
+				>
+					<FaSignature />
+					<Span>
+						{truncatePersonalizationText(
+							props.item.personalizationText,
+						)}
+					</Span>
+				</Badge>
+			)}
+		</BadgeOverlay>
+	);
+
 	const priceAndShipping = (
 		<Flex
 			alignItems="center"
@@ -212,6 +240,7 @@ export const OrderItemCard = (props: Props) => {
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					urls={imageSource ? [imageSource] : []}
 				/>
+				{overlayBadges}
 				{props.imageOverlayElements}
 			</Box>
 
@@ -221,7 +250,6 @@ export const OrderItemCard = (props: Props) => {
 				justifyContent="space-between"
 			>
 				{basicInfo}
-				{secondaryInfoBadges}
 				{priceAndShipping}
 				{estimatedDelivery}
 			</Card.Body>

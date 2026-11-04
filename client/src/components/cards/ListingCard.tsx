@@ -1,5 +1,6 @@
 import {
 	Badge,
+	BadgeProps,
 	Box,
 	Card,
 	Flex,
@@ -27,8 +28,28 @@ import { Link as RouterLink } from 'react-router-dom';
 
 const BADGE_OVERLAY_MARGIN = 3;
 const BADGE_OVERLAY_GAP = 1.5;
-const BADGE_OVERLAY_OPACITY = 0.9;
-const BADGE_OVERLAY_BG = 'gray.100';
+
+export const BADGE_OVERLAY_PROPS: BadgeProps = {
+	bg: 'gray.100',
+	opacity: 0.9,
+	fontSize: 19,
+	fontWeight: 400,
+	p: 1.5,
+	px: 2.5,
+};
+
+export const BadgeOverlay = (props: { children: ReactNode }) => (
+	<Stack
+		position="absolute"
+		top={BADGE_OVERLAY_MARGIN}
+		left={BADGE_OVERLAY_MARGIN}
+		gap={BADGE_OVERLAY_GAP}
+		alignItems="flex-start"
+		pointerEvents="none"
+	>
+		{props.children}
+	</Stack>
+);
 
 export const CARD_TITLE_PROPS: TextProps = {
 	fontSize: 24,
@@ -95,12 +116,7 @@ export const ListingCard = ({
 	const variationBadges = props.variations.map((variation) => (
 		<Badge
 			key={variation.name}
-			bg={BADGE_OVERLAY_BG}
-			opacity={BADGE_OVERLAY_OPACITY}
-			fontSize={19}
-			fontWeight={400}
-			p={1.5}
-			px={2.5}
+			{...BADGE_OVERLAY_PROPS}
 		>
 			<Span fontWeight={500}>{variation.numOptions}</Span>{' '}
 			{variation.name.toLowerCase()} options
@@ -162,16 +178,7 @@ export const ListingCard = ({
 							aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 						/>
 					)}
-					<Stack
-						position="absolute"
-						top={BADGE_OVERLAY_MARGIN}
-						left={BADGE_OVERLAY_MARGIN}
-						gap={BADGE_OVERLAY_GAP}
-						alignItems="flex-start"
-						pointerEvents="none"
-					>
-						{variationBadges}
-					</Stack>
+					<BadgeOverlay>{variationBadges}</BadgeOverlay>
 				</Box>
 
 				<Card.Body
