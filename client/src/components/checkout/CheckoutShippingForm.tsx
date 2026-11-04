@@ -10,8 +10,8 @@ import {
 	Stack,
 } from '@chakra-ui/react';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
-import { CheckoutShippingField } from '@client/components/checkout/CheckoutShippingField';
-import { CheckoutShippingFieldError } from '@client/components/checkout/CheckoutShippingFieldError';
+import { CheckoutField } from '@client/components/checkout/CheckoutField';
+import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
 import { Layout } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { fieldErrorColor, sansFontFamily } from '@client/theme';
@@ -35,15 +35,11 @@ export const CheckoutShippingForm = (props: Props) => {
 	});
 
 	const {
-		checkoutEmail,
-		checkoutEmailError,
 		shippingAddress,
 		shippingAddressErrors,
 		shippingAddressUndeliverable,
-		setCheckoutEmail,
 		setShippingAddress,
 		clearShippingAddressError,
-		clearEmailError,
 	} = useShoppingCart();
 
 	const debounceRef =
@@ -115,29 +111,13 @@ export const CheckoutShippingForm = (props: Props) => {
 	};
 
 	return (
-		<Stack gap={3}>
+		<Stack gap={0}>
 			<CheckoutHeading>Ship To</CheckoutHeading>
 			<Fieldset.Root
 				size="lg"
+				mt={3}
 				disabled={props.disabled}
 			>
-				<Field.Root gap={0}>
-					<CheckoutShippingField
-						placeholder="Email address"
-						name="email"
-						type="email"
-						value={checkoutEmail}
-						onChange={(e) => {
-							setCheckoutEmail(e.target.value);
-							clearEmailError();
-						}}
-						invalid={!!checkoutEmailError}
-					/>
-					<CheckoutShippingFieldError
-						errorText={checkoutEmailError}
-					/>
-				</Field.Root>
-
 				<Flex
 					gap={3}
 					direction={
@@ -147,9 +127,10 @@ export const CheckoutShippingForm = (props: Props) => {
 					}
 				>
 					<Field.Root>
-						<CheckoutShippingField
+						<CheckoutField
 							placeholder="First name"
 							name="given-name"
+							autoComplete="given-name"
 							value={shippingAddress.firstName}
 							onChange={(e) =>
 								setShippingAddress({
@@ -160,9 +141,10 @@ export const CheckoutShippingForm = (props: Props) => {
 						/>
 					</Field.Root>
 					<Field.Root gap={0}>
-						<CheckoutShippingField
+						<CheckoutField
 							placeholder="Last name"
 							name="family-name"
+							autoComplete="family-name"
 							value={shippingAddress.lastName}
 							onChange={(e) => {
 								setShippingAddress({
@@ -173,7 +155,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.lastName}
 						/>
-						<CheckoutShippingFieldError
+						<CheckoutFieldError
 							errorText={shippingAddressErrors.lastName}
 						/>
 					</Field.Root>
@@ -186,7 +168,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						width="100%"
 					>
 						<InputGroup startElement={<FaSearch />}>
-							<CheckoutShippingField
+							<CheckoutField
 								placeholder="Address"
 								name="address-line1"
 								value={
@@ -217,7 +199,7 @@ export const CheckoutShippingForm = (props: Props) => {
 									suggestions.length > 0 &&
 									setShowSuggestions(true)
 								}
-								autoComplete="off"
+								autoComplete="address-line1"
 								invalid={
 									!!shippingAddressErrors.line1
 								}
@@ -265,14 +247,15 @@ export const CheckoutShippingForm = (props: Props) => {
 									)}
 								</Box>
 							)}
-						<CheckoutShippingFieldError
+						<CheckoutFieldError
 							errorText={shippingAddressErrors.line1}
 						/>
 					</Box>
 				</Field.Root>
 				<Field.Root>
-					<CheckoutShippingField
+					<CheckoutField
 						name="address-line2"
+						autoComplete="address-line2"
 						placeholder="Apartment, suite, etc. (optional)"
 						value={shippingAddress.line2}
 						onChange={(e) =>
@@ -293,9 +276,10 @@ export const CheckoutShippingForm = (props: Props) => {
 					}
 				>
 					<Field.Root gap={0}>
-						<CheckoutShippingField
+						<CheckoutField
 							placeholder="City"
 							name="city"
+							autoComplete="address-level2"
 							value={shippingAddress.city}
 							onChange={(e) => {
 								setShippingAddress({
@@ -306,7 +290,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.city}
 						/>
-						<CheckoutShippingFieldError
+						<CheckoutFieldError
 							errorText={shippingAddressErrors.city}
 						/>
 					</Field.Root>
@@ -350,14 +334,15 @@ export const CheckoutShippingForm = (props: Props) => {
 
 							<NativeSelect.Indicator />
 						</NativeSelect.Root>
-						<CheckoutShippingFieldError
+						<CheckoutFieldError
 							errorText={shippingAddressErrors.state}
 						/>
 					</Field.Root>
 					<Field.Root gap={0}>
-						<CheckoutShippingField
+						<CheckoutField
 							placeholder="Zip code"
 							name="postal-code"
+							autoComplete="postal-code"
 							value={shippingAddress.zip}
 							onChange={(e) => {
 								setShippingAddress({
@@ -368,7 +353,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							}}
 							invalid={!!shippingAddressErrors.zip}
 						/>
-						<CheckoutShippingFieldError
+						<CheckoutFieldError
 							errorText={shippingAddressErrors.zip}
 						/>
 					</Field.Root>
@@ -377,7 +362,7 @@ export const CheckoutShippingForm = (props: Props) => {
 			<Collapsible.Root
 				open={Boolean(shippingAddressUndeliverable)}
 			>
-				<Collapsible.Content>
+				<Collapsible.Content pt={3}>
 					<Alert.Root status="error">
 						<Alert.Indicator />
 						<Alert.Content>

@@ -10,6 +10,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { CheckoutContactForm } from '@client/components/checkout/CheckoutContactForm';
 import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
@@ -38,10 +39,10 @@ import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
 const SummarySkeleton = () => (
-	<Stack gap={1.5}>
-		<Skeleton height={7} />
-		<Skeleton height={7} />
-		<Skeleton height={7} />
+	<Stack gap={2}>
+		<Skeleton height={6} />
+		<Skeleton height={6} />
+		<Skeleton height={6} />
 	</Stack>
 );
 
@@ -202,6 +203,7 @@ export const CheckoutPage = () => {
 					ref={shippingFormRef}
 				>
 					<SectionTitle>Complete Your Order</SectionTitle>
+					<CheckoutContactForm disabled={pendingCheckout} />
 					<CheckoutShippingForm
 						layout={layout}
 						disabled={pendingCheckout}
@@ -228,7 +230,7 @@ export const CheckoutPage = () => {
 
 							<Text
 								fontSize={32}
-								fontWeight={600}
+								fontWeight={500}
 								color="white"
 							>
 								{formatCentsAsDollars(orderTotal)}
@@ -237,7 +239,7 @@ export const CheckoutPage = () => {
 					)}
 					<CheckoutPaymentForm disabled={pendingCheckout} />
 					{cartLoading ? (
-						<Skeleton height={16} />
+						<Skeleton height={20} />
 					) : (
 						<Button
 							size="2xl"
@@ -279,7 +281,10 @@ export const CheckoutPage = () => {
 				gapY={5}
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
-					<Stack gap={5}>
+					<Stack gap={7}>
+						<CheckoutContactForm
+							disabled={pendingCheckout}
+						/>
 						<CheckoutShippingForm
 							layout={layout}
 							disabled={pendingCheckout}
@@ -296,15 +301,7 @@ export const CheckoutPage = () => {
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
 					<Stack gap={5}>
 						<CheckoutShoppingCart />
-						{cartLoading ? (
-							<>
-								<SummarySkeleton />
-								<Skeleton
-									height={14}
-									mb={10}
-								/>
-							</>
-						) : (
+						{!cartLoading && (
 							<>
 								<ShoppingCartSummary pendingMessage="Enter shipping address" />
 								<Button

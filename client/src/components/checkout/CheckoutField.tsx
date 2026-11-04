@@ -1,7 +1,7 @@
 import { Input, InputProps } from '@chakra-ui/react';
 import { fieldErrorColor, sansFontFamily } from '@client/theme';
 
-export const CheckoutShippingField = ({
+export const CheckoutField = ({
 	invalid,
 	...rest
 }: InputProps & { invalid?: boolean }) => (
