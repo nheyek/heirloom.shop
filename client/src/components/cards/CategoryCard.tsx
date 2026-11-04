@@ -29,7 +29,7 @@ export const CategoryCard = (props: CategoryTileData) => (
 					bottom={3}
 					left={5}
 					mr={4}
-					fontSize={30}
+					fontSize={32}
 					fontWeight={600}
 					fontFamily={displayFontFamily}
 					color="#FFF"
