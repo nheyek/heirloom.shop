@@ -94,6 +94,7 @@ export const LandingPage = () => {
 			pb={10}
 			alignItems="center"
 			maxW={GRID_CONTENT_MAX_WIDTH}
+			mx="auto"
 		>
 			<Stack gap={0}>
 				<HStack
