@@ -210,7 +210,7 @@ export const ShopPage = () => {
 									/>
 								</Box>
 								<Text
-									fontWeight={600}
+									fontWeight={500}
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(

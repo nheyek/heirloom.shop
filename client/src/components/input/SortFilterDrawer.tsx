@@ -19,7 +19,7 @@ import { MdClose } from 'react-icons/md';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
-		fontSize={24}
+		fontSize={28}
 		fontWeight={500}
 	>
 		{props.children}
@@ -38,9 +38,9 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	useEffect(() => setDraft(props.value), [props.value]);
 
 	return (
-		<Stack gap={2}>
+		<Stack gap={3}>
 			<HStack>
-				<Text fontSize={20}>
+				<Text fontSize={22}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>
@@ -92,6 +92,7 @@ export const SortFilterDrawer = <T extends string>(
 			<IconButton
 				variant="subtle"
 				onClick={() => setIsOpen(true)}
+				size="lg"
 			>
 				<FaSliders />
 			</IconButton>
@@ -123,9 +124,9 @@ export const SortFilterDrawer = <T extends string>(
 								</Icon>
 							</IconButton>
 						</Drawer.CloseTrigger>
-						<Drawer.Body p={5}>
-							<Stack gap={5}>
-								<Stack gap={2.5}>
+						<Drawer.Body p={6}>
+							<Stack gap={8}>
+								<Stack gap={4}>
 									<DrawerHeading>
 										Sort By
 									</DrawerHeading>
@@ -136,9 +137,9 @@ export const SortFilterDrawer = <T extends string>(
 												details.value as T,
 											)
 										}
-										size="sm"
+										size="md"
 									>
-										<Stack gap={2.5}>
+										<Stack gap={4}>
 											{(
 												Object.keys(
 													props.options,
@@ -147,12 +148,12 @@ export const SortFilterDrawer = <T extends string>(
 												<RadioGroup.Item
 													key={option}
 													value={option}
-													gap={2.5}
+													gap={3}
 												>
 													<RadioGroup.ItemHiddenInput />
 													<RadioGroup.ItemIndicator />
 													<RadioGroup.ItemText
-														fontSize={18}
+														fontSize={20}
 														fontWeight={
 															400
 														}
@@ -173,7 +174,7 @@ export const SortFilterDrawer = <T extends string>(
 								{props.price &&
 									props.price.bounds[0] <
 										props.price.bounds[1] && (
-										<Stack gap={0.5}>
+										<Stack gap={1}>
 											<DrawerHeading>
 												Price
 											</DrawerHeading>

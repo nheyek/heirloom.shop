@@ -1,5 +1,5 @@
 import { Button, Center, Text } from '@chakra-ui/react';
-import { defaultFontFamily, displayFontFamily } from '@client/theme';
+import { defaultFontFamily } from '@client/theme';
 import { FaArrowLeft } from 'react-icons/fa6';
 
 type Props = {
@@ -10,17 +10,17 @@ export const ShoppingCartEmptyMessage = (props: Props) => (
 		flexDir="column"
 		height="100%"
 		gap={3}
-		fontFamily={displayFontFamily}
 	>
 		<Text fontSize={36}>Your cart is empty</Text>
 		<Button
 			onClick={props.onClick}
-			size="md"
-			fontSize={18}
+			size="sm"
+			fontSize={16}
+			fontWeight={600}
 			fontFamily={defaultFontFamily}
 		>
 			<FaArrowLeft />
-			Keep Looking
+			KEEP LOOKING
 		</Button>
 	</Center>
 );
