@@ -15,6 +15,7 @@ import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
+	SECTION_TITLE_GAP,
 	InfoPageKey,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -147,7 +148,7 @@ export const LandingPage = () => {
 				<AppError title="Failed to load makers" />
 			) : (
 				<Stack
-					gap={2}
+					gap={SECTION_TITLE_GAP}
 					width="100%"
 				>
 					<SectionTitle>Makers</SectionTitle>
@@ -163,7 +164,7 @@ export const LandingPage = () => {
 				<AppError title={listingsError} />
 			) : (
 				<Stack
-					gap={2}
+					gap={SECTION_TITLE_GAP}
 					width="100%"
 				>
 					<SectionTitle>Featured</SectionTitle>

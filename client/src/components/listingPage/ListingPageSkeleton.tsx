@@ -15,8 +15,20 @@ import {
 } from '@client/components/imageDisplay/ImageCollage';
 import {
 	Layout,
+	LISTING_COLUMN_GAP_DESKTOP,
+	LISTING_COLUMN_GAP_MOBILE,
 	LISTING_IMAGE_ASPECT_RATIO,
+	LISTING_PAGE_PADDING,
+	LISTING_PURCHASE_COLUMN_WIDTH,
 } from '@client/constants';
+
+const TITLE_SKELETON_HEIGHT = 50;
+const SHOP_SKELETON_HEIGHT = 30;
+const DETAIL_SKELETON_HEIGHT = 25;
+const DESCRIPTION_ROW_SKELETON_HEIGHT = 50;
+const ADD_TO_CART_BUTTON_SKELETON_HEIGHT = 50;
+const SECONDARY_BUTTONS_SKELETON_HEIGHT = 45;
+const FULFILLMENT_LINE_SKELETON_HEIGHT = 30;
 
 export const ListingPageSkeleton = (props: {
 	layout?: Layout;
@@ -28,53 +40,65 @@ export const ListingPageSkeleton = (props: {
 		}) ?? 1;
 
 	const renderBasicInfoSection = () => (
-		<Stack gap={4}>
+		<Stack gap={2}>
 			<Stack gap={2}>
 				<Skeleton
 					width="80%"
-					height="50px"
+					height={TITLE_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="55%"
-					height="30px"
+					height={SHOP_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="65%"
-					height="30px"
+					height={SHOP_SKELETON_HEIGHT}
 				/>
 			</Stack>
 			<Stack gap={1}>
 				<Skeleton
 					width="90%"
-					height="20px"
+					height={DETAIL_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="95%"
-					height="20px"
+					height={DETAIL_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="75%"
-					height="20px"
+					height={DETAIL_SKELETON_HEIGHT}
 				/>
 			</Stack>
 		</Stack>
 	);
 
+	const renderDescriptionSection = () => (
+		<Stack gap={1}>
+			{Array.from({ length: 4 }, (_, i) => (
+				<Skeleton
+					key={i}
+					height={DESCRIPTION_ROW_SKELETON_HEIGHT}
+				/>
+			))}
+		</Stack>
+	);
+
 	const renderButtonsAndFulfillmentSection = () => (
-		<Stack gap={6}>
-			<Skeleton height="100px" />
-			<Stack gap={3}>
+		<Stack gap={5}>
+			<Skeleton height={ADD_TO_CART_BUTTON_SKELETON_HEIGHT} />
+			<Skeleton height={SECONDARY_BUTTONS_SKELETON_HEIGHT} />
+			<Stack gap={1}>
 				<Skeleton
 					width="40%"
-					height="20px"
+					height={FULFILLMENT_LINE_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="60%"
-					height="20px"
+					height={FULFILLMENT_LINE_SKELETON_HEIGHT}
 				/>
 				<Skeleton
 					width="50%"
-					height="20px"
+					height={FULFILLMENT_LINE_SKELETON_HEIGHT}
 				/>
 			</Stack>
 		</Stack>
@@ -82,18 +106,19 @@ export const ListingPageSkeleton = (props: {
 
 	if (props.layout === Layout.MOBILE) {
 		return (
-			<Stack gap={10}>
+			<Stack gap={0}>
 				<Skeleton
 					width="100%"
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 				></Skeleton>
 
 				<Stack
-					gap={10}
-					mx={5}
+					gap={LISTING_COLUMN_GAP_MOBILE}
+					p={LISTING_PAGE_PADDING}
 				>
 					{renderBasicInfoSection()}
 					{renderButtonsAndFulfillmentSection()}
+					{renderDescriptionSection()}
 				</Stack>
 			</Stack>
 		);
@@ -106,8 +131,8 @@ export const ListingPageSkeleton = (props: {
 			mx="auto"
 		>
 			<Box
-				px={5}
-				my={5}
+				px={LISTING_PAGE_PADDING}
+				my={LISTING_PAGE_PADDING}
 				width="100%"
 			>
 				<Grid
@@ -134,11 +159,11 @@ export const ListingPageSkeleton = (props: {
 			</Box>
 			<Center
 				width="100%"
-				p={5}
+				p={LISTING_PAGE_PADDING}
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
-					gap={10}
+					gap={LISTING_COLUMN_GAP_DESKTOP}
 					width="100%"
 					maxW={props.maxWidth}
 				>
@@ -146,11 +171,17 @@ export const ListingPageSkeleton = (props: {
 						flex="1"
 						minW={0}
 					>
-						{renderBasicInfoSection()}
+						<Stack gap={2}>
+							{renderBasicInfoSection()}
+							{renderDescriptionSection()}
+						</Stack>
 					</Box>
 					<Box
 						flexShrink={0}
-						width={{ base: '100%', md: 375 }}
+						width={{
+							base: '100%',
+							md: LISTING_PURCHASE_COLUMN_WIDTH,
+						}}
 					>
 						{renderButtonsAndFulfillmentSection()}
 					</Box>

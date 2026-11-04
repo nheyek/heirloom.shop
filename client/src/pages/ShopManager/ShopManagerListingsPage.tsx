@@ -4,7 +4,8 @@ import { ItemGrid } from '@client/components/collections/ItemGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import {
 	CLIENT_ROUTES,
-	LISTING_CARD_SKELETON_ASPECT_RATIO,
+	LISTING_CARD_BODY_HEIGHT,
+	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -75,9 +76,8 @@ export const ShopManagerListingsPage = () => {
 					isLoading={isLoading}
 					getItemKey={(listing) => listing.id}
 					columns={sidebarGridCols}
-					skeletonAspectRatio={
-						LISTING_CARD_SKELETON_ASPECT_RATIO
-					}
+					skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+					skeletonBodyHeight={LISTING_CARD_BODY_HEIGHT}
 					renderItem={(listing) => (
 						<ListingEditCard
 							{...listing}

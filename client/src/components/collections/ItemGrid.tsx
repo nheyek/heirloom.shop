@@ -3,10 +3,10 @@ import {
 	Flex,
 	HStack,
 	SimpleGrid,
-	Skeleton,
 	Stack,
 	useBreakpointValue,
 } from '@chakra-ui/react';
+import { CardSkeleton } from '@client/components/cards/CardSkeleton';
 import { GridPagination } from '@client/components/collections/GridPagination';
 import {
 	STANDARD_GRID_COLUMNS,
@@ -31,6 +31,7 @@ type Props<T> = {
 	columns?: Record<string, number>;
 	maxItemWidth?: number;
 	skeletonAspectRatio?: number;
+	skeletonBodyHeight?: number;
 	pageSize?: number;
 };
 
@@ -43,6 +44,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		numPlaceholders,
 		columns = STANDARD_GRID_COLUMNS,
 		skeletonAspectRatio = 1,
+		skeletonBodyHeight,
 	} = props;
 
 	const maxNumColumns = useBreakpointValue(columns) ?? 1;
@@ -131,14 +133,21 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 				>
 					{isLoading && (
 						<>
-							<Skeleton
-								width={minItemWidth}
-								aspectRatio={skeletonAspectRatio}
-							/>
-							<Skeleton
-								width={minItemWidth}
-								aspectRatio={skeletonAspectRatio}
-							/>
+							{[0, 1].map((i) => (
+								<Box
+									key={i}
+									width={minItemWidth}
+								>
+									<CardSkeleton
+										aspectRatio={
+											skeletonAspectRatio
+										}
+										bodyHeight={
+											skeletonBodyHeight
+										}
+									/>
+								</Box>
+							))}
 						</>
 					)}
 					{visibleItems.map((virtualItem) => (
@@ -177,10 +186,10 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 				{isLoading &&
 					Array.from({ length: numSkeletons }).map(
 						(_, i) => (
-							<Skeleton
+							<CardSkeleton
 								key={i}
-								width="100%"
 								aspectRatio={skeletonAspectRatio}
+								bodyHeight={skeletonBodyHeight}
 							/>
 						),
 					)}

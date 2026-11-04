@@ -2,7 +2,9 @@ import { ListingDisplayCard } from '@client/components/cards/ListingDisplayCard'
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
 	CLIENT_ROUTES,
-	LISTING_CARD_SKELETON_ASPECT_RATIO,
+	LISTING_CARD_BODY_HEIGHT,
+	LISTING_CARD_SHOP_TITLE_HEIGHT,
+	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_GRID_PAGE_SIZE,
 	STANDARD_GRID_COLUMNS,
 } from '@client/constants';
@@ -36,7 +38,11 @@ export const ListingGrid = (props: Props) => {
 			isLoading={props.isLoading}
 			getItemKey={(listing) => listing.id}
 			columns={props.columns ?? STANDARD_GRID_COLUMNS}
-			skeletonAspectRatio={LISTING_CARD_SKELETON_ASPECT_RATIO}
+			skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}
+			skeletonBodyHeight={
+				LISTING_CARD_BODY_HEIGHT +
+				(props.shops ? LISTING_CARD_SHOP_TITLE_HEIGHT : 0)
+			}
 			pageSize={LISTING_GRID_PAGE_SIZE}
 			renderItem={(listing, isMobile) => (
 				<ListingDisplayCard

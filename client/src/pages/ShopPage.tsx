@@ -18,6 +18,7 @@ import { RichTextDialog } from '@client/components/richText/RichTextDialog';
 import {
 	CountryCode,
 	GRID_CONTENT_MAX_WIDTH,
+	GRID_PAGE_PADDING_Y,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -273,7 +274,7 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Box
-					py={5}
+					py={GRID_PAGE_PADDING_Y}
 					px={STANDARD_GRID_GAP}
 					width="100%"
 					maxW={GRID_CONTENT_MAX_WIDTH}

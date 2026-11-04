@@ -1,4 +1,5 @@
 import { Flex, Stack } from '@chakra-ui/react';
+import { SECTION_TITLE_GAP } from '@client/constants';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { ListingView } from '@client/hooks/useListingView';
@@ -20,7 +21,7 @@ export const SortableListingGrid = ({
 
 	return (
 		<Stack
-			gap={3}
+			gap={SECTION_TITLE_GAP}
 			width="100%"
 		>
 			{(heading || showControls) && (

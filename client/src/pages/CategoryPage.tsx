@@ -1,4 +1,4 @@
-import { Box, Link, Stack } from '@chakra-ui/react';
+import { Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
@@ -7,6 +7,8 @@ import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadc
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
+	GRID_PAGE_PADDING_Y,
+	SECTION_TITLE_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -94,7 +96,7 @@ export const CategoryPage = () => {
 
 	return (
 		<Stack
-			py={5}
+			py={GRID_PAGE_PADDING_Y}
 			px={STANDARD_GRID_GAP}
 			gap={7}
 			width="100%"
@@ -111,7 +113,7 @@ export const CategoryPage = () => {
 			)}
 
 			{!listingsError && (isLoading || shops.length > 0) && (
-				<Stack gap={2}>
+				<Stack gap={SECTION_TITLE_GAP}>
 					<SectionTitle>Makers</SectionTitle>
 					<ShopGrid
 						shops={shops}
@@ -125,11 +127,7 @@ export const CategoryPage = () => {
 			) : (
 				<SortableListingGrid
 					view={listingView}
-					heading={
-						<Box mb={-1}>
-							<SectionTitle>Items</SectionTitle>
-						</Box>
-					}
+					heading={<SectionTitle>Items</SectionTitle>}
 					isLoading={isLoading}
 					shops={shops}
 				/>

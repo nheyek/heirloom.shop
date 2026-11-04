@@ -29,8 +29,12 @@ import {
 	CountryCode,
 	countryDisplayName,
 	Layout,
+	LISTING_COLUMN_GAP_DESKTOP,
+	LISTING_COLUMN_GAP_MOBILE,
 	LISTING_CONTENT_MAX_WIDTH,
 	LISTING_IMAGE_ASPECT_RATIO,
+	LISTING_PAGE_PADDING,
+	LISTING_PURCHASE_COLUMN_WIDTH,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -178,8 +182,8 @@ export const ListingPage = () => {
 		>
 			{layout === Layout.DESKTOP && (
 				<Box
-					px={5}
-					my={5}
+					px={LISTING_PAGE_PADDING}
+					my={LISTING_PAGE_PADDING}
 					width="100%"
 				>
 					<ImageCollage
@@ -197,11 +201,15 @@ export const ListingPage = () => {
 			)}
 			<Center
 				width="100%"
-				p={5}
+				p={LISTING_PAGE_PADDING}
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
-					gap={layout === Layout.MOBILE ? 5 : 10}
+					gap={
+						layout === Layout.MOBILE
+							? LISTING_COLUMN_GAP_MOBILE
+							: LISTING_COLUMN_GAP_DESKTOP
+					}
 					width="100%"
 					maxW={LISTING_CONTENT_MAX_WIDTH}
 				>
@@ -273,40 +281,35 @@ export const ListingPage = () => {
 					</Box>
 					<Box
 						flexShrink={0}
-						width={{ base: '100%', md: 375 }}
+						width={{
+							base: '100%',
+							md: LISTING_PURCHASE_COLUMN_WIDTH,
+						}}
 					>
 						<Stack
 							gap={5}
 							width="100%"
 						>
 							{isPurchasable &&
-								variationCollections.length > 0 && (
-									<Stack gap={3}>
-										{variationCollections.map(
-											(variation) => (
-												<VariationSelect
-													key={variation.id}
-													variation={
-														variation
-													}
-													value={
-														selectedVariationOptions[
-															variation
-																.id
-														]
-													}
-													onChange={(
-														optionId,
-													) =>
-														selectOption(
-															variation.id,
-															optionId,
-														)
-													}
-												/>
-											),
-										)}
-									</Stack>
+								variationCollections.length > 0 &&
+								variationCollections.map(
+									(variation) => (
+										<VariationSelect
+											key={variation.id}
+											variation={variation}
+											value={
+												selectedVariationOptions[
+													variation.id
+												]
+											}
+											onChange={(optionId) =>
+												selectOption(
+													variation.id,
+													optionId,
+												)
+											}
+										/>
+									),
 								)}
 							{personalizationProfile && (
 								<PersonalizationOption
