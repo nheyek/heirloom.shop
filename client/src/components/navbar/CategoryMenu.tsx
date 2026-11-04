@@ -58,7 +58,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 				{parent && (
 					<IconButton
 						variant="ghost"
-						size="md"
+						size="lg"
 						onClick={() =>
 							setParentId(parent.parentId ?? null)
 						}
@@ -174,12 +174,12 @@ export const CategoryMenu = () => {
 					color="white"
 					gap={2}
 					px={3}
-					fontSize={20}
+					fontSize={22}
 					fontWeight={500}
 					_hover={{ bg: 'whiteAlpha.200' }}
 					_expanded={{ bg: 'whiteAlpha.200' }}
 				>
-					<CategoryMenuIcon size={4} />
+					<CategoryMenuIcon size={18} />
 					Categories
 				</Button>
 			</Popover.Trigger>

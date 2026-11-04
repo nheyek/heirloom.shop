@@ -19,7 +19,7 @@ import { MdClose } from 'react-icons/md';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Text
-		fontSize={28}
+		fontSize={26}
 		fontWeight={500}
 	>
 		{props.children}
@@ -126,7 +126,7 @@ export const SortFilterDrawer = <T extends string>(
 						</Drawer.CloseTrigger>
 						<Drawer.Body p={6}>
 							<Stack gap={8}>
-								<Stack gap={3}>
+								<Stack gap={4}>
 									<DrawerHeading>
 										Sort By
 									</DrawerHeading>

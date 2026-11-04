@@ -25,7 +25,7 @@ export const NavbarButton = (props: IconButtonProps) => (
 		variant="ghost"
 		_hover={{ bg: 'whiteAlpha.200' }}
 		_expanded={{ bg: 'whiteAlpha.200' }}
-		_icon={{ height: 22, width: 22 }}
+		_icon={{ height: 6, width: 6 }}
 		{...props}
 	>
 		{props.children}
@@ -86,6 +86,7 @@ export const Navbar = () => {
 						<Box position="relative">
 							<NavbarButton
 								onClick={shoppingCart.openDrawer}
+								size="lg"
 							>
 								<FaShoppingCart />
 							</NavbarButton>
