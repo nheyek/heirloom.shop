@@ -1,22 +1,16 @@
-import { HStack, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { IconType } from 'react-icons';
 
 type Props = {
-	Icon: IconType;
+	Icon?: IconType;
 	children: string;
 };
 
 export const CheckoutHeading = (props: Props) => (
-	<HStack
-		gap={3}
-		h={8}
+	<Text
+		fontSize={22}
+		fontWeight={500}
 	>
-		<props.Icon />
-		<Text
-			fontSize={24}
-			fontWeight={500}
-		>
-			{props.children}
-		</Text>
-	</HStack>
+		{props.children}
+	</Text>
 );

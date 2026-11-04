@@ -17,6 +17,7 @@ import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppi
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
+import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import { Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -33,7 +34,6 @@ import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { useElements, useStripe } from '@stripe/react-stripe-js';
 import { useEffect, useRef } from 'react';
 import { FaCheckCircle } from 'react-icons/fa';
-import { FaCreditCard } from 'react-icons/fa6';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
@@ -201,6 +201,7 @@ export const CheckoutPage = () => {
 					gap={5}
 					ref={shippingFormRef}
 				>
+					<SectionTitle>Complete Your Order</SectionTitle>
 					<CheckoutShippingForm
 						layout={layout}
 						disabled={pendingCheckout}
@@ -264,32 +265,28 @@ export const CheckoutPage = () => {
 	}
 
 	return (
-		<Box
-			maxWidth={{ lg: 1000 }}
-			my={8}
-			px={4}
+		<Stack
+			gap={5}
+			my={7}
+			px={5}
 			mx="auto"
+			maxWidth={{ lg: 1000 }}
 		>
+			<SectionTitle>Complete Your Order</SectionTitle>
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}
 				gapY={5}
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
-					<Stack gap={6}>
+					<Stack gap={5}>
 						<CheckoutShippingForm
 							layout={layout}
 							disabled={pendingCheckout}
 						/>
 
 						<Stack gap={3}>
-							<CheckoutHeading
-								Icon={() => (
-									<FaCreditCard size={24} />
-								)}
-							>
-								Payment
-							</CheckoutHeading>
+							<CheckoutHeading>Payment</CheckoutHeading>
 							<CheckoutPaymentForm
 								disabled={pendingCheckout}
 							/>
@@ -297,7 +294,7 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 				<GridItem colSpan={{ md: 2, lg: 1 }}>
-					<Stack gap={4}>
+					<Stack gap={5}>
 						<CheckoutShoppingCart />
 						{cartLoading ? (
 							<>
@@ -345,6 +342,6 @@ export const CheckoutPage = () => {
 					</Stack>
 				</GridItem>
 			</SimpleGrid>
-		</Box>
+		</Stack>
 	);
 };

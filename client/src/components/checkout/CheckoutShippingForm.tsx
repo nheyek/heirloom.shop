@@ -20,7 +20,6 @@ import { US_STATES } from '@heirloom/common/constants';
 import { useLoadScript } from '@react-google-maps/api';
 import { useEffect, useRef, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { MdLocalShipping } from 'react-icons/md';
 
 const LIBRARIES: 'places'[] = ['places'];
 
@@ -115,14 +114,9 @@ export const CheckoutShippingForm = (props: Props) => {
 		setAddressInput(fields.line1 || prediction.text?.text || '');
 	};
 
-	const fieldGap = 3;
 	return (
-		<Stack gap={fieldGap}>
-			<CheckoutHeading
-				Icon={() => <MdLocalShipping size={30} />}
-			>
-				Shipping
-			</CheckoutHeading>
+		<Stack gap={3}>
+			<CheckoutHeading>Ship To</CheckoutHeading>
 			<Fieldset.Root
 				size="lg"
 				disabled={props.disabled}
@@ -145,7 +139,6 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
-					gap={fieldGap}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'
@@ -291,7 +284,6 @@ export const CheckoutShippingForm = (props: Props) => {
 				</Field.Root>
 
 				<Flex
-					gap={fieldGap}
 					direction={
 						props.layout === Layout.MOBILE
 							? 'column'

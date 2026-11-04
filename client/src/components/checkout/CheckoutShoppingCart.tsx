@@ -3,16 +3,18 @@ import {
 	HStack,
 	IconButton,
 	Skeleton,
+	Text,
 } from '@chakra-ui/react';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
+import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FaShoppingCart } from 'react-icons/fa';
-import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
+import { useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 export const CheckoutShoppingCart = () => {
 	const shoppingCart = useShoppingCart();
+	const [page, setPage] = useState(0);
 	const slideCount = shoppingCart.cartLoading
 		? shoppingCart.pendingItemCount
 		: shoppingCart.items.length;
@@ -22,37 +24,44 @@ export const CheckoutShoppingCart = () => {
 			slideCount={slideCount}
 			slidesPerPage={1}
 			gap={3}
+			page={page}
+			onPageChange={(details) => setPage(details.page)}
 		>
 			<HStack justify="space-between">
-				<CheckoutHeading
-					Icon={() => <FaShoppingCart size={24} />}
-				>
-					{`Cart (${shoppingCart.itemQuantityTotal})`}
-				</CheckoutHeading>
+				<CheckoutHeading>Shopping Cart</CheckoutHeading>
 
-				<HStack>
-					<Carousel.PrevTrigger asChild>
-						<IconButton
-							size="xs"
-							variant="subtle"
+				{slideCount > 1 && (
+					<HStack
+						gap={3}
+						h={0}
+						mb={2}
+					>
+						<Carousel.PrevTrigger asChild>
+							<IconButton
+								size="xs"
+								variant="subtle"
+							>
+								<FaChevronLeft />
+							</IconButton>
+						</Carousel.PrevTrigger>
+						<Text
+							fontSize={20}
+							fontWeight={500}
 						>
-							<LuChevronLeft />
-						</IconButton>
-					</Carousel.PrevTrigger>
-					<Carousel.NextTrigger asChild>
-						<IconButton
-							size="xs"
-							variant="subtle"
-						>
-							<LuChevronRight />
-						</IconButton>
-					</Carousel.NextTrigger>
-				</HStack>
+							{page + 1} / {slideCount}
+						</Text>
+						<Carousel.NextTrigger asChild>
+							<IconButton
+								size="xs"
+								variant="subtle"
+							>
+								<FaChevronRight />
+							</IconButton>
+						</Carousel.NextTrigger>
+					</HStack>
+				)}
 			</HStack>
-			<Carousel.ItemGroup
-				m={-5}
-				pb={1}
-			>
+			<Carousel.ItemGroup m={-5}>
 				{shoppingCart.cartLoading
 					? Array.from({
 							length: shoppingCart.pendingItemCount,
