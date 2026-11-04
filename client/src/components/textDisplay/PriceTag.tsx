@@ -32,7 +32,7 @@ export const PriceTag = (props: Props) => {
 		>
 			<Text
 				fontSize={20}
-				fontWeight={500}
+				fontWeight={600}
 				paddingLeft="25px"
 				paddingRight="10px"
 				paddingTop="3px"

@@ -224,28 +224,32 @@ export const CheckoutPage = () => {
 					gap={CHECKOUT_GAP}
 					background="brand"
 				>
-					{cartLoading ? (
-						<Stack gap={SUMMARY_TOTAL_GAP}>
-							<SummarySkeleton />
-							<Skeleton height={50} />
-						</Stack>
-					) : (
-						<Stack gap={SUMMARY_TOTAL_GAP}>
-							<ShoppingCartSummary
-								textColor={'white'}
-								pendingMessage="Enter shipping address"
-							/>
+					<Stack gap={SUMMARY_TOTAL_GAP}>
+						{cartLoading ? (
+							<>
+								<SummarySkeleton />
+								<Skeleton height={50} />
+							</>
+						) : (
+							<>
+								<ShoppingCartSummary
+									textColor={'white'}
+									pendingMessage="Enter shipping address"
+								/>
 
-							<Text
-								fontSize={32}
-								fontWeight={500}
-								color="white"
-							>
-								{formatCentsAsDollars(orderTotal)}
-							</Text>
-						</Stack>
-					)}
-					<CheckoutPaymentForm disabled={pendingCheckout} />
+								<Text
+									fontSize={32}
+									fontWeight={600}
+									color="white"
+								>
+									{formatCentsAsDollars(orderTotal)}
+								</Text>
+							</>
+						)}
+						<CheckoutPaymentForm
+							disabled={pendingCheckout}
+						/>
+					</Stack>
 					{cartLoading ? (
 						<Skeleton height={16} />
 					) : (
@@ -343,6 +347,7 @@ export const CheckoutPage = () => {
 									<RxDotFilled />
 									<Text
 										fontSize={28}
+										fontWeight={600}
 										paddingBottom={0.5}
 									>
 										{formatCentsAsDollars(

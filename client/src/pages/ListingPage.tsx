@@ -35,6 +35,7 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
+	LISTING_VARIATION_GAP,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -291,25 +292,35 @@ export const ListingPage = () => {
 							width="100%"
 						>
 							{isPurchasable &&
-								variationCollections.length > 0 &&
-								variationCollections.map(
-									(variation) => (
-										<VariationSelect
-											key={variation.id}
-											variation={variation}
-											value={
-												selectedVariationOptions[
-													variation.id
-												]
-											}
-											onChange={(optionId) =>
-												selectOption(
-													variation.id,
-													optionId,
-												)
-											}
-										/>
-									),
+								variationCollections.length > 0 && (
+									<Stack
+										gap={LISTING_VARIATION_GAP}
+									>
+										{variationCollections.map(
+											(variation) => (
+												<VariationSelect
+													key={variation.id}
+													variation={
+														variation
+													}
+													value={
+														selectedVariationOptions[
+															variation
+																.id
+														]
+													}
+													onChange={(
+														optionId,
+													) =>
+														selectOption(
+															variation.id,
+															optionId,
+														)
+													}
+												/>
+											),
+										)}
+									</Stack>
 								)}
 							{personalizationProfile && (
 								<PersonalizationOption
@@ -346,6 +357,7 @@ export const ListingPage = () => {
 											<RxDotFilled />
 											<Text
 												fontSize={26}
+												fontWeight={600}
 												paddingBottom={0.5}
 											>
 												{formatCentsAsDollars(

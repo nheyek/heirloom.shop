@@ -110,6 +110,7 @@ export const OrderItemCard = (props: Props) => {
 					size="lg"
 					key={name}
 					fontSize={18}
+					fontWeight={500}
 				>
 					{name}: {value}
 				</Badge>
@@ -137,6 +138,7 @@ export const OrderItemCard = (props: Props) => {
 				<Badge
 					key={name}
 					{...BADGE_OVERLAY_PROPS}
+					fontWeight={500}
 				>
 					{name}: {value}
 				</Badge>

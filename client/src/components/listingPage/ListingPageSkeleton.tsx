@@ -20,6 +20,7 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
+	LISTING_VARIATION_GAP,
 } from '@client/constants';
 
 const TITLE_SKELETON_HEIGHT = 50;
@@ -29,6 +30,8 @@ const DESCRIPTION_ROW_SKELETON_HEIGHT = 50;
 const ADD_TO_CART_BUTTON_SKELETON_HEIGHT = 50;
 const SECONDARY_BUTTONS_SKELETON_HEIGHT = 45;
 const FULFILLMENT_LINE_SKELETON_HEIGHT = 30;
+const VARIATION_SELECT_SKELETON_HEIGHT = 75;
+const VARIATION_SELECT_SKELETON_COUNT = 2;
 
 export const ListingPageSkeleton = (props: {
 	layout?: Layout;
@@ -85,6 +88,17 @@ export const ListingPageSkeleton = (props: {
 
 	const renderButtonsAndFulfillmentSection = () => (
 		<Stack gap={5}>
+			<Stack gap={LISTING_VARIATION_GAP}>
+				{Array.from(
+					{ length: VARIATION_SELECT_SKELETON_COUNT },
+					(_, i) => (
+						<Skeleton
+							key={i}
+							height={VARIATION_SELECT_SKELETON_HEIGHT}
+						/>
+					),
+				)}
+			</Stack>
 			<Skeleton height={ADD_TO_CART_BUTTON_SKELETON_HEIGHT} />
 			<Skeleton height={SECONDARY_BUTTONS_SKELETON_HEIGHT} />
 			<Stack gap={1}>

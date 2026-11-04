@@ -26,6 +26,7 @@ export const LISTING_PAGE_PADDING = 5;
 export const LISTING_COLUMN_GAP_MOBILE = 5;
 export const LISTING_COLUMN_GAP_DESKTOP = 10;
 export const LISTING_PURCHASE_COLUMN_WIDTH = 375;
+export const LISTING_VARIATION_GAP = 3;
 export const GRID_PAGE_PADDING_Y = 5;
 export const SECTION_TITLE_GAP = 2;
 export const STANDARD_IMAGE_ASPECT_RATIO = 3 / 2;
