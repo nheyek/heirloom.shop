@@ -119,15 +119,16 @@ export const LandingPage = () => {
 					</Text>
 					<Button
 						size="sm"
-						fontSize={18}
+						fontSize={16}
+						fontWeight={600}
 						onClick={() => setAboutOpen(true)}
 					>
 						<Icon
 							as={FaArrowUpRightFromSquare}
-							w={15}
-							h={15}
+							w={3.5}
+							h={3.5}
 						/>
-						Learn More
+						LEARN MORE
 					</Button>
 				</Stack>
 			</Stack>
