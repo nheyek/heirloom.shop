@@ -89,7 +89,7 @@ export const LandingPage = () => {
 	return (
 		<Stack
 			gap={10}
-			pt={30}
+			pt={7}
 			px={5}
 			pb={10}
 			alignItems="center"

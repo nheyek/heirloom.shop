@@ -177,7 +177,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 												<RxDotFilled />
 												<Text
 													fontSize={26}
-													fontWeight={600}
 													paddingBottom={
 														0.5
 													}
