@@ -43,77 +43,88 @@ export const Navbar = () => {
 	const shoppingCart = useShoppingCart();
 
 	return (
-		<Box
-			bg="brand"
-			top={0}
-			position="sticky"
-			zIndex="docked"
-		>
-			<HStack
-				px={{ base: 2, md: 4 }}
-				h={navbarHeight}
-				alignItems="center"
-				justifyContent="space-between"
-				gap={0}
+		<>
+			<Box h={navbarHeight} />
+			<Box
+				bg="brand"
+				top={0}
+				left={0}
+				right={0}
+				position="fixed"
+				zIndex="docked"
 			>
 				<HStack
-					gap={{ base: 2, sm: 3 }}
-					flexDirection={{ base: 'row-reverse', md: 'row' }}
+					px={{ base: 2, md: 4 }}
+					h={navbarHeight}
 					alignItems="center"
+					justifyContent="space-between"
+					gap={0}
 				>
-					<Link to="/">
-						<Box
-							flexShrink={0}
-							width={130}
-							mt={1}
-							cursor="button"
-						>
-							<Logo />
-						</Box>
-					</Link>
-
-					<CategoryMenu />
-				</HStack>
-
-				{!authIsLoading && (
-					<HStack gap={1}>
-						{!isAuthenticated && <LoginButton />}
-						{isAuthenticated && <NavbarMenu />}
-						<Box position="relative">
-							<NavbarButton
-								onClick={shoppingCart.openDrawer}
+					<HStack
+						gap={{ base: 2, sm: 3 }}
+						flexDirection={{
+							base: 'row-reverse',
+							md: 'row',
+						}}
+						alignItems="center"
+					>
+						<Link to="/">
+							<Box
+								flexShrink={0}
+								width={130}
+								mt={1}
+								cursor="button"
 							>
-								<FaShoppingCart />
-							</NavbarButton>
-							{shoppingCart.itemQuantityTotal > 0 && (
-								<Flex
-									alignItems="center"
-									background="#FFF"
-									border="2px solid #000"
-									position="absolute"
-									width="fit-content"
-									h={6}
-									overflow="hidden"
-									top={-1}
-									right={-1}
-									p={1.5}
-									borderRadius="full"
-									fontSize={13}
-									fontWeight={700}
-									fontFamily={sansFontFamily}
-								>
-									{shoppingCart.itemQuantityTotal}
-								</Flex>
-							)}
-						</Box>
-					</HStack>
-				)}
+								<Logo />
+							</Box>
+						</Link>
 
-				<ShoppingCartDrawer
-					isOpen={shoppingCart.isDrawerOpen}
-					onClose={shoppingCart.closeDrawer}
-				/>
-			</HStack>
-		</Box>
+						<CategoryMenu />
+					</HStack>
+
+					{!authIsLoading && (
+						<HStack gap={1}>
+							{!isAuthenticated && <LoginButton />}
+							{isAuthenticated && <NavbarMenu />}
+							<Box position="relative">
+								<NavbarButton
+									onClick={shoppingCart.openDrawer}
+								>
+									<FaShoppingCart />
+								</NavbarButton>
+								{shoppingCart.itemQuantityTotal >
+									0 && (
+									<Flex
+										alignItems="center"
+										background="#FFF"
+										border="2px solid #000"
+										position="absolute"
+										width="fit-content"
+										h={6}
+										overflow="hidden"
+										top={-1}
+										right={-1}
+										p={1.5}
+										borderRadius="full"
+										fontSize={13}
+										fontWeight={700}
+										fontFamily={sansFontFamily}
+									>
+										{
+											shoppingCart.itemQuantityTotal
+										}
+									</Flex>
+								)}
+							</Box>
+						</HStack>
+					)}
+
+					<ShoppingCartDrawer
+						isOpen={shoppingCart.isDrawerOpen}
+						onClose={shoppingCart.closeDrawer}
+					/>
+				</HStack>
+			</Box>
+		</>
 	);
 };
