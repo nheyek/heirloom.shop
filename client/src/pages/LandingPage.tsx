@@ -1,4 +1,5 @@
 import {
+	Box,
 	Button,
 	HStack,
 	Icon,
@@ -87,7 +88,7 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={45}
+			gap={10}
 			pt={30}
 			px={5}
 			pb={10}
@@ -133,10 +134,12 @@ export const LandingPage = () => {
 			{categoriesError ? (
 				<AppError title="Failed to load categories" />
 			) : (
-				<CategoryGrid
-					categories={getChildCategories(null)}
-					isLoading={isLoading}
-				/>
+				<Box width="100%">
+					<CategoryGrid
+						categories={getChildCategories(null)}
+						isLoading={isLoading}
+					/>
+				</Box>
 			)}
 
 			{shopsError ? (

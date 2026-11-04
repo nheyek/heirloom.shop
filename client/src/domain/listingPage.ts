@@ -34,9 +34,6 @@ export const getReturnPolicyDisplay = (
 	return { text, descriptionHtml };
 };
 
-// Shared between ListingPage and the cart mapper so both agree on which
-// profiles apply — previously duplicated and diverged on the
-// directFulfillment + null-profiles case (see mappers.ts).
 export const resolveEffectiveProfiles = (listing: {
 	directFulfillment: boolean;
 	profiles: ListingFulfillmentProfiles | null;
@@ -49,5 +46,8 @@ export const getDeliveryEstimateDisplay = (
 	profiles: ListingFulfillmentProfiles | null,
 ): string =>
 	profiles?.processing && profiles?.shipping
-		? calculateDeliveryEstimate(profiles.processing, profiles.shipping)
+		? calculateDeliveryEstimate(
+				profiles.processing,
+				profiles.shipping,
+			)
 		: DELIVERY_ESTIMATE_UNAVAILABLE_TEXT;

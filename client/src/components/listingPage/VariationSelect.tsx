@@ -20,7 +20,7 @@ export const VariationSelect = ({
 		onValueChange={(e) => onChange(e.value[0] ?? '')}
 	>
 		<Select.HiddenSelect />
-		<Select.Label fontSize={16}>{variation.name}</Select.Label>
+		<Select.Label fontSize={18}>{variation.name}</Select.Label>
 		<Select.Control>
 			<Select.Trigger cursor="button">
 				<Select.ValueText

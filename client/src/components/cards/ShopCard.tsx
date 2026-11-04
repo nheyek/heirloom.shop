@@ -12,7 +12,6 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { CLIENT_ROUTES, CountryCode } from '@client/constants';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { displayFontFamily } from '@client/theme';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ShopCardData } from '@heirloom/common/contract';
@@ -53,8 +52,7 @@ export const ShopCard = (props: Props) => {
 			</RouterLink>
 			<Card.Body
 				p={3}
-				gap={1}
-				fontFamily={displayFontFamily}
+				gap={0.5}
 			>
 				<Stack gap={0}>
 					<RouterLink to={shopUrl}>
@@ -74,7 +72,7 @@ export const ShopCard = (props: Props) => {
 						truncate
 						fontSize={18}
 						fontWeight={500}
-						marginRight={10} // Compensate for favorite icon
+						marginRight={10}
 					>
 						{props.classification}
 					</Text>
@@ -91,7 +89,7 @@ export const ShopCard = (props: Props) => {
 						fontSize={18}
 						truncate
 						flex={1}
-						marginRight={10} // Compensate for favorite icon
+						marginRight={10}
 					>
 						{props.location}
 					</Text>

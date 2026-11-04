@@ -4,12 +4,16 @@ import {
 	Card,
 	CardRootProps,
 	Flex,
-	Heading,
 	HStack,
 	Span,
 	Stack,
+	Text,
 	Wrap,
 } from '@chakra-ui/react';
+import {
+	CARD_SHOP_TITLE_PROPS,
+	CARD_TITLE_PROPS,
+} from '@client/components/cards/ListingCard';
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
@@ -65,9 +69,8 @@ export const OrderItemCard = (props: Props) => {
 
 	const basicInfo = (
 		<Stack gap={0}>
-			<Heading
-				size="2xl"
-				fontWeight="semibold"
+			<Text
+				{...CARD_TITLE_PROPS}
 				display="flex"
 				alignItems="baseline"
 				gap={1}
@@ -84,17 +87,15 @@ export const OrderItemCard = (props: Props) => {
 						({props.item.quantity})
 					</Span>
 				)}
-			</Heading>
+			</Text>
 
 			{props.item.shopName && (
-				<Heading
+				<Text
+					{...CARD_SHOP_TITLE_PROPS}
 					truncate
-					fontWeight="medium"
-					lineHeight={1.2}
-					display="block"
 				>
 					{props.item.shopName}
-				</Heading>
+				</Text>
 			)}
 		</Stack>
 	);

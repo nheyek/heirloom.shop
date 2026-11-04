@@ -25,6 +25,7 @@ import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
+import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -142,24 +143,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 
 							{shoppingCart.items.length > 0 && (
 								<Stack gap={1}>
-									<HStack>
-										<Text
-											paddingBottom={1}
-											fontSize={26}
-										>
-											Item total:
-										</Text>
-										<Text
-											fontWeight={500}
-											fontSize={30}
-											mb={1}
-										>
-											{formatCentsAsDollars(
-												shoppingCart.itemPriceTotal,
-											)}
-										</Text>
-									</HStack>
-
 									<Wrap>
 										{applePay.available &&
 											applePay.paymentRequest && (
@@ -178,8 +161,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 												/>
 											)}
 										<Button
+											size="xl"
 											{...checkoutButtonConfig}
-											fontSize={26}
 											onClick={() => {
 												navigate(
 													CLIENT_ROUTES.checkout,
@@ -187,8 +170,23 @@ export const ShoppingCartDrawer = (props: Props) => {
 												props.onClose();
 											}}
 											alignSelf="flex-end"
+											gap={3}
 										>
-											Checkout
+											<HStack gap={1}>
+												Checkout
+												<RxDotFilled />
+												<Text
+													fontSize={26}
+													paddingBottom={
+														0.5
+													}
+												>
+													{formatCentsAsDollars(
+														shoppingCart.itemPriceTotal,
+													)}
+												</Text>
+											</HStack>
+
 											<FaArrowCircleRight />
 										</Button>
 									</Wrap>

@@ -3,7 +3,6 @@ import {
 	Box,
 	Button,
 	GridItem,
-	Heading,
 	HStack,
 	SimpleGrid,
 	Stack,
@@ -210,13 +209,13 @@ export const CheckoutPage = () => {
 							pendingMessage="Enter shipping address"
 						/>
 
-						<Heading
-							size="3xl"
-							fontWeight="semibold"
+						<Text
+							fontSize={32}
+							fontWeight={500}
 							color="white"
 						>
 							{formatCentsAsDollars(orderTotal)}
-						</Heading>
+						</Text>
 					</Stack>
 					<CheckoutPaymentForm disabled={pendingCheckout} />
 					<Button
@@ -300,7 +299,6 @@ export const CheckoutPage = () => {
 							<RxDotFilled />
 							<Text
 								fontSize={28}
-								fontWeight={500}
 								paddingBottom={0.5}
 							>
 								{formatCentsAsDollars(orderTotal)}

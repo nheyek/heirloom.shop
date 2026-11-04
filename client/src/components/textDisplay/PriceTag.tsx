@@ -1,5 +1,4 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { displayFontFamily } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 
 type Props = {
@@ -34,11 +33,10 @@ export const PriceTag = (props: Props) => {
 			<Text
 				fontSize={22}
 				fontWeight={500}
-				fontFamily={displayFontFamily}
 				paddingLeft={6}
-				paddingRight="12px"
-				paddingTop="2px"
-				paddingBottom="5px"
+				paddingRight={3}
+				paddingTop={0.5}
+				paddingBottom={1}
 			>
 				{formatCentsAsDollars(props.priceCents)}
 				{props.isMinimum && '+'}

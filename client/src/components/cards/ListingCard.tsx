@@ -8,6 +8,7 @@ import {
 	Span,
 	Stack,
 	Text,
+	TextProps,
 } from '@chakra-ui/react';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
@@ -28,6 +29,17 @@ const BADGE_OVERLAY_MARGIN = 3;
 const BADGE_OVERLAY_GAP = 1.5;
 const BADGE_OVERLAY_OPACITY = 0.9;
 const BADGE_OVERLAY_BG = 'gray.100';
+
+export const CARD_TITLE_PROPS: TextProps = {
+	fontSize: 24,
+	fontWeight: 600,
+	fontFamily: displayFontFamily,
+};
+
+export const CARD_SHOP_TITLE_PROPS: TextProps = {
+	fontSize: 20,
+	fontWeight: 'medium',
+};
 
 export type ListingCardIconMenuItem = {
 	icon: IconType;
@@ -172,9 +184,7 @@ export const ListingCard = ({
 						>
 							<Link asChild>
 								<Text
-									fontSize={24}
-									fontWeight={600}
-									fontFamily={displayFontFamily}
+									{...CARD_TITLE_PROPS}
 									truncate
 									display="block"
 								>
@@ -188,10 +198,8 @@ export const ListingCard = ({
 							>
 								<Link asChild>
 									<Text
-										fontSize={20}
-										fontFamily={displayFontFamily}
+										{...CARD_SHOP_TITLE_PROPS}
 										truncate
-										fontWeight="medium"
 										display="block"
 									>
 										{shopTitle}

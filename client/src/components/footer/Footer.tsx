@@ -80,7 +80,6 @@ export const Footer = () => {
 					<Text
 						fontSize={24}
 						fontWeight={600}
-						fontFamily={displayFontFamily}
 					>
 						Contact
 					</Text>
@@ -113,7 +112,6 @@ export const Footer = () => {
 					<Text
 						fontSize={24}
 						fontWeight={600}
-						fontFamily={displayFontFamily}
 					>
 						Info
 					</Text>

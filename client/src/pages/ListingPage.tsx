@@ -209,15 +209,15 @@ export const ListingPage = () => {
 						flex="1"
 						minW={0}
 					>
-						<Stack gap={3}>
+						<Stack gap={2}>
 							<Stack
 								gap={0}
-								fontFamily={displayFontFamily}
 								mr={5}
 							>
 								<Text
 									fontSize={36}
 									fontWeight={600}
+									fontFamily={displayFontFamily}
 								>
 									{listingData?.title}
 								</Text>
@@ -240,8 +240,7 @@ export const ListingPage = () => {
 							</Stack>
 							<Stack
 								fontSize={20}
-								fontFamily={displayFontFamily}
-								gap={1.5}
+								gap={1}
 							>
 								<Text>{listingData?.subtitle}</Text>
 								{listingData?.countryCode && (
@@ -343,7 +342,7 @@ export const ListingPage = () => {
 											<RxDotFilled />
 											<Text
 												fontSize={26}
-												fontWeight={500}
+												fontWeight={600}
 												paddingBottom={0.5}
 											>
 												{formatCentsAsDollars(
