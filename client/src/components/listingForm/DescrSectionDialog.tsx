@@ -99,7 +99,7 @@ export const DescrSectionDialog = ({
 				/>
 			}
 		>
-			<Stack gap={3}>
+			<Stack gap={5}>
 				<FormField
 					label="Title"
 					error={titleError}

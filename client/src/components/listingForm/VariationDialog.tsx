@@ -1,4 +1,3 @@
-import { FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	Checkbox,
 	HStack,
@@ -16,6 +15,7 @@ import { Variation } from '@client/components/listingForm/useListingForm';
 import { VariationOptionRow } from '@client/components/listingForm/VariationOptionRow';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	OptionDraft,
 	optionsSnapshot,
@@ -326,7 +326,10 @@ export const VariationDialog = ({
 					}
 					required
 				>
-					<Stack w="100%">
+					<Stack
+						w="100%"
+						gap={2.5}
+					>
 						<DndContext
 							sensors={sensors}
 							collisionDetection={closestCenter}

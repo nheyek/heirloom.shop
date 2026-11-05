@@ -44,7 +44,7 @@ export const AppDialog = ({
 			<Dialog.Content {...contentProps}>
 				<Dialog.Header>
 					<Dialog.Title
-						fontSize={22}
+						fontSize={28}
 						fontWeight={500}
 						marginRight={10}
 						{...titleProps}

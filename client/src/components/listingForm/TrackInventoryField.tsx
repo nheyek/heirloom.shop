@@ -2,7 +2,6 @@ import { Checkbox, HStack, Span, Stack } from '@chakra-ui/react';
 import { InventoryInput } from '@client/components/input/InventoryInput';
 import { ListingFormState } from '@client/components/listingForm/useListingForm';
 import { InfoPopover } from '@client/components/misc/InfoPopover';
-import { LISTING_FORM_FIELD_GAP } from '@client/constants';
 
 type Props = {
 	form: ListingFormState;
@@ -10,7 +9,7 @@ type Props = {
 };
 
 export const TrackInventoryField = ({ form, disabled }: Props) => (
-	<Stack gap={LISTING_FORM_FIELD_GAP}>
+	<Stack gap={5}>
 		<HStack gap={1}>
 			<Checkbox.Root
 				checked={form.trackInventory}
@@ -25,7 +24,7 @@ export const TrackInventoryField = ({ form, disabled }: Props) => (
 			>
 				<Checkbox.HiddenInput />
 				<Checkbox.Control />
-				<Checkbox.Label fontSize={20}>
+				<Checkbox.Label fontSize={18}>
 					Track Inventory
 				</Checkbox.Label>
 			</Checkbox.Root>
