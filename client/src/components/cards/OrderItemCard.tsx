@@ -109,6 +109,7 @@ export const OrderItemCard = (props: Props) => {
 					size="lg"
 					key={name}
 					fontSize={18}
+					fontWeight={400}
 				>
 					{name}: <Span fontWeight={500}>{value}</Span>
 				</Badge>
