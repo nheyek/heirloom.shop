@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { InfoPopover } from '@client/components/misc/InfoPopover';
-import { Layout } from '@client/constants';
+import { CARD_WIDTH, Layout } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { displayFontFamily, sansFontFamily } from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
@@ -46,7 +46,6 @@ import {
 const ORDER_ITEM_SKELETON_COUNT = 1;
 const ORDER_ITEM_SKELETON_HEIGHT_DESKTOP = 175;
 const ORDER_ITEM_SKELETON_HEIGHT_MOBILE = 340;
-const ORDER_ITEM_SKELETON_WIDTH_MOBILE = 300;
 const TIMELINE_SKELETON_HEIGHT = 90;
 
 const TIMELINE_STATUS_ICONS: Partial<Record<OrderStatus, IconType>> =
@@ -217,9 +216,7 @@ export const OrderDetailItemsListSkeleton = () => {
 					? ORDER_ITEM_SKELETON_HEIGHT_MOBILE
 					: ORDER_ITEM_SKELETON_HEIGHT_DESKTOP
 			}
-			width={
-				isCompact ? ORDER_ITEM_SKELETON_WIDTH_MOBILE : '100%'
-			}
+			width={isCompact ? CARD_WIDTH : '100%'}
 		/>
 	));
 

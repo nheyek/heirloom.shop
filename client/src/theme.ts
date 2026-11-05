@@ -33,7 +33,7 @@ const baseBreakpoints = {
 
 const CARD_GRID_MAX_COLUMNS = 4;
 const cardGridPagePaddingPx = STANDARD_GRID_GAP * chakraSpacingUnit;
-const cardGridGapPx = STANDARD_GRID_GAP * chakraSpacingUnit;
+export const cardGridGapPx = STANDARD_GRID_GAP * chakraSpacingUnit;
 
 const cardGridWidthForColumns = (columns: number) =>
 	columns * CARD_WIDTH +

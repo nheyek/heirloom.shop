@@ -13,14 +13,16 @@ import {
 	SECTION_TITLE_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import { animationName, scrollTargetOffset } from '@client/theme';
+import {
+	animationName,
+	cardGridGapPx,
+	scrollTargetOffset,
+} from '@client/theme';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
-const SPACING_UNIT_PX = 4;
 const MOBILE_OVERSCAN = 3;
-const GRID_GAP_PX = STANDARD_GRID_GAP * SPACING_UNIT_PX;
 
 type Props<T> = {
 	items: T[];
@@ -45,6 +47,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		numPlaceholders,
 		columns,
 		center,
+		pageSize,
 		skeletonAspectRatio = 1,
 		skeletonBodyHeight,
 	} = props;
@@ -61,7 +64,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		enabled: isMobile,
 		getScrollElement: () => scrollRef.current,
 		estimateSize: () => CARD_WIDTH,
-		gap: GRID_GAP_PX,
+		gap: cardGridGapPx,
 		overscan: MOBILE_OVERSCAN,
 		initialRect: { width: window.innerWidth, height: 0 },
 	});
@@ -82,16 +85,11 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		});
 	};
 
-	const pagedItems = props.pageSize
-		? items.slice(
-				(page - 1) * props.pageSize,
-				page * props.pageSize,
-			)
+	const pagedItems = pageSize
+		? items.slice((page - 1) * pageSize, page * pageSize)
 		: items;
 	const showPagination =
-		!!props.pageSize &&
-		!isLoading &&
-		items.length > props.pageSize;
+		!!pageSize && !isLoading && items.length > pageSize;
 
 	const animatedItem = (child: ReactNode, key: React.Key) => (
 		<Box
@@ -127,25 +125,14 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 					pl={`${paddingStart}px`}
 					pr={`${paddingEnd}px`}
 				>
-					{isLoading && (
-						<>
-							{[0, 1].map((i) => (
-								<Box
-									key={i}
-									width={CARD_WIDTH}
-								>
-									<CardSkeleton
-										aspectRatio={
-											skeletonAspectRatio
-										}
-										bodyHeight={
-											skeletonBodyHeight
-										}
-									/>
-								</Box>
-							))}
-						</>
-					)}
+					{isLoading &&
+						[0, 1].map((i) => (
+							<CardSkeleton
+								key={i}
+								aspectRatio={skeletonAspectRatio}
+								bodyHeight={skeletonBodyHeight}
+							/>
+						))}
 					{visibleItems.map((virtualItem) => (
 						<Box
 							key={getItemKey(
@@ -210,14 +197,14 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 							),
 						)}
 				</SimpleGrid>
-				{showPagination && props.pageSize && (
+				{showPagination && pageSize && (
 					<Flex
 						justifyContent="center"
 						pt={STANDARD_GRID_GAP}
 					>
 						<GridPagination
 							count={items.length}
-							pageSize={props.pageSize}
+							pageSize={pageSize}
 							page={page}
 							onPageChange={onPageChange}
 						/>
