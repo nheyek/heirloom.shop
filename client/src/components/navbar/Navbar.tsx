@@ -11,14 +11,10 @@ import { CategoryMenu } from '@client/components/navbar/CategoryMenu';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
-import {
-	CLIENT_ROUTES,
-	NAVBAR_HEIGHT,
-	SANS_FONT_FAMILY,
-} from '@client/constants';
+import { NAVBAR_HEIGHT, SANS_FONT_FAMILY } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { FaShoppingCart } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export const NavbarButton = (props: IconButtonProps) => (
 	<IconButton
@@ -26,7 +22,7 @@ export const NavbarButton = (props: IconButtonProps) => (
 		variant="ghost"
 		_hover={{ bg: 'whiteAlpha.200' }}
 		_expanded={{ bg: 'whiteAlpha.200' }}
-		_icon={{ height: 22, width: 22 }}
+		_icon={{ height: 6, width: 6 }}
 		{...props}
 	>
 		{props.children}
@@ -35,13 +31,6 @@ export const NavbarButton = (props: IconButtonProps) => (
 
 export const Navbar = () => {
 	const { isAuthenticated, isLoading: authIsLoading } = useAuth0();
-	const { pathname } = useLocation();
-	const isAdminPage = pathname.startsWith(
-		`/${CLIENT_ROUTES.admin}`,
-	);
-	const isShopManagerPage = new RegExp(
-		`/${CLIENT_ROUTES.shop}/[^/]+/${CLIENT_ROUTES.manage}`,
-	).test(pathname);
 
 	const shoppingCart = useShoppingCart();
 

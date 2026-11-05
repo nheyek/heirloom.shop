@@ -1,4 +1,3 @@
-import { NAVBAR_HEIGHT } from '@client/constants';
 import {
 	Button,
 	CloseButton,
@@ -14,6 +13,7 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { NavbarButton } from '@client/components/navbar/Navbar';
+import { NAVBAR_HEIGHT } from '@client/constants';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { useState } from 'react';
@@ -139,7 +139,7 @@ export const CategoryMenu = () => {
 		return (
 			<>
 				<NavbarButton onClick={() => setOpen(true)}>
-					<CategoryMenuIcon size={22} />
+					<CategoryMenuIcon size={6} />
 				</NavbarButton>
 				<Dialog.Root
 					open={open}
@@ -174,12 +174,12 @@ export const CategoryMenu = () => {
 					color="white"
 					gap={2}
 					px={3}
-					fontSize={20}
+					fontSize={22}
 					fontWeight={500}
 					_hover={{ bg: 'whiteAlpha.200' }}
 					_expanded={{ bg: 'whiteAlpha.200' }}
 				>
-					<CategoryMenuIcon size={4} />
+					<CategoryMenuIcon size={5} />
 					Categories
 				</Button>
 			</Popover.Trigger>

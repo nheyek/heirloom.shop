@@ -165,11 +165,11 @@ export const ShopPage = () => {
 							gap={1}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
+							fontWeight={600}
 						>
 							<Text
 								display="block"
 								fontSize={titleFontSize}
-								fontWeight={700}
 								lineHeight={1}
 								fontFamily={DISPLAY_FONT_FAMILY}
 							>
@@ -186,7 +186,6 @@ export const ShopPage = () => {
 									}),
 									{},
 								)}
-								fontWeight={600}
 								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.classification}
@@ -211,7 +210,6 @@ export const ShopPage = () => {
 									/>
 								</Box>
 								<Text
-									fontWeight={500}
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
@@ -284,7 +282,7 @@ export const ShopPage = () => {
 						center
 						view={listingView}
 						isLoading={isLoading}
-						headerProps={{ mb: 1 }}
+						headerProps={{ mb: 2 }}
 						heading={
 							(isLoading ||
 								listingView.category.options.length >
@@ -308,7 +306,7 @@ const ActionButton = (props: {
 	onClick?: () => void;
 }) => (
 	<Button
-		size="md"
+		size="lg"
 		variant="subtle"
 		onClick={props.onClick}
 	>

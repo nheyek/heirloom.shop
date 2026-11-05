@@ -1,5 +1,4 @@
 import { BoxProps, Text } from '@chakra-ui/react';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
 
 type Props = BoxProps & {
 	htmlString: string;
@@ -20,7 +19,6 @@ export const RichTextDisplay = (props: Props) => {
 				},
 				'& h1': {
 					fontSize: fontSize + 4,
-					fontFamily: DISPLAY_FONT_FAMILY,
 					marginTop: 2,
 					marginBottom: 1,
 					fontWeight: 500,
