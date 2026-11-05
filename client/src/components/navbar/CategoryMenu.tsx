@@ -174,12 +174,12 @@ export const CategoryMenu = () => {
 					color="white"
 					gap={2}
 					px={3}
-					fontSize={22}
+					fontSize={20}
 					fontWeight={500}
 					_hover={{ bg: 'whiteAlpha.200' }}
 					_expanded={{ bg: 'whiteAlpha.200' }}
 				>
-					<CategoryMenuIcon size={18} />
+					<CategoryMenuIcon size={4} />
 					Categories
 				</Button>
 			</Popover.Trigger>

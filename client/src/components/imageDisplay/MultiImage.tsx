@@ -27,7 +27,6 @@ export const MultiImage = (props: Props) => {
 	const [isHovered, setIsHovered] = useState<boolean>(false);
 	const hasMultiple = props.urls.length > 1;
 	const showArrows = isHovered && hasMultiple;
-	const primaryUrl = props.urls[0]?.url;
 
 	const [page, setPage] = useState<number>(0);
 
