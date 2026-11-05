@@ -6,7 +6,6 @@ import {
 	FormInput,
 	FormTextarea,
 } from '@client/components/input/FormField';
-import { PriceInput } from '@client/components/input/PriceInput';
 import { AddFieldButton } from '@client/components/listingForm/AddFieldButton';
 import { DescrSectionDialog } from '@client/components/listingForm/DescrSectionDialog';
 import { DescrSectionList } from '@client/components/listingForm/DescrSectionList';
@@ -22,7 +21,6 @@ import {
 } from '@client/components/listingForm/useListingForm';
 import {
 	FORM_LABEL_GAP,
-	InputSize,
 	LISTING_FORM_FIELD_GAP,
 } from '@client/constants';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
@@ -103,7 +101,7 @@ export const ListingFormFields = ({
 							flexShrink={0}
 						>
 							<Stack
-								gap={LISTING_FORM_FIELD_GAP}
+								gap={5}
 								w="full"
 							>
 								<FormField
@@ -254,38 +252,6 @@ export const ListingFormFields = ({
 						shopShortId={form.shopShortId}
 						disabled={disabled}
 					/>
-
-					{!sortedVariations.some(
-						([, v]) => v.pricesVary,
-					) && (
-						<Wrap
-							gap={LISTING_FORM_FIELD_GAP}
-							align="start"
-						>
-							<WrapItem>
-								<FormField
-									label="Price"
-									error={form.priceError}
-									required
-								>
-									<PriceInput
-										size={InputSize.Lg}
-										value={form.priceCents}
-										onChange={(v) => {
-											form.setPriceCents(v);
-											if (v && v > 0)
-												form.setPriceError(
-													null,
-												);
-										}}
-										invalid={!!form.priceError}
-										disabled={disabled}
-										enclosed
-									/>
-								</FormField>
-							</WrapItem>
-						</Wrap>
-					)}
 
 					{directFulfillment && (
 						<Wrap

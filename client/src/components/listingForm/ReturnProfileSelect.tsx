@@ -53,15 +53,21 @@ export const ReturnProfileSelect = ({
 							body: {
 								name: p.name,
 								policyType: p.policy.type,
-								returnWindowDays: p.windowDays ?? null,
+								returnWindowDays:
+									p.windowDays ?? null,
 								policyDescrRichText:
-									p.policy.type === ReturnPolicyType.CUSTOM ? p.policy.text : null,
+									p.policy.type ===
+									ReturnPolicyType.CUSTOM
+										? p.policy.text
+										: null,
 							},
 						}),
 					);
 					setSaving(false);
 					if (result.error !== null) {
-						toastError('Failed to create return profile.');
+						toastError(
+							'Failed to create return profile.',
+						);
 						return;
 					}
 					const d = result.data;
@@ -71,10 +77,20 @@ export const ReturnProfileSelect = ({
 						windowDays: d.returnWindowDays ?? undefined,
 						policy:
 							d.policyType === ReturnPolicyType.CUSTOM
-								? { type: ReturnPolicyType.CUSTOM, text: d.policyDescrRichText ?? '' }
-								: d.policyType === ReturnPolicyType.NO_RETURNS
-									? { type: ReturnPolicyType.NO_RETURNS }
-									: { type: ReturnPolicyType.STANDARD },
+								? {
+										type: ReturnPolicyType.CUSTOM,
+										text:
+											d.policyDescrRichText ??
+											'',
+									}
+								: d.policyType ===
+									  ReturnPolicyType.NO_RETURNS
+									? {
+											type: ReturnPolicyType.NO_RETURNS,
+										}
+									: {
+											type: ReturnPolicyType.STANDARD,
+										},
 					};
 					onAddProfile(profile);
 					onChange(profile.id);

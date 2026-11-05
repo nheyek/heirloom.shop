@@ -10,12 +10,24 @@ type Props = {
 	disabled?: boolean;
 };
 
-export const DescrSectionList = ({ sections, ids, onEdit, onDelete, onReorder, disabled }: Props) => (
+export const DescrSectionList = ({
+	sections,
+	ids,
+	onEdit,
+	onDelete,
+	onReorder,
+	disabled,
+}: Props) => (
 	<SortableFieldList
-		items={sections.map((s, i) => ({ id: ids[i], label: s.title }))}
+		items={sections.map((s, i) => ({
+			id: ids[i],
+			label: s.title,
+		}))}
 		onEdit={(id) => onEdit(ids.indexOf(id))}
 		onDelete={(id) => onDelete(ids.indexOf(id))}
-		onReorder={(fromId, toId) => onReorder(ids.indexOf(fromId), ids.indexOf(toId))}
+		onReorder={(fromId, toId) =>
+			onReorder(ids.indexOf(fromId), ids.indexOf(toId))
+		}
 		disabled={disabled}
 	/>
 );

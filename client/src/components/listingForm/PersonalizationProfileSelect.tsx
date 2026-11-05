@@ -47,14 +47,16 @@ export const PersonalizationProfileSelect = ({
 				onConfirm={async (p) => {
 					setSaving(true);
 					const result = await callApi(
-						apiClient.shopManager.createPersonalizationProfile({
-							params: { shopId: shopShortId },
-							body: {
-								name: p.name,
-								costCents: p.costCents,
-								helperText: p.helperText,
+						apiClient.shopManager.createPersonalizationProfile(
+							{
+								params: { shopId: shopShortId },
+								body: {
+									name: p.name,
+									costCents: p.costCents,
+									helperText: p.helperText,
+								},
 							},
-						}),
+						),
 					);
 					setSaving(false);
 					if (result.error !== null) {

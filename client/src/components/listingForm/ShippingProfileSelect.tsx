@@ -1,4 +1,7 @@
-import { ShippingCostType, ShippingProfileDialog } from '@client/components/listingForm/ShippingProfileDialog';
+import {
+	ShippingCostType,
+	ShippingProfileDialog,
+} from '@client/components/listingForm/ShippingProfileDialog';
 import { ProfileSelect } from '@client/components/listingForm/ProfileSelect';
 import { ShippingProfile } from '@client/components/listingForm/useListingForm';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -46,7 +49,10 @@ export const ShippingProfileSelect = ({
 				saving={saving}
 				onConfirm={async (p) => {
 					setSaving(true);
-					const flatRate = p.cost.type === ShippingCostType.FlatRate ? p.cost.cents : null;
+					const flatRate =
+						p.cost.type === ShippingCostType.FlatRate
+							? p.cost.cents
+							: null;
 					const result = await callApi(
 						apiClient.shopManager.createShippingProfile({
 							params: { shopId: shopShortId },
@@ -61,16 +67,23 @@ export const ShippingProfileSelect = ({
 					);
 					setSaving(false);
 					if (result.error !== null) {
-						toastError('Failed to create shipping profile.');
+						toastError(
+							'Failed to create shipping profile.',
+						);
 						return;
 					}
 					const profile: ShippingProfile = {
 						id: String(result.data.id),
 						name: result.data.name,
 						originZip: result.data.originZip,
-						cost: result.data.flatShippingRateCents != null
-							? { type: ShippingCostType.FlatRate, cents: result.data.flatShippingRateCents }
-							: { type: ShippingCostType.Free },
+						cost:
+							result.data.flatShippingRateCents != null
+								? {
+										type: ShippingCostType.FlatRate,
+										cents: result.data
+											.flatShippingRateCents,
+									}
+								: { type: ShippingCostType.Free },
 						minDays: result.data.shippingDaysMin,
 						maxDays: result.data.shippingDaysMax,
 					};

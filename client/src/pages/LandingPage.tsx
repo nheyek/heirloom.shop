@@ -1,7 +1,6 @@
 import {
 	Box,
 	Button,
-	HStack,
 	Icon,
 	Span,
 	Stack,
@@ -97,25 +96,23 @@ export const LandingPage = () => {
 			mx="auto"
 		>
 			<Stack
-				gap={0}
+				gap={1}
 				pb={2}
 			>
-				<HStack
+				<Text
 					fontFamily={DISPLAY_FONT_FAMILY}
 					fontSize={28}
-					fontWeight={400}
 					flexShrink={0}
 				>
 					Welcome to
-					<Span fontWeight={500}>Heirloom.shop</Span>
-				</HStack>
+					<Span fontWeight={500}> Heirloom.shop</Span>
+				</Text>
 				<Stack
 					gap={3}
 					alignItems="center"
 				>
 					<Text
-						fontFamily={DISPLAY_FONT_FAMILY}
-						fontSize={22}
+						fontSize={24}
 						textAlign="center"
 					>
 						An exhibition of craftsmanship

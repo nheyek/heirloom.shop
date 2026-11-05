@@ -4,6 +4,7 @@ import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFor
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
 import { ImagesField } from '@client/components/listingForm/ImagesField';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
+import { PriceField } from '@client/components/listingForm/PriceField';
 import { PersonalizationField } from '@client/components/listingForm/PersonalizationField';
 import { TrackInventoryField } from '@client/components/listingForm/TrackInventoryField';
 import { ListingFormState } from '@client/components/listingForm/useListingForm';
@@ -41,6 +42,10 @@ export const ListingFormLayout = ({
 		/>
 
 		<PersonalizationField
+			form={form}
+			disabled={disabled}
+		/>
+		<PriceField
 			form={form}
 			disabled={disabled}
 		/>
