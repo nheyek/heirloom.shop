@@ -1,5 +1,4 @@
-import { Flex, FlexProps, Stack } from '@chakra-ui/react';
-import { SECTION_TITLE_GAP } from '@client/constants';
+import { Flex, FlexProps } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { ListingView } from '@client/hooks/useListingView';
@@ -22,33 +21,31 @@ export const SortableListingGrid = ({
 		gridProps.isLoading || view.listings.length > 0;
 
 	return (
-		<Stack
-			gap={SECTION_TITLE_GAP}
-			width="100%"
-		>
-			{(heading || showControls) && (
-				<Flex
-					justifyContent="space-between"
-					alignItems="flex-end"
-					{...headerProps}
-				>
-					{heading}
-					{showControls && (
-						<SortFilterDrawer
-							options={LISTING_SORT_LABELS}
-							value={view.sort.value}
-							onChange={view.sort.onChange}
-							{...(view.price && { price: view.price })}
-						/>
-					)}
-				</Flex>
-			)}
-
-			<ListingGrid
-				{...gridProps}
-				listings={view.listings}
-				isLoading={gridProps.isLoading || view.isApplying}
-			/>
-		</Stack>
+		<ListingGrid
+			{...gridProps}
+			listings={view.listings}
+			isLoading={gridProps.isLoading || view.isApplying}
+			header={
+				(heading || showControls) && (
+					<Flex
+						justifyContent="space-between"
+						alignItems="flex-end"
+						{...headerProps}
+					>
+						{heading}
+						{showControls && (
+							<SortFilterDrawer
+								options={LISTING_SORT_LABELS}
+								value={view.sort.value}
+								onChange={view.sort.onChange}
+								{...(view.price && {
+									price: view.price,
+								})}
+							/>
+						)}
+					</Flex>
+				)
+			}
+		/>
 	);
 };

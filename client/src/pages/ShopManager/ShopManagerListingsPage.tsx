@@ -1,3 +1,4 @@
+import { sidebarCardGridColumns } from '@client/theme';
 import { Button, Stack } from '@chakra-ui/react';
 import { ListingEditCard } from '@client/components/cards/ListingEditCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
@@ -9,7 +10,6 @@ import {
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { sidebarGridCols } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { ShopManagerListingCardData } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
@@ -75,7 +75,7 @@ export const ShopManagerListingsPage = () => {
 					items={listings}
 					isLoading={isLoading}
 					getItemKey={(listing) => listing.id}
-					columns={sidebarGridCols}
+					columns={sidebarCardGridColumns}
 					skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					skeletonBodyHeight={LISTING_CARD_BODY_HEIGHT}
 					renderItem={(listing) => (

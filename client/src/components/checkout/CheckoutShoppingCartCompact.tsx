@@ -44,7 +44,6 @@ export const CheckoutShoppingCartCompact = () => {
 						<OrderItemCard
 							key={index}
 							item={getOrderItemDisplayData(item)}
-							cardProps={{ minW: 300 }}
 						/>
 					))}
 				</HStack>

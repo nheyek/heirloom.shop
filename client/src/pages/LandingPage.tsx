@@ -15,7 +15,6 @@ import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_CONTENT_MAX_WIDTH,
-	SECTION_TITLE_GAP,
 	InfoPageKey,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -138,6 +137,7 @@ export const LandingPage = () => {
 			) : (
 				<Box width="100%">
 					<CategoryGrid
+						center
 						categories={getChildCategories(null)}
 						isLoading={isLoading}
 					/>
@@ -147,34 +147,24 @@ export const LandingPage = () => {
 			{shopsError ? (
 				<AppError title="Failed to load makers" />
 			) : (
-				<Stack
-					gap={SECTION_TITLE_GAP}
-					width="100%"
-				>
-					<SectionTitle>Makers</SectionTitle>
-
-					<ShopGrid
-						shops={shops}
-						isLoading={isLoading}
-					/>
-				</Stack>
+				<ShopGrid
+					center
+					header={<SectionTitle>Makers</SectionTitle>}
+					shops={shops}
+					isLoading={isLoading}
+				/>
 			)}
 
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<Stack
-					gap={SECTION_TITLE_GAP}
-					width="100%"
-				>
-					<SectionTitle>Featured</SectionTitle>
-
-					<ListingGrid
-						listings={listings}
-						isLoading={isLoading}
-						shops={listingShops}
-					/>
-				</Stack>
+				<ListingGrid
+					center
+					header={<SectionTitle>Featured</SectionTitle>}
+					listings={listings}
+					isLoading={isLoading}
+					shops={listingShops}
+				/>
 			)}
 
 			<InfoPageDialog

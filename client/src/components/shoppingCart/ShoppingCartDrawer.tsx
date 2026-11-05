@@ -13,7 +13,7 @@ import { ORDER_ITEM_THUMBNAIL_WIDTH } from '@client/components/cards/OrderItemCa
 import { ApplePayButton } from '@client/components/shoppingCart/ApplePayButton';
 import { ShoppingCartCard } from '@client/components/shoppingCart/ShoppingCartCard';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
-import { CLIENT_ROUTES } from '@client/constants';
+import { CARD_WIDTH, CLIENT_ROUTES } from '@client/constants';
 import { useApplePayCheckout } from '@client/hooks/useApplePayCheckout';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import {
@@ -36,15 +36,13 @@ type Props = {
 export const ShoppingCartDrawer = (props: Props) => {
 	const shoppingCart = useShoppingCart();
 	const navigate = useNavigate();
-	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
-		shoppingCart.items.length,
-	);
+	const { layout, isCompact } = useOrderItemCardLayout();
 	const applePay = useApplePayCheckout(props.onClose);
 	const { pendingCheckout, pendingSubmission } =
 		useCheckoutStatus();
 
 	const skeletonProps = isCompact
-		? { flexShrink: 0, height: 340, width: 300 }
+		? { flexShrink: 0, height: 340, width: CARD_WIDTH }
 		: {
 				flexShrink: 0,
 				height: ORDER_ITEM_THUMBNAIL_WIDTH,
@@ -73,7 +71,6 @@ export const ShoppingCartDrawer = (props: Props) => {
 						item={item}
 						onNavigate={props.onClose}
 						layout={layout}
-						cardProps={cardProps}
 					/>
 				));
 

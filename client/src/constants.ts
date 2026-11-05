@@ -10,14 +10,8 @@ export enum Layout {
 	DESKTOP,
 }
 
-export const STANDARD_GRID_COLUMNS = {
-	base: 1,
-	sm: 2,
-	md: 3,
-	lg: 4,
-};
-
 export const STANDARD_GRID_GAP = 5;
+export const CARD_WIDTH = 300;
 export const GRID_CONTENT_MAX_WIDTH = 1600;
 export const LISTING_GRID_PAGE_SIZE = 20;
 export const FORM_FIELD_GAP = 5;

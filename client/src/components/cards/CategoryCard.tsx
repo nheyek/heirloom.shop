@@ -1,4 +1,5 @@
 import { Box, Card, Text } from '@chakra-ui/react';
+import { CARD_WIDTH } from '@client/constants';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { displayFontFamily } from '@client/theme';
@@ -11,7 +12,10 @@ const TITLE_TEXT_SHADOW =
 	'0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2)';
 
 export const CategoryCard = (props: CategoryTileData) => (
-	<Card.Root variant="elevated">
+	<Card.Root
+		variant="elevated"
+		width={CARD_WIDTH}
+	>
 		<RouterLink to={getCategoryPath(props.id)}>
 			<Box position="relative">
 				{props.imageUuid ? (

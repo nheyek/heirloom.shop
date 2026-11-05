@@ -176,16 +176,13 @@ export const OrderDetailItemsList = ({
 }: {
 	items: OrderItemDisplayData[];
 }) => {
-	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
-		items.length,
-	);
+	const { layout, isCompact } = useOrderItemCardLayout();
 
 	const children = items.map((item, index) => (
 		<OrderItemCard
 			key={index}
 			item={item}
 			layout={layout}
-			cardProps={cardProps}
 			showQuantity
 		/>
 	));
@@ -206,9 +203,7 @@ export const OrderDetailItemsList = ({
 };
 
 export const OrderDetailItemsListSkeleton = () => {
-	const { isCompact } = useOrderItemCardLayout(
-		ORDER_ITEM_SKELETON_COUNT,
-	);
+	const { isCompact } = useOrderItemCardLayout();
 
 	const children = Array.from({
 		length: ORDER_ITEM_SKELETON_COUNT,

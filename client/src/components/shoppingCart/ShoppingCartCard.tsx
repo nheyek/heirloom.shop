@@ -1,10 +1,4 @@
-import {
-	Box,
-	CardRootProps,
-	Group,
-	IconButton,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Group, IconButton, Text } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { Layout } from '@client/constants';
 import {
@@ -17,7 +11,6 @@ import { FaMinus, FaPlus, FaTrashCan } from 'react-icons/fa6';
 type Props = {
 	item: ShoppingCartItem;
 	onNavigate?: () => void;
-	cardProps?: CardRootProps;
 	layout?: Layout;
 };
 
@@ -102,7 +95,6 @@ export const ShoppingCartCard = (props: Props) => {
 		<Box position="relative">
 			<OrderItemCard
 				item={displayData}
-				cardProps={props.cardProps}
 				layout={props.layout}
 			/>
 			{deleteButton}
@@ -111,7 +103,6 @@ export const ShoppingCartCard = (props: Props) => {
 	) : (
 		<OrderItemCard
 			item={displayData}
-			cardProps={props.cardProps}
 			layout={props.layout}
 			imageOverlayElements={
 				<>

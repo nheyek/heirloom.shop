@@ -2,7 +2,6 @@ import {
 	Badge,
 	Box,
 	Card,
-	CardRootProps,
 	HStack,
 	Link,
 	Text,
@@ -12,6 +11,7 @@ import {
 	CLIENT_ROUTES,
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
+	CARD_WIDTH,
 } from '@client/constants';
 import { defaultFontFamily, displayFontFamily } from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
@@ -79,14 +79,12 @@ const getImageSource = (
 type Props = {
 	order: OrderResponse;
 	layout?: Layout;
-	cardProps?: CardRootProps;
 	linkTo?: string;
 };
 
 export const OrderPreviewCard = ({
 	order,
 	layout,
-	cardProps,
 	linkTo,
 }: Props) => {
 	const isDesktop = layout === Layout.DESKTOP;
@@ -101,8 +99,8 @@ export const OrderPreviewCard = ({
 		<Card.Root
 			variant="elevated"
 			flexDirection={isDesktop ? 'row' : 'column'}
-			width="100%"
-			{...cardProps}
+			width={isDesktop ? '100%' : CARD_WIDTH}
+			flexShrink={0}
 		>
 			<Box
 				position="relative"

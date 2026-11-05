@@ -1,4 +1,4 @@
-import { Link, Stack } from '@chakra-ui/react';
+import { Box, Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
@@ -22,6 +22,8 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+
+const SECTION_GAP = 7;
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();
@@ -94,38 +96,46 @@ export const CategoryPage = () => {
 		);
 	}
 
+	const breadcrumb = <CategoryBreadcrumb categoryId={id} />;
+
 	return (
 		<Stack
 			py={GRID_PAGE_PADDING_Y}
 			px={STANDARD_GRID_GAP}
-			gap={7}
+			gap={SECTION_GAP}
 			width="100%"
 			maxW={GRID_CONTENT_MAX_WIDTH}
 			mx="auto"
 		>
-			<CategoryBreadcrumb categoryId={id} />
-
-			{subcategories.length > 0 && (
-				<CategoryGrid
-					categories={subcategories}
-					isLoading={isLoading}
-				/>
-			)}
+			<CategoryGrid
+				center
+				header={
+					<Box
+						{...(subcategories.length > 0 && {
+							mb: SECTION_GAP - SECTION_TITLE_GAP,
+						})}
+					>
+						{breadcrumb}
+					</Box>
+				}
+				categories={subcategories}
+				isLoading={isLoading && subcategories.length > 0}
+			/>
 
 			{!listingsError && (isLoading || shops.length > 0) && (
-				<Stack gap={SECTION_TITLE_GAP}>
-					<SectionTitle>Makers</SectionTitle>
-					<ShopGrid
-						shops={shops}
-						isLoading={isLoading}
-					/>
-				</Stack>
+				<ShopGrid
+					center
+					header={<SectionTitle>Makers</SectionTitle>}
+					shops={shops}
+					isLoading={isLoading}
+				/>
 			)}
 
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
 				<SortableListingGrid
+					center
 					view={listingView}
 					heading={<SectionTitle>Items</SectionTitle>}
 					isLoading={isLoading}

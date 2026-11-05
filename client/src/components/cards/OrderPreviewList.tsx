@@ -1,4 +1,5 @@
 import { HStack, Skeleton, Stack } from '@chakra-ui/react';
+import { CARD_WIDTH } from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
 import { OrderResponse } from '@heirloom/common/contract';
 import { OrderPreviewCard } from './OrderPreviewCard';
@@ -19,17 +20,14 @@ export const OrderPreviewList = ({
 	isLoading,
 	linkTo,
 }: Props) => {
-	const { layout, isCompact, cardProps } = useOrderItemCardLayout(
-		isLoading ? SKELETON_ITEM_COUNT : orders.length,
-	);
+	const { layout, isCompact } = useOrderItemCardLayout();
 
 	const content = isLoading
 		? Array.from({ length: SKELETON_ITEM_COUNT }).map((_, i) => (
 				<Skeleton
 					key={i}
 					borderRadius="md"
-					width={cardProps?.width}
-					minW={cardProps?.minW}
+					{...(isCompact && { width: CARD_WIDTH })}
 					height={
 						isCompact
 							? COMPACT_SKELETON_HEIGHT
@@ -42,7 +40,6 @@ export const OrderPreviewList = ({
 					key={order.shortId}
 					order={order}
 					layout={layout}
-					cardProps={cardProps}
 					linkTo={linkTo?.(order)}
 				/>
 			));

@@ -15,6 +15,7 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
+	CARD_WIDTH,
 	CLIENT_ROUTES,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
@@ -127,6 +128,7 @@ export const ListingCard = ({
 		<Card.Root
 			variant="elevated"
 			position="relative"
+			width={CARD_WIDTH}
 		>
 			{topRight && (
 				<Box

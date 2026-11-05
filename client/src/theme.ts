@@ -6,6 +6,7 @@ import {
 	defineSlotRecipe,
 	defineTextStyles,
 } from '@chakra-ui/react';
+import { CARD_WIDTH, STANDARD_GRID_GAP } from '@client/constants';
 
 export const brandColor = '#121212';
 export const fieldErrorColor = '#df1b41';
@@ -30,19 +31,51 @@ const baseBreakpoints = {
 	xl: 1536,
 };
 
-export const sidebarBreakpoint = {
-	sm: 'sm_sb',
-	md: 'md_sb',
-	lg: 'lg_sb',
-	xl: 'xl_sb',
-	'2xl': '2xl_sb',
+const CARD_GRID_MAX_COLUMNS = 4;
+const cardGridPagePaddingPx = STANDARD_GRID_GAP * chakraSpacingUnit;
+const cardGridGapPx = STANDARD_GRID_GAP * chakraSpacingUnit;
+
+const cardGridWidthForColumns = (columns: number) =>
+	columns * CARD_WIDTH +
+	(columns - 1) * cardGridGapPx +
+	2 * cardGridPagePaddingPx;
+
+const cardGridColumnCounts = Array.from(
+	{ length: CARD_GRID_MAX_COLUMNS - 1 },
+	(_, i) => i + 2,
+);
+
+const cardGridBreakpoints = Object.fromEntries(
+	cardGridColumnCounts.flatMap((columns) => [
+		[
+			`cardCols${columns}`,
+			`${cardGridWidthForColumns(columns)}px`,
+		],
+		[
+			`cardCols${columns}_sb`,
+			`${cardGridWidthForColumns(columns) + sidebarWidth}px`,
+		],
+	]),
+);
+
+export const cardGridColumns = {
+	base: 1,
+	...Object.fromEntries(
+		cardGridColumnCounts.map((columns) => [
+			`cardCols${columns}`,
+			columns,
+		]),
+	),
 };
 
-export const sidebarGridCols = {
+export const sidebarCardGridColumns = {
 	base: 1,
-	[sidebarBreakpoint.sm]: 2,
-	[sidebarBreakpoint.md]: 3,
-	[sidebarBreakpoint.xl]: 4,
+	...Object.fromEntries(
+		cardGridColumnCounts.map((columns) => [
+			`cardCols${columns}_sb`,
+			columns,
+		]),
+	),
 };
 
 export const breakpoints = {
@@ -52,12 +85,7 @@ export const breakpoints = {
 			`${value}px`,
 		]),
 	),
-	...Object.fromEntries(
-		Object.entries(baseBreakpoints).map(([key, value]) => [
-			`${key}_sb`,
-			`${value + sidebarWidth}px`,
-		]),
-	),
+	...cardGridBreakpoints,
 };
 
 const inputRecipe = defineRecipe({

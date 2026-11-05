@@ -281,6 +281,7 @@ export const ShopPage = () => {
 					mx="auto"
 				>
 					<SortableListingGrid
+						center
 						view={listingView}
 						isLoading={isLoading}
 						headerProps={{ mb: 1 }}

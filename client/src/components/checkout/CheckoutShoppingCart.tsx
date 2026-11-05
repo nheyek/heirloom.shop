@@ -83,7 +83,6 @@ export const CheckoutShoppingCart = () => {
 									item={getOrderItemDisplayData(
 										item,
 									)}
-									cardProps={{ minW: 250 }}
 								/>
 							</Carousel.Item>
 						))}

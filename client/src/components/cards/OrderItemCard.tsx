@@ -2,7 +2,6 @@ import {
 	Badge,
 	Box,
 	Card,
-	CardRootProps,
 	Flex,
 	HStack,
 	Span,
@@ -21,6 +20,7 @@ import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
+	CARD_WIDTH,
 } from '@client/constants';
 import {
 	ImageSource,
@@ -45,7 +45,6 @@ const truncatePersonalizationText = (text: string): string =>
 
 type Props = {
 	item: OrderItemDisplayData;
-	cardProps?: CardRootProps;
 	imageOverlayElements?: ReactNode;
 	layout?: Layout;
 	showQuantity?: boolean;
@@ -199,7 +198,6 @@ export const OrderItemCard = (props: Props) => {
 				variant="elevated"
 				flexDirection="row"
 				width="100%"
-				{...props.cardProps}
 			>
 				<Box
 					width={ORDER_ITEM_THUMBNAIL_WIDTH}
@@ -234,8 +232,8 @@ export const OrderItemCard = (props: Props) => {
 		<Card.Root
 			position="relative"
 			variant="elevated"
-			maxWidth={400}
-			{...props.cardProps}
+			width={CARD_WIDTH}
+			flexShrink={0}
 		>
 			<Box position="relative">
 				<MultiImage

@@ -13,7 +13,11 @@ import {
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
-import { CLIENT_ROUTES, CountryCode } from '@client/constants';
+import {
+	CARD_WIDTH,
+	CLIENT_ROUTES,
+	CountryCode,
+} from '@client/constants';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
@@ -21,18 +25,14 @@ import { ShopCardData } from '@heirloom/common/contract';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { Link as RouterLink } from 'react-router-dom';
 
-type Props = ShopCardData & {
-	minWidth?: number;
-};
-
-export const ShopCard = (props: Props) => {
+export const ShopCard = (props: ShopCardData) => {
 	const shopUrl = `/${CLIENT_ROUTES.shop}/${props.shortId}`;
 	const { isFavoritedShop, toggleFavoriteShop } = useFavorites();
 
 	return (
 		<Card.Root
 			variant="elevated"
-			minWidth={props.minWidth}
+			width={CARD_WIDTH}
 		>
 			<RouterLink to={shopUrl}>
 				{props.profileImageUuid ? (

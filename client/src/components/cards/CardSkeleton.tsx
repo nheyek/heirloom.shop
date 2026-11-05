@@ -1,4 +1,5 @@
 import { Box, Skeleton, SkeletonProps } from '@chakra-ui/react';
+import { CARD_WIDTH } from '@client/constants';
 
 type Props = SkeletonProps & {
 	aspectRatio: number;
@@ -11,7 +12,7 @@ export const CardSkeleton = ({
 	...rest
 }: Props) => (
 	<Skeleton
-		width="100%"
+		width={CARD_WIDTH}
 		{...rest}
 	>
 		<Box aspectRatio={aspectRatio} />

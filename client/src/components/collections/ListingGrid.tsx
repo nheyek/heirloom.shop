@@ -1,3 +1,4 @@
+import { cardGridColumns } from '@client/theme';
 import { ListingDisplayCard } from '@client/components/cards/ListingDisplayCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
@@ -6,20 +7,21 @@ import {
 	LISTING_CARD_SHOP_TITLE_HEIGHT,
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_GRID_PAGE_SIZE,
-	STANDARD_GRID_COLUMNS,
 } from '@client/constants';
 import { indexShopTitles } from '@client/utils/shopUtils';
 import {
 	ListingCardData,
 	ShopCardData,
 } from '@heirloom/common/contract';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
 	listings: ListingCardData[];
 	isLoading: boolean;
 	columns?: Record<string, number>;
+	center?: boolean;
+	header?: ReactNode;
 	shops?: ShopCardData[];
 };
 
@@ -37,7 +39,9 @@ export const ListingGrid = (props: Props) => {
 			items={props.listings}
 			isLoading={props.isLoading}
 			getItemKey={(listing) => listing.id}
-			columns={props.columns ?? STANDARD_GRID_COLUMNS}
+			columns={props.columns ?? cardGridColumns}
+			center={props.center}
+			header={props.header}
 			skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 			skeletonBodyHeight={
 				LISTING_CARD_BODY_HEIGHT +
