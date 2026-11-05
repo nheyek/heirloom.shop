@@ -1,5 +1,6 @@
-import { Table, Text } from '@chakra-ui/react';
-import { FormSection } from '@client/components/input/FormSection';
+import { Stack, Table, Text } from '@chakra-ui/react';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
+import { FORM_LABEL_GAP } from '@client/constants';
 import { ImageUploadCell } from '@client/components/listingForm/ImageUploadCell';
 import {
 	Variation,
@@ -36,7 +37,13 @@ export const VariationImagesGrid = ({
 	const sortedVariations = sortByOrder(imageVaryingVariations);
 
 	return (
-		<FormSection label="Variation Images">
+		<Stack
+			gap={FORM_LABEL_GAP}
+			align="flex-start"
+		>
+			<ListingFormFieldLabel>
+				Variation Images
+			</ListingFormFieldLabel>
 			<Table.ScrollArea
 				borderWidth={1}
 				borderColor="gray.200"
@@ -108,6 +115,6 @@ export const VariationImagesGrid = ({
 					</Table.Body>
 				</Table.Root>
 			</Table.ScrollArea>
-		</FormSection>
+		</Stack>
 	);
 };

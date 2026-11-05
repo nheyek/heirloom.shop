@@ -8,14 +8,14 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
 	FormField,
 	FormInput,
 } from '@client/components/input/FormField';
 import { ImageDropzone } from '@client/components/input/ImageDropzone';
-import { CountryCode } from '@client/constants';
-import { TEXT_STYLES } from '@client/theme';
+import { CountryCode, FORM_LABEL_GAP } from '@client/constants';
 import { FaExchangeAlt } from 'react-icons/fa';
 
 export { FormField as ShopFormField, FormInput as ShopFormInput };
@@ -117,12 +117,9 @@ export const ShopFormFields = ({
 		</Fieldset.Root>
 		{imagePreviewUrl ? (
 			<Box>
-				<Text
-					textStyle={TEXT_STYLES.fieldLabel}
-					mb={1.5}
-				>
+				<ListingFormFieldLabel mb={FORM_LABEL_GAP}>
 					Banner Image
-				</Text>
+				</ListingFormFieldLabel>
 				<Skeleton
 					loading={isUploadingImage}
 					borderRadius="md"

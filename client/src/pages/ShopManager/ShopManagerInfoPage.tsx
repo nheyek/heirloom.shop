@@ -5,6 +5,8 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
+import { FORM_LABEL_GAP } from '@client/constants';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
 import { AppError } from '@client/components/feedback/AppError';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
@@ -20,7 +22,6 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { useUserInfo } from '@client/providers/UserProvider';
-import { TEXT_STYLES } from '@client/theme';
 import { toastError, toastSuccess } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import {
@@ -167,9 +168,9 @@ const ShopInfoForm = ({
 	const [richText, setRichText] = useState(
 		shopData.profileRichText ?? '',
 	);
-	const [richTextError, setRichTextError] = useState<
-		string | null
-	>(null);
+	const [richTextError, setRichTextError] = useState<string | null>(
+		null,
+	);
 
 	const form = useShopForm({ initialData: shopData });
 
@@ -298,9 +299,11 @@ const ShopInfoForm = ({
 				gap={5}
 				disabled={isSaving}
 			/>
-			<Field.Root>
-				<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
-					About
+			<Field.Root gap={FORM_LABEL_GAP}>
+				<Field.Label asChild>
+					<ListingFormFieldLabel as="label">
+						About
+					</ListingFormFieldLabel>
 				</Field.Label>
 				<RichTextEditor
 					initialHtml={shopData.profileRichText}

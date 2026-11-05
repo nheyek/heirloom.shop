@@ -1,10 +1,4 @@
-import {
-	Fieldset,
-	Stack,
-	Wrap,
-	WrapItem,
-} from '@chakra-ui/react';
-import { sortByOrder } from '@heirloom/common/domain/listing';
+import { Fieldset, Stack, Wrap, WrapItem } from '@chakra-ui/react';
 import { CategoryCombobox } from '@client/components/input/CategoryCombobox';
 import { CountrySelect } from '@client/components/input/CountrySelect';
 import {
@@ -27,11 +21,13 @@ import {
 	ListingFormState,
 } from '@client/components/listingForm/useListingForm';
 import {
-	FORM_FIELD_GAP,
+	FORM_LABEL_GAP,
 	InputSize,
+	LISTING_FORM_FIELD_GAP,
 } from '@client/constants';
 import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
+import { sortByOrder } from '@heirloom/common/domain/listing';
 import { useState } from 'react';
 
 type ListingFormFieldsProps = {
@@ -96,10 +92,10 @@ export const ListingFormFields = ({
 	return (
 		<>
 			<Fieldset.Root>
-				<Stack gap={FORM_FIELD_GAP}>
+				<Stack gap={LISTING_FORM_FIELD_GAP}>
 					<Wrap
-						columnGap={FORM_FIELD_GAP}
-						rowGap={FORM_FIELD_GAP}
+						columnGap={LISTING_FORM_FIELD_GAP}
+						rowGap={LISTING_FORM_FIELD_GAP}
 						align="start"
 					>
 						<WrapItem
@@ -107,7 +103,7 @@ export const ListingFormFields = ({
 							flexShrink={0}
 						>
 							<Stack
-								gap={FORM_FIELD_GAP}
+								gap={LISTING_FORM_FIELD_GAP}
 								w="full"
 							>
 								<FormField
@@ -176,7 +172,9 @@ export const ListingFormFields = ({
 										value={form.countryCode}
 										onChange={(v) => {
 											form.setCountryCode(v);
-											form.setCountryError(null);
+											form.setCountryError(
+												null,
+											);
 										}}
 									/>
 								</FormField>
@@ -188,7 +186,7 @@ export const ListingFormFields = ({
 							flex="1"
 						>
 							<FormField label="Description">
-								<Stack gap={2}>
+								<Stack gap={FORM_LABEL_GAP}>
 									{form.descrSections.length >
 										0 && (
 										<DescrSectionList
@@ -221,7 +219,7 @@ export const ListingFormFields = ({
 					</Wrap>
 
 					<FormField label="Variations">
-						<Stack gap={2}>
+						<Stack gap={FORM_LABEL_GAP}>
 							{sortedVariations.length > 0 && (
 								<SortableFieldList
 									items={sortedVariations.map(
@@ -261,7 +259,7 @@ export const ListingFormFields = ({
 						([, v]) => v.pricesVary,
 					) && (
 						<Wrap
-							gap={FORM_FIELD_GAP}
+							gap={LISTING_FORM_FIELD_GAP}
 							align="start"
 						>
 							<WrapItem>
@@ -292,8 +290,8 @@ export const ListingFormFields = ({
 					{directFulfillment && (
 						<Wrap
 							align="start"
-							gapX={FORM_FIELD_GAP}
-							gapY={FORM_FIELD_GAP}
+							gapX={LISTING_FORM_FIELD_GAP}
+							gapY={LISTING_FORM_FIELD_GAP}
 						>
 							<WrapItem>
 								<FormField

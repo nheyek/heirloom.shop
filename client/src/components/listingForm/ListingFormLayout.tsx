@@ -1,13 +1,16 @@
 import { Stack } from '@chakra-ui/react';
-import { FORM_FIELD_GAP } from '@client/constants';
 import { FieldError } from '@client/components/input/FieldError';
-import { FormSection } from '@client/components/input/FormSection';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
 import { ImagesField } from '@client/components/listingForm/ImagesField';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
 import { PersonalizationField } from '@client/components/listingForm/PersonalizationField';
 import { TrackInventoryField } from '@client/components/listingForm/TrackInventoryField';
 import { ListingFormState } from '@client/components/listingForm/useListingForm';
+import {
+	FORM_LABEL_GAP,
+	LISTING_FORM_FIELD_GAP,
+} from '@client/constants';
 import { deriveCombinationsList } from '@heirloom/common/domain/listing';
 import { RefObject } from 'react';
 
@@ -25,11 +28,19 @@ export const ListingFormLayout = ({
 	disabled,
 }: Props) => (
 	<Stack
-		gap={FORM_FIELD_GAP}
+		gap={LISTING_FORM_FIELD_GAP}
 		ref={containerRef}
 	>
-		<ListingFormFields form={form} disabled={disabled} />
+		<ListingFormFields
+			form={form}
+			disabled={disabled}
+		/>
 		<ImagesField
+			form={form}
+			disabled={disabled}
+		/>
+
+		<PersonalizationField
 			form={form}
 			disabled={disabled}
 		/>
@@ -37,12 +48,14 @@ export const ListingFormLayout = ({
 			form={form}
 			disabled={disabled}
 		/>
-		<PersonalizationField
-			form={form}
-			disabled={disabled}
-		/>
 		{deriveCombinationsList(form.variations).length > 0 && (
-			<FormSection label="Availability">
+			<Stack
+				gap={FORM_LABEL_GAP}
+				align="flex-start"
+			>
+				<ListingFormFieldLabel>
+					Availability
+				</ListingFormFieldLabel>
 				<CombinationGrid
 					variations={form.variations}
 					combinations={form.combinations}
@@ -59,9 +72,7 @@ export const ListingFormLayout = ({
 									patch.priceCents > 0))
 						) {
 							form.setCombinationError(null);
-							form.setInvalidCombinationKeys(
-								new Set(),
-							);
+							form.setInvalidCombinationKeys(new Set());
 						}
 					}}
 					invalid={!!form.combinationError}
@@ -70,7 +81,7 @@ export const ListingFormLayout = ({
 				{form.combinationError && (
 					<FieldError>{form.combinationError}</FieldError>
 				)}
-			</FormSection>
+			</Stack>
 		)}
 		<Stack mt={2.5}>{actions}</Stack>
 	</Stack>

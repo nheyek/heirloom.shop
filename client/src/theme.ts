@@ -4,12 +4,11 @@ import {
 	defineConfig,
 	defineRecipe,
 	defineSlotRecipe,
-	defineTextStyles,
 } from '@chakra-ui/react';
 import {
+	CARD_GRID_COLUMN_COUNTS,
 	CARD_WIDTH,
 	cardGridBreakpointKey,
-	CARD_GRID_COLUMN_COUNTS,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 
@@ -135,17 +134,6 @@ const selectRecipe = defineSlotRecipe({
 	},
 });
 
-export const TEXT_STYLES = {
-	fieldLabel: 'fieldLabel',
-};
-const textStyles = defineTextStyles({
-	[TEXT_STYLES.fieldLabel]: {
-		value: {
-			fontSize: 18,
-			fontWeight: 500,
-		},
-	},
-});
 export const config = defineConfig({
 	globalCss: {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -198,7 +186,6 @@ export const config = defineConfig({
 				},
 			},
 		},
-		textStyles,
 		recipes: {
 			input: inputRecipe,
 			button: buttonRecipe,

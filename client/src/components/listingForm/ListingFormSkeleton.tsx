@@ -1,6 +1,6 @@
 import { Skeleton, Stack, Wrap } from '@chakra-ui/react';
 import {
-	FORM_FIELD_GAP,
+	LISTING_FORM_FIELD_GAP,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 
@@ -25,9 +25,9 @@ const SkeletonField = ({
 );
 
 export const ListingFormSkeleton = () => (
-	<Stack gap={FORM_FIELD_GAP}>
+	<Stack gap={LISTING_FORM_FIELD_GAP}>
 		<Stack
-			gap={FORM_FIELD_GAP}
+			gap={LISTING_FORM_FIELD_GAP}
 			maxW={500}
 		>
 			<SkeletonField inputHeight={12} />
@@ -54,7 +54,7 @@ export const ListingFormSkeleton = () => (
 				h={8}
 				w={200}
 			/>
-			<Wrap gap={FORM_FIELD_GAP}>
+			<Wrap gap={LISTING_FORM_FIELD_GAP}>
 				<Skeleton
 					w={225}
 					aspectRatio={LISTING_IMAGE_ASPECT_RATIO}

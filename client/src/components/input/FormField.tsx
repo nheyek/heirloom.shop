@@ -1,4 +1,3 @@
-import { SANS_FONT_FAMILY } from '@client/constants';
 import {
 	Field,
 	FieldRootProps,
@@ -9,7 +8,8 @@ import {
 	TextareaProps,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { TEXT_STYLES } from '@client/theme';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
+import { FORM_LABEL_GAP, SANS_FONT_FAMILY } from '@client/constants';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -25,6 +25,7 @@ export const FormField = ({
 	children: ReactNode;
 }) => (
 	<Field.Root
+		gap={FORM_LABEL_GAP}
 		invalid={!!error}
 		{...rest}
 	>
@@ -32,11 +33,13 @@ export const FormField = ({
 			w="100%"
 			justify="space-between"
 		>
-			<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
-				{label}
-				<Field.RequiredIndicator
-					fontFamily={SANS_FONT_FAMILY}
-				/>
+			<Field.Label asChild>
+				<ListingFormFieldLabel as="label">
+					{label}
+					<Field.RequiredIndicator
+						fontFamily={SANS_FONT_FAMILY}
+					/>
+				</ListingFormFieldLabel>
 			</Field.Label>
 			{labelEnd}
 		</HStack>

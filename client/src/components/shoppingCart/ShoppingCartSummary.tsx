@@ -1,7 +1,6 @@
 import { DataList, Spinner } from '@chakra-ui/react';
 import { SUMMARY_ROW_GAP } from '@client/components/checkout/checkoutLayout';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { TEXT_STYLES } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { JSX } from 'react';
 
@@ -60,7 +59,8 @@ export const ShoppingCartSummary = (props: Props) => {
 				>
 					<DataList.ItemLabel
 						minWidth={75}
-						textStyle={TEXT_STYLES.fieldLabel}
+						fontSize={18}
+						fontWeight={500}
 						color={props.textColor}
 					>
 						{label}

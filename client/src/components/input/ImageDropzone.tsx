@@ -1,5 +1,5 @@
 import { FileUpload, Stack } from '@chakra-ui/react';
-import { MAX_IMAGE_SIZE_MB } from '@client/constants';
+import { FORM_LABEL_GAP, MAX_IMAGE_SIZE_MB } from '@client/constants';
 import { toastError } from '@client/toaster';
 import { FaImage } from 'react-icons/fa';
 
@@ -40,7 +40,7 @@ export const ImageDropzone = ({
 			}
 		}}
 		disabled={disabled}
-		gap={1.5}
+		gap={FORM_LABEL_GAP}
 	>
 		<FileUpload.HiddenInput />
 		{label && (
