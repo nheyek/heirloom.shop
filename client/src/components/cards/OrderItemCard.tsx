@@ -18,9 +18,9 @@ import {
 import { MultiImage } from '@client/components/imageDisplay/MultiImage';
 import { PriceTag } from '@client/components/textDisplay/PriceTag';
 import {
+	CARD_WIDTH,
 	Layout,
 	LISTING_IMAGE_ASPECT_RATIO,
-	CARD_WIDTH,
 } from '@client/constants';
 import {
 	ImageSource,
@@ -109,9 +109,8 @@ export const OrderItemCard = (props: Props) => {
 					size="lg"
 					key={name}
 					fontSize={18}
-					fontWeight={500}
 				>
-					{name}: {value}
+					{name}: <Span fontWeight={500}>{value}</Span>
 				</Badge>
 			))}
 			{props.item.personalizationText && (
@@ -137,9 +136,8 @@ export const OrderItemCard = (props: Props) => {
 				<Badge
 					key={name}
 					{...BADGE_OVERLAY_PROPS}
-					fontWeight={500}
 				>
-					{name}: {value}
+					{name}: <Span fontWeight={500}>{value}</Span>
 				</Badge>
 			))}
 			{props.item.personalizationText && (
