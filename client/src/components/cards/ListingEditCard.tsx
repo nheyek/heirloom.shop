@@ -58,17 +58,10 @@ const ListingAvailableDialog = ({
 					purchase.
 				</Text>
 			) : (
-				<>
-					<Text>
-						This listing will no longer be available for
-						purchase. It will still be visible to
-						customers.
-					</Text>
-					<Text>
-						To remove this listing entirely, open the
-						"Edit" form and click "Delete Listing".
-					</Text>
-				</>
+				<Text>
+					This listing will no longer be available for
+					purchase. It will still be visible to customers.
+				</Text>
 			)}
 		</Stack>
 	</AppDialog>

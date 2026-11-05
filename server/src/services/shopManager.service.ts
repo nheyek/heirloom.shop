@@ -478,20 +478,6 @@ export const setListingAvailable = async (
 	return listing.available;
 };
 
-export const deleteListing = async (
-	shopId: number,
-	listingShortId: string,
-): Promise<boolean> => {
-	const em = getEm();
-	const listing = await em.findOne(Listing, {
-		shortId: listingShortId,
-		shop: { id: shopId },
-	});
-	if (!listing) return false;
-	await em.remove(listing).flush();
-	return true;
-};
-
 const persistProfileOrThrow = async (
 	em: ReturnType<typeof getEm>,
 	profile: object,

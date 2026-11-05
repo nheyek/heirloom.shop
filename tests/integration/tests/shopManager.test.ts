@@ -924,43 +924,6 @@ describe('PUT /api/shops/:shopId/manager/listings/:listingShortId/available', ()
 	});
 });
 
-describe('DELETE /api/shops/:shopId/manager/listings/:listingShortId', () => {
-	it('returns 401 without auth', async () => {
-		const res = await request(getApp())
-			.delete('/api/shops/mgr80/manager/listings/unknown')
-			.send({});
-		expect(res.status).toBe(401);
-	});
-
-	it('returns 404 for an unknown listing', async () => {
-		const res = await request(getApp())
-			.delete('/api/shops/mgr80/manager/listings/unknown')
-			.set(AUTH)
-			.send({});
-		expect(res.status).toBe(404);
-	});
-
-	it('deletes the listing', async () => {
-		const createRes = await request(getApp())
-			.post('/api/shops/mgr80/manager/listings')
-			.set(AUTH)
-			.send(validListingBody());
-		const listingShortId = createRes.body.shortId;
-
-		const res = await request(getApp())
-			.delete(`/api/shops/mgr80/manager/listings/${listingShortId}`)
-			.set(AUTH)
-			.send({});
-		expect(res.status).toBe(200);
-		expect(res.body.deleted).toBe(true);
-
-		const getRes = await request(getApp())
-			.get(`/api/shops/mgr80/manager/listings/${listingShortId}`)
-			.set(AUTH);
-		expect(getRes.status).toBe(404);
-	});
-});
-
 describe('using real database references not owned by another shop', () => {
 	let processingProfileId: number;
 	let returnProfileId: number;
