@@ -110,7 +110,7 @@ export enum CountryCode {
 export const COUNTRY_DISPLAY_NAME = {
 	[CountryCode.US]: 'USA',
 	[CountryCode.CA]: 'Canada',
-	[CountryCode.UK]: 'United Kingdom',
+	[CountryCode.UK]: 'UK',
 	[CountryCode.IT]: 'Italy',
 	[CountryCode.FR]: 'France',
 	[CountryCode.DE]: 'Germany',

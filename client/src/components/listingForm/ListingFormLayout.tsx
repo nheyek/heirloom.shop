@@ -1,11 +1,11 @@
 import { Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
 import { CombinationGrid } from '@client/components/listingForm/CombinationGrid';
 import { ImagesField } from '@client/components/listingForm/ImagesField';
+import { ListingFormFieldLabel } from '@client/components/listingForm/ListingFormFieldLabel';
 import { ListingFormFields } from '@client/components/listingForm/ListingFormFields';
-import { PriceField } from '@client/components/listingForm/PriceField';
 import { PersonalizationField } from '@client/components/listingForm/PersonalizationField';
+import { PriceField } from '@client/components/listingForm/PriceField';
 import { TrackInventoryField } from '@client/components/listingForm/TrackInventoryField';
 import { ListingFormState } from '@client/components/listingForm/useListingForm';
 import {
@@ -88,6 +88,6 @@ export const ListingFormLayout = ({
 				)}
 			</Stack>
 		)}
-		<Stack mt={2.5}>{actions}</Stack>
+		<Stack>{actions}</Stack>
 	</Stack>
 );

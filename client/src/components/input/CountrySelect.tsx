@@ -1,7 +1,12 @@
-import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
+import {
+	createListCollection,
+	HStack,
+	Portal,
+	Select,
+	Text,
+} from '@chakra-ui/react';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
-import { CountryCode, COUNTRY_DISPLAY_NAME } from '@client/constants';
-import { IoMdArrowDropdown } from 'react-icons/io';
+import { COUNTRY_DISPLAY_NAME, CountryCode } from '@client/constants';
 
 type CountrySelectProps = {
 	value: CountryCode | null;
@@ -9,64 +14,73 @@ type CountrySelectProps = {
 	showName?: boolean;
 };
 
-const sortedCountryCodes = Object.values(CountryCode).sort((a, b) =>
-	COUNTRY_DISPLAY_NAME[a].localeCompare(COUNTRY_DISPLAY_NAME[b]),
-);
+const countryCollection = createListCollection({
+	items: Object.values(CountryCode)
+		.map((code) => ({
+			value: code,
+			label: COUNTRY_DISPLAY_NAME[code],
+		}))
+		.sort((a, b) => a.label.localeCompare(b.label)),
+});
 
 export const CountrySelect = ({
 	value,
 	onChange,
 	showName,
 }: CountrySelectProps) => (
-	<Menu.Root
-		onSelect={(details) => onChange(details.value as CountryCode)}
+	<Select.Root
+		size="lg"
+		collection={countryCollection}
+		value={value ? [value] : []}
+		onValueChange={(e) => onChange(e.value[0] as CountryCode)}
+		positioning={{ sameWidth: !!showName }}
+		width="fit-content"
+		minW={showName ? 225 : 20}
 	>
-		<Menu.Trigger asChild>
-			<Button
-				size="xl"
-				variant="subtle"
-				borderRadius="md"
-				justifyContent="space-between"
+		<Select.HiddenSelect />
+		<Select.Control>
+			<Select.Trigger
 				px={3}
-				fontWeight={400}
+				py={2}
 				fontSize={18}
 			>
-				<HStack gap={3}>
-					<CountryFlagIcon countryCode={value} />
+				<HStack
+					gap={3}
+					flex={1}
+				>
+					<CountryFlagIcon
+						size={20}
+						countryCode={value}
+					/>
 					{showName && value && (
 						<Text>{COUNTRY_DISPLAY_NAME[value]}</Text>
 					)}
 				</HStack>
-				<IoMdArrowDropdown />
-			</Button>
-		</Menu.Trigger>
+				<Select.IndicatorGroup>
+					<Select.Indicator />
+				</Select.IndicatorGroup>
+			</Select.Trigger>
+		</Select.Control>
 		<Portal>
-			<Menu.Positioner width="var(--trigger-width)">
-				<Menu.Content
-					maxH={300}
-					overflowY="auto"
-				>
-					{sortedCountryCodes.map((code) => (
-						<Menu.Item
-							key={code}
-							value={code}
-							cursor="pointer"
-							fontSize={18}
-							p={2}
+			<Select.Positioner>
+				<Select.Content maxH={300}>
+					{countryCollection.items.map((item) => (
+						<Select.Item
+							key={item.value}
+							item={item}
+							fontSize={20}
 						>
 							<HStack gap={3}>
 								<CountryFlagIcon
-									countryCode={code}
-									size={20}
+									countryCode={item.value}
 								/>
-								<Text>
-									{COUNTRY_DISPLAY_NAME[code]}
-								</Text>
+								<Text>{item.label}</Text>
 							</HStack>
-						</Menu.Item>
+							<Select.ItemIndicator />
+						</Select.Item>
 					))}
-				</Menu.Content>
-			</Menu.Positioner>
+				</Select.Content>
+			</Select.Positioner>
 		</Portal>
-	</Menu.Root>
+	</Select.Root>
 );

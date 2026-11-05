@@ -281,7 +281,7 @@ export const CheckoutPage = () => {
 	return (
 		<Stack
 			gap={CHECKOUT_GAP}
-			my={7}
+			mt={7}
 			px={CHECKOUT_GAP}
 			mx="auto"
 			maxWidth={{ lg: 1000 }}

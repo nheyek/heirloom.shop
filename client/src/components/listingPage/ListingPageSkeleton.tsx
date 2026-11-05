@@ -128,7 +128,8 @@ export const ListingPageSkeleton = (props: {
 
 				<Stack
 					gap={LISTING_COLUMN_GAP_MOBILE}
-					p={LISTING_PAGE_PADDING}
+					px={LISTING_PAGE_PADDING}
+					pt={LISTING_PAGE_PADDING}
 				>
 					{renderBasicInfoSection()}
 					{renderButtonsAndFulfillmentSection()}
@@ -173,7 +174,8 @@ export const ListingPageSkeleton = (props: {
 			</Box>
 			<Center
 				width="100%"
-				p={LISTING_PAGE_PADDING}
+				px={LISTING_PAGE_PADDING}
+				pt={LISTING_PAGE_PADDING}
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}

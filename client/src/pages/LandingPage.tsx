@@ -90,7 +90,6 @@ export const LandingPage = () => {
 			gap={10}
 			pt={10}
 			px={5}
-			pb={10}
 			alignItems="center"
 			maxW={GRID_CONTENT_MAX_WIDTH}
 			mx="auto"

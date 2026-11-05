@@ -101,7 +101,7 @@ export const CategoryPage = () => {
 
 	return (
 		<Stack
-			py={GRID_PAGE_PADDING_Y}
+			pt={GRID_PAGE_PADDING_Y}
 			px={STANDARD_GRID_GAP}
 			gap={SECTION_GAP}
 			width="100%"

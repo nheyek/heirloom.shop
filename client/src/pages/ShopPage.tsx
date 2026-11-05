@@ -273,7 +273,7 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Box
-					py={GRID_PAGE_PADDING_Y}
+					pt={GRID_PAGE_PADDING_Y}
 					px={STANDARD_GRID_GAP}
 					width="100%"
 					maxW={GRID_CONTENT_MAX_WIDTH}

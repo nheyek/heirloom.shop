@@ -61,7 +61,7 @@ const App = () => {
 				<Box
 					minHeight={`calc(100svh - ${NAVBAR_HEIGHT}px)`}
 					width="100%"
-					pb={5}
+					pb={10}
 					mx="auto"
 					position="relative"
 				>

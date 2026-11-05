@@ -9,7 +9,7 @@ import { useShopManager } from '@client/providers/ShopManagerProvider';
 import { toastError } from '@client/toaster';
 import { callApi } from '@client/utils/apiUtils';
 import { useRef, useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
+import { FaArrowUpFromBracket } from 'react-icons/fa6';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export const ShopManagerListingCreatePage = () => {
@@ -117,8 +117,8 @@ export const ShopManagerListingCreatePage = () => {
 					onClick={handleCreate}
 					loading={isBusy}
 				>
-					<FaCheckCircle />
-					Publish
+					<FaArrowUpFromBracket />
+					Publish Listing
 				</Button>
 			}
 		/>

@@ -15,7 +15,8 @@ export const OrderIsolatedPage = () => {
 
 	return (
 		<Stack
-			p={5}
+			px={5}
+			pt={5}
 			gap={5}
 			width="fit-content"
 			{...(isDesktop && { mx: 'auto', mt: 5, minWidth: 600 })}

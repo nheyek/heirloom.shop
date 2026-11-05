@@ -202,7 +202,8 @@ export const ListingPage = () => {
 			)}
 			<Center
 				width="100%"
-				p={LISTING_PAGE_PADDING}
+				px={LISTING_PAGE_PADDING}
+				pt={LISTING_PAGE_PADDING}
 			>
 				<Flex
 					direction={{ base: 'column', md: 'row' }}
