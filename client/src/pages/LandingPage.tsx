@@ -89,14 +89,17 @@ export const LandingPage = () => {
 	return (
 		<Stack
 			gap={10}
-			pt={7}
+			pt={10}
 			px={5}
 			pb={10}
 			alignItems="center"
 			maxW={GRID_CONTENT_MAX_WIDTH}
 			mx="auto"
 		>
-			<Stack gap={0}>
+			<Stack
+				gap={0}
+				pb={2}
+			>
 				<HStack
 					fontFamily={DISPLAY_FONT_FAMILY}
 					fontSize={28}

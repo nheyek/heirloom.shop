@@ -31,8 +31,8 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 						<Icon
 							as={FaCaretDown}
 							color="black"
-							w={22}
-							h={22}
+							w={5}
+							h={5}
 						/>
 					</Accordion.ItemIndicator>
 				</Accordion.ItemTrigger>
