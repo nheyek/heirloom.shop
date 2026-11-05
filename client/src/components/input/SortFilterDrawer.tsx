@@ -3,6 +3,7 @@ import {
 	HStack,
 	Icon,
 	IconButton,
+	IconButtonProps,
 	RadioGroup,
 	Slider,
 	Stack,
@@ -79,7 +80,8 @@ type Props<T extends string> = {
 	options: Record<T, string>;
 	value: T;
 	onChange: (value: T) => void;
-	price?: PriceFilter;
+	price?: PriceFilter | null;
+	buttonProps?: IconButtonProps;
 };
 
 export const SortFilterDrawer = <T extends string>(
@@ -93,6 +95,7 @@ export const SortFilterDrawer = <T extends string>(
 				variant="subtle"
 				onClick={() => setIsOpen(true)}
 				size="lg"
+				{...props.buttonProps}
 			>
 				<FaSliders />
 			</IconButton>

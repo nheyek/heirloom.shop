@@ -1,7 +1,8 @@
 import { Box, Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
-import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
+import { ListingViewHeader } from '@client/components/collections/ListingViewHeader';
+import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
@@ -134,11 +135,19 @@ export const CategoryPage = () => {
 			{listingsError ? (
 				<AppError title={listingsError} />
 			) : (
-				<SortableListingGrid
+				<ListingGrid
 					center
-					view={listingView}
-					heading={<SectionTitle>Items</SectionTitle>}
-					isLoading={isLoading}
+					listings={listingView.listings}
+					isLoading={isLoading || listingView.isApplying}
+					header={
+						<ListingViewHeader
+							view={listingView}
+							isLoading={isLoading}
+							sortButtonProps={{ mb: 2 }}
+						>
+							<SectionTitle>Items</SectionTitle>
+						</ListingViewHeader>
+					}
 					shops={shops}
 				/>
 			)}

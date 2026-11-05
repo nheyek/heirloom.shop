@@ -9,7 +9,8 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { CategoryFilterMenu } from '@client/components/collections/CategoryFilterMenu';
-import { SortableListingGrid } from '@client/components/collections/SortableListingGrid';
+import { ListingViewHeader } from '@client/components/collections/ListingViewHeader';
+import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
@@ -278,19 +279,26 @@ export const ShopPage = () => {
 					maxW={GRID_CONTENT_MAX_WIDTH}
 					mx="auto"
 				>
-					<SortableListingGrid
+					<ListingGrid
 						center
-						view={listingView}
-						isLoading={isLoading}
-						headerProps={{ mb: 2 }}
-						heading={
-							(isLoading ||
-								listingView.category.options.length >
-									0) && (
-								<CategoryFilterMenu
-									{...listingView.category}
-								/>
-							)
+						listings={listingView.listings}
+						isLoading={
+							isLoading || listingView.isApplying
+						}
+						header={
+							<ListingViewHeader
+								view={listingView}
+								isLoading={isLoading}
+								mb={2}
+							>
+								{(isLoading ||
+									listingView.category.options
+										.length > 0) && (
+									<CategoryFilterMenu
+										{...listingView.category}
+									/>
+								)}
+							</ListingViewHeader>
 						}
 					/>
 				</Box>
