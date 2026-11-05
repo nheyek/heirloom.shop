@@ -1,4 +1,3 @@
-import { sidebarCardGridColumns } from '@client/theme';
 import { Button, Stack } from '@chakra-ui/react';
 import { ListingEditCard } from '@client/components/cards/ListingEditCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
@@ -7,6 +6,7 @@ import {
 	CLIENT_ROUTES,
 	LISTING_CARD_BODY_HEIGHT,
 	LISTING_IMAGE_ASPECT_RATIO,
+	SIDEBAR_CARD_GRID_COLUMNS,
 } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -75,7 +75,7 @@ export const ShopManagerListingsPage = () => {
 					items={listings}
 					isLoading={isLoading}
 					getItemKey={(listing) => listing.id}
-					columns={sidebarCardGridColumns}
+					columns={SIDEBAR_CARD_GRID_COLUMNS}
 					skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}
 					skeletonBodyHeight={LISTING_CARD_BODY_HEIGHT}
 					renderItem={(listing) => (

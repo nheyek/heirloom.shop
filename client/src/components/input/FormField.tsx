@@ -1,3 +1,4 @@
+import { SANS_FONT_FAMILY } from '@client/constants';
 import {
 	Field,
 	FieldRootProps,
@@ -8,7 +9,7 @@ import {
 	TextareaProps,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { sansFontFamily, TEXT_STYLES } from '@client/theme';
+import { TEXT_STYLES } from '@client/theme';
 import { ReactNode } from 'react';
 
 export const FormField = ({
@@ -34,7 +35,7 @@ export const FormField = ({
 			<Field.Label textStyle={TEXT_STYLES.fieldLabel}>
 				{label}
 				<Field.RequiredIndicator
-					fontFamily={sansFontFamily}
+					fontFamily={SANS_FONT_FAMILY}
 				/>
 			</Field.Label>
 			{labelEnd}

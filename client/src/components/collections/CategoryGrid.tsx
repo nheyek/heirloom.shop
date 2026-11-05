@@ -1,8 +1,10 @@
-import { cardGridColumns } from '@client/theme';
 import { ReactNode } from 'react';
 import { CategoryCard } from '@client/components/cards/CategoryCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
-import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
+import {
+	STANDARD_IMAGE_ASPECT_RATIO,
+	CARD_GRID_COLUMNS,
+} from '@client/constants';
 import { CategoryTileData } from '@heirloom/common/contract';
 
 type Props = {
@@ -18,7 +20,7 @@ export const CategoryGrid = (props: Props) => (
 		items={props.categories}
 		isLoading={props.isLoading}
 		getItemKey={(category) => category.id}
-		columns={props.columns ?? cardGridColumns}
+		columns={props.columns ?? CARD_GRID_COLUMNS}
 		center={props.center}
 		header={props.header}
 		skeletonAspectRatio={STANDARD_IMAGE_ASPECT_RATIO}

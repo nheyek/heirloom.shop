@@ -7,7 +7,10 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { chakraSpacingUnit, defaultFontFamily } from '@client/theme';
+import {
+	CHAKRA_SPACING_UNIT,
+	DEFAULT_FONT_FAMILY,
+} from '@client/theme';
 import { useState } from 'react';
 import { FaImages } from 'react-icons/fa6';
 import { AppImage } from './AppImage';
@@ -15,7 +18,7 @@ import { LightBox } from './LightBox';
 
 const COLLAGE_HEIGHT = 450;
 const COLLAGE_GAP = 3;
-const COLLAGE_GAP_PX = COLLAGE_GAP * chakraSpacingUnit;
+const COLLAGE_GAP_PX = COLLAGE_GAP * CHAKRA_SPACING_UNIT;
 export const THUMBNAIL_ROWS = 2;
 const THUMBNAIL_HEIGHT =
 	(COLLAGE_HEIGHT - COLLAGE_GAP_PX * (THUMBNAIL_ROWS - 1)) /
@@ -90,7 +93,7 @@ export const ImageCollage = (props: Props) => {
 					color="white"
 					borderRadius="md"
 					cursor="button"
-					fontFamily={defaultFontFamily}
+					fontFamily={DEFAULT_FONT_FAMILY}
 					fontSize={24}
 					onClick={() => setLightBoxPage(index)}
 				>

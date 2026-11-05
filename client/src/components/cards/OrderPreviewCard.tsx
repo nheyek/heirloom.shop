@@ -13,7 +13,10 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	CARD_WIDTH,
 } from '@client/constants';
-import { defaultFontFamily, displayFontFamily } from '@client/theme';
+import {
+	DEFAULT_FONT_FAMILY,
+	DISPLAY_FONT_FAMILY,
+} from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
 import {
 	ImageSource,
@@ -46,7 +49,7 @@ const StatusBadge = ({ status }: { status: OrderStatus }) => {
 		<Badge
 			size="lg"
 			fontSize={16}
-			fontFamily={defaultFontFamily}
+			fontFamily={DEFAULT_FONT_FAMILY}
 			colorPalette={
 				status === OrderStatus.SHIPPED ? 'green' : undefined
 			}
@@ -124,7 +127,7 @@ export const OrderPreviewCard = ({
 				justifyContent="space-between"
 				minW={0}
 				fontSize={20}
-				fontFamily={displayFontFamily}
+				fontFamily={DISPLAY_FONT_FAMILY}
 			>
 				<HStack justifyContent="space-between">
 					<RouterLink

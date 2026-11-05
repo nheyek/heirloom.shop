@@ -16,9 +16,12 @@ import {
 	CHECKOUT_FIELD_GAP,
 	CHECKOUT_FIELD_HEIGHT,
 } from '@client/components/checkout/checkoutLayout';
-import { Layout } from '@client/constants';
+import {
+	Layout,
+	FIELD_ERROR_COLOR,
+	SANS_FONT_FAMILY,
+} from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { fieldErrorColor, sansFontFamily } from '@client/theme';
 import { extractAddressFields } from '@client/utils/addressUtils';
 import { US_STATES } from '@heirloom/common/constants';
 import { useLoadScript } from '@react-google-maps/api';
@@ -308,7 +311,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								name="address-level1"
 								autoComplete="address-level1"
 								height={CHECKOUT_FIELD_HEIGHT}
-								fontFamily={sansFontFamily}
+								fontFamily={SANS_FONT_FAMILY}
 								fontSize={16}
 								value={shippingAddress.state}
 								onChange={(e) => {
@@ -322,7 +325,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								}}
 								border={
 									shippingAddressErrors.state
-										? `1px solid ${fieldErrorColor}`
+										? `1px solid ${FIELD_ERROR_COLOR}`
 										: undefined
 								}
 							>

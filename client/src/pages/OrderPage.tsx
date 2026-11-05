@@ -13,7 +13,7 @@ import {
 } from '@client/components/orderPage/OrderDetailSections';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderResponse } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
@@ -54,7 +54,7 @@ const OrderPageContent = ({ order }: { order: OrderResponse }) => (
 		<Stack gap={5}>
 			<Stack gap={2}>
 				<Text
-					fontFamily={displayFontFamily}
+					fontFamily={DISPLAY_FONT_FAMILY}
 					fontSize={26}
 					fontWeight={500}
 				>

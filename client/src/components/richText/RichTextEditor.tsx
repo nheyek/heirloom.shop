@@ -1,6 +1,6 @@
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import { Box, HStack, IconButton, Stack } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { fieldErrorColor } from '@client/theme';
 import Heading from '@tiptap/extension-heading';
 import {
 	EditorContent,
@@ -124,7 +124,7 @@ export const RichTextEditor = ({
 			<Box
 				flex={1}
 				borderWidth={1}
-				borderColor={invalid ? fieldErrorColor : 'gray.200'}
+				borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
 				borderRadius="md"
 				width="100%"
 			>

@@ -1,6 +1,5 @@
 import { NumberInput } from '@chakra-ui/react';
-import { InputSize } from '@client/constants';
-import { sansFontFamily } from '@client/theme';
+import { InputSize, SANS_FONT_FAMILY } from '@client/constants';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
 
 const SIZE_CONFIG = {
@@ -50,12 +49,10 @@ export const InventoryInput = ({
 			w={95}
 		>
 			<NumberInput.Input
-				fontFamily={sansFontFamily}
+				fontFamily={SANS_FONT_FAMILY}
 				fontSize={fontSize}
 				h={h}
-				maxLength={
-					String(LISTING_LIMITS.maxInventory).length
-				}
+				maxLength={String(LISTING_LIMITS.maxInventory).length}
 			/>
 			<NumberInput.Control />
 		</NumberInput.Root>

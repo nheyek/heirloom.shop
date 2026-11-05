@@ -1,5 +1,8 @@
+import {
+	FIELD_ERROR_COLOR,
+	SANS_FONT_FAMILY,
+} from '@client/constants';
 import { Collapsible, Text } from '@chakra-ui/react';
-import { fieldErrorColor, sansFontFamily } from '@client/theme';
 
 export const CheckoutFieldError = (props: {
 	errorText?: String | null;
@@ -7,9 +10,9 @@ export const CheckoutFieldError = (props: {
 	<Collapsible.Root open={Boolean(props.errorText)}>
 		<Collapsible.Content>
 			<Text
-				fontFamily={sansFontFamily}
+				fontFamily={SANS_FONT_FAMILY}
 				fontSize={14}
-				color={fieldErrorColor}
+				color={FIELD_ERROR_COLOR}
 				lineHeight={1}
 				paddingTop={2.5}
 			>

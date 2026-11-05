@@ -25,7 +25,7 @@ import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import {
@@ -171,7 +171,7 @@ export const ShopPage = () => {
 								fontSize={titleFontSize}
 								fontWeight={700}
 								lineHeight={1}
-								fontFamily={displayFontFamily}
+								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.title}
 							</Text>
@@ -187,7 +187,7 @@ export const ShopPage = () => {
 									{},
 								)}
 								fontWeight={600}
-								fontFamily={displayFontFamily}
+								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.classification}
 							</Text>

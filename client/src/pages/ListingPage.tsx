@@ -27,7 +27,7 @@ import { VariationSelect } from '@client/components/listingPage/VariationSelect'
 import {
 	CLIENT_ROUTES,
 	CountryCode,
-	countryDisplayName,
+	COUNTRY_DISPLAY_NAME,
 	Layout,
 	LISTING_COLUMN_GAP_DESKTOP,
 	LISTING_COLUMN_GAP_MOBILE,
@@ -47,7 +47,7 @@ import { useShareListing } from '@client/hooks/useShareListing';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { toastSuccess } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { getListingDataForCart } from '@client/utils/mappers';
@@ -226,7 +226,7 @@ export const ListingPage = () => {
 								<Text
 									fontSize={36}
 									fontWeight={600}
-									fontFamily={displayFontFamily}
+									fontFamily={DISPLAY_FONT_FAMILY}
 								>
 									{listingData?.title}
 								</Text>
@@ -234,7 +234,7 @@ export const ListingPage = () => {
 								<HStack
 									fontWeight={500}
 									fontSize={24}
-									fontFamily={displayFontFamily}
+									fontFamily={DISPLAY_FONT_FAMILY}
 								>
 									<FaShop size={22} />
 									<Link
@@ -264,7 +264,7 @@ export const ListingPage = () => {
 										<Span fontWeight={500}>
 											Made in{' '}
 											{
-												countryDisplayName[
+												COUNTRY_DISPLAY_NAME[
 													listingData.countryCode as CountryCode
 												]
 											}

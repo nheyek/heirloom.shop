@@ -5,8 +5,7 @@ import {
 	Combination,
 	Variation,
 } from '@client/components/listingForm/useListingForm';
-import { InputSize } from '@client/constants';
-import { fieldErrorColor } from '@client/theme';
+import { InputSize, FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	deriveCombinationsList,
 	resolveEffectiveCombinationPrice,
@@ -53,7 +52,7 @@ export const CombinationGrid = ({
 	return (
 		<Table.ScrollArea
 			borderWidth={1}
-			borderColor={invalid ? fieldErrorColor : 'gray.200'}
+			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
 			borderRadius="md"
 			alignSelf="flex-start"
 			maxH={500}
@@ -75,7 +74,7 @@ export const CombinationGrid = ({
 						{...(invalidKeys?.has(
 							combinationsList[0].key,
 						) && {
-							borderBottomColor: fieldErrorColor,
+							borderBottomColor: FIELD_ERROR_COLOR,
 						})}
 					>
 						{sortedVariations.map(([varId, v]) => (
@@ -101,7 +100,9 @@ export const CombinationGrid = ({
 						</Table.ColumnHeader>
 					</Table.Row>
 				</Table.Header>
-				<Table.Body css={{ '& td': { py: ROW_VERTICAL_PADDING } }}>
+				<Table.Body
+					css={{ '& td': { py: ROW_VERTICAL_PADDING } }}
+				>
 					{combinationsList.map(({ key, optionMap }, i) => {
 						const entry =
 							combinations[key] ?? DEFAULT_ENTRY;
@@ -132,7 +133,7 @@ export const CombinationGrid = ({
 								})}
 								{...(errorBottomBorder && {
 									borderBottomColor:
-										fieldErrorColor,
+										FIELD_ERROR_COLOR,
 								})}
 							>
 								{/* Variation option labels */}
@@ -195,7 +196,9 @@ export const CombinationGrid = ({
 													inventory:
 														v === ''
 															? 0
-															: Number(v),
+															: Number(
+																	v,
+																),
 												})
 											}
 											disabled={

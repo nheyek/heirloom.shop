@@ -1,3 +1,4 @@
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	Checkbox,
 	HStack,
@@ -20,7 +21,6 @@ import {
 	optionsSnapshot,
 	useVariationOptions,
 } from '@client/hooks/useVariationOptions';
-import { fieldErrorColor } from '@client/theme';
 import {
 	DndContext,
 	DragEndEvent,
@@ -245,7 +245,7 @@ export const VariationDialog = ({
 	const dividerColor = (index: number) =>
 		invalidOptionIds.has(options[index].id) ||
 		invalidOptionIds.has(options[index - 1].id)
-			? fieldErrorColor
+			? FIELD_ERROR_COLOR
 			: 'gray.200';
 
 	return (
@@ -343,7 +343,7 @@ export const VariationDialog = ({
 									borderWidth={1}
 									borderColor={
 										optionsError
-											? fieldErrorColor
+											? FIELD_ERROR_COLOR
 											: 'gray.200'
 									}
 									borderRadius="md"

@@ -1,5 +1,5 @@
+import { SANS_FONT_FAMILY } from '@client/constants';
 import { HStack, Input, Text } from '@chakra-ui/react';
-import { sansFontFamily } from '@client/theme';
 import { FaMinus } from 'react-icons/fa6';
 
 export { validateDayRange } from '@heirloom/common/validation/profiles';
@@ -15,7 +15,7 @@ const DayInput = ({ value, onChange, disabled }: DayInputProps) => (
 		size="lg"
 		w={16}
 		fontSize={16}
-		fontFamily={sansFontFamily}
+		fontFamily={SANS_FONT_FAMILY}
 		value={value}
 		onChange={(e) => onChange(e.target.value.replace(/\D/g, ''))}
 		disabled={disabled}

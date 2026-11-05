@@ -1,5 +1,5 @@
+import { SANS_FONT_FAMILY } from '@client/constants';
 import { Alert } from '@chakra-ui/react';
-import { sansFontFamily } from '@client/theme';
 import { JSX } from 'react';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
 export const AppError = (props: Props) => (
 	<Alert.Root
 		status="error"
-		fontFamily={sansFontFamily}
+		fontFamily={SANS_FONT_FAMILY}
 	>
 		<Alert.Indicator />
 		<Alert.Content>

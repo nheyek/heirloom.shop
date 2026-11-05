@@ -1,3 +1,4 @@
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	Box,
 	Flex,
@@ -5,7 +6,6 @@ import {
 	IconButton,
 	Text,
 } from '@chakra-ui/react';
-import { fieldErrorColor } from '@client/theme';
 import {
 	DndContext,
 	DragEndEvent,
@@ -103,7 +103,7 @@ const SortableFieldItem = ({
 					<IconButton
 						size="xs"
 						variant="ghost"
-						color={fieldErrorColor}
+						color={FIELD_ERROR_COLOR}
 						onClick={onDelete}
 						disabled={disabled}
 					>

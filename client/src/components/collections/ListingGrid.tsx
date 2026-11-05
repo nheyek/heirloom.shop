@@ -1,4 +1,3 @@
-import { cardGridColumns } from '@client/theme';
 import { ListingDisplayCard } from '@client/components/cards/ListingDisplayCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
@@ -7,6 +6,7 @@ import {
 	LISTING_CARD_SHOP_TITLE_HEIGHT,
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_GRID_PAGE_SIZE,
+	CARD_GRID_COLUMNS,
 } from '@client/constants';
 import { indexShopTitles } from '@client/utils/shopUtils';
 import {
@@ -39,7 +39,7 @@ export const ListingGrid = (props: Props) => {
 			items={props.listings}
 			isLoading={props.isLoading}
 			getItemKey={(listing) => listing.id}
-			columns={props.columns ?? cardGridColumns}
+			columns={props.columns ?? CARD_GRID_COLUMNS}
 			center={props.center}
 			header={props.header}
 			skeletonAspectRatio={LISTING_IMAGE_ASPECT_RATIO}

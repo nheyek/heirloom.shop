@@ -1,10 +1,10 @@
-import { cardGridColumns } from '@client/theme';
 import { ReactNode } from 'react';
 import { ShopCard } from '@client/components/cards/ShopCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
 	SHOP_CARD_BODY_HEIGHT,
 	STANDARD_IMAGE_ASPECT_RATIO,
+	CARD_GRID_COLUMNS,
 } from '@client/constants';
 import { ShopCardData } from '@heirloom/common/contract';
 
@@ -21,7 +21,7 @@ export const ShopGrid = (props: Props) => (
 		items={props.shops}
 		isLoading={props.isLoading}
 		getItemKey={(shop) => shop.id}
-		columns={props.columns ?? cardGridColumns}
+		columns={props.columns ?? CARD_GRID_COLUMNS}
 		center={props.center}
 		header={props.header}
 		skeletonAspectRatio={STANDARD_IMAGE_ASPECT_RATIO}

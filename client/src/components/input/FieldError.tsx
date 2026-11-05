@@ -1,5 +1,5 @@
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import { Text } from '@chakra-ui/react';
-import { fieldErrorColor } from '@client/theme';
 import { ComponentProps } from 'react';
 
 type Props = ComponentProps<typeof Text>;
@@ -12,7 +12,7 @@ export const FieldError = ({
 	<Text
 		fontSize={fontSize}
 		fontWeight={500}
-		color={fieldErrorColor}
+		color={FIELD_ERROR_COLOR}
 		{...rest}
 	>
 		{children}

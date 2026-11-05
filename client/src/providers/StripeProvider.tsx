@@ -1,5 +1,6 @@
+import { SANS_FONT_FAMILY } from '@client/constants';
 import { useToken } from '@chakra-ui/react';
-import { breakpoints, sansFontFamily } from '@client/theme';
+import { BREAKPOINTS } from '@client/theme';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
@@ -26,7 +27,7 @@ export const StripeProvider = ({ children }: Props) => {
 	]);
 
 	const useDarkMode = !window.matchMedia(
-		`(min-width: ${breakpoints.md})`,
+		`(min-width: ${BREAKPOINTS.md})`,
 	).matches;
 
 	const optionsRef = useRef<object | null>(null);
@@ -44,7 +45,7 @@ export const StripeProvider = ({ children }: Props) => {
 				labels: 'floating',
 				variables: {
 					spacingUnit: '4px',
-					fontFamily: `${sansFontFamily}, sans-serif`,
+					fontFamily: `${SANS_FONT_FAMILY}, sans-serif`,
 				},
 				rules: {
 					'.Input': {

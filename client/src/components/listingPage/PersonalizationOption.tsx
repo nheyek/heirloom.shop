@@ -1,3 +1,4 @@
+import { FIELD_ERROR_COLOR } from '@client/constants';
 import {
 	CheckboxCard,
 	Flex,
@@ -8,7 +9,6 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { FieldError } from '@client/components/input/FieldError';
-import { fieldErrorColor } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaSignature } from 'react-icons/fa';
 
@@ -91,7 +91,7 @@ export const PersonalizationOption = ({
 							placeholder={profile.name}
 							borderColor={
 								textError
-									? fieldErrorColor
+									? FIELD_ERROR_COLOR
 									: undefined
 							}
 						/>

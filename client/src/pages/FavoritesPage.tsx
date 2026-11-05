@@ -1,10 +1,12 @@
-import { sidebarCardGridColumns } from '@client/theme';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Tabs, Text } from '@chakra-ui/react';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
-import { CLIENT_ROUTES } from '@client/constants';
+import {
+	CLIENT_ROUTES,
+	SIDEBAR_CARD_GRID_COLUMNS,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { callApi } from '@client/utils/apiUtils';
@@ -108,7 +110,7 @@ export const FavoritesPage = () => {
 					<ShopGrid
 						shops={shops}
 						isLoading={isLoading}
-						columns={sidebarCardGridColumns}
+						columns={SIDEBAR_CARD_GRID_COLUMNS}
 					/>
 				)}
 			</Tabs.Content>
@@ -122,7 +124,7 @@ export const FavoritesPage = () => {
 					<ListingGrid
 						listings={listings}
 						isLoading={isLoading}
-						columns={sidebarCardGridColumns}
+						columns={SIDEBAR_CARD_GRID_COLUMNS}
 						shops={listingShops}
 					/>
 				)}

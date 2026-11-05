@@ -1,3 +1,4 @@
+import { NAVBAR_HEIGHT } from '@client/constants';
 import {
 	Box,
 	Button,
@@ -14,11 +15,7 @@ import {
 	NavMenuContent,
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
-import {
-	displayFontFamily,
-	navbarHeight,
-	sidebarWidth,
-} from '@client/theme';
+import { DISPLAY_FONT_FAMILY, SIDEBAR_WIDTH } from '@client/theme';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -52,11 +49,11 @@ const Sidebar = ({ navItems }: SidebarProps) => {
 		<Stack
 			gap={2}
 			p={3}
-			w={sidebarWidth}
+			w={SIDEBAR_WIDTH}
 			display={{ base: 'none', md: 'flex' }}
 			position="sticky"
 			alignSelf="flex-start"
-			top={navbarHeight}
+			top={NAVBAR_HEIGHT}
 			overflowY="auto"
 		>
 			{navItems.map(({ label, icon: Icon, route }) => {
@@ -220,7 +217,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 			<Heading
 				fontSize={36}
 				fontWeight={500}
-				fontFamily={displayFontFamily}
+				fontFamily={DISPLAY_FONT_FAMILY}
 			>
 				{match.navItem.title}
 			</Heading>
@@ -230,7 +227,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 	return (
 		<Heading
 			fontSize={32}
-			fontFamily={displayFontFamily}
+			fontFamily={DISPLAY_FONT_FAMILY}
 		>
 			<Link
 				asChild

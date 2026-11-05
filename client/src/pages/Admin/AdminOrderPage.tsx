@@ -13,7 +13,7 @@ import {
 } from '@client/components/orderPage/OrderDetailSections';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import { OrderResponse } from '@heirloom/common/contract';
@@ -70,7 +70,7 @@ const AdminOrderPageContent = ({
 		<Stack gap={4}>
 			<Stack gap={2}>
 				<Text
-					fontFamily={displayFontFamily}
+					fontFamily={DISPLAY_FONT_FAMILY}
 					fontSize={28}
 					fontWeight={500}
 				>

@@ -9,7 +9,7 @@ import {
 import { Logo } from '@client/components/branding/Logo';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
 import { CLIENT_ROUTES, InfoPageKey } from '@client/constants';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { useState } from 'react';
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
@@ -66,7 +66,7 @@ export const Footer = () => {
 						<Logo />
 					</Box>
 					<Text
-						fontFamily={displayFontFamily}
+						fontFamily={DISPLAY_FONT_FAMILY}
 						fontSize={22}
 					>
 						2026 • Chicago, IL

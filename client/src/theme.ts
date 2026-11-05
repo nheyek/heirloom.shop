@@ -6,86 +6,62 @@ import {
 	defineSlotRecipe,
 	defineTextStyles,
 } from '@chakra-ui/react';
-import { CARD_WIDTH, STANDARD_GRID_GAP } from '@client/constants';
+import {
+	CARD_WIDTH,
+	cardGridBreakpointKey,
+	CARD_GRID_COLUMN_COUNTS,
+	STANDARD_GRID_GAP,
+} from '@client/constants';
 
-export const brandColor = '#121212';
-export const fieldErrorColor = '#df1b41';
-export const chakraSpacingUnit = 4;
-export const sansFontFamily = 'Roboto';
-export const displayFontFamily = 'Alegreya';
-export const defaultFontFamily = 'Alegreya Sans';
+export const BRAND_COLOR = '#121212';
+export const CHAKRA_SPACING_UNIT = 4;
+export const DISPLAY_FONT_FAMILY = 'Alegreya';
+export const DEFAULT_FONT_FAMILY = 'Alegreya Sans';
 
-export const animationName = {
+export const ANIMATION_NAME = {
 	itemGridEnter: 'item-grid-enter',
 };
 
-export const navbarHeight = 65;
-export const scrollTargetOffset =
-	navbarHeight + 2 * chakraSpacingUnit;
-export const sidebarWidth = 250;
+export const SIDEBAR_WIDTH = 250;
 
-const baseBreakpoints = {
+const BASE_BREAKPOINTS = {
 	sm: 600,
 	md: 900,
 	lg: 1200,
 	xl: 1536,
 };
 
-const CARD_GRID_MAX_COLUMNS = 4;
-const cardGridPagePaddingPx = STANDARD_GRID_GAP * chakraSpacingUnit;
-export const cardGridGapPx = STANDARD_GRID_GAP * chakraSpacingUnit;
+const CARD_GRID_PAGE_PADDING_PX =
+	STANDARD_GRID_GAP * CHAKRA_SPACING_UNIT;
+export const CARD_GRID_GAP_PX =
+	STANDARD_GRID_GAP * CHAKRA_SPACING_UNIT;
 
 const cardGridWidthForColumns = (columns: number) =>
 	columns * CARD_WIDTH +
-	(columns - 1) * cardGridGapPx +
-	2 * cardGridPagePaddingPx;
+	(columns - 1) * CARD_GRID_GAP_PX +
+	2 * CARD_GRID_PAGE_PADDING_PX;
 
-const cardGridColumnCounts = Array.from(
-	{ length: CARD_GRID_MAX_COLUMNS - 1 },
-	(_, i) => i + 2,
-);
-
-const cardGridBreakpoints = Object.fromEntries(
-	cardGridColumnCounts.flatMap((columns) => [
+const CARD_GRID_BREAKPOINTS = Object.fromEntries(
+	CARD_GRID_COLUMN_COUNTS.flatMap((columns) => [
 		[
-			`cardCols${columns}`,
+			cardGridBreakpointKey(columns, false),
 			`${cardGridWidthForColumns(columns)}px`,
 		],
 		[
-			`cardCols${columns}_sb`,
-			`${cardGridWidthForColumns(columns) + sidebarWidth}px`,
+			cardGridBreakpointKey(columns, true),
+			`${cardGridWidthForColumns(columns) + SIDEBAR_WIDTH}px`,
 		],
 	]),
 );
 
-export const cardGridColumns = {
-	base: 1,
+export const BREAKPOINTS = {
 	...Object.fromEntries(
-		cardGridColumnCounts.map((columns) => [
-			`cardCols${columns}`,
-			columns,
-		]),
-	),
-};
-
-export const sidebarCardGridColumns = {
-	base: 1,
-	...Object.fromEntries(
-		cardGridColumnCounts.map((columns) => [
-			`cardCols${columns}_sb`,
-			columns,
-		]),
-	),
-};
-
-export const breakpoints = {
-	...Object.fromEntries(
-		Object.entries(baseBreakpoints).map(([key, value]) => [
+		Object.entries(BASE_BREAKPOINTS).map(([key, value]) => [
 			key,
 			`${value}px`,
 		]),
 	),
-	...cardGridBreakpoints,
+	...CARD_GRID_BREAKPOINTS,
 };
 
 const inputRecipe = defineRecipe({
@@ -111,8 +87,8 @@ const buttonRecipe = defineRecipe({
 			},
 			outline: {
 				borderWidth: 2,
-				color: brandColor,
-				borderColor: brandColor,
+				color: BRAND_COLOR,
+				borderColor: BRAND_COLOR,
 			},
 		},
 		size: {
@@ -173,7 +149,7 @@ const textStyles = defineTextStyles({
 export const config = defineConfig({
 	globalCss: {
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		[`@keyframes ${animationName.itemGridEnter}`]: {
+		[`@keyframes ${ANIMATION_NAME.itemGridEnter}`]: {
 			from: { opacity: 0 },
 			to: { opacity: 1 },
 		} as any,
@@ -202,23 +178,23 @@ export const config = defineConfig({
 		},
 	},
 	theme: {
-		breakpoints,
+		breakpoints: BREAKPOINTS,
 		tokens: {
 			spacing: {
-				1: { value: `${chakraSpacingUnit}px` },
+				1: { value: `${CHAKRA_SPACING_UNIT}px` },
 			},
 			fonts: {
-				body: { value: defaultFontFamily },
+				body: { value: DEFAULT_FONT_FAMILY },
 				heading: {
-					value: displayFontFamily,
+					value: DISPLAY_FONT_FAMILY,
 				},
 			},
 		},
 		semanticTokens: {
 			colors: {
 				brand: {
-					DEFAULT: { value: brandColor },
-					solid: { value: brandColor },
+					DEFAULT: { value: BRAND_COLOR },
+					solid: { value: BRAND_COLOR },
 				},
 			},
 		},

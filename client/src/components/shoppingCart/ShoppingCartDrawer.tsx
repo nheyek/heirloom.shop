@@ -21,7 +21,7 @@ import {
 	useCheckoutStatus,
 } from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
@@ -106,7 +106,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 						<Drawer.Title
 							fontSize={32}
 							fontWeight={500}
-							fontFamily={displayFontFamily}
+							fontFamily={DISPLAY_FONT_FAMILY}
 						>
 							Shopping Cart
 						</Drawer.Title>

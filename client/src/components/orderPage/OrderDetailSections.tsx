@@ -11,9 +11,13 @@ import {
 } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { InfoPopover } from '@client/components/misc/InfoPopover';
-import { CARD_WIDTH, Layout } from '@client/constants';
+import {
+	CARD_WIDTH,
+	Layout,
+	SANS_FONT_FAMILY,
+} from '@client/constants';
 import { useOrderItemCardLayout } from '@client/hooks/useOrderItemCardLayout';
-import { displayFontFamily, sansFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { formatDateLong } from '@client/utils/dateUtils';
 import { OrderStatus } from '@heirloom/common/constants';
 import {
@@ -62,7 +66,7 @@ export const SectionHeading = ({
 	<Text
 		fontWeight={500}
 		fontSize={22}
-		fontFamily={displayFontFamily}
+		fontFamily={DISPLAY_FONT_FAMILY}
 	>
 		{children}
 	</Text>
@@ -75,7 +79,7 @@ const ShipmentsPopoverContent = ({
 }) => (
 	<Stack gap={2}>
 		<Text
-			fontFamily={displayFontFamily}
+			fontFamily={DISPLAY_FONT_FAMILY}
 			fontSize={20}
 			fontWeight={500}
 		>
@@ -98,7 +102,7 @@ const ShipmentsPopoverContent = ({
 						<Link
 							href={getShipmentTrackingUrl(shipment)}
 							target="_blank"
-							fontFamily={sansFontFamily}
+							fontFamily={SANS_FONT_FAMILY}
 							fontSize={16}
 						>
 							{shipment.tracking}

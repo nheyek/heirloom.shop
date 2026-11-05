@@ -1,6 +1,6 @@
 import { Button, HStack, Menu, Portal, Text } from '@chakra-ui/react';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
-import { CountryCode, countryDisplayName } from '@client/constants';
+import { CountryCode, COUNTRY_DISPLAY_NAME } from '@client/constants';
 import { IoMdArrowDropdown } from 'react-icons/io';
 
 type CountrySelectProps = {
@@ -10,7 +10,7 @@ type CountrySelectProps = {
 };
 
 const sortedCountryCodes = Object.values(CountryCode).sort((a, b) =>
-	countryDisplayName[a].localeCompare(countryDisplayName[b]),
+	COUNTRY_DISPLAY_NAME[a].localeCompare(COUNTRY_DISPLAY_NAME[b]),
 );
 
 export const CountrySelect = ({
@@ -34,7 +34,7 @@ export const CountrySelect = ({
 				<HStack gap={3}>
 					<CountryFlagIcon countryCode={value} />
 					{showName && value && (
-						<Text>{countryDisplayName[value]}</Text>
+						<Text>{COUNTRY_DISPLAY_NAME[value]}</Text>
 					)}
 				</HStack>
 				<IoMdArrowDropdown />
@@ -60,7 +60,7 @@ export const CountrySelect = ({
 									size={20}
 								/>
 								<Text>
-									{countryDisplayName[code]}
+									{COUNTRY_DISPLAY_NAME[code]}
 								</Text>
 							</HStack>
 						</Menu.Item>

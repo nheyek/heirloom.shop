@@ -10,18 +10,20 @@ import { CardSkeleton } from '@client/components/cards/CardSkeleton';
 import { GridPagination } from '@client/components/collections/GridPagination';
 import {
 	CARD_WIDTH,
+	NAVBAR_HEIGHT,
 	SECTION_TITLE_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import {
-	animationName,
-	cardGridGapPx,
-	scrollTargetOffset,
+	ANIMATION_NAME,
+	CARD_GRID_GAP_PX,
+	CHAKRA_SPACING_UNIT,
 } from '@client/theme';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
+const scrollTargetOffset = NAVBAR_HEIGHT + 2 * CHAKRA_SPACING_UNIT;
 const MOBILE_OVERSCAN = 3;
 
 type Props<T> = {
@@ -64,7 +66,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		enabled: isMobile,
 		getScrollElement: () => scrollRef.current,
 		estimateSize: () => CARD_WIDTH,
-		gap: cardGridGapPx,
+		gap: CARD_GRID_GAP_PX,
 		overscan: MOBILE_OVERSCAN,
 		initialRect: { width: window.innerWidth, height: 0 },
 	});
@@ -94,7 +96,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 	const animatedItem = (child: ReactNode, key: React.Key) => (
 		<Box
 			key={key}
-			animation={`${animationName.itemGridEnter} 0.25s ease-out`}
+			animation={`${ANIMATION_NAME.itemGridEnter} 0.25s ease-out`}
 		>
 			{child}
 		</Box>

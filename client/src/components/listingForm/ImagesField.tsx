@@ -7,12 +7,12 @@ import {
 	STANDARD_THUMBNAIL_GAP,
 	STANDARD_THUMBNAIL_WIDTH,
 } from '@client/constants';
-import { chakraSpacingUnit } from '@client/theme';
+import { CHAKRA_SPACING_UNIT } from '@client/theme';
 import { getImageVaryingVariations } from '@heirloom/common/domain/listing';
 
 const IMAGES_W =
 	3 * STANDARD_THUMBNAIL_WIDTH +
-	2 * (chakraSpacingUnit * STANDARD_THUMBNAIL_GAP);
+	2 * (CHAKRA_SPACING_UNIT * STANDARD_THUMBNAIL_GAP);
 
 type Props = {
 	form: ListingFormState;

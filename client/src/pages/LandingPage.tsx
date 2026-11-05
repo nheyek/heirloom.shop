@@ -20,7 +20,7 @@ import {
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -98,7 +98,7 @@ export const LandingPage = () => {
 		>
 			<Stack gap={0}>
 				<HStack
-					fontFamily={displayFontFamily}
+					fontFamily={DISPLAY_FONT_FAMILY}
 					fontSize={28}
 					fontWeight={400}
 					flexShrink={0}
@@ -111,7 +111,7 @@ export const LandingPage = () => {
 					alignItems="center"
 				>
 					<Text
-						fontFamily={displayFontFamily}
+						fontFamily={DISPLAY_FONT_FAMILY}
 						fontSize={22}
 						textAlign="center"
 					>

@@ -1,3 +1,4 @@
+import { NAVBAR_HEIGHT } from '@client/constants';
 import { Box } from '@chakra-ui/react';
 import { PaymentProcessingDialog } from '@client/components/checkout/PaymentProcessingDialog';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
@@ -6,7 +7,6 @@ import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
-import { navbarHeight } from '@client/theme';
 import React from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
 import { AppToaster } from './components/feedback/AppToaster';
@@ -59,7 +59,7 @@ const App = () => {
 			>
 				<Navbar />
 				<Box
-					minHeight={`calc(100svh - ${navbarHeight}px)`}
+					minHeight={`calc(100svh - ${NAVBAR_HEIGHT}px)`}
 					width="100%"
 					pb={5}
 					mx="auto"

@@ -19,7 +19,7 @@ import {
 	CLIENT_ROUTES,
 	LISTING_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { listingImageUrl } from '@client/utils/imageUtils';
 import { ImageVariant } from '@heirloom/common/constants';
 import { ListingCardData } from '@heirloom/common/contract';
@@ -55,12 +55,12 @@ export const BadgeOverlay = (props: { children: ReactNode }) => (
 export const CARD_TITLE_PROPS: TextProps = {
 	fontSize: 24,
 	fontWeight: 600,
-	fontFamily: displayFontFamily,
+	fontFamily: DISPLAY_FONT_FAMILY,
 };
 
 export const CARD_SHOP_TITLE_PROPS: TextProps = {
 	fontSize: 20,
-	fontFamily: displayFontFamily,
+	fontFamily: DISPLAY_FONT_FAMILY,
 
 	fontWeight: 500,
 };

@@ -1,7 +1,7 @@
+import { SANS_FONT_FAMILY } from '@client/constants';
 import { HStack, IconButton } from '@chakra-ui/react';
 import { FormInput } from '@client/components/input/FormField';
 import { ShippingProviderSelect } from '@client/components/input/ShippingProviderSelect';
-import { sansFontFamily } from '@client/theme';
 import { Shipment } from '@heirloom/common/contract';
 import { FaTrashAlt } from 'react-icons/fa';
 
@@ -27,7 +27,7 @@ export const ShipmentFormRow = ({
 		/>
 		<FormInput
 			placeholder="Tracking #"
-			fontFamily={sansFontFamily}
+			fontFamily={SANS_FONT_FAMILY}
 			value={shipment.tracking}
 			onChange={(e) =>
 				onChange({ ...shipment, tracking: e.target.value })

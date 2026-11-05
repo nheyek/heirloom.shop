@@ -5,7 +5,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { JSX } from 'react';
 import { IconType } from 'react-icons';
 import { FaBoxOpen, FaCrown, FaHeart } from 'react-icons/fa6';
@@ -76,7 +76,7 @@ export const IntroCarousel = () => {
 							<Text
 								fontSize={22}
 								textAlign="center"
-								fontFamily={displayFontFamily}
+								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{item.text}
 							</Text>

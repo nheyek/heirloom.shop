@@ -1,5 +1,5 @@
 import { Drawer, Icon, IconButton } from '@chakra-ui/react';
-import { displayFontFamily } from '@client/theme';
+import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { ReactNode } from 'react';
 import { MdClose } from 'react-icons/md';
 
@@ -30,7 +30,7 @@ export const AppDrawer = ({
 					<Drawer.Title
 						fontSize={28}
 						fontWeight={500}
-						fontFamily={displayFontFamily}
+						fontFamily={DISPLAY_FONT_FAMILY}
 					>
 						{title}
 					</Drawer.Title>

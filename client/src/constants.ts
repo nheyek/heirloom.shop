@@ -12,6 +12,34 @@ export enum Layout {
 
 export const STANDARD_GRID_GAP = 5;
 export const CARD_WIDTH = 300;
+export const FIELD_ERROR_COLOR = '#df1b41';
+export const SANS_FONT_FAMILY = 'Roboto';
+export const NAVBAR_HEIGHT = 65;
+
+const CARD_GRID_MAX_COLUMNS = 4;
+
+export const CARD_GRID_COLUMN_COUNTS = Array.from(
+	{ length: CARD_GRID_MAX_COLUMNS - 1 },
+	(_, i) => i + 2,
+);
+
+export const cardGridBreakpointKey = (
+	columns: number,
+	hasSidebar: boolean,
+) => `cardCols${columns}${hasSidebar ? '_sb' : ''}`;
+
+const cardGridColumnsFor = (hasSidebar: boolean) => ({
+	base: 1,
+	...Object.fromEntries(
+		CARD_GRID_COLUMN_COUNTS.map((columns) => [
+			cardGridBreakpointKey(columns, hasSidebar),
+			columns,
+		]),
+	),
+});
+
+export const CARD_GRID_COLUMNS = cardGridColumnsFor(false);
+export const SIDEBAR_CARD_GRID_COLUMNS = cardGridColumnsFor(true);
 export const GRID_CONTENT_MAX_WIDTH = 1600;
 export const LISTING_GRID_PAGE_SIZE = 20;
 export const FORM_FIELD_GAP = 5;
@@ -78,7 +106,7 @@ export enum CountryCode {
 	NL = 'NL',
 }
 
-export const countryDisplayName = {
+export const COUNTRY_DISPLAY_NAME = {
 	[CountryCode.US]: 'USA',
 	[CountryCode.CA]: 'Canada',
 	[CountryCode.UK]: 'United Kingdom',

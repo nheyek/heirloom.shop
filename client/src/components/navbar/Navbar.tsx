@@ -11,9 +11,12 @@ import { CategoryMenu } from '@client/components/navbar/CategoryMenu';
 import { LoginButton } from '@client/components/navbar/LoginButton';
 import { NavbarMenu } from '@client/components/navbar/NavbarMenu';
 import { ShoppingCartDrawer } from '@client/components/shoppingCart/ShoppingCartDrawer';
-import { CLIENT_ROUTES } from '@client/constants';
+import {
+	CLIENT_ROUTES,
+	NAVBAR_HEIGHT,
+	SANS_FONT_FAMILY,
+} from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { navbarHeight, sansFontFamily } from '@client/theme';
 import { FaShoppingCart } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -44,7 +47,7 @@ export const Navbar = () => {
 
 	return (
 		<>
-			<Box h={navbarHeight} />
+			<Box h={NAVBAR_HEIGHT} />
 			<Box
 				bg="brand"
 				top={0}
@@ -55,7 +58,7 @@ export const Navbar = () => {
 			>
 				<HStack
 					px={{ base: 2, md: 4 }}
-					h={navbarHeight}
+					h={NAVBAR_HEIGHT}
 					alignItems="center"
 					justifyContent="space-between"
 					gap={0}
@@ -108,7 +111,7 @@ export const Navbar = () => {
 										borderRadius="full"
 										fontSize={13}
 										fontWeight={700}
-										fontFamily={sansFontFamily}
+										fontFamily={SANS_FONT_FAMILY}
 									>
 										{
 											shoppingCart.itemQuantityTotal
