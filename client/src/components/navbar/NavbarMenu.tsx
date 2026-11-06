@@ -36,17 +36,15 @@ export const NavbarMenu = () => {
 				focusRing="none"
 			>
 				<NavbarButton
-					pr={1}
-					pl={2}
-					py={1}
 					gap={2}
+					px={2}
 				>
-					<FaUserCircle />
 					<Icon
-						as={FaCaretDown}
-						w={4.5}
-						h={4.5}
+						as={FaUserCircle}
+						w={22}
+						h={22}
 					/>
+					<FaCaretDown />
 				</NavbarButton>
 			</Menu.Trigger>
 			<Portal>

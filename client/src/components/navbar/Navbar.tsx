@@ -1,9 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import {
 	Box,
+	Button,
 	Flex,
 	HStack,
-	IconButton,
+	Icon,
 	IconButtonProps,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
@@ -17,16 +18,16 @@ import { FaShoppingCart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export const NavbarButton = (props: IconButtonProps) => (
-	<IconButton
+	<Button
+		size="lg"
 		color="white"
 		variant="ghost"
 		_hover={{ bg: 'whiteAlpha.200' }}
 		_expanded={{ bg: 'whiteAlpha.200' }}
-		_icon={{ height: 6, width: 6 }}
 		{...props}
 	>
 		{props.children}
-	</IconButton>
+	</Button>
 );
 
 export const Navbar = () => {
@@ -53,7 +54,6 @@ export const Navbar = () => {
 					gap={0}
 				>
 					<HStack
-						gap={{ base: 2, sm: 3 }}
 						flexDirection={{
 							base: 'row-reverse',
 							md: 'row',
@@ -75,14 +75,19 @@ export const Navbar = () => {
 					</HStack>
 
 					{!authIsLoading && (
-						<HStack gap={1}>
+						<HStack gap={0}>
 							{!isAuthenticated && <LoginButton />}
 							{isAuthenticated && <NavbarMenu />}
 							<Box position="relative">
 								<NavbarButton
 									onClick={shoppingCart.openDrawer}
+									aspectRatio={1}
 								>
-									<FaShoppingCart />
+									<Icon
+										as={FaShoppingCart}
+										w={22}
+										h={22}
+									/>
 								</NavbarButton>
 								{shoppingCart.itemQuantityTotal >
 									0 && (

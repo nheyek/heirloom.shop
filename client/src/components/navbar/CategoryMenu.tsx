@@ -17,7 +17,7 @@ import { NAVBAR_HEIGHT } from '@client/constants';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { useState } from 'react';
-import { FaBars } from 'react-icons/fa6';
+import { FaBars, FaCaretDown } from 'react-icons/fa6';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -138,7 +138,10 @@ export const CategoryMenu = () => {
 	if (isMobile) {
 		return (
 			<>
-				<NavbarButton onClick={() => setOpen(true)}>
+				<NavbarButton
+					onClick={() => setOpen(true)}
+					aspectRatio={1}
+				>
 					<CategoryMenuIcon size={6} />
 				</NavbarButton>
 				<Dialog.Root
@@ -169,19 +172,10 @@ export const CategoryMenu = () => {
 			unmountOnExit
 		>
 			<Popover.Trigger asChild>
-				<Button
-					variant="ghost"
-					color="white"
-					gap={2}
-					px={3}
-					fontSize={22}
-					fontWeight={500}
-					_hover={{ bg: 'whiteAlpha.200' }}
-					_expanded={{ bg: 'whiteAlpha.200' }}
-				>
-					<CategoryMenuIcon size={5} />
+				<NavbarButton fontSize={22}>
 					Categories
-				</Button>
+					<FaCaretDown />
+				</NavbarButton>
 			</Popover.Trigger>
 			<Portal>
 				<Popover.Positioner>
