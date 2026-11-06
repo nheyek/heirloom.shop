@@ -86,57 +86,61 @@ export const LandingPage = () => {
 			<Stack
 				gap={5}
 				alignSelf="center"
-				alignItems="center"
 				maxW="100%"
 			>
 				<Stack
-					gap={1}
-					pb={2}
+					gap={10}
+					alignItems="center"
 				>
-					<Text
-						fontFamily={DISPLAY_FONT_FAMILY}
-						fontSize={28}
-						flexShrink={0}
-					>
-						Welcome to
-						<Span fontWeight={500}> Heirloom.shop</Span>
-					</Text>
-					<Stack
-						gap={3}
-						alignItems="center"
-					>
+					<Stack gap={1}>
 						<Text
-							fontSize={24}
-							textAlign="center"
+							fontFamily={DISPLAY_FONT_FAMILY}
+							fontSize={28}
+							flexShrink={0}
 						>
-							An exhibition of craftsmanship
+							Welcome to
+							<Span fontWeight={500}>
+								{' '}
+								Heirloom.shop
+							</Span>
 						</Text>
-						<Button
-							size="sm"
-							fontSize={18}
-							onClick={() => setAboutOpen(true)}
+						<Stack
+							gap={3}
+							alignItems="center"
 						>
-							<Icon
-								as={FaArrowUpRightFromSquare}
-								w={3.5}
-								h={3.5}
-							/>
-							Learn More
-						</Button>
+							<Text
+								fontSize={24}
+								textAlign="center"
+							>
+								An exhibition of craftsmanship
+							</Text>
+							<Button
+								size="sm"
+								fontSize={18}
+								onClick={() => setAboutOpen(true)}
+							>
+								<Icon
+									as={FaArrowUpRightFromSquare}
+									w={3.5}
+									h={3.5}
+								/>
+								Learn More
+							</Button>
+						</Stack>
 					</Stack>
-				</Stack>
 
-				{categoriesError ? (
-					<AppError title="Failed to load categories" />
-				) : (
-					(isLoading || categories.length > 0) && (
-						<CategoryGrid
-							center
-							categories={categories}
-							isLoading={isLoading}
-						/>
-					)
-				)}
+					{categoriesError ? (
+						<AppError title="Failed to load categories" />
+					) : (
+						(isLoading || categories.length > 0) && (
+							<CategoryGrid
+								center
+								categories={categories}
+								isLoading={isLoading}
+							/>
+						)
+					)}
+				</Stack>
 
 				{shopsError ? (
 					<AppError title="Failed to load makers" />
