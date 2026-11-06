@@ -18,7 +18,7 @@ export const CategoryBreadcrumb = ({ categoryId }: Props) => {
 	if (!category) return null;
 
 	return (
-		<Breadcrumb.Root>
+		<Breadcrumb.Root py={1}>
 			<Breadcrumb.List
 				fontSize={24}
 				flexWrap="wrap"

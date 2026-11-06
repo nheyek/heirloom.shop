@@ -1,12 +1,13 @@
-import { Button, Icon, Menu, Portal, Span } from '@chakra-ui/react';
 import {
-	NavMenuContent,
-	NavMenuItem,
-} from '@client/components/misc/NavMenu';
-import { FaCaretDown, FaCheck } from 'react-icons/fa6';
+	createListCollection,
+	Portal,
+	Select,
+	Separator,
+} from '@chakra-ui/react';
 
 const ALL_ITEMS_LABEL = 'All Items';
 const ALL_ITEMS_VALUE = 'ALL';
+const SELECT_MIN_WIDTH = 220;
 
 export type CategoryOption = {
 	id: string;
@@ -19,71 +20,68 @@ type Props = {
 	onChange: (categoryId: string | null) => void;
 };
 
-type CategoryMenuItemProps = {
-	value: string;
-	label: string;
-	isSelected: boolean;
-};
-
-const CategoryMenuItem = (props: CategoryMenuItemProps) => (
-	<NavMenuItem value={props.value}>
-		<Span flex={1}>{props.label}</Span>
-		{props.isSelected && <FaCheck size={16} />}
-	</NavMenuItem>
-);
-
 export const CategoryFilterMenu = (props: Props) => {
-	const selected = props.options.find(
-		(option) => option.id === props.value,
+	const allItem = {
+		value: ALL_ITEMS_VALUE,
+		label: ALL_ITEMS_LABEL,
+	};
+	const categoryItems = props.options.map((option) => ({
+		value: option.id,
+		label: option.title,
+	}));
+	const collection = createListCollection({
+		items: [allItem, ...categoryItems],
+	});
+
+	const renderItem = (item: { value: string; label: string }) => (
+		<Select.Item
+			key={item.value}
+			item={item}
+			fontSize={20}
+			py={3}
+			px={4}
+		>
+			{item.label}
+			<Select.ItemIndicator />
+		</Select.Item>
 	);
 
 	return (
-		<Menu.Root
-			onSelect={(details) =>
+		<Select.Root
+			size="lg"
+			w={SELECT_MIN_WIDTH}
+			variant="subtle"
+			collection={collection}
+			value={[props.value ?? ALL_ITEMS_VALUE]}
+			onValueChange={(e) =>
 				props.onChange(
-					details.value === ALL_ITEMS_VALUE
+					e.value[0] === ALL_ITEMS_VALUE
 						? null
-						: details.value,
+						: (e.value[0] ?? null),
 				)
 			}
 		>
-			<Menu.Trigger
-				asChild
-				focusRing="none"
-			>
-				<Button
-					variant="subtle"
-					borderRadius="md"
-					size="lg"
+			<Select.HiddenSelect />
+			<Select.Control>
+				<Select.Trigger
+					fontSize={20}
+					gap={3}
 				>
-					{selected?.title ?? ALL_ITEMS_LABEL}
-					<Icon
-						as={FaCaretDown}
-						h={18}
-						w={18}
-					/>
-				</Button>
-			</Menu.Trigger>
+					<Select.ValueText />
+					<Select.IndicatorGroup>
+						<Select.Indicator />
+					</Select.IndicatorGroup>
+				</Select.Trigger>
+			</Select.Control>
 			<Portal>
-				<Menu.Positioner>
-					<NavMenuContent minWidth={220}>
-						<CategoryMenuItem
-							value={ALL_ITEMS_VALUE}
-							label={ALL_ITEMS_LABEL}
-							isSelected={props.value === null}
-						/>
-						<Menu.Separator m={0} />
-						{props.options.map((option) => (
-							<CategoryMenuItem
-								key={option.id}
-								value={option.id}
-								label={option.title}
-								isSelected={option.id === props.value}
-							/>
-						))}
-					</NavMenuContent>
-				</Menu.Positioner>
+				<Select.Positioner>
+					<Select.Content minWidth={SELECT_MIN_WIDTH}>
+						{renderItem(allItem)}
+						<Separator />
+						{categoryItems.map(renderItem)}
+					</Select.Content>
+				</Select.Positioner>
 			</Portal>
-		</Menu.Root>
+		</Select.Root>
 	);
 };

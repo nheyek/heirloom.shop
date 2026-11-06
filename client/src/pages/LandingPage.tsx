@@ -7,15 +7,13 @@ import {
 	Text,
 } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
+import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
-import {
-	GRID_CONTENT_MAX_WIDTH,
-	InfoPageKey,
-} from '@client/constants';
+import { InfoPageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -87,12 +85,10 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={10}
+			gap={5}
 			pt={10}
 			px={5}
 			alignItems="center"
-			maxW={GRID_CONTENT_MAX_WIDTH}
-			mx="auto"
 		>
 			<Stack
 				gap={1}
@@ -148,7 +144,11 @@ export const LandingPage = () => {
 			) : (
 				<ShopGrid
 					center
-					header={<SectionTitle>Makers</SectionTitle>}
+					header={
+						<GridHeader>
+							<SectionTitle>Makers</SectionTitle>
+						</GridHeader>
+					}
 					shops={shops}
 					isLoading={isLoading}
 				/>
@@ -159,7 +159,11 @@ export const LandingPage = () => {
 			) : (
 				<ListingGrid
 					center
-					header={<SectionTitle>Featured</SectionTitle>}
+					header={
+						<GridHeader>
+							<SectionTitle>Featured</SectionTitle>
+						</GridHeader>
+					}
 					listings={listings}
 					isLoading={isLoading}
 					shops={listingShops}

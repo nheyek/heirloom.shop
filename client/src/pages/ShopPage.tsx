@@ -9,19 +9,20 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { CategoryFilterMenu } from '@client/components/collections/CategoryFilterMenu';
-import { ListingViewHeader } from '@client/components/collections/ListingViewHeader';
+import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { CountryFlagIcon } from '@client/components/icons/CountryFlagIcon';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
+import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
 import {
 	CountryCode,
-	GRID_CONTENT_MAX_WIDTH,
 	GRID_PAGE_PADDING_Y,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
+import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -276,8 +277,6 @@ export const ShopPage = () => {
 					pt={GRID_PAGE_PADDING_Y}
 					px={STANDARD_GRID_GAP}
 					width="100%"
-					maxW={GRID_CONTENT_MAX_WIDTH}
-					mx="auto"
 				>
 					<ListingGrid
 						center
@@ -286,11 +285,7 @@ export const ShopPage = () => {
 							isLoading || listingView.isApplying
 						}
 						header={
-							<ListingViewHeader
-								view={listingView}
-								isLoading={isLoading}
-								mb={2}
-							>
+							<GridHeader mb={2}>
 								{(isLoading ||
 									listingView.category.options
 										.length > 0) && (
@@ -298,7 +293,21 @@ export const ShopPage = () => {
 										{...listingView.category}
 									/>
 								)}
-							</ListingViewHeader>
+								{(isLoading ||
+									listingView.listings.length >
+										0) && (
+									<SortFilterDrawer
+										options={LISTING_SORT_LABELS}
+										value={listingView.sort.value}
+										onChange={
+											listingView.sort.onChange
+										}
+										priceFilter={
+											listingView.price
+										}
+									/>
+								)}
+							</GridHeader>
 						}
 					/>
 				</Box>

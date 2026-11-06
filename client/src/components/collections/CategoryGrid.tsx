@@ -1,11 +1,11 @@
-import { ReactNode } from 'react';
 import { CategoryCard } from '@client/components/cards/CategoryCard';
 import { ItemGrid } from '@client/components/collections/ItemGrid';
 import {
-	STANDARD_IMAGE_ASPECT_RATIO,
 	CARD_GRID_COLUMNS,
+	STANDARD_IMAGE_ASPECT_RATIO,
 } from '@client/constants';
 import { CategoryTileData } from '@heirloom/common/contract';
+import { ReactNode } from 'react';
 
 type Props = {
 	categories: CategoryTileData[];

@@ -1,17 +1,17 @@
-import { Box, Link, Stack } from '@chakra-ui/react';
+import { Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
-import { ShopGrid } from '@client/components/collections/ShopGrid';
-import { ListingViewHeader } from '@client/components/collections/ListingViewHeader';
+import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
+import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
+import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
 import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
-	GRID_CONTENT_MAX_WIDTH,
 	GRID_PAGE_PADDING_Y,
-	SECTION_TITLE_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
+import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -97,60 +97,74 @@ export const CategoryPage = () => {
 		);
 	}
 
-	const breadcrumb = <CategoryBreadcrumb categoryId={id} />;
-
 	return (
 		<Stack
 			pt={GRID_PAGE_PADDING_Y}
 			px={STANDARD_GRID_GAP}
-			gap={SECTION_GAP}
 			width="100%"
-			maxW={GRID_CONTENT_MAX_WIDTH}
-			mx="auto"
 		>
-			<CategoryGrid
-				center
-				header={
-					<Box
-						{...(subcategories.length > 0 && {
-							mb: SECTION_GAP - SECTION_TITLE_GAP,
-						})}
-					>
-						{breadcrumb}
-					</Box>
-				}
-				categories={subcategories}
-				isLoading={isLoading && subcategories.length > 0}
-			/>
+			<Stack
+				gap={SECTION_GAP}
+				alignSelf="center"
+			>
+				<CategoryBreadcrumb categoryId={id} />
+				{subcategories.length > 0 && (
+					<CategoryGrid
+						categories={subcategories}
+						isLoading={
+							isLoading && subcategories.length > 0
+						}
+					/>
+				)}
 
-			{!listingsError && (isLoading || shops.length > 0) && (
-				<ShopGrid
-					center
-					header={<SectionTitle>Makers</SectionTitle>}
-					shops={shops}
-					isLoading={isLoading}
-				/>
-			)}
-
-			{listingsError ? (
-				<AppError title={listingsError} />
-			) : (
-				<ListingGrid
-					center
-					listings={listingView.listings}
-					isLoading={isLoading || listingView.isApplying}
-					header={
-						<ListingViewHeader
-							view={listingView}
+				{!listingsError &&
+					(isLoading || shops.length > 0) && (
+						<ShopGrid
+							center
+							header={
+								<GridHeader>
+									<SectionTitle>
+										Makers
+									</SectionTitle>
+								</GridHeader>
+							}
+							shops={shops}
 							isLoading={isLoading}
-							sortButtonProps={{ mb: 2 }}
-						>
-							<SectionTitle>Items</SectionTitle>
-						</ListingViewHeader>
-					}
-					shops={shops}
-				/>
-			)}
+						/>
+					)}
+
+				{listingsError ? (
+					<AppError title={listingsError} />
+				) : (
+					<ListingGrid
+						center
+						listings={listingView.listings}
+						isLoading={
+							isLoading || listingView.isApplying
+						}
+						header={
+							<GridHeader>
+								<SectionTitle>Items</SectionTitle>
+								{(isLoading ||
+									listingView.listings.length >
+										0) && (
+									<SortFilterDrawer
+										options={LISTING_SORT_LABELS}
+										value={listingView.sort.value}
+										onChange={
+											listingView.sort.onChange
+										}
+										priceFilter={
+											listingView.price
+										}
+									/>
+								)}
+							</GridHeader>
+						}
+						shops={shops}
+					/>
+				)}
+			</Stack>
 		</Stack>
 	);
 };

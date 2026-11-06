@@ -10,20 +10,15 @@ import { CardSkeleton } from '@client/components/cards/CardSkeleton';
 import { GridPagination } from '@client/components/collections/GridPagination';
 import {
 	CARD_WIDTH,
-	NAVBAR_HEIGHT,
 	SECTION_TITLE_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
-import {
-	ANIMATION_NAME,
-	CARD_GRID_GAP_PX,
-	CHAKRA_SPACING_UNIT,
-} from '@client/theme';
+import { ANIMATION_NAME, CARD_GRID_GAP_PX } from '@client/theme';
 import { useVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
-const scrollTargetOffset = NAVBAR_HEIGHT + 2 * CHAKRA_SPACING_UNIT;
+const SCROLL_TARGET_OFFSET = 5;
 const MOBILE_OVERSCAN = 3;
 
 type Props<T> = {
@@ -112,7 +107,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			? virtualizer.getTotalSize() - lastVisibleItem.end
 			: 0;
 
-		const scroller = (
+		const scrollContainer = (
 			<Box
 				ref={scrollRef}
 				overflowX="auto"
@@ -161,7 +156,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 				minW={0}
 			>
 				{props.header}
-				{scroller}
+				{scrollContainer}
 			</Stack>
 		);
 	}
@@ -170,8 +165,8 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		<Stack
 			ref={gridRef}
 			width="fit-content"
-			{...(center && { mx: 'auto' })}
-			scrollMarginTop={scrollTargetOffset}
+			{...(center && { alignSelf: 'center' })}
+			scrollMarginTop={SCROLL_TARGET_OFFSET}
 			gap={SECTION_TITLE_GAP}
 		>
 			{props.header}
