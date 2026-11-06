@@ -24,7 +24,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const SECTION_GAP = 7;
+const SECTION_GAP = 5;
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();
@@ -106,6 +106,7 @@ export const CategoryPage = () => {
 			<Stack
 				gap={SECTION_GAP}
 				alignSelf="center"
+				maxW="100%"
 			>
 				<CategoryBreadcrumb categoryId={id} />
 				{subcategories.length > 0 && (
