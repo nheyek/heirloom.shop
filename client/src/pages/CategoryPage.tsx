@@ -108,15 +108,14 @@ export const CategoryPage = () => {
 				alignSelf="center"
 				maxW="100%"
 			>
-				<CategoryBreadcrumb categoryId={id} />
-				{subcategories.length > 0 && (
-					<CategoryGrid
-						categories={subcategories}
-						isLoading={
-							isLoading && subcategories.length > 0
-						}
-					/>
-				)}
+				<CategoryBreadcrumb
+					categoryId={id}
+					isLoading={isLoading}
+				/>
+				<CategoryGrid
+					categories={subcategories}
+					isLoading={isLoading && subcategories.length > 0}
+				/>
 
 				{!listingsError &&
 					(isLoading || shops.length > 0) && (

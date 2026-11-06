@@ -1,11 +1,4 @@
-import {
-	Box,
-	Button,
-	Icon,
-	Span,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Button, Icon, Span, Stack, Text } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
@@ -49,7 +42,8 @@ export const LandingPage = () => {
 	const isLoading = useMinDuration(
 		shopsLoading || listingsLoading || categoriesLoading,
 	);
-	const showCategoriesLoading = useMinDuration(categoriesLoading);
+
+	const categories = getChildCategories(null);
 
 	const apiClient = useApiClient();
 
@@ -85,96 +79,106 @@ export const LandingPage = () => {
 
 	return (
 		<Stack
-			gap={5}
 			pt={10}
 			px={5}
-			alignItems="center"
+			width="100%"
 		>
 			<Stack
-				gap={1}
-				pb={2}
+				gap={5}
+				alignSelf="center"
+				alignItems="center"
+				maxW="100%"
 			>
-				<Text
-					fontFamily={DISPLAY_FONT_FAMILY}
-					fontSize={28}
-					flexShrink={0}
-				>
-					Welcome to
-					<Span fontWeight={500}> Heirloom.shop</Span>
-				</Text>
 				<Stack
-					gap={3}
-					alignItems="center"
+					gap={1}
+					pb={2}
 				>
 					<Text
-						fontSize={24}
-						textAlign="center"
+						fontFamily={DISPLAY_FONT_FAMILY}
+						fontSize={28}
+						flexShrink={0}
 					>
-						An exhibition of craftsmanship
+						Welcome to
+						<Span fontWeight={500}> Heirloom.shop</Span>
 					</Text>
-					<Button
-						size="sm"
-						fontSize={18}
-						onClick={() => setAboutOpen(true)}
+					<Stack
+						gap={3}
+						alignItems="center"
 					>
-						<Icon
-							as={FaArrowUpRightFromSquare}
-							w={3.5}
-							h={3.5}
-						/>
-						Learn More
-					</Button>
+						<Text
+							fontSize={24}
+							textAlign="center"
+						>
+							An exhibition of craftsmanship
+						</Text>
+						<Button
+							size="sm"
+							fontSize={18}
+							onClick={() => setAboutOpen(true)}
+						>
+							<Icon
+								as={FaArrowUpRightFromSquare}
+								w={3.5}
+								h={3.5}
+							/>
+							Learn More
+						</Button>
+					</Stack>
 				</Stack>
-			</Stack>
 
-			{categoriesError ? (
-				<AppError title="Failed to load categories" />
-			) : (
-				<Box width="100%">
-					<CategoryGrid
+				{categoriesError ? (
+					<AppError title="Failed to load categories" />
+				) : (
+					(isLoading || categories.length > 0) && (
+						<CategoryGrid
+							center
+							categories={categories}
+							isLoading={isLoading}
+						/>
+					)
+				)}
+
+				{shopsError ? (
+					<AppError title="Failed to load makers" />
+				) : (
+					(isLoading || shops.length > 0) && (
+						<ShopGrid
+							center
+							header={
+								<GridHeader>
+									<SectionTitle>
+										Makers
+									</SectionTitle>
+								</GridHeader>
+							}
+							shops={shops}
+							isLoading={isLoading}
+						/>
+					)
+				)}
+
+				{listingsError ? (
+					<AppError title={listingsError} />
+				) : (
+					<ListingGrid
 						center
-						categories={getChildCategories(null)}
+						header={
+							<GridHeader>
+								<SectionTitle>Featured</SectionTitle>
+							</GridHeader>
+						}
+						listings={listings}
 						isLoading={isLoading}
+						shops={listingShops}
 					/>
-				</Box>
-			)}
+				)}
 
-			{shopsError ? (
-				<AppError title="Failed to load makers" />
-			) : (
-				<ShopGrid
-					center
-					header={
-						<GridHeader>
-							<SectionTitle>Makers</SectionTitle>
-						</GridHeader>
-					}
-					shops={shops}
-					isLoading={isLoading}
+				<InfoPageDialog
+					infoPageKey={InfoPageKey.ABOUT}
+					open={aboutOpen}
+					onClose={() => setAboutOpen(false)}
 				/>
-			)}
-
-			{listingsError ? (
-				<AppError title={listingsError} />
-			) : (
-				<ListingGrid
-					center
-					header={
-						<GridHeader>
-							<SectionTitle>Featured</SectionTitle>
-						</GridHeader>
-					}
-					listings={listings}
-					isLoading={isLoading}
-					shops={listingShops}
-				/>
-			)}
-
-			<InfoPageDialog
-				infoPageKey={InfoPageKey.ABOUT}
-				open={aboutOpen}
-				onClose={() => setAboutOpen(false)}
-			/>
+			</Stack>
 		</Stack>
 	);
 };

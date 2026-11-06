@@ -97,6 +97,10 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 		</Box>
 	);
 
+	if (!isLoading && items.length === 0) {
+		return null;
+	}
+
 	if (isMobile) {
 		const visibleItems = isLoading
 			? []

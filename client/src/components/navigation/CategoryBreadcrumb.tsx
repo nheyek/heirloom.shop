@@ -1,4 +1,4 @@
-import { Breadcrumb, Icon, Link } from '@chakra-ui/react';
+import { Breadcrumb, Icon, Link, Skeleton } from '@chakra-ui/react';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { Fragment } from 'react';
@@ -7,13 +7,26 @@ import { Link as RouterLink } from 'react-router-dom';
 
 type Props = {
 	categoryId: string;
+	isLoading?: boolean;
 };
 
-export const CategoryBreadcrumb = ({ categoryId }: Props) => {
+export const CategoryBreadcrumb = ({
+	categoryId,
+	isLoading,
+}: Props) => {
 	const { getCategory, getAncestorCategories } = useCategories();
 
 	const category = getCategory(categoryId);
 	const ancestors = getAncestorCategories(categoryId);
+
+	if (isLoading) {
+		return (
+			<Skeleton
+				width={200}
+				height={8}
+			/>
+		);
+	}
 
 	if (!category) return null;
 

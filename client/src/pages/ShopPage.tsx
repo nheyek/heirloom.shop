@@ -273,44 +273,54 @@ export const ShopPage = () => {
 					content={listingsError}
 				/>
 			) : (
-				<Box
+				<Stack
 					pt={GRID_PAGE_PADDING_Y}
 					px={STANDARD_GRID_GAP}
 					width="100%"
 				>
-					<ListingGrid
-						center
-						listings={listingView.listings}
-						isLoading={
-							isLoading || listingView.isApplying
-						}
-						header={
-							<GridHeader mb={2}>
-								{(isLoading ||
-									listingView.category.options
-										.length > 0) && (
-									<CategoryFilterMenu
-										{...listingView.category}
-									/>
-								)}
-								{(isLoading ||
-									listingView.listings.length >
-										0) && (
-									<SortFilterDrawer
-										options={LISTING_SORT_LABELS}
-										value={listingView.sort.value}
-										onChange={
-											listingView.sort.onChange
-										}
-										priceFilter={
-											listingView.price
-										}
-									/>
-								)}
-							</GridHeader>
-						}
-					/>
-				</Box>
+					<Stack
+						alignSelf="center"
+						maxW="100%"
+					>
+						<ListingGrid
+							center
+							listings={listingView.listings}
+							isLoading={
+								isLoading || listingView.isApplying
+							}
+							header={
+								<GridHeader mb={2}>
+									{(isLoading ||
+										listingView.category.options
+											.length > 0) && (
+										<CategoryFilterMenu
+											{...listingView.category}
+										/>
+									)}
+									{(isLoading ||
+										listingView.listings.length >
+											0) && (
+										<SortFilterDrawer
+											options={
+												LISTING_SORT_LABELS
+											}
+											value={
+												listingView.sort.value
+											}
+											onChange={
+												listingView.sort
+													.onChange
+											}
+											priceFilter={
+												listingView.price
+											}
+										/>
+									)}
+								</GridHeader>
+							}
+						/>
+					</Stack>
+				</Stack>
 			)}
 		</>
 	);
