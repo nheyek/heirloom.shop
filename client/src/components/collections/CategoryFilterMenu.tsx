@@ -2,10 +2,10 @@ import {
 	createListCollection,
 	Portal,
 	Select,
-	Separator,
 } from '@chakra-ui/react';
+import { FaCaretDown } from 'react-icons/fa6';
 
-const ALL_ITEMS_LABEL = 'All Items';
+const ALL_ITEMS_LABEL = 'All Categories';
 const ALL_ITEMS_VALUE = 'ALL';
 const SELECT_MIN_WIDTH = 220;
 
@@ -65,19 +65,22 @@ export const CategoryFilterMenu = (props: Props) => {
 			<Select.Control>
 				<Select.Trigger
 					fontSize={20}
+					fontWeight={500}
 					gap={3}
 				>
 					<Select.ValueText />
 					<Select.IndicatorGroup>
-						<Select.Indicator />
+						<FaCaretDown />
 					</Select.IndicatorGroup>
 				</Select.Trigger>
 			</Select.Control>
 			<Portal>
 				<Select.Positioner>
-					<Select.Content minWidth={SELECT_MIN_WIDTH}>
+					<Select.Content
+						minWidth={SELECT_MIN_WIDTH}
+						px={0}
+					>
 						{renderItem(allItem)}
-						<Separator />
 						{categoryItems.map(renderItem)}
 					</Select.Content>
 				</Select.Positioner>

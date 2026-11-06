@@ -5,6 +5,7 @@ import {
 	IconButton,
 	RadioGroup,
 	Slider,
+	Span,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -18,12 +19,12 @@ import { FaSliders } from 'react-icons/fa6';
 import { MdClose } from 'react-icons/md';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
-	<Text
-		fontSize={24}
+	<Span
+		fontSize={22}
 		fontWeight={500}
 	>
 		{props.children}
-	</Text>
+	</Span>
 );
 
 export type PriceFilter = {
@@ -40,7 +41,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	return (
 		<Stack gap={3}>
 			<HStack>
-				<Text fontSize={22}>
+				<Text fontSize={20}>
 					{formatCentsAsDollars(draft[0])} -{' '}
 					{formatCentsAsDollars(draft[1])}
 				</Text>
@@ -139,7 +140,7 @@ export const SortFilterDrawer = <T extends string>(
 										}
 										size="md"
 									>
-										<Stack gap={4}>
+										<Stack gap={3}>
 											{(
 												Object.keys(
 													props.options,
@@ -153,7 +154,7 @@ export const SortFilterDrawer = <T extends string>(
 													<RadioGroup.ItemHiddenInput />
 													<RadioGroup.ItemIndicator />
 													<RadioGroup.ItemText
-														fontSize={20}
+														fontSize={18}
 														fontWeight={
 															400
 														}
@@ -171,19 +172,16 @@ export const SortFilterDrawer = <T extends string>(
 									</RadioGroup.Root>
 								</Stack>
 
-								{props.priceFilter &&
-									props.priceFilter.bounds[0] <
-										props.priceFilter
-											.bounds[1] && (
-										<Stack gap={1}>
-											<DrawerHeading>
-												Price
-											</DrawerHeading>
-											<PriceRangeSlider
-												{...props.priceFilter}
-											/>
-										</Stack>
-									)}
+								{props.priceFilter && (
+									<Stack gap={2}>
+										<DrawerHeading>
+											Price
+										</DrawerHeading>
+										<PriceRangeSlider
+											{...props.priceFilter}
+										/>
+									</Stack>
+								)}
 							</Stack>
 						</Drawer.Body>
 					</Drawer.Content>

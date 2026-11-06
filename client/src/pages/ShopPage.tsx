@@ -333,7 +333,7 @@ const ActionButton = (props: {
 	onClick?: () => void;
 }) => (
 	<Button
-		size="lg"
+		size="md"
 		variant="subtle"
 		onClick={props.onClick}
 	>
