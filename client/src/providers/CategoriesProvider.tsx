@@ -1,7 +1,7 @@
-import { CategoryTileData } from '@heirloom/common/contract';
-import React, { useContext, useEffect, useState } from 'react';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { callApi } from '@client/utils/apiUtils';
+import { CategoryTileData } from '@heirloom/common/contract';
+import React, { useContext, useEffect, useState } from 'react';
 
 type CategoriesContextType = {
 	getCategory: (id: string) => CategoryTileData | undefined;
@@ -60,7 +60,10 @@ export const CategoriesProvider = (props: {
 		} else {
 			setCategories(
 				new Map(
-					result.data.map((category) => [category.id, category]),
+					result.data.map((category) => [
+						category.id,
+						category,
+					]),
 				),
 			);
 		}

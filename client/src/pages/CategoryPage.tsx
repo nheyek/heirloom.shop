@@ -114,7 +114,7 @@ export const CategoryPage = () => {
 				/>
 				<CategoryGrid
 					categories={subcategories}
-					isLoading={isLoading && subcategories.length > 0}
+					isLoading={isLoading}
 				/>
 
 				{!listingsError &&

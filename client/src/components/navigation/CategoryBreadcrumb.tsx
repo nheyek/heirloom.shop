@@ -22,7 +22,7 @@ export const CategoryBreadcrumb = ({
 	if (isLoading) {
 		return (
 			<Skeleton
-				width={200}
+				width={300}
 				height={8}
 			/>
 		);

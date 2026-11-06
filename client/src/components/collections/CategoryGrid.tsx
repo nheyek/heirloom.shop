@@ -24,6 +24,7 @@ export const CategoryGrid = (props: Props) => (
 		center={props.center}
 		header={props.header}
 		skeletonAspectRatio={STANDARD_IMAGE_ASPECT_RATIO}
+		numPlaceholders={4}
 		renderItem={(category) => <CategoryCard {...category} />}
 	/>
 );
