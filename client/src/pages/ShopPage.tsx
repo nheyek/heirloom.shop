@@ -184,7 +184,7 @@ export const ShopPage = () => {
 								).reduce(
 									(acc, [key, value]) => ({
 										...acc,
-										[key]: value * 0.65,
+										[key]: value * 0.75,
 									}),
 									{},
 								)}
@@ -195,9 +195,9 @@ export const ShopPage = () => {
 							<HStack gap={{ base: 3, md: 4 }}>
 								<Box
 									width={{
-										base: 6,
-										md: 8,
-										lg: 9,
+										base: 7,
+										md: 8.5,
+										lg: 10,
 									}}
 								>
 									<CountryFlagIcon
@@ -217,10 +217,11 @@ export const ShopPage = () => {
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: value * 0.55,
+											[key]: value * 0.65,
 										}),
 										{},
 									)}
+									fontWeight={500}
 								>
 									{shopData?.location}
 								</Text>
@@ -228,13 +229,13 @@ export const ShopPage = () => {
 						</Stack>
 						<HStack gap={2}>
 							{shopData?.profileRichText && (
-								<ActionButton
+								<HeaderButton
 									icon={FaShop}
 									label="About"
 									onClick={() => setAboutOpen(true)}
 								/>
 							)}
-							<ActionButton
+							<HeaderButton
 								icon={FaHeart}
 								label={
 									shopData &&
@@ -326,14 +327,15 @@ export const ShopPage = () => {
 	);
 };
 
-const ActionButton = (props: {
+const HeaderButton = (props: {
 	icon: IconType;
 	label: String;
 	iconColor?: string;
 	onClick?: () => void;
 }) => (
 	<Button
-		size="md"
+		size="lg"
+		fontSize={20}
 		variant="subtle"
 		onClick={props.onClick}
 	>

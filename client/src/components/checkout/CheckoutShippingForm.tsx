@@ -9,16 +9,16 @@ import {
 	NativeSelect,
 	Stack,
 } from '@chakra-ui/react';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
+import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import {
 	CHECKOUT_FIELD_GAP,
 	CHECKOUT_FIELD_HEIGHT,
 } from '@client/components/checkout/checkoutLayout';
 import {
-	Layout,
 	FIELD_ERROR_COLOR,
+	Layout,
 	SANS_FONT_FAMILY,
 } from '@client/constants';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';

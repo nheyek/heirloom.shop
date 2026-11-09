@@ -23,7 +23,7 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 				<Accordion.ItemTrigger>
 					<Text
 						flex="1"
-						fontSize={22}
+						fontSize={24}
 					>
 						{item.title}
 					</Text>

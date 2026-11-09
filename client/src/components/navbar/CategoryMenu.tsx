@@ -17,20 +17,12 @@ import { NAVBAR_HEIGHT } from '@client/constants';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { useState } from 'react';
-import { FaBars, FaCaretDown } from 'react-icons/fa6';
+import { FaBars } from 'react-icons/fa6';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { Link as RouterLink } from 'react-router-dom';
 
 const MENU_WIDTH = 320;
 const MENU_MAX_HEIGHT = '70svh';
-
-const CategoryMenuIcon = ({ size }: { size: number }) => (
-	<Icon
-		h={size}
-		w={size}
-		as={FaBars}
-	/>
-);
 
 type PanelProps = {
 	onClose: () => void;
@@ -135,15 +127,23 @@ export const CategoryMenu = () => {
 	const [open, setOpen] = useState(false);
 	const close = () => setOpen(false);
 
+	const trigger = (
+		<NavbarButton
+			onClick={isMobile ? () => setOpen(true) : undefined}
+			aspectRatio={1}
+		>
+			<Icon
+				h={5}
+				w={5}
+				as={FaBars}
+			/>
+		</NavbarButton>
+	);
+
 	if (isMobile) {
 		return (
 			<>
-				<NavbarButton
-					onClick={() => setOpen(true)}
-					aspectRatio={1}
-				>
-					<CategoryMenuIcon size={6} />
-				</NavbarButton>
+				{trigger}
 				<Dialog.Root
 					open={open}
 					onOpenChange={(e) => setOpen(e.open)}
@@ -171,12 +171,7 @@ export const CategoryMenu = () => {
 			lazyMount
 			unmountOnExit
 		>
-			<Popover.Trigger asChild>
-				<NavbarButton fontSize={22}>
-					Categories
-					<FaCaretDown />
-				</NavbarButton>
-			</Popover.Trigger>
+			<Popover.Trigger asChild>{trigger}</Popover.Trigger>
 			<Portal>
 				<Popover.Positioner>
 					<Popover.Content

@@ -21,7 +21,7 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
 			'<p>Heirloom handles all payments, and guarantees customers that they receive what they order within the expected fulfillment window.</p>' +
 			'<p>Heirloom is 100% funded by a single, flat commission on every sale, paid for by the seller. No games.</p><p />' +
 			'<h1>Who We Are</h1>' +
-			'<p>Heirloom was founded and developed by Nick Heyek, a Chicago-based software engineer and manufacturer.</p>' +
+			'<p>Heirloom was created by Nick Heyek, a Chicago-based software engineer and manufacturer.</p>' +
 			"<p>Our facility is located at 3100 W Grand Ave in Chicago's Humboldt Park neighborhood.</p><p />" +
 			'<h1>Get in Touch</h1>' +
 			'<p>For questions, feedback, or any other reason, reach us at support@heirloom.shop.</p>',
