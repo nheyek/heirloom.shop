@@ -6,7 +6,6 @@ import {
 	SkeletonProps,
 } from '@chakra-ui/react';
 import { STANDARD_IMAGE_ASPECT_RATIO } from '@client/constants';
-import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useEffect, useState } from 'react';
 import { FaRegImage } from 'react-icons/fa6';
 
@@ -30,15 +29,12 @@ export const AppImage = ({
 }: Props) => {
 	const [status, setStatus] = useState(ImageStatus.LOADING);
 	const [url, setUrl] = useState(props.imageProps?.src);
-	const showSkeleton = useMinDuration(
-		status === ImageStatus.LOADING,
-	);
 
 	useEffect(() => {
 		setUrl(props.imageProps?.src);
 	}, [props.imageProps?.src]);
 
-	if (status === ImageStatus.ERROR && !showSkeleton) {
+	if (status === ImageStatus.ERROR) {
 		return (
 			<Center
 				aspectRatio={aspectRatio}
@@ -53,7 +49,7 @@ export const AppImage = ({
 
 	return (
 		<Skeleton
-			loading={showSkeleton}
+			loading={status === ImageStatus.LOADING}
 			aspectRatio={aspectRatio}
 			borderRadius={0}
 			{...props.containerProps}
