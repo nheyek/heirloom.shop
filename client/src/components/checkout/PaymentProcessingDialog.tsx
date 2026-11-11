@@ -24,7 +24,6 @@ export const PaymentProcessingDialog = ({
 		placement="center"
 		titleProps={{
 			textAlign: 'center',
-			fontSize: 28,
 			marginRight: 0,
 			width: '100%',
 		}}

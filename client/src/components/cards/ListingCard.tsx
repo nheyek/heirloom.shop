@@ -61,7 +61,6 @@ export const CARD_TITLE_PROPS: TextProps = {
 export const CARD_SHOP_TITLE_PROPS: TextProps = {
 	fontSize: 20,
 	fontFamily: DISPLAY_FONT_FAMILY,
-
 	fontWeight: 500,
 };
 

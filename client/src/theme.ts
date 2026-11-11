@@ -9,6 +9,8 @@ import {
 	CARD_GRID_COLUMN_COUNTS,
 	CARD_WIDTH,
 	cardGridBreakpointKey,
+	MULTI_LINE_HEIGHT,
+	SINGLE_LINE_HEIGHT,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 
@@ -108,7 +110,36 @@ const fieldsetRecipe = defineSlotRecipe({
 
 const textRecipe = defineRecipe({
 	base: {
-		lineHeight: 1.25,
+		lineHeight: MULTI_LINE_HEIGHT,
+	},
+});
+
+const HEADING_FONT_SIZES = {
+	xs: 24,
+	sm: 26,
+	md: 28,
+	lg: 32,
+	xl: 36,
+};
+
+const headingRecipe = defineRecipe({
+	base: {
+		fontWeight: 500,
+		lineHeight: SINGLE_LINE_HEIGHT,
+		truncate: true,
+	},
+	variants: {
+		size: Object.fromEntries(
+			Object.entries(HEADING_FONT_SIZES).map(
+				([size, fontSize]) => [
+					size,
+					{ fontSize, lineHeight: SINGLE_LINE_HEIGHT },
+				],
+			),
+		),
+	},
+	defaultVariants: {
+		size: 'lg',
 	},
 });
 
@@ -178,6 +209,7 @@ export const config = defineConfig({
 			input: inputRecipe,
 			button: buttonRecipe,
 			text: textRecipe,
+			heading: headingRecipe,
 		},
 		slotRecipes: {
 			fieldset: fieldsetRecipe,

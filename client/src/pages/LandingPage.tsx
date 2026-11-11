@@ -1,4 +1,11 @@
-import { Button, Icon, Span, Stack, Text } from '@chakra-ui/react';
+import {
+	Button,
+	Heading,
+	Icon,
+	Span,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
@@ -10,7 +17,6 @@ import { InfoPageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import {
 	ListingCardData,
@@ -93,9 +99,9 @@ export const LandingPage = () => {
 					alignItems="center"
 				>
 					<Stack gap={1}>
-						<Text
-							fontFamily={DISPLAY_FONT_FAMILY}
-							fontSize={28}
+						<Heading
+							size="md"
+							fontWeight={400}
 							flexShrink={0}
 						>
 							Welcome to
@@ -103,7 +109,7 @@ export const LandingPage = () => {
 								{' '}
 								Heirloom.shop
 							</Span>
-						</Text>
+						</Heading>
 						<Stack
 							gap={3}
 							alignItems="center"

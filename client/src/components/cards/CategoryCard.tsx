@@ -1,8 +1,8 @@
-import { Box, Card, Text } from '@chakra-ui/react';
+import { Box, Card } from '@chakra-ui/react';
 import { CARD_WIDTH } from '@client/constants';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
+import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { categoryImageUrl } from '@client/utils/imageUtils';
 import { CategoryTileData } from '@heirloom/common/contract';
@@ -28,19 +28,17 @@ export const CategoryCard = (props: CategoryTileData) => (
 				) : (
 					<ImagePlaceholder />
 				)}
-				<Text
+				<MultiLineHeading
 					position="absolute"
 					bottom={3}
 					left={5}
 					mr={4}
-					fontSize={32}
 					fontWeight={600}
-					fontFamily={DISPLAY_FONT_FAMILY}
 					color="#FFF"
 					textShadow={TITLE_TEXT_SHADOW}
 				>
 					{props.title}
-				</Text>
+				</MultiLineHeading>
 			</Box>
 		</RouterLink>
 	</Card.Root>

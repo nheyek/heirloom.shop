@@ -47,6 +47,7 @@ import { useShareListing } from '@client/hooks/useShareListing';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
 import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { toastSuccess } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
@@ -224,13 +225,12 @@ export const ListingPage = () => {
 								gap={0}
 								mr={5}
 							>
-								<Text
-									fontSize={36}
+								<MultiLineHeading
+									size="xl"
 									fontWeight={600}
-									fontFamily={DISPLAY_FONT_FAMILY}
 								>
 									{listingData?.title}
-								</Text>
+								</MultiLineHeading>
 
 								<HStack
 									fontWeight={500}

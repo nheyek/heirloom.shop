@@ -1,6 +1,7 @@
 import {
 	Button,
 	Drawer,
+	Heading,
 	HStack,
 	Icon,
 	IconButton,
@@ -21,7 +22,6 @@ import {
 	useCheckoutStatus,
 } from '@client/providers/CheckoutStatusProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
 import { MdClose } from 'react-icons/md';
@@ -103,12 +103,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 			<Drawer.Positioner>
 				<Drawer.Content>
 					<Drawer.Header p={5}>
-						<Drawer.Title
-							fontSize={32}
-							fontWeight={500}
-							fontFamily={DISPLAY_FONT_FAMILY}
-						>
-							Shopping Cart
+						<Drawer.Title asChild>
+							<Heading>Shopping Cart</Heading>
 						</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton

@@ -36,7 +36,6 @@ const ListingAvailableDialog = ({
 		onCancel={onCancel}
 		pending={pending}
 		size="sm"
-		titleProps={{ truncate: true }}
 		footer={
 			<DialogConfirmFooter
 				onCancel={onCancel}

@@ -2,7 +2,6 @@ import { NAVBAR_HEIGHT } from '@client/constants';
 import {
 	Box,
 	Button,
-	Heading,
 	HStack,
 	Link,
 	Menu,
@@ -15,7 +14,8 @@ import {
 	NavMenuContent,
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
-import { DISPLAY_FONT_FAMILY, SIDEBAR_WIDTH } from '@client/theme';
+import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
+import { SIDEBAR_WIDTH } from '@client/theme';
 import { IconType } from 'react-icons';
 import { FaCaretDown } from 'react-icons/fa6';
 import {
@@ -214,21 +214,14 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 
 	if (match.subLabel === null) {
 		return (
-			<Heading
-				fontSize={36}
-				fontWeight={500}
-				fontFamily={DISPLAY_FONT_FAMILY}
-			>
+			<MultiLineHeading size="xl">
 				{match.navItem.title}
-			</Heading>
+			</MultiLineHeading>
 		);
 	}
 
 	return (
-		<Heading
-			fontSize={32}
-			fontFamily={DISPLAY_FONT_FAMILY}
-		>
+		<MultiLineHeading>
 			<Link
 				asChild
 				fontWeight={400}
@@ -244,7 +237,7 @@ const PageHeading = ({ navItems }: PageHeadingProps) => {
 				/
 			</Span>
 			<Span fontWeight={500}>{match.subLabel}</Span>
-		</Heading>
+		</MultiLineHeading>
 	);
 };
 

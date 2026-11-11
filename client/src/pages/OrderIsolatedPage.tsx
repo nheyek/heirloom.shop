@@ -5,7 +5,6 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { OrderPage } from '@client/pages/OrderPage';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { useParams } from 'react-router-dom';
 
 export const OrderIsolatedPage = () => {
@@ -22,9 +21,8 @@ export const OrderIsolatedPage = () => {
 			{...(isDesktop && { mx: 'auto', mt: 5, minWidth: 600 })}
 		>
 			<Heading
-				fontSize={36}
+				size="xl"
 				fontWeight={400}
-				fontFamily={DISPLAY_FONT_FAMILY}
 			>
 				Order #<Span fontWeight={500}>{shortId}</Span>
 			</Heading>

@@ -1,6 +1,5 @@
 import { Span, SpanProps } from '@chakra-ui/react';
-
-const SINGLE_LINE_HEIGHT = 1.1;
+import { SINGLE_LINE_HEIGHT } from '@client/constants';
 
 export const SingleLineText = (props: SpanProps) => (
 	<Span
