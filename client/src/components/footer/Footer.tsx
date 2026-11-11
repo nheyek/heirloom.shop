@@ -1,23 +1,37 @@
 import {
 	Box,
-	Flex,
 	HStack,
 	Link,
+	LinkProps,
 	Stack,
-	Text,
+	Wrap,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
+import { SingleLineText } from '@client/components/textDisplay/SingleLineText';
 import { CLIENT_ROUTES, InfoPageKey } from '@client/constants';
 import { DISPLAY_FONT_FAMILY } from '@client/theme';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
 
 const hideFooterPages = [CLIENT_ROUTES.checkout];
-const SUPPORT_EMAIL = 'support@heirloom.shop';
-const SUPPORT_PHONE = '(312) 617-6523';
-const SUPPORT_PHONE_TEL = '+13126176523';
+const FOOTER_GAP = 2.5;
+const FOOTER_SECTION_MIN_WIDTH = 200;
+const FOOTER_LINK_COLOR = '#FFF';
+
+const CONTACT_ITEMS = [
+	{
+		icon: <FaEnvelope />,
+		label: 'support@heirloom.shop',
+		href: 'mailto:support@heirloom.shop',
+	},
+	{
+		icon: <FaPhoneAlt />,
+		label: '(312) 617-6523',
+		href: 'tel:+13126176523',
+	},
+];
 
 const FOOTER_INFO_LINKS = [
 	{
@@ -27,6 +41,32 @@ const FOOTER_INFO_LINKS = [
 	{ label: 'Privacy Policy', key: InfoPageKey.PRIVACY },
 	{ label: 'Terms of Service', key: InfoPageKey.TERMS_OF_SERVICE },
 ];
+
+const FooterLink = (props: LinkProps) => (
+	<Link
+		as={SingleLineText}
+		color={FOOTER_LINK_COLOR}
+		{...props}
+	/>
+);
+
+const FooterSection = (props: {
+	title: string;
+	children: ReactNode;
+}) => (
+	<Stack
+		gap={FOOTER_GAP}
+		minW={FOOTER_SECTION_MIN_WIDTH}
+	>
+		<SingleLineText
+			fontSize={24}
+			fontWeight={600}
+		>
+			{props.title}
+		</SingleLineText>
+		{props.children}
+	</Stack>
+);
 
 export const Footer = () => {
 	const { pathname } = useLocation();
@@ -42,91 +82,62 @@ export const Footer = () => {
 	}
 
 	return (
-		<Box
+		<Stack
 			width="100%"
+			alignItems="center"
 			background="brand"
-			color="#FFF"
+			color="white"
 			flexShrink={0}
-			px={{ base: 6, md: 10 }}
-			py={10}
+			p={10}
 			fontSize={18}
 		>
-			<Flex
-				wrap="wrap"
+			<Wrap
 				gap={10}
 				justifyContent="space-between"
+				width="100%"
 				maxW={1000}
-				mx="auto"
 			>
 				<Stack
-					gap={0}
+					gap={1}
 					alignItems="center"
 				>
 					<Box width={160}>
 						<Logo />
 					</Box>
-					<Text
+					<SingleLineText
 						fontFamily={DISPLAY_FONT_FAMILY}
 						fontSize={22}
 					>
 						2026 • Chicago, IL
-					</Text>
+					</SingleLineText>
 				</Stack>
 
-				<Stack
-					gap={1}
-					minW={200}
-				>
-					<Text
-						fontSize={24}
-						fontWeight={600}
-					>
-						Contact
-					</Text>
-					<HStack gap={2.5}>
-						<FaEnvelope />
-						<Link
-							href={`mailto:${SUPPORT_EMAIL}`}
-							color="#FFF"
+				<FooterSection title="Contact">
+					{CONTACT_ITEMS.map(({ icon, label, href }) => (
+						<HStack
+							key={href}
+							gap={FOOTER_GAP}
 						>
-							{SUPPORT_EMAIL}
-						</Link>
-					</HStack>
-					<HStack gap={2.5}>
-						<FaPhoneAlt />
-						<Link
-							href={`tel:${SUPPORT_PHONE_TEL}`}
-							color="#FFF"
-						>
-							{SUPPORT_PHONE}
-						</Link>
-					</HStack>
-				</Stack>
-
-				<Stack
-					gap={1}
-					minW={200}
-				>
-					<Text
-						fontSize={24}
-						fontWeight={600}
-					>
-						Info
-					</Text>
-					<Stack gap={0}>
-						{FOOTER_INFO_LINKS.map(({ label, key }) => (
-							<Link
-								key={key}
-								color="#FFF"
-								cursor="pointer"
-								onClick={() => setOpenInfoPage(key)}
-							>
+							{icon}
+							<FooterLink href={href}>
 								{label}
-							</Link>
-						))}
-					</Stack>
-				</Stack>
-			</Flex>
+							</FooterLink>
+						</HStack>
+					))}
+				</FooterSection>
+
+				<FooterSection title="Info">
+					{FOOTER_INFO_LINKS.map(({ label, key }) => (
+						<FooterLink
+							key={key}
+							cursor="pointer"
+							onClick={() => setOpenInfoPage(key)}
+						>
+							{label}
+						</FooterLink>
+					))}
+				</FooterSection>
+			</Wrap>
 
 			{openInfoPage && (
 				<InfoPageDialog
@@ -135,6 +146,6 @@ export const Footer = () => {
 					onClose={() => setOpenInfoPage(null)}
 				/>
 			)}
-		</Box>
+		</Stack>
 	);
 };
