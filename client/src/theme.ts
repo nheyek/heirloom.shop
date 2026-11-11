@@ -97,6 +97,15 @@ const buttonRecipe = defineRecipe({
 	},
 });
 
+const cardRecipe = defineSlotRecipe({
+	slots: ['root'],
+	base: {
+		root: {
+			overflow: 'hidden',
+		},
+	},
+});
+
 const fieldsetRecipe = defineSlotRecipe({
 	slots: ['root', 'content'],
 	variants: {
@@ -120,6 +129,12 @@ const HEADING_FONT_SIZES = {
 	md: 28,
 	lg: 32,
 	xl: 36,
+	'2xl': 40,
+	'3xl': 44,
+	'4xl': 48,
+	'5xl': 54,
+	'6xl': 60,
+	'7xl': 72,
 };
 
 const headingRecipe = defineRecipe({
@@ -133,7 +148,11 @@ const headingRecipe = defineRecipe({
 			Object.entries(HEADING_FONT_SIZES).map(
 				([size, fontSize]) => [
 					size,
-					{ fontSize, lineHeight: SINGLE_LINE_HEIGHT },
+					{
+						textStyle: 'none',
+						fontSize,
+						lineHeight: SINGLE_LINE_HEIGHT,
+					},
 				],
 			),
 		),
@@ -212,6 +231,7 @@ export const config = defineConfig({
 			heading: headingRecipe,
 		},
 		slotRecipes: {
+			card: cardRecipe,
 			fieldset: fieldsetRecipe,
 			select: selectRecipe,
 		},

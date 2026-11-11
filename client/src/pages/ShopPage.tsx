@@ -41,8 +41,8 @@ import { FaShop } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
 const titleFontSize = {
-	base: 40,
-	md: 60,
+	base: 36,
+	md: 64,
 };
 
 export const ShopPage = () => {
@@ -172,7 +172,7 @@ export const ShopPage = () => {
 							<Text
 								display="block"
 								fontSize={titleFontSize}
-								lineHeight={1}
+								lineHeight={1.1}
 								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.title}
@@ -195,8 +195,8 @@ export const ShopPage = () => {
 							<HStack gap={{ base: 3, md: 4 }}>
 								<Box
 									width={{
-										base: 7,
-										md: 8.5,
+										base: 6,
+										md: 8,
 										lg: 10,
 									}}
 								>
