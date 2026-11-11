@@ -24,6 +24,7 @@ export const NavbarButton = (props: IconButtonProps) => (
 		variant="ghost"
 		_hover={{ bg: 'whiteAlpha.200' }}
 		_expanded={{ bg: 'whiteAlpha.200' }}
+		_icon={{ w: 22, h: 22 }}
 		{...props}
 	>
 		{props.children}
@@ -82,11 +83,7 @@ export const Navbar = () => {
 									onClick={shoppingCart.openDrawer}
 									aspectRatio={1}
 								>
-									<Icon
-										as={FaShoppingCart}
-										w={22}
-										h={22}
-									/>
+									<Icon as={FaShoppingCart} />
 								</NavbarButton>
 								{shoppingCart.itemQuantityTotal >
 									0 && (

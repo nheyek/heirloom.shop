@@ -132,11 +132,7 @@ export const CategoryMenu = () => {
 			onClick={isMobile ? () => setOpen(true) : undefined}
 			aspectRatio={1}
 		>
-			<Icon
-				h={5}
-				w={5}
-				as={FaBars}
-			/>
+			<Icon as={FaBars} />
 		</NavbarButton>
 	);
 
