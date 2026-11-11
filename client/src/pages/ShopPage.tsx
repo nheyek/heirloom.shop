@@ -279,10 +279,7 @@ export const ShopPage = () => {
 					px={STANDARD_GRID_GAP}
 					width="100%"
 				>
-					<Stack
-						alignSelf="center"
-						maxW="100%"
-					>
+					<Stack alignSelf="center">
 						<ListingGrid
 							center
 							listings={listingView.listings}

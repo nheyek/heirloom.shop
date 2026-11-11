@@ -3,7 +3,6 @@ import {
 	Portal,
 	Select,
 } from '@chakra-ui/react';
-import { FaCaretDown } from 'react-icons/fa6';
 
 const ALL_ITEMS_LABEL = 'All Categories';
 const ALL_ITEMS_VALUE = 'ALL';
@@ -65,12 +64,11 @@ export const CategoryFilterMenu = (props: Props) => {
 			<Select.Control>
 				<Select.Trigger
 					fontSize={20}
-					fontWeight={500}
 					gap={3}
 				>
 					<Select.ValueText />
 					<Select.IndicatorGroup>
-						<FaCaretDown />
+						<Select.Indicator />
 					</Select.IndicatorGroup>
 				</Select.Trigger>
 			</Select.Control>
