@@ -27,7 +27,7 @@ const BASE_BREAKPOINTS = {
 	sm: 600,
 	md: 900,
 	lg: 1200,
-	xl: 1536,
+	xl: 1500,
 };
 
 export const CARD_GRID_GAP_PX =

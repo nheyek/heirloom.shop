@@ -16,7 +16,7 @@ export const FIELD_ERROR_COLOR = '#df1b41';
 export const SANS_FONT_FAMILY = 'Roboto';
 export const NAVBAR_HEIGHT = 65;
 
-const CARD_GRID_MAX_COLUMNS = 4;
+const CARD_GRID_MAX_COLUMNS = 5;
 
 export const CARD_GRID_COLUMN_COUNTS = Array.from(
 	{ length: CARD_GRID_MAX_COLUMNS - 1 },
