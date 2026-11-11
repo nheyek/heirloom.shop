@@ -30,15 +30,13 @@ const BASE_BREAKPOINTS = {
 	xl: 1536,
 };
 
-const CARD_GRID_PAGE_PADDING_PX =
-	STANDARD_GRID_GAP * CHAKRA_SPACING_UNIT;
 export const CARD_GRID_GAP_PX =
 	STANDARD_GRID_GAP * CHAKRA_SPACING_UNIT;
 
 const cardGridWidthForColumns = (columns: number) =>
 	columns * CARD_WIDTH +
 	(columns - 1) * CARD_GRID_GAP_PX +
-	2 * CARD_GRID_PAGE_PADDING_PX;
+	2 * CARD_GRID_GAP_PX;
 
 const CARD_GRID_BREAKPOINTS = Object.fromEntries(
 	CARD_GRID_COLUMN_COUNTS.flatMap((columns) => [
@@ -78,7 +76,6 @@ const buttonRecipe = defineRecipe({
 		borderRadius: 'full',
 		width: 'fit-content',
 	},
-	defaultVariants: {},
 	variants: {
 		variant: {
 			solid: {
@@ -94,15 +91,6 @@ const buttonRecipe = defineRecipe({
 			md: { fontSize: 20 },
 			lg: { fontSize: 22 },
 			xl: { fontSize: 24 },
-		},
-	},
-});
-
-const cardRecipe = defineSlotRecipe({
-	slots: ['root'],
-	base: {
-		root: {
-			overflow: 'hidden',
 		},
 	},
 });
@@ -189,11 +177,9 @@ export const config = defineConfig({
 		recipes: {
 			input: inputRecipe,
 			button: buttonRecipe,
-			card: cardRecipe,
 			text: textRecipe,
 		},
 		slotRecipes: {
-			card: cardRecipe,
 			fieldset: fieldsetRecipe,
 			select: selectRecipe,
 		},
