@@ -1,4 +1,4 @@
-import { Drawer, Heading, Icon, IconButton } from '@chakra-ui/react';
+import { Drawer, Icon, IconButton } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 import { MdClose } from 'react-icons/md';
 
@@ -26,9 +26,7 @@ export const AppDrawer = ({
 		<Drawer.Positioner>
 			<Drawer.Content>
 				<Drawer.Header p={5}>
-					<Drawer.Title asChild>
-						<Heading size="md">{title}</Heading>
-					</Drawer.Title>
+					<Drawer.Title>{title}</Drawer.Title>
 					<Drawer.CloseTrigger asChild>
 						<IconButton
 							variant="ghost"

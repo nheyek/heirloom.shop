@@ -1,7 +1,6 @@
 import {
 	Button,
 	Drawer,
-	Heading,
 	HStack,
 	Icon,
 	IconButton,
@@ -103,9 +102,7 @@ export const ShoppingCartDrawer = (props: Props) => {
 			<Drawer.Positioner>
 				<Drawer.Content>
 					<Drawer.Header p={5}>
-						<Drawer.Title asChild>
-							<Heading>Shopping Cart</Heading>
-						</Drawer.Title>
+						<Drawer.Title>Shopping Cart</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
 							<IconButton
 								variant="ghost"

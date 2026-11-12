@@ -1,10 +1,4 @@
-import {
-	Dialog,
-	Heading,
-	Icon,
-	IconButton,
-	Portal,
-} from '@chakra-ui/react';
+import { Dialog, Icon, IconButton, Portal } from '@chakra-ui/react';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { MdClose } from 'react-icons/md';
 
@@ -32,9 +26,7 @@ export const RichTextDialog = ({
 			<Dialog.Positioner>
 				<Dialog.Content>
 					<Dialog.Header>
-						<Dialog.Title asChild>
-							<Heading>{title}</Heading>
-						</Dialog.Title>
+						<Dialog.Title>{title}</Dialog.Title>
 						<Dialog.CloseTrigger asChild>
 							<IconButton
 								variant="ghost"

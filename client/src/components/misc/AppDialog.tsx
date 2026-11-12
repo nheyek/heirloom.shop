@@ -1,4 +1,4 @@
-import { CloseButton, Dialog, Heading } from '@chakra-ui/react';
+import { CloseButton, Dialog } from '@chakra-ui/react';
 import { ReactNode } from 'react';
 
 type AppDialogProps = Omit<
@@ -44,11 +44,10 @@ export const AppDialog = ({
 			<Dialog.Content {...contentProps}>
 				<Dialog.Header>
 					<Dialog.Title
-						asChild
 						marginRight={10}
 						{...titleProps}
 					>
-						<Heading size="md">{title}</Heading>
+						{title}
 					</Dialog.Title>
 					{!hideCloseButton && (
 						<CloseButton

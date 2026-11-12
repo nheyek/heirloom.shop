@@ -152,7 +152,8 @@ const headingRecipe = defineRecipe({
 	},
 });
 
-const selectSlotRecipe = defaultConfig.theme!.slotRecipes!.select!;
+const defaultSlotRecipes = defaultConfig.theme!.slotRecipes!;
+const selectSlotRecipe = defaultSlotRecipes.select!;
 
 const SELECT_FONT_SIZES = {
 	md: 18,
@@ -200,6 +201,21 @@ const selectRecipe = defineSlotRecipe({
 		variant: 'subtle',
 	},
 });
+
+const overlayTitleSlotRecipe = (slots: readonly string[]) =>
+	defineSlotRecipe({
+		slots: [...slots],
+		base: {
+			title: {
+				textStyle: 'none',
+				fontWeight: 500,
+				fontFamily: DISPLAY_FONT_FAMILY,
+				fontSize: HEADING_FONT_SIZES.md,
+				lineHeight: SINGLE_LINE_HEIGHT,
+				truncate: true,
+			},
+		},
+	});
 
 export const config = defineConfig({
 	globalCss: {
@@ -260,6 +276,12 @@ export const config = defineConfig({
 		},
 		slotRecipes: {
 			card: cardRecipe,
+			dialog: overlayTitleSlotRecipe(
+				defaultSlotRecipes.dialog!.slots,
+			),
+			drawer: overlayTitleSlotRecipe(
+				defaultSlotRecipes.drawer!.slots,
+			),
 			fieldset: fieldsetRecipe,
 			select: selectRecipe,
 		},
