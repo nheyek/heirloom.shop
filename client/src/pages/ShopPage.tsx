@@ -279,45 +279,38 @@ export const ShopPage = () => {
 					px={STANDARD_GRID_GAP}
 					width="100%"
 				>
-					<Stack alignSelf="center">
-						<ListingGrid
-							center
-							listings={listingView.listings}
-							isLoading={
-								isLoading || listingView.isApplying
-							}
-							header={
-								<GridHeader>
-									{(isLoading ||
-										listingView.category.options
-											.length > 0) && (
-										<CategoryFilterMenu
-											{...listingView.category}
-										/>
-									)}
-									{(isLoading ||
-										listingView.listings.length >
-											0) && (
-										<SortFilterDrawer
-											options={
-												LISTING_SORT_LABELS
-											}
-											value={
-												listingView.sort.value
-											}
-											onChange={
-												listingView.sort
-													.onChange
-											}
-											priceFilter={
-												listingView.price
-											}
-										/>
-									)}
-								</GridHeader>
-							}
-						/>
-					</Stack>
+					<ListingGrid
+						center
+						listings={listingView.listings}
+						isLoading={
+							isLoading || listingView.isApplying
+						}
+						header={
+							<GridHeader>
+								{(isLoading ||
+									listingView.category.options
+										.length > 0) && (
+									<CategoryFilterMenu
+										{...listingView.category}
+									/>
+								)}
+								{(isLoading ||
+									listingView.listings.length >
+										0) && (
+									<SortFilterDrawer
+										options={LISTING_SORT_LABELS}
+										value={listingView.sort.value}
+										onChange={
+											listingView.sort.onChange
+										}
+										priceFilter={
+											listingView.price
+										}
+									/>
+								)}
+							</GridHeader>
+						}
+					/>
 				</Stack>
 			)}
 		</>
