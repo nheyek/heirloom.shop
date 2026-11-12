@@ -36,9 +36,6 @@ export const CategoryFilterMenu = (props: Props) => {
 		<Select.Item
 			key={item.value}
 			item={item}
-			fontSize={20}
-			py={3}
-			px={4}
 		>
 			{item.label}
 			<Select.ItemIndicator />
@@ -49,7 +46,6 @@ export const CategoryFilterMenu = (props: Props) => {
 		<Select.Root
 			size="lg"
 			w={SELECT_MIN_WIDTH}
-			variant="subtle"
 			collection={collection}
 			value={[props.value ?? ALL_ITEMS_VALUE]}
 			onValueChange={(e) =>
@@ -62,10 +58,7 @@ export const CategoryFilterMenu = (props: Props) => {
 		>
 			<Select.HiddenSelect />
 			<Select.Control>
-				<Select.Trigger
-					fontSize={20}
-					gap={3}
-				>
+				<Select.Trigger>
 					<Select.ValueText />
 					<Select.IndicatorGroup>
 						<Select.Indicator />
@@ -74,10 +67,7 @@ export const CategoryFilterMenu = (props: Props) => {
 			</Select.Control>
 			<Portal>
 				<Select.Positioner>
-					<Select.Content
-						minWidth={SELECT_MIN_WIDTH}
-						px={0}
-					>
+					<Select.Content minWidth={SELECT_MIN_WIDTH}>
 						{renderItem(allItem)}
 						{categoryItems.map(renderItem)}
 					</Select.Content>

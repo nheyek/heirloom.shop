@@ -287,7 +287,7 @@ export const ShopPage = () => {
 								isLoading || listingView.isApplying
 							}
 							header={
-								<GridHeader mb={2}>
+								<GridHeader mb={2.5}>
 									{(isLoading ||
 										listingView.category.options
 											.length > 0) && (

@@ -13,9 +13,8 @@ export const VariationSelect = ({
 	onChange,
 }: Props) => (
 	<Select.Root
-		variant="subtle"
 		collection={variation.collection}
-		size="lg"
+		size="md"
 		value={value != null ? [value] : []}
 		onValueChange={(e) => onChange(e.value[0] ?? '')}
 	>
@@ -24,7 +23,6 @@ export const VariationSelect = ({
 		<Select.Control>
 			<Select.Trigger cursor="button">
 				<Select.ValueText
-					fontSize={18}
 					placeholder={`Select ${variation.name.toLowerCase()}`}
 					color={value == null ? 'fg.muted' : undefined}
 				/>
@@ -39,7 +37,6 @@ export const VariationSelect = ({
 							<Select.Item
 								item={option}
 								key={option.value}
-								fontSize={18}
 							>
 								{option.label}
 								<Select.ItemIndicator />

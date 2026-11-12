@@ -162,13 +162,52 @@ const headingRecipe = defineRecipe({
 	},
 });
 
+const selectSlotRecipe = defaultConfig.theme!.slotRecipes!.select!;
+
+const SELECT_FONT_SIZES = {
+	md: 18,
+	lg: 20,
+};
+
+const SELECT_ITEM_PADDING_X = 4;
+const SELECT_ITEM_PADDING_Y = 3;
+
 const selectRecipe = defineSlotRecipe({
-	slots: ['label'],
+	slots: selectSlotRecipe.slots,
 	base: {
 		label: {
 			fontSize: 18,
 			fontWeight: 500,
 		},
+	},
+	variants: {
+		variant: { subtle: {} },
+		size: Object.fromEntries(
+			Object.entries(SELECT_FONT_SIZES).map(
+				([size, fontSize]) => [
+					size,
+					{
+						content: {
+							px: 0,
+							py: 2,
+						},
+						trigger: {
+							textStyle: 'none',
+							fontSize,
+							py: 0,
+						},
+						item: {
+							fontSize,
+							px: SELECT_ITEM_PADDING_X,
+							py: SELECT_ITEM_PADDING_Y,
+						},
+					},
+				],
+			),
+		),
+	},
+	defaultVariants: {
+		variant: 'subtle',
 	},
 });
 

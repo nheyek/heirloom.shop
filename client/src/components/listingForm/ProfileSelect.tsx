@@ -27,7 +27,7 @@ export const ProfileSelect = ({
 	return (
 		<Box w={225}>
 			<Select.Root
-				size="lg"
+				size="md"
 				collection={collection}
 				value={value != null ? [value] : []}
 				onValueChange={(e) => onChange(e.value[0] || null)}
@@ -36,11 +36,7 @@ export const ProfileSelect = ({
 			>
 				<Select.HiddenSelect />
 				<Select.Control>
-					<Select.Trigger
-						px={3}
-						py={2}
-						fontSize={18}
-					>
+					<Select.Trigger>
 						<Select.ValueText
 							truncate
 							placeholder="Select profile"
@@ -60,7 +56,6 @@ export const ProfileSelect = ({
 								<Select.Item
 									key={item.value}
 									item={item}
-									fontSize={18}
 								>
 									{item.label}
 									<Select.ItemIndicator />

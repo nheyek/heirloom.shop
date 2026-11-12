@@ -29,7 +29,7 @@ export const CountrySelect = ({
 	showName,
 }: CountrySelectProps) => (
 	<Select.Root
-		size="lg"
+		size="md"
 		collection={countryCollection}
 		value={value ? [value] : []}
 		onValueChange={(e) => onChange(e.value[0] as CountryCode)}
@@ -39,11 +39,7 @@ export const CountrySelect = ({
 	>
 		<Select.HiddenSelect />
 		<Select.Control>
-			<Select.Trigger
-				px={3}
-				py={2}
-				fontSize={18}
-			>
+			<Select.Trigger>
 				<HStack
 					gap={3}
 					flex={1}
@@ -68,7 +64,6 @@ export const CountrySelect = ({
 						<Select.Item
 							key={item.value}
 							item={item}
-							fontSize={20}
 						>
 							<HStack gap={3}>
 								<CountryFlagIcon
