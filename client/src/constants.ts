@@ -60,6 +60,7 @@ export const LISTING_CARD_BODY_HEIGHT = 150;
 export const LISTING_CARD_SHOP_TITLE_HEIGHT = 25;
 export const SHOP_CARD_BODY_HEIGHT = 110;
 export const ORDER_ITEM_CARD_BODY_HEIGHT = 155;
+export const SELECT_TRIGGER_HEIGHT = 12;
 
 export const MAX_IMAGE_SIZE_MB = 5;
 

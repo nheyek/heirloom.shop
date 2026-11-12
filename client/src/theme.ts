@@ -10,6 +10,7 @@ import {
 	CARD_WIDTH,
 	cardGridBreakpointKey,
 	MULTI_LINE_HEIGHT,
+	SELECT_TRIGGER_HEIGHT,
 	SINGLE_LINE_HEIGHT,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
@@ -184,7 +185,7 @@ const selectRecipe = defineSlotRecipe({
 						},
 						trigger: {
 							fontSize,
-							py: 3,
+							h: SELECT_TRIGGER_HEIGHT,
 						},
 						item: {
 							fontSize,
@@ -209,7 +210,7 @@ const overlayTitleSlotRecipe = (slots: readonly string[]) =>
 				textStyle: 'none',
 				fontWeight: 500,
 				fontFamily: DISPLAY_FONT_FAMILY,
-				fontSize: HEADING_FONT_SIZES.md,
+				fontSize: HEADING_FONT_SIZES.lg,
 				lineHeight: SINGLE_LINE_HEIGHT,
 				truncate: true,
 			},

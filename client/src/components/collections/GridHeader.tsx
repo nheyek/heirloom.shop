@@ -1,10 +1,9 @@
 import { Flex, FlexProps } from '@chakra-ui/react';
-
-const GRID_HEADER_MIN_HEIGHT = 12;
+import { SELECT_TRIGGER_HEIGHT } from '@client/constants';
 
 export const GridHeader = (props: FlexProps) => (
 	<Flex
-		minH={GRID_HEADER_MIN_HEIGHT}
+		minH={SELECT_TRIGGER_HEIGHT}
 		justifyContent="space-between"
 		alignItems="flex-end"
 		{...props}
