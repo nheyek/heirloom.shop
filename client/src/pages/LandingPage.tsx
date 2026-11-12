@@ -12,7 +12,6 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
-import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import { InfoPageKey } from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
@@ -156,9 +155,7 @@ export const LandingPage = () => {
 							center
 							header={
 								<GridHeader>
-									<SectionTitle>
-										Makers
-									</SectionTitle>
+									<Heading>Makers</Heading>
 								</GridHeader>
 							}
 							shops={shops}
@@ -174,7 +171,7 @@ export const LandingPage = () => {
 						center
 						header={
 							<GridHeader>
-								<SectionTitle>Featured</SectionTitle>
+								<Heading>Featured</Heading>
 							</GridHeader>
 						}
 						listings={listings}

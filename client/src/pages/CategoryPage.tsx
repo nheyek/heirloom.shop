@@ -1,4 +1,4 @@
-import { Link, Stack } from '@chakra-ui/react';
+import { Heading, Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
@@ -6,7 +6,6 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
-import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import {
 	GRID_PAGE_PADDING_Y,
 	STANDARD_GRID_GAP,
@@ -123,9 +122,7 @@ export const CategoryPage = () => {
 							center
 							header={
 								<GridHeader>
-									<SectionTitle>
-										Makers
-									</SectionTitle>
+									<Heading>Makers</Heading>
 								</GridHeader>
 							}
 							shops={shops}
@@ -144,7 +141,7 @@ export const CategoryPage = () => {
 						}
 						header={
 							<GridHeader>
-								<SectionTitle>Items</SectionTitle>
+								<Heading>Items</Heading>
 								{(isLoading ||
 									listingView.listings.length >
 										0) && (

@@ -3,6 +3,7 @@ import {
 	Box,
 	Button,
 	GridItem,
+	Heading,
 	HStack,
 	SimpleGrid,
 	Skeleton,
@@ -26,7 +27,6 @@ import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppi
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
-import { SectionTitle } from '@client/components/textDisplay/SectionTitle';
 import { Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -210,7 +210,7 @@ export const CheckoutPage = () => {
 					gap={CHECKOUT_GAP}
 					ref={shippingFormRef}
 				>
-					<SectionTitle>Complete Your Order</SectionTitle>
+					<Heading>Complete Your Order</Heading>
 					<CheckoutContactForm disabled={pendingCheckout} />
 					<CheckoutShippingForm
 						layout={layout}
@@ -286,7 +286,7 @@ export const CheckoutPage = () => {
 			mx="auto"
 			maxWidth={{ lg: 1000 }}
 		>
-			<SectionTitle>Complete Your Order</SectionTitle>
+			<Heading>Complete Your Order</Heading>
 			<SimpleGrid
 				columns={{ md: 5, lg: 3 }}
 				gapX={10}

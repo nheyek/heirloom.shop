@@ -10,7 +10,7 @@ import { CardSkeleton } from '@client/components/cards/CardSkeleton';
 import { GridPagination } from '@client/components/collections/GridPagination';
 import {
 	CARD_WIDTH,
-	SECTION_TITLE_GAP,
+	GRID_HEADER_GAP,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 import { ANIMATION_NAME, CARD_GRID_GAP_PX } from '@client/theme';
@@ -155,7 +155,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 
 		return (
 			<Stack
-				gap={SECTION_TITLE_GAP}
+				gap={GRID_HEADER_GAP}
 				width="100%"
 				minW={0}
 			>
@@ -171,7 +171,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			width="fit-content"
 			{...(center && { alignSelf: 'center' })}
 			scrollMarginTop={SCROLL_TARGET_OFFSET}
-			gap={SECTION_TITLE_GAP}
+			gap={GRID_HEADER_GAP}
 		>
 			{props.header}
 			<Stack gap={5}>

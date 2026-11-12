@@ -40,7 +40,11 @@ export const NavbarMenu = () => {
 					px={2}
 				>
 					<Icon as={FaUserCircle} />
-					<FaCaretDown />
+					<Icon
+						as={FaCaretDown}
+						h={5}
+						w={5}
+					/>
 				</NavbarButton>
 			</Menu.Trigger>
 			<Portal>

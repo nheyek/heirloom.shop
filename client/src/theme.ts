@@ -63,16 +63,6 @@ export const BREAKPOINTS = {
 	...CARD_GRID_BREAKPOINTS,
 };
 
-const inputRecipe = defineRecipe({
-	variants: {
-		size: {
-			'2xl': {
-				fontSize: '24px',
-			},
-		},
-	},
-});
-
 const buttonRecipe = defineRecipe({
 	base: {
 		borderRadius: 'full',
@@ -264,7 +254,6 @@ export const config = defineConfig({
 			},
 		},
 		recipes: {
-			input: inputRecipe,
 			button: buttonRecipe,
 			text: textRecipe,
 			heading: headingRecipe,
