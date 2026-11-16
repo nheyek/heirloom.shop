@@ -6,10 +6,7 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
-import {
-	GRID_PAGE_PADDING_Y,
-	STANDARD_GRID_GAP,
-} from '@client/constants';
+import { STANDARD_GRID_GAP } from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
@@ -98,7 +95,7 @@ export const CategoryPage = () => {
 
 	return (
 		<Stack
-			pt={GRID_PAGE_PADDING_Y}
+			pt={STANDARD_GRID_GAP}
 			px={STANDARD_GRID_GAP}
 			width="100%"
 		>

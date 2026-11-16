@@ -17,11 +17,7 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
-import {
-	CountryCode,
-	GRID_PAGE_PADDING_Y,
-	STANDARD_GRID_GAP,
-} from '@client/constants';
+import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
@@ -275,7 +271,7 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Stack
-					pt={GRID_PAGE_PADDING_Y}
+					pt={10}
 					px={STANDARD_GRID_GAP}
 					width="100%"
 				>
@@ -286,7 +282,7 @@ export const ShopPage = () => {
 							isLoading || listingView.isApplying
 						}
 						header={
-							<GridHeader>
+							<GridHeader pb={2}>
 								{(isLoading ||
 									listingView.category.options
 										.length > 0) && (
