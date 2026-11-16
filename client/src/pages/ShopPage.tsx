@@ -73,7 +73,7 @@ export const ShopPage = () => {
 		xl: 3.0,
 	});
 
-	const bannerContentOffset = useBreakpointValue({
+	const bannerContentPadding = useBreakpointValue({
 		base: 5,
 		md: 10,
 	});
@@ -162,9 +162,7 @@ export const ShopPage = () => {
 					<Stack
 						position="absolute"
 						inset={0}
-						p={2}
-						pl={bannerContentOffset}
-						pb={bannerContentOffset}
+						p={bannerContentPadding}
 						gap={0}
 						justifyContent="flex-end"
 						alignItems="flex-start"
@@ -180,6 +178,7 @@ export const ShopPage = () => {
 								display="block"
 								fontSize={titleFontSize}
 								fontFamily={DISPLAY_FONT_FAMILY}
+								lineHeight={1.1}
 							>
 								{shopData?.title}
 							</Text>

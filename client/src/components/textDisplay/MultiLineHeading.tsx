@@ -5,6 +5,7 @@ export const MultiLineHeading = (props: HeadingProps) => (
 		overflow="visible"
 		textOverflow="clip"
 		whiteSpace="normal"
+		lineHeight={1.1}
 		{...props}
 	/>
 );
