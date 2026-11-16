@@ -1,15 +1,14 @@
-import { Accordion, HStack, Icon, Text } from '@chakra-ui/react';
+import { Accordion, HStack, Icon } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import {
 	CART_CARD_BLEED,
 	CHECKOUT_GAP,
 } from '@client/components/checkout/checkoutLayout';
-import {
-	ACCORDION_ICON_SIZE,
-	ACCORDION_TITLE_FONT_SIZE,
-} from '@client/constants';
+import { SubHeading } from '@client/components/checkout/SubHeading';
+import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
+import { FaShoppingCart } from 'react-icons/fa';
 import { FaCaretDown } from 'react-icons/fa6';
 
 export const CheckoutShoppingCartCompact = () => {
@@ -26,12 +25,12 @@ export const CheckoutShoppingCartCompact = () => {
 					position="relative"
 					zIndex={1}
 				>
-					<Text
-						flex="1"
-						fontSize={ACCORDION_TITLE_FONT_SIZE}
+					<SubHeading
+						flex={1}
+						icon={FaShoppingCart}
 					>
 						Shopping Cart
-					</Text>
+					</SubHeading>
 					<Accordion.ItemIndicator>
 						<Icon
 							as={FaCaretDown}
@@ -45,7 +44,7 @@ export const CheckoutShoppingCartCompact = () => {
 					m={-CART_CARD_BLEED}
 					p={CART_CARD_BLEED}
 				>
-					<Accordion.ItemBody py={0}>
+					<Accordion.ItemBody>
 						<HStack
 							gap={CHECKOUT_GAP}
 							overflowX="scroll"

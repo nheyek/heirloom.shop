@@ -110,6 +110,12 @@ const fieldsetRecipe = defineSlotRecipe({
 	},
 });
 
+const textRecipe = defineRecipe({
+	base: {
+		lineHeight: LINE_HEIGHT,
+	},
+});
+
 const HEADING_FONT_SIZES = {
 	xs: 24,
 	sm: 26,
@@ -265,6 +271,7 @@ export const config = defineConfig({
 		},
 		recipes: {
 			button: buttonRecipe,
+			text: textRecipe,
 			heading: headingRecipe,
 		},
 		slotRecipes: {

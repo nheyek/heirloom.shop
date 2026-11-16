@@ -11,7 +11,7 @@ import {
 	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
-import { CheckoutDetailsForm } from '@client/components/checkout/CheckoutDetailsForm';
+import { CheckoutContactForm } from '@client/components/checkout/CheckoutContactForm';
 import {
 	CHECKOUT_BUTTON_MARGIN_BOTTOM,
 	CHECKOUT_FIELD_GAP,
@@ -23,6 +23,7 @@ import {
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
+import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { SubHeading } from '@client/components/checkout/SubHeading';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
@@ -210,10 +211,10 @@ export const CheckoutPage = () => {
 					ref={shippingFormRef}
 				>
 					<Heading>Complete Your Order</Heading>
-					<CheckoutDetailsForm
+					<CheckoutContactForm disabled={pendingCheckout} />
+					<CheckoutShippingForm
 						layout={layout}
 						disabled={pendingCheckout}
-						gap={CHECKOUT_GAP}
 					/>
 					<CheckoutShoppingCartCompact />
 				</Stack>
@@ -293,10 +294,12 @@ export const CheckoutPage = () => {
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
 					<Stack gap={7}>
-						<CheckoutDetailsForm
+						<CheckoutContactForm
+							disabled={pendingCheckout}
+						/>
+						<CheckoutShippingForm
 							layout={layout}
 							disabled={pendingCheckout}
-							gap={7}
 						/>
 
 						<Stack gap={CHECKOUT_FIELD_GAP}>
