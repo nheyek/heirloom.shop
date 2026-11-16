@@ -36,9 +36,11 @@ import { FaHeart } from 'react-icons/fa';
 import { FaShop } from 'react-icons/fa6';
 import { useParams } from 'react-router-dom';
 
+const BANNER_TEXT_BUTTON_GAP = 5;
+
 const titleFontSize = {
-	base: 36,
-	md: 64,
+	base: 40,
+	md: 60,
 };
 
 export const ShopPage = () => {
@@ -69,6 +71,11 @@ export const ShopPage = () => {
 		md: 2.0,
 		lg: 2.5,
 		xl: 3.0,
+	});
+
+	const bannerContentOffset = useBreakpointValue({
+		base: 5,
+		md: 10,
 	});
 
 	useEffect(() => {
@@ -154,13 +161,17 @@ export const ShopPage = () => {
 					</Box>
 					<Stack
 						position="absolute"
-						bottom={{ base: 5, md: 10 }}
-						left={{ base: 5, md: 10 }}
-						gap={5}
+						inset={0}
+						p={2}
+						pl={bannerContentOffset}
+						pb={bannerContentOffset}
+						gap={0}
+						justifyContent="flex-end"
 						alignItems="flex-start"
 					>
 						<Stack
-							gap={1}
+							flexShrink={0}
+							gap={0}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
 							fontWeight={600}
@@ -168,62 +179,71 @@ export const ShopPage = () => {
 							<Text
 								display="block"
 								fontSize={titleFontSize}
-								lineHeight={1.1}
 								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.title}
 							</Text>
-							<Text
-								display="block"
-								fontSize={Object.entries(
-									titleFontSize,
-								).reduce(
-									(acc, [key, value]) => ({
-										...acc,
-										[key]: value * 0.75,
-									}),
-									{},
-								)}
-								fontFamily={DISPLAY_FONT_FAMILY}
-							>
-								{shopData?.classification}
-							</Text>
-							<HStack gap={{ base: 3, md: 4 }}>
-								<Box
-									width={{
-										base: 6,
-										md: 8,
-										lg: 10,
-									}}
-								>
-									<CountryFlagIcon
-										countryCode={
-											shopData?.countryCode as CountryCode | null
-										}
-										svgProps={{
-											style: {
-												filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-											},
-										}}
-									/>
-								</Box>
+							<Stack gap={1}>
 								<Text
+									display="block"
 									fontSize={Object.entries(
 										titleFontSize,
 									).reduce(
 										(acc, [key, value]) => ({
 											...acc,
-											[key]: value * 0.65,
+											[key]: value * 0.75,
 										}),
 										{},
 									)}
-									fontWeight={500}
+									fontFamily={DISPLAY_FONT_FAMILY}
 								>
-									{shopData?.location}
+									{shopData?.classification}
 								</Text>
-							</HStack>
+								<HStack gap={{ base: 3, md: 4 }}>
+									<Box
+										width={{
+											base: 6,
+											md: 8,
+											lg: 10,
+										}}
+									>
+										<CountryFlagIcon
+											countryCode={
+												shopData?.countryCode as CountryCode | null
+											}
+											svgProps={{
+												style: {
+													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+												},
+											}}
+										/>
+									</Box>
+									<Text
+										fontSize={Object.entries(
+											titleFontSize,
+										).reduce(
+											(acc, [key, value]) => ({
+												...acc,
+												[key]: value * 0.65,
+											}),
+											{},
+										)}
+										fontWeight={500}
+									>
+										{shopData?.location}
+									</Text>
+								</HStack>
+							</Stack>
 						</Stack>
-						<HStack gap={2}>
+						<Box
+							height={BANNER_TEXT_BUTTON_GAP}
+							flexShrink={1}
+							minH={0}
+						/>
+						<HStack
+							gap={2}
+							flexShrink={0}
+						>
 							{shopData?.profileRichText && (
 								<HeaderButton
 									icon={FaShop}
@@ -271,8 +291,8 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Stack
-					pt={10}
 					px={STANDARD_GRID_GAP}
+					pt={5}
 					width="100%"
 				>
 					<ListingGrid
