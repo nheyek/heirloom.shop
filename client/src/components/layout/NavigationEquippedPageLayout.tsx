@@ -1,4 +1,7 @@
-import { NAVBAR_HEIGHT } from '@client/constants';
+import {
+	MENU_CONTENT_PADDING_Y,
+	NAVBAR_HEIGHT,
+} from '@client/constants';
 import {
 	Box,
 	Button,
@@ -177,7 +180,7 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 				</Menu.Trigger>
 				<Portal>
 					<Menu.Positioner>
-						<NavMenuContent>
+						<NavMenuContent py={MENU_CONTENT_PADDING_Y}>
 							{navItems.map(
 								({ label, icon: Icon, route }) => (
 									<NavMenuItem

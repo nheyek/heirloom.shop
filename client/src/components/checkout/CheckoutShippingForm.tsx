@@ -45,7 +45,7 @@ export const CheckoutShippingForm = (props: Props) => {
 		shippingAddress,
 		shippingAddressErrors,
 		shippingAddressUndeliverable,
-		setShippingAddress,
+		updateShippingAddress,
 		clearShippingAddressError,
 	} = useShoppingCart();
 
@@ -113,7 +113,7 @@ export const CheckoutShippingForm = (props: Props) => {
 		const fields = extractAddressFields(
 			place.addressComponents || [],
 		);
-		setShippingAddress({ ...shippingAddress, ...fields });
+		updateShippingAddress(fields);
 		setAddressInput(fields.line1 || prediction.text?.text || '');
 	};
 
@@ -140,8 +140,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							autoComplete="given-name"
 							value={shippingAddress.firstName}
 							onChange={(e) =>
-								setShippingAddress({
-									...shippingAddress,
+								updateShippingAddress({
 									firstName: e.target.value,
 								})
 							}
@@ -154,8 +153,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							autoComplete="family-name"
 							value={shippingAddress.lastName}
 							onChange={(e) => {
-								setShippingAddress({
-									...shippingAddress,
+								updateShippingAddress({
 									lastName: e.target.value,
 								});
 								clearShippingAddressError('lastName');
@@ -183,8 +181,7 @@ export const CheckoutShippingForm = (props: Props) => {
 									shippingAddress.line1
 								}
 								onChange={(e) => {
-									setShippingAddress({
-										...shippingAddress,
+									updateShippingAddress({
 										line1: e.target.value,
 									});
 									clearShippingAddressError(
@@ -266,8 +263,7 @@ export const CheckoutShippingForm = (props: Props) => {
 						placeholder="Apartment, suite, etc. (optional)"
 						value={shippingAddress.line2}
 						onChange={(e) =>
-							setShippingAddress({
-								...shippingAddress,
+							updateShippingAddress({
 								line2: e.target.value,
 							})
 						}
@@ -289,8 +285,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							autoComplete="address-level2"
 							value={shippingAddress.city}
 							onChange={(e) => {
-								setShippingAddress({
-									...shippingAddress,
+								updateShippingAddress({
 									city: e.target.value,
 								});
 								clearShippingAddressError('city');
@@ -315,8 +310,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								fontSize={16}
 								value={shippingAddress.state}
 								onChange={(e) => {
-									setShippingAddress({
-										...shippingAddress,
+									updateShippingAddress({
 										state: e.target.value,
 									});
 									clearShippingAddressError(
@@ -352,8 +346,7 @@ export const CheckoutShippingForm = (props: Props) => {
 							autoComplete="postal-code"
 							value={shippingAddress.zip}
 							onChange={(e) => {
-								setShippingAddress({
-									...shippingAddress,
+								updateShippingAddress({
 									zip: e.target.value,
 								});
 								clearShippingAddressError('zip');

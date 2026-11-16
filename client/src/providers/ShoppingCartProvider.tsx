@@ -64,7 +64,7 @@ type ShoppingCartContext = {
 		personalizationText?: string,
 	) => void;
 	setCheckoutEmail: (email: string) => void;
-	setShippingAddress: (address: ShippingAddress) => void;
+	updateShippingAddress: (fields: Partial<ShippingAddress>) => void;
 	// Synchronous, local-only checks (required fields, email format) — safe
 	// to run before entering a loading state.
 	validateLocalCheckoutFields: () => boolean;
@@ -225,8 +225,10 @@ export const ShoppingCartProvider = (props: {
 		};
 	}, [shippingAddress, itemPriceTotal, shippingTotal]);
 
-	const setShippingAddress = (address: ShippingAddress) => {
-		_setShippingAddress(address);
+	const updateShippingAddress = (
+		fields: Partial<ShippingAddress>,
+	) => {
+		_setShippingAddress((prev) => ({ ...prev, ...fields }));
 		setShippingAddressUndeliverable(false);
 	};
 
@@ -386,10 +388,10 @@ export const ShoppingCartProvider = (props: {
 	const clearShippingAddressError = (
 		key: keyof ShippingAddress,
 	) => {
-		setShippingAddressErrors({
-			...shippingAddressErrors,
+		setShippingAddressErrors((prev) => ({
+			...prev,
 			[key]: null,
-		});
+		}));
 		setShippingAddressUndeliverable(false);
 	};
 
@@ -414,7 +416,7 @@ export const ShoppingCartProvider = (props: {
 				removeFromCart,
 				updateQuantity,
 				setCheckoutEmail,
-				setShippingAddress,
+				updateShippingAddress,
 				validateLocalCheckoutFields,
 				validateAddressDeliverable,
 				hydrateCart,

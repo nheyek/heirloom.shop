@@ -5,7 +5,10 @@ import {
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
 import { NavbarButton } from '@client/components/navbar/Navbar';
-import { CLIENT_ROUTES } from '@client/constants';
+import {
+	CLIENT_ROUTES,
+	MENU_CONTENT_PADDING_Y,
+} from '@client/constants';
 import { useUserInfo } from '@client/providers/UserProvider';
 import { FaHeart, FaUserCircle } from 'react-icons/fa';
 import {
@@ -49,7 +52,10 @@ export const NavbarMenu = () => {
 			</Menu.Trigger>
 			<Portal>
 				<Menu.Positioner>
-					<NavMenuContent width={150}>
+					<NavMenuContent
+						width={150}
+						py={MENU_CONTENT_PADDING_Y}
+					>
 						<Link to={`/${CLIENT_ROUTES.favorites}`}>
 							<NavMenuItem value="saved">
 								<FaHeart />

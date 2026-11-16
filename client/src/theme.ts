@@ -11,6 +11,9 @@ import {
 	cardGridBreakpointKey,
 	SELECT_TRIGGER_HEIGHT,
 	LINE_HEIGHT,
+	MENU_CONTENT_PADDING_Y,
+	MENU_ITEM_PADDING_X,
+	MENU_ITEM_PADDING_Y,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 
@@ -154,9 +157,6 @@ const SELECT_FONT_SIZES = {
 	lg: 20,
 };
 
-const SELECT_ITEM_PADDING_X = 4;
-const SELECT_ITEM_PADDING_Y = 3;
-
 const selectRecipe = defineSlotRecipe({
 	slots: selectSlotRecipe.slots,
 	base: {
@@ -174,7 +174,7 @@ const selectRecipe = defineSlotRecipe({
 					{
 						content: {
 							px: 0,
-							py: 2,
+							py: MENU_CONTENT_PADDING_Y,
 						},
 						trigger: {
 							fontSize,
@@ -182,8 +182,8 @@ const selectRecipe = defineSlotRecipe({
 						},
 						item: {
 							fontSize,
-							px: SELECT_ITEM_PADDING_X,
-							py: SELECT_ITEM_PADDING_Y,
+							px: MENU_ITEM_PADDING_X,
+							py: MENU_ITEM_PADDING_Y,
 						},
 					},
 				],
