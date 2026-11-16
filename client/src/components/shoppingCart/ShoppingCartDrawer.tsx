@@ -79,10 +79,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 		<HStack
 			gap={5}
 			overflowX="scroll"
-			mx={-6}
-			my={-5}
-			px={6}
-			py={5}
+			m={-5}
+			p={5}
 			alignItems="flex-start"
 		>
 			{items}

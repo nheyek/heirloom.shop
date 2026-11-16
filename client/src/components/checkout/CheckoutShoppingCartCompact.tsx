@@ -39,7 +39,7 @@ export const CheckoutShoppingCartCompact = () => {
 					m={-CART_CARD_BLEED}
 					p={CART_CARD_BLEED}
 				>
-					<Accordion.ItemBody>
+					<Accordion.ItemBody mt={2}>
 						<HStack
 							gap={CHECKOUT_GAP}
 							overflowX="scroll"

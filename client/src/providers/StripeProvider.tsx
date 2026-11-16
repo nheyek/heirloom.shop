@@ -1,6 +1,5 @@
-import { SANS_FONT_FAMILY } from '@client/constants';
 import { useToken } from '@chakra-ui/react';
-import { BREAKPOINTS } from '@client/theme';
+import { SANS_FONT_FAMILY } from '@client/constants';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { ReactNode, useRef } from 'react';
@@ -26,10 +25,6 @@ export const StripeProvider = ({ children }: Props) => {
 		'gray.500',
 	]);
 
-	const useDarkMode = !window.matchMedia(
-		`(min-width: ${BREAKPOINTS.md})`,
-	).matches;
-
 	const optionsRef = useRef<object | null>(null);
 	if (!optionsRef.current && gray100) {
 		optionsRef.current = {
@@ -52,28 +47,24 @@ export const StripeProvider = ({ children }: Props) => {
 						fontSize: '16px',
 						borderRadius: '5px',
 						boxShadow: 'none',
-						backgroundColor: useDarkMode
-							? 'transparent'
-							: gray100,
-						color: useDarkMode ? 'white' : 'black',
-						border: useDarkMode
-							? '1px solid white'
-							: 'none',
+						backgroundColor: gray100,
+						color: 'black',
+						border: 'none',
 						paddingTop: '10px',
 						paddingBottom: '10px',
 						paddingLeft: '12px',
 					},
 					'.Input:focus': {
-						outline: `1px solid ${useDarkMode ? 'white' : gray400}`,
+						outline: `1px solid ${gray400}`,
 						boxShadow: 'none',
-						border: useDarkMode ? '1px solid white' : '0',
+						border: '0',
 					},
 					'.Error': {
 						fontSize: '14px',
 						paddingTop: '2px',
 					},
 					'.Label': {
-						color: useDarkMode ? gray200 : gray500,
+						color: gray500,
 					},
 					'.Label--resting': {
 						fontSize: '16px',
