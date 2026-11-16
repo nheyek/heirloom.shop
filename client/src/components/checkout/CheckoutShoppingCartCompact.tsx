@@ -24,6 +24,7 @@ export const CheckoutShoppingCartCompact = () => {
 				<Accordion.ItemTrigger
 					position="relative"
 					zIndex={1}
+					p={0}
 				>
 					<SubHeading
 						flex={1}

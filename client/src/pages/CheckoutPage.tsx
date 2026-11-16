@@ -21,9 +21,9 @@ import {
 	SUMMARY_TOTAL_GAP,
 } from '@client/components/checkout/checkoutLayout';
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
+import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
-import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { SubHeading } from '@client/components/checkout/SubHeading';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
@@ -254,7 +254,7 @@ export const CheckoutPage = () => {
 						<Skeleton height={16} />
 					) : (
 						<Button
-							size="2xl"
+							size="xl"
 							width="full"
 							fontSize={24}
 							variant="outline"
