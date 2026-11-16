@@ -36,7 +36,7 @@ export const GridPagination = (props: Props) => (
 							base: 'ghost',
 							_selected: 'subtle',
 						}}
-						fontSize={22}
+						fontSize={24}
 					>
 						{item.value}
 					</IconButton>
