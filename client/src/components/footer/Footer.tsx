@@ -88,7 +88,8 @@ export const Footer = () => {
 			background="brand"
 			color="white"
 			flexShrink={0}
-			p={10}
+			px={5}
+			py={10}
 			fontSize={18}
 		>
 			<Wrap
