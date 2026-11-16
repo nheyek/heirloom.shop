@@ -12,7 +12,6 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { CheckoutDetailsForm } from '@client/components/checkout/CheckoutDetailsForm';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
 import {
 	CHECKOUT_BUTTON_MARGIN_BOTTOM,
 	CHECKOUT_FIELD_GAP,
@@ -24,6 +23,7 @@ import {
 import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPaymentForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
+import { SubHeading } from '@client/components/checkout/SubHeading';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '@client/constants';
@@ -232,13 +232,13 @@ export const CheckoutPage = () => {
 						) : (
 							<>
 								<ShoppingCartSummary
-									textColor={'white'}
+									textColor="white"
 									pendingMessage="Enter shipping address"
 								/>
 
 								<Text
 									fontSize={32}
-									fontWeight={600}
+									fontWeight={500}
 									color="white"
 								>
 									{formatCentsAsDollars(orderTotal)}
@@ -300,7 +300,7 @@ export const CheckoutPage = () => {
 						/>
 
 						<Stack gap={CHECKOUT_FIELD_GAP}>
-							<CheckoutHeading>Payment</CheckoutHeading>
+							<SubHeading>Payment</SubHeading>
 							<CheckoutPaymentForm
 								disabled={pendingCheckout}
 							/>

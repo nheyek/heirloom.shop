@@ -1,7 +1,7 @@
 import { Carousel, HStack, IconButton, Text } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { OrderItemCardSkeleton } from '@client/components/cards/OrderItemCardSkeleton';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
+import { SubHeading } from '@client/components/checkout/SubHeading';
 import {
 	CART_CARD_BLEED,
 	CHECKOUT_FIELD_GAP,
@@ -27,7 +27,7 @@ export const CheckoutShoppingCart = () => {
 			onPageChange={(details) => setPage(details.page)}
 		>
 			<HStack justify="space-between">
-				<CheckoutHeading>Shopping Cart</CheckoutHeading>
+				<SubHeading>Shopping Cart</SubHeading>
 
 				{slideCount > 1 && (
 					<HStack

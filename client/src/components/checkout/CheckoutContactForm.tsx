@@ -1,5 +1,5 @@
 import { Field, Fieldset, Stack } from '@chakra-ui/react';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
+import { SubHeading } from '@client/components/checkout/SubHeading';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
 import { CHECKOUT_FIELD_GAP } from '@client/components/checkout/checkoutLayout';
@@ -19,7 +19,7 @@ export const CheckoutContactForm = (props: Props) => {
 
 	return (
 		<Stack gap={CHECKOUT_FIELD_GAP}>
-			<CheckoutHeading>Contact</CheckoutHeading>
+			<SubHeading>Contact</SubHeading>
 			<Fieldset.Root
 				size="lg"
 				disabled={props.disabled}

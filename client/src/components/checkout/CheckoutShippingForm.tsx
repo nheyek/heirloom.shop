@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
-import { CheckoutHeading } from '@client/components/checkout/CheckoutHeading';
+import { SubHeading } from '@client/components/checkout/SubHeading';
 import {
 	CHECKOUT_FIELD_GAP,
 	CHECKOUT_FIELD_HEIGHT,
@@ -119,7 +119,7 @@ export const CheckoutShippingForm = (props: Props) => {
 
 	return (
 		<Stack gap={0}>
-			<CheckoutHeading>Ship To</CheckoutHeading>
+			<SubHeading>Ship To</SubHeading>
 			<Fieldset.Root
 				size="lg"
 				mt={CHECKOUT_FIELD_GAP}
