@@ -8,7 +8,6 @@ import { SubHeading } from '@client/components/checkout/SubHeading';
 import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { FaShoppingCart } from 'react-icons/fa';
 import { FaCaretDown } from 'react-icons/fa6';
 
 export const CheckoutShoppingCartCompact = () => {
@@ -26,12 +25,7 @@ export const CheckoutShoppingCartCompact = () => {
 					zIndex={1}
 					p={0}
 				>
-					<SubHeading
-						flex={1}
-						icon={FaShoppingCart}
-					>
-						Shopping Cart
-					</SubHeading>
+					<SubHeading flex={1}>Shopping Cart</SubHeading>
 					<Accordion.ItemIndicator>
 						<Icon
 							as={FaCaretDown}

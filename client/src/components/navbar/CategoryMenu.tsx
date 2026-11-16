@@ -13,7 +13,10 @@ import {
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { NavbarButton } from '@client/components/navbar/Navbar';
-import { NAVBAR_HEIGHT } from '@client/constants';
+import {
+	MENU_CONTENT_PADDING_Y,
+	NAVBAR_HEIGHT,
+} from '@client/constants';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { useState } from 'react';
@@ -79,6 +82,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 				gap={0}
 				minH={0}
 				overflowY="auto"
+				py={MENU_CONTENT_PADDING_Y}
 			>
 				{getChildCategories(parentId).map((category) => {
 					const hasChildren =
