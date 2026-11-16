@@ -3,12 +3,12 @@ import {
 	HStack,
 	Link,
 	LinkProps,
+	Span,
 	Stack,
 	Wrap,
 } from '@chakra-ui/react';
 import { Logo } from '@client/components/branding/Logo';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
-import { SingleLineText } from '@client/components/textDisplay/SingleLineText';
 import { CLIENT_ROUTES, InfoPageKey } from '@client/constants';
 import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { ReactNode, useState } from 'react';
@@ -44,7 +44,7 @@ const FOOTER_INFO_LINKS = [
 
 const FooterLink = (props: LinkProps) => (
 	<Link
-		as={SingleLineText}
+		as={Span}
 		color={FOOTER_LINK_COLOR}
 		{...props}
 	/>
@@ -58,12 +58,12 @@ const FooterSection = (props: {
 		gap={FOOTER_GAP}
 		minW={FOOTER_SECTION_MIN_WIDTH}
 	>
-		<SingleLineText
+		<Span
 			fontSize={24}
 			fontWeight={600}
 		>
 			{props.title}
-		</SingleLineText>
+		</Span>
 		{props.children}
 	</Stack>
 );
@@ -104,12 +104,12 @@ export const Footer = () => {
 					<Box width={160}>
 						<Logo />
 					</Box>
-					<SingleLineText
+					<Span
 						fontFamily={DISPLAY_FONT_FAMILY}
 						fontSize={22}
 					>
 						2026 • Chicago, IL
-					</SingleLineText>
+					</Span>
 				</Stack>
 
 				<FooterSection title="Contact">

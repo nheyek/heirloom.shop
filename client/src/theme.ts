@@ -9,9 +9,8 @@ import {
 	CARD_GRID_COLUMN_COUNTS,
 	CARD_WIDTH,
 	cardGridBreakpointKey,
-	MULTI_LINE_HEIGHT,
 	SELECT_TRIGGER_HEIGHT,
-	SINGLE_LINE_HEIGHT,
+	LINE_HEIGHT,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 
@@ -108,12 +107,6 @@ const fieldsetRecipe = defineSlotRecipe({
 	},
 });
 
-const textRecipe = defineRecipe({
-	base: {
-		lineHeight: MULTI_LINE_HEIGHT,
-	},
-});
-
 const HEADING_FONT_SIZES = {
 	xs: 24,
 	sm: 26,
@@ -131,7 +124,7 @@ const HEADING_FONT_SIZES = {
 const headingRecipe = defineRecipe({
 	base: {
 		fontWeight: 500,
-		lineHeight: SINGLE_LINE_HEIGHT,
+		lineHeight: LINE_HEIGHT,
 		truncate: true,
 	},
 	variants: {
@@ -142,7 +135,7 @@ const headingRecipe = defineRecipe({
 					{
 						textStyle: 'none',
 						fontSize,
-						lineHeight: SINGLE_LINE_HEIGHT,
+						lineHeight: LINE_HEIGHT,
 					},
 				],
 			),
@@ -211,7 +204,7 @@ const overlayTitleSlotRecipe = (slots: readonly string[]) =>
 				fontWeight: 500,
 				fontFamily: DISPLAY_FONT_FAMILY,
 				fontSize: HEADING_FONT_SIZES.lg,
-				lineHeight: SINGLE_LINE_HEIGHT,
+				lineHeight: LINE_HEIGHT,
 				truncate: true,
 			},
 		},
@@ -225,6 +218,7 @@ export const config = defineConfig({
 			to: { opacity: 1 },
 		} as any,
 		'html, body': {
+			lineHeight: LINE_HEIGHT,
 			touchAction: 'pan-y',
 			minHeight: '100svh',
 			overflowAnchor: 'none',
@@ -271,7 +265,6 @@ export const config = defineConfig({
 		},
 		recipes: {
 			button: buttonRecipe,
-			text: textRecipe,
 			heading: headingRecipe,
 		},
 		slotRecipes: {
