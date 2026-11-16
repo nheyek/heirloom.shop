@@ -1,9 +1,8 @@
 import {
 	Button,
+	CloseButton,
 	Drawer,
 	HStack,
-	Icon,
-	IconButton,
 	Skeleton,
 	Stack,
 	Text,
@@ -23,7 +22,6 @@ import {
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { FaArrowCircleRight } from 'react-icons/fa';
-import { MdClose } from 'react-icons/md';
 import { RxDotFilled } from 'react-icons/rx';
 import { useNavigate } from 'react-router-dom';
 
@@ -99,22 +97,11 @@ export const ShoppingCartDrawer = (props: Props) => {
 			<Drawer.Backdrop />
 			<Drawer.Positioner>
 				<Drawer.Content>
-					<Drawer.Header p={5}>
+					<Drawer.Header>
 						<Drawer.Title>Shopping Cart</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
-							<IconButton
-								variant="ghost"
-								w={10}
-								h={10}
-							>
-								<Icon
-									h={7}
-									w={7}
-								>
-									<MdClose />
-								</Icon>
-							</IconButton>
-						</Drawer.CloseTrigger>
+								<CloseButton />
+							</Drawer.CloseTrigger>
 					</Drawer.Header>
 
 					<Drawer.Body pb={5}>

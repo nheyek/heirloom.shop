@@ -61,7 +61,6 @@ export const ShopManagerListingsPage = () => {
 		<>
 			<Stack gap={5}>
 				<Button
-					size="lg"
 					onClick={() =>
 						navigate(
 							`/${CLIENT_ROUTES.shop}/${shortId}/${CLIENT_ROUTES.manage}/${CLIENT_ROUTES.listings}/${CLIENT_ROUTES.new}`,

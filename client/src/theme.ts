@@ -9,11 +9,11 @@ import {
 	CARD_GRID_COLUMN_COUNTS,
 	CARD_WIDTH,
 	cardGridBreakpointKey,
-	SELECT_TRIGGER_HEIGHT,
 	LINE_HEIGHT,
 	MENU_CONTENT_PADDING_Y,
 	MENU_ITEM_PADDING_X,
 	MENU_ITEM_PADDING_Y,
+	SELECT_TRIGGER_HEIGHT,
 	STANDARD_GRID_GAP,
 } from '@client/constants';
 
@@ -201,11 +201,27 @@ const selectRecipe = defineSlotRecipe({
 	},
 });
 
+const OVERLAY_HEADER_PADDING = 5;
+const OVERLAY_HEADER_GAP = 3;
+
 const overlayTitleSlotRecipe = (slots: readonly string[]) =>
 	defineSlotRecipe({
 		slots: [...slots],
 		base: {
+			header: {
+				gap: OVERLAY_HEADER_GAP,
+				p: OVERLAY_HEADER_PADDING,
+			},
+			closeTrigger: {
+				flexShrink: 0,
+				_icon: {
+					w: 6,
+					h: 6,
+				},
+			},
 			title: {
+				flex: 1,
+				minW: 0,
 				textStyle: 'none',
 				fontWeight: 500,
 				fontFamily: DISPLAY_FONT_FAMILY,

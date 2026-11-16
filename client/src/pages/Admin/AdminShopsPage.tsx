@@ -38,11 +38,8 @@ export const AdminShopsPage = () => {
 
 	return (
 		<>
-			<Stack gap={4}>
-				<Button
-					size="lg"
-					onClick={() => setCreateShopOpen(true)}
-				>
+			<Stack gap={5}>
+				<Button onClick={() => setCreateShopOpen(true)}>
 					<FaPlus />
 					New Shop
 				</Button>

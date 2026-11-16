@@ -1,7 +1,7 @@
 import {
+	CloseButton,
 	Drawer,
 	HStack,
-	Icon,
 	IconButton,
 	RadioGroup,
 	Slider,
@@ -16,7 +16,6 @@ import {
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
 import { ReactNode, useEffect, useState } from 'react';
 import { FaSliders } from 'react-icons/fa6';
-import { MdClose } from 'react-icons/md';
 
 const DrawerHeading = (props: { children: ReactNode }) => (
 	<Span
@@ -106,30 +105,17 @@ export const SortFilterDrawer = <T extends string>(
 				<Drawer.Backdrop />
 				<Drawer.Positioner>
 					<Drawer.Content>
-						<Drawer.CloseTrigger
-							asChild
-							position="absolute"
-							top={4}
-							right={4}
-						>
-							<IconButton
-								variant="ghost"
-								w={10}
-								h={10}
-							>
-								<Icon
-									h={7}
-									w={7}
-								>
-									<MdClose />
-								</Icon>
-							</IconButton>
-						</Drawer.CloseTrigger>
-						<Drawer.Body p={6}>
-							<Stack gap={8}>
+						<Drawer.Header pb={0}>
+							<Drawer.Title>Filter & Sort</Drawer.Title>
+							<Drawer.CloseTrigger asChild>
+								<CloseButton />
+							</Drawer.CloseTrigger>
+						</Drawer.Header>
+						<Drawer.Body p={5}>
+							<Stack gap={5}>
 								<Stack gap={4}>
 									<DrawerHeading>
-										Sort By
+										Order By
 									</DrawerHeading>
 									<RadioGroup.Root
 										value={props.value}

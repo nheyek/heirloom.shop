@@ -43,17 +43,9 @@ export const AppDialog = ({
 		<Dialog.Positioner>
 			<Dialog.Content {...contentProps}>
 				<Dialog.Header>
-					<Dialog.Title
-						marginRight={10}
-						{...titleProps}
-					>
-						{title}
-					</Dialog.Title>
+					<Dialog.Title {...titleProps}>{title}</Dialog.Title>
 					{!hideCloseButton && (
 						<CloseButton
-							position="absolute"
-							top={3}
-							right={3}
 							onClick={onCancel}
 							disabled={pending}
 						/>

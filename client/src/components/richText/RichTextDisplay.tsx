@@ -30,7 +30,7 @@ export const RichTextDisplay = (props: Props) => {
 				},
 				'& li': {
 					fontSize,
-					marginBottom: 1,
+					marginBottom: 2,
 				},
 				'& strong, & b': {
 					fontWeight: 500,
