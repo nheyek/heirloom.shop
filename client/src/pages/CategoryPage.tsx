@@ -1,4 +1,4 @@
-import { Heading, Link, Stack } from '@chakra-ui/react';
+import { Link, Stack } from '@chakra-ui/react';
 import { CategoryGrid } from '@client/components/collections/CategoryGrid';
 import { GridHeader } from '@client/components/collections/GridHeader';
 import { ListingGrid } from '@client/components/collections/ListingGrid';
@@ -117,11 +117,7 @@ export const CategoryPage = () => {
 					(isLoading || shops.length > 0) && (
 						<ShopGrid
 							center
-							header={
-								<GridHeader>
-									<Heading>Makers</Heading>
-								</GridHeader>
-							}
+							header={<GridHeader title="Makers" />}
 							shops={shops}
 							isLoading={isLoading}
 						/>
@@ -137,8 +133,7 @@ export const CategoryPage = () => {
 							isLoading || listingView.isApplying
 						}
 						header={
-							<GridHeader>
-								<Heading>Items</Heading>
+							<GridHeader title="Items">
 								{(isLoading ||
 									listingView.listings.length >
 										0) && (

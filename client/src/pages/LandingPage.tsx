@@ -153,11 +153,7 @@ export const LandingPage = () => {
 					(isLoading || shops.length > 0) && (
 						<ShopGrid
 							center
-							header={
-								<GridHeader>
-									<Heading>Makers</Heading>
-								</GridHeader>
-							}
+							header={<GridHeader title="Makers" />}
 							shops={shops}
 							isLoading={isLoading}
 						/>
@@ -169,11 +165,7 @@ export const LandingPage = () => {
 				) : (
 					<ListingGrid
 						center
-						header={
-							<GridHeader>
-								<Heading>Featured</Heading>
-							</GridHeader>
-						}
+						header={<GridHeader title="Featured" />}
 						listings={listings}
 						isLoading={isLoading}
 						shops={listingShops}
