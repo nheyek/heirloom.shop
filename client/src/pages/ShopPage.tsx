@@ -39,8 +39,8 @@ import { useParams } from 'react-router-dom';
 const BANNER_TEXT_BUTTON_GAP = 5;
 
 const titleFontSize = {
-	base: 40,
-	md: 60,
+	base: 36,
+	md: 64,
 };
 
 export const ShopPage = () => {
@@ -172,13 +172,12 @@ export const ShopPage = () => {
 							gap={0}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
-							fontWeight={600}
 						>
 							<Text
 								display="block"
 								fontSize={titleFontSize}
+								fontWeight={800}
 								fontFamily={DISPLAY_FONT_FAMILY}
-								lineHeight={1.1}
 							>
 								{shopData?.title}
 							</Text>
@@ -195,6 +194,7 @@ export const ShopPage = () => {
 										{},
 									)}
 									fontFamily={DISPLAY_FONT_FAMILY}
+									fontWeight={800}
 								>
 									{shopData?.classification}
 								</Text>
@@ -227,7 +227,7 @@ export const ShopPage = () => {
 											}),
 											{},
 										)}
-										fontWeight={500}
+										fontWeight={600}
 									>
 										{shopData?.location}
 									</Text>

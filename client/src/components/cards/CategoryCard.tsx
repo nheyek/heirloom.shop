@@ -1,8 +1,8 @@
 import { Box, Card } from '@chakra-ui/react';
-import { CARD_WIDTH } from '@client/constants';
 import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
+import { CARD_WIDTH } from '@client/constants';
 import { getCategoryPath } from '@client/utils/categoryUtils';
 import { categoryImageUrl } from '@client/utils/imageUtils';
 import { CategoryTileData } from '@heirloom/common/contract';
@@ -33,7 +33,7 @@ export const CategoryCard = (props: CategoryTileData) => (
 					bottom={3}
 					left={5}
 					mr={4}
-					fontWeight={600}
+					fontWeight={700}
 					color="#FFF"
 					textShadow={TITLE_TEXT_SHADOW}
 				>
