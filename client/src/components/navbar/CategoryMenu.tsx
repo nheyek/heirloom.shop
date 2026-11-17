@@ -43,7 +43,8 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 			maxH="inherit"
 		>
 			<HStack
-				px={4}
+				pl={parent ? 2 : 4}
+				pr={2}
 				py={2}
 				justifyContent="space-between"
 				borderBottomWidth={1}
@@ -52,7 +53,6 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 					<IconButton
 						variant="ghost"
 						size="lg"
-						ml={-2}
 						onClick={() =>
 							setParentId(parent.parentId ?? null)
 						}
@@ -62,7 +62,6 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 				)}
 				{parent ? (
 					<Stack
-						gap={2}
 						py={2}
 						alignItems="center"
 					>
@@ -89,10 +88,7 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 						Categories
 					</SubHeading>
 				)}
-				<CloseButton
-					onClick={onClose}
-					mr={-2}
-				/>
+				<CloseButton onClick={onClose} />
 			</HStack>
 			<Stack
 				gap={0}

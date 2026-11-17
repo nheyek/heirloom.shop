@@ -1,6 +1,6 @@
 import { Accordion, Icon } from '@chakra-ui/react';
-import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { ListingFullDescr } from '@heirloom/common/contract';
 import { FaCaretDown } from 'react-icons/fa6';
@@ -23,7 +23,12 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 				value={index.toString()}
 			>
 				<Accordion.ItemTrigger>
-					<SubHeading flex={1}>{item.title}</SubHeading>
+					<SubHeading
+						flex={1}
+						size="xl"
+					>
+						{item.title}
+					</SubHeading>
 
 					<Accordion.ItemIndicator>
 						<Icon
