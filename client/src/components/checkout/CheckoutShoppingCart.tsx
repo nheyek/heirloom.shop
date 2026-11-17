@@ -38,7 +38,7 @@ export const CheckoutShoppingCart = () => {
 						<Carousel.PrevTrigger asChild>
 							<IconButton
 								size="xs"
-								variant="subtle"
+								variant="ghost"
 							>
 								<FaChevronLeft />
 							</IconButton>
@@ -52,7 +52,7 @@ export const CheckoutShoppingCart = () => {
 						<Carousel.NextTrigger asChild>
 							<IconButton
 								size="xs"
-								variant="subtle"
+								variant="ghost"
 							>
 								<FaChevronRight />
 							</IconButton>

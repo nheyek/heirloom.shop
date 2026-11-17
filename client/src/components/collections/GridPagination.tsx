@@ -3,7 +3,7 @@ import {
 	IconButton,
 	Pagination,
 } from '@chakra-ui/react';
-import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 type Props = {
 	count: number;
@@ -25,7 +25,7 @@ export const GridPagination = (props: Props) => (
 		>
 			<Pagination.PrevTrigger asChild>
 				<IconButton>
-					<FaCaretLeft />
+					<FaChevronLeft />
 				</IconButton>
 			</Pagination.PrevTrigger>
 
@@ -45,7 +45,7 @@ export const GridPagination = (props: Props) => (
 
 			<Pagination.NextTrigger asChild>
 				<IconButton>
-					<FaCaretRight />
+					<FaChevronRight />
 				</IconButton>
 			</Pagination.NextTrigger>
 		</ButtonGroup>
