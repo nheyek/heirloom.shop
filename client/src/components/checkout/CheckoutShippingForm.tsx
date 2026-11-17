@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
 	CHECKOUT_FIELD_GAP,
 	CHECKOUT_FIELD_HEIGHT,

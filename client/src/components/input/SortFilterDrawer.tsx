@@ -1,30 +1,23 @@
 import {
 	CloseButton,
+	createListCollection,
 	Drawer,
 	HStack,
 	IconButton,
-	RadioGroup,
+	Portal,
+	Select,
 	Slider,
 	Span,
 	Stack,
-	Text,
 } from '@chakra-ui/react';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
 	PRICE_STEP_CENTS,
 	PriceRange,
 } from '@client/domain/listingFilter';
 import { formatCentsAsDollars } from '@heirloom/common/utils/priceDisplay';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FaSliders } from 'react-icons/fa6';
-
-const DrawerHeading = (props: { children: ReactNode }) => (
-	<Span
-		fontSize={22}
-		fontWeight={500}
-	>
-		{props.children}
-	</Span>
-);
 
 export type PriceFilter = {
 	bounds: PriceRange;
@@ -38,13 +31,7 @@ const PriceRangeSlider = (props: PriceFilter) => {
 	useEffect(() => setDraft(props.value), [props.value]);
 
 	return (
-		<Stack gap={3}>
-			<HStack>
-				<Text fontSize={20}>
-					{formatCentsAsDollars(draft[0])} -{' '}
-					{formatCentsAsDollars(draft[1])}
-				</Text>
-			</HStack>
+		<>
 			<Slider.Root
 				min={props.bounds[0]}
 				max={props.bounds[1]}
@@ -71,7 +58,13 @@ const PriceRangeSlider = (props: PriceFilter) => {
 					))}
 				</Slider.Control>
 			</Slider.Root>
-		</Stack>
+			<HStack>
+				<Span fontSize={20}>
+					{formatCentsAsDollars(draft[0])} -{' '}
+					{formatCentsAsDollars(draft[1])}
+				</Span>
+			</HStack>
+		</>
 	);
 };
 
@@ -86,6 +79,18 @@ export const SortFilterDrawer = <T extends string>(
 	props: Props<T>,
 ) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const sortCollection = useMemo(
+		() =>
+			createListCollection({
+				items: (Object.keys(props.options) as T[]).map(
+					(value) => ({
+						value,
+						label: props.options[value],
+					}),
+				),
+			}),
+		[props.options],
+	);
 
 	return (
 		<>
@@ -113,56 +118,60 @@ export const SortFilterDrawer = <T extends string>(
 						</Drawer.Header>
 						<Drawer.Body p={5}>
 							<Stack gap={5}>
-								<Stack gap={4}>
-									<DrawerHeading>
+								<Stack>
+									<SubHeading size="sm">
 										Order By
-									</DrawerHeading>
-									<RadioGroup.Root
-										value={props.value}
-										onValueChange={(details) =>
+									</SubHeading>
+									<Select.Root
+										collection={sortCollection}
+										size="md"
+										value={[props.value]}
+										onValueChange={(e) =>
 											props.onChange(
-												details.value as T,
+												e.value[0] as T,
 											)
 										}
-										size="md"
 									>
-										<Stack gap={3}>
-											{(
-												Object.keys(
-													props.options,
-												) as T[]
-											).map((option) => (
-												<RadioGroup.Item
-													key={option}
-													value={option}
-													gap={3}
-												>
-													<RadioGroup.ItemHiddenInput />
-													<RadioGroup.ItemIndicator />
-													<RadioGroup.ItemText
-														fontSize={18}
-														fontWeight={
-															400
-														}
-													>
-														{
-															props
-																.options[
-																option
-															]
-														}
-													</RadioGroup.ItemText>
-												</RadioGroup.Item>
-											))}
-										</Stack>
-									</RadioGroup.Root>
+										<Select.HiddenSelect />
+										<Select.Control>
+											<Select.Trigger cursor="button">
+												<Select.ValueText />
+											</Select.Trigger>
+											<Select.IndicatorGroup>
+												<Select.Indicator />
+											</Select.IndicatorGroup>
+										</Select.Control>
+										<Portal>
+											<Select.Positioner>
+												<Select.Content>
+													{sortCollection.items.map(
+														(option) => (
+															<Select.Item
+																item={
+																	option
+																}
+																key={
+																	option.value
+																}
+															>
+																{
+																	option.label
+																}
+																<Select.ItemIndicator />
+															</Select.Item>
+														),
+													)}
+												</Select.Content>
+											</Select.Positioner>
+										</Portal>
+									</Select.Root>
 								</Stack>
 
 								{props.priceFilter && (
-									<Stack gap={2}>
-										<DrawerHeading>
+									<Stack>
+										<SubHeading size="sm">
 											Price
-										</DrawerHeading>
+										</SubHeading>
 										<PriceRangeSlider
 											{...props.priceFilter}
 										/>

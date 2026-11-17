@@ -4,7 +4,7 @@ import {
 	CART_CARD_BLEED,
 	CHECKOUT_GAP,
 } from '@client/components/checkout/checkoutLayout';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { getOrderItemDisplayData } from '@client/domain/shoppingCart';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';

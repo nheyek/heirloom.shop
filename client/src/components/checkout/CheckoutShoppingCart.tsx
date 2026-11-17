@@ -1,7 +1,7 @@
 import { Carousel, HStack, IconButton, Text } from '@chakra-ui/react';
 import { OrderItemCard } from '@client/components/cards/OrderItemCard';
 import { OrderItemCardSkeleton } from '@client/components/cards/OrderItemCardSkeleton';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
 	CART_CARD_BLEED,
 	CHECKOUT_FIELD_GAP,

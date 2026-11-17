@@ -1,5 +1,5 @@
 import { Accordion, Icon } from '@chakra-ui/react';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { ListingFullDescr } from '@heirloom/common/contract';

@@ -24,7 +24,7 @@ import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPayment
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { Layout } from '@client/constants';

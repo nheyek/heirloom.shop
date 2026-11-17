@@ -1,5 +1,5 @@
 import { Field, Fieldset, Stack } from '@chakra-ui/react';
-import { SubHeading } from '@client/components/checkout/SubHeading';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
 import { CHECKOUT_FIELD_GAP } from '@client/components/checkout/checkoutLayout';
