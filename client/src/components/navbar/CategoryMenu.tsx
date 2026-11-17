@@ -9,10 +9,10 @@ import {
 	Popover,
 	Portal,
 	Stack,
-	Text,
 	useBreakpointValue,
 } from '@chakra-ui/react';
 import { NavbarButton } from '@client/components/navbar/Navbar';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
 	MENU_CONTENT_PADDING_Y,
 	NAVBAR_HEIGHT,
@@ -47,13 +47,12 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 				py={2}
 				justifyContent="space-between"
 				borderBottomWidth={1}
-				fontSize={20}
-				fontWeight={500}
 			>
 				{parent && (
 					<IconButton
 						variant="ghost"
 						size="lg"
+						ml={-2}
 						onClick={() =>
 							setParentId(parent.parentId ?? null)
 						}
@@ -62,20 +61,37 @@ const CategoryMenuPanel = ({ onClose }: PanelProps) => {
 					</IconButton>
 				)}
 				{parent ? (
-					<Link asChild>
-						<RouterLink
-							to={getCategoryPath(parent.id)}
-							onClick={onClose}
-						>
+					<Stack
+						gap={2}
+						py={2}
+						alignItems="center"
+					>
+						<SubHeading size="lg">
 							{parent.title}
-						</RouterLink>
-					</Link>
+						</SubHeading>
+						<Link
+							asChild
+							fontSize={18}
+						>
+							<RouterLink
+								to={getCategoryPath(parent.id)}
+								onClick={onClose}
+							>
+								View all
+							</RouterLink>
+						</Link>
+					</Stack>
 				) : (
-					<Text flex={1}>Categories</Text>
+					<SubHeading
+						size="md"
+						flex={1}
+					>
+						Categories
+					</SubHeading>
 				)}
 				<CloseButton
 					onClick={onClose}
-					mr={-2.5}
+					mr={-2}
 				/>
 			</HStack>
 			<Stack

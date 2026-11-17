@@ -12,7 +12,7 @@ type Props = Omit<SpanProps, 'size'> & {
 	size?: keyof typeof SUB_HEADING_FONT_SIZES;
 };
 
-export const SubHeading = ({ size = 'xl', ...props }: Props) => (
+export const SubHeading = ({ size = 'md', ...props }: Props) => (
 	<Span
 		fontFamily={DEFAULT_FONT_FAMILY}
 		fontWeight={500}

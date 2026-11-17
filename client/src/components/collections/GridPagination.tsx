@@ -21,7 +21,7 @@ export const GridPagination = (props: Props) => (
 	>
 		<ButtonGroup
 			variant="ghost"
-			size="md"
+			size="sm"
 		>
 			<Pagination.PrevTrigger asChild>
 				<IconButton>
@@ -36,7 +36,7 @@ export const GridPagination = (props: Props) => (
 							base: 'ghost',
 							_selected: 'subtle',
 						}}
-						fontSize={24}
+						fontSize={22}
 					>
 						{item.value}
 					</IconButton>
