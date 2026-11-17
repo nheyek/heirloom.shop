@@ -40,7 +40,8 @@ const BANNER_TEXT_BUTTON_GAP = 5;
 
 const titleFontSize = {
 	base: 36,
-	md: 64,
+	sm: 48,
+	md: 60,
 };
 
 export const ShopPage = () => {
@@ -176,7 +177,7 @@ export const ShopPage = () => {
 							<Text
 								display="block"
 								fontSize={titleFontSize}
-								fontWeight={800}
+								fontWeight={700}
 								fontFamily={DISPLAY_FONT_FAMILY}
 							>
 								{shopData?.title}
@@ -194,7 +195,7 @@ export const ShopPage = () => {
 										{},
 									)}
 									fontFamily={DISPLAY_FONT_FAMILY}
-									fontWeight={800}
+									fontWeight={700}
 								>
 									{shopData?.classification}
 								</Text>
