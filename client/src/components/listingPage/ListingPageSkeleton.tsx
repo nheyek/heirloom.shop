@@ -23,12 +23,12 @@ import {
 	LISTING_VARIATION_GAP,
 } from '@client/constants';
 
-const TITLE_SKELETON_HEIGHT = 50;
+const TITLE_SKELETON_HEIGHT = 45;
 const SHOP_SKELETON_HEIGHT = 30;
 const DETAIL_SKELETON_HEIGHT = 25;
 const DESCRIPTION_ROW_SKELETON_HEIGHT = 50;
-const ADD_TO_CART_BUTTON_SKELETON_HEIGHT = 50;
-const SECONDARY_BUTTONS_SKELETON_HEIGHT = 45;
+const ADD_TO_CART_BUTTON_SKELETON_HEIGHT = 48;
+const SECONDARY_BUTTONS_SKELETON_HEIGHT = 40;
 const FULFILLMENT_LINE_SKELETON_HEIGHT = 30;
 const VARIATION_SELECT_SKELETON_HEIGHT = 75;
 const VARIATION_SELECT_SKELETON_COUNT = 2;
@@ -44,7 +44,7 @@ export const ListingPageSkeleton = (props: {
 
 	const renderBasicInfoSection = () => (
 		<Stack gap={2}>
-			<Stack gap={2}>
+			<Stack gap={1}>
 				<Skeleton
 					width="80%"
 					height={TITLE_SKELETON_HEIGHT}
@@ -53,25 +53,15 @@ export const ListingPageSkeleton = (props: {
 					width="55%"
 					height={SHOP_SKELETON_HEIGHT}
 				/>
-				<Skeleton
-					width="65%"
-					height={SHOP_SKELETON_HEIGHT}
-				/>
 			</Stack>
-			<Stack gap={1}>
-				<Skeleton
-					width="90%"
-					height={DETAIL_SKELETON_HEIGHT}
-				/>
-				<Skeleton
-					width="95%"
-					height={DETAIL_SKELETON_HEIGHT}
-				/>
-				<Skeleton
-					width="75%"
-					height={DETAIL_SKELETON_HEIGHT}
-				/>
-			</Stack>
+			<Skeleton
+				width="90%"
+				height={DETAIL_SKELETON_HEIGHT}
+			/>
+			<Skeleton
+				width="40%"
+				height={DETAIL_SKELETON_HEIGHT}
+			/>
 		</Stack>
 	);
 
@@ -99,8 +89,14 @@ export const ListingPageSkeleton = (props: {
 					),
 				)}
 			</Stack>
-			<Skeleton height={ADD_TO_CART_BUTTON_SKELETON_HEIGHT} />
-			<Skeleton height={SECONDARY_BUTTONS_SKELETON_HEIGHT} />
+			<Stack gap={3}>
+				<Skeleton
+					height={ADD_TO_CART_BUTTON_SKELETON_HEIGHT}
+				/>
+				<Skeleton
+					height={SECONDARY_BUTTONS_SKELETON_HEIGHT}
+				/>
+			</Stack>
 			<Stack gap={1}>
 				<Skeleton
 					width="40%"

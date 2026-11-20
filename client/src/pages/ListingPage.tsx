@@ -36,7 +36,6 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
-	LISTING_VARIATION_GAP,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -290,9 +289,7 @@ export const ListingPage = () => {
 						>
 							{isPurchasable &&
 								variationCollections.length > 0 && (
-									<Stack
-										gap={LISTING_VARIATION_GAP}
-									>
+									<Stack gap={4}>
 										{variationCollections.map(
 											(variation) => (
 												<VariationSelect
