@@ -24,6 +24,7 @@ import { useListingData } from '@client/components/listingPage/useListingData';
 import { usePersonalization } from '@client/components/listingPage/usePersonalization';
 import { useVariationSelection } from '@client/components/listingPage/useVariationSelection';
 import { VariationSelect } from '@client/components/listingPage/VariationSelect';
+import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
 import {
 	CLIENT_ROUTES,
 	COUNTRY_DISPLAY_NAME,
@@ -47,7 +48,6 @@ import { useShareListing } from '@client/hooks/useShareListing';
 import { useCategories } from '@client/providers/CategoriesProvider';
 import { useFavorites } from '@client/providers/FavoritesProvider';
 import { useShoppingCart } from '@client/providers/ShoppingCartProvider';
-import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
 import { DISPLAY_FONT_FAMILY } from '@client/theme';
 import { toastSuccess } from '@client/toaster';
 import { listingImageUrl } from '@client/utils/imageUtils';
@@ -220,9 +220,9 @@ export const ListingPage = () => {
 						flex="1"
 						minW={0}
 					>
-						<Stack gap={2}>
+						<Stack fontSize={20}>
 							<Stack
-								gap={0}
+								gap={1}
 								mr={5}
 							>
 								<MultiLineHeading
@@ -249,30 +249,26 @@ export const ListingPage = () => {
 									</Link>
 								</HStack>
 							</Stack>
-							<Stack
-								fontSize={20}
-								gap={1}
-							>
-								<Text>{listingData?.subtitle}</Text>
-								{listingData?.countryCode && (
-									<HStack gap={2.5}>
-										<CountryFlagIcon
-											countryCode={
+
+							<Text>{listingData?.subtitle}</Text>
+							{listingData?.countryCode && (
+								<HStack gap={2.5}>
+									<CountryFlagIcon
+										countryCode={
+											listingData.countryCode as CountryCode
+										}
+										size={22}
+									/>
+									<Span fontWeight={500}>
+										Made in{' '}
+										{
+											COUNTRY_DISPLAY_NAME[
 												listingData.countryCode as CountryCode
-											}
-											size={22}
-										/>
-										<Span fontWeight={500}>
-											Made in{' '}
-											{
-												COUNTRY_DISPLAY_NAME[
-													listingData.countryCode as CountryCode
-												]
-											}
-										</Span>
-									</HStack>
-								)}
-							</Stack>
+											]
+										}
+									</Span>
+								</HStack>
+							)}
 
 							{layout === Layout.DESKTOP && (
 								<ListingFullDescription
