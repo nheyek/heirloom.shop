@@ -100,8 +100,8 @@ export const ShoppingCartDrawer = (props: Props) => {
 					<Drawer.Header>
 						<Drawer.Title>Shopping Cart</Drawer.Title>
 						<Drawer.CloseTrigger asChild>
-								<CloseButton />
-							</Drawer.CloseTrigger>
+							<CloseButton />
+						</Drawer.CloseTrigger>
 					</Drawer.Header>
 
 					<Drawer.Body pb={5}>

@@ -203,6 +203,7 @@ const selectRecipe = defineSlotRecipe({
 
 const OVERLAY_HEADER_PADDING = 5;
 const OVERLAY_HEADER_GAP = 3;
+const OVERLAY_CLOSE_BUTTON_OFFSET = 3;
 
 const overlayTitleSlotRecipe = (slots: readonly string[]) =>
 	defineSlotRecipe({
@@ -213,6 +214,8 @@ const overlayTitleSlotRecipe = (slots: readonly string[]) =>
 				p: OVERLAY_HEADER_PADDING,
 			},
 			closeTrigger: {
+				top: OVERLAY_CLOSE_BUTTON_OFFSET,
+				insetEnd: OVERLAY_CLOSE_BUTTON_OFFSET,
 				flexShrink: 0,
 				_icon: {
 					w: 6,

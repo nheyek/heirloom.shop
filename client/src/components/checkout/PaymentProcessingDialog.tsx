@@ -1,5 +1,8 @@
 import { Center, Spinner, Stack, Text } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
+import { DEFAULT_FONT_FAMILY } from '@client/theme';
+import { FaSpinner, FaTriangleExclamation } from 'react-icons/fa6';
 
 type Props = {
 	pending: boolean;
@@ -13,40 +16,52 @@ export const PaymentProcessingDialog = ({
 	onDismissTimeout,
 }: Props) => (
 	<AppDialog
-		title={
-			timedOut ? 'Payment timed out' : 'Processing payment...'
-		}
+		title={timedOut ? 'Payment timed out' : 'Processing payment'}
 		open={pending || timedOut}
+
 		onCancel={onDismissTimeout}
 		pending={pending}
-		hideCloseButton={pending}
+		hideCloseButton
 		size="sm"
 		placement="center"
 		titleProps={{
 			textAlign: 'center',
-			marginRight: 0,
-			width: '100%',
+			fontFamily: DEFAULT_FONT_FAMILY,
 		}}
 	>
-		<Center py={5}>
-			{timedOut ? (
+		{timedOut ? (
+			<Stack
+				gap={5}
+				pb={2}
+				alignItems="center"
+			>
+				<FaTriangleExclamation size={48} />
+
 				<Stack
-					gap={1}
-					textAlign="center"
-					fontSize={20}
+					gap={2}
+					alignItems="center"
 				>
-					<Text fontWeight={500}>
+					<SubHeading size="lg">
 						You will not be charged for this order.
-					</Text>
-					<Text>Please try again later.</Text>
+					</SubHeading>
+					<Text fontSize={20}>Please try again later.</Text>
 				</Stack>
-			) : (
+			</Stack>
+		) : (
+			<Center
+				pt={3}
+				pb={6}
+			>
 				<Spinner
-					w={65}
-					h={65}
-					borderWidth={5}
-				/>
-			)}
-		</Center>
+					borderWidth={0}
+					animationDuration="1s"
+					asChild
+					w={12}
+					h={12}
+				>
+					<FaSpinner />
+				</Spinner>
+			</Center>
+		)}
 	</AppDialog>
 );

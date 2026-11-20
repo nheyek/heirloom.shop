@@ -43,12 +43,16 @@ export const AppDialog = ({
 		<Dialog.Positioner>
 			<Dialog.Content {...contentProps}>
 				<Dialog.Header>
-					<Dialog.Title {...titleProps}>{title}</Dialog.Title>
+					<Dialog.Title {...titleProps}>
+						{title}
+					</Dialog.Title>
 					{!hideCloseButton && (
-						<CloseButton
-							onClick={onCancel}
-							disabled={pending}
-						/>
+						<Dialog.CloseTrigger asChild>
+							<CloseButton
+								onClick={onCancel}
+								disabled={pending}
+							/>
+						</Dialog.CloseTrigger>
 					)}
 				</Dialog.Header>
 				<Dialog.Body

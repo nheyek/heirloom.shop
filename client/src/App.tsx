@@ -1,10 +1,10 @@
-import { NAVBAR_HEIGHT } from '@client/constants';
 import { Box } from '@chakra-ui/react';
 import { PaymentProcessingDialog } from '@client/components/checkout/PaymentProcessingDialog';
 import { AdminPageLayout } from '@client/components/layout/AdminPageLayout';
 import { ShopManagerPageLayout } from '@client/components/layout/ShopManagerPageLayout';
 import { ScrollToTop } from '@client/components/misc/ScrollToTop';
 import { Navbar } from '@client/components/navbar/Navbar';
+import { NAVBAR_HEIGHT } from '@client/constants';
 import { OrderIsolatedPage } from '@client/pages/OrderIsolatedPage';
 import { useCheckoutStatus } from '@client/providers/CheckoutStatusProvider';
 import React from 'react';
