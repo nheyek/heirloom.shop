@@ -1,7 +1,7 @@
 import { Input, InputGroup } from '@chakra-ui/react';
 import {
+	ERROR_COLOR,
 	InputSize,
-	FIELD_ERROR_COLOR,
 	SANS_FONT_FAMILY,
 } from '@client/constants';
 import { LISTING_LIMITS } from '@heirloom/common/constants';
@@ -79,7 +79,7 @@ export const PriceInput = ({
 				disabled={disabled}
 				{...(enclosed && { bg: 'white' })}
 				{...(!enclosed && { border: 'none' })}
-				{...(invalid && { borderColor: FIELD_ERROR_COLOR })}
+				{...(invalid && { borderColor: ERROR_COLOR })}
 				{...(inherited && !focused && { color: 'gray.500' })}
 				onKeyDown={onKeyDown}
 				onChange={(e) => {

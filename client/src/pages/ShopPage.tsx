@@ -228,7 +228,7 @@ export const ShopPage = () => {
 											}),
 											{},
 										)}
-										fontWeight={600}
+										fontWeight={500}
 									>
 										{shopData?.location}
 									</Text>

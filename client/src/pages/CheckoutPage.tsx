@@ -24,9 +24,9 @@ import { CheckoutPaymentForm } from '@client/components/checkout/CheckoutPayment
 import { CheckoutShippingForm } from '@client/components/checkout/CheckoutShippingForm';
 import { CheckoutShoppingCart } from '@client/components/checkout/CheckoutShoppingCart';
 import { CheckoutShoppingCartCompact } from '@client/components/checkout/CheckoutShoppingCartCompact';
-import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
@@ -293,7 +293,7 @@ export const CheckoutPage = () => {
 				gapY={CHECKOUT_GAP}
 			>
 				<GridItem colSpan={{ md: 3, lg: 2 }}>
-					<Stack gap={7}>
+					<Stack gap={5}>
 						<CheckoutContactForm
 							disabled={pendingCheckout}
 						/>
@@ -303,7 +303,7 @@ export const CheckoutPage = () => {
 						/>
 
 						<Stack gap={CHECKOUT_FIELD_GAP}>
-							<SubHeading>Payment</SubHeading>
+							<SubHeading size="xl">Payment</SubHeading>
 							<CheckoutPaymentForm
 								disabled={pendingCheckout}
 							/>

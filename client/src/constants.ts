@@ -12,7 +12,7 @@ export enum Layout {
 
 export const STANDARD_GRID_GAP = 5;
 export const CARD_WIDTH = 300;
-export const FIELD_ERROR_COLOR = '#df1b41';
+export const ERROR_COLOR = '#df1b41';
 export const SANS_FONT_FAMILY = 'Roboto';
 export const NAVBAR_HEIGHT = 65;
 

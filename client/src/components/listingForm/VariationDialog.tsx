@@ -15,7 +15,7 @@ import { Variation } from '@client/components/listingForm/useListingForm';
 import { VariationOptionRow } from '@client/components/listingForm/VariationOptionRow';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { DialogConfirmFooter } from '@client/components/misc/DialogConfirmFooter';
-import { FIELD_ERROR_COLOR } from '@client/constants';
+import { ERROR_COLOR } from '@client/constants';
 import {
 	OptionDraft,
 	optionsSnapshot,
@@ -245,7 +245,7 @@ export const VariationDialog = ({
 	const dividerColor = (index: number) =>
 		invalidOptionIds.has(options[index].id) ||
 		invalidOptionIds.has(options[index - 1].id)
-			? FIELD_ERROR_COLOR
+			? ERROR_COLOR
 			: 'gray.200';
 
 	return (
@@ -346,7 +346,7 @@ export const VariationDialog = ({
 									borderWidth={1}
 									borderColor={
 										optionsError
-											? FIELD_ERROR_COLOR
+											? ERROR_COLOR
 											: 'gray.200'
 									}
 									borderRadius="md"

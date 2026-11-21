@@ -25,7 +25,12 @@ export const CheckoutShoppingCartCompact = () => {
 					zIndex={1}
 					p={0}
 				>
-					<SubHeading flex={1}>Shopping Cart</SubHeading>
+					<SubHeading
+						size="xl"
+						flex={1}
+					>
+						Shopping Cart
+					</SubHeading>
 					<Accordion.ItemIndicator>
 						<Icon
 							as={FaCaretDown}

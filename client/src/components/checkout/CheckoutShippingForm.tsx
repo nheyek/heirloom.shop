@@ -11,13 +11,13 @@ import {
 } from '@chakra-ui/react';
 import { CheckoutField } from '@client/components/checkout/CheckoutField';
 import { CheckoutFieldError } from '@client/components/checkout/CheckoutFieldError';
-import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
 	CHECKOUT_FIELD_GAP,
 	CHECKOUT_FIELD_HEIGHT,
 } from '@client/components/checkout/checkoutLayout';
+import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import {
-	FIELD_ERROR_COLOR,
+	ERROR_COLOR,
 	Layout,
 	SANS_FONT_FAMILY,
 } from '@client/constants';
@@ -119,7 +119,7 @@ export const CheckoutShippingForm = (props: Props) => {
 
 	return (
 		<Stack gap={0}>
-			<SubHeading>Ship To</SubHeading>
+			<SubHeading size="xl">Ship To</SubHeading>
 			<Fieldset.Root
 				size="lg"
 				mt={CHECKOUT_FIELD_GAP}
@@ -319,7 +319,7 @@ export const CheckoutShippingForm = (props: Props) => {
 								}}
 								border={
 									shippingAddressErrors.state
-										? `1px solid ${FIELD_ERROR_COLOR}`
+										? `1px solid ${ERROR_COLOR}`
 										: undefined
 								}
 							>

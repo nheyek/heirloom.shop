@@ -1,6 +1,7 @@
 import { Center, Spinner, Stack, Text } from '@chakra-ui/react';
 import { AppDialog } from '@client/components/misc/AppDialog';
 import { SubHeading } from '@client/components/textDisplay/SubHeading';
+import { ERROR_COLOR } from '@client/constants';
 import { DEFAULT_FONT_FAMILY } from '@client/theme';
 import { FaSpinner, FaTriangleExclamation } from 'react-icons/fa6';
 
@@ -35,13 +36,16 @@ export const PaymentProcessingDialog = ({
 				pb={2}
 				alignItems="center"
 			>
-				<FaTriangleExclamation size={48} />
+				<FaTriangleExclamation
+					size={48}
+					fill={ERROR_COLOR}
+				/>
 
 				<Stack
 					gap={2}
 					alignItems="center"
 				>
-					<SubHeading size="lg">
+					<SubHeading size="md">
 						You will not be charged for this order.
 					</SubHeading>
 					<Text fontSize={20}>Please try again later.</Text>

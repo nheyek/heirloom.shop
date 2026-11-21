@@ -5,7 +5,7 @@ import {
 	Combination,
 	Variation,
 } from '@client/components/listingForm/useListingForm';
-import { InputSize, FIELD_ERROR_COLOR } from '@client/constants';
+import { ERROR_COLOR, InputSize } from '@client/constants';
 import {
 	deriveCombinationsList,
 	resolveEffectiveCombinationPrice,
@@ -52,7 +52,7 @@ export const CombinationGrid = ({
 	return (
 		<Table.ScrollArea
 			borderWidth={1}
-			borderColor={invalid ? FIELD_ERROR_COLOR : 'gray.200'}
+			borderColor={invalid ? ERROR_COLOR : 'gray.200'}
 			borderRadius="md"
 			alignSelf="flex-start"
 			maxH={500}
@@ -74,7 +74,7 @@ export const CombinationGrid = ({
 						{...(invalidKeys?.has(
 							combinationsList[0].key,
 						) && {
-							borderBottomColor: FIELD_ERROR_COLOR,
+							borderBottomColor: ERROR_COLOR,
 						})}
 					>
 						{sortedVariations.map(([varId, v]) => (
@@ -132,8 +132,7 @@ export const CombinationGrid = ({
 									bg: 'red.50',
 								})}
 								{...(errorBottomBorder && {
-									borderBottomColor:
-										FIELD_ERROR_COLOR,
+									borderBottomColor: ERROR_COLOR,
 								})}
 							>
 								{/* Variation option labels */}

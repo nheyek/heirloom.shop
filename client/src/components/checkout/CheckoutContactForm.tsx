@@ -19,7 +19,7 @@ export const CheckoutContactForm = (props: Props) => {
 
 	return (
 		<Stack gap={CHECKOUT_FIELD_GAP}>
-			<SubHeading>Contact</SubHeading>
+			<SubHeading size="xl">Contact</SubHeading>
 			<Fieldset.Root
 				size="lg"
 				disabled={props.disabled}

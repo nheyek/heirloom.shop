@@ -27,7 +27,7 @@ export const CheckoutShoppingCart = () => {
 			onPageChange={(details) => setPage(details.page)}
 		>
 			<HStack justify="space-between">
-				<SubHeading>Shopping Cart</SubHeading>
+				<SubHeading size="xl">Shopping Cart</SubHeading>
 
 				{slideCount > 1 && (
 					<HStack
