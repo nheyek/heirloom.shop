@@ -17,13 +17,16 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
-import { CountryCode } from '@client/constants';
+import { CARD_GRID_COLUMNS, CountryCode } from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useFavorites } from '@client/providers/FavoritesProvider';
-import { DISPLAY_FONT_FAMILY } from '@client/theme';
+import {
+	cardGridContentWidth,
+	DISPLAY_FONT_FAMILY,
+} from '@client/theme';
 import { callApi } from '@client/utils/apiUtils';
 import { shopProfileImageUrl } from '@client/utils/imageUtils';
 import {
@@ -109,6 +112,9 @@ export const ShopPage = () => {
 	};
 
 	const listingView = useListingView(listings);
+	const gridColumns = useBreakpointValue(CARD_GRID_COLUMNS) ?? 1;
+	const bannerContentWidth =
+		gridColumns > 1 ? cardGridContentWidth(gridColumns) : '100%';
 
 	const isLoading = useMinDuration(
 		shopDataLoading || listingsLoading,
@@ -155,112 +161,131 @@ export const ShopPage = () => {
 							/>
 						)}
 					</Box>
-					<Stack
+					<Box
 						position="absolute"
 						inset={0}
-						p={{ base: 5, md: 10 }}
-						gap={5}
-						justifyContent="flex-end"
-						alignItems="flex-start"
+						m={{ base: 5, md: 10 }}
 					>
 						<Stack
-							gap={0}
-							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
-							color="#FFF"
+							height="100%"
+							width={bannerContentWidth}
+							maxW="100%"
+							mx="auto"
+							justifyContent="flex-end"
+							alignItems="flex-start"
+							gap={5}
 						>
-							<Text
-								display="block"
-								fontSize={titleFontSize}
-								fontWeight={700}
-								fontFamily={DISPLAY_FONT_FAMILY}
+							<Stack
+								gap={0}
+								textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
+								color="#FFF"
 							>
-								{shopData?.title}
-							</Text>
-							<Stack gap={1}>
 								<Text
 									display="block"
-									fontSize={Object.entries(
-										titleFontSize,
-									).reduce(
-										(acc, [key, value]) => ({
-											...acc,
-											[key]: value * 0.75,
-										}),
-										{},
-									)}
-									fontFamily={DISPLAY_FONT_FAMILY}
+									fontSize={titleFontSize}
 									fontWeight={700}
+									fontFamily={DISPLAY_FONT_FAMILY}
 								>
-									{shopData?.classification}
+									{shopData?.title}
 								</Text>
-								<HStack gap={{ base: 3, md: 4 }}>
-									<Box
-										width={{
-											base: 6,
-											md: 8,
-											lg: 10,
-										}}
-									>
-										<CountryFlagIcon
-											countryCode={
-												shopData?.countryCode as CountryCode | null
-											}
-											svgProps={{
-												style: {
-													filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
-												},
-											}}
-										/>
-									</Box>
+								<Stack gap={1.5}>
 									<Text
+										display="block"
 										fontSize={Object.entries(
 											titleFontSize,
 										).reduce(
 											(acc, [key, value]) => ({
 												...acc,
-												[key]: value * 0.65,
+												[key]: value * 0.75,
 											}),
 											{},
 										)}
-										fontWeight={500}
+										fontFamily={
+											DISPLAY_FONT_FAMILY
+										}
+										fontWeight={700}
 									>
-										{shopData?.location}
+										{shopData?.classification}
 									</Text>
-								</HStack>
+									<HStack gap={{ base: 3, md: 4 }}>
+										<Box
+											width={{
+												base: 6,
+												md: 8,
+												lg: 10,
+											}}
+										>
+											<CountryFlagIcon
+												countryCode={
+													shopData?.countryCode as CountryCode | null
+												}
+												svgProps={{
+													style: {
+														filter: 'drop-shadow( 1px 1px 2px rgba(0, 0, 0, .7))',
+													},
+												}}
+											/>
+										</Box>
+										<Text
+											fontSize={Object.entries(
+												titleFontSize,
+											).reduce(
+												(
+													acc,
+													[key, value],
+												) => ({
+													...acc,
+													[key]:
+														value * 0.65,
+												}),
+												{},
+											)}
+											fontWeight={500}
+										>
+											{shopData?.location}
+										</Text>
+									</HStack>
+								</Stack>
 							</Stack>
-						</Stack>
-						<HStack
-							gap={2}
-							flexShrink={0}
-						>
-							{shopData?.profileRichText && (
+							<HStack
+								gap={3}
+								flexShrink={0}
+							>
+								{shopData?.profileRichText && (
+									<HeaderButton
+										icon={FaShop}
+										label="About"
+										onClick={() =>
+											setAboutOpen(true)
+										}
+									/>
+								)}
 								<HeaderButton
-									icon={FaShop}
-									label="About"
-									onClick={() => setAboutOpen(true)}
+									icon={FaHeart}
+									label={
+										shopData &&
+										isFavoritedShop(
+											shopData.shortId,
+										)
+											? 'Favorited'
+											: 'Favorite'
+									}
+									iconColor={
+										shopData &&
+										isFavoritedShop(
+											shopData.shortId,
+										)
+											? 'red.600'
+											: undefined
+									}
+									onClick={() =>
+										shopData &&
+										toggleFavoriteShop(shopData)
+									}
 								/>
-							)}
-							<HeaderButton
-								icon={FaHeart}
-								label={
-									shopData &&
-									isFavoritedShop(shopData.shortId)
-										? 'Favorited'
-										: 'Favorite'
-								}
-								iconColor={
-									shopData &&
-									isFavoritedShop(shopData.shortId)
-										? 'red.600'
-										: undefined
-								}
-								onClick={() =>
-									shopData &&
-									toggleFavoriteShop(shopData)
-								}
-							/>
-						</HStack>
-					</Stack>
+							</HStack>
+						</Stack>
+					</Box>
 				</Box>
 			)}
 

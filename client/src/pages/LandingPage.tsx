@@ -12,7 +12,10 @@ import { ListingGrid } from '@client/components/collections/ListingGrid';
 import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { InfoPageDialog } from '@client/components/richText/InfoPageDialog';
-import { InfoPageKey } from '@client/constants';
+import {
+	InfoPageKey,
+	STANDARD_PAGE_SECTION_GAP,
+} from '@client/constants';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useMinDuration } from '@client/hooks/useMinDuration';
 import { useCategories } from '@client/providers/CategoriesProvider';
@@ -89,12 +92,12 @@ export const LandingPage = () => {
 			width="100%"
 		>
 			<Stack
-				gap={8}
+				gap={STANDARD_PAGE_SECTION_GAP}
 				alignSelf="center"
 				maxW="100%"
 			>
 				<Stack
-					gap={12}
+					gap={10}
 					alignItems="center"
 				>
 					<Stack gap={1}>

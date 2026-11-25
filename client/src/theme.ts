@@ -38,6 +38,9 @@ const BASE_BREAKPOINTS = {
 export const CARD_GRID_GAP_PX =
 	STANDARD_GRID_GAP * CHAKRA_SPACING_UNIT;
 
+export const cardGridContentWidth = (columns: number) =>
+	columns * CARD_WIDTH + (columns - 1) * CARD_GRID_GAP_PX;
+
 const cardGridWidthForColumns = (columns: number) =>
 	columns * CARD_WIDTH +
 	(columns - 1) * CARD_GRID_GAP_PX +

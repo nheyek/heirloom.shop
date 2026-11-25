@@ -102,57 +102,62 @@ export const CategoryPage = () => {
 				alignSelf="center"
 				maxW="100%"
 			>
-				<Stack gap={5}>
-					<CategoryBreadcrumb
-						categoryId={id}
-						isLoading={isLoading}
-					/>
-					<CategoryGrid
-						categories={subcategories}
-						isLoading={isLoading}
-					/>
-				</Stack>
+				<CategoryBreadcrumb
+					categoryId={id}
+					isLoading={isLoading}
+				/>
+				<CategoryGrid
+					categories={subcategories}
+					isLoading={isLoading}
+				/>
 
-				{!listingsError &&
-					(isLoading || shops.length > 0) && (
-						<ShopGrid
+				<Stack gap={10}>
+					{!listingsError &&
+						(isLoading || shops.length > 0) && (
+							<ShopGrid
+								center
+								header={<GridHeader title="Makers" />}
+								shops={shops}
+								isLoading={isLoading}
+							/>
+						)}
+
+					{listingsError ? (
+						<AppError title={listingsError} />
+					) : (
+						<ListingGrid
 							center
-							header={<GridHeader title="Makers" />}
+							listings={listingView.listings}
+							isLoading={
+								isLoading || listingView.isApplying
+							}
+							header={
+								<GridHeader title="All Listings">
+									{(isLoading ||
+										listingView.listings.length >
+											0) && (
+										<SortFilterDrawer
+											options={
+												LISTING_SORT_LABELS
+											}
+											value={
+												listingView.sort.value
+											}
+											onChange={
+												listingView.sort
+													.onChange
+											}
+											priceFilter={
+												listingView.price
+											}
+										/>
+									)}
+								</GridHeader>
+							}
 							shops={shops}
-							isLoading={isLoading}
 						/>
 					)}
-
-				{listingsError ? (
-					<AppError title={listingsError} />
-				) : (
-					<ListingGrid
-						center
-						listings={listingView.listings}
-						isLoading={
-							isLoading || listingView.isApplying
-						}
-						header={
-							<GridHeader title="Items">
-								{(isLoading ||
-									listingView.listings.length >
-										0) && (
-									<SortFilterDrawer
-										options={LISTING_SORT_LABELS}
-										value={listingView.sort.value}
-										onChange={
-											listingView.sort.onChange
-										}
-										priceFilter={
-											listingView.price
-										}
-									/>
-								)}
-							</GridHeader>
-						}
-						shops={shops}
-					/>
-				)}
+				</Stack>
 			</Stack>
 		</Stack>
 	);
