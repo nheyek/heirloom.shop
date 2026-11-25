@@ -173,7 +173,7 @@ export const ShopPage = () => {
 							mx="auto"
 							justifyContent="flex-end"
 							alignItems="flex-start"
-							gap={5}
+							gap={4}
 						>
 							<Stack
 								gap={0}
@@ -248,7 +248,7 @@ export const ShopPage = () => {
 								</Stack>
 							</Stack>
 							<HStack
-								gap={5}
+								gap={4}
 								flexShrink={0}
 							>
 								{shopData?.profileRichText && (
