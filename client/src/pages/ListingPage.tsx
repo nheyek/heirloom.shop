@@ -26,6 +26,7 @@ import { useVariationSelection } from '@client/components/listingPage/useVariati
 import { VariationSelect } from '@client/components/listingPage/VariationSelect';
 import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
 import {
+	BUTTON_GAP,
 	CLIENT_ROUTES,
 	COUNTRY_DISPLAY_NAME,
 	CountryCode,
@@ -36,7 +37,6 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
-	BUTTON_GAP,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -220,56 +220,62 @@ export const ListingPage = () => {
 						flex="1"
 						minW={0}
 					>
-						<Stack fontSize={20}>
-							<Stack
-								gap={1}
-								mr={5}
-							>
-								<MultiLineHeading
-									size="xl"
-									fontWeight={600}
+						<Stack
+							fontSize={20}
+							gap={5}
+						>
+							<Stack gap={2}>
+								<Stack
+									gap={1}
+									mr={5}
 								>
-									{listingData?.title}
-								</MultiLineHeading>
+									<MultiLineHeading
+										size="xl"
+										fontWeight={600}
+									>
+										{listingData?.title}
+									</MultiLineHeading>
 
-								<HStack
-									fontWeight={500}
-									fontSize={24}
-									fontFamily={DISPLAY_FONT_FAMILY}
-								>
-									<FaShop size={22} />
-									<Link
-										onClick={() =>
-											navigate(
-												`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
-											)
+									<HStack
+										fontWeight={500}
+										fontSize={24}
+										fontFamily={
+											DISPLAY_FONT_FAMILY
 										}
 									>
-										{listingData?.shopTitle}
-									</Link>
-								</HStack>
-							</Stack>
+										<FaShop size={22} />
+										<Link
+											onClick={() =>
+												navigate(
+													`/${CLIENT_ROUTES.shop}/${listingData?.shopShortId}`,
+												)
+											}
+										>
+											{listingData?.shopTitle}
+										</Link>
+									</HStack>
+								</Stack>
 
-							<Text>{listingData?.subtitle}</Text>
-							{listingData?.countryCode && (
-								<HStack gap={2.5}>
-									<CountryFlagIcon
-										countryCode={
-											listingData.countryCode as CountryCode
-										}
-										size={22}
-									/>
-									<Span fontWeight={500}>
-										Made in{' '}
-										{
-											COUNTRY_DISPLAY_NAME[
+								<Text>{listingData?.subtitle}</Text>
+								{listingData?.countryCode && (
+									<HStack gap={2.5}>
+										<CountryFlagIcon
+											countryCode={
 												listingData.countryCode as CountryCode
-											]
-										}
-									</Span>
-								</HStack>
-							)}
-
+											}
+											size={22}
+										/>
+										<Span fontWeight={500}>
+											Made in{' '}
+											{
+												COUNTRY_DISPLAY_NAME[
+													listingData.countryCode as CountryCode
+												]
+											}
+										</Span>
+									</HStack>
+								)}
+							</Stack>
 							{layout === Layout.DESKTOP && (
 								<ListingFullDescription
 									fullDescr={listingData?.fullDescr}
