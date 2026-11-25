@@ -123,14 +123,13 @@ export const LandingPage = () => {
 								An exhibition of craftsmanship
 							</Text>
 							<Button
-								size="sm"
-								fontSize={18}
+								size="md"
 								onClick={() => setAboutOpen(true)}
 							>
 								<Icon
 									as={FaArrowUpRightFromSquare}
-									w={3.5}
-									h={3.5}
+									w={4}
+									h={4}
 								/>
 								Learn More
 							</Button>

@@ -9,17 +9,17 @@ export const INFO_PAGES: Record<InfoPageKey, InfoPageContent> = {
 	[InfoPageKey.ABOUT]: {
 		title: 'About Heirloom.shop',
 		contentHtml:
-			'<p>Heirloom.shop is a streamlined online marketplace for a wide range of products from makers that exhibit the highest level of craftsmanship.</p><p />' +
+			'<p>Heirloom.shop is an exclusive marketplace for American and European makers that exhibit a high level of craftsmanship, offering a universal shopping experience and authentic discovery, free of promoted content.</p><p />' +
 			'<h1>Background</h1>' +
-			'<p>Online commerce facilitated a renaissance in the business of handcrafted goods. Centuries-old workshops have found new life, and countless new makers have emerged as direct-to-consumer businesses that would have been impossible in previous decades.</p>' +
-			"<p>In recent years, though, online marketplaces have lost the plot. Listings with AI-generated images for mass-produced knockoffs posing as handmade are everywhere. Interfaces are inundated with marketing content. When searching for a product, you're led not to the best maker, but to the highest bidder.</p><p />" +
+			'<p>Online commerce facilitated a renaissance in the business of handcrafted goods. Centuries-old workshops found new life, and countless new makers emerged as direct-to-consumer businesses that would have been impossible in previous decades.</p>' +
+			'<p>In recent years, though, online marketplaces have lost the plot. Listings with AI-generated images for mass-produced drop-shipped junk posing as handmade are everywhere. Interfaces are inundated with marketing content.</p><p />' +
 			'<h1>The Idea</h1>' +
-			'<p>Heirloom is a marketplace that seeks to bring back the authentic discovery of handcrafted goods that the internet once enabled.</p>' +
-			'<ul><li>Membership is restricted to shops that make their own products and have a proven record of excellence</li><li>Visibility is influenced only by relevance and reputation (we will never offer paid listing promotion)</li><li>The interface is free of any kind of marketing content</li><li>All listing content is authentic (AI-generated product images are forbidden)</li></ul><p />' +
+			'<p>Heirloom is a marketplace that seeks to offer the kind of authentic discovery of handcrafted goods that the web once enabled but has since disappeared.</p>' +
+			'<ul><li>Membership is restricted to shops that make their own products and have a proven record of excellence</li><li>Visibility is influenced only by relevance and reputation (never paid promotion)</li><li>The interface is free of any kind of marketing content</li><li>All listing content is authentic (AI-generated content is strictly forbidden)</li></ul><p />' +
 			'<h1>How It Works</h1>' +
 			'<p>Makers operate their own shops on Heirloom, and are individually responsible for fulfilling orders and handling any customer service requests. Each has their own policies for shipping, returns, etc., which are outlined on every listing page.</p>' +
 			'<p>Heirloom handles all payments, and guarantees customers that they receive what they order within the expected fulfillment window.</p>' +
-			'<p>Heirloom is 100% funded by a single, flat commission on every sale, paid for by the seller. No games.</p><p />' +
+			'<p>Heirloom is 100% funded by a single, flat commission on every sale, paid for by the seller.</p><p />' +
 			'<h1>Who We Are</h1>' +
 			'<p>Heirloom was created by Nick Heyek, a Chicago-based software engineer and manufacturer.</p>' +
 			"<p>Our facility is located at 3100 W Grand Ave in Chicago's Humboldt Park neighborhood.</p><p />" +

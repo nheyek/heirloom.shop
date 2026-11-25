@@ -309,7 +309,7 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Stack
-					pt={{ base: 5, md: 10 }}
+					pt={5}
 					px={5}
 					width="100%"
 				>
