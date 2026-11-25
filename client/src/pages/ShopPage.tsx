@@ -183,7 +183,7 @@ export const ShopPage = () => {
 								<Text
 									display="block"
 									fontSize={titleFontSize}
-									fontWeight={700}
+									fontWeight={800}
 									fontFamily={DISPLAY_FONT_FAMILY}
 								>
 									{shopData?.title}
@@ -203,7 +203,7 @@ export const ShopPage = () => {
 										fontFamily={
 											DISPLAY_FONT_FAMILY
 										}
-										fontWeight={700}
+										fontWeight={800}
 									>
 										{shopData?.classification}
 									</Text>
@@ -240,7 +240,7 @@ export const ShopPage = () => {
 												}),
 												{},
 											)}
-											fontWeight={500}
+											fontWeight={600}
 										>
 											{shopData?.location}
 										</Text>
@@ -248,7 +248,7 @@ export const ShopPage = () => {
 								</Stack>
 							</Stack>
 							<HStack
-								gap={3}
+								gap={5}
 								flexShrink={0}
 							>
 								{shopData?.profileRichText && (
