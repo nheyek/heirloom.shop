@@ -5,9 +5,9 @@ import { useUserInfo } from '@client/providers/UserProvider';
 import { FaChartSimple, FaScroll, FaShop } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import {
-	NavigationEquippedPageLayout,
+	PageWithNavLayout,
 	SidebarNavItem,
-} from './NavigationEquippedPageLayout';
+} from './PageWithNavLayout';
 
 const NAV_ITEMS: SidebarNavItem[] = [
 	{
@@ -62,5 +62,5 @@ export const AdminPageLayout = () => {
 		);
 	}
 
-	return <NavigationEquippedPageLayout navItems={NAV_ITEMS} />;
+	return <PageWithNavLayout navItems={NAV_ITEMS} />;
 };

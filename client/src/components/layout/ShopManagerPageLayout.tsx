@@ -8,9 +8,9 @@ import { Navigate, useParams } from 'react-router-dom';
 import { ShopManagerProvider } from '@client/providers/ShopManagerProvider';
 import { FaShop } from 'react-icons/fa6';
 import {
-	NavigationEquippedPageLayout,
+	PageWithNavLayout,
 	SidebarNavItem,
-} from './NavigationEquippedPageLayout';
+} from './PageWithNavLayout';
 
 const getNavItems = (shortId: string): SidebarNavItem[] => [
 	{
@@ -73,9 +73,7 @@ export const ShopManagerPageLayout = () => {
 
 	return (
 		<ShopManagerProvider>
-			<NavigationEquippedPageLayout
-				navItems={getNavItems(shortId)}
-			/>
+			<PageWithNavLayout navItems={getNavItems(shortId)} />
 		</ShopManagerProvider>
 	);
 };

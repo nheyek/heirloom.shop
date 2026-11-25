@@ -1,11 +1,8 @@
 import {
-	MENU_CONTENT_PADDING_Y,
-	NAVBAR_HEIGHT,
-} from '@client/constants';
-import {
 	Box,
 	Button,
 	HStack,
+	Icon,
 	Link,
 	Menu,
 	Portal,
@@ -18,9 +15,13 @@ import {
 	NavMenuItem,
 } from '@client/components/misc/NavMenu';
 import { MultiLineHeading } from '@client/components/textDisplay/MultiLineHeading';
+import {
+	MENU_CONTENT_PADDING_Y,
+	NAVBAR_HEIGHT,
+} from '@client/constants';
 import { SIDEBAR_WIDTH } from '@client/theme';
 import { IconType } from 'react-icons';
-import { FaCaretDown } from 'react-icons/fa6';
+import { FaChevronDown } from 'react-icons/fa6';
 import {
 	Outlet,
 	Link as RouterLink,
@@ -143,14 +144,13 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 			>
 				<Menu.Trigger asChild>
 					<Button
-						size="xl"
 						variant="subtle"
 						borderRadius="md"
 						justifyContent="space-between"
 						fontSize={20}
 						w="100%"
-						p={5}
-						py={7}
+						px={5}
+						h={14}
 					>
 						<HStack gap={4}>
 							{match && (
@@ -175,7 +175,11 @@ const MobileNav = ({ navItems }: MobileNavProps) => {
 								)}
 							</HStack>
 						</HStack>
-						<FaCaretDown />
+						<Icon
+							as={FaChevronDown}
+							h={4}
+							w={4}
+						/>
 					</Button>
 				</Menu.Trigger>
 				<Portal>
@@ -248,9 +252,7 @@ type PageLayoutProps = {
 	navItems: SidebarNavItem[];
 };
 
-export const NavigationEquippedPageLayout = ({
-	navItems,
-}: PageLayoutProps) => (
+export const PageWithNavLayout = ({ navItems }: PageLayoutProps) => (
 	<HStack
 		alignItems="stretch"
 		gap={0}

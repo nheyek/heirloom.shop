@@ -11,6 +11,7 @@ export enum Layout {
 }
 
 export const STANDARD_GRID_GAP = 5;
+export const BUTTON_GAP = 3;
 export const CARD_WIDTH = 300;
 export const ERROR_COLOR = '#df1b41';
 export const SANS_FONT_FAMILY = 'Roboto';

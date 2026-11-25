@@ -36,6 +36,7 @@ import {
 	LISTING_IMAGE_ASPECT_RATIO,
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
+	BUTTON_GAP,
 } from '@client/constants';
 import {
 	getDeliveryEstimateDisplay,
@@ -333,7 +334,7 @@ export const ListingPage = () => {
 								/>
 							)}
 
-							<Stack gap={3}>
+							<Stack gap={BUTTON_GAP}>
 								<ListingPageButton
 									size="xl"
 									onClick={handleAddToCart}
@@ -372,7 +373,7 @@ export const ListingPage = () => {
 								</ListingPageButton>
 								<SimpleGrid
 									columns={2}
-									gap={3}
+									gap={BUTTON_GAP}
 								>
 									<ListingPageButton
 										size="lg"

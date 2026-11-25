@@ -17,7 +17,11 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
-import { CARD_GRID_COLUMNS, CountryCode } from '@client/constants';
+import {
+	BUTTON_GAP,
+	CARD_GRID_COLUMNS,
+	CountryCode,
+} from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
@@ -188,7 +192,7 @@ export const ShopPage = () => {
 								>
 									{shopData?.title}
 								</Text>
-								<Stack gap={1.5}>
+								<Stack gap={1}>
 									<Text
 										display="block"
 										fontSize={Object.entries(
@@ -248,7 +252,7 @@ export const ShopPage = () => {
 								</Stack>
 							</Stack>
 							<HStack
-								gap={4}
+								gap={BUTTON_GAP}
 								flexShrink={0}
 							>
 								{shopData?.profileRichText && (

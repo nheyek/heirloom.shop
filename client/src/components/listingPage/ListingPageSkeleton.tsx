@@ -21,6 +21,7 @@ import {
 	LISTING_PAGE_PADDING,
 	LISTING_PURCHASE_COLUMN_WIDTH,
 	LISTING_VARIATION_GAP,
+	BUTTON_GAP,
 } from '@client/constants';
 
 const TITLE_SKELETON_HEIGHT = 45;
@@ -89,7 +90,7 @@ export const ListingPageSkeleton = (props: {
 					),
 				)}
 			</Stack>
-			<Stack gap={3}>
+			<Stack gap={BUTTON_GAP}>
 				<Skeleton
 					height={ADD_TO_CART_BUTTON_SKELETON_HEIGHT}
 				/>
