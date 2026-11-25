@@ -15,8 +15,8 @@ export const GridHeader = ({ title, children, ...props }: Props) => (
 		{title && (
 			<Heading
 				size="xl"
-				lineHeight={1}
 				minW={0}
+				mb={-2}
 			>
 				{title}
 			</Heading>

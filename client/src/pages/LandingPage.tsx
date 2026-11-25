@@ -89,12 +89,12 @@ export const LandingPage = () => {
 			width="100%"
 		>
 			<Stack
-				gap={5}
+				gap={8}
 				alignSelf="center"
 				maxW="100%"
 			>
 				<Stack
-					gap={10}
+					gap={12}
 					alignItems="center"
 				>
 					<Stack gap={1}>

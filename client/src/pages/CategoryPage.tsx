@@ -6,7 +6,7 @@ import { ShopGrid } from '@client/components/collections/ShopGrid';
 import { AppError } from '@client/components/feedback/AppError';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { CategoryBreadcrumb } from '@client/components/navigation/CategoryBreadcrumb';
-import { STANDARD_GRID_GAP } from '@client/constants';
+import { STANDARD_PAGE_SECTION_GAP } from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
@@ -19,8 +19,6 @@ import {
 } from '@heirloom/common/contract';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-const SECTION_GAP = 5;
 
 export const CategoryPage = () => {
 	const navigate = useNavigate();
@@ -95,23 +93,25 @@ export const CategoryPage = () => {
 
 	return (
 		<Stack
-			pt={STANDARD_GRID_GAP}
-			px={STANDARD_GRID_GAP}
+			pt={5}
+			px={5}
 			width="100%"
 		>
 			<Stack
-				gap={SECTION_GAP}
+				gap={STANDARD_PAGE_SECTION_GAP}
 				alignSelf="center"
 				maxW="100%"
 			>
-				<CategoryBreadcrumb
-					categoryId={id}
-					isLoading={isLoading}
-				/>
-				<CategoryGrid
-					categories={subcategories}
-					isLoading={isLoading}
-				/>
+				<Stack gap={5}>
+					<CategoryBreadcrumb
+						categoryId={id}
+						isLoading={isLoading}
+					/>
+					<CategoryGrid
+						categories={subcategories}
+						isLoading={isLoading}
+					/>
+				</Stack>
 
 				{!listingsError &&
 					(isLoading || shops.length > 0) && (

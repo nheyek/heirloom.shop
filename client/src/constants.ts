@@ -38,6 +38,7 @@ const cardGridColumnsFor = (hasSidebar: boolean) => ({
 	),
 });
 
+export const STANDARD_PAGE_SECTION_GAP = 8;
 export const CARD_GRID_COLUMNS = cardGridColumnsFor(false);
 export const SIDEBAR_CARD_GRID_COLUMNS = cardGridColumnsFor(true);
 export const GRID_CONTENT_MAX_WIDTH = 1600;
@@ -50,7 +51,7 @@ export const LISTING_COLUMN_GAP_MOBILE = 5;
 export const LISTING_COLUMN_GAP_DESKTOP = 10;
 export const LISTING_PURCHASE_COLUMN_WIDTH = 375;
 export const LISTING_VARIATION_GAP = 4;
-export const GRID_HEADER_GAP = 3;
+export const GRID_HEADER_GAP = 4;
 export const LINE_HEIGHT = 1.25;
 export const ACCORDION_ICON_SIZE = 22;
 export const MENU_CONTENT_PADDING_Y = 2;

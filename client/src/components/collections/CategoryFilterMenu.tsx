@@ -3,6 +3,7 @@ import {
 	Portal,
 	Select,
 } from '@chakra-ui/react';
+import { FaChevronDown } from 'react-icons/fa6';
 
 const ALL_ITEMS_LABEL = 'All Categories';
 const ALL_ITEMS_VALUE = 'ALL';
@@ -55,13 +56,14 @@ export const CategoryFilterMenu = (props: Props) => {
 						: (e.value[0] ?? null),
 				)
 			}
+			fontWeight={500}
 		>
 			<Select.HiddenSelect />
 			<Select.Control>
 				<Select.Trigger>
 					<Select.ValueText />
 					<Select.IndicatorGroup>
-						<Select.Indicator />
+						<FaChevronDown size={14} />
 					</Select.IndicatorGroup>
 				</Select.Trigger>
 			</Select.Control>

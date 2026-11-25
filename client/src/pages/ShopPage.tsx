@@ -17,7 +17,7 @@ import { AppImage } from '@client/components/imageDisplay/AppImage';
 import { ImagePlaceholder } from '@client/components/imageDisplay/ImagePlaceholder';
 import { SortFilterDrawer } from '@client/components/input/SortFilterDrawer';
 import { RichTextDialog } from '@client/components/richText/RichTextDialog';
-import { CountryCode, STANDARD_GRID_GAP } from '@client/constants';
+import { CountryCode } from '@client/constants';
 import { LISTING_SORT_LABELS } from '@client/domain/listingSort';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useListingView } from '@client/hooks/useListingView';
@@ -72,11 +72,6 @@ export const ShopPage = () => {
 		md: 2.0,
 		lg: 2.5,
 		xl: 3.0,
-	});
-
-	const bannerContentPadding = useBreakpointValue({
-		base: 5,
-		md: 10,
 	});
 
 	useEffect(() => {
@@ -163,13 +158,12 @@ export const ShopPage = () => {
 					<Stack
 						position="absolute"
 						inset={0}
-						p={bannerContentPadding}
-						gap={0}
+						p={{ base: 5, md: 10 }}
+						gap={5}
 						justifyContent="flex-end"
 						alignItems="flex-start"
 					>
 						<Stack
-							flexShrink={0}
 							gap={0}
 							textShadow="0 1px 2px rgba(0, 0, 0, 0.65), 0 2px 4px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.35), 0 8px 16px rgba(0, 0, 0, 0.2);"
 							color="#FFF"
@@ -235,11 +229,6 @@ export const ShopPage = () => {
 								</HStack>
 							</Stack>
 						</Stack>
-						<Box
-							height={BANNER_TEXT_BUTTON_GAP}
-							flexShrink={1}
-							minH={0}
-						/>
 						<HStack
 							gap={2}
 							flexShrink={0}
@@ -291,8 +280,8 @@ export const ShopPage = () => {
 				/>
 			) : (
 				<Stack
-					px={STANDARD_GRID_GAP}
-					pt={5}
+					pt={{ base: 5, md: 10 }}
+					px={5}
 					width="100%"
 				>
 					<ListingGrid

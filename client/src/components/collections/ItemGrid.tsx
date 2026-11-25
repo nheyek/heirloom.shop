@@ -18,7 +18,6 @@ import { useVirtualizer } from '@tanstack/react-virtual';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 
 const NUM_SKELETON_ROWS = 2;
-const SCROLL_TARGET_OFFSET = 5;
 const MOBILE_OVERSCAN = 3;
 
 type Props<T> = {
@@ -170,7 +169,7 @@ export const ItemGrid = <T,>(props: Props<T>) => {
 			ref={gridRef}
 			width="fit-content"
 			{...(center && { alignSelf: 'center' })}
-			scrollMarginTop={SCROLL_TARGET_OFFSET}
+			scrollMarginTop={GRID_HEADER_GAP}
 			gap={GRID_HEADER_GAP}
 		>
 			{props.header}
