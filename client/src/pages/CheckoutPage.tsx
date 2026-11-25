@@ -27,7 +27,7 @@ import { CheckoutShoppingCartCompact } from '@client/components/checkout/Checkou
 import { ShoppingCartEmptyMessage } from '@client/components/shoppingCart/ShoppingCartEmptyMessage';
 import { ShoppingCartSummary } from '@client/components/shoppingCart/ShoppingCartSummary';
 import { SubHeading } from '@client/components/textDisplay/SubHeading';
-import { Layout } from '@client/constants';
+import { CARD_WIDTH, Layout } from '@client/constants';
 import { simplifyCartItems } from '@client/domain/checkout';
 import { useApiClient } from '@client/hooks/useApiClient';
 import { useOrderStatusPoll } from '@client/hooks/useOrderStatusPoll';
@@ -288,11 +288,11 @@ export const CheckoutPage = () => {
 		>
 			<Heading>Complete Your Order</Heading>
 			<SimpleGrid
-				columns={{ md: 5, lg: 3 }}
+				templateColumns={`minmax(0, 1fr) ${CARD_WIDTH}px`}
 				gapX={10}
 				gapY={CHECKOUT_GAP}
 			>
-				<GridItem colSpan={{ md: 3, lg: 2 }}>
+				<GridItem>
 					<Stack gap={5}>
 						<CheckoutContactForm
 							disabled={pendingCheckout}
@@ -310,7 +310,7 @@ export const CheckoutPage = () => {
 						</Stack>
 					</Stack>
 				</GridItem>
-				<GridItem colSpan={{ md: 2, lg: 1 }}>
+				<GridItem>
 					<Stack gap={CHECKOUT_GAP}>
 						<CheckoutShoppingCart />
 						{cartLoading ? (

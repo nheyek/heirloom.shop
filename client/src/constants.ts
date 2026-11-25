@@ -53,7 +53,6 @@ export const LISTING_PURCHASE_COLUMN_WIDTH = 375;
 export const LISTING_VARIATION_GAP = 4;
 export const GRID_HEADER_GAP = 5;
 export const LINE_HEIGHT = 1.25;
-export const ACCORDION_ICON_SIZE = 22;
 export const MENU_CONTENT_PADDING_Y = 2;
 export const MENU_ITEM_PADDING_X = 4;
 export const MENU_ITEM_PADDING_Y = 3;

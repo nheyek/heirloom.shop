@@ -1,7 +1,6 @@
 import { Accordion, Icon } from '@chakra-ui/react';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
 import { SubHeading } from '@client/components/textDisplay/SubHeading';
-import { ACCORDION_ICON_SIZE } from '@client/constants';
 import { ListingFullDescr } from '@heirloom/common/contract';
 import { FaCaretDown } from 'react-icons/fa6';
 
@@ -34,8 +33,8 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 						<Icon
 							as={FaCaretDown}
 							color="black"
-							w={ACCORDION_ICON_SIZE}
-							h={ACCORDION_ICON_SIZE}
+							w={5}
+							h={5}
 						/>
 					</Accordion.ItemIndicator>
 				</Accordion.ItemTrigger>
