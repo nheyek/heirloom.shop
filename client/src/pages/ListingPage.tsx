@@ -295,33 +295,25 @@ export const ListingPage = () => {
 							width="100%"
 						>
 							{isPurchasable &&
-								variationCollections.length > 0 && (
-									<Stack gap={4}>
-										{variationCollections.map(
-											(variation) => (
-												<VariationSelect
-													key={variation.id}
-													variation={
-														variation
-													}
-													value={
-														selectedVariationOptions[
-															variation
-																.id
-														]
-													}
-													onChange={(
-														optionId,
-													) =>
-														selectOption(
-															variation.id,
-															optionId,
-														)
-													}
-												/>
-											),
-										)}
-									</Stack>
+								variationCollections.length > 0 &&
+								variationCollections.map(
+									(variation) => (
+										<VariationSelect
+											key={variation.id}
+											variation={variation}
+											value={
+												selectedVariationOptions[
+													variation.id
+												]
+											}
+											onChange={(optionId) =>
+												selectOption(
+													variation.id,
+													optionId,
+												)
+											}
+										/>
+									),
 								)}
 							{personalizationProfile && (
 								<PersonalizationOption
