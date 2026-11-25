@@ -1,8 +1,7 @@
-import { Accordion, Icon } from '@chakra-ui/react';
+import { Accordion } from '@chakra-ui/react';
+import { AccordionTrigger } from '@client/components/misc/AccordionTrigger';
 import { RichTextDisplay } from '@client/components/richText/RichTextDisplay';
-import { SubHeading } from '@client/components/textDisplay/SubHeading';
 import { ListingFullDescr } from '@heirloom/common/contract';
-import { FaCaretDown } from 'react-icons/fa6';
 
 type Props = {
 	fullDescr?: ListingFullDescr;
@@ -21,23 +20,7 @@ export const ListingFullDescription = ({ fullDescr }: Props) => (
 				key={index}
 				value={index.toString()}
 			>
-				<Accordion.ItemTrigger>
-					<SubHeading
-						flex={1}
-						size="xl"
-					>
-						{item.title}
-					</SubHeading>
-
-					<Accordion.ItemIndicator>
-						<Icon
-							as={FaCaretDown}
-							color="black"
-							w={5}
-							h={5}
-						/>
-					</Accordion.ItemIndicator>
-				</Accordion.ItemTrigger>
+				<AccordionTrigger title={item.title} />
 				<Accordion.ItemContent>
 					<Accordion.ItemBody py={0}>
 						<RichTextDisplay htmlString={item.richText} />
